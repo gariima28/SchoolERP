@@ -1,0 +1,152 @@
+import React, { useEffect, useState } from 'react';
+import { TeachergetAllDashboardAttendanceDataApi } from 'src/Utils/Apis';
+import HashLoader from 'src/Pages/HashLoaderCom';
+
+const MyTime = ({ data }) => {
+
+  const [timeDiff, setTimeDiff] = useState(0);
+  const [loaderState, setloaderState] = useState(false);
+  const [totalTime, setTotalTime] = useState()
+  console.log('total time in state', totalTime)
+
+  useEffect(() => {
+    if (data) {
+      const storedTime = localStorage.getItem('checkInTime');
+      if (storedTime) {
+        const diffInSeconds = Math.floor((new Date() - new Date(storedTime)) / 1000);
+        setTimeDiff(diffInSeconds);
+      }
+    } else {
+      setTimeDiff(0);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    let interval = null;
+    if (data) {
+      interval = setInterval(() => {
+        setTimeDiff(prev => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [data]);
+
+  const hours = Math.floor((timeDiff % (60 * 60 * 24)) / 3600);
+  const minutes = Math.floor((timeDiff % 3600) / 60);
+  const seconds = timeDiff % 60;
+
+
+  useEffect(() => {
+    MyAttendanceShowOfTeacher()
+  }, [])
+
+  const MyAttendanceShowOfTeacher = async () => {
+    try {
+      setloaderState(true);
+      const response = await TeachergetAllDashboardAttendanceDataApi();
+      console.log('timing show on t tiime component', response)
+      if (response?.status === 200) {
+        if (response?.data?.status === 'success') {
+          setloaderState(false);
+          setTotalTime(response?.data?.workHour)
+        }
+        else {
+          setloaderState(false);
+          toast.error(response?.data?.message);
+        }
+      }
+      else {
+        setloaderState(false);
+        console.log(response?.data?.msg);
+      }
+    }
+    catch (error) {
+      console.log('Error Facing during Get All Event API - ', error)
+    }
+  }
+
+  return (
+    <>
+      {
+        loaderState && (
+          <HashLoader />
+        )
+      }
+      <div className="timer" style={{ fontSize: '20px', paddingTop: '3px' }}>
+        {`${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`}
+      </div>
+    </>
+
+  );
+};
+
+export default MyTime;
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+
+// const MyTime = ({ data }) => {
+
+//   const myBoolean = data
+//   const [update, setupdate] = useState(false);
+//   const [days, setDays] = useState(0);
+//   const [hours, setHours] = useState(0);
+//   const [minutes, setMinutes] = useState(0);
+//   const [seconds, setSeconds] = useState(0);
+
+//   useEffect(() => {
+//     let interval = null;
+
+//     if (myBoolean) {
+//       interval = setInterval(() => {
+//         setSeconds((prev) => prev + 1);
+//       }, 1000);
+//     } else if (!myBoolean && seconds !== 0) {
+//       clearInterval(interval);
+//     }
+//     return () => clearInterval(interval);
+//   }, [myBoolean]);
+
+//   useEffect(() => {
+//     if (seconds === 60) {
+//       setSeconds(0);
+//       setMinutes((prev) => prev + 1);
+//     }
+//   }, [seconds]);
+
+//   useEffect(() => {
+//     if (minutes === 60) {
+//       setMinutes(0);
+//       setHours((prev) => prev + 1);
+//     }
+//   }, [minutes]);
+
+//   useEffect(() => {
+//     if (hours === 24) {
+//       setHours(0);
+//       setDays((prev) => prev + 1);
+//     }
+//   }, [hours]);
+
+
+//   return (
+//     <div className="timer" style={{ fontSize: '20px', paddingTop: '3px' }}>
+//       {`${hours} : ${minutes} : ${seconds}`}
+//     </div>
+//   );
+// };
+
+// export default MyTime;
+
+

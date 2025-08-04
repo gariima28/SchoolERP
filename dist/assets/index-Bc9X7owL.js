@@ -1,0 +1,125 @@
+import{u as le,r as h,E as ie,j as e,b0 as ve,_ as L,aP as ne,b1 as Ie,b2 as Se,aM as Ce}from"./index-DHII64NA.js";import{u as ce}from"./index.esm-ByE6_xdu.js";const ye=le.div`
+    .form-select, .form-control::placeholder, .form-control {
+        color: var(--greyState);
+        box-shadow: none;
+        border-color: var(--greyState);
+    }
+
+    .form-select.border-danger {
+        border-color: #dc3545 !important;
+    }
+
+    .table-striped>tbody>tr:nth-of-type(odd)>* {
+        --bs-table-bg-type: var(--tableGreyBackgroundColor);
+    }
+
+    .correvtSVG {
+        position: relative;
+        width: fit-content;
+        margin-left: 43% !important;
+        margin-bottom: -16% !important;
+        background-color: #2BB673;
+        width: 73px;
+        height: 73px;
+        align-items: center;
+    }
+
+    .contbtn {
+        margin-left: 41% !important;
+        margin-top: -20% !important;
+    }
+
+    .greydiv {
+        background-color: #FBFBFB;
+    }
+
+    .scrollBarHide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .tooltip-container::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: -35px;
+        right: -15%;
+        transform: translateX(-50%);
+        background: rgba(135, 135, 135, 0.8);
+        color: #fff;
+        padding: 5px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .tooltip-container:hover::before {
+        visibility: visible;
+        opacity: 1;
+    }
+`,we=({addedSuccess:F})=>{const P=localStorage.getItem("token"),[w,C]=h.useState([]),[y,A]=h.useState([]),[a,g]=h.useState([]),[m,p]=h.useState([]),[S,D]=h.useState(!1),[$,k]=h.useState(!1),{register:N,handleSubmit:q,formState:{errors:r,isValid:j},setValue:T,watch:l,reset:R}=ce({mode:"onChange"}),E=l("classId");h.useEffect(()=>{M()},[P]);const M=async()=>{var s,u;try{const n=await ie();(n==null?void 0:n.status)===200&&((s=n==null?void 0:n.data)==null?void 0:s.status)==="success"&&C((u=n==null?void 0:n.data)==null?void 0:u.classes)}catch(n){console.error(n)}},B=async s=>{var u,n;try{const d=await ne(E,s);(d==null?void 0:d.status)===200&&((u=d==null?void 0:d.data)==null?void 0:u.status)==="success"&&p((n=d==null?void 0:d.data)==null?void 0:n.teacher)}catch(d){console.error(d)}},V=s=>{const u=parseInt(s);T("subjectId",u),k(!0),B(u)},O=s=>{const u=parseInt(s);T("classId",u),T("sectionId",""),T("subjectId",""),D(!0);const n=w.find(d=>d.classId===u);n?(A(n.section||[]),g(n.subjects||[])):(A([]),g([]))},f=async s=>{var u,n,d;try{const c=new FormData;c.append("title",s==null?void 0:s.title),c.append("description",s==null?void 0:s.description),c.append("ClassId",s==null?void 0:s.ClassId),c.append("sectionId",s==null?void 0:s.sectionId),c.append("subjectId",s==null?void 0:s.subjectId),c.append("teacherId",s==null?void 0:s.teacherId),c.append("totalMarks",s==null?void 0:s.totalMarks),c.append("status",s==null?void 0:s.status),c.append("startDate",s==null?void 0:s.startDate),c.append("endDate",s==null?void 0:s.endDate),c.append("description",s==null?void 0:s.description),c.append("file",s==null?void 0:s.file[0]);const b=await ve(c);(b==null?void 0:b.status)===200&&((u=b==null?void 0:b.data)==null?void 0:u.status)==="success"?(L.success((n=b==null?void 0:b.data)==null?void 0:n.message),R(),F()):L.error(((d=b==null?void 0:b.data)==null?void 0:d.message)||"Failed to add assignment")}catch(c){console.error(c),L.error("An error occurred while adding the assignment")}};return e.jsx(ye,{children:e.jsx("div",{className:"container-fluid",children:e.jsx("div",{className:"row",children:e.jsxs("form",{className:"p-3",onSubmit:q(f),children:[e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"title",className:"form-label font14",children:["Title ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"title",type:"text",className:`form-control font14 ${r.title?"border-danger":""}`,placeholder:"Enter Title",...N("title",{required:"Title is required *",validate:s=>/^[A-Z]/.test(s)?s.length<2?"Minimum Length is 2":/^[a-zA-Z0-9\s'-]+$/.test(s)?!0:"Invalid Characters in Title":"Title must start with an uppercase letter"})}),r.title&&e.jsx("p",{className:"font12 text-danger",children:r.title.message})]}),e.jsxs("div",{className:"mb-3 teacher-input",children:[e.jsxs("label",{htmlFor:"ClassId",className:"form-label font14",children:["Class ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsxs("select",{id:"ClassId",className:`form-select font14 ${r.ClassId?"border-danger":""}`,...N("ClassId",{required:"Class selection is required *"}),onChange:s=>O(s.target.value),children:[e.jsx("option",{value:"",children:"-- Select --"}),w==null?void 0:w.map(s=>e.jsx("option",{value:s==null?void 0:s.classId,children:s==null?void 0:s.classNo},s.classId))]}),r.ClassId&&e.jsx("p",{className:"font12 text-danger",children:r.ClassId.message})]}),e.jsxs("div",{className:"mb-3 teacher-input",children:[e.jsxs("label",{htmlFor:"sectionId",className:"form-label font14",children:["Section ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("div",{className:`${S?"":"tooltip-container"}`,"data-tooltip":"Select Class First",children:e.jsxs("select",{id:"sectionId",className:`form-select font14 ${r.sectionId?"border-danger":""}`,...N("sectionId",{required:"Section selection is required *"}),disabled:!S,children:[e.jsx("option",{value:"",children:"-- Select --"}),y.length>0?y==null?void 0:y.map(s=>e.jsx("option",{value:s.classSecId,children:s.sectionName},s.classSecId)):e.jsx("option",{disabled:!0,children:"-- No Section found for this Class --"})]})}),r.sectionId&&e.jsx("p",{className:"font12 text-danger",children:r.sectionId.message})]}),e.jsxs("div",{className:"mb-3 teacher-input",children:[e.jsxs("label",{htmlFor:"subjectId",className:"form-label font14",children:["Subject ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("div",{className:`${S?"":"tooltip-container"}`,"data-tooltip":"Select Class First",children:e.jsxs("select",{id:"subjectId",className:`form-select font14 ${r.subjectId?"border-danger":""}`,...N("subjectId",{required:"Subject selection is required *"}),disabled:!S,onChange:s=>V(s.target.value),children:[e.jsx("option",{value:"",children:"-- Select --"}),a.length>0?a==null?void 0:a.map(s=>e.jsx("option",{value:s.subjectId,children:s.subjectName},s.subjectId)):e.jsx("option",{disabled:!0,children:"-- No Subject found for this Class --"})]})}),r.subjectId&&e.jsx("p",{className:"font12 text-danger",children:r.subjectId.message})]}),e.jsxs("div",{className:"mb-3 teacher-input",children:[e.jsxs("label",{htmlFor:"teacherId",className:"form-label font14",children:["Teacher ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("div",{className:`${$?"":"tooltip-container"}`,"data-tooltip":"Select Subject First",children:e.jsxs("select",{id:"teacherId",className:`form-select font14 ${r.teacherId?"border-danger":""}`,...N("teacherId",{required:"Teacher selection is required *"}),disabled:!$,children:[e.jsx("option",{value:"",children:"-- Select --"}),m.length>0?m==null?void 0:m.map(s=>e.jsx("option",{value:s.staffId,children:s.staffName},s.staffId)):e.jsx("option",{disabled:!0,children:"-- No Teacher found for this Subject --"})]})}),r.teacherId&&e.jsx("p",{className:"font12 text-danger",children:r.teacherId.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"totalMarks",className:"form-label font14",children:["Total Marks ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"totalMarks",type:"number",className:`form-control font14 ${r.totalMarks?"border-danger":""}`,placeholder:"0",...N("totalMarks",{required:"Total Marks are required *",min:{value:0,message:"Marks cannot be negative"}})}),r.totalMarks&&e.jsx("p",{className:"font12 text-danger",children:r.totalMarks.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"startDate",className:"form-label font14",children:["Starting Date ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"startDate",type:"date",className:`form-control font14 ${r.startDate?"border-danger":""}`,...N("startDate",{required:"Starting Time is required *"})}),r.startDate&&e.jsx("p",{className:"font12 text-danger",children:r.startDate.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"endDate",className:"form-label font14",children:["Ending Date ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"endDate",type:"date",className:`form-control font14 ${r.endDate?"border-danger":""}`,...N("endDate",{required:"Ending Time is required *"})}),r.endDate&&e.jsx("p",{className:"font12 text-danger",children:r.endDate.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"status",className:"form-label font14",children:["Status ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsxs("select",{id:"status",className:`form-select font14 ${r.status?"border-danger":""}`,...N("status",{required:"Status selection is required *"}),children:[e.jsx("option",{value:"",children:"-- Select --"}),e.jsx("option",{value:"Active",children:"Active"}),e.jsx("option",{value:"Draft",children:"Draft"}),e.jsx("option",{value:"Archives",children:"Archives"})]}),r.status&&e.jsx("p",{className:"font12 text-danger",children:r.status.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsx("label",{htmlFor:"description",className:"form-label font14",children:"Description"}),e.jsx("input",{id:"description",type:"text",className:`form-control font14 ${r.description?"border-danger":""}`,placeholder:"Enter Description",...N("description",{validate:s=>s?s.length<2?"Minimum Length is 2":/^[a-zA-Z0-9\s'-]+$/.test(s)?!0:"Invalid Characters in Description":!0})}),r.description&&e.jsx("p",{className:"font12 text-danger",children:r.description.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"file",className:"form-label font14",children:["Assignment Upload ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"file",type:"file",className:`form-control font14 ${r.file?"border-danger":""}`,accept:".pdf, .docx, .png",...N("file",{required:"File is required *",validate:s=>s.length>0&&(s[0].size<10240||s[0].size>204800)?"File size must be between 10 KB to 200 KB":!0})}),r.file&&e.jsx("p",{className:"font12 text-danger",children:r.file.message})]}),e.jsxs("p",{className:"text-center p-3",children:[e.jsx("button",{className:"btn updateCreateButtons text-white",disabled:!j,type:"submit",children:"Create"}),e.jsx("button",{className:"btn cancelButtons ms-3",type:"button","data-bs-dismiss":"offcanvas","aria-label":"Close",onClick:()=>R(),children:"Cancel"})]})]})})})})},De=le.div`
+
+    .formimagetext{
+        border-radius: 5px 0px 0px 5px;
+    }
+    
+    .form-select, .form-control::placeholder, .form-control{
+        color: var(--greyState);
+        box-shadow: none;
+        border-color: var(--greyState);
+    }
+
+    .form-select.border-danger {
+        border-color: #dc3545 !important;
+    }
+
+    .table-striped>tbody>tr:nth-of-type(odd)>* {
+        --bs-table-bg-type: var(--tableGreyBackgroundColor);
+    }
+
+    .correvtSVG{
+        position: relative;
+        width: fit-content ;
+        margin-left: 43% !important;
+        margin-bottom: -16% !important;
+        background-color: #2BB673;
+        width: 73px;
+        height: 73px;
+        align-items: center;
+    }
+
+    .contbtn{
+        margin-left: 41% !important;
+        margin-top: -20% !important;
+    }
+
+    .greydiv{
+        background-color: #FBFBFB;
+    }
+
+    .scrollBarHide::-webkit-scrollbar {
+        display: none;
+    }
+
+
+`,ke=({EditItemId:F,editedSuccess:P})=>{const w=localStorage.getItem("token"),[C,y]=h.useState(!0),[A,a]=h.useState([]),[g,m]=h.useState([]),[p,S]=h.useState([]),[D,$]=h.useState([]),[k,N]=h.useState(""),[q,r]=h.useState(!0),{register:j,handleSubmit:T,formState:{errors:l,isValid:R},setValue:E,watch:M,reset:B}=ce({mode:"onChange"}),[V,O]=h.useState({}),f=M(),s=M("ClassId"),u=M("subjectId");h.useEffect(()=>{n(),b()},[w,F]),h.useEffect(()=>{c(s)},[s]),h.useEffect(()=>{d(u)},[u]);const n=async()=>{var i,x;try{var t=await ie();(t==null?void 0:t.status)===200&&((i=t==null?void 0:t.data)==null?void 0:i.status)==="success"&&a((x=t==null?void 0:t.data)==null?void 0:x.classes)}catch{}},d=async t=>{var x,v,o;try{var i=await ne(s,t);(i==null?void 0:i.status)===200?((x=i==null?void 0:i.data)==null?void 0:x.status)==="success"&&$((v=i==null?void 0:i.data)==null?void 0:v.teacher):L.error((o=i==null?void 0:i.data)==null?void 0:o.message)}catch{}},c=t=>{E("ClassId",t);const i=A.find(x=>x.classId===parseInt(t));i?(m(i.section||[]),S(i.subjects||[])):(m([]),S([]))},b=async()=>{var i,x,v,o;try{var t=await Ie(F);if((t==null?void 0:t.status)===200&&((i=t==null?void 0:t.data)==null?void 0:i.status)==="success"){N((v=(x=t==null?void 0:t.data)==null?void 0:x.Assignment)==null?void 0:v.assignmentPath);const I=(o=t==null?void 0:t.data)==null?void 0:o.Assignment,G={title:I.title,ClassId:I.classId,sectionId:I.sectionId,subjectId:I.subjectId,teacherId:I.teacherId,totalMarks:I.totalMarks,startDate:I.startDate,endDate:I.endDate,status:I.status,file:I.assignmentPath};O(G),B(G)}}catch{}},Z=async t=>{var x,v;try{const o=new FormData;o.append("title",t==null?void 0:t.title),o.append("ClassId",t==null?void 0:t.ClassId),o.append("sectionId",t==null?void 0:t.sectionId),o.append("subjectId",t==null?void 0:t.subjectId),o.append("teacherId",t==null?void 0:t.teacherId),o.append("totalMarks",t==null?void 0:t.totalMarks),o.append("status",t==null?void 0:t.status),o.append("startDate",t==null?void 0:t.startDate),o.append("endDate",t==null?void 0:t.endDate),o.append("file",t==null?void 0:t.file[0]);var i=await Se(F,o);(i==null?void 0:i.status)===200&&((x=i==null?void 0:i.data)==null?void 0:x.status)==="success"&&(L.success((v=i==null?void 0:i.data)==null?void 0:v.message),y(!C),P(!0))}catch{}},_=()=>JSON.stringify(V)!==JSON.stringify(f),W=()=>{B(V)};return e.jsx(e.Fragment,{children:e.jsx(De,{children:e.jsx("div",{className:"container-fluid ",children:e.jsx("div",{className:"row",children:e.jsxs("form",{className:"p-3",onSubmit:T(Z),children:[e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"exampleInputEmail1",className:"form-label font14",children:["Title ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"title",type:"text",className:`form-control font14 ${l.title?"border-danger":""}`,placeholder:"Enter Title",...j("title",{required:"Title is required *",validate:t=>/^[A-Z]/.test(t)?t.length<2?"Minimum Length is 2":/^[a-zA-Z0-9\s'-]+$/.test(t)?!0:"Invalid Characters in Title":"Title must start with an uppercase letter"})}),l.title&&e.jsx("p",{className:"font12 text-danger",children:l.title.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"ClassId",className:"form-label font14",children:["Class ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsxs("select",{id:"ClassId",className:`form-select font14 ${l.ClassId?"border-danger":""}`,value:f==null?void 0:f.classId,...j("ClassId",{required:"Class selection is required *"}),onChange:t=>c(t.target.value),children:[e.jsx("option",{value:"",children:"-- Select --"}),A==null?void 0:A.map(t=>e.jsx("option",{value:t==null?void 0:t.classId,children:t==null?void 0:t.classNo},t.classId))]}),l.ClassId&&e.jsx("p",{className:"font12 text-danger",children:l.ClassId.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"sectionId",className:"form-label font14",children:["Section ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsxs("select",{id:"sectionId",className:`form-select font14 ${l.sectionId?"border-danger":""}`,value:f==null?void 0:f.sectionId,...j("sectionId",{required:"Selection selection is required *"}),children:[e.jsx("option",{value:"",children:"-- Select --"}),g==null?void 0:g.map(t=>e.jsx("option",{value:t.classSecId,children:t.sectionName},t.classSecId))]}),l.sectionId&&e.jsx("p",{className:"font12 text-danger",children:l.sectionId.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"subjectId",className:"form-label font14",children:["Subject ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsxs("select",{id:"subjectId",className:`form-select font14 ${l.subjectId?"border-danger":""}`,value:f==null?void 0:f.subjectId,...j("subjectId",{required:"Subject selection is required *"}),children:[e.jsx("option",{value:"",children:"-- Select --"}),p==null?void 0:p.map(t=>e.jsx("option",{value:t.subjectId,children:t.subjectName},t.subjectId))]}),l.subjectId&&e.jsx("p",{className:"font12 text-danger",children:l.subjectId.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"teacherId",className:"form-label font14",children:["Teacher ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsxs("select",{id:"teacherId",className:`form-select font14 ${l.teacherId?"border-danger":""}`,value:f==null?void 0:f.teacherId,...j("teacherId",{required:"Teacher selection is required *"}),children:[e.jsx("option",{value:"",children:"-- Select --"}),D.map(t=>e.jsx("option",{value:t.staffId,children:t.staffName},t.staffId))]}),l.teacherId&&e.jsx("p",{className:"font12 text-danger",children:l.teacherId.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"totalMarks",className:"form-label font14",children:["Total Marks ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"totalMarks",type:"number",className:`form-control font14 ${l.totalMarks?"border-danger":""}`,...j("totalMarks",{required:"Total Marks are required *",min:{value:0,message:"Marks cannot be negative"}})}),l.totalMarks&&e.jsx("p",{className:"font12 text-danger",children:l.totalMarks.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"startDate",className:"form-label font14",children:["Starting Date ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"startDate",type:"date",className:`form-control font14 ${l.startDate?"border-danger":""}`,...j("startDate",{required:"Starting Time is required *"})}),l.startDate&&e.jsx("p",{className:"font12 text-danger",children:l.startDate.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"endDate",className:"form-label font14",children:["Ending Date ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsx("input",{id:"endDate",type:"date",className:`form-control font14 ${l.endDate?"border-danger":""}`,...j("endDate",{required:"Ending Time is required *"})}),l.endDate&&e.jsx("p",{className:"font12 text-danger",children:l.endDate.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"status",className:"form-label font14",children:["Status ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsxs("select",{id:"status",className:`form-select font14 ${l.status?"border-danger":""}`,...j("status",{required:"Status selection is required *"}),children:[e.jsx("option",{value:"",children:"-- Select --"}),e.jsx("option",{value:"ACTIVE",children:"Active"}),e.jsx("option",{value:"DRAFT",children:"Draft"}),e.jsx("option",{value:"ARCHIVES",children:"Archives"})]}),l.status&&e.jsx("p",{className:"font12 text-danger",children:l.status.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsx("label",{htmlFor:"note",className:"form-label font14",children:"Description"}),e.jsx("input",{id:"note",type:"text",className:`form-control font14 ${l.note?"border-danger":""}`,placeholder:"Enter Description",...j("note",{validate:t=>t?t.length<2?"Minimum Length is 2":/^[a-zA-Z0-9\s'-]+$/.test(t)?!0:"Invalid Characters in Description":!0})}),l.note&&e.jsx("p",{className:"font12 text-danger",children:l.note.message})]}),e.jsxs("div",{className:"mb-3",children:[e.jsxs("label",{htmlFor:"file",className:"form-label font14",children:["Assignment Upload ",e.jsx("span",{className:"text-danger",children:"*"})]}),e.jsxs("div",{className:"d-flex bg-white",children:[k!==null&&q?e.jsx("input",{id:"file",type:"text",className:"form-control formimagetext font14",value:k.split("/").pop(),disabled:!0}):e.jsx("input",{id:"file",type:"file",className:`form-control formimagetext font14 ${l.file?"border-danger":""}`,accept:".pdf, .docs",...j("file",{required:"Admin Image is required *",validate:t=>t.length>0&&(t[0].size<10240||t[0].size>204800)?"File size must be between 10 KB to 200 KB":!0})}),e.jsx("div",{className:"formcontrolButtonborder p-1 ps-3 pe-3 text-center",children:e.jsx("span",{className:"text-white font14 align-self-center",onClick:()=>r(!q),children:k!==null&&q?"Edit":"View"})})]}),l.file&&e.jsx("p",{className:"font12 text-danger",children:l.file.message})]}),e.jsxs("p",{className:"text-center p-3",children:[e.jsx("button",{className:"btn updateCreateButtons text-white",type:"submit",disabled:!_,children:"Update"}),e.jsx("button",{className:"btn cancelButtons ms-3",type:"button","data-bs-dismiss":"offcanvas","aria-label":"Close",onClick:()=>W(),children:"Cancel"})]})]})})})})})};var de={};(function(F){Object.defineProperty(F,"__esModule",{value:!0});var P=h;function w(a){if(a&&a.__esModule)return a;var g=Object.create(null);return a&&Object.keys(a).forEach(function(m){if(m!=="default"){var p=Object.getOwnPropertyDescriptor(a,m);Object.defineProperty(g,m,p.get?p:{enumerable:!0,get:function(){return a[m]}})}}),g.default=a,Object.freeze(g)}var C=w(P);/*! *****************************************************************************
+	Copyright (c) Microsoft Corporation.
+
+	Permission to use, copy, modify, and/or distribute this software for any
+	purpose with or without fee is hereby granted.
+
+	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+	REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+	AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+	INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+	LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+	OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+	PERFORMANCE OF THIS SOFTWARE.
+	***************************************************************************** */var y=function(){return y=Object.assign||function(g){for(var m,p=1,S=arguments.length;p<S;p++){m=arguments[p];for(var D in m)Object.prototype.hasOwnProperty.call(m,D)&&(g[D]=m[D])}return g},y.apply(this,arguments)},A=function(a){var g=a.bgColor,m=g===void 0?"#6a1b9a":g,p=a.height,S=p===void 0?"20px":p,D=a.width,$=D===void 0?"100%":D,k=a.borderRadius,N=k===void 0?"50px":k,q=a.labelAlignment,r=q===void 0?"right":q,j=a.baseBgColor,T=j===void 0?"#e0e0de":j,l=a.labelColor,R=l===void 0?"#fff":l,E=a.labelSize,M=E===void 0?"15px":E,B=a.isLabelVisible,V=B===void 0?!0:B,O=a.dir,f=O===void 0?"ltr":O,s=a.ariaValuemin,u=s===void 0?0:s,n=a.ariaValuemax,d=n===void 0?100:n,c=a.ariaValuetext,b=c===void 0?null:c,Z=a.maxCompleted,_=Z===void 0?100:Z,W=a.animateOnRender,t=W===void 0?!1:W,i=a.initCompletedOnAnimation,x=i===void 0?0:i,v=a.completed,o=a.margin,I=a.padding,G=a.customLabelStyles,oe=a.transitionDuration,me=a.transitionTimingFunction,J=a.className,X=a.customLabel,Q=a.barContainerClassName,Y=a.completedClassName,K=a.labelClassName,ue=function(z){return z==="left"?"flex-start":z==="center"?"center":z==="right"?"flex-end":null},ee=ue(r),te=typeof x=="number"?"".concat(x,"%"):x,he=function(z,Ne){if(z){var re=Number(Ne)/z;return re>1?"100%":"".concat(re*100,"%")}return te},H=he(_,v),se=C.useState(te),fe=se[0],be=se[1],xe={height:S,background:T,borderRadius:N,padding:I,width:$,margin:o,overflow:"hidden"},ge={height:S,width:t?fe:H,background:m,transition:"width ".concat(oe||"1s"," ").concat(me||"ease-in-out"),borderRadius:"inherit",display:"flex",alignItems:"center",justifyContent:r!=="outside"&&ee?ee:"normal"},ae=y({padding:r==="outside"?"0 0 0 5px":"5px",color:R,fontWeight:"bold",fontSize:M,display:V?"initial":"none"},G),je={display:r==="outside"?"flex":"initial",alignItems:r==="outside"?"center":"initial"},pe=typeof v=="number"?"".concat(v,"%"):"".concat(v),U=X||pe;return C.useEffect(function(){t&&requestAnimationFrame(function(){return be(H)})},[H,t]),C.createElement("div",{style:J?void 0:je,className:J,dir:f,role:"progressbar","aria-valuenow":parseFloat(U),"aria-valuemin":u,"aria-valuemax":d,"aria-valuetext":"".concat(b===null?U:b)},C.createElement("div",{style:Q?void 0:xe,className:Q},C.createElement("div",{style:Y?void 0:ge,className:Y},r!=="outside"&&C.createElement("span",{style:K?void 0:ae,className:K},U))),r==="outside"&&C.createElement("span",{style:K?void 0:ae,className:K},U))};F.default=A})(de);const qe=Ce(de);export{we as A,ke as E,qe as P};
