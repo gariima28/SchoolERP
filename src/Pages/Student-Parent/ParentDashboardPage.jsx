@@ -1,0 +1,374 @@
+import { Icon } from '@iconify/react';
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import styled from 'styled-components'
+import Calender from '../../Layouts/Calender'
+import { getAllAssignmentsDataApi, getAllDashDataApi, getAllEventDataApi, getAllHolidayDataApi, getAllNoticeDataApi, getAllStudentAttendanceApi, getFeeDashDataApi } from 'src/Utils/Apis';
+import toast, { Toaster } from 'react-hot-toast';
+import DataLoader from 'src/Layouts/Loader';
+import BarChart from '../../Charts/BarChart';
+
+const Container = styled.div`
+
+.bgOrange{
+    width: fit-content;
+    background-color: var(--activeOrangeBorder);
+  }
+  .cards{
+    border : 1px solid var(--cardsBorder);
+    background-color: #fff;
+    border-radius: var(--borderRadius10px);
+  }
+
+  .borderOrange{
+    border: 1px solid var(--activeOrangeBorder) !important;
+  }
+
+  .borderLeftOrange{
+    border-left: 4px solid var(--orangeTextColor) !important;
+  }
+
+  .timeTableCard{
+    border : 1px solid var(--timeTableCardBorder);
+    background-color: var(--timeTableCardBg);
+    border-radius: var(--borderRadius5px);
+  }
+
+  .chartCard{
+    border : 1px solid var(--timeTableCardBorder);
+    background-color: var(--timeTableCardBg);
+    border-radius: var(--borderRadius5px);
+  }
+
+  .holidayCard{
+    border : 1px solid var(--timeTableCardBorder);
+    background-image: url(/images/holidayBg.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: var(--borderRadius5px);
+  }
+
+  .eventCards{
+    border : 1px solid var(--timeTableCardBorder);
+    background-color: var(--timeTableCardBg);
+    border-radius: 0px !important;
+  }
+
+  .greyText{
+    color: var(--greyTextColor);
+  }
+
+  .greenText{
+    color: var(--greenTextColor);
+  }
+
+  .carousel-indicators [data-bs-target] {
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+
+  .carousel-indicators .active {
+    background-color: #01CCBB;
+  }
+
+
+`;
+
+const DashboardPage = () => {
+
+  const token = sessionStorage.getItem('token');
+  //loader State
+  const [loaderState, setloaderState] = useState(false);
+  const [DashData, setDashData] = useState();
+  const [DailyAttendanceData, setDailyAttendanceData] = useState([]);
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const monthUpdate = (newMonth) => setMonth(newMonth);
+  const yearUpdate = (newYear) => setYear(newYear);
+
+  useEffect(() => {
+    getAllDashData();
+  }, [token]);
+
+
+  const getAllDashData = async () => {
+    try {
+      setloaderState(true);
+      var response = await getAllDashDataApi('', '', '', '', '');
+      if (response?.status === 200) {
+        if (response?.data?.status === 'success') {
+          setDashData(response?.data?.data);
+          setDailyAttendanceData(response?.data?.data?.attendance?.attendance);
+          setloaderState(false);
+        }
+      }
+      else {
+        setloaderState(false);
+      }
+    }
+    catch (error) {
+      setloaderState(false);
+      console.error('Error fetching student data:', error);
+      if (error?.response?.data?.statusCode === 401) {
+        localStorage.removeItem('token')
+        setTimeout(() => {
+          navigate('/')
+        }, 200);
+      }
+    }
+  }
+
+  return (
+    <Container className='container-fluid px-4'>
+      {
+        loaderState && (
+          <DataLoader />
+        )
+      }
+      <div className="row">
+        <div className="col-md-6 col-12 ps-3 pe-3 pt-3 ">
+          <div className="row cards borderradius8 h-100">
+            <div className="col-12">
+              <div className="row">
+                <p className='font14 p-3 bgDarkGreen bordeRadiusTop text-white'>Fees Report Details</p>
+              </div>
+              <div className="row p-3">
+                <div className="row pb-3 justify-content-center">
+                  <BarChart graphKey={DashData?.attendance?.attendance} />
+                </div>
+                <div className="row pb-3">
+                  <div className="chartCard">
+                    <div className="d-flex p-3">
+                      <div className="flex-grow-1">
+                        <p>
+                          <Icon className='me-2' icon="ic:round-square" width="1.2em" height="1.2em" style={{ color: '#01CCBB' }} />
+                          <span className='font14'>Total Fee</span>
+                        </p>
+                      </div>
+                      <div className="align-self-center">
+                        {/* <p className='font14'>{totalFeeData}</p> */}
+                      </div>
+                    </div>
+                    <div className="d-flex p-3">
+                      <div className="flex-grow-1">
+                        <p>
+                          <Icon className='me-2' icon="ic:round-square" width="1.2em" height="1.2em" style={{ color: '#E95B6D' }} />
+                          <span className='font14'>Paid Fee</span>
+                        </p>
+                      </div>
+                      <div className="align-self-center">
+                        {/* <p className='font14'>{paidFeeData}</p> */}
+                      </div>
+                    </div>
+                    <div className="d-flex p-3">
+                      <div className="flex-grow-1">
+                        <p>
+                          <Icon className='me-2' icon="ic:round-square" width="1.2em" height="1.2em" style={{ color: '#FEBC00' }} />
+                          <span className='font14'>Balance Fee</span>
+                        </p>
+                      </div>
+                      <div className="align-self-center">
+                        {/* <p className='font14'>{balanceFeeData}</p> */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row pb-3">
+                  <p className='font14 p-0'>Last Paid Activity</p>
+                  <hr className='mt-1 mb-2' />
+                  <div className="d-flex justify-content-between p-0">
+                    <p className='font14 greyText'>October Month Fese</p>
+                    <p className='font14 greyText'>16 October 2023</p>
+                    <p className='font14 greenText fw-bolder'>10,250</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6 col-12 ps-3 pe-3 pt-3">
+          <div className="row cards borderradius8 h-100">
+            <div className="col-12">
+              <div className="row bgDarkGreen bordeRadiusTop text-white p-1 py-2">
+                <div className="d-flex p-0 align-items-center justify-content-between">
+                  <span className='font14 ms-3'>Attendance</span>
+                  <button className="btn" onClick={() => monthUpdate(month === 1 ? 12 : month - 1) || yearUpdate(month === 1 ? year - 1 : year)}><Icon icon="lsicon:double-arrow-left-filled" width="16" height="16" style={{ color: '#fff' }} /></button>
+                  <span className="mx-2">{new Date(year, month - 1).toLocaleString('default', { month: 'long' })} {year}</span>
+                  <button className="btn" onClick={() => monthUpdate(month === 12 ? 1 : month + 1) || yearUpdate(month === 12 ? year + 1 : year)}><Icon icon="lsicon:double-arrow-right-filled" width="16" height="16" style={{ color: '#fff' }} /></button>
+                  <span></span>
+                </div>
+              </div>
+              <div className="row mt-3">
+                <Calender
+                  className='calenderp0'
+                  DailyAttendanceData={DailyAttendanceData}
+                  month={month}
+                  year={year}
+                  monthUpdate={monthUpdate}
+                  yearUpdate={yearUpdate}
+                  smallBox={true}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-6 col-12 ps-3 pe-3 pt-3">
+          <div className="row cards borderradius8 h-100">
+            <div className="col-12">
+              <div className="row">
+                <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
+                  <div className="flex-grow-1 align-self-center">
+                    <p className='font14'>Assignment Details</p>
+                  </div>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/assignments'>View All</Link>
+                </div>
+              </div>
+              <div className="row p-2">
+                {DashData?.assignments.length > 0
+                  ?
+                  DashData?.assignments.slice(0, 3).map((item) => (
+                    <div className="col-12 p-1" key={item.id}>
+                      <div className="timeTableCard p-2">
+                        <div className="row">
+                          <div className="col-4 align-self-center">
+                            <p className='greenText font16'>{item.title}</p>
+                          </div>
+                          <div className="col-4 align-self-center">
+                            <p className='font14'>{item.subjectName}</p>
+                          </div>
+                          <div className="col-4 align-self-center">
+                            <p className='font12'></p>
+                          </div>
+                        </div>
+                        <div className="row pt-1">
+                          <div className="col-4 align-self-center">
+                            <p className='font12 greyText'>Class - {item.sectionName}</p>
+                          </div>
+                          <div className="col-4 align-self-center">
+                            <p className='font12 greyText'>Start Date - {item.startDate}</p>
+                          </div>
+                          <div className="col-4 align-self-center">
+                            <p className='font12 greyText'>End Date - {item.endDate}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                  :
+                  <p className='text-danger font14'> No Data Found !!!</p>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6 col-12 ps-3 pe-3 pt-3">
+          <div className="row cards borderradius8 h-100">
+            <div className="col-12">
+              <div className="row">
+                <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
+                  <div className="flex-grow-1 align-self-center">
+                    <p className='font14'>Notice Board</p>
+                  </div>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/notice'>View All</Link>
+                </div>
+              </div>
+              <div className="row p-2 py-3">
+                {DashData?.notices.length > 0
+                  ?
+                  DashData?.notices.slice(0, 2).map((item, index) => (
+                    <>
+                      <div className="pt-2" key={index}>
+                        <h2 className='p-1 ps-2 pe-2 text-white bgOrange rounded-4 text-decoration-none'>{item?.date}</h2>
+                        <h2 className='border-bottom border-1 pt-3 pb-3 text-grey'>{item?.message}</h2>
+                        <h5 className='greyText pt-3'>{item?.author} | {item?.daysAgo === 0 ? 'Today' : `${item?.daysAgo} days ago`}</h5>
+                      </div>
+                    </>
+                  ))
+                  :
+                  <div className="d-flex justify-content-center p-5 m-5">
+                    <span>No Notice Data Yet !!!</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-6 col-12 ps-3 pe-3 pt-3">
+          <div className="row cards borderradius8 h-100">
+            <div className="col-12">
+              <div className="row">
+                <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
+                  <div className="flex-grow-1 align-self-center">
+                    <p className='font14'>Upcoming Events</p>
+                  </div>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' to='/parent/event'>View All</Link>
+                </div>
+              </div>
+              <div className="row p-2">
+                {DashData?.notices.length > 0
+                  ?
+                  DashData?.notices.slice(0, 4).map((item) => (
+                    <div className="col-12 p-1" key={item.eventId}>
+                      <div className="eventCards">
+                        <div className="borderLeftOrange p-2">
+                          <div className="d-flex p-1">
+                            <div className="flex-fill">
+                              <p className='font14'>{item.eventName}</p>
+                            </div>
+                            <div className="flex-shrink">
+                              <p className="font14 text-end greyText">{item.startDate}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                  :
+                  <p>No Data Found !!!</p>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6 col-12 ps-3 pe-3 pt-3">
+          <div className="row cards borderradius8 h-100">
+            <div className="col-12">
+              <div className="row">
+                <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
+                  <div className="flex-grow-1 align-self-center">
+                    <p className='font14'>Upcoming Holiday</p>
+                  </div>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/holiday'>View All</Link>
+                </div>
+              </div>
+              <div className="row p-2">
+                {DashData?.holidays.length > 0
+                  ?
+                  DashData?.holidays.slice(0, 6).map((item) => (
+                    <div className="col-4 p-2" key={item.holidayId}>
+                      <div className="holidayCard p-4">
+                        <p className='font14 text-center'>{item.title}</p>
+                        <p className='greyText font14 text-center'>{item.date}</p>
+                      </div>
+                    </div>
+                  ))
+                  :
+                  <p>No Data Found !!!</p>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Toaster />
+    </Container>
+  )
+}
+
+export default DashboardPage
