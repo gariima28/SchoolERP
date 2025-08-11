@@ -1,21 +1,18 @@
 import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { MyUseContext } from '../ContextApi/UseContext'
 import { useNavigate } from 'react-router-dom';
-import { MyUseContext } from '../ContextApi/UseContext';
 
 import { StaffPostApi, StaffGetById, StaffPutApi, RolePermissionGetApi } from '../../../Utils/Apis';
-// import { IdContext } from './Context/IdContext'
-import { MyContext } from './Context/IdContext';
-import { set } from 'lodash';
-
 const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const navigate = useNavigate();
   const myUserId = data;
 
-
+  const { myId, setMyId } = useContext(MyUseContext)
+  const myUserID = myId !== undefined ? myId : '';
+  
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
-  const [IdForUpdate, setIdForUpdate] = useState();
   const [gender, setGender] = useState('');
   const [status, setStatus] = useState();
   const [maritalStatus, setMaritalstatus] = useState();
@@ -32,9 +29,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const [dropdownDisabled, setDropdownDisabled] = useState(false);
   const [originalMail, setOriginalMail] = useState();
   const [updateStatus, setUpdateStatus] = useState();
-  const [manageButton, setManageButton] = useState(false);
   const [imageFile, setImageFile] = useState();
-  const [preview, setPreview] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [firstAdd, setFirstAdd] = useState();
@@ -53,23 +48,13 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const [isValidPinCodeRequired, setIsValidPinCodeRequired] = useState(false);
   const [isValidDobRequired, setIsValidDobRequired] = useState(false);
 
-
-
   useEffect(() => {
     MyRolPermisGetAllApi();
-    MyStaffGetById();
+    if (myUserID) {
+      MyStaffGetById();
+    }
   }, []);
 
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setImageFile(file);
-    setPreview(URL.createObjectURL(file));
-  };
-
-  const buttManage = () => {
-    setManageButton(!manageButton);
-  };
 
   const FuncValidation = () => {
     let isValid = true;
@@ -194,9 +179,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       if (response?.status === 200) {
         const roles = response?.data?.roles || [];
         setRolePermisAllData(roles);
-
         const matchedRole = roles.find((role) => role.roleId === Number(myUserId));
-
         if (matchedRole && myUserId !== 0) {
           setRoleId(matchedRole.roleId.toString());
           setMyroleName(matchedRole.roleName);
@@ -226,19 +209,6 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   };
 
 
-
-// const { sharedValue, setSharedValue } = useContext(MyContext);
-
-//   const handleValue = (val) => {
-//     setSharedValue(sharedValue + val);
-//     console.log('inside the handle', sharedValue);
-//   };
-//     console.log('inside the handle', sharedValue);
-
-
- const { myId, setMyId} = useContext(MyUseContext);
-  console.log('dynamic Id for all user iddd--',myId)
-
   // post api 
   const SubcPostDataApi = async () => {
     if (FuncValidation()) {
@@ -261,7 +231,6 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       formData.append('staffImage', imageFile);
       formData.append('state', state);
       formData.append('citizenship', citizenship);
-
       setLoader(true);
       try {
         const response = await StaffPostApi(formData);
@@ -270,7 +239,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
           setemptyValue(response?.data?.status);
           setUserId(response?.data?.status);
           setFunction(response?.data?.otherstaff?.id);
-          setMyId(response?.data?.otherstaff?.id); 
+          setMyId(response?.data?.otherstaff?.id);
 
 
           localStorage.setItem('MyUserID', response?.data?.otherstaff?.id);
@@ -286,11 +255,10 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
     }
   };
 
-  const MyStaffGetById = async (id) => {
-    setIdForUpdate(id);
+  const MyStaffGetById = async () => {
     setLoader(true);
     try {
-      const response = await StaffGetById(myUserId);
+      const response = await StaffGetById(myUserID);
       if (response?.status === 200) {
         setUpdateStatus(response?.data?.status);
         setFirstName(response?.data?.user?.staffName || '');
@@ -349,10 +317,9 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       formData.append('staffImage', imageFile);
       formData.append('state', state);
       formData.append('citizenship', citizenship);
-
       setLoader(true);
       try {
-        const response = await StaffPutApi(myUserId, formData);
+        const response = await StaffPutApi(myUserID, formData);
         if (response?.status === 200) {
           toast.success(response?.data?.message);
           setShow(false);
@@ -689,7 +656,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                 </label>
                 <input
                   type="date"
-                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidDobRequired && dob ? 'valid-indicator' : ''}`}
+                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidDobRequired && dob}`}
                   id="dob"
                   value={emptyValue === "success" ? '' : dob}
                   onChange={(e) => handleDob(e.target.value)}
@@ -802,10 +769,47 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   aria-describedby="stateError"
                 >
                   <option value="">--Choose--</option>
+                  {/* States */}
+                  <option value="andhra pradesh">Andhra Pradesh</option>
+                  <option value="arunachal pradesh">Arunachal Pradesh</option>
+                  <option value="assam">Assam</option>
+                  <option value="bihar">Bihar</option>
+                  <option value="chhattisgarh">Chhattisgarh</option>
+                  <option value="goa">Goa</option>
+                  <option value="gujarat">Gujarat</option>
+                  <option value="haryana">Haryana</option>
+                  <option value="himachal pradesh">Himachal Pradesh</option>
+                  <option value="jharkhand">Jharkhand</option>
+                  <option value="karnataka">Karnataka</option>
+                  <option value="kerala">Kerala</option>
+                  <option value="madhya pradesh">Madhya Pradesh</option>
+                  <option value="maharashtra">Maharashtra</option>
+                  <option value="manipur">Manipur</option>
+                  <option value="meghalaya">Meghalaya</option>
+                  <option value="mizoram">Mizoram</option>
+                  <option value="nagaland">Nagaland</option>
+                  <option value="odisha">Odisha</option>
+                  <option value="punjab">Punjab</option>
+                  <option value="rajasthan">Rajasthan</option>
+                  <option value="sikkim">Sikkim</option>
+                  <option value="tamil nadu">Tamil Nadu</option>
+                  <option value="telangana">Telangana</option>
+                  <option value="tripura">Tripura</option>
                   <option value="uttar pradesh">Uttar Pradesh</option>
+                  <option value="uttarakhand">Uttarakhand</option>
+                  <option value="west bengal">West Bengal</option>
+                  {/* Union Territories */}
+                  <option value="andaman and nicobar islands">Andaman and Nicobar Islands</option>
+                  <option value="chandigarh">Chandigarh</option>
+                  <option value="dadra and nagar haveli and daman and diu">Dadra and Nagar Haveli and Daman and Diu</option>
                   <option value="delhi">Delhi</option>
+                  <option value="jammu and kashmir">Jammu and Kashmir</option>
+                  <option value="ladakh">Ladakh</option>
+                  <option value="lakshadweep">Lakshadweep</option>
+                  <option value="puducherry">Puducherry</option>
                 </select>
               </div>
+
             </div>
             <div className="col-lg-4 col-md-4 col-sm-12">
               <div className="form-group">
@@ -826,10 +830,44 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   aria-describedby="cityError"
                 >
                   <option value="">--Choose--</option>
-                  <option value="noida">Noida</option>
+                  <option value="agra">Agra</option>
+                  <option value="ahmedabad">Ahmedabad</option>
                   <option value="aligarh">Aligarh</option>
+                  <option value="allahabad">Allahabad</option>
+                  <option value="amritsar">Amritsar</option>
+                  <option value="bengaluru">Bengaluru</option>
+                  <option value="bhopal">Bhopal</option>
+                  <option value="chandigarh">Chandigarh</option>
+                  <option value="chennai">Chennai</option>
+                  <option value="coimbatore">Coimbatore</option>
+                  <option value="delhi">Delhi</option>
+                  <option value="faridabad">Faridabad</option>
+                  <option value="ghaziabad">Ghaziabad</option>
+                  <option value="gurugram">Gurugram</option>
+                  <option value="hyderabad">Hyderabad</option>
+                  <option value="indore">Indore</option>
+                  <option value="jaipur">Jaipur</option>
+                  <option value="kanpur">Kanpur</option>
+                  <option value="kochi">Kochi</option>
+                  <option value="kolkata">Kolkata</option>
+                  <option value="lucknow">Lucknow</option>
+                  <option value="ludhiana">Ludhiana</option>
+                  <option value="meerut">Meerut</option>
+                  <option value="mumbai">Mumbai</option>
+                  <option value="nagpur">Nagpur</option>
+                  <option value="noida">Noida</option>
+                  <option value="patna">Patna</option>
+                  <option value="pune">Pune</option>
+                  <option value="rajkot">Rajkot</option>
+                  <option value="surat">Surat</option>
+                  <option value="thane">Thane</option>
+                  <option value="vadodara">Vadodara</option>
+                  <option value="varanasi">Varanasi</option>
+                  <option value="visakhapatnam">Visakhapatnam</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
+
             </div>
             <div className="col-lg-4 col-md-4 col-sm-12">
               <div className="form-group">
@@ -879,10 +917,210 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   aria-describedby="nationalityError"
                 >
                   <option value="">--Choose--</option>
-                  <option value="indian">Indian</option>
-                  <option value="other">Other</option>
+                  {[
+                    "Afghan",
+                    "Albanian",
+                    "Algerian",
+                    "American",
+                    "Andorran",
+                    "Angolan",
+                    "Antiguan and Barbudan",
+                    "Argentine",
+                    "Armenian",
+                    "Australian",
+                    "Austrian",
+                    "Azerbaijani",
+                    "Bahamian",
+                    "Bahraini",
+                    "Bangladeshi",
+                    "Barbadian",
+                    "Belarusian",
+                    "Belgian",
+                    "Belizean",
+                    "Beninese",
+                    "Bhutanese",
+                    "Bolivian",
+                    "Bosnian",
+                    "Botswanan",
+                    "Brazilian",
+                    "Bruneian",
+                    "Bulgarian",
+                    "Burkinabé",
+                    "Burundian",
+                    "Cabo Verdean",
+                    "Cambodian",
+                    "Cameroonian",
+                    "Canadian",
+                    "Central African",
+                    "Chadian",
+                    "Chilean",
+                    "Chinese",
+                    "Colombian",
+                    "Comoran",
+                    "Congolese (Congo-Brazzaville)",
+                    "Congolese (Congo-Kinshasa)",
+                    "Costa Rican",
+                    "Croatian",
+                    "Cuban",
+                    "Cypriot",
+                    "Czech",
+                    "Danish",
+                    "Djiboutian",
+                    "Dominican",
+                    "Dutch",
+                    "East Timorese",
+                    "Ecuadorean",
+                    "Egyptian",
+                    "Salvadoran",
+                    "Equatorial Guinean",
+                    "Eritrean",
+                    "Estonian",
+                    "Eswatini",
+                    "Ethiopian",
+                    "Fijian",
+                    "Finnish",
+                    "French",
+                    "Gabonese",
+                    "Gambian",
+                    "Georgian",
+                    "German",
+                    "Ghanaian",
+                    "Greek",
+                    "Grenadian",
+                    "Guatemalan",
+                    "Guinean",
+                    "Bissau-Guinean",
+                    "Guyanese",
+                    "Haitian",
+                    "Honduran",
+                    "Hungarian",
+                    "Icelandic",
+                    "Indian",
+                    "Indonesian",
+                    "Iranian",
+                    "Iraqi",
+                    "Irish",
+                    "Israeli",
+                    "Italian",
+                    "Jamaican",
+                    "Japanese",
+                    "Jordanian",
+                    "Kazakhstani",
+                    "Kenyan",
+                    "Kiribati",
+                    "Kuwaiti",
+                    "Kyrgyz",
+                    "Laotian",
+                    "Latvian",
+                    "Lebanese",
+                    "Basotho",
+                    "Liberian",
+                    "Libyan",
+                    "Liechtensteiner",
+                    "Lithuanian",
+                    "Luxembourgish",
+                    "Malagasy",
+                    "Malawian",
+                    "Malaysian",
+                    "Maldivian",
+                    "Malian",
+                    "Maltese",
+                    "Marshallese",
+                    "Mauritanian",
+                    "Mauritian",
+                    "Mexican",
+                    "Micronesian",
+                    "Moldovan",
+                    "Monégasque",
+                    "Mongolian",
+                    "Montenegrin",
+                    "Moroccan",
+                    "Mozambican",
+                    "Myanmar (Burmese)",
+                    "Namibian",
+                    "Nauruan",
+                    "Nepali",
+                    "New Zealander",
+                    "Nicaraguan",
+                    "Nigerien",
+                    "Nigerian",
+                    "North Korean",
+                    "North Macedonian",
+                    "Norwegian",
+                    "Omani",
+                    "Pakistani",
+                    "Palauan",
+                    "Palestinian",
+                    "Panamanian",
+                    "Papua New Guinean",
+                    "Paraguayan",
+                    "Peruvian",
+                    "Filipino",
+                    "Polish",
+                    "Portuguese",
+                    "Qatari",
+                    "Romanian",
+                    "Russian",
+                    "Rwandan",
+                    "Saint Lucian",
+                    "Saint Vincentian",
+                    "Samoan",
+                    "San Marinese",
+                    "São Toméan",
+                    "Saudi Arabian",
+                    "Senegalese",
+                    "Serbian",
+                    "Seychellois",
+                    "Sierra Leonean",
+                    "Singaporean",
+                    "Slovak",
+                    "Slovenian",
+                    "Solomon Islander",
+                    "Somali",
+                    "South African",
+                    "South Korean",
+                    "South Sudanese",
+                    "Spanish",
+                    "Sri Lankan",
+                    "Sudanese",
+                    "Surinamese",
+                    "Swedish",
+                    "Swiss",
+                    "Syrian",
+                    "Taiwanese",
+                    "Tajik",
+                    "Tanzanian",
+                    "Thai",
+                    "Togolese",
+                    "Tongan",
+                    "Trinidadian and Tobagonian",
+                    "Tunisian",
+                    "Turkish",
+                    "Turkmen",
+                    "Tuvaluan",
+                    "Ugandan",
+                    "Ukrainian",
+                    "Emirati",
+                    "British",
+                    "American",
+                    "Uruguayan",
+                    "Uzbek",
+                    "Vanuatuan",
+                    "Vatican",
+                    "Venezuelan",
+                    "Vietnamese",
+                    "Yemeni",
+                    "Zambian",
+                    "Zimbabwean",
+                    "Other"
+                  ].map((nation) => (
+                    <option key={nation} value={nation.toLowerCase()}>
+                      {nation}
+                    </option>
+                  ))}
                 </select>
               </div>
+
             </div>
             <div className="col-lg-4 col-md-4 col-sm-12">
               <div className="form-group">
@@ -903,9 +1141,208 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   aria-describedby="citizenshipError"
                 >
                   <option value="">--Choose--</option>
-                  <option value="indian">Indian</option>
-                  <option value="other">Other</option>
+                  {[
+                    "Afghanistan",
+                    "Albania",
+                    "Algeria",
+                    "Andorra",
+                    "Angola",
+                    "Antigua and Barbuda",
+                    "Argentina",
+                    "Armenia",
+                    "Australia",
+                    "Austria",
+                    "Azerbaijan",
+                    "Bahamas",
+                    "Bahrain",
+                    "Bangladesh",
+                    "Barbados",
+                    "Belarus",
+                    "Belgium",
+                    "Belize",
+                    "Benin",
+                    "Bhutan",
+                    "Bolivia",
+                    "Bosnia and Herzegovina",
+                    "Botswana",
+                    "Brazil",
+                    "Brunei",
+                    "Bulgaria",
+                    "Burkina Faso",
+                    "Burundi",
+                    "Cabo Verde",
+                    "Cambodia",
+                    "Cameroon",
+                    "Canada",
+                    "Central African Republic",
+                    "Chad",
+                    "Chile",
+                    "China",
+                    "Colombia",
+                    "Comoros",
+                    "Congo (Congo-Brazzaville)",
+                    "Costa Rica",
+                    "Croatia",
+                    "Cuba",
+                    "Cyprus",
+                    "Czech Republic",
+                    "Denmark",
+                    "Djibouti",
+                    "Dominica",
+                    "Dominican Republic",
+                    "East Timor (Timor-Leste)",
+                    "Ecuador",
+                    "Egypt",
+                    "El Salvador",
+                    "Equatorial Guinea",
+                    "Eritrea",
+                    "Estonia",
+                    "Eswatini",
+                    "Ethiopia",
+                    "Fiji",
+                    "Finland",
+                    "France",
+                    "Gabon",
+                    "Gambia",
+                    "Georgia",
+                    "Germany",
+                    "Ghana",
+                    "Greece",
+                    "Grenada",
+                    "Guatemala",
+                    "Guinea",
+                    "Guinea-Bissau",
+                    "Guyana",
+                    "Haiti",
+                    "Honduras",
+                    "Hungary",
+                    "Iceland",
+                    "India",
+                    "Indonesia",
+                    "Iran",
+                    "Iraq",
+                    "Ireland",
+                    "Israel",
+                    "Italy",
+                    "Jamaica",
+                    "Japan",
+                    "Jordan",
+                    "Kazakhstan",
+                    "Kenya",
+                    "Kiribati",
+                    "Korea, North",
+                    "Korea, South",
+                    "Kuwait",
+                    "Kyrgyzstan",
+                    "Laos",
+                    "Latvia",
+                    "Lebanon",
+                    "Lesotho",
+                    "Liberia",
+                    "Libya",
+                    "Liechtenstein",
+                    "Lithuania",
+                    "Luxembourg",
+                    "Madagascar",
+                    "Malawi",
+                    "Malaysia",
+                    "Maldives",
+                    "Mali",
+                    "Malta",
+                    "Marshall Islands",
+                    "Mauritania",
+                    "Mauritius",
+                    "Mexico",
+                    "Micronesia",
+                    "Moldova",
+                    "Monaco",
+                    "Mongolia",
+                    "Montenegro",
+                    "Morocco",
+                    "Mozambique",
+                    "Myanmar (Burma)",
+                    "Namibia",
+                    "Nauru",
+                    "Nepal",
+                    "Netherlands",
+                    "New Zealand",
+                    "Nicaragua",
+                    "Niger",
+                    "Nigeria",
+                    "North Macedonia",
+                    "Norway",
+                    "Oman",
+                    "Pakistan",
+                    "Palau",
+                    "Palestine",
+                    "Panama",
+                    "Papua New Guinea",
+                    "Paraguay",
+                    "Peru",
+                    "Philippines",
+                    "Poland",
+                    "Portugal",
+                    "Qatar",
+                    "Romania",
+                    "Russia",
+                    "Rwanda",
+                    "Saint Kitts and Nevis",
+                    "Saint Lucia",
+                    "Saint Vincent and the Grenadines",
+                    "Samoa",
+                    "San Marino",
+                    "Sao Tome and Principe",
+                    "Saudi Arabia",
+                    "Senegal",
+                    "Serbia",
+                    "Seychelles",
+                    "Sierra Leone",
+                    "Singapore",
+                    "Slovakia",
+                    "Slovenia",
+                    "Solomon Islands",
+                    "Somalia",
+                    "South Africa",
+                    "South Sudan",
+                    "Spain",
+                    "Sri Lanka",
+                    "Sudan",
+                    "Suriname",
+                    "Sweden",
+                    "Switzerland",
+                    "Syria",
+                    "Taiwan",
+                    "Tajikistan",
+                    "Tanzania",
+                    "Thailand",
+                    "Togo",
+                    "Tonga",
+                    "Trinidad and Tobago",
+                    "Tunisia",
+                    "Turkey",
+                    "Turkmenistan",
+                    "Tuvalu",
+                    "Uganda",
+                    "Ukraine",
+                    "United Arab Emirates",
+                    "United Kingdom",
+                    "United States",
+                    "Uruguay",
+                    "Uzbekistan",
+                    "Vanuatu",
+                    "Vatican City",
+                    "Venezuela",
+                    "Vietnam",
+                    "Yemen",
+                    "Zambia",
+                    "Zimbabwe"
+                  ].map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
                 </select>
+
               </div>
             </div>
             <div className="col-lg-4 col-md-4 col-sm-12">
@@ -927,12 +1364,21 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   aria-describedby="religionError"
                 >
                   <option value="">--Choose--</option>
-                  <option value="muslim">Muslim</option>
                   <option value="hindu">Hindu</option>
+                  <option value="muslim">Muslim</option>
+                  <option value="christian">Christian</option>
                   <option value="sikh">Sikh</option>
-                  <option value="isai">Isai</option>
+                  <option value="buddhist">Buddhist</option>
+                  <option value="jain">Jain</option>
+                  <option value="zoroastrian">Zoroastrian (Parsi)</option>
+                  <option value="jewish">Jewish</option>
+                  <option value="bahai">Baháʼí</option>
+                  <option value="animist">Animist</option>
+                  <option value="other">Other</option>
+                  <option value="not_specified">Prefer not to say</option>
                 </select>
               </div>
+
             </div>
           </div>
           <div className="row px-1 row-margin">
@@ -955,8 +1401,14 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   aria-describedby="bloodGroupError"
                 >
                   <option value="">--Choose--</option>
-                  <option value="a">A</option>
-                  <option value="b">B</option>
+                  <option value="O+">O+</option>
+                  <option value="B+">B+</option>
+                  <option value="A+">A+</option>
+                  <option value="AB+">AB+</option>
+                  <option value="O-">O-</option>
+                  <option value="A-">A-</option>
+                  <option value="B-">B-</option>
+                  <option value="AB-">AB-</option>
                 </select>
               </div>
             </div>

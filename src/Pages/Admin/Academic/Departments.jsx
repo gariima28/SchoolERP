@@ -9,6 +9,10 @@ import { DepartmentGetById } from 'src/Utils/Apis'
 import { DepartmentPutApi } from 'src/Utils/Apis'
 import { DepartmentSearchGetAllApi } from 'src/Utils/Apis'
 import { ClassGetApi } from 'src/Utils/Apis'
+
+// import styled from 'styled-components';
+// import { Link } from 'react-router-dom';
+// import toast, { Toaster } from 'react-hot-toast';
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ReactPaginate from 'react-paginate';
@@ -456,9 +460,9 @@ const Departments = () => {
   const [departmentData, setDepartmentData] = useState([])
   const [departmentDataById, setDepartmentDataById] = useState([])
   const [departmentName, setDepartmentName] = useState()
-  const [searchKey, setSearchKey] = useState('')
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
-
+  
+  const [searchKey, setSearchKey] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);

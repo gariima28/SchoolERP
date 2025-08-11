@@ -577,6 +577,7 @@ const Assign_publish = (props) => {
   const [showadd, setShowadd] = useState(true)
   const [hideedit, setHideedit] = useState(false)
   const [teacher, setTeacher] = useState()
+  console.log('teacher iddddddddddddddddd', teacher)
   const [totalMarks, setTotalMarks] = useState()
   const [startDay, setStartDay] = useState()
   const [endDay, setEndDay] = useState()
@@ -704,10 +705,10 @@ const Assign_publish = (props) => {
     setLoader(true)
     try {
       const response = await TeacherClassGetApi();
-      // // console.log('class-get-all-api in Assignment', response);
+      console.log('class-get-all-api in Assignment eidt', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
-        setClassdata(response?.data?.classes)
+        setClassdata(response?.data?.data)
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.message);
@@ -783,7 +784,7 @@ const Assign_publish = (props) => {
     setLoader(true)
     try {
       const response = await TeacherAssignmntDelete(id);
-      // console.log('delete api assignmnttttttt111', response)
+      console.log('delete api assignmnttttttt111', response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setShowdelete(false)
@@ -798,9 +799,11 @@ const Assign_publish = (props) => {
       } else {
         toast.error(response?.data?.message);
         setShowdelete(true)
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -810,7 +813,7 @@ const Assign_publish = (props) => {
     setLoader(true)
     try {
       const response = await TeacherAssignmntGetByIdApi(id);
-      console.log('Get all by id data--------00', response);
+      console.log('Get all by id data--------&&&&&', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setTitle(response?.data?.assignment?.title)
@@ -1046,14 +1049,13 @@ const Assign_publish = (props) => {
                   </div>
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Teacher</label>
-                    <select class="form-select  form-select-sm form-focus  label-color" value={teacher} onChange={(e) => setTeacher(e.target.value)} aria-label="Default select example">
+                    <select class="form-select  form-select-sm form-focus label-color" value={teacher} onChange={(e) => setTeacher(e.target.value)} aria-label="Default select example">
                       <option selected>--Choose--</option>
                       {
                         teacherData?.map(item =>
                           <option value={item.subjectId}>{item.staffName}</option>
                         )
                       }
-
                     </select>
                   </div>
                   <div class="mb-3">
@@ -1097,13 +1099,14 @@ const Assign_publish = (props) => {
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Status</label>
                     <select class="form-select  form-select-sm form-focus  label-color" value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Default select example">
                       <option >--Choose--</option>
-                      <option value="active">Active</option>
-                      <option value="inactive">InActive</option>
+                      <option value="PUBLISHED">Published</option>
+                      <option value="DRAFT">Draft</option>
+                      <option value="ARCHIVE">Archive</option>
 
                     </select>
                   </div>
                   <div className='my-button11 '>
-                    <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={MyAssignmntPutApi}>Update Assignment</button>
+                    <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{backgroundColor:'#008479', color:'#fff'}} onClick={MyAssignmntPutApi}>Update Assignment</button>
                     <button type="button" className="btn btn-outline-success heading-16">Cancel</button>
                   </div>
                 </div>

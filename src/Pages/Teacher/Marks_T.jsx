@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import HashLoader from 'src/Pages/HashLoaderCom';
-// import { TeacherClassGetApi } from 'src/Utils/Apis'
-// import { TeacherSectionRoomByIdGetApi } from 'src/Utils/Apis'
-// import { TeacherSubjectByClassIdInSyllabusGetAllApi } from 'src/Utils/Apis'
-// import { TeacherExamTermGetAll } from 'src/Utils/Apis'
-// import { TeacherSessionyGetAll } from 'src/Utils/Apis'
+import { TeacherClassGetApi } from 'src/Utils/Apis'
+import { TeacherSectionRoomByIdGetApi } from 'src/Utils/Apis'
+import { TeacherSubjectByClassIdInSyllabusGetAllApi } from 'src/Utils/Apis'
+import { TeacherExamTermGetAll } from 'src/Utils/Apis'
+import { TeacherSessionyGetAll } from 'src/Utils/Apis'
 import { TeacherMarksGetAll } from 'src/Utils/Apis'
-// import { TeacherMarksPostApi } from 'src/Utils/Apis'
+import { TeacherMarksPostApi } from 'src/Utils/Apis'
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ReactPaginate from 'react-paginate';
 
@@ -638,7 +638,7 @@ const Marks_T = () => {
 
   const [showdelete, setShowdelete] = useState(true)
   const [hidedelete, setHidedelete] = useState(false)
-  const [setClassdata, setSetClassdata] = useState([])
+  const [classdata, setClassdata] = useState([])
   const [sectionData, setSectionData] = useState([])
   const [subjectData, setSubjectData] = useState([])
   const [examTermData, setExamTermData] = useState([])
@@ -699,7 +699,7 @@ const Marks_T = () => {
       // console.log('class-get-all-api in Marks', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
-        setSetClassdata(response?.data?.classes)
+        setClassdata(response?.data?.data)
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.message);
@@ -732,8 +732,8 @@ const Marks_T = () => {
   const MySubjectByClassIdGetApi = async () => {
     setLoader(true)
     try {
-      const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classId);
-      // console.log('Subject-get-all-api in Marks', response);
+      const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classNo);
+      console.log('Subject-get-all-api in Marks', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setSubjectData(response?.data?.subjects)
@@ -752,10 +752,10 @@ const Marks_T = () => {
     setLoader(true)
     try {
       const response = await TeacherExamTermGetAll(searchKey);
-      // console.log('Exam Category-get-all-api in Marks', response);
+      console.log('Exam Category-get-all-api in Marks', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
-        setExamTermData(response?.data?.categories)
+        setExamTermData(response?.data?.data)
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.message);
@@ -794,6 +794,7 @@ const Marks_T = () => {
     // console.log('my section id s = ', val1)
     // console.log('my section no is = ', val2)
   }
+
   // Marks Post Api 
   const MyMarksPostApi = async (markId, studentId) => {
     const formData = new FormData()
@@ -833,11 +834,11 @@ const Marks_T = () => {
     }
   }
 
-  //   Get All 
+  //   Get All Api
   const MyMarksGetAll = async () => {
     setLoader(true)
     try {
-      const response = await TeacherMarksGetAll(sectionId, subjectId, sessionName, ExamTerm);
+      const response = await TeacherMarksGetAll(classNo,sectionId, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize);
       console.log('Marks All Data', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
@@ -855,6 +856,25 @@ const Marks_T = () => {
       setLoader(false)
       // console.log(error)
     }
+  }
+  const Handle = (e) => {
+    const value = e.target.value;
+    const [val1, val2] = value.split(',').map(item => item.trim());
+    setClassId(parseInt(val1));
+    setClassNo(val2);
+    // console.log('Class ID:', val1);
+    // console.log('Class No:', val2);
+  };
+
+  const HandleClear = () => {
+    setClassId('')
+    setClassNo('')
+    setExamTerm('')
+    setSectionId('')
+    setSectionName('')
+    setSubjectId('')
+    setSessionName('')
+    setMarksAllData([])
   }
 
   return (
@@ -886,26 +906,28 @@ const Marks_T = () => {
             <div className="col-lg-3 col-md-6 col-sm-12 ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Exam Category</label>
-                <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setExamTerm(e.target.value)} aria-label="Default select example">
-                  <option value="" >All Class</option>
+                <select class="form-select  form-select-sm form-focus label-color" value={ExamTerm} onChange={(e) => setExamTerm(e.target.value)} aria-label="Default select example">
+                  <option value="" >All Category</option>
                   {
                     examTermData?.map(item =>
-                      <option value={item.examTermName}>{item.examTermName}</option>
+                      <option value={item.examTermId}>{item.examTermName}</option>
                     )
                   }
-
                 </select>
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-sm-12 ">
-              <div class="mb-3">
+               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
-                <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
-                  <option value="" >All Class</option>
+                <select class="form-select  form-select-sm form-focus label-color"
+                  value={`${classId},${classNo}`}
+                  onChange={Handle}
+                  aria-label="Default select example">
+                  <option value="">--Choose--</option>
                   {
-                    setClassdata?.map(item =>
-                      <option value={item.classId}>{item.classNo}</option>
-                    )
+                    classdata?.map((item =>
+                      <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
+                    ))
                   }
                 </select>
               </div>
@@ -913,11 +935,11 @@ const Marks_T = () => {
             <div className="col-lg-2 col-md-6 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Section</label>
-                <select class="form-select  form-select-sm form-focus   label-color" onChange={(e) => HandleSection(e)} aria-label="Default select example">
+                <select class="form-select  form-select-sm form-focus   label-color" value={`${sectionId},${sectionName}`} onChange={(e) => HandleSection(e)} aria-label="Default select example">
                   <option value="">--Choose--</option>
                   {
                     sectionData?.map(item =>
-                      <option value={`${item.sectionId} , ${item.sectionName}`}>{item.sectionName}</option>
+                      <option value={`${item.sectionId},${item.sectionName}`}>{item.sectionName}</option>
                     )
                   }
                 </select>
@@ -926,7 +948,7 @@ const Marks_T = () => {
             <div className="col-lg-2 col-md-6 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Subject</label>
-                <select class="form-select  form-select-sm form-focus   label-color" onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm form-focus   label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
                   <option value="">--Choose--</option>
                   {
                     subjectData?.map(item =>
@@ -939,7 +961,7 @@ const Marks_T = () => {
             <div className="col-lg-3 col-md-6 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Session</label>
-                <select class="form-select  form-select-sm form-focus   label-color" onChange={(e) => setSessionName(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm form-focus   label-color" value={sessionName} onChange={(e) => setSessionName(e.target.value)} aria-label="Default select example">
                   <option value="">--Choose--</option>
                   {
                     sessionAllData?.map(item =>
@@ -954,7 +976,7 @@ const Marks_T = () => {
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success my-green" onClick={MyMarksGetAll}>Search</button>
-              <button type="button" class="btn btn-outline-success">Cancel</button>
+              <button type="button" class="btn btn-outline-success" onClick={HandleClear}>Cancel</button>
             </div>
           </div>
 

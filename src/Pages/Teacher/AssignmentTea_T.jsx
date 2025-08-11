@@ -511,12 +511,13 @@ const AssignmentTea_T = () => {
   const [classId, setClassId] = useState()
   const [sectionId, setSectionId] = useState('')
   const [subjectId, setSubjectId] = useState('')
+  console.log('subjectId--------------', subjectId)
   const [singleState, setSingleState] = useState('published');
   const [updateGetAll, setUpdateGetAll] = useState(false);
 
   const [isValidFromDateRequired, setIsValidFromDateRequired] = useState(false);
 
-  const PageNO = location.state;
+  // const PageNO = location.state;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -533,10 +534,9 @@ const AssignmentTea_T = () => {
       MySectionGetApi()
       MySubjectByClassIdGetApi()
     }
-
     MyAssignmntGetApi()
-    setPageNo(PageNO)
-  }, [classId, subjectId, sectionId, pageNo, PageNO])
+
+  }, [classId, subjectId, sectionId, pageNo])
 
   useEffect(() => {
     MyAssignmntGetApi()
@@ -603,8 +603,8 @@ const AssignmentTea_T = () => {
   const MyAssignmntGetApi = async () => {
     setLoader(true)
     try {
-      const response = await TeacherAssignmntGetAllApi(sectionId, subjectId, searchKey, pageNo, pageSize);
-      console.log('Assignmnt-get-all-api in Assignmenttttt_______ currentt error', response);
+      const response = await TeacherAssignmntGetAllApi(classId,sectionId, subjectId, searchKey, pageNo, pageSize);
+      console.log('Assignmnt get all api response*******', response);
       if (response?.status === 200) {
         setSearch(true)
         // toast.success(response?.data?.msg)
@@ -673,7 +673,7 @@ const AssignmentTea_T = () => {
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Section</label>
                 <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
-                  <option value="" >All Class</option>
+                  <option value="" >--Choose--</option>
                   {
                     sectionData?.map(item =>
                       <option value={item.sectionId}>{item.sectionName}</option>

@@ -54,13 +54,14 @@ const ExamSchedule = () => {
   const getAllOfflineExam = async () => {
     try {
       setloaderState(true);
-      var response = await getAllExamScheduleApi("", pageNo, pageSize, selectedExam);
+      var response = await getAllExamScheduleApi("", pageNo, pageSize);
       // console.log(response, 'offline exams')
       if (response?.status === 200) {
         if (response?.data?.status === "success") {
           setloaderState(false);
           setOfflineExamData(response?.data?.schedules);
-          setExamScheduleSearch(true)
+          setCurrentPage(response?.data?.currentPage);
+          setTotalPages(response?.data?.totalPages);
           // toast.success(response.data.message);
         } else {
           setloaderState(false);
@@ -80,7 +81,7 @@ const ExamSchedule = () => {
     setPageNo(event.selected + 1); // as event start from 0 index
   };
 
-  const getAllExamTermData = async () => {
+  const getAllExamTermData = async (search = "") => {
     try {
       setloaderState(true);
       const response = await getExamTermDataApi("", "", "");

@@ -258,8 +258,7 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
               <form className="p-3" onSubmit={handleSubmit(UpdateSamplePaper)}>
                 <div className="mb-3">
                   <label
-                    htmlF
-                    or="exampleInputEmail1"
+                    htmlF or="exampleInputEmail1"
                     className="form-label font14"
                   >
                     Title <span className="text-danger">*</span>
@@ -437,8 +436,9 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
                     })}
                   >
                     <option value="">-- Select --</option>
-                    <option value="ACTIVE">Active</option>
-                    <option value="INACTIVE">Inactive</option>
+                    <option value="Active">Active</option>
+                    <option value="Draft">Draft</option>
+                    <option value="Archives">Archives</option>
                   </select>
                   {errors.status && (
                     <p className="font12 text-danger">

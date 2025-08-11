@@ -10,9 +10,9 @@ import { TeacherSubjectByClassIdInSyllabusGetAllApi } from 'src/Utils/Apis'
 import { TeacherGetTeacherGetAll } from 'src/Utils/Apis'
 import { TeacherSampleGetAllApi } from 'src/Utils/Apis'
 import { TeacherSampleGetByIdApi } from 'src/Utils/Apis'
-import { TeacherSamplePDF } from 'src/Utils/Apis'
-import { TeacherSampleDeleteApi } from 'src/Utils/Apis'
-import { TeacherSamplePutApi } from 'src/Utils/Apis'
+import { TeacherSamplePDF } from 'src/Utils/Apis';
+import { TeacherSampleDeleteApi } from 'src/Utils/Apis';
+import { TeacherSamplePutApi } from 'src/Utils/Apis';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
@@ -365,6 +365,10 @@ font-size: 12px;
     opacity: var(--bs-btn-disabled-opacity);
 }
 .my-form-check-input:checked{
+  background-color: #008479;
+  border-color: #008479;
+} 
+.my-form-check-input2:checked{
   background-color: #B50000;
   border-color: #B50000;
 } 
@@ -532,20 +536,25 @@ const Sample_paper = () => {
     const [hideedit, setHideedit] = useState(false)
     const [showdelete, setShowdelete] = useState(true)
     const [hidedelete, setHidedelete] = useState(false)
-    const [classId, setClassId] = useState()
+
+
     const [idForUpdate, setIdForUpdate] = useState()
     const [idForDelte, setIdForDelete] = useState()
     const [sectionId, setSectionId] = useState()
-    const [subjectId, setSubjectId] = useState()
-    const [teacherId, setTeacherId] = useState()
-    const [file, setFile] = useState()
-    const [status, setStatus] = useState()
-    const [classdata, setClassdata] = useState([])
-    const [sectionData, setSectionData] = useState([])
     const [subjectData, setSubjectData] = useState([])
     const [teacherData, setTeachertData] = useState([])
+    const [classdata, setClassdata] = useState([])
     const [sampleData, setSampleDataAll] = useState([])
+
+    const [status, setStatus] = useState()
+    const [file, setFile] = useState()
+    const [teacherId, setTeacherId] = useState()
+    const [subjectId, setSubjectId] = useState()
+    const [sectionData, setSectionData] = useState([])
+    const [classId, setClassId] = useState('')
+    const [classNo, setClassNo] = useState('')
     const [title, setTitle] = useState()
+
     const [isValidTitleRequired, setIsValidTitleRequired] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -554,6 +563,15 @@ const Sample_paper = () => {
     const [pageSize, setPageSize] = useState(10);
     const [idForPDF, setIdForPDF] = useState()
     const [PDFResponse, setPDFResponse] = useState()
+    const [selectedSectionIds, setSelectedSectionIds] = useState([]);
+    // console.log('section ids array', selectedSectionIds)
+
+
+    const [coverPage, setCoverPage] = useState()
+    const [updateStatus, setUpdateStatus] = useState()
+    const [manageButton, setManageButton] = useState(false);
+    const [imageFile, setImageFile] = useState()
+
 
     const handlePageClick = (event) => {
         setPageNo(event.selected + 1);
@@ -598,11 +616,14 @@ const Sample_paper = () => {
             toast.error('An error occurred while downloading the PDF.');
         }
     };
+    // useEffect(() => {
+    //     if (token) {
+    //         UpdatClassGetApi();
+    //     }
+    // }, [token]);
     useEffect(() => {
-        if (token) {
-            UpdatClassGetApi();
-        }
-    }, [token]);
+        UpdatClassGetApi();
+    }, []);
 
     useEffect(() => {
         if (token || pageNo) {
@@ -612,18 +633,19 @@ const Sample_paper = () => {
             MySectionGetApi();
             MySubjectByClassIdGetApi();
         }
-        if (classId && subjectId) {
+        if (classId) {
             MyTeacherByClassIdGetApi();
         }
-    }, [token, classId, subjectId, pageNo]);
-
+    }, [token, classId, pageNo]);
+    useEffect(() => {
+        MyTeacherByClassIdGetApi()
+    }, [subjectId])
     // ###### validation ##########
     const [errors, setErrors] = useState({});
 
 
     const FuncValidation = () => {
         let isValid = true;
-
         // title
         if (!title || title === "" || !/^[A-Za-z\s]+$/.test(title)) {
             setIsValidTitleRequired(true)
@@ -654,10 +676,10 @@ const Sample_paper = () => {
         setLoader(true)
         try {
             const response = await TeacherClassGetApi();
-            // console.log('class-get-all-api in Marks', response);
+            console.log('class-get-all-api in Marks', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
-                setClassdata(response?.data?.classes)
+                setClassdata(response?.data?.data)
                 setLoader(false)
             } else {
                 toast.error(response?.data?.classes?.message);
@@ -672,7 +694,7 @@ const Sample_paper = () => {
         setLoader(true)
         try {
             const response = await TeacherSectionRoomByIdGetApi(classId);
-            // console.log('SECTION-get-all-api in sample paper', response);
+            console.log('Section data in sample paper', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.message)
                 setSectionData(response?.data?.allSections)
@@ -685,14 +707,12 @@ const Sample_paper = () => {
             // console.log(error)
         }
     }
-
     // Subject by class id From class get all api 
     const MySubjectByClassIdGetApi = async (id) => {
-
         setLoader(true)
         try {
-            const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classId);
-            // console.log('Subject-get-all-api in sample paper', response);
+            const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classNo);
+            console.log('Subject-get-all-api in sample paper', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
                 setSubjectData(response?.data?.subjects)
@@ -710,7 +730,7 @@ const Sample_paper = () => {
         setLoader(true)
         try {
             const response = await TeacherGetTeacherGetAll(classId, subjectId);
-            // console.log('Teacher-get-all-api in Sample paper', response);
+            console.log('Teacher data in Sample paper', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
                 setTeachertData(response?.data?.teacher)
@@ -728,7 +748,7 @@ const Sample_paper = () => {
     const offcanvasRef22 = useRef(null);
     const offcanvasRef33 = useRef(null);
 
-    // post Api 
+    // post Api sample paper
     const SampleDataApi = async () => {
         if (FuncValidation()) {
             setLoader(true)
@@ -736,7 +756,7 @@ const Sample_paper = () => {
                 const formData = new FormData()
                 formData.append('title', title);
                 formData.append('ClassId', classId);
-                formData.append('sectionId', sectionId);
+                formData.append('sectionIds', selectedSectionIds);
                 formData.append('subjectId', subjectId);
                 formData.append('teacherId', teacherId);
                 formData.append('status', status);
@@ -748,12 +768,14 @@ const Sample_paper = () => {
                         setShow(false)
                         setHide(true)
                         setLoader(false)
-                        setTitle('')
-                        setClassId('')
-                        setSectionId('')
-                        setSubjectId('')
-                        setTeacherId('')
                         setStatus('')
+                        setFile('')
+                        setTeacherId('')
+                        setSubjectId('')
+                        setSectionData([])
+                        setClassId('')
+                        setClassNo('')
+                        setTitle('')
                         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
                         offcanvasInstance.hide();
                         setTimeout(() => {
@@ -762,9 +784,11 @@ const Sample_paper = () => {
                     } else {
                         toast.error(response?.data?.message);
                         setShow(true)
+                        setLoader(false)
                     }
                 } catch (error) {
                     setloaderState(false);
+                    setLoader(false)
                     // console.log(error)
                 }
             }
@@ -775,7 +799,7 @@ const Sample_paper = () => {
     const MySampleGetApi = async () => {
         setLoader(true)
         try {
-            const response = await TeacherSampleGetAllApi(searchKey, pageNo, pageSize);
+            const response = await TeacherSampleGetAllApi(searchKey, pageNo, pageSize, classId, sectionId, subjectId);
             // console.log('Get-get-all-api in Sample-----', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
@@ -792,7 +816,6 @@ const Sample_paper = () => {
             // console.log(error)
         }
     }
-
     // Delete api
     const MySampleDeleteApi = async (id) => {
         setLoader(true)
@@ -804,6 +827,7 @@ const Sample_paper = () => {
 
                 setShowdelete(false)
                 setLoader(false)
+                MySampleGetApi()
                 const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
                 offcanvasInstance.hide();
                 setTimeout(() => {
@@ -818,14 +842,13 @@ const Sample_paper = () => {
             // console.log(error)
         }
     }
-
     // Get By Id
     const MySampleGetByIdApi = async (id) => {
         setIdForUpdate(id)
         setLoader(true)
         try {
             const response = await TeacherSampleGetByIdApi(id);
-            // console.log('Get by id data in sample paperrrrrr', response);
+            console.log('Get by id data in sample paperrrrrr', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
                 setTitle(response?.data?.SamplePaper?.title)
@@ -834,6 +857,9 @@ const Sample_paper = () => {
                 setSubjectId(response?.data?.SamplePaper?.subjectId)
                 setTeacherId(response?.data?.SamplePaper?.teacherId)
                 setStatus(response?.data?.SamplePaper?.status)
+                setImageFile(response?.data?.SamplePaper?.samplePaperPath)
+                setCoverPage(response?.data?.SamplePaper?.samplePaperPath)
+                setUpdateStatus(response?.data?.status)
 
                 setLoader(false)
             } else {
@@ -844,7 +870,6 @@ const Sample_paper = () => {
             // console.log(error)
         }
     }
-
     //  Put api sample
     const MySamplePutApi = async () => {
         if (FuncValidation()) {
@@ -853,16 +878,18 @@ const Sample_paper = () => {
                 const formData = new FormData()
                 formData.append('title', title);
                 formData.append('ClassId', classId);
-                formData.append('sectionId', sectionId);
+                formData.append('sectionIds', sectionId);
+                // formData.append('sectionIds', selectedSectionIds);
                 formData.append('subjectId', subjectId);
                 formData.append('teacherId', teacherId);
                 formData.append('status', status);
+                formData.append('file', imageFile);
 
                 const response = await TeacherSamplePutApi(idForUpdate, formData);
                 // console.log('My-Sample-put-Api-response', response)
 
                 if (response?.status === 200) {
-                    toast.success(response?.data?.mess);
+                    toast.success(response?.data?.message);
                     setShowadd(false)
                     setHideedit(true)
                     MySampleGetApi()
@@ -873,7 +900,7 @@ const Sample_paper = () => {
                         setShowadd(true)
                     }, 0.5)
                 } else {
-                    toast.error(response?.data?.msg);
+                    toast.error(response?.data?.message);
                     setShowadd(true)
                 }
 
@@ -883,7 +910,6 @@ const Sample_paper = () => {
             }
         }
     }
-
     const ClearData = () => {
         setTitle('')
         setClassId('')
@@ -892,9 +918,45 @@ const Sample_paper = () => {
         setTeacherId('')
         setStatus('')
         setIsValidTitleRequired(false)
+        setSampleDataAll([])
     }
+    const Handle = (e) => {
+        const value = e.target.value;
+        const [val1, val2] = value.split(',').map(item => item.trim());
+        setClassId(parseInt(val1));
+        setClassNo(val2);
+        console.log('Class ID:', val1);
+        console.log('Class No:', val2);
+    };
+    const handleCheckboxChange = (leaveType) => {
+        setSelectedSectionIds(prev => {
+            if (prev.includes(leaveType)) {
+                // Remove if already exists
+                return prev.filter(item => item !== leaveType);
+            } else {
+                // Add if not exists
+                return [...prev, leaveType];
+            }
+        });
+    };
+    const buttManage = () => {
+        setManageButton(!manageButton)
+    }
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setImageFile(file);
+    };
+    const HandleClear = () => {
+        setStatus('')
+        setFile('')
+        setTeacherId('')
+        setSubjectId('')
+        setSectionData([])
+        setClassId('')
+        setClassNo('')
+        setTitle('')
 
-
+    }
     return (
         <Container>
             {
@@ -915,7 +977,7 @@ const Sample_paper = () => {
                     </div>
                     <div className='d-flex g-1 for-media-query'>
 
-                        <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={''}>+ Add Sample Paper</Link>
+                        <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={HandleClear}>+ Add Sample Paper</Link>
                     </div>
                 </div>
                 <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-12px' }}>Sample Paper Details</h5>
@@ -926,14 +988,16 @@ const Sample_paper = () => {
                         <div className="col-lg-4 col-md-6 col-sm-12 ">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
-                                <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
-                                    <option value="" >--Choose--</option>
+                                <select class="form-select  form-select-sm form-focus label-color"
+                                    value={`${classId},${classNo}`}
+                                    onChange={Handle}
+                                    aria-label="Default select example">
+                                    <option value="">--Choose--</option>
                                     {
-                                        classdata?.map(item =>
-                                            <option value={item.classId}>{item.classNo}</option>
-                                        )
+                                        classdata?.map((item =>
+                                            <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
+                                        ))
                                     }
-
                                 </select>
                             </div>
                         </div>
@@ -941,7 +1005,7 @@ const Sample_paper = () => {
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Section</label>
                                 <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
-                                    <option value="" >A--Choose--</option>
+                                    <option value="" >--Choose--</option>
                                     {
                                         sectionData?.map(item =>
                                             <option value={item.sectionId}>{item.sectionName}</option>
@@ -953,7 +1017,7 @@ const Sample_paper = () => {
                         <div className="col-lg-4 col-md-6 col-sm-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Subject</label>
-                                <select class="form-select  form-select-sm form-focus  label-color" onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
+                                <select class="form-select  form-select-sm form-focus  label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
                                     <option selected>--Choose--</option>
                                     {
                                         subjectData?.map(item =>
@@ -969,7 +1033,7 @@ const Sample_paper = () => {
                     <div className="row mb-3 buttons-topss">
                         <div className='my-button11 heading-16'>
                             <button type="button" class="btn btn-outline-success my-green" onClick={MySampleGetApi}>Search</button>
-                            <button type="button" class="btn btn-outline-success">Cancel</button>
+                            <button type="button" class="btn btn-outline-success" onClick={HandleClear}>Cancel</button>
                         </div>
                     </div>
 
@@ -1060,7 +1124,7 @@ const Sample_paper = () => {
                         <>
                             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
                                 <div className="offcanvas-header">
-                                    <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                                    <Link data-bs-dismiss="offcanvas" onClick={HandleClear}><img src="/images/Vector (13).svg" alt="" /></Link>
                                     <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Sample Paper</h5>
                                 </div>
                                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1078,28 +1142,65 @@ const Sample_paper = () => {
                                     </div>
 
 
-                                    <div className="mb-1  ">
-                                        <label for="exampleFormControlInput1" className="form-label  heading-16">Class</label>
-                                        <select class="form-select  form-select-sm form-focus  label-color" value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
-                                            <option selected>--Choose--</option>
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
+                                        <select class="form-select  form-select-sm form-focus label-color"
+                                            value={`${classId},${classNo}`}
+                                            onChange={Handle}
+                                            aria-label="Default select example">
+                                            <option value="">--Choose--</option>
                                             {
-                                                classdata?.map(item =>
-                                                    <option value={item.classId}>{item.classNo}</option>
-                                                )
+                                                classdata?.map((item =>
+                                                    <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
+                                                ))
                                             }
                                         </select>
                                     </div>
-                                    <div className="mb-1  ">
-                                        <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
-                                        <select class="form-select  form-select-sm form-focus   label-color" value={sectionId} onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
-                                            <option selected>--Choose--</option>
-                                            {
-                                                sectionData?.map(item =>
-                                                    <option value={item.sectionId}>{item.sectionName}</option>
-                                                )
-                                            }
-                                        </select>
+                                    <div className="row">
+                                        <div className="col-12 mb-2">
+                                            <label>Section</label>
+                                        </div>
+
+                                        {sectionData && sectionData.length > 0 ? (
+                                            sectionData?.map((item, index) => (
+                                                <div key={index} className="col-md-6 mb-3">
+                                                    <div
+                                                        className="d-flex justify-content-between align-items-center section-item"
+                                                        style={{
+                                                            backgroundColor: '#dddddd',
+                                                            padding: '10px',
+                                                            borderRadius: '5px'
+                                                        }}
+                                                    >
+                                                        <label
+                                                            htmlFor={`sectionId-${index}`}
+                                                            className="form-label heading-14 mb-0"
+                                                        >
+                                                            {item?.sectionName}
+                                                        </label>
+                                                        <input
+                                                            className="form-check-input my-form-check-input"
+                                                            type="checkbox"
+                                                            id={`sectionId-${index}`}
+                                                            checked={selectedSectionIds.includes(item.sectionId)}
+                                                            onChange={() => handleCheckboxChange(item.sectionId)}
+                                                            style={{
+                                                                width: '18px',
+                                                                height: '18px',
+                                                                flexShrink: 0,
+                                                                border: '1px solid #000',
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="col-12">
+                                                <p className="text-muted">No sections available...</p>
+                                            </div>
+                                        )}
                                     </div>
+
                                     <div className="mb-1  ">
                                         <label for="exampleFormControlInput1" className="form-label  heading-16">Subject</label>
                                         <select class="form-select  form-select-sm form-focus  label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
@@ -1131,12 +1232,12 @@ const Sample_paper = () => {
                                         <select class="form-select  form-select-sm form-focus   label-color" value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Default select example">
                                             <option selected>--Choose--</option>
 
-                                            <option value='true'>True</option>
-                                            <option value='false'>False</option>
+                                            <option value='ACTIVE'>Active</option>
+                                            <option value='INACTIVE'>InActive</option>
                                         </select>
                                     </div>
                                     <div className='my-button11 '>
-                                        <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={SampleDataApi} >Add Smaple</button>
+                                        <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={SampleDataApi} style={{ backgroundColor: '#008479', color: '#fff' }} >Add Smaple</button>
                                         <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                                     </div>
                                 </div>
@@ -1208,18 +1309,51 @@ const Sample_paper = () => {
                                             }
                                         </select>
                                     </div>
+                                    <div className='row pe-1 '>
+                                        <div className='col-lg-12 col-md-12 col-sm-12 pe-0'>
+                                            {
+                                                updateStatus === "success"
+                                                    ?
+                                                    <div class="mb-3 " style={{ display: 'flex', }}>
+                                                        <div className='w-100'>
+                                                            <label for="exampleFormControlInput1" className="form-label heading-14 label-color">Upload Image </label>
+                                                            {
+                                                                manageButton ?
+                                                                    <input type="file" class="form-control" id="exampleFormControlInput1" onChange={handleFileChange} placeholder="select file" accept='.jpg, .png, .jpeg' />
+                                                                    :
+                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" value={coverPage} placeholder="name@example.com" />
+                                                            }
+                                                        </div>
+                                                        <div style={{ margin: 'auto', paddingTop: '30px', paddingLeft: '5px' }}>
+                                                            {
+                                                                manageButton ? (
+                                                                    <button type="button" class="btn btn-outline-success my-green heading-14 " onClick={buttManage} >View </button>
+                                                                )
+                                                                    :
+                                                                    (
+                                                                        <button type="button" class="btn btn-outline-success my-green heading-14 " onClick={buttManage}>Edit</button>
+                                                                    )
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    :
+                                                    <div className="mb-3  for-media-margin">
+                                                        <label for="exampleFormControlInput1" className="form-label heading-14 label-color">User Image <span style={{ color: 'red' }}>*</span></label>
+                                                        <input type="file" className="form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color" onChange={handleFileChange} style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput12" placeholder="Doe" />
+                                                    </div>
+                                            }
+                                        </div>
+                                    </div>
                                     <div className="mb-1  ">
                                         <label for="exampleFormControlInput1" className="form-label   heading-16">Status</label>
                                         <select class="form-select  form-select-sm form-focus   label-color" value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Default select example">
                                             <option selected>--Choose--</option>
-
-                                            <option value='true'>True</option>
-                                            <option value='false'>False</option>
-
+                                            <option value='ACTIVE'>Active</option>
+                                            <option value='INACTIVE'>InActive</option>
                                         </select>
                                     </div>
                                     <div className='my-button11 '>
-                                        <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={MySamplePutApi}>Update Smaple</button>
+                                        <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MySamplePutApi}>Update Smaple</button>
                                         <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                                     </div>
                                 </div>
@@ -1261,7 +1395,7 @@ const Sample_paper = () => {
                                                 <p>This Action will be permanently <br /> delete the Profile Data</p>
                                             </div>
                                             <div className="form-check mt-1">
-                                                <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
+                                                <input className="form-check-input my-form-check-input2" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
                                                 <label className="form-check-label agree" for="flexCheckDefault">
                                                     I Agree to delete the Profile Data
                                                 </label>

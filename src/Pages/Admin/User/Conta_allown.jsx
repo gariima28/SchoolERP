@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import { Conatct_allowance_getById, Conatct_allowance_PutApi, getAllHRAllowanceName, AssignAllowanceToStaff, getAllHRAllowanceByStaffID, DeleteItemAssignAllowanceToStaff } from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
+const Conta_allown = () => {
 
-const Conta_allown = ({ data }) => {
+  const { myId, setMyId } = useContext(MyUseContext)
+  const myUserID = myId !== undefined ? myId : '';
 
-  const token = localStorage.getItem('token');
-
-  const { transferId, myUserId } = data;
-  const MyUserID = localStorage.getItem('MyUserID');
   const [loaderState, setLoaderState] = useState(false);
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
@@ -31,7 +30,9 @@ const Conta_allown = ({ data }) => {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    MyStaffGetById();
+    if (myUserID) {
+      MyStaffGetById();
+    }
     getAllAllowanceName();
   }, []);
 
@@ -120,15 +121,10 @@ const Conta_allown = ({ data }) => {
     }
   };
 
-
-
-
-
-
   const MyStaffGetById = async () => {
     setLoader(true);
     try {
-      const response = await Conatct_allowance_getById(MyUserID);
+      const response = await Conatct_allowance_getById(myUserID);
       if (response?.status === 200) {
         setUpdateStatus(response?.data?.status);
         setSetAllowanceDataOfStaff(response.data.allowance || []);
@@ -148,11 +144,10 @@ const Conta_allown = ({ data }) => {
   };
 
 
-
   const getAllAllowanceNameByStaffId = async () => {
     try {
       setLoaderState(true);
-      const response = await getAllHRAllowanceByStaffID(MyUserID);
+      const response = await getAllHRAllowanceByStaffID(myUserID);
       if (response?.status === 200 && response?.data?.status === 'success') {
         setSetAllowanceDataOfStaff(response.data.allowance || []);
         setTotalPages(response.data.totalPages || 1);
@@ -177,7 +172,7 @@ const Conta_allown = ({ data }) => {
     formData.append('amount', amount);
     setLoader(true);
     try {
-      const response = await AssignAllowanceToStaff(MyUserID, formData);
+      const response = await AssignAllowanceToStaff(myUserID, formData);
       console.log(response, "Update Allowance");
       if (response?.status === 200) {
         getAllAllowanceNameByStaffId();
@@ -209,7 +204,7 @@ const Conta_allown = ({ data }) => {
   const handleDelete = async (ids) => {
     setLoader(true);
     try {
-      const response = await DeleteItemAssignAllowanceToStaff(MyUserID, ids);
+      const response = await DeleteItemAssignAllowanceToStaff(myUserID, ids);
       if (response?.data?.status === "success") {
         toast.success('Allowance deleted successfully');
         getAllAllowanceNameByStaffId();

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { personal_Emergeny__GetById, EmergencyPostApi, EmergencyPutApi, EmergencyDeleteApi, getEmergencyByEmergencyId } from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
 
 const Container = styled.div`
   .form-container {
@@ -180,7 +181,9 @@ const Container = styled.div`
 `;
 
 const Per_info_emer_cont = () => {
-  const MyUserID = localStorage.getItem('MyUserID');
+
+  const { myId, setMyId } = useContext(MyUseContext)
+  const myUserID = myId !== undefined ? myId : '';
 
   // State Management
   const [loader, setLoader] = useState(false);
@@ -212,15 +215,15 @@ const Per_info_emer_cont = () => {
 
   // Fetch emergency contacts
   useEffect(() => {
-    if (MyUserID) {
+    if (myUserID) {
       fetchEmergencyContacts();
     }
-  }, [MyUserID, currentPage, pageSize]);
+  }, [ currentPage, pageSize]);
 
   const fetchEmergencyContacts = async () => {
     setLoader(true);
     try {
-      const response = await personal_Emergeny__GetById(MyUserID, currentPage, pageSize);
+      const response = await personal_Emergeny__GetById(myUserID, currentPage, pageSize);
       if (response?.status === 200 && response?.data?.status === 'success') {
         setEmergencyContacts(response?.data?.emergency || []);
         setTotalPages(response?.data?.totalPages || 1);
@@ -228,9 +231,6 @@ const Per_info_emer_cont = () => {
         toast.error(response?.data?.msg || 'Failed to fetch emergency contacts');
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('MyUserID');
-      }
       toast.error('Failed to fetch emergency contacts');
     } finally {
       setLoader(false);
@@ -294,7 +294,7 @@ const Per_info_emer_cont = () => {
 
       setLoader(true);
       try {
-        const response = await EmergencyPostApi(MyUserID, formData);
+        const response = await EmergencyPostApi(myUserID, formData);
         if (response?.data?.status === 'success') {
           toast.success(response?.data?.message);
           setStatus(response?.data?.status);
@@ -304,9 +304,6 @@ const Per_info_emer_cont = () => {
           toast.error(response?.data?.message || 'Failed to save emergency contact');
         }
       } catch (error) {
-        if (error?.response?.data?.statusType === 401) {
-          localStorage.removeItem('MyUserID');
-        }
         toast.error('Failed to save emergency contact');
       } finally {
         setLoader(false);
@@ -329,9 +326,6 @@ const Per_info_emer_cont = () => {
         toast.error(response?.data?.msg || 'Failed to fetch emergency contact');
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('MyUserID');
-      }
       toast.error('Failed to fetch emergency contact');
     } finally {
       setLoader(false);
@@ -361,9 +355,6 @@ const Per_info_emer_cont = () => {
         toast.error(response?.data?.message || 'Failed to update emergency contact');
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('MyUserID');
-      }
       toast.error('Failed to update emergency contact');
     } finally {
       setLoader(false);
@@ -380,7 +371,7 @@ const Per_info_emer_cont = () => {
     if (!isDeleteConfirmed) return;
     setLoader(true);
     try {
-      const response = await EmergencyDeleteApi(MyUserID, deleteContactId);
+      const response = await EmergencyDeleteApi(myUserID, deleteContactId);
       if (response?.data?.status === 'success') {
         toast.success(response?.data?.message);
         fetchEmergencyContacts();
@@ -395,9 +386,6 @@ const Per_info_emer_cont = () => {
         toast.error(response?.data?.message || 'Failed to delete emergency contact');
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('MyUserID');
-      }
       toast.error('Failed to delete emergency contact');
     } finally {
       setLoader(false);
