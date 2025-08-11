@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { DocumentPostApi, DocumentPutApi, DocumentDeleteApi, getDocumentByDocumentId, getDocumentByStaffId} from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
 
 
 const Container = styled.div`
@@ -188,9 +189,10 @@ const Container = styled.div`
   }
 `;
 
-const User_Documnt = ({ data }) => {
-  const staffId = data;
-  const MyUserID = localStorage.getItem('MyUserID');
+const User_Documnt = () => {
+
+  const { myId, setMyId } = useContext(MyUseContext)
+  const myUserID = myId !== undefined ? myId : '';
 
   // State Management
   const [loader, setLoader] = useState(false);
@@ -221,15 +223,15 @@ const User_Documnt = ({ data }) => {
 
   // Fetch documents
   useEffect(() => {
-    if (MyUserID) {
+    if (myUserID) {
       fetchDocuments();
     }
-  }, [MyUserID, pageNo, pageSize]);
+  }, [ pageNo, pageSize]);
 
   const fetchDocuments = async () => {
     setLoader(true);
     try {
-      const response = await getDocumentByStaffId(MyUserID, { pageNo, pageSize });
+      const response = await getDocumentByStaffId(myUserID, { pageNo, pageSize });
       if (response?.status === 200 && response?.data?.status === 'success') {
         setDocuments(response?.data?.documents || []);
         setTotalPages(response?.data?.totalPages || 1);
@@ -237,9 +239,7 @@ const User_Documnt = ({ data }) => {
         toast.error(response?.data?.msg || 'Failed to fetch documents');
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('MyUserID');
-      }
+  
       toast.error('Failed to fetch documents');
     } finally {
       setLoader(false);
@@ -294,11 +294,11 @@ const User_Documnt = ({ data }) => {
       const formData = new FormData();
       formData.append('docName', docName);
       formData.append('docPath', imageFile);
-      formData.append('staffId', MyUserID);
+      formData.append('staffId', myUserID);
 
       setLoader(true);
       try {
-        const response = await DocumentPostApi(MyUserID, formData);
+        const response = await DocumentPostApi(myUserID, formData);
         if (response?.data?.status === 'success') {
           toast.success(response?.data?.message);
           fetchDocuments();
@@ -307,9 +307,6 @@ const User_Documnt = ({ data }) => {
           toast.error(response?.data?.message || 'Failed to add document');
         }
       } catch (error) {
-        if (error?.response?.data?.statusType === 401) {
-          localStorage.removeItem('MyUserID');
-        }
         toast.error('Failed to add document');
       } finally {
         setLoader(false);
@@ -331,9 +328,6 @@ const User_Documnt = ({ data }) => {
         toast.error(response?.data?.msg || 'Failed to fetch document');
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('MyUserID');
-      }
       toast.error('Failed to fetch document');
     } finally {
       setLoader(false);
@@ -366,9 +360,6 @@ const User_Documnt = ({ data }) => {
         toast.error(response?.data?.message || 'Failed to update document');
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('MyUserID');
-      }
       toast.error('Failed to update document');
     } finally {
       setLoader(false);
@@ -385,7 +376,7 @@ const User_Documnt = ({ data }) => {
     if (!isDeleteConfirmed) return;
     setLoader(true);
     try {
-      const response = await DocumentDeleteApi(MyUserID, deleteDocumentId);
+      const response = await DocumentDeleteApi(myUserID, deleteDocumentId);
       if (response?.data?.status === 'success') {
         toast.success(response?.data?.message);
         fetchDocuments();
@@ -400,9 +391,6 @@ const User_Documnt = ({ data }) => {
         toast.error(response?.data?.message || 'Failed to delete document');
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('MyUserID');
-      }
       toast.error('Failed to delete document');
     } finally {
       setLoader(false);

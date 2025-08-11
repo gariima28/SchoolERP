@@ -137,7 +137,6 @@ const DashboardPage = () => {
 
   }, [token, timeTableDay]);
 
-
   const ToLowerCase = (value) => {
     setTimeTableDay(value.toLowerCase());
   }
@@ -551,8 +550,8 @@ const DashboardPage = () => {
                 </div>
               </div>
               <div className="row">
-                {HolidayData.map((item) => (
-                  <div className="col-4 p-2" key={item.holidayId}>
+                {HolidayData?.map((item) => (
+                  <div className="col-6 p-2" key={item.holidayId}>
                     <div className="holidayCard p-4">
                       <p className='font16 text-center'>{item.holidayTitle}</p>
                       <p className='greyText font14 text-center'>{item.holidayDate}</p>

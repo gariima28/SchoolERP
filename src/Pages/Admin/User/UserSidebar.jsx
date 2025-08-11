@@ -4,7 +4,6 @@ import { NavLink, useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { MyUseContext } from '../ContextApi/UseContext';
 
-// Styled components (unchanged)
 const Container = styled.div`
   .main-body {
     background-color: #F2F3F6;
@@ -116,6 +115,9 @@ const Container = styled.div`
     padding: 12px 16px;
     border-radius: 8px;
     transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
   }
   .nav-link:hover {
     background-color: #f8f8f8;
@@ -128,10 +130,28 @@ const Container = styled.div`
     font-weight: 600;
   }
   .my-nav-link {
-    color: #000 !important;
-    background-color: #f0f0f0 !important;
-    pointer-events: none !important;
-    border-radius: 8px;
+    color: #666 !important;
+    background-color: #EDF5F6 !important;
+    opacity: 0.6;
+    pointer-events: fill !important;
+    position: relative;
+  }
+  .my-nav-link:hover::after {
+    content: 'Please complete Basic Information first';
+    position: absolute;
+    top: -10px; /* Adjusted to appear above the tab */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1d1d1d;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    pointer-events: none; /* Ensure tooltip doesn't interfere with hover */
   }
   @media only screen and (max-width: 1260px) {
     .mainContainer img {
@@ -159,6 +179,11 @@ const Container = styled.div`
     .nav-link {
       padding: 10px 12px;
     }
+    .my-nav-link:hover::after {
+      font-size: 10px;
+      padding: 4px 8px;
+      top: -25px; /* Adjusted for smaller screens */
+    }
   }
 `;
 
@@ -169,15 +194,9 @@ const UserSidebar = () => {
   const [userMyRole, setUserMyRole] = useState('');
   const [transferData, setTransferData] = useState();
 
-  // Debugging to check id and myId
-  console.log('id from useParams:', id, 'myId from context:', myId);
-
   useEffect(() => {
-    if (id) {
-      setMyId(id); // Sync context with URL param
-    }
     userData();
-  }, [id, setMyId]);
+  }, [id]);
 
   const userData = (value) => {
     setTransferData(value);
@@ -194,8 +213,11 @@ const UserSidebar = () => {
     }
   };
 
+  // Determine if tabs should be disabled based on myId
+  const isTabsDisabled = !myId;
+
   return (
-    <div>
+    <Container>
       <div className="profile-card">
         <div className="mainContainer">
           <img
@@ -226,31 +248,37 @@ const UserSidebar = () => {
           <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <NavLink
               className="nav-link d-flex align-items-center"
-              to={`/admin/users/mainuserform/${myId}/userbasicinformation`}
+              to={`/admin/users/mainuserform/${id}/userbasicinformation`}
               end
             >
               <span className="flex-grow-1 heading-16">Basic Information</span>
               <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
             </NavLink>
             <NavLink
-              className="nav-link d-flex align-items-center"
-              to={`/admin/users/mainuserform/${myId}/usercontact`}
+              className={({ isActive }) => 
+                `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
+              }
+              to={isTabsDisabled ? '#' : `/admin/users/mainuserform/${id}/usercontact`}
               end
             >
               <span className="flex-grow-1 heading-16">Contact</span>
               <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
             </NavLink>
             <NavLink
-              className="nav-link d-flex align-items-center"
-              to={`/admin/users/mainuserform/${myId}/userperinfo`}
+              className={({ isActive }) => 
+                `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
+              }
+              to={isTabsDisabled ? '#' : `/admin/users/mainuserform/${id}/userperinfo`}
               end
             >
               <span className="flex-grow-1 heading-16">Personal Information</span>
               <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
             </NavLink>
             <NavLink
-              className="nav-link d-flex align-items-center"
-              to={`/admin/users/mainuserform/${myId}/userdocuments`}
+              className={({ isActive }) => 
+                `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
+              }
+              to={isTabsDisabled ? '#' : `/admin/users/mainuserform/${id}/userdocuments`}
               end
             >
               <span className="flex-grow-1 heading-16">Documents</span>
@@ -259,7 +287,7 @@ const UserSidebar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { UserContactGetAllApi, Conatct_conat_ById, Conatct_conat_PutApi, TeacherLeaveTeacherAllApi } from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
 
 
 const Conta_contac = ({ data }) => {
   const { transferId, myUserId } = data;
   const staffId = transferId;
-  const userId = myUserId;
   const MyUserID = localStorage.getItem('MyUserID');
+
+  const { myId, setMyId } = useContext(MyUseContext)
+  const myUserID = myId !== undefined ? myId : '';
 
   const [loader, setLoader] = useState(false);
   const [leaveAllData, setLeaveAllData] = useState([]);
@@ -28,7 +31,9 @@ const Conta_contac = ({ data }) => {
   const [isValidPayslipRequired, setIsValidPayslipRequired] = useState(false);
 
   useEffect(() => {
-    MyStaffGetById();
+    if (myUserID) {
+      MyStaffGetById();
+    }
     MyGetallLeaveOfTeacher();
   }, []);
 
@@ -175,7 +180,7 @@ const Conta_contac = ({ data }) => {
   const MyStaffGetById = async () => {
     setLoader(true);
     try {
-      const response = await Conatct_conat_ById(userId);
+      const response = await Conatct_conat_ById(myUserID);
       if (response?.status === 200) {
         setUpdateStatus(response?.data?.status);
         setContractStart(response?.data?.contact?.contractStart || '');
@@ -213,7 +218,7 @@ const Conta_contac = ({ data }) => {
 
       setLoader(true);
       try {
-        const response = await Conatct_conat_PutApi(userId, formData);
+        const response = await Conatct_conat_PutApi(myUserID, formData);
         if (response?.status === 200) {
           toast.success(response?.data?.message || 'Contract updated successfully');
           clearData();

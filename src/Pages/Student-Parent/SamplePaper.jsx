@@ -174,9 +174,7 @@ const SamplePaper = () => {
                                     <tr>
                                         <td className='textWrapClass font14'>#</td>
                                         <td className='textWrapClass font14'>Title</td>
-                                        <td className='textWrapClass font14'>Year</td>
                                         <td className='textWrapClass font14'>Subject</td>
-                                        <td className='textWrapClass font14'>Teacher</td>
                                         <td className='textWrapClass font14'>Sample Paper Details</td>
                                     </tr>
                                 </thead>
@@ -186,9 +184,7 @@ const SamplePaper = () => {
                                         <tr key={item.holidayId}>
                                             <td className='font14 textWrapClass greyText'>{index + 1}</td>
                                             <td className='font14 textWrapClass greyText'>{item.title}</td>
-                                            <td className='font14 textWrapClass greyText'>{item.year}</td>
                                             <td className='font14 textWrapClass greyText'>{item.subjectName}</td>
-                                            <td className='font14 textWrapClass greyText'>{item.teacherName}</td>
                                             <td className='textWrapClass greyText'>
                                                 <p className='font14 align-self-start m-0'>
                                                     <Icon icon="bxs:file-pdf" width="1.3em" height="1.3em" style={{ color: 'red' }} />

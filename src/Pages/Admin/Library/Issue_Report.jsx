@@ -26,6 +26,7 @@ import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/light.css";
+import ActionControls from '../../../Layouts/ActionControls';
 
 const Container = styled.div`
   .breadcrum-li a{
@@ -983,7 +984,11 @@ const Issue_Report = () => {
     setReturnDate('')
     setLoader(false)
   }
-
+  // Handle search input change
+  const handleSearchChange = (value) => {
+    setSearchKey(value);
+    setPageNo(1); // Reset to first page on search change
+  };
 
   return (
     <Container>
@@ -1008,7 +1013,7 @@ const Issue_Report = () => {
             </nav>
           </div>
 
-          <div className='d-flex g-1 for-media-query'>
+          {/* <div className='d-flex g-1 for-media-query'>
             <CSVLink className={`col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 heading-14 export1 my-own-outline-btn me-2 ${BookManagerData?.length <= 0 ? 'disabled' : ''}`} data={csvData} filename={"orders.csv"}>
               <span>
                 <svg width="15" height="18" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1036,23 +1041,28 @@ const Issue_Report = () => {
               </div>
             </div>
             <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" onClick={clearData}>+ Issue Book</Link>
-          </div>
-           {/* new csv design */}
-            {/* <div className="d-flex g-1 for-media-query">
+          </div> */}
+          {/* new csv design */}
+          <div className="d-flex g-1 for-media-query">
             <ActionControls
-              showAddButton={true}
-              addButtonText={`Add ${userName}`}
-              addButtonAction={handleAddButton}
-              showSearch={true}
-              searchAction={handleSearchButton}
-              showExportPDF={TeacherAllData.length > 0}
+              showAddButton={false}
+              addButtonText=""
+              addButtonAction={''}
+              showExportPDF={true}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              showExportCSV={TeacherAllData.length > 0}
-              exportCSVText="Export CSV"
-              exportCSVAction={''}
+              exportPDFFileName="Daily Attendance.pdf"
+              showExportCSV={true}
+              exportCSVFileName="Daily Attendance.xlsx"
+              showSearch={true}
+              searchValue={searchKey}
+              searchAction={MyBookIssueGetAllApi}
+              onSearchChange={handleSearchChange}
             />
-          </div> */}
+            <div >
+              <Link style={{ height: '38px', padding: '10px' }} type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" onClick={clearData}>+ Issue Book</Link>
+            </div>
+          </div>
 
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-22px' }}>Book Issue Report Details</h5>

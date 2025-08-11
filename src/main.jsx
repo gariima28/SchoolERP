@@ -9,7 +9,7 @@ import { MyUseContext } from '../src/Pages/Admin/ContextApi/UseContext.jsx';
 
 // Create a wrapper component to hold the state
 const ContextWrapper = ({ children }) => {
-  const [myId, setMyId] = useState(10)
+  const [myId, setMyId] = useState()
 
   return (
     <MyUseContext.Provider value={{ myId, setMyId }}>

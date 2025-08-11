@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { SocialGetAllApi, personal_info_Social__GetById } from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
 
-const Per_info_soc_pro = ({ data }) => {
-    const staffId = data.data;
-    const MyUserID = localStorage.getItem('MyUserID');
+const Per_info_soc_pro = () => {
+
+    const { myId, setMyId } = useContext(MyUseContext)
+    const myUserID = myId !== undefined ? myId : '';
 
     const [loader, setLoader] = useState(false);
     const [faceBookUrl, setFaceBookUrl] = useState('');
@@ -64,7 +66,7 @@ const Per_info_soc_pro = ({ data }) => {
 
         setLoader(true);
         try {
-            const response = await SocialGetAllApi(MyUserID, formData);
+            const response = await SocialGetAllApi(myUserID, formData);
             if (response?.data?.status === 'success') {
                 toast.success(response?.data?.message);
                 setUpdateStatus(response?.data?.status);
@@ -80,29 +82,33 @@ const Per_info_soc_pro = ({ data }) => {
     };
 
     useEffect(() => {
-        const MyStaffGetById = async () => {
-            setLoader(true);
-            try {
-                const response = await personal_info_Social__GetById(MyUserID);
-                if (response?.status === 200) {
-                    setUpdateStatus(response?.data?.status);
-                    setFaceBookUrl(response?.data?.social?.faceBookUrl || '');
-                    setLinkedInUrl(response?.data?.social?.linkedInUrl || '');
-                    setTwitterUrl(response?.data?.social?.twitterUrl || '');
-                    setInstagramUrl(response?.data?.social?.instagramUrl || '');
-                    setGooglePlus(response?.data?.social?.googlePlus || '');
-                } else {
-                    toast.error(response?.data?.msg);
-                }
-            } catch (error) {
-                toast.error('An error occurred');
-                console.error(error);
-            } finally {
-                setLoader(false);
+        if (myUserID) {
+            MyStaffGetById();
+        }
+    }, []);
+
+
+    const MyStaffGetById = async () => {
+        setLoader(true);
+        try {
+            const response = await personal_info_Social__GetById(myUserID);
+            if (response?.status === 200) {
+                setUpdateStatus(response?.data?.status);
+                setFaceBookUrl(response?.data?.social?.faceBookUrl || '');
+                setLinkedInUrl(response?.data?.social?.linkedInUrl || '');
+                setTwitterUrl(response?.data?.social?.twitterUrl || '');
+                setInstagramUrl(response?.data?.social?.instagramUrl || '');
+                setGooglePlus(response?.data?.social?.googlePlus || '');
+            } else {
+                toast.error(response?.data?.msg);
             }
-        };
-        MyStaffGetById();
-    }, [MyUserID]);
+        } catch (error) {
+            toast.error('An error occurred');
+            console.error(error);
+        } finally {
+            setLoader(false);
+        }
+    };
 
     return (
         <div className="container-fluid">

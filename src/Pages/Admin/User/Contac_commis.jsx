@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import { Conatct_Deduction_getById, Conatct_Deduction_PutApi, getAllHRDeductionName, AssignDeductionToStaff, getAllHRDeductionByStaffID, DeleteItemAssignDeductionToStaff } from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
+const Conta_allown = () => {
 
-const Conta_allown = ({ data }) => {
-
-  const token = localStorage.getItem('token');
-
-  const { transferId, myUserId } = data;
-  const MyUserID = localStorage.getItem('MyUserID');
+  const { myId, setMyId } = useContext(MyUseContext)
+  const myUserID = myId !== undefined ? myId : '';
   const [loaderState, setLoaderState] = useState(false);
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
@@ -31,7 +29,9 @@ const Conta_allown = ({ data }) => {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    MyStaffGetById();
+    if (myUserID) {
+      MyStaffGetById();
+    }
     getAllDeductionName();
   }, []);
 
@@ -121,14 +121,10 @@ const Conta_allown = ({ data }) => {
   };
 
 
-
-
-
-
   const MyStaffGetById = async () => {
     setLoader(true);
     try {
-      const response = await Conatct_Deduction_getById(MyUserID);
+      const response = await Conatct_Deduction_getById(myUserID);
       if (response?.status === 200) {
         setUpdateStatus(response?.data?.status)
         setSetDeductionDataOfStaff(response.data.statutory || []);
@@ -152,7 +148,7 @@ const Conta_allown = ({ data }) => {
   const getAllDeductionNameByStaffId = async () => {
     try {
       setLoaderState(true);
-      const response = await getAllHRDeductionByStaffID(MyUserID);
+      const response = await getAllHRDeductionByStaffID(myUserID);
       console.log(response, "firsyt")
       if (response?.status === 200) {
         console.log(response.data.statutory, "sec")
@@ -179,7 +175,7 @@ const Conta_allown = ({ data }) => {
     formData.append('amount', amount);
     setLoader(true);
     try {
-      const response = await AssignDeductionToStaff(MyUserID, formData);
+      const response = await AssignDeductionToStaff(myUserID, formData);
       console.log(response, "Update Deduction");
       if (response?.status === 200) {
         getAllDeductionNameByStaffId();
@@ -211,7 +207,7 @@ const Conta_allown = ({ data }) => {
   const handleDelete = async (ids) => {
     setLoader(true);
     try {
-      const response = await DeleteItemAssignDeductionToStaff(MyUserID, ids);
+      const response = await DeleteItemAssignDeductionToStaff(myUserID, ids);
       if (response?.data?.status === "success") {
         toast.success('Deduction deleted successfully');
         getAllDeductionNameByStaffId();
