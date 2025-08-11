@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { BankGetAllApi, personal_Bank_details__GetById, BankPostApi, BankPutApi } from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
 
 const Per_info_bank = () => {
-  const MyUserID = localStorage.getItem('MyUserID');
+
+  const { myId, setMyId } = useContext(MyUseContext)
+  const myUserID = myId !== undefined ? myId : '';
   const [loader, setLoader] = useState(false);
   const [accountNumber, setAccountNumber] = useState('');
   const [bankName, setBankName] = useState('');
@@ -68,8 +71,8 @@ const Per_info_bank = () => {
     try {
       // Assuming BankPostApi for adding and BankPutApi for updating
       const response = updateStatus === 'success'
-        ? await BankPutApi(MyUserID, formData)
-        : await BankPostApi(MyUserID, formData);
+        ? await BankPutApi(myUserID, formData)
+        : await BankPostApi(myUserID, formData);
       if (response?.data?.status === 'success') {
         toast.success(response?.data?.message);
         setUpdateStatus(response?.data?.status);
@@ -86,7 +89,7 @@ const Per_info_bank = () => {
   const MyStaffGetById = async () => {
     setLoader(true);
     try {
-      const response = await personal_Bank_details__GetById(MyUserID);
+      const response = await personal_Bank_details__GetById(myUserID);
       if (response?.status === 200) {
         setAccountNumber(response?.data?.bankDetails?.accountNumber || '');
         setBankName(response?.data?.bankDetails?.bankName || '');
@@ -118,7 +121,9 @@ const Per_info_bank = () => {
   };
 
   useEffect(() => {
-    MyStaffGetById();
+    if (myUserID) {
+      MyStaffGetById();
+    }
   }, []);
 
   return (

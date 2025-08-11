@@ -1,7 +1,6 @@
 import React from 'react'
 import AttendanceReportTea from 'src/Pages/Teacher/attendanceReport_T';
 import Assignment_details from '../Pages/Teacher/Assignment_details_T';
-// import User_basic_infomation from '../Pages/Admin/User/User_basic_infomation';
 // import UserRouting from '/Users/saqib/Documents/My data/NewCollaboratorSchlERP/SchoolERP/src/Pages/Admin/ContextApi/UserRouting.jsx';
 
 
@@ -265,11 +264,6 @@ export const RoleBasedRoutes = {
         { path: "userdocuments", element: <User_Documents /> },
       ],
     },
-    // { path: '/admin/users/mainuserform/:id', element: <MainUserForm /> },
-    // { path: '/admin/users/userbasicinformation/:id', element: <User_basic_infomation /> },
-    // { path: '/admin/users/usercontact/:id', element: <User_Contact /> },
-    // { path: '/admin/users/userperinfo/:id', element: <User_Per_info /> },
-    // { path: '/admin/users/userdocuments/:id', element: <User_Documents /> },
 
     { path: "/admin/holiday", element: <Holiday /> },
 
