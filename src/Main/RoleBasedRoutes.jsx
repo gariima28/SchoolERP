@@ -126,6 +126,7 @@ const Holiday_P = React.lazy(() => import('src/Pages/Student-Parent/Holiday'));
 const Notice_P = React.lazy(() => import('src/Pages/Student-Parent/Notice'));
 const SamplePaper_P = React.lazy(() => import('src/Pages/Student-Parent/SamplePaper'));
 const Assignment_P = React.lazy(() => import('src/Pages/Student-Parent/Assignment'));
+const Submissions_P = React.lazy(() => import('src/Pages/Student-Parent/Submissions'));
 const Teacher_P = React.lazy(() => import('src/Pages/Student-Parent/Teacher'));
 const OnlineCourse_P = React.lazy(() => import('src/Pages/Student-Parent/OnlineCourse'));
 const Fees_P = React.lazy(() => import('src/Pages/Student-Parent/Fees'));
@@ -351,6 +352,7 @@ export const RoleBasedRoutes = {
     { path: "/student/onlineCourse", element: <OnlineCourse_P /> },
     { path: "/student/teacher", element: <Teacher_P /> },
     { path: "/student/assignments", element: <Assignment_P /> },
+    { path: "/student/submissions", element: <Submissions_P /> },
     { path: "/student/samplePaper", element: <SamplePaper_P /> },
     { path: "/student/holiday", element: <Holiday_P /> },
     { path: "/student/notice", element: <Notice_P /> },

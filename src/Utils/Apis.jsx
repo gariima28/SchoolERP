@@ -2196,6 +2196,20 @@ export const DownloadSamplePaperExcel = async () => {
 // Assignment  //
 // ******************************************************************************************************
 
+export const getAllAssignmentDataApi = async (id1, id2, id3) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/assignment/published?classId=${id1}&sectionId=${id2}&subjectId=${id3}`);
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+
 export const getSearhAssignmentDataApi = async (searchKey, id1, id2, id3, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
@@ -2325,10 +2339,105 @@ export const DownloadAssignmentPDF = async () => {
   }
 }
 
-export const getAllAssignmentsDataApi = async (id) => {
+export const getAllAssignmentsDataApi = async (searchKey, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/submission/studentSubmitAssignment/${id}`);
+    var res = await axios.get(`${Domain}/assignment/getAllAssignments?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`);
+    if (res) {
+      return res;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+export const getAllSubmissionsDataApi = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/submission/getAllSubmissions`);
+    if (res) {
+      return res;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+export const submitSubmissionsByStudentApi = async (assignmentId,data) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.post(`${Domain}/submission/studentSubmitAssignment/${assignmentId}`,data);
+    if (res) {
+      return res;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+
+export const submitSubmissionsByAdminApi = async (submissionId,data) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.put(`${Domain}/submission/adminTea/update/${submissionId}`,data);
+    if (res) {
+      return res;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+export const getSubmissionsByIdApi = async (submissionId) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/submission/getSubmissionById/${submissionId}`);
+    if (res) {
+      return res;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+
+
+// ******************************************************************************************************
+// Submission  //
+// ******************************************************************************************************
+
+
+
+
+export const getStudentsListInParentApi = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/login/parent/getAllStudents`);
+    if (res) {
+      return res;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+
+export const selectStudentInParentApi = async (studentId) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.post(`${Domain}/login/parent/selectStudent?studentId=${studentId}`);
     if (res) {
       return res;
     } else {
@@ -7960,7 +8069,7 @@ export const getOnlineCoursesDataApi = async () => {
 export const getStudentProfileDataApi = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/student/studentData`);
+    var res = await axios.get(`${Domain}/invoice/getByStudent`);
 
     if (res) {
       return res;
