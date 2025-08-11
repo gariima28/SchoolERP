@@ -7303,20 +7303,7 @@ export const personal_Emergeny__GetById = async (id) => {
     return [];
   }
 }
-export const Profile_picture__GetById = async (id) => {
-  try {
-    axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/otherStaff/getUser/${id}`)
-    if (res) {
-      return res;
-    }
-    else {
-      return []
-    }
-  } catch (error) {
-    return [];
-  }
-}
+
 export const Profile_picture_PutApi = async (id, formData) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;

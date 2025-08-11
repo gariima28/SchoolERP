@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { UpdateImageGetAllApi } from '../../../Utils/Apis'
-import { Profile_picture__GetById } from '../../../Utils/Apis'
+import { StaffGetById } from '../../../Utils/Apis'
 import { Profile_picture_PutApi } from '../../../Utils/Apis'
 
 
@@ -80,7 +80,7 @@ const User_Prof_pic = ({ data }) => {
         // setIdForUpdate(id);
         setLoader(true);
         try {
-            const response = await Profile_picture__GetById(MyUserID);
+            const response = await StaffGetById(MyUserID);
             // console.log("my profile picture api get by id is here______________ ", response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.msg);
