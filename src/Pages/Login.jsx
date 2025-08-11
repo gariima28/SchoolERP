@@ -223,7 +223,10 @@ const Login = () => {
                         navigate('/verifyOtp');
                     } else {
                         sessionStorage.setItem('loggedInUserRole', responseData.role);
-
+                        // Set flag for PARENT to show modal on first dashboard visit
+                        if (responseData.role === 'PARENT') {
+                            sessionStorage.setItem('showParentModal', 'true');
+                        }
                         if (responseData.role === 'ADMIN' && responseData.subscription === 'setPrefix') {
                             sessionStorage.setItem('subscription', responseData.subscription);
                         }
@@ -262,69 +265,6 @@ const Login = () => {
             }
         }
     };
-
-
-
-    // const SubmitLogin = async () => {
-    //     if (validateFields()) {
-    //         try {
-    //             const data = {
-    //                 'email': email,
-    //                 'password': pass
-    //             }
-    //             var response = await loginApi(data);
-    //             if (response?.status === 200) {
-    //                 if (response.data.status === 'success') {
-    //                     if (response?.data?.isNewLogin) {
-    //                         sessionStorage.setItem('forgetToken', response?.data?.token)
-    //                         navigate('/verifyOtp')
-    //                     }
-    //                     else {
-    //                         sessionStorage.setItem('loggedInUserRole', response?.data?.role)
-    //                         // console.log('firgduyfguhjbegyuhvjc', response?.data?.role)
-    //                         if (response?.data?.role === 'ADMIN') {
-    //                             if (response?.data?.subscription === 'setPrefix') {
-    //                                 // localStorage.setItem('subscription', response?.data?.subscription)
-    //                                 // localStorage.setItem('token', response?.data?.token)
-    //                                 sessionStorage.setItem('subscription', response?.data?.subscription)
-    //                                 sessionStorage.setItem('token', response.data.token);
-    //                                 window.location.reload();
-    //                             }
-    //                             else {
-    //                                 // localStorage.setItem('token', response?.data?.token)
-    //                                 sessionStorage.setItem('token', response.data.token);
-    //                                 window.location.reload();
-    //                             }
-    //                         }
-    //                         else {
-    //                             // localStorage.setItem('token', response?.data?.token)
-    //                             sessionStorage.setItem('token', response.data.token);
-    //                             window.location.reload();
-    //                         }
-    //                     }
-    //                 }
-    //                 else {
-    //                     toast.error(response?.data?.msg)
-    //                     // console.log('login fail')
-    //                 }
-    //             }
-    //             else {
-    //                 // console.log(response, 'else2')
-    //                 toast.error(response?.error);
-    //             }
-    //         }
-    //         catch (error) {
-    // setloaderState(false);
-    //             if (error?.response?.data?.statusCode === 401) {
-    //                 localStorage.removeItem('token')
-    //                 setTimeout(() => {
-    //                     navigate('/')
-    //                 }, 200);
-    //             }
-    //         }
-    //     }
-    // }
-
 
     return (
 

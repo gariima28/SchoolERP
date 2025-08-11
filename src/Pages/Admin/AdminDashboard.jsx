@@ -389,7 +389,7 @@ const AdminDashboard = () => {
                       <Link
                         className="p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12"
                         type="button"
-                        to="/parent/holiday"
+                        to="/admin/holiday"
                       >
                         View All
                       </Link>
@@ -400,7 +400,7 @@ const AdminDashboard = () => {
                       DashData?.holidays.slice(0, 9).map((item, index) => (
                         <div className="col-4 p-1" key={index}>
                           <div className="holidayCard border-2 borderradius8 p-4 h-100">
-                            <p className="font14 text-center">{item.title}</p>
+                            <p className="font14 text-center">{item.title.slice(0,14)}{item.title.length>14 ? '...' : ''}</p>
                             <p className="greyText font14 text-center">
                               {item.date}
                             </p>
@@ -426,12 +426,12 @@ const AdminDashboard = () => {
                   <div className="row">
                     <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                       <div className="flex-grow-1 align-self-center">
-                        <p className="font14">Upcoming Holiday</p>
+                        <p className="font14">Upcoming Notices</p>
                       </div>
                       <Link
                         className="p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12"
                         type="button"
-                        to="/parent/holiday"
+                        to="/admin/notice"
                       >
                         View All
                       </Link>
@@ -468,12 +468,12 @@ const AdminDashboard = () => {
                   <div className="row">
                     <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                       <div className="flex-grow-1 align-self-center">
-                        <p className="font14">Upcoming Holiday</p>
+                        <p className="font14">Upcoming Events</p>
                       </div>
                       <Link
                         className="p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12"
                         type="button"
-                        to="/parent/holiday"
+                        to="/admin/event"
                       >
                         View All
                       </Link>
