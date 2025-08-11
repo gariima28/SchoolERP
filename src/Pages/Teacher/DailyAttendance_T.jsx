@@ -1065,7 +1065,9 @@ const DailyAttendance = ({ items }) => {
 
               </tbody>
             </table>
-            <div className="d-flex" style={{ marginBottom: '10px' }}>
+          
+          </div>
+            <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
               <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
               <div className="ms-auto">
                 <ReactPaginate
@@ -1076,10 +1078,6 @@ const DailyAttendance = ({ items }) => {
                 />
               </div>
             </div>
-          </div>
-
-
-
         </div>
 
         {

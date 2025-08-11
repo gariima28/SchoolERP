@@ -1,6 +1,8 @@
 import React from 'react'
-import AttendanceReportTea from 'src/Pages/Teacher/attendanceReport_T';
-import Assignment_details from '../Pages/Teacher/Assignment_details_T';
+const AttendanceReportTea  = React.lazy(() => import( 'src/Pages/Teacher/attendanceReport_T'));
+const Assignment_details  = React.lazy(() => import( 'src/Pages/Teacher/Assignment_details_T'));
+const Assignmnt_submss = React.lazy(() => import('src/Pages/Teacher/Assignmnt_submss_T'));
+// import User_basic_infomation from '../Pages/Admin/User/User_basic_infomation';
 // import UserRouting from '/Users/saqib/Documents/My data/NewCollaboratorSchlERP/SchoolERP/src/Pages/Admin/ContextApi/UserRouting.jsx';
 
 
@@ -150,6 +152,7 @@ const AssignLeave_T = React.lazy(() => import('src/Pages/Teacher/AssignLeave_T')
 const OfflineExam_T = React.lazy(() => import('src/Pages/Teacher/OfflineExam_T'));
 const Marks_T = React.lazy(() => import('src/Pages/Teacher/Marks_T'));
 const AssignmentTea_T = React.lazy(() => import('src/Pages/Teacher/AssignmentTea_T'));
+// const Assignmnt_submss_T = React.lazy(() => import('src/Pages/Teacher/Assignmnt_submss_T'));
 const Assign_publish_T = React.lazy(() => import('src/Pages/Teacher/Assign_publish_T'));
 const Assign_archieves_T = React.lazy(() => import('src/Pages/Teacher/Assign_archieves_T'));
 const Assign_draft_T = React.lazy(() => import('src/Pages/Teacher/Assign_draft_T'));
@@ -248,22 +251,27 @@ export const RoleBasedRoutes = {
     { path: "/admin/inventory/addSale", element: <AddSale /> },
     { path: "/admin/inventory/issueItem", element: <ManageIssue /> },
 
-    { path: "/admin/users/teacher/:id", element: <Teacher /> },
-    { path: "/admin/users/accountant/:id", element: <Accountant /> },
-    { path: "/admin/users/librarian/:id", element: <Librarian /> },
-    { path: "/admin/users/other_staff/:id", element: <OtherStaff /> },
-    { path: "/admin/users/drivers/:id", element: <Driver /> },
-    { path: "/admin/users/driver/addDriver", element: <AddDriver /> },
-    {
-      path: "/admin/users/mainuserform/:id",
-      element: <MainUserForm />,
-      children: [
-        { path: "userbasicinformation", element: <User_basic_infomation /> },
-        { path: "usercontact", element: <User_Contact /> },
-        { path: "userperinfo", element: <User_Per_info /> },
-        { path: "userdocuments", element: <User_Documents /> },
-      ],
-    },
+        { path: '/admin/users/teacher/:id', element: <Teacher /> },
+        { path: '/admin/users/accountant/:id', element: <Accountant /> },
+        { path: '/admin/users/librarian/:id', element: <Librarian /> },
+        { path: '/admin/users/other_staff/:id', element: <OtherStaff /> },
+        { path: '/admin/users/drivers/:id', element: <Driver /> },
+        { path: '/admin/users/driver/addDriver', element: <AddDriver /> },
+        {
+            path: '/admin/users/mainuserform/:id',
+            element: <MainUserForm />,
+            children: [
+                { path: 'userbasicinformation', element: <User_basic_infomation /> },
+                { path: 'usercontact', element: <User_Contact /> },
+                { path: 'userperinfo', element: <User_Per_info /> },
+                { path: 'userdocuments', element: <User_Documents /> },
+            ]
+        },
+        // { path: '/admin/users/mainuserform/:id', element: <MainUserForm /> },
+        // { path: '/admin/users/userbasicinformation/:id', element: <User_basic_infomation /> },
+        // { path: '/admin/users/usercontact/:id', element: <User_Contact /> },
+        // { path: '/admin/users/userperinfo/:id', element: <User_Per_info /> },
+        // { path: '/admin/users/userdocuments/:id', element: <User_Documents /> },
 
     { path: "/admin/holiday", element: <Holiday /> },
 
@@ -296,6 +304,7 @@ export const RoleBasedRoutes = {
       element: <AssignClassTeacher />,
     },
 
+
     { path: "/admin/hr/userrole", element: <UserRole /> },
     { path: "/admin/hr/userlist", element: <UserList /> },
     { path: "/admin/hr/takeattendance", element: <TakeAttendance /> },
@@ -321,7 +330,7 @@ export const RoleBasedRoutes = {
   PARENT: [
     { path: "/parent/grades", element: <Grades_P /> },
     { path: "/parent/marks", element: <Marks_P /> },
-    { path: "/parent/examSchedule", element: <OfflineExams_P /> },
+    { path: "/parent/offlineExam", element: <OfflineExams_P /> },
     { path: "/parent/fees", element: <Fees_P /> },
     { path: "/parent/offlinePaymentForm/:id", element: <OfflinePayment_P /> },
     { path: "/parent/onlineCourse", element: <OnlineCourse_P /> },
@@ -340,7 +349,7 @@ export const RoleBasedRoutes = {
     { path: "/student/dailyAttendance", element: <DailyAttendance_S /> },
     { path: "/student/grades", element: <Grades_P /> },
     { path: "/student/marks", element: <Marks_P /> },
-    { path: "/student/examSchedule", element: <OfflineExams_P /> },
+    { path: "/student/offlineExam", element: <OfflineExams_P /> },
     { path: "/student/offlinePaymentForm/:id", element: <OfflinePayment_P /> },
     { path: "/student/onlineCourse", element: <OnlineCourse_P /> },
     { path: "/student/teacher", element: <Teacher_P /> },
@@ -366,11 +375,12 @@ export const RoleBasedRoutes = {
     { path: "/teacher/examSchedule", element: <OfflineExam_T /> },
     { path: "/teacher/marks", element: <Marks_T /> },
     { path: "/teacher/assignmenttea", element: <AssignmentTea_T /> },
+    { path: "/teacher/submissions", element: <Assignmnt_submss /> },
     { path: "/teacher/assignpublish", element: <Assign_publish_T /> },
     { path: "/teacher/assignarchieves", element: <Assign_archieves_T /> },
     { path: "/teacher/assigndraft", element: <Assign_draft_T /> },
     { path: "/teacher/samplepaper", element: <Sample_paper_T /> },
     { path: "/teacher/profile", element: <Profile_T /> },
-    { path: "/teacher/assigndetails/:id", element: <Assignment_details /> },
+    { path: '/teacher/assigndetails/:id', element: <Assignment_details /> },
   ],
 };

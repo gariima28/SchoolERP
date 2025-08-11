@@ -10,6 +10,7 @@ import { LeavePutApi } from '../../../Utils/Apis'
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ReactPaginate from "react-paginate";
+import ActionControls from '../../../Layouts/ActionControls';
 
 // ## style css area start ####  
 
@@ -676,7 +677,12 @@ const Leave = () => {
     setIsValidLeaveTypeRequired(false)
 
   }
-
+  // Handle search input change
+  const handleSearchChange = (value) => {
+    setSearchKey(value);
+    setPageNo(1); // Reset to first page on search change
+  };
+  
   return (
     <Container>
 
@@ -698,14 +704,25 @@ const Leave = () => {
               </ol>
             </nav>
           </div>
-          <div className='d-flex g-1 for-media-query'>
-            <div className='me-2 search-responsive'>
-              <div className="input-group mb-3 ">
-                <input type="text" className="form-control form-focus font-color" style={{ height: '34px' }} placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={handleChange} value={searchKey} />
-                <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} id="basic-addon2" onClick={MyLeaveGetAllApi}>Search</span>
-              </div>
+          <div className="d-flex g-1 for-media-query">
+            <ActionControls
+              showAddButton={false}
+              addButtonText=""
+              addButtonAction={''}
+              showExportPDF={false}
+              exportPDFText="Export PDF"
+              exportPDFAction={''}
+              exportPDFFileName="Daily Attendance.pdf"
+              showExportCSV={false}
+              exportCSVFileName="Daily Attendance.xlsx"
+              showSearch={true}
+              searchValue={searchKey}
+              searchAction={MyLeaveGetAllApi}
+              onSearchChange={handleSearchChange}
+            />
+            <div >
+              <Link style={{height: '38px', padding:'10px' }} type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop101" aria-controls="staticBackdrop" to={''}>+ Create Leave</Link>
             </div>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop101" aria-controls="staticBackdrop" to={''}>+ Create Leave</Link>
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Leave Details</h5>

@@ -28,13 +28,11 @@ const Add_assign_offcnvs = () => {
     const [IdForUpdate, setIdForUpdate] = useState()
 
     const [title, setTitle] = useState()
-    const [classId, setClassId] = useState()
-    const [classNo, setClassNo] = useState()
+    const [classId, setClassId] = useState('')
+    const [classNo, setClassNo] = useState('')
+    console.log(classNo, 'class no in assignment')
     const [sectionId, setSectionId] = useState()
     const [subjectId, setSubjectId] = useState()
-    // // console.log('classs idddd', classId)
-    // // console.log('classs no', classNo)
-    // // console.log('subject idddd', subjectId)
 
     const [teacher, setTeacher] = useState()
     const [totalMarks, setTotalMarks] = useState()
@@ -156,10 +154,11 @@ const Add_assign_offcnvs = () => {
     const handle = (event) => {
         const value = event.target.value;
         const [val1, val2] = value.split(',');
-        setClassId(parseInt(val1))
+        setClassId(val1.trim())
         const num = val2.trim()
         setClassNo(num)
-        // // console.log(val1, 'classsssssssssss')
+        console.log(val1, 'class id')
+        console.log(val2, 'class no')
         MySectionGetApi(val1)
         MySubjectByClassIdGetApi(val1)
     }
@@ -169,16 +168,16 @@ const Add_assign_offcnvs = () => {
         setLoader(true)
         try {
             const response = await TeacherClassGetApi();
-            // console.log('class-get-all-api in Assignment', response);
+            console.log('class-get-all-api in Assignment888888', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
-                setClassdata(response?.data?.classes)
+                setClassdata(response?.data?.data)
                 setLoader(false)
             } else {
-                toast.error(response?.data?.classes?.message);
+                // toast.error(response?.data?.classes?.message);
             }
         } catch (error) {
-            setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -203,11 +202,12 @@ const Add_assign_offcnvs = () => {
     }
     // Subject by class id From class get all api 
     const MySubjectByClassIdGetApi = async (id) => {
-        // // console.log(id, 'id in subject')
+     // console.log(id, 'id in subject')
         setLoader(true)
         try {
             const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(id);
-            // // console.log('Subject-get-all-api in Assignment', response);
+            console.log('class id for subject in assignment', classId)
+            console.log('Subject-get-all-api in Assignment--', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
                 setSubjectData(response?.data?.subjects)
@@ -216,7 +216,7 @@ const Add_assign_offcnvs = () => {
                 toast.error(response?.data?.classes?.message);
             }
         } catch (error) {
-            setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -225,7 +225,7 @@ const Add_assign_offcnvs = () => {
         setLoader(true)
         try {
             const response = await TeacherGetTeacherGetAll(classId, subjectId);
-            // // console.log('Teacher-get-all-api in Assignment', response);
+            console.log('Teacher-get-all-api in Assignment', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
                 setTeachertData(response?.data?.teacher)
@@ -248,7 +248,7 @@ const Add_assign_offcnvs = () => {
             {
                 const formData = new FormData()
                 formData.append('title', title);
-                formData.append('ClassId', classId);
+                formData.append('classId', classId);
                 formData.append('subjectId', subjectId);
                 formData.append('teacherId', teacher);
                 formData.append('totalMarks', totalMarks);
@@ -320,128 +320,7 @@ const Add_assign_offcnvs = () => {
 
     return (
         <div className="container-fluid">
-            {/* <div className="row">
-                {Add
-                    &&
-                    (
-                        <>
-                            <div className="offcanvas-body pt-0  px-0" ref={offcanvasRef}>
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label heading-16">Title</label>
-                                    <input type="email" class="form-control form-control-sm" value={title} onChange={(e) => handleTitle(e.target.value)} id="exampleFormControlInput1" placeholder="Select Title" />
-                                </div>
-                                <div className='pt-1'>
-                                    {isValidTitleRequired && (
-                                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                            Valid title is required
-                                        </p>
-                                    )}
-                                </div>
 
-                                <div className="mb-1  ">
-                                    <label for="exampleFormControlInput1" className="form-label  heading-16">Class</label>
-                                    <select class="form-select  form-select-sm form-focus  label-color" value={`${classId}, ${classNo}`} onChange={handle} aria-label="Default select example">
-                                        <option selected>--Choose--</option>
-                                        {
-                                            classData.map(item => (
-                                                <option value={`${item.classId}, ${item.classNo}`}>{item.classNo}</option>
-                                            ))
-                                        }
-                                    </select>
-                                </div>
-                                <div className="mb-1  ">
-                                    <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
-                                    <select class="form-select  form-select-sm form-focus   label-color" value={sectionId} onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
-                                        <option selected>--Choose--</option>
-                                        {
-                                            sectionData.map(item =>
-                                                <option value={item.sectionId}>{item.sectionName}</option>
-                                            )
-                                        }
-
-                                    </select>
-                                </div>
-                                <div className="mb-1  ">
-                                    <label for="exampleFormControlInput1" className="form-label  heading-16">Subject</label>
-                                    <select class="form-select  form-select-sm form-focus  label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
-                                        <option selected>--Choose--</option>
-                                        {
-                                            subjectData.map(item =>
-                                                <option value={item.subjectId}>{item.subjectName}</option>
-                                            )
-                                        }
-
-                                    </select>
-                                </div>
-                                <div className="mb-1  ">
-                                    <label for="exampleFormControlInput1" className="form-label  heading-16">Teacher</label>
-                                    <select class="form-select  form-select-sm form-focus  label-color" value={teacher} onChange={(e) => setTeacher(e.target.value)} aria-label="Default select example">
-                                        <option selected>--Choose--</option>
-                                        {
-                                            teacherData.map(item =>
-                                                <option value={item.subjectId}>{item.staffName}</option>
-                                            )
-                                        }
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label heading-16">Total Marks</label>
-                                    <input type="email" class="form-control form-control-sm" id="exampleFormControlInput1" value={totalMarks} onChange={(e) => handleMarks(e.target.value)} placeholder="Select Title" />
-                                </div>
-                                <div className='pt-1'>
-                                    {isValidMarksRequired && (
-                                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                            Valid marks is required
-                                        </p>
-                                    )}
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label heading-16">Start Day</label>
-                                    <input type="date" class="form-control form-control-sm" id="exampleFormControlInput1" value={startDay} onChange={(e) => handleStartDate(e.target.value)} placeholder="Select Class" />
-                                </div>
-                                <div className='pt-1'>
-                                    {isValidStartDateRequired && (
-                                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                            Valid start date is required
-                                        </p>
-                                    )}
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label heading-16">End Day</label>
-                                    <input type="date" class="form-control form-control-sm" id="exampleFormControlInput1" value={endDay} onChange={(e) => handleEndDate(e.target.value)} placeholder="Select Class" />
-                                </div>
-                                <div className='pt-1'>
-                                    {isValidEndDayDateRequired && (
-                                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                            Valid end date is required
-                                        </p>
-                                    )}
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label heading-16">Assignment Upload </label>
-                                    <input type="file" class="form-control form-control-sm" id="exampleFormControlInput1" onChange={(e) => setAssignmentUpload(e.target.files[0])} placeholder="Select Class" accept='.jpg, .png, .jpeg' />
-                                </div>
-                                <div className="mb-1  ">
-                                    <label for="exampleFormControlInput1" className="form-label  heading-16 ">Status</label>
-                                    <select class="form-select  form-select-sm form-focus  label-color " value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Default select example">
-                                        <option selected>--Choose--</option>
-                                        <option value="active">Active</option>
-                                        <option value="draft">Draft</option>
-                                        <option value="archives">Archives</option>
-
-                                    </select>
-                                </div>
-                                <div className='my-button11 '>
-                                    <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={AssignmntDataApi}>Add Assignment</button>
-                                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
-                                </div>
-                            </div>
-
-                        </>
-                    )
-
-                }
-            </div> */}
             <div className="row">
                 {Add
                     ?
@@ -457,18 +336,20 @@ const Add_assign_offcnvs = () => {
                                         Valid title is required
                                     </p>
                                 )}
-                            </div>
-
-                            <div className="mb-1  ">
-                                <label for="exampleFormControlInput1" className="form-label  heading-16">Class</label>
-                                <sealect class="form-select  form-select-sm form-focus  label-color" value={`${classId}, ${classNo}`} onChange={handle} aria-label="Default select example">
-                                    <option selected>--Choose--</option>
+                            </div>                    
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
+                                <select class="form-select  form-select-sm form-focus label-color"
+                                    value={`${classId},${classNo}`}
+                                    onChange={handle}
+                                    aria-label="Default select example">
+                                    <option value="">--Choose--</option>
                                     {
-                                        classData?.map(item => (
-                                            <option value={`${item.classId}, ${item.classNo}`}>{item.classNo}</option>
+                                        classData?.map((item =>
+                                            <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
                                         ))
                                     }
-                                </sealect>
+                                </select>
                             </div>
                             <div className="mb-1  ">
                                 <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
@@ -499,7 +380,7 @@ const Add_assign_offcnvs = () => {
                                     <option selected>--Choose--</option>
                                     {
                                         teacherData?.map(item =>
-                                            <option value={item.subjectId}>{item.staffName}</option>
+                                            <option value={item.staffId}>{item.staffName}</option>
                                         )
                                     }
                                 </select>
@@ -545,14 +426,14 @@ const Add_assign_offcnvs = () => {
                                 <label for="exampleFormControlInput1" className="form-label  heading-16 ">Status</label>
                                 <select class="form-select  form-select-sm form-focus  label-color " value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Default select example">
                                     <option selected>--Choose--</option>
-                                    <option value="active">Active</option>
-                                    <option value="draft">Draft</option>
-                                    <option value="archives">Archives</option>
+                                    <option value="PUBLISHED">Published</option>
+                                    <option value="DRAFT">Draft</option>
+                                    <option value="ARCHIVE">Archives</option>
 
                                 </select>
                             </div>
                             <div className='my-button11 '>
-                                <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={AssignmntDataApi}>Add Assignment</button>
+                                <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{backgroundColor:'#008479', color:"#fff"}} onClick={AssignmntDataApi}>Add Assignment</button>
                                 <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                             </div>
                         </div>
