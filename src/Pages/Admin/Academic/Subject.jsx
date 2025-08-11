@@ -540,7 +540,6 @@ const Subject = () => {
   const isClassSelected = (classId) => {
     return classIds.some(id => String(id) === String(classId));
   };
-
   // check box with class 
 
   const handlePageClick = (event) => {

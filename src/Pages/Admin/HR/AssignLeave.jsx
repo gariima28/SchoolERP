@@ -10,10 +10,12 @@ import { LeaveGetAllApi } from '../../../Utils/Apis'
 import { AssignLeaveGetAllApi } from '../../../Utils/Apis'
 import { LeaveAssignDeleteApi } from '../../../Utils/Apis'
 import { AssignLeaveGetById } from '../../../Utils/Apis'
+import { AssignLeavePutApi } from '../../../Utils/Apis'
 import { LeaveAssignDeleteTypeApi } from '../../../Utils/Apis'
 import HashLoader from 'src/Pages/HashLoaderCom';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import ActionControls from '../../../Layouts/ActionControls';
 
 
 // ## style css area start ####  
@@ -507,17 +509,14 @@ const AssignLeave = () => {
   const [AssignAllData, setAssignAllData] = useState([])
   const [assignAllDataGetById, setAssignAllDataGetById] = useState()
   const [leaveTypeLeaveCount, setLeaveTypeLeaveCount] = useState([])
+  const [deleteType, setDeleteType] = useState([])
   const [countUpdate, setCountUpdate] = useState('')
-  console.log('update leave ',countUpdate)
+  console.log('update leave ', countUpdate)
   const [IdForDelete, setIdForDelete] = useState()
   const [IdForDeleteType, setIdForDeleteType] = useState()
   const [IdForUpdate, setIdForUpdate] = useState()
 
   const [isValidLeaveCountRequired, setIsValidLeaveCountRequired] = useState(false);
-
-  // // console.log('my orle ID',roleType)
-
-  // const [tabclick, setTabclick] = useState('tab3')
 
 
   const handleCountChange = (index, value) => {
@@ -572,7 +571,8 @@ const AssignLeave = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
+  const [selectedLeaveTypes, setSelectedLeaveTypes] = useState([]);
+  console.log('selectedLeaveTypes', selectedLeaveTypes)
   const handlePageClick = (event) => {
     setPageNo(event.selected + 1); // as event start from 0 index
   };
@@ -688,7 +688,7 @@ const AssignLeave = () => {
     setLoader(true)
     try {
       const response = await AssignLeaveGetAllApi(searchKey, pageNo, pageSize);
-      console.log('assing leave all data', response)
+      console.log('assing leave get all data', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setAssignAllData(response?.data?.user)
@@ -703,49 +703,39 @@ const AssignLeave = () => {
   }
 
   // Delete api
-  const MyHolidayDeleteApi = async (id) => {
+  const MyHolidayDeleteApi = async () => {
     setLoader(true)
     try {
-      const response = await LeaveAssignDeleteApi(id);
+      const response = await LeaveAssignDeleteApi(IdForDelete, selectedLeaveTypes);
+      console.log('delete response', response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         MyAssignLeaveGetAllApi()
         setShowdelete(false)
-        setHidedelete(true)
+
         setLoader(false)
+        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
+        offcanvasInstance.hide();
+
+        setTimeout(() => {
+          setShowdelete(true)
+        }, 0.5)
       } else {
         toast.error(response?.data?.message);
         setShowdelete(true)
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
       // console.log(error)
+      setLoader(false)
     }
   }
 
-  // Delete leave type api
-  const MyHAssignLeaveTypeDeleteApi = async (id) => {
-    setLoader(true)
-    try {
-      const response = await LeaveAssignDeleteTypeApi(id, roleType);
-      if (response?.status === 200) {
-        toast.success(response?.data?.message);
-        MyAssignLeaveGetAllApi()
-        setShowdelete12(false)
-        setHidedelete12(true)
-        setLoader(false)
-      } else {
-        toast.error(response?.data?.message);
-        setShowdelete12(true)
-      }
-    } catch (error) {
-      setloaderState(false);
-      // console.log(error)
-    }
-  }
   // Get by id 
   const MyAssignLeaveGetByIdApi = async (id) => {
     setIdForUpdate(id)
+    setIdForDelete(id)
     // console.log('syllbus get by id ',id)
     setLoader(true)
     try {
@@ -765,10 +755,43 @@ const AssignLeave = () => {
       // console.log(error)
     }
   }
+  // Leave Put Api 
+  const MyAssignLeavePutApi = async () => {
+
+    const formData = countUpdate
+    setLoader(true)
+    try {
+      const response = await AssignLeavePutApi(IdForUpdate, formData);
+      // console.log('class-post-api', response)
+      if (response?.status === 200) {
+        if (response?.data?.status === "success") {
+          toast.success(response?.data?.message);
+          MyAssignLeaveGetAllApi()
+
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+          offcanvasInstance.hide();
+          setShow22(false)
+          setTimeout(() => {
+            setShow22(true)
+          }, 0.5)
+        } else {
+          toast.error(response?.data?.message);
+          setShow(true)
+        }
+      } else {
+        toast.error(response?.data?.msg);
+      }
+    } catch (error) {
+      setloaderState(false);
+      // console.log(error)
+    }
+  }
+  // AssignLeavePutApi
 
   const handleForDelete = () => {
     MyHolidayDeleteApi(IdForDelete)
   }
+
   const handleForDelete2 = () => {
     MyHAssignLeaveTypeDeleteApi(IdForDeleteType)
   }
@@ -797,7 +820,22 @@ const AssignLeave = () => {
     setLeaveNo('')
     setIsValidLeaveCountRequired(false)
   }
-
+  const handleCheckboxChange = (leaveType) => {
+    setSelectedLeaveTypes(prev => {
+      if (prev.includes(leaveType)) {
+        // Remove if already exists
+        return prev.filter(item => item !== leaveType);
+      } else {
+        // Add if not exists
+        return [...prev, leaveType];
+      }
+    });
+  };
+  // Handle search input change
+  const handleSearchChange = (value) => {
+    setSearchKey(value);
+    setPageNo(1); // Reset to first page on search change
+  };
   return (
     <Container>
       {
@@ -817,7 +855,27 @@ const AssignLeave = () => {
               </ol>
             </nav>
           </div>
-          <div className='d-flex g-1 for-media-query'>
+          <div className="d-flex g-1 for-media-query">
+            <ActionControls
+              showAddButton={false}
+              addButtonText=""
+              addButtonAction={''}
+              showExportPDF={false}
+              exportPDFText="Export PDF"
+              exportPDFAction={''}
+              exportPDFFileName="Daily Attendance.pdf"
+              showExportCSV={false}
+              exportCSVFileName="Daily Attendance.xlsx"
+              showSearch={true}
+              searchValue={searchKey}
+              searchAction={MyAssignLeaveGetAllApi}
+              onSearchChange={handleSearchChange}
+            />
+            <div >
+              <Link type="button" style={{ height: '38px', padding: '10px' }} className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop101" aria-controls="staticBackdrop" to={''}>Assign Leave</Link>
+            </div>
+          </div>
+          {/* <div className='d-flex g-1 for-media-query'>
             <div className='me-2 search-responsive'>
               <div className="input-group mb-3 ">
                 <input type="text" className="form-control form-focus font-color" style={{ height: '34px' }} placeholder="Search" aria-label="Recipient's username" onChange={handleChange} value={searchKey} aria-describedby="basic-addon2" />
@@ -825,7 +883,7 @@ const AssignLeave = () => {
               </div>
             </div>
             <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop101" aria-controls="staticBackdrop" to={''}>Assign Leave</Link>
-          </div>
+          </div> */}
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Leave Details</h5>
 
@@ -880,7 +938,7 @@ const AssignLeave = () => {
                             </button>
                             <ul className="dropdown-menu anchor-color heading-14">
                               <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop202" aria-controls="offcanvasRight1234" onClick={(e) => MyAssignLeaveGetByIdApi(item.userId)}>Edit</Link></li>
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => setIdForDelete(item.departmentId)}>Delete</Link></li>
+                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => MyAssignLeaveGetByIdApi(item.userId)}>Delete</Link></li>
                             </ul>
                           </div>
                         </td>
@@ -1027,7 +1085,7 @@ const AssignLeave = () => {
           )
         }
 
-        <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop202" aria-labelledby="staticBackdropLabel">
+        <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop202" aria-labelledby="staticBackdropLabel" ref={offcanvasRef22}>
           {
             show22 && (
               <>
@@ -1060,22 +1118,10 @@ const AssignLeave = () => {
                           />
                         </div>
                       ))}
-                      {/* <select class="form-select   form-focus  label-color" value={LeaveType} onChange={(e) => setLeaveType(e.target.value)} aria-label="Default select example">
-                        <option value="">--Choose--</option>
-                        {
-                          leaveTypeAllData?.map(item => (
-                            <option key={item.id} value={item.leaveType}>{item.leaveType}</option>
-                          ))
-                        }
-                      </select> */}
                     </div>
-                    {/* <div className="mb-3" style={{ marginTop: '-6px' }}>
-                      <label for="exampleFormControlInput1" className="form-label  heading-14">Leave No</label>
-                      <input type="email" className="form-control form-focus label-color  heading-14" value={''} onChange={(e) => setLeaveType(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Select Leave No" />
-                    </div> */}
                     <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyLeavePutApi(IdForUpdate)}>Update</button>
-                      <button type="button" className="btn btn-outline-success">Cancel</button>
+                      <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyAssignLeavePutApi(IdForUpdate)}>Update leave</button>
+                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -1117,7 +1163,7 @@ const AssignLeave = () => {
 
         {/* ################ offcanvas delete start #############  */}
 
-        <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel">
+        <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
 
           {
             showdelete && (
@@ -1128,35 +1174,44 @@ const AssignLeave = () => {
                 </div>
                 <hr className='' />
 
-                <div className="offcanvas-body">
+                <div class="offcanvas-body">
+                  <div className="input " >
 
-                  <div className="sure-main-container mt-4">
-                    <div className="sure-container">
-                      <div>
-                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M29.5312 0.46875C13.2656 0.46875 0 13.7344 0 30C0 46.2656 13.2656 59.5312 29.5312 59.5312C45.7969 59.5312 59.0625 46.2656 59.0625 30C59.0625 13.7344 45.7969 0.46875 29.5312 0.46875ZM29.5312 55.7812C15.3281 55.7812 3.75 44.2031 3.75 30C3.75 15.7969 15.3281 4.21875 29.5312 4.21875C43.7344 4.21875 55.3125 15.7969 55.3125 30C55.3125 44.2031 43.7344 55.7812 29.5312 55.7812Z" fill="#B50000" />
-                          <path d="M31.4062 25.5469H27.6562V44.2969H31.4062V25.5469Z" fill="#B50000" />
-                          <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
-                        </svg>
-                      </div>
+                    <div className="mb-1">
+                      {leaveTypeLeaveCount?.map((item, index) => (
+                        <div key={index}>
+                          <div className='d-flex justify-content-between mb-2'>
+                            <label
+                              htmlFor={`leaveType-${index}`}
+                              className="form-label heading-14"
+                            >
+                              {item?.leaveType} ({item.leaveCount} days)
+                            </label>
 
-                      <div className="sure-content mt-2">
-                        <h5 className='heading-20'>Are you sure?</h5>
-                        <p>This Action will be permanently <br /> delete the Profile Data</p>
-                      </div>
-                      <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" onClick={() => setForDelete2(true)} type="checkbox" value="" id="flexCheckDefault" />
-                        <label className="form-check-label agree" for="flexCheckDefault">
-                          I Agree to delete the Profile Data
-                        </label>
-                      </div>
-
-                      <div className="mt-4">
-                        <button type="button" className="btn my-btn button00" disabled={forDelete2 ? false : true} onClick={handleForDelete} >Delete</button>
-                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
-                      </div>
-
+                            <input
+                              className="form-check-input my-form-check-input"
+                              type="checkbox"
+                              id={`leaveType-${index}`}
+                              checked={selectedLeaveTypes.includes(item.leaveType)}
+                              onChange={() => handleCheckboxChange(item.leaveType)}
+                              style={{
+                                width: '18px',
+                                height: '18px',
+                                flexShrink: 0,
+                                border: '1px solid #000'
+                              }}
+                            />
+                          </div>
+                          <hr className="mt-2 mb-2" />
+                        </div>
+                      ))}
                     </div>
+
+                    <div className='my-button11 '>
+                      <button type="button" className="btn btn-outline-success " style={{ backgroundColor: 'red', color: '#fff' }} onClick={(e) => MyHolidayDeleteApi()}>Delete leave</button>
+                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -1165,35 +1220,7 @@ const AssignLeave = () => {
           }
           {/* ############## After click ##############  */}
 
-          {
-            hidedelete && (
-              <div className="container-fluid">
-                <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
-                  <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
-                </div>
-                <hr className='' />
-                <div className="delete-section mt-5">
-                  <div className="bg-container">
-                    <div className="img-container22">
-                      <img src="/images/XMLID_1_.png" alt="" />
-                    </div>
-                    <div className="content mt-5">
-                      <p >Successful Delete</p>
-                      <hr style={{ width: '' }} />
-                      <p className='mb-5' style={{ color: '#ADADBD', fontSize: '14px' }}>Your profile has been <br /> Successfully Delete</p>
-                    </div>
-                    <div className='button-position'>
-                      <button type="button" className="btn btn-outline-primary button11 mt-4 mb" data-bs-dismiss="offcanvas" aria-label="Close" style={{ fontSize: '14px' }}>Continue</button>
 
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-            )
-          }
         </div>
         {/* ################ offcanvas delete end #############  */}
 

@@ -463,9 +463,10 @@ const ClassRoutine = () => {
   const [subjectData, setSubjectData] = useState([])
   const [teacherData, setTeacherData] = useState([])
   const [classRoutineData, setClassRoutineData] = useState([])
+
   const [tableSlotGetAll, setTableSlotGetAll] = useState([])
   const [slotGetAll, setSlotGetAll] = useState([])
-  console.log('all slots',slotGetAll)
+  // console.log('all slots', slotGetAll)
 
   const [breakType, setBreakType] = useState('')
   const [classNo, setClassNo] = useState('')
@@ -533,6 +534,8 @@ const ClassRoutine = () => {
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
   const [isValidTimeRequired, setIsValidTimeRequired] = useState(false);
   const [isValidEndTimeRequired, setIsValidEndTimeRequired] = useState(false);
+  const [byDefaultValue, setByDefaultValue] = useState(false);
+  // console.log('by default value', byDefaultValue)
 
 
   // Validation 
@@ -557,7 +560,6 @@ const ClassRoutine = () => {
     }
     return isValid;
   }
-
   const handlePeriode = (e2) => {
     setPeriod(e2);
     const nameRegex = /^[a-zA-Z0-9!@#$%^&*()_+=\- .]+$/;
@@ -610,7 +612,7 @@ const ClassRoutine = () => {
 
   useEffect(() => {
     Download_Slip()
-    MyClassRoutineGetAllApi()
+    // MyClassRoutineGetAllApi()
     MySlotGetAllApi()
   }, [])
 
@@ -737,6 +739,7 @@ const ClassRoutine = () => {
         setEndTime('')
         setStartTime('')
         setTimeSlot('')
+        MyClassRoutineGetAllApi()
         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
         offcanvasInstance.hide();
         setTimeout(() => {
@@ -762,6 +765,7 @@ const ClassRoutine = () => {
         setClassRoutineData(response?.data?.routine?.timetable)
         setTableSlotGetAll(response?.data?.routine?.periods)
         setLoader(false)
+        setByDefaultValue(true)
       } else {
         // toast.error(response?.data?.classes?.message);
       }
@@ -870,18 +874,18 @@ const ClassRoutine = () => {
     setIsValidTimeRequired(false)
     setIsValidEndTimeRequired(false)
     setSlotboolean(false)
+    setClassRoutineData([])
+    setTableSlotGetAll([])
   }
   const ClearDataInSearch = () => {
     setClassId('');
     setClassNo('');
     setSectionName('');
     setClassRoutineData([]);
+    setTableSlotGetAll([]);
+    setByDefaultValue(false)
   };
-  const ClearDataInSearch2 = () => {
-    setClassId('');
-    setClassNo('');
-    setSectionName('');
-  };
+
 
   // Slot apis_______________
 
@@ -908,7 +912,7 @@ const ClassRoutine = () => {
           setSlotEndTime('')
           setPeriod('')
           setSlotboolean(false)
-
+          MyClassRoutineGetAllApi()
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
           offcanvasInstance.hide();
           setTimeout(() => {
@@ -937,6 +941,7 @@ const ClassRoutine = () => {
         // toast.success(response?.data?.classes?.message)
         setSlotGetAll(response?.data)
         setLoader(false)
+
       } else {
         // toast.error(response?.data?.classes?.message);
       }
@@ -1015,6 +1020,7 @@ const ClassRoutine = () => {
   // Reset Add form when offcanvas opens
   const handleAddOffcanvasOpen = () => {
     ClearData()
+
     const offcanvasElement = document.getElementById('staticBackdrop1012');
     if (offcanvasElement) {
       const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
@@ -1028,6 +1034,7 @@ const ClassRoutine = () => {
   // Reset Add form when offcanvas opens
   const handleSecondAddAction = () => {
     ClearData()
+    MySlotGetAllApi()
     const offcanvasElement = document.getElementById('offcanvasRight101020');
     if (offcanvasElement) {
       const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
@@ -1096,9 +1103,9 @@ const ClassRoutine = () => {
               showAddButton={true}
               addButtonText="Add Class Routine"
               addButtonAction={handleAddOffcanvasOpen}
-              showSecondAddButton={true} 
-              secondAddButtonText="Add Time Slot" 
-              secondAddButtonAction={handleSecondAddAction} 
+              showSecondAddButton={true}
+              secondAddButtonText="Add Time Slot"
+              secondAddButtonAction={handleSecondAddAction}
               showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={''}
@@ -1161,14 +1168,11 @@ const ClassRoutine = () => {
               <thead className='text-center '>
                 <tr className='heading-16  text-color-000 text-center' style={{ fontWeight: '500' }}>
                   <th className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
-                    Days
-                    {/* { classNo ? ( <div>
-                          Days
-                        </div>
-                      )
-                      :
+                    {byDefaultValue ? (
+                      <div>Days</div>
+                    ) : (
                       <div>Not Found ClassRoutine...</div>
-                    } */}
+                    )}
                   </th>
                   {
                     tableSlotGetAll?.map((item, index) => (
@@ -1195,9 +1199,16 @@ const ClassRoutine = () => {
                           <td className=' greyText no-wrap  paddingNoRes' style={{ backgroundColor: 'inherit' }}>
                             <div className='mb-1' style={{ display: 'flex', justifyContent: 'end', alignItems: '' }}>
                               <div className="dropdown my-button-show" >
-                                <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 " style={{ fontSize: '16px' }} type="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                                  ....
-                                </button>
+                                {
+                                  item?.teacher && item?.subject ? (
+                                    <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 " style={{ fontSize: '16px' }} type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                                      ....
+                                    </button>
+                                  )
+                                  :
+                                  ''
+                                }
+
                                 <ul className="dropdown-menu anchor-color heading-14">
                                   <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
                                   <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li>
@@ -1367,7 +1378,7 @@ const ClassRoutine = () => {
                           </select>
                         </div>
                         <div className="mb-1  ">
-                          <label for="exampleFormControlInput1" className="form-label  heading-16 ">Time Slot2</label>
+                          <label for="exampleFormControlInput1" className="form-label  heading-16 ">Time Slot</label>
                           <select class="form-select  form-select-sm form-focus  label-color" value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} aria-label="Default select example">
                             <option selected>--Choose--</option>
                             {
@@ -1640,9 +1651,9 @@ const ClassRoutine = () => {
           )
         }
         {/* time slot update */}
-          {
-            showadd22 && (
-              <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight909090" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
+        {
+          showadd22 && (
+            <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight909090" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
               <div className="container-fluid h-100 d-flex flex-column">
                 <div className="offcanvas-header">
                   <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
@@ -1699,9 +1710,9 @@ const ClassRoutine = () => {
 
                 </div>
               </div>
-             </div>
-            )
-          }
+            </div>
+          )
+        }
       </div>
     </Container>
   )

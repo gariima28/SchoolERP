@@ -2521,12 +2521,25 @@ export const AddUpdateMarksApi = async (data) => {
 
 
 
-export const getAllExamScheduleApi = async (searchKey, pageNo, pageSize, selectedExam) => {
+export const getAllExamScheduleApi = async (searchKey, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(
-      `${Domain}/api/exam-schedule/getAllExamScheduleForStudent?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&examTermId=${selectedExam}`
-    );
+    var res = await axios.get(`${Domain}/api/exam-schedule/getAllExamScheduleForStudent?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`);
+
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+// ExamSchuledForTeacher 
+export const getAllExamScheduleApiForTeacher = async (searchKey, pageNo, pageSize,classNo, sectionName) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/api/exam-schedule/filterByClassAndSection?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&classNo=${classNo}&section=${sectionName}`);
 
     if (res) {
       return res;
@@ -5598,10 +5611,10 @@ export const AssignLeaveGetAllApi = async (searchKey, pageNo, pageSize) => {
   }
 }
 // Delete api
-export const LeaveAssignDeleteApi = async (id) => {
+export const LeaveAssignDeleteApi = async (IdForDelete,selectedLeaveTypes) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res2 = await axios.delete(`${Domain}/leaveUser/delete/${id}`)
+    const res2 = await axios.delete(`${Domain}/leaveUser/delete/${IdForDelete}?selectedLeaveType=${selectedLeaveTypes}`)
     if (res2) {
       return res2;
     }
@@ -5635,6 +5648,22 @@ export const AssignLeaveGetById = async (id) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/leaveUser/getById/${id}`)
+    // // console.log('my-response', res)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+//  Assign leave put api
+export const AssignLeavePutApi = async (IdForUpdate, formData) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.put(`${Domain}/leaveUser/update/${IdForUpdate}`,formData)
     // // console.log('my-response', res)
     if (res) {
       return res;
@@ -7303,7 +7332,20 @@ export const personal_Emergeny__GetById = async (id) => {
     return [];
   }
 }
-
+export const Profile_picture__GetById = async (id) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/otherStaff/getUser/${id}`)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
 export const Profile_picture_PutApi = async (id, formData) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
@@ -7744,7 +7786,7 @@ export const getAllEventDataApi = async (searchKey, pageNo, size) => {
 export const getAllSamplePaperDataApi = async (pageNo, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/samplePaper/getAll?page=${pageNo}&size=${size}`);
+    var res = await axios.get(`${Domain}/samplePaper/stu-get-samplePaper?page=${pageNo}&size=${size}`);
 
     if (res) {
       return res;
@@ -7797,22 +7839,20 @@ export const getAllExamSchedulesDataApi = async (pageNo, size) => {
 // ******************************************************************************************************
 
 
-export const getAllMarksDataApi = async (searchKey, pageNo, pageSize,selectedExam) => {
+export const getAllMarksDataApi = async (pageNo, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(
-      `${Domain}/marks/marksheetForStudentPanel?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&examTermId=${selectedExam}`
-    );
+    var res = await axios.get(`${Domain}/marks/stu-get-marks?page=${pageNo}&size=${size}`);
 
     if (res) {
       return res;
     } else {
-      return [];
+      return []
     }
   } catch (error) {
     return [];
   }
-};
+}
 
 // ******************************************************************************************************
 // Teachers  //
@@ -8771,11 +8811,12 @@ export const TeacherSyllabusSectionGetAllApi = async (classId) => {
   }
 }
 
-// Get subject by class id in syllabus 
-export const TeacherSubjectByClassIdInSyllabusGetAllApi = async (classId) => {
+// Get subject by class id in  
+export const TeacherSubjectByClassIdInSyllabusGetAllApi = async (id) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/subject/getAllSubByClassId/${classId}`)
+    const res = await axios.get(`${Domain}/subject/getAllSubByClassId/${id}`)
+    // const res = await axios.get(`${Domain}/subject/getAllSubByClassId/${classId}`)
     // // console.log('my-response', res)
     if (res) {
       return res;
@@ -9180,10 +9221,10 @@ export const TeacherSessionyGetAll = async (searchKey) => {
 
 // ##########################  Marks  APIs start ########################### 
 
-export const TeacherMarksGetAll = async (sectionId, subjectId, sessionName, ExamTerm) => {
+export const TeacherMarksGetAll = async (classNo,sectionId, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/marks/filter?classSec=${sectionId}&sessionName=${sessionName}&subject=${subjectId}&examTerm=${ExamTerm}`,)
+    const res = await axios.get(`${Domain}/marks/filter?classNo=${classNo}&classSec=${sectionId}&sessionName=${sessionName}&subject=${subjectId}&examTermId=${ExamTerm}&searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`,)
     // // console.log('my-response', res)
     if (res) {
       return res;
@@ -9199,7 +9240,7 @@ export const TeacherMarksGetAll = async (sectionId, subjectId, sessionName, Exam
 export const TeacherMarksPostApi = async (formData) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.post(`${Domain}/marks/assign`, formData)
+    const res = await axios.post(`${Domain}/marks/saveOrUpdate`, formData)
     if (res) {
       return res;
     }
@@ -9342,11 +9383,58 @@ export const TeacherGetTeacherGetAll = async (classId, subjectId) => {
   }
 }
 //  Assignmnt get all api
-export const TeacherAssignmntGetAllApi = async (sectioId, subjectId, searchKey, pageNo, pageSize) => {
+export const TeacherAssignmntGetAllApi = async (classId,sectioId,subjectId,searchKey,pageNo,pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/assignment/getAllAssignments?sectionId=${sectioId}&subjectId=${subjectId}&searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`)
-    // const res = await axios.get(`${Domain}/assignment/search-Assignment?sectionId=${sectioId}&subjectId=${subjectId}&searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`)
+    const res = await axios.get(`${Domain}/assignment/getAllAssignments?classId=${classId}&sectionId=${sectioId}&subjectId=${subjectId}&searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`)
+    // // console.log('my-response', res)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+//  Submission get all api
+export const TeacherSubmissionGetAllApi = async (classId, sectionId,subjectId,assignmentId,searchKey,pageNo,pageSize,singleState) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/submission/getAllSubmissions?classId=${classId}&sectionId=${sectionId}&assignmentId=${assignmentId}&subjectId=${subjectId}&searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&status=${singleState}`)
+    // // console.log('my-response', res)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+//  Submission get by id api
+export const TeacherSubmissionGetByIdApi = async (id) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/submission/getSubmissionById/${id}`)
+    // // console.log('my-response', res)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+//  Submission put by id api
+export const TeacherSubmissionPutByIdApi = async (IdForUpdate, formData) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.put(`${Domain}/submission/adminTea/update/${IdForUpdate}`, formData)
     // // console.log('my-response', res)
     if (res) {
       return res;
@@ -9378,10 +9466,10 @@ export const TeacherSamplePaperPostApi = async (formData) => {
   }
 }
 //  Assignmnt get all api
-export const TeacherSampleGetAllApi = async (searchKey, pageNo, pageSize) => {
+export const TeacherSampleGetAllApi = async (searchKey, pageNo, pageSize, classId, sectionId, subjectId) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/samplePaper/getAll?searchkey=${searchKey}&page=${pageNo}&size=${pageSize}`)
+    const res = await axios.get(`${Domain}/samplePaper/search-paper?searchkey=${searchKey}&page=${pageNo}&size=${pageSize}&classId=${classId}&sectionId=${sectionId}&subjectId=${subjectId}`)
     // // console.log('my-response', res)
     if (res) {
       return res;
@@ -9795,7 +9883,7 @@ export const TeacherAssignmntGetByIdApi = async (id) => {
 export const AssignmntPutApi = async (id, formData) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.put(`${Domain}/assignment/update/${id},formData`)
+    const res = await axios.put(`${Domain}/assignment/update/${id}`,formData)
     // // console.log('my-response', res)
     if (res) {
       return res;

@@ -194,8 +194,6 @@ const UserSidebar = () => {
   const [userMyRole, setUserMyRole] = useState('');
   const [transferData, setTransferData] = useState();
 
-  console.log(myId, "IDs set hui ya nahi ")
-
   useEffect(() => {
     userData();
   }, [id]);

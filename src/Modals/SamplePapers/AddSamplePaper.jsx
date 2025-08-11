@@ -482,8 +482,9 @@ const AddSamplePaper = ({ addedSuccess }) => {
                 })}
               >
                 <option value="">-- Select --</option>
-                <option value="ACTIVE">Active</option>
-                <option value="INACTIVE">Inactive</option>
+                <option value="Active">Active</option>
+                <option value="Draft">Draft</option>
+                <option value="Archives">Archives</option>
               </select>
               {errors.status && (
                 <p className="font12 text-danger">{errors.status.message}</p>
