@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
-import { getAllAssignmentsDataApi, getAllHolidayDataApi } from 'src/Utils/Apis';
+import { getAllAssignmentsDataApi } from 'src/Utils/Apis';
 import ReactPaginate from 'react-paginate';
 import toast, { Toaster } from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
@@ -80,7 +80,7 @@ const Assignment = () => {
     const getAllAssignments = async () => {
         try {
             setloaderState(true);
-            var response = await getAllAssignmentsDataApi(pageNo, pageSize);
+            var response = await getAllAssignmentsDataApi(searchByKey,pageNo, pageSize);
             // console.log(response, 'Assignment')
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
@@ -190,7 +190,7 @@ const Assignment = () => {
                                         <tr key={item.id}>
                                             <td className='textWrapClass font14 greyText'>{index + 1}</td>
                                             <td className='textWrapClass font14 greyText'>{item.title}</td>
-                                            <td className='textWrapClass font14 greyText'>{item.createdBy}</td>
+                                            <td className='textWrapClass font14 greyText'>{item.teacherName}</td>
                                             <td className='textWrapClass font14 greyText'>{item.subjectName}</td>
                                             <td className='textWrapClass greyText'>
                                                 <p className='font14 align-self-start m-0'>
