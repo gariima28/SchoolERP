@@ -80,6 +80,41 @@ const Container = styled.div`
     .dropdown-item:focus{
         background-color: var(--hoverBtn);
     }
+
+    .paidbutton {
+        border-radius: 30px;
+        background-color: #00A67E;
+        color: #fff;
+        padding: 0.34rem 1rem;
+    }
+
+    .unPaidbutton {
+        border-radius: 30px;
+        background-color: #B50000;
+        color: #fff;
+        padding: 0.34rem 1rem;
+    }
+
+    .partialbutton {
+        border-radius: 30px;
+        background-color: #FF914C;
+        color: #fff;
+        padding: 0.34rem 1rem;
+    }
+
+    .recieptbutton {
+        border-radius: 30px;
+        background-color: #FF914C;
+        color: #fff;
+        padding: 0.34rem 1rem;
+    }
+
+    .paynowbutton {
+        border-radius: 30px;
+        background-color: #B50000;
+        color: #fff;
+        padding: 0.34rem 1rem;
+    }
 `;
 
 
@@ -101,6 +136,7 @@ const Fees = () => {
     const [studentImage, setStudentImage] = useState('')
     const [feeId, setFeeId] = useState('')
     const [feeIdData, setFeeIdData] = useState('')
+    const [invoiceData, setInvoiceData] = useState()
 
     // CSV State
     const [csvData, setCSVData] = useState([])
@@ -124,7 +160,7 @@ const Fees = () => {
     }, [token])
 
     const handlePageClick = (event) => {
-        setPageNo(event.selected + 1); // as event start from 0 index
+        setPageNo(event.selected + 1);
     };
 
     const getStudentDataById = async () => {
@@ -133,12 +169,7 @@ const Fees = () => {
             var response = await getStudentProfileDataApi();
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
-                    setStudentName(response?.data?.student?.studentName);
-                    setStudentId(response?.data?.student?.studentId);
-                    setFatherName(response?.data?.student?.fatherName);
-                    setClassNo(response?.data?.student?.classNo);
-                    setStudentPh(response?.data?.student?.studentPhone);
-                    setStudentImage(response?.data?.student?.studentImage);
+                    setInvoiceData(response?.data?.studentInvoice)
                     // toast.success(response?.data?.message);
                     setloaderState(false);
                 }
@@ -322,7 +353,7 @@ const Fees = () => {
                                 <div className="row greenBG cardradius2 p-3">
                                     <div className="col-md-2 col-3 align-self-center">
                                         <div className="row">
-                                            <img src={studentImage} alt="" />
+                                            <img src={invoiceData?.invoices[0]?.studentImage} alt="" />
                                         </div>
                                     </div>
                                     <div className="col-md-10 col-9 ">
@@ -336,19 +367,19 @@ const Fees = () => {
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Name</label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentName} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.studentName} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Father Name: </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={fatherName} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.fatherName} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Mother Name: </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentPh} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.studentPh} />
                                                             </div>
                                                         </div>
                                                     </form>
@@ -360,19 +391,19 @@ const Fees = () => {
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Class (Section): </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={classNo} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.classNo} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Student Id: </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentId} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.studentId} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Roll No: </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentRollNo} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.studentRollNo} />
                                                             </div>
                                                         </div>
                                                     </form>
@@ -389,56 +420,42 @@ const Fees = () => {
                                     <thead>
                                         <tr>
                                             <th className='textWrapClass'><span className='font14'>#</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Fee Group</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Fee Code</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Due Date</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Status</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Amount</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Payment Id</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Mode</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Payment Date</span></th>
+                                            <th className='textWrapClass'><span className='font14'>Invoice No</span></th>
+                                            <th className='textWrapClass'><span className='font14'>Fee Type</span></th>
+                                            <th className='textWrapClass'><span className='font14'>Total Amount</span></th>
                                             <th className='textWrapClass'><span className='font14'>Discount</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Fine</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Paid</span></th>
-                                            <th className='textWrapClass'><span className='font14'>Balance</span></th>
+                                            <th className='textWrapClass'><span className='font14'>Due Amount</span></th>
+                                            <th className='textWrapClass'><span className='font14'>Paid Amount</span></th>
+                                            <th className='textWrapClass'><span className='font14'>Payment Date</span></th>
+                                            <th className='textWrapClass'><span className='font14'>Paid Status</span></th>
+                                            <th className='textWrapClass'><span className='font14'>Payment Mode</span></th>
                                             <th className='text-center textWrapClass'><span className='font14'>Action</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr></tr>
-                                        {studentFeeRes.map((item, index) => (
+                                        {invoiceData?.invoices[0]?.feeDetails.map((item, index) => (
                                             <tr className='align-middle' key={item?.feePaidId}>
                                                 <th className='textWrapClass greyText font14'>{index + 1}</th>
-                                                <td className='textWrapClass greyText font14'>{item.feeGroup.split('_').join(' ')}</td>
-                                                <td className='textWrapClass greyText font14'>{item.feeType}</td>
-                                                <td className='textWrapClass greyText font14'>{item.dueDate}</td>
-                                                <td className='textWrapClass greyText font14'>{item.mode}</td>
-                                                <td className='textWrapClass greyText font14'>{item.amount}</td>
-                                                <td className='textWrapClass greyText font14'>{item.paymentId}</td>
-                                                <td className='textWrapClass greyText font14'>{item.paymentMode}</td>
-                                                <td className='textWrapClass greyText font14'>{item.paymentDate}</td>
-                                                <td className='textWrapClass greyText font14'>{item.discount}</td>
-                                                <td className='textWrapClass greyText font14'>{item.fineAmount}</td>
-                                                <td className='textWrapClass greyText font14'>{item.paid}</td>
-                                                <td className='textWrapClass greyText font14'>{item.balance}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.invoiceNo}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.feeType}</td>
+                                                <td className='textWrapClass greyText font14'>
+                                                    <p className='blueText'>{item?.totalAmount}</p>
+                                                    <p>Created at: {item?.createdAt}</p>
+                                                </td>
+                                                <td className='textWrapClass greyText font14'>{item?.discountAmount}</td>
+                                                <td className='textWrapClass deactiveText'>{item?.dueAmount}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.paidAmount}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.paymentDate}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.paidStatus}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.paymentMode}</td>
                                                 <td className='textWrapClass text-end'>
-                                                    <div className="dropdown dropdownbtn">
-                                                        <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <span>Action</span>
-                                                        </button>
-                                                        <ul className="dropdown-menu">
-                                                            <li>
-                                                                <button className="dropdown-item greyText" type="button" data-bs-toggle="modal" data-bs-target="#AddFee" onClick={() => getFeeDataById(item.feePaidId)}>
-                                                                    Online Payment
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <Link className="dropdown-item greyText" to={`/parent/offlinePaymentForm/${item.feePaidId}`}>
-                                                                    Offline Payment
-                                                                </Link>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    <button className="btn btn-sm actionButtons" type='button'>
+                                                        <span>Action</span>
+                                                    </button>
+                                                    <button className="btn btn-sm actionButtons ms-2" type='button'>
+                                                        <span>Action</span>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}
