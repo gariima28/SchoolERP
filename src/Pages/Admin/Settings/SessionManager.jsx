@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components'
@@ -148,6 +148,7 @@ const SessionManager = () => {
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(5);
 
+    const [activeSessionItem, setActiveSessionItem] = useState('');
     const [searchKeyData, setSearchKeyData] = useState('');
 
     useEffect(() => {
@@ -207,10 +208,11 @@ const SessionManager = () => {
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
                     setSessionData(response?.data?.sessions);
+                    setActiveSessionItem(response?.data?.activeSession);
                     setActiveSession(response?.data?.activeSession?.currentYear)
                     setActiveSessionId(response?.data?.activeSession?.sessionId)
                     setSessionId(response?.data?.activeSession?.sessionId)
-                    // toast.success(response?.data?.message)
+                    setOpenDropdownId(null);
                 }
             }
         }
@@ -295,10 +297,10 @@ const SessionManager = () => {
         }
     }
 
-    const activeSession = async () => {
+    const activeSession = async (id) => {
         try {
             // console.log(sessionId, 'idddd')
-            var response = await activeSessionDataApi(sessionId);
+            var response = await activeSessionDataApi(id);
             // console.log(response, 'active session response')
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
@@ -404,6 +406,33 @@ const SessionManager = () => {
         bsOffcanvas.show();
     };
 
+    const [openDropdownId, setOpenDropdownId] = useState(null);
+    const dropdownRef = useRef(null);
+
+    const toggleDropdown = (id) => {
+        if (openDropdownId === id) {
+            setOpenDropdownId(null); // close if clicked again
+        } else {
+            setOpenDropdownId(id);
+        }
+    };
+
+    // close dropdown on outside click
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setOpenDropdownId(null);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     return (
 
@@ -440,8 +469,8 @@ const SessionManager = () => {
                 </div>
                 <div className="row pb-3">
                     <div className="cardradius bg-white p-3">
-                        <p className='activeSession font18 p-2 ps-3 fontWeight500'>Active session - <small className='font18 orangeText fontWeight500'>{activeSessionData}</small></p>
-                        <form action="" className="row">
+                        {/* <p className='activeSession font18 p-2 ps-3 fontWeight500'>Active session - <small className='font18 orangeText fontWeight500'>{activeSessionData}</small></p> */}
+                        {/* <form action="" className="row">
                             <div className="mb-3 mt-3">
                                 <label htmlFor="validationDefault02" className="form-label font14">Session*</label>
                                 <select className={`form-select font14 ${sessionError ? 'border-1 border-danger' : ''} `} value={sessionId} aria-label="Default select example" onChange={(e) => setSessionId(e.target.value)} disabled={!sessionData.length > 0}>
@@ -455,7 +484,34 @@ const SessionManager = () => {
                                 <span className='text-danger'>{sessionError}</span>
                             </div>
                             <p className='text-center m-3'><button className='btn addButtons text-white' type='button' disabled={sessionId === activeSessionId ? true : false} onClick={activeSession}> Active</button></p>
-                        </form>
+                        </form> */}
+
+                        <h2 className='orangeText mb-3'>Active Session</h2>
+                        <div className="overflow-scroll mb-3">
+                            <table className="table align-middle table-striped">
+                                <thead>
+                                    <tr>
+                                        <th className='textWrapClass'><h2>#</h2></th>
+                                        <th className='textWrapClass'><h2>Session</h2></th>
+                                        <th className='textWrapClass'><h2>Status</h2></th>
+                                        <th className='textWrapClass text-start'><h2>Action</h2></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr key={activeSessionItem.sessionId} className='my-bg-color align-middle'>
+                                        <th className='textWrapClass font14 greyText'>1</th>
+                                        <td className='textWrapClass font14 greyText'>{activeSessionItem.sessionName}</td>
+                                        <td className='textWrapClass font14 orangeText'>{activeSessionItem.status ? <h3>Active</h3> : <h3>InActive</h3>}</td>
+                                        <td className='textWrapClass text-start'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                                                <path fill="#262626" d="M10.001 7.8a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 10 7.8zm-7 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 3 7.8zm14 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 17 7.8z" stroke-width="0.2" stroke="#262626" />
+                                            </svg>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h2 className='orangeText mb-3'>Other Session</h2>
                         {sessionData.length > 0 ?
                             <>
                                 <div className="overflow-scroll">
@@ -465,7 +521,7 @@ const SessionManager = () => {
                                                 <th className='textWrapClass'><h2>#</h2></th>
                                                 <th className='textWrapClass'><h2>Session title</h2></th>
                                                 <th className='textWrapClass'><h2>Status</h2></th>
-                                                <th className='textWrapClass text-center'><h2>Action</h2></th>
+                                                <th className='textWrapClass text-start'><h2>Action</h2></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -473,25 +529,55 @@ const SessionManager = () => {
                                                 <tr key={item.sessionId} className='my-bg-color align-middle'>
                                                     <th className='textWrapClass greyText'><h3>{index + 1}</h3></th>
                                                     <td className='textWrapClass greyText'><h3>{item.sessionName}</h3></td>
-                                                    <td className='textWrapClass greyText'>{item.status ? <h3 className='activeText'>Active</h3> : <h3 className='deactiveText'>InActive</h3>}</td>
-                                                    <td className='textWrapClass text-center'>
-                                                        <div className="dropdown dropdownbtn">
-                                                            <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <span>Action</span>
-                                                            </button>
-                                                            <ul className="dropdown-menu">
+                                                    <td className='textWrapClass orangeText'>{item.status ? <h3>Active</h3> : <h3>Deactivate</h3>}</td>
+                                                    <td>
+                                                        <span
+                                                            className="cursor-pointer"
+                                                            onClick={() => toggleDropdown(item.sessionId)}
+                                                        >
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                width="20"
+                                                                height="20"
+                                                                viewBox="0 0 20 20"
+                                                            >
+                                                                <path
+                                                                    fill="#262626"
+                                                                    d="M10.001 7.8a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 10 7.8zm-7 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 3 7.8zm14 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 17 7.8z"
+                                                                    strokeWidth="0.2"
+                                                                    stroke="#262626"
+                                                                />
+                                                            </svg>
+                                                        </span>
+
+                                                        {openDropdownId === item.sessionId && (
+                                                            <ul className="dropdown-menu show" style={{ position: "absolute" }}>
                                                                 <li>
-                                                                    <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop" onClick={() => getSessionById(item.sessionId)}>
-                                                                        Edit
+                                                                    <button
+                                                                        className="dropdown-item greyText"
+                                                                        type="button"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#Delete_staticBackdrop"
+                                                                        aria-controls="Delete_staticBackdrop"
+                                                                        onClick={() => setDeleteId(item.sessionId)}
+                                                                    >
+                                                                        Delete Session
                                                                     </button>
                                                                 </li>
                                                                 <li>
-                                                                    <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => setDeleteId(item.sessionId)}>
-                                                                        Delete
+                                                                    <button
+                                                                        className="dropdown-item greyText"
+                                                                        type="button"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#Edit_staticBackdrop"
+                                                                        aria-controls="Edit_staticBackdrop"
+                                                                        onClick={() => activeSession(item.sessionId)}
+                                                                    >
+                                                                        Active Session
                                                                     </button>
                                                                 </li>
                                                             </ul>
-                                                        </div>
+                                                        )}
                                                     </td>
                                                 </tr>
                                             ))}
@@ -552,7 +638,7 @@ const SessionManager = () => {
                 </div>
             </div>
 
-            {/* Edit */}
+            {/* Edit
             <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="Edit_staticBackdrop" aria-labelledby="staticBackdropLabel">
                 <div className="offcanvas-header border-bottom border-2 p-1">
                     <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -583,7 +669,7 @@ const SessionManager = () => {
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* Delete */}
             <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="Delete_staticBackdrop" aria-labelledby="staticBackdropLabel">
