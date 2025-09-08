@@ -3,7 +3,7 @@ const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
 // const Domain= 'http://89.116.122.211:5000';
-const Domain = 'https://www.auth.edu2all.in/sch';
+const Domain = 'https://test.edu2all.in/sch/';
 
 
 
