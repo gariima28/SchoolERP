@@ -445,7 +445,6 @@ const Section = () => {
   const [idForDelete, setIdForDelete] = useState()
   const [roomChange, setRoomChange] = useState()
   const [idForPut, setIdForPut] = useState()
-  // console.log('boolean', checkState)
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -466,25 +465,8 @@ const Section = () => {
     UpdatNullRoomGetApi()
     MySectionGetApi()
     MySectionGetByIdApi()
-
   }, [pageNo])
 
-
-  // ###### validation ##########
-
-  // const FuncValidation = () => {
-  //   let isValid = true;
-  //   // name 
-  //   if (!sections || sections === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(sections)) {
-  //     setIsValidNameRequired(true)
-  //     isValid = false;
-  //     setLoader(false)
-  //   }
-  //   else {
-  //     setIsValidNameRequired(true)
-  //   }
-  //   return isValid;
-  // }
 
   const FuncValidation = () => {
     let isValid = true;
@@ -521,7 +503,9 @@ const Section = () => {
   const [sectionRoomPairs, setSectionRoomPairs] = useState([{ section: '', roomId: '' }]);
 
   const [sections, setSections] = useState(['']);
-  const [rooms, setRooms] = useState(['']);
+  const [rooms, setRooms] = useState([]);
+  console.log('datafromclassroom---------=====', rooms)
+
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
   const [datafromclassroom, setDataFromClassroom] = useState([]);
 
@@ -535,11 +519,12 @@ const Section = () => {
     setIsValidNameRequired(value.trim() === '');
   };
   // Handle room change
-  const handleRoomChange = (index, value) => {
-    const updatedRooms = [...rooms];
-    updatedRooms[index] = value;
-    setRooms(updatedRooms);
-  };
+const handleRoomChange = (index, value) => {
+  const updatedRooms = [...rooms];
+  updatedRooms[index] = value;
+  // Filter out empty strings and set the state
+  setRooms(updatedRooms.filter(room => room.trim() !== ''));
+};
   // Add new section-room pair
   const addSectionRoomPair = () => {
     setSections([...sections, '']);
@@ -561,9 +546,8 @@ const Section = () => {
     }));
   };
 
-
   // Post Api with Get all Api of class, and Get all api of room
-  const MySectionPostApi = async () => {
+  const MySectionPostApi = async () => { 
     setLoader(true)
     if (FuncValidation()) {
       const formData = new FormData()
@@ -774,8 +758,6 @@ const Section = () => {
     setRooms([''])
     setRooms('')
     setRooms(['', '', '']);
-    // setSections([])
-    // setRooms([])
   }
 
   return (
