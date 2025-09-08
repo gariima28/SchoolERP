@@ -58,6 +58,7 @@ const MyTime = ({ data }) => {
       try {
         setloaderState(true);
         const response = await TeachergetAllDashboardAttendanceDataApi();
+        console.log('timing show on t tiime component', response);
         if (response?.status === 200 && response?.data?.status === 'success') {
           const timeInSeconds = timeStringToSeconds(response?.data?.workHour);
           setTotalTime(timeInSeconds);
@@ -77,7 +78,7 @@ const MyTime = ({ data }) => {
     <>
       {loaderState && <HashLoader />}
       <div className="timer" style={{ fontSize: '20px', paddingTop: '3px' }}>
-        {secondsToTimeString(timeDiff)}
+        {secondsToTimeString(timeDiff) ? secondsToTimeString(timeDiff) : '00:00:00'}
       </div>
     </>
   );
