@@ -6,7 +6,6 @@ import { TeacherProfileByIdAllApi } from 'src/Utils/Apis';
 import { TeacherProfileUpdateAllApi } from 'src/Utils/Apis';
 
 
-
 // ## style css area start ####  
 
 const Container = styled.div`
@@ -107,7 +106,6 @@ const Profile = () => {
 
     const [isValidAddressRequired, setIsValidAddressRequired] = useState(false);
     const [isValidStaffNameRequired, setIsValidStaffNameRequired] = useState(false);
-    const [isValidStaffLastNameRequired, setIsValidStaffLastNameRequired] = useState(false);
     const [isValidPhoneRequired, setIsValidPhoneRequired] = useState(false);
     const [isValidStaffEmailRequired, setIsValidStaffEmailRequired] = useState(false);
     const [isValidDesignationRequired, setIsValidDesignationRequired] = useState(false);
@@ -229,7 +227,6 @@ const Profile = () => {
         }
     }
     // ###### validation ##########
-
     // Profile Get All Api   
     const MyProfileGetAllApi = async () => {
         setLoader(true)
