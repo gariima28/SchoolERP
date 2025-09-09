@@ -2,16 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
 import { getSidebarDataApi, logoutApi } from "src/Utils/Apis";
 import styled from "styled-components";
-
+import DataLoader from 'src/Layouts/Loader';
 import ArrowDropUpOutlinedIcon from "@mui/icons-material/ArrowDropUpOutlined";
 import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
 
 // Styled component for the sidebar
 const Container = styled.div`
-height: 100%;
+  height: 100%;
   z-index: 1;
+
   .drawerSidebar {
-    border-right: 1px solid #D7E7E5; /* Right border for the entire sidebar */
+    border-right: 1px solid #D7E7E5;
   }
 
   .menus {
@@ -22,11 +23,10 @@ height: 100%;
     align-items: center;
     white-space: nowrap;
     text-decoration: none !important;
-    /* border-bottom: 1px solid #D7E7E5; */
     transition: background-color 0.3s, color 0.3s;
 
     &:first-child {
-      border-top: 1px solid #D7E7E5; /* Top border for the first main menu item */
+      border-top: 1px solid #D7E7E5;
     }
 
     &:hover {
@@ -48,6 +48,14 @@ height: 100%;
       border-bottom: 5px solid transparent;
     }
 
+    &:hover .sidebar-icon {
+      filter: brightness(100); // White on hover
+    }
+
+    &:hover .MuiSvgIcon-root {
+      color: #ffffff; // White on hover for arrow icons
+    }
+
     &.active {
       background-color: var(--greenTextColor);
       color: #ffffff;
@@ -65,6 +73,14 @@ height: 100%;
       border-right: 10px solid orange;
       border-top: 5px solid transparent;
       border-bottom: 5px solid transparent;
+    }
+
+    &.active .sidebar-icon {
+      filter: brightness(100); // White when active
+    }
+
+    &.active .MuiSvgIcon-root {
+      color: #ffffff; // White when active for arrow icons
     }
 
     &.hover-active {
@@ -91,13 +107,23 @@ height: 100%;
       margin-left: 10px;
       transition: margin-left 0.3s ease;
     }
+
+    .sidebar-icon {
+      width: 16px;
+      height: 16px;
+      filter: brightness(0);
+    }
+
+    .MuiSvgIcon-root {
+      color: #000000;
+    }
   }
 
-  .subItemContainer{
+  .subItemContainer {
     background-color: #fff;
   }
 
-  .borderTopBottom{
+  .borderTopBottom {
     border-bottom: 1px solid #D7E7E5;
     border-top: 1px solid #D7E7E5;
   }
@@ -107,11 +133,29 @@ height: 100%;
     border-bottom: 1px solid #D7E7E5;
 
     &:first-child {
-      border-top: 1px solid #D7E7E5; /* Top border for the first sub-item */
+      border-top: 1px solid #D7E7E5;
     }
 
     &:last-child {
-      border-bottom: none; /* Remove bottom border for the last sub-item */
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #008479;
+      color: #ffffff;
+    }
+
+    &:hover .sidebar-icon {
+      filter: brightness(100); // White on hover for sub-items
+    }
+
+    &.active {
+      background-color: var(--greenTextColor);
+      color: #ffffff;
+    }
+
+    &.active .sidebar-icon {
+      filter: brightness(100); // White when active for sub-items
     }
   }
 
@@ -127,13 +171,18 @@ height: 100%;
       color: #fff;
       background-color: #008479;
       border-bottom: 1px solid #D7E7E5;
+
+      .sidebar-icon {
+        filter: brightness(100); // White for main item in hover menu
+        margin-right: 10px;
+      }
     }
-    
-    .main-item-radius{
+
+    .main-item-radius {
       border-radius: 5px 5px 0px 0px;
     }
 
-    .main-item-no-radius{
+    .main-item-no-radius {
       border-radius: 5px;
     }
 
@@ -165,9 +214,17 @@ height: 100%;
         background-color: #008479;
       }
 
+      &:hover .sidebar-icon {
+        filter: brightness(100); // White on hover
+      }
+
       &.active {
         color: #fff;
         background-color: var(--greenTextColor);
+      }
+
+      &.active .sidebar-icon {
+        filter: brightness(100); // White when active
       }
 
       .menu-text {
@@ -176,82 +233,71 @@ height: 100%;
     }
   }
 
-
   ul {
-        max-height: calc(100vh - 10vh);
-        overflow: auto;
-        list-style-type: none;
-    }
+    max-height: calc(100vh - 10vh);
+    overflow: auto;
+    list-style-type: none;
+  }
 
-    .dashed{
-        list-style: none !important;
-    }
+  .dashed {
+    list-style: none !important;
+  }
 
-    .show{
-        height: 100%;
-        overflow: hidden;
-        transition: height .35s ease !important;
-    }
+  .show {
+    height: 100%;
+    overflow: hidden;
+    transition: height 0.35s ease !important;
+  }
 
-    .hide{
-        height: 0;
-        overflow: hidden;
-        transition: height .35s !important;
-    }
+  .hide {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.35s !important;
+  }
 
-    .modalHighborder{
-        border-bottom: 2px solid var(--modalBorderColor);
-    }
+  .modalHighborder {
+    border-bottom: 2px solid var(--modalBorderColor);
+  }
 
-    .modalLightBorder{
-        border-bottom: 1px solid var(--modalBorderColor);
-    }
+  .modalLightBorder {
+    border-bottom: 1px solid var(--modalBorderColor);
+  }
 
-    .deleteSVG{
-        position: relative;
-        width: fit-content ;
-        margin-left: 43% !important;
-        margin-bottom: -18% !important;
-        background-color: #fff;
-    }
+  .deleteSVG {
+    position: relative;
+    width: fit-content;
+    margin-left: 43% !important;
+    margin-bottom: -18% !important;
+    background-color: #fff;
+  }
 
-    .greydiv{
-        background-color: #FBFBFB;
-    }
+  .greydiv {
+    background-color: #FBFBFB;
+  }
 
-    .borderTOP {
-        border-top: 1px solid var(--borderSidebar);
-    }
+  .borderTOP {
+    border-top: 1px solid var(--borderSidebar);
+  }
 
-    .borderBottom {
-        border-bottom: 1px solid var(--borderSidebar);
-    }
+  .borderBottom {
+    border-bottom: 1px solid var(--borderSidebar);
+  }
 
-    .correvtSVG{
-        position: relative;
-        width: fit-content ;
-        margin-left: 43% !important;
-        margin-bottom: -16% !important;
-        background-color: #2BB673;
-        width: 73px;
-        height: 73px;
-        align-items: center;
-    }
+  .correvtSVG {
+    position: relative;
+    width: fit-content;
+    margin-left: 43% !important;
+    margin-bottom: -16% !important;
+    background-color: #2BB673;
+    width: 73px;
+    height: 73px;
+    align-items: center;
+  }
 
-    .contbtn{
-        margin-left: 41% !important;
-        margin-top: -20% !important;
-    }
-
-    .greydiv{
-        background-color: #FBFBFB;
-    }
-
-
-    .collapse-menu {
-        padding-left: 1.5rem;
-    }
-
+  .contbtn {
+    margin-left: 41% !important;
+    margin-top: -20% !important;
+  }
 `;
 
 const Sidebar = ({ openSidebar, setOpenSidebar }) => {
@@ -263,8 +309,11 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
   const [dashboardItems, setDashboardItems] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1200);
   const location = useLocation();
+  const navigate = useNavigate();
+  const logoutTimerRef = useRef(null);
+  const [LogoutSuccess, setLogoutSuccess] = useState(true);
+  const [loaderState, setLoaderState] = useState(false);
 
-  // Restore expanded menu from sessionStorage on mount
   useEffect(() => {
     const storedExpandedMenu = sessionStorage.getItem("expandedMenu");
     if (storedExpandedMenu) {
@@ -272,7 +321,6 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
     }
   }, []);
 
-  // Update sessionStorage when expandedMenu changes
   useEffect(() => {
     if (expandedMenu) {
       sessionStorage.setItem("expandedMenu", expandedMenu);
@@ -285,10 +333,8 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1200);
     };
-
     window.addEventListener("resize", handleResize);
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -305,6 +351,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
   useEffect(() => {
     const getSidebarData = async () => {
       try {
+        setLoaderState(true);
         const response = await getSidebarDataApi("", "", "", "");
         if (response?.status === 200 && response?.data?.status === "success") {
           setDashboardItems(response?.data?.data);
@@ -313,10 +360,44 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
         }
       } catch (error) {
         console.error("Error fetching sidebar data:", error);
+      } finally {
+        setLoaderState(false);
       }
     };
     getSidebarData();
   }, []);
+
+  useEffect(() => {
+    const inactivityPeriod = 24 * 60 * 60 * 1000;
+    logoutTimerRef.current = setTimeout(() => {
+      handleLogout();
+    }, inactivityPeriod);
+    return () => clearTimeout(logoutTimerRef.current);
+  }, []);
+
+  useEffect(() => {
+    const validateSession = () => {
+      const token = sessionStorage.getItem("token");
+      const loginTimestamp = sessionStorage.getItem("loginTimestamp");
+      const maxSessionDuration = 12 * 60 * 60 * 1000;
+
+      if (token && loginTimestamp) {
+        const sessionAge = Date.now() - parseInt(loginTimestamp, 10);
+        if (sessionAge > maxSessionDuration) {
+          sessionStorage.clear();
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
+          toast.error("Session expired. Please log in again.");
+        }
+      } else {
+        sessionStorage.clear();
+        navigate("/");
+      }
+    };
+    validateSession();
+  }, [navigate]);
 
   const handleExpand = (key) => {
     setExpandedMenu((prev) => (prev === key ? null : key));
@@ -330,30 +411,49 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
     }
   };
 
-  const handleMouseLeave = (item) => {
+  const handleMouseLeave = () => {
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-
     hoverTimerRef.current = setTimeout(() => {
       setHoveredItem(null);
       setAnchorEl(null);
     }, 300);
   };
 
+  const handleUserLogout = () => {
+    clearTimeout(logoutTimerRef.current);
+    handleLogout();
+  };
+
+  const handleLogout = async () => {
+    try {
+      setLoaderState(true);
+      const response = await logoutApi();
+      if (response?.status === 200 && response?.data?.status === "success") {
+        sessionStorage.removeItem("token");
+        setLogoutSuccess(false);
+        setTimeout(() => {
+          navigate("/");
+          window.location.reload();
+        }, 1000);
+      } else {
+        console.log(response?.data?.message);
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    } finally {
+      setLoaderState(false);
+    }
+  };
+
   const isActiveLink = (activeLinks) => {
     if (!activeLinks) return false;
-
     const normalizedPathname = location.pathname.startsWith("/")
       ? location.pathname.slice(1)
       : location.pathname;
 
     return activeLinks.some((link) => {
-      // Normalize the link by removing leading slash
       const normalizedLink = link.startsWith("/") ? link.slice(1) : link;
-
-      // Remove dynamic segments (e.g., :schoolId) from the link
       const baseLink = normalizedLink.split("/:")[0];
-
-      // Check exact match or if pathname starts with baseLink
       return (
         normalizedPathname === baseLink ||
         normalizedPathname.startsWith(baseLink + "/") ||
@@ -363,99 +463,9 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
     });
   };
 
-  //logout functinality
-
-  const navigate = useNavigate();
-  const logoutTimerRef = useRef(null);
-  const [LogoutSuccess, setLogoutSuccess] = useState(true);
-  const [loaderState, setloaderState] = useState(false);
-
-  useEffect(() => {
-    const inactivityPeriod = 24 * 60 * 60 * 1000;
-
-    // Set the timer for auto-logout after 24 hours
-    logoutTimerRef.current = setTimeout(() => {
-      handleLogout();
-    }, inactivityPeriod);
-
-    // Cleanup function to clear the timer if the component unmounts
-    return () => {
-      clearTimeout(logoutTimerRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    const validateSession = () => {
-      const token = sessionStorage.getItem('token');
-      const loginTimestamp = sessionStorage.getItem('loginTimestamp');
-      const maxSessionDuration = 12 * 60 * 60 * 1000; // 12 hours
-      // const maxSessionDuration = 2 * 60 * 1000; // 2 minutes
-
-      if (token && loginTimestamp) {
-        const sessionAge = Date.now() - parseInt(loginTimestamp, 10);
-
-        if (sessionAge > maxSessionDuration) {
-          // Session expired
-          sessionStorage.clear();
-          navigate('/'); // Redirect to login
-          setTimeout(() => {
-            window.location.reload()
-            navigate()
-          }, 300);
-          toast.error('Session expired. Please log in again.');
-        }
-      } else {
-        // No valid session
-        sessionStorage.clear();
-        navigate('/'); // Redirect to login
-
-      }
-    };
-
-    validateSession();
-  }, [navigate]);
-
-  const handleUserLogout = () => {
-    console.log('start')
-    clearTimeout(logoutTimerRef.current);
-    console.log('start')
-    handleLogout();
-  };
-
-  const handleLogout = async () => {
-    try {
-      var response = await logoutApi();
-      // // console.log(response)
-      if (response?.status === 200) {
-        if (response?.data?.status === 'success') {
-          sessionStorage.removeItem('token');
-          setLogoutSuccess(false);
-          setTimeout(() => {
-            navigate('/')
-          }, 600);
-          setTimeout(() => {
-            window.location.reload();
-            window.location.reload();
-          }, 1000);
-        }
-      }
-      else {
-        // // console.log(response?.data?.message);
-      }
-    }
-    catch (error) {
-      setloaderState(false);
-
-    }
-  }
-
   return (
     <Container sidebarOpen={openSidebar}>
-      {
-        loaderState && (
-          <DataLoader />
-        )
-      }
+      {loaderState && <DataLoader />}
       {(!isMobile || (isMobile && openSidebar)) && (
         <div
           className="drawerSidebar"
@@ -463,7 +473,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
             width: isMobile ? (openSidebar ? 300 : 0) : openSidebar ? 240 : 60,
             opacity: isMobile && !openSidebar ? 0 : 1,
             transition: isMobile
-              ? "width 3s ease, opacity 3s ease"
+              ? "width 0.3s ease, opacity 0.3s ease"
               : "width 0.5s ease, opacity 0.3s ease",
             height: "100vh",
             overflowY: "auto",
@@ -493,15 +503,14 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
           {dashboardItems.map((item, index) => {
             const hasSubItems = item.subItems && item.children?.length > 0;
             const isExpanded = expandedMenu === item.key;
-            // const IconComponent = iconMap[item.icon];
 
-            if (item.key === 'logout') {
+            if (item.key === "logout") {
               return (
                 <Link
                   key={item.key || index}
                   className={`menus d-flex borderTopBottom ${activeMenu === item.key || isActiveLink(item.activeLink)
-                    ? " active"
-                    : ""
+                      ? " active"
+                      : ""
                     } ${!openSidebar ? "justify-content-center" : ""}`}
                   data-bs-toggle="offcanvas"
                   data-bs-target="#logoutCanvas"
@@ -512,15 +521,18 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                   }}
                 >
                   <div className="titleAndIcon">
-                    {/* {IconComponent && <IconComponent />} */}
-                    {openSidebar && (
-                      <h3 className="menu-text">{item.title}</h3>
+                    {item.icon && (
+                      <img
+                        src={item.icon}
+                        alt={`${item.title} icon`}
+                        className="sidebar-icon"
+                      />
                     )}
+                    {openSidebar && <h3 className="menu-text">{item.title}</h3>}
                   </div>
                 </Link>
               );
-            }
-            else {
+            } else {
               return (
                 <div key={item.key || index}>
                   <NavLink
@@ -539,19 +551,25 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                       }
                     }}
                     onMouseEnter={(e) => handleMouseEnter(e, item)}
-                    onMouseLeave={() => handleMouseLeave(item)}
+                    onMouseLeave={() => handleMouseLeave()}
                     className={({ isActive }) =>
-                      `menus${isActive || isActiveLink(item.activeLink) ? " active" : ""}${hoveredItem && hoveredItem.key === item.key ? " hover-active" : ""
+                      `menus${isActive || isActiveLink(item.activeLink) ? " active" : ""
+                      }${hoveredItem && hoveredItem.key === item.key
+                        ? " hover-active"
+                        : ""
                       }`
                     }
                   >
                     <div className="titleAndIcon">
-                      {/* {IconComponent && <IconComponent />} */}
-                      {openSidebar && (
-                        <h3 className="menu-text">{item.title}</h3>
+                      {item.icon && (
+                        <img
+                          src={item.icon}
+                          alt={`${item.title} icon`}
+                          className="sidebar-icon"
+                        />
                       )}
+                      {openSidebar && <h3 className="menu-text">{item.title}</h3>}
                     </div>
-
                     {hasSubItems && openSidebar && (
                       <div>
                         {isExpanded ? (
@@ -574,28 +592,32 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                           : "max-height ease",
                       }}
                     >
-                      {item.children.map((sub, subIdx) => {
-                        // const SubIconComponent = iconMap[sub.icon];
-                        return (
-                          <NavLink
-                            key={sub.key || subIdx}
-                            onClick={
-                              isMobile ? () => setOpenSidebar(false) : undefined
-                            }
-                            to={sub.route}
-                            className={({ isActive }) =>
-                              `menus${isActive || isActiveLink(sub.activeLink) ? " active" : ""}`
-                            }
-                          >
-                            {/* {openSidebar && SubIconComponent && (
-                              <SubIconComponent />
-                            )} */}
-                            {openSidebar && (
-                              <h3 className="menu-text">{sub.title}</h3>
-                            )}
-                          </NavLink>
-                        );
-                      })}
+                      {item.children.map((sub, subIdx) => (
+                        <NavLink
+                          key={sub.key || subIdx}
+                          onClick={
+                            isMobile ? () => setOpenSidebar(false) : undefined
+                          }
+                          to={sub.route}
+                          className={({ isActive }) =>
+                            `menus${isActive || isActiveLink(sub.activeLink)
+                              ? " active"
+                              : ""
+                            }`
+                          }
+                        >
+                          {openSidebar && sub.icon && (
+                            <img
+                              src={sub.icon}
+                              alt={`${sub.title} icon`}
+                              className="sidebar-icon"
+                            />
+                          )}
+                          {openSidebar && (
+                            <h3 className="menu-text">{sub.title}</h3>
+                          )}
+                        </NavLink>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -611,7 +633,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
           onMouseEnter={() => {
             if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
           }}
-          onMouseLeave={() => handleMouseLeave(hoveredItem)}
+          onMouseLeave={() => handleMouseLeave()}
           style={{
             position: "fixed",
             top: anchorEl.getBoundingClientRect().top + 3,
@@ -621,73 +643,125 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
             boxShadow: "0px 2px 10px rgba(0,0,0,0.1)",
           }}
         >
-          <div className={`main-item ${hoveredItem.children?.length ? 'main-item-radius' : 'main-item-no-radius'}`}>{hoveredItem.title}</div>
-          {hoveredItem.children?.map((sub, idx) => {
-            // const SubIconComponent = iconMap[sub.icon];
-            return (
-              <NavLink
-                key={sub.key || idx}
-                to={sub.route}
-                onClick={() => setAnchorEl(null)}
-                className={({ isActive }) =>
-                  `sub-item${isActive || isActiveLink(sub.activeLink) ? " active" : ""}`
-                }
-              >
-                {/* {SubIconComponent && <SubIconComponent />} */}
-                <h3 className="menu-text">{sub.title}</h3>
-              </NavLink>
-            );
-          })}
+          <div
+            className={`main-item ${hoveredItem.children?.length ? "main-item-radius" : "main-item-no-radius"
+              }`}
+          >
+            {/* {hoveredItem.icon && (
+              <img
+                src={hoveredItem.icon}
+                alt={`${hoveredItem.title} icon`}
+                className="sidebar-icon"
+                style={{ marginRight: "10px" }}
+              />
+            )} */}
+            {hoveredItem.title}
+          </div>
+          {hoveredItem.children?.map((sub, idx) => (
+            <NavLink
+              key={sub.key || idx}
+              to={sub.route}
+              onClick={() => setAnchorEl(null)}
+              className={({ isActive }) =>
+                `sub-item${isActive || isActiveLink(sub.activeLink) ? " active" : ""}`
+              }
+            >
+              {sub.icon && (
+                <img
+                  src={sub.icon}
+                  alt={`${sub.title} icon`}
+                  className="sidebar-icon"
+                />
+              )}
+              <h3 className="menu-text">{sub.title}</h3>
+            </NavLink>
+          ))}
         </div>
       )}
 
-
-      {/* Logout */}
-
-      <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="logoutCanvas" aria-labelledby="staticBackdropLabel">
+      <div
+        className="offcanvas offcanvas-end p-2"
+        data-bs-backdrop="static"
+        tabIndex="-1"
+        id="logoutCanvas"
+        aria-labelledby="staticBackdropLabel"
+      >
         <div className="offcanvas-header ps-0 border-bottom border-2 p-1">
           <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 16 16">
-              <path fill="#B50000" fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1.5em"
+              height="1.5em"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill="#B50000"
+                fillRule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+              />
             </svg>
           </Link>
-          <h2 className="offcanvas-title fontWeight900" id="staticBackdropLabel">Logout Message</h2>
+          <h2 className="offcanvas-title fontWeight900" id="staticBackdropLabel">
+            Logout Message
+          </h2>
         </div>
         <div className="offcanvas-body p-0">
-          {LogoutSuccess
-            ?
+          {LogoutSuccess ? (
             <>
               <div>
-                <p className='border-bottom p-2'>Logout</p>
+                <p className="border-bottom p-2">Logout</p>
                 <div className="text-center p-5">
-                  <p className='mb-2'><img src="/images/logout.svg" alt="" /></p>
-                  <h1 className='mb-2'>Are you Sure?</h1>
-                  <h3 className='greyText'>Are you Sure you want to logout?</h3>
-                  <p className='text-center p-3'>
-                    <button className='btn deleteButtons text-white' onClick={() => handleUserLogout()}>Logout</button>
-                    <button className='btn cancelButtons ms-3' data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                  <p className="mb-2">
+                    <img src="/images/logout.svg" alt="" />
+                  </p>
+                  <h1 className="mb-2">Are you Sure?</h1>
+                  <h3 className="greyText">Are you Sure you want to logout?</h3>
+                  <p className="text-center p-3">
+                    <button
+                      className="btn deleteButtons text-white"
+                      onClick={() => handleUserLogout()}
+                    >
+                      Logout
+                    </button>
+                    <button
+                      className="btn cancelButtons ms-3"
+                      data-bs-dismiss="offcanvas"
+                      aria-label="Close"
+                    >
+                      Cancel
+                    </button>
                   </p>
                 </div>
               </div>
             </>
-            :
+          ) : (
             <>
               <div>
-                <p className='modalLightBorder p-2 mb-0'>Logout</p>
+                <p className="modalLightBorder p-2 mb-0">Logout</p>
                 <div className="mt-3">
-                  <div className='correvtSVG p-3 pt-4 rounded-circle'><img src="/images/Correct.svg" alt="" /></div>
-                  <div className="updatetext border m-4 border-2  ms-5 greydiv rounded-3 text-center greyText p-5">
-                    <p className='warningHeading'>Successful Updated</p>
-                    <p className='greyText warningText pt-2'>Your Changes has been<br />Successfully Saved</p>
+                  <div className="correvtSVG p-3 pt-4 rounded-circle">
+                    <img src="/images/Correct.svg" alt="" />
                   </div>
-                  <button className='btn contbtn continueButtons text-white' type='button' data-bs-dismiss="offcanvas" aria-label="Close" >Continue</button>
+                  <div className="updatetext border m-4 border-2 ms-5 greydiv rounded-3 text-center greyText p-5">
+                    <p className="warningHeading">Successful Updated</p>
+                    <p className="greyText warningText pt-2">
+                      Your Changes has been<br />Successfully Saved
+                    </p>
+                  </div>
+                  <button
+                    className="btn contbtn continueButtons text-white"
+                    type="button"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  >
+                    Continue
+                  </button>
                 </div>
               </div>
             </>
-          }
+          )}
         </div>
       </div>
-
     </Container>
   );
 };
