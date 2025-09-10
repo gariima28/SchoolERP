@@ -143,6 +143,9 @@ const AdminDashboard = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   return (

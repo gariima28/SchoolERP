@@ -120,6 +120,9 @@ const Event = () => {
             setloaderState(false);
             // console.log('Error Facing during Get All Event API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePageClick = (event) => {

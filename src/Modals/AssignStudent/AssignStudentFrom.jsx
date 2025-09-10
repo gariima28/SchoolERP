@@ -76,7 +76,9 @@ const AssignStudentForm = ({ setAssignStudent }) => {
         catch (error) {
             setloaderState(false);
             setloaderState(false);
-
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -98,6 +100,9 @@ const AssignStudentForm = ({ setAssignStudent }) => {
             setloaderState(false);
 
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllDropPointData = async () => {
@@ -117,6 +122,9 @@ const AssignStudentForm = ({ setAssignStudent }) => {
             setloaderState(false);
             setloaderState(false);
 
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -149,6 +157,9 @@ const AssignStudentForm = ({ setAssignStudent }) => {
         catch (error) {
             setloaderState(false);
             // // console.log('errrorrrrr')
+        }
+        finally {
+            setloaderState(false);
         }
     }
 

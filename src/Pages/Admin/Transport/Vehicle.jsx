@@ -259,6 +259,9 @@ const Vehicle = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     const getAllRouteData = async () => {
@@ -277,6 +280,9 @@ const Vehicle = () => {
             setloaderState(false);
             console.error('Error fetching route data:', error);
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     const getAllDriverData = async () => {
@@ -294,6 +300,9 @@ const Vehicle = () => {
             setloaderState(false);
             setloaderState(false);
             console.error('Error fetching driver data:', error);
+        }
+        finally {
+            setloaderState(false);
         }
     };
 
@@ -322,6 +331,9 @@ const Vehicle = () => {
                 setloaderState(false);
                 setloaderState(false)
                 console.error('Error deleting vehicle:', error);
+            }
+            finally {
+                setloaderState(false);
             }
         }
         else {
@@ -366,6 +378,9 @@ const Vehicle = () => {
             setloaderState(false)
             console.error('Error fetching vehicle data by id:', error);
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     const updateVehicleDataById = async (data) => {
@@ -400,6 +415,9 @@ const Vehicle = () => {
             setloaderState(false);
             setloaderState(false)
             console.error('Error during update:', error);
+        }
+        finally {
+            setloaderState(false);
         }
     };
 

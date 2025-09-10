@@ -155,6 +155,9 @@ const MyAccount = () => {
             }
 
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const UpdateAdminByadminId = async (data) => {
@@ -184,6 +187,9 @@ const MyAccount = () => {
             setloaderState(false);
             // console.log(error, 'error')
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const [showModal, setShowModal] = useState(false);
@@ -209,7 +215,7 @@ const MyAccount = () => {
                     <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
                         <ol className="breadcrumb mb-1">
                             <li className="breadcrumb-item"><a href="/" className='bredcrumText text-decoration-none'>Home</a></li>
-                            <li className="breadcrumb-item"><a href="/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
+                            <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
                             <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">My Account</li>
                         </ol>
                     </nav>

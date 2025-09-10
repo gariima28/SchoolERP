@@ -44,9 +44,12 @@ const UpdatePackage = ({ planId, closingEditCanvas, closingCancel }) => {
                 console.error(response?.data?.message);
             }
         } catch (error) {
-            setloaderState(false);
+            setLoaderState(false);
             setLoaderState(false);
             console.error(error);
+        }
+        finally {
+            setLoaderState(false);
         }
     };
 
@@ -64,9 +67,12 @@ const UpdatePackage = ({ planId, closingEditCanvas, closingCancel }) => {
                 console.error(response?.data?.message);
             }
         } catch (error) {
-            setloaderState(false);
+            setLoaderState(false);
             setLoaderState(false);
             console.error(error);
+        }
+        finally {
+            setLoaderState(false);
         }
     };
 

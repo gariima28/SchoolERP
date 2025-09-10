@@ -176,6 +176,9 @@ const ProfilePage = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const updateProfileData = async (data) => {
@@ -212,6 +215,9 @@ const ProfilePage = () => {
         }
         catch (error) {
             console.log('Error Facing during Get All Profile API - ', error)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 

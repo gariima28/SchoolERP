@@ -10,7 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import { CSVLink } from 'react-csv';
 import ActionControls from '../../../Layouts/ActionControls';
-import * as bootstrap from 'bootstrap'; // Import bootstrap globally
+
 
 const Container = styled.div`
     select:-internal-list-box {
@@ -263,6 +263,9 @@ const SamplePaper = () => {
                     setloaderState(false);
                 }, 300);
             }
+            finally {
+                setloaderState(false);
+            }
         }
     };
 
@@ -304,6 +307,9 @@ const SamplePaper = () => {
             }, 300);
             toast.error('An error occurred while downloading the SamplPaper-', error);
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     const getAllClassData = async () => {
@@ -331,6 +337,9 @@ const SamplePaper = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     const DeleteSamplePaperDataById = async (id) => {
@@ -357,6 +366,9 @@ const SamplePaper = () => {
             } catch (error) {
                 setloaderState(false);
                 console.error('Error during login:', error);
+            }
+            finally {
+                setloaderState(false);
             }
         }
     };

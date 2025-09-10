@@ -240,6 +240,7 @@ const Login = () => {
                         setToastDisplayed(true);
                         toast.error(responseData?.message || 'Login failed. Please try again.');
                     }
+                    
                 }
             } else {
                 if (!toastDisplayed) {
@@ -263,6 +264,10 @@ const Login = () => {
                     toast.error('An unexpected error occurred. Please try again later.');
                 }
             }
+        }
+        finally{
+            window.location.reload()
+            navigate('/');
         }
     };
 

@@ -187,6 +187,9 @@ const Fees = () => {
             setloaderState(false);
             // console.log(error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getFeeDataById = async (feeIddd) => {
@@ -214,6 +217,9 @@ const Fees = () => {
         catch (error) {
             setloaderState(false);
             // console.log(error)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -250,6 +256,9 @@ const Fees = () => {
                     navigate('/')
                 }, 200);
             }
+        }
+        finally {
+            setloaderState(false);
         }
     }
 

@@ -100,7 +100,9 @@ const EditExam = ({ EditId, offlineUpdateState }) => {
         catch (error) {
             setloaderState(false);
             setloaderState(false);
-
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -138,6 +140,9 @@ const EditExam = ({ EditId, offlineUpdateState }) => {
             setloaderState(false);
             // console.log('Error while fetching class data: ', error);
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllRoomData = async () => {
@@ -155,6 +160,9 @@ const EditExam = ({ EditId, offlineUpdateState }) => {
         catch (error) {
             setloaderState(false);
             // console.log('Error while fetching room data: ', error);
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -187,6 +195,9 @@ const EditExam = ({ EditId, offlineUpdateState }) => {
         catch (error) {
             setloaderState(false);
             // console.log('Error while adding new data: ', error);
+        }
+        finally {
+            setloaderState(false);
         }
     }
 

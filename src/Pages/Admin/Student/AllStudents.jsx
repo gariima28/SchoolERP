@@ -177,6 +177,9 @@ const AllStudents = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   const getAllClassData = async () => {
@@ -196,6 +199,9 @@ const AllStudents = () => {
       setloaderState(false);
       setloaderState(false);
 
+    }
+    finally {
+      setloaderState(false);
     }
   }
 
@@ -227,6 +233,9 @@ const AllStudents = () => {
         }
       }
       catch (error) {
+        setloaderState(false);
+      }
+      finally {
         setloaderState(false);
       }
     }

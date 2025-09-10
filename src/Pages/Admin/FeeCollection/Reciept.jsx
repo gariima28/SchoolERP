@@ -226,6 +226,9 @@ const Reciept = () => {
                 }, 200);
             }
         }
+        finally {
+            setLoaderState(false);
+        }
     };
 
     const handleClassChange = (value) => {

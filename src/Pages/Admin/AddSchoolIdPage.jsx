@@ -124,6 +124,9 @@ const AddSchoolIdPage = () => {
         setloaderState(false)
         console.error('Error during adding prefix:', error);
       }
+      finally {
+        setloaderState(false);
+      }
     }
   }
 
@@ -133,10 +136,10 @@ const AddSchoolIdPage = () => {
         {loaderState && (<DataLoader />)}
         <div className="container-fluid h-100">
           <div className="row h-100">
-            <div className="col-md-6 col-sm-12 p-5 imagearea">
-              <img src="/images/forgetpass.svg" alt="" className='img-fluid m-5' />
+            <div className="col-md-6 col-sm-12 p-5 imagearea d-flex align-item-center justify-content-center">
+              <img src="/images/soft-skills/amico.svg" alt="" className='img-fluid m-5' />
             </div>
-            <div className="col-md-6 col-sm-12 p-5 formarea">
+            <div className="col-md-6 col-sm-12 p-5 formarea  align-item-center">
               <div className="row me-xl-5 ms-xl-5 ps-xl-5 pe-xl-5 ps-lg-5 pe-lg-5 p-sm-5 m-sm-5 p-3">
                 <p className='text-center mb-5'><img src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
                 <Span14Font>

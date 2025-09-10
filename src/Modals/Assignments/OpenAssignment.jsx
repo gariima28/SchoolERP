@@ -64,6 +64,9 @@ const OpenAssignment = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   const downloadFileFunction = (blob, filename) => {
@@ -98,6 +101,9 @@ const OpenAssignment = () => {
     } catch (error) {
       setloaderState(false);
       toast.error("An error occurred while downloading the assignment-", error);
+    }
+    finally {
+      setloaderState(false);
     }
   };
 

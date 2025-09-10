@@ -56,6 +56,9 @@ const EditFeeType = ({ editId, editedSuccess }) => {
             setloaderState(false);
             // // console.log('Error Facing during Get All Fee Type API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const updateFeeType = async (data) => {
@@ -95,6 +98,9 @@ const EditFeeType = ({ editId, editedSuccess }) => {
         catch (error) {
             setloaderState(false);
             // // console.log('Error facing while adding fee type', error)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 

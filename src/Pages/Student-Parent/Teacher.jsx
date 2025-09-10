@@ -104,6 +104,9 @@ const Teacher = () => {
             setloaderState(false);
             // console.log('Error Facing during Get All Holiday API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePageClick = (event) => {

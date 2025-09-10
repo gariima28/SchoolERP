@@ -97,6 +97,10 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
             // // console.log(error.message)
             toast.error(error.message)
         }
+
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getStudentsListInParent = async () => {
@@ -119,6 +123,9 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
             setloaderState(false);
             // // console.log(error.message)
             toast.error(error.message)
+        }
+        finally {
+            setloaderState(false);
         }
     }
     
@@ -154,6 +161,9 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
             // setloaderState(false);
             // // console.log(error.message)
             toast.error(error.message)
+        }
+        finally {
+            setloaderState(false);
         }
     };
 
@@ -195,14 +205,14 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                             aria-expanded="false"
                                             style={{ cursor: 'pointer' }}
                                         >
-                                            <div className="col-md-2 align-self-center">
+                                            <div className="col-md-3 align-self-center">
                                                 {data?.image === null ? (
                                                     <img className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
                                                 ) : (
                                                     <img className="border rounded-circle p-1" src={data?.image} alt="..." height={35} />
                                                 )}
                                             </div>
-                                            <div className="col-md-10 display-nonee text-start3">
+                                            <div className="col-md-9 display-nonee text-start3">
                                                 <div className="row">
                                                     <p className="font14 pe-0">{data?.name}</p>
                                                     <p className="font14 pe-0">{data?.email}</p>
@@ -249,14 +259,14 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                                             ? '/student/profile' : ''
                                         }
                                     >
-                                        <div className="col-md-2 align-self-center">
+                                        <div className="col-md-3 align-self-center">
                                             {data?.image === null ? (
                                                 <img className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
                                             ) : (
                                                 <img className="border rounded-circle p-1" src={data?.image} alt="..." height={35} />
                                             )}
                                         </div>
-                                        <div className="col-md-10 display-nonee text-start3">
+                                        <div className="col-md-9 display-nonee text-start3">
                                             <div className="row">
                                                 <p className="font14 pe-0">{data?.name}</p>
                                                 <p className="font14 pe-0">{data?.email}</p>
@@ -276,7 +286,7 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                     <div className="modal-content">
                         <div className="modal-header border-bottom">
                             <h5 className="modal-title activeText font16">Child Details</h5>
-                            {!showParentModal && <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>}
+                            {!showParentModal && <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>}
                         </div>
                         <div className="modal-body text-center font14">
                             <p className='mb-3'>Please select the child you want to log in with,<br />and then click the Continue button.</p>

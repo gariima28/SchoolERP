@@ -108,6 +108,9 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
             setLoaderState(false);
             // console.log(error);
         }
+        finally {
+          setLoaderState(false);
+        }
     }
 
     const getSamplePaperById = async () => {
@@ -170,6 +173,9 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
             // console.log('error', error);
             setLoaderState(false);
         }
+        finally {
+          setLoaderState(false);
+        }
     }
 
     const getAllTeacherData = async (val) => {
@@ -190,6 +196,9 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
         catch (error) {
             setLoaderState(false);
             // console.log(error);
+        }
+        finally {
+          setLoaderState(false);
         }
     }
 
@@ -247,6 +256,9 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
           setLoaderState(false);
           // console.log(error);
         }
+        finally {
+          setLoaderState(false);
+        }
     }
 
     return (
@@ -279,7 +291,7 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
                         if (value.length < 2) {
                           return "Minimum Length is 2";
                         }
-                        if (!/^[a-zA-Z0-9\s'-]+$/.test(value)) {
+                        if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value)) {
                           return "Invalid Characters in Title";
                         }
                         return true;
@@ -436,9 +448,8 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
                     })}
                   >
                     <option value="">-- Select --</option>
-                    <option value="Active">Active</option>
-                    <option value="Draft">Draft</option>
-                    <option value="Archives">Archives</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">InActive</option>
                   </select>
                   {errors.status && (
                     <p className="font12 text-danger">
@@ -466,7 +477,7 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
                         if (value.length < 2) {
                           return "Minimum Length is 2";
                         }
-                        if (!/^[a-zA-Z0-9\s'-]+$/.test(value)) {
+                        if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value)) {
                           return "Invalid Characters in Description";
                         }
                         return true;
@@ -501,16 +512,16 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
                         }`}
                         accept=".pdf, .docx"
                         {...register("file", {
-                          required: "Student Image is required *",
-                          validate: (value) => {
-                            if (
-                              value.length > 0 &&
-                              (value[0].size < 10240 || value[0].size > 204800)
-                            ) {
-                              return "File size must be between 10 KB to 200 KB";
-                            }
-                            return true;
-                          },
+                          required: "Sample Paper document is required *",
+                          // validate: (value) => {
+                          //   if (
+                          //     value.length > 0 &&
+                          //     (value[0].size < 10240 || value[0].size > 204800)
+                          //   ) {
+                          //     return "File size must be between 10 KB to 200 KB";
+                          //   }
+                          //   return true;
+                          // },
                         })}
                       />
                     )}

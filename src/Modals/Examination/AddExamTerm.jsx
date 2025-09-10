@@ -44,6 +44,9 @@ const AddExamTerm = ({ setAddedExam }) => {
             setloaderState(false);
             toast.error('Error during add:', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
 
