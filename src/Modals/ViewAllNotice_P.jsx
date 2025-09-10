@@ -86,6 +86,9 @@ const ViewAllNotice = ({ viewState, dataById }) => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePageClick = (event) => {

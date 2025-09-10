@@ -87,7 +87,7 @@ const PaymentSettings = () => {
                             <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
                                 <ol className="breadcrumb mb-1">
                                     <li className="breadcrumb-item"><a href="/" className='bredcrumText text-decoration-none'>Home</a></li>
-                                    <li className="breadcrumb-item"><a href="/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
+                                    <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
                                     <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">Payment Settings</li>
                                 </ol>
                             </nav>

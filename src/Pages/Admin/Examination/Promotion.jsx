@@ -72,6 +72,9 @@ const Promotion = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllSession = async () => {
@@ -97,6 +100,9 @@ const Promotion = () => {
                 }, 200);
             }
 
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -145,6 +151,9 @@ const Promotion = () => {
         } catch (error) {
             setloaderState(false);
             console.error(error);
+        }
+        finally {
+            setloaderState(false);
         }
     };
 

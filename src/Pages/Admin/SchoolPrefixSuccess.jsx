@@ -51,7 +51,7 @@ const SchoolPrefixSuccess = () => {
             sessionStorage.removeItem('subscription')
             window.location.reload()
             navigate('/')
-        }, 700);
+        }, 5000);
 
     }, [])
 

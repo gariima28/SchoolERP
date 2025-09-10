@@ -269,6 +269,9 @@ const IssueItem = () => {
       }
 
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const getIssueItemDataById = async (id) => {
@@ -299,6 +302,9 @@ const IssueItem = () => {
       setloaderState(false);
       // console.log('Error Facing during Get Fee Group By Id API - ', error)
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const returnItemById = async () => {
@@ -328,6 +334,9 @@ const IssueItem = () => {
       setloaderState(false);
       setloaderState(false);
       // console.log(error, 'error')
+    }
+    finally {
+      setloaderState(false);
     }
   }
 
@@ -360,6 +369,9 @@ const IssueItem = () => {
       catch (error) {
         setloaderState(false);
         console.error('Error during login:', error);
+      }
+      finally {
+        setloaderState(false);
       }
     }
   }

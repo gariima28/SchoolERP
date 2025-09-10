@@ -75,6 +75,9 @@ const ExamSchedule = () => {
       setloaderState(false);
       // console.log('Error Facing during Get All Exam Schedule API - ', error)
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   const handlePageClick = (event) => {

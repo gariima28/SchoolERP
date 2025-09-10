@@ -74,7 +74,6 @@ const Container = styled.div`
     
 `;
 
-
 const SchoolSetting = () => {
 
     const navigate = useNavigate();
@@ -118,9 +117,10 @@ const SchoolSetting = () => {
                     socialLink1: schoolDataById?.socialLink1 || '',
                     socialLink2: schoolDataById?.socialLink2 || '',
                     socialLink3: schoolDataById?.socialLink3 || '',
-                    schoolLogo: schoolDataById?.schoolPhoto || '',
+                    schoolLogo: schoolDataById?.schoolPhoto === null ? '' : schoolDataById?.schoolPhoto,
                 };
-                setSchoolLogoVal(schoolDataById?.schoolPhoto || '');
+                setSchoolLogoVal(schoolDataById?.schoolPhoto === null ? '' : schoolDataById?.schoolPhoto);
+                setChangeImageType(schoolDataById?.schoolPhoto === null ? false : true);
                 setInitialValues(defaultValues);
 
                 // Reset form with new values
@@ -140,6 +140,10 @@ const SchoolSetting = () => {
                 setTimeout(() => navigate('/'), 200);
             }
         }
+        finally {
+            setLoaderState(false);
+        }
+        console.log(schoolLogoVal)
     };
 
     // Improved change detection
@@ -210,6 +214,9 @@ const SchoolSetting = () => {
             setLoaderState(false);
             console.error('Error during update:', error);
         }
+        finally {
+            setLoaderState(false);
+        }
     };
 
     const handleSocialLink3Change = (value) => {
@@ -251,7 +258,7 @@ const SchoolSetting = () => {
                             <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
                                 <ol className="breadcrumb mb-1">
                                     <li className="breadcrumb-item"><a href="/" className='bredcrumText text-decoration-none'>Home</a></li>
-                                    <li className="breadcrumb-item"><a href="/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
+                                    <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
                                     <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">School Settings</li>
                                 </ol>
                             </nav>
@@ -317,7 +324,7 @@ const SchoolSetting = () => {
                                                 <input id="schoolLogo" onChange={checkForChanges} type="file" className={`form-control formimagetext font14 ${errors.schoolLogo ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('schoolLogo', { required: 'Student Image is required *', validate: value => { if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800)) { return 'File size must be between 10 KB to 200 KB'; } return true; } })} />
                                             }
                                             <div className='formcontrolButtonborder p-1 ps-3 pe-3 text-center'>
-                                                <span className="text-white font14 align-self-center" onClick={() => setChangeImageType(!changeImageType)}>
+                                                <span className="text-white font14 align-self-center" onClick={() => { if (schoolLogoVal === '' || schoolLogoVal === null) {setChangeImageType(!changeImageType)}}}>
                                                     {schoolLogoVal !== null && changeImageType ? 'Edit' : 'View'}
                                                 </span>
                                             </div>

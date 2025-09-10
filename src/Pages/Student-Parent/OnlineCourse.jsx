@@ -104,6 +104,9 @@ const OnlineCourse = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
 

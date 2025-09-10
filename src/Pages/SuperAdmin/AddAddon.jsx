@@ -68,6 +68,9 @@ const AddSpecialFeature = () => {
       setloaderState(false);
       toast.error('Invalid request');
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   return (

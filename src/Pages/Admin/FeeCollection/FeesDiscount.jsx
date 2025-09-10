@@ -17,7 +17,7 @@ import {
   DownloadFeeDiscountPDF,
 } from 'src/Utils/Apis';
 import ActionControls from '../../../Layouts/ActionControls';
-import * as bootstrap from 'bootstrap';
+
 
 const Container = styled.div`
   .blueText {

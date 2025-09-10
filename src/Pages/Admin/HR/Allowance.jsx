@@ -232,6 +232,9 @@ const Allowance = () => {
             }
             toast.error('Error downloading CSV');
         }
+        finally {
+            // setloaderState(false);
+        }
     };
 
     const handleDownloadCsv = () => {
