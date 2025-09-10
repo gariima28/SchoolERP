@@ -9,7 +9,8 @@ import { Icon } from '@iconify/react';
 import AddPackage from 'src/Modals/AddPackage';
 import UpdatePackage from 'src/Modals/UpdatePackage';
 import ActionControls from '../../Layouts/ActionControls';
-import { Offcanvas } from 'bootstrap';
+// 
+// 
 
 const ContainerCSS = styled.div`
   height: 92vh;
@@ -269,6 +270,9 @@ const Packages = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const DeletePlanIdData = async (id) => {
@@ -291,6 +295,9 @@ const Packages = () => {
       catch (error) {
         setloaderState(false);
         console.error('Error during login:', error);
+      }
+      finally {
+        setloaderState(false);
       }
     }
     else {
@@ -328,6 +335,9 @@ const Packages = () => {
       setloaderState(false);
       // console.log(error, 'catch 1')
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
 
@@ -350,6 +360,9 @@ const Packages = () => {
       setloaderState(false);
       setloaderState(false);
       // console.log(error)
+    }
+    finally {
+      setloaderState(false);
     }
   }
 
@@ -388,6 +401,9 @@ const Packages = () => {
       // console.log(error, 'error while adding')
     }
 
+    finally {
+      setloaderState(false);
+    }
   }
 
   const handleCheckboxChange = (featureId) => {
@@ -472,9 +488,18 @@ const Packages = () => {
   }
 
   const openAddPackageCanvas = () => {
+    // const offcanvasElement = document.getElementById('AddPackageCanvas');
+    // const bsOffcanvas = new Offcanvas(offcanvasElement);
+    // bsOffcanvas.show();
+
     const offcanvasElement = document.getElementById('AddPackageCanvas');
-    const bsOffcanvas = new Offcanvas(offcanvasElement);
-    bsOffcanvas.show();
+    if (offcanvasElement) {
+      let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+      if (!offcanvas) {
+        offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+      }
+      offcanvas.show();
+    }
   };
 
   return (

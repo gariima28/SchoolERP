@@ -12,8 +12,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import { CSVLink } from 'react-csv';
 import ActionControls from '../../../Layouts/ActionControls';
-import { Offcanvas } from 'bootstrap';
-import * as bootstrap from 'bootstrap';
+
 
 const Container = styled.div`
     
@@ -211,6 +210,9 @@ const Assignment = () => {
         } catch (err) {
             // console.log(err);
         }
+        finally {
+            // setloaderState(false);
+        }
     };
 
     // PDF Download Response
@@ -224,6 +226,9 @@ const Assignment = () => {
             }
         } catch (err) {
             // console.log(err);
+        }
+        finally {
+            // setloaderState(false);
         }
     };
 
@@ -269,7 +274,7 @@ const Assignment = () => {
             // console.log(error);
 
         }
-        finally{
+        finally {
             setTimeout(() => {
                 setloaderState(false);
             }, 300);
@@ -305,6 +310,9 @@ const Assignment = () => {
                 }, 200);
             }
 
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -345,6 +353,9 @@ const Assignment = () => {
                     setloaderState(false)
                 }, 800);
                 console.error('Error during login:', error);
+            }
+            finally {
+                setloaderState(false);
             }
         }
     }
@@ -410,8 +421,14 @@ const Assignment = () => {
 
     const openAddCanvas = () => {
         const offcanvasElement = document.getElementById('add_staticBackdrop');
-        const bsOffcanvas = new Offcanvas(offcanvasElement);
-        bsOffcanvas.show();
+        // const bsOffcanvas = new Offcanvas(offcanvasElement);
+        if (offcanvasElement) {
+            let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+            if (!offcanvas) {
+                offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+            }
+            offcanvas.show();
+        }
     };
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);

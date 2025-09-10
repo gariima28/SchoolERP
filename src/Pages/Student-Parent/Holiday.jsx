@@ -84,6 +84,9 @@ const Holiday = () => {
             setLoaderState(false);
             toast.error('Error fetching holidays');
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     const handlePageClick = (event) => {

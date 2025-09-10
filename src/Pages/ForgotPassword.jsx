@@ -218,6 +218,9 @@ const ForgotPassword = () => {
                 setloaderState(false);
 
             }
+            finally {
+                setloaderState(false);
+            }
         }
     }
 

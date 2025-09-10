@@ -131,8 +131,14 @@ const ItemStock = () => {
 
   const openAddCanvas = () => {
     const offcanvasElement = document.getElementById('add_staticBackdrop');
-    const bsOffcanvas = new Offcanvas(offcanvasElement);
-    bsOffcanvas.show();
+    // const bsOffcanvas = new Offcanvas(offcanvasElement);
+    if (offcanvasElement) {
+      let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+      if (!offcanvas) {
+        offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+      }
+      offcanvas.show();
+    }
   };
 
   const [loaderState, setLoaderState] = useState(false);

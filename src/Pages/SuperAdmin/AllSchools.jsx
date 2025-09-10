@@ -213,6 +213,9 @@ const AllSchools = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   const getAllPlans = async () => {
@@ -241,6 +244,9 @@ const AllSchools = () => {
       setloaderState(false);
       setloaderState(false);
       toast.error(error)
+    }
+    finally {
+      setloaderState(false);
     }
   }
 
@@ -273,6 +279,9 @@ const AllSchools = () => {
       setloaderState(false);
       setloaderState(false);
       // console.log(error)
+    }
+    finally {
+      setloaderState(false);
     }
   }
 
@@ -322,6 +331,9 @@ const AllSchools = () => {
       setloaderState(false);
       // console.log(error)
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const UpdateSchoolByID = async (values) => {
@@ -361,6 +373,9 @@ const AllSchools = () => {
       setloaderState(false);
       // console.log(error)
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const DeleteSchoolIdData = async (schoolId) => {
@@ -392,6 +407,9 @@ const AllSchools = () => {
         setloaderState(false);
         console.error('Error during login:', error);
       }
+      finally {
+        setloaderState(false);
+      }
     }
     else {
       setloaderState(false);
@@ -421,6 +439,9 @@ const AllSchools = () => {
       setloaderState(false);
       // console.log(error, 'catch 1')
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const getAllSpecialFeature = async (planIdd) => {
@@ -445,6 +466,9 @@ const AllSchools = () => {
       setloaderState(false);
       setloaderState(false);
       // console.log(error)
+    }
+    finally {
+      setloaderState(false);
     }
   }
 
@@ -584,7 +608,7 @@ const AllSchools = () => {
                                 </button>
                                 <ul className="dropdown-menu">
                                   <li> <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop" onClick={() => getSchoolDataById(item.schoolBusinessId)}> Edit </button> </li>
-                                  <li> <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#SpeFeature_staticBackdrop" aria-controls="SpeFeature_staticBackdrop" onClick={() => getAllSpecialFeature(item.plans.planId)}> Spe. Features </button> </li>
+                                  {/* <li> <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#SpeFeature_staticBackdrop" aria-controls="SpeFeature_staticBackdrop" onClick={() => getAllSpecialFeature(item.plans.planId)}> Spe. Features </button> </li> */}
                                   {/* <li> <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => DeleteBtnClicked(item.schoolBusinessId)}> Delete </button> </li> */}
                                 </ul>
                               </div>

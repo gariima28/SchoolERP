@@ -161,6 +161,9 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     } catch (error) {
       setLoaderState(false);
     }
+    finally {
+      setLoaderState(false);
+    }
   };
 
   const handleClassChange = async (val) => {
@@ -257,6 +260,9 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     } catch (error) {
       setLoaderState(false);
     }
+    finally {
+      setLoaderState(false);
+    }
   };
 
   const updateStudent = async (data) => {
@@ -307,6 +313,9 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       setLoaderState(false);
       toast.error('Error updating student');
       console.error('Error during update:', error);
+    }
+    finally {
+      setLoaderState(false);
     }
   };
 

@@ -66,6 +66,9 @@ const ViewParticularNotice = ({ dataId, viewAllState }) => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePage = (id) => {

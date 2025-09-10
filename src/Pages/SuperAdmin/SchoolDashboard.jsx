@@ -48,6 +48,9 @@ const SchoolDashboard = ({ data }) => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     return (

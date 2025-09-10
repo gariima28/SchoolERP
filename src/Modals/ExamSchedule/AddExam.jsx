@@ -93,6 +93,9 @@ const AddExam = ({ offlineExamState }) => {
         catch (error) {
             // console.log('Error while fetching class data: ', error);
         }
+        finally {
+            // setloaderState(false);
+        }
     }
 
     const getAllRoomData = async () => {
@@ -109,6 +112,9 @@ const AddExam = ({ offlineExamState }) => {
         }
         catch (error) {
             // console.log('Error while fetching room data: ', error);
+        }
+        finally {
+            // setloaderState(false);
         }
     }
 

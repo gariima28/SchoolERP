@@ -118,6 +118,9 @@ const BarChart = ({ graphKey, graphFilterShow }) => {
                 }, 200);
             }
         }
+        finally {
+            // setloaderState(false);
+        }
     }
 
 

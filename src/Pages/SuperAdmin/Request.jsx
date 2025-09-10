@@ -434,6 +434,9 @@ const ManageFaq = () => {
       setloaderState(false);
       // console.log('catch')
     }
+    finally {
+      setloaderState(false);
+    }
     for (let i = 0; i < putdata; i++) {
       // // console.log('my-request-indexing', i)
       return i
@@ -483,6 +486,9 @@ const ManageFaq = () => {
       setloaderState(false);
       // console.log(error)
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   // Get By Id Api
@@ -511,6 +517,9 @@ const ManageFaq = () => {
       setloaderState(false);
       // console.log(error)
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
 
@@ -535,6 +544,9 @@ const ManageFaq = () => {
     } catch (error) {
       setloaderState(false);
       // console.log(error)
+    }
+    finally {
+      setloaderState(false);
     }
     // // console.log('my-dataset',data)
   }
@@ -607,6 +619,9 @@ const ManageFaq = () => {
       } catch (error) {
         setloaderState(false);
         // console.log(error)
+      }
+      finally {
+        setloaderState(false);
       }
     }
   }

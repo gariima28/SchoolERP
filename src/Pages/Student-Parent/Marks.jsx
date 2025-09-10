@@ -78,6 +78,9 @@ const Marks = () => {
             setloaderState(false);
             // console.log('Error Facing during Get All Marks API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePageClick = (event) => {

@@ -179,6 +179,9 @@ const DropPoint = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getDropPointDataById = async (id) => {
@@ -198,6 +201,9 @@ const DropPoint = () => {
             setloaderState(false);
             setloaderState(false);
 
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -228,6 +234,9 @@ const DropPoint = () => {
         } catch (error) {
             setloaderState(false);
             console.error('Error during update:', error);
+        }
+        finally {
+            setloaderState(false);
         }
     };
 
@@ -260,6 +269,9 @@ const DropPoint = () => {
             catch (error) {
                 setloaderState(false);
                 console.error('Error during login:', error);
+            }
+            finally {
+                setloaderState(false);
             }
         }
     }
