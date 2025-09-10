@@ -182,7 +182,7 @@ const Container = styled.div`
     .my-nav-link:hover::after {
       font-size: 10px;
       padding: 4px 8px;
-      top: -25px; /* Adjusted for smaller screens */
+      top: -25px;
     }
   }
 `;
@@ -214,7 +214,7 @@ const UserSidebar = () => {
   };
 
   // Determine if tabs should be disabled based on myId
-  const isTabsDisabled = !myId;
+  const isTabsDisabled = !myId && !id;
 
   return (
     <Container>

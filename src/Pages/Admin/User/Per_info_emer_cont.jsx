@@ -6,6 +6,7 @@ import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { personal_Emergeny__GetById, EmergencyPostApi, EmergencyPutApi, EmergencyDeleteApi, getEmergencyByEmergencyId } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
   .form-container {
@@ -182,8 +183,9 @@ const Container = styled.div`
 
 const Per_info_emer_cont = () => {
 
-  const { myId, setMyId } = useContext(MyUseContext)
-  const myUserID = myId !== undefined ? myId : '';
+  const { id } = useParams();
+  const { myId } = useContext(MyUseContext);
+  const myUserID = myId ?? id ?? "";
 
   // State Management
   const [loader, setLoader] = useState(false);

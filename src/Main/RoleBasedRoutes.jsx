@@ -1,6 +1,6 @@
 import React from 'react'
-const AttendanceReportTea  = React.lazy(() => import( 'src/Pages/Teacher/attendanceReport_T'));
-const Assignment_details  = React.lazy(() => import( 'src/Pages/Teacher/Assignment_details_T'));
+const AttendanceReportTea = React.lazy(() => import('src/Pages/Teacher/attendanceReport_T'));
+const Assignment_details = React.lazy(() => import('src/Pages/Teacher/Assignment_details_T'));
 const Assignmnt_submss = React.lazy(() => import('src/Pages/Teacher/Assignmnt_submss_T'));
 // import User_basic_infomation from '../Pages/Admin/User/User_basic_infomation';
 // import UserRouting from '/Users/saqib/Documents/My data/NewCollaboratorSchlERP/SchoolERP/src/Pages/Admin/ContextApi/UserRouting.jsx';
@@ -252,28 +252,32 @@ export const RoleBasedRoutes = {
     { path: "/admin/inventory/addSale", element: <AddSale /> },
     { path: "/admin/inventory/issueItem", element: <ManageIssue /> },
 
-        { path: '/admin/users/teacher/:id', element: <Teacher /> },
-        { path: '/admin/users/accountant/:id', element: <Accountant /> },
-        { path: '/admin/users/librarian/:id', element: <Librarian /> },
-        { path: '/admin/users/other_staff/:id', element: <OtherStaff /> },
-        { path: '/admin/users/drivers/:id', element: <Driver /> },
-        { path: '/admin/users/driver/addDriver', element: <AddDriver /> },
-        {
-            path: '/admin/users/mainuserform/:id',
-            element: <MainUserForm />,
-            children: [
-                { path: 'userbasicinformation', element: <User_basic_infomation /> },
-                { path: 'usercontact', element: <User_Contact /> },
-                { path: 'userperinfo', element: <User_Per_info /> },
-                { path: 'userdocuments', element: <User_Documents /> },
-            ]
-        },
-        // { path: '/admin/users/mainuserform/:id', element: <MainUserForm /> },
-        // { path: '/admin/users/userbasicinformation/:id', element: <User_basic_infomation /> },
-        // { path: '/admin/users/usercontact/:id', element: <User_Contact /> },
-        // { path: '/admin/users/userperinfo/:id', element: <User_Per_info /> },
-        // { path: '/admin/users/userdocuments/:id', element: <User_Documents /> },
-
+    { path: '/admin/users/teacher/:id', element: <Teacher /> },
+    { path: '/admin/users/accountant/:id', element: <Accountant /> },
+    { path: '/admin/users/librarian/:id', element: <Librarian /> },
+    { path: '/admin/users/other_staff/:id', element: <OtherStaff /> },
+    { path: '/admin/users/drivers/:id', element: <Driver /> },
+    { path: '/admin/users/driver/addDriver', element: <AddDriver /> },
+    {
+      path: '/admin/users/mainuserform',
+      element: <MainUserForm />,
+      children: [
+        { path: 'userbasicinformation', element: <User_basic_infomation /> },
+        { path: 'usercontact', element: <User_Contact /> },
+        { path: 'userperinfo', element: <User_Per_info /> },
+        { path: 'userdocuments', element: <User_Documents /> },
+      ]
+    },
+    {
+      path: '/admin/users/mainuserform/:id',
+      element: <MainUserForm />,
+      children: [
+        { path: 'userbasicinformation', element: <User_basic_infomation /> },
+        { path: 'usercontact', element: <User_Contact /> },
+        { path: 'userperinfo', element: <User_Per_info /> },
+        { path: 'userdocuments', element: <User_Documents /> },
+      ]
+    },
     { path: "/admin/holiday", element: <Holiday /> },
 
     { path: "/admin/notice", element: <Notice /> },
