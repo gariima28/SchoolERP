@@ -57,6 +57,9 @@ const AddStudentFeeForm = ({ AddFeeId, modalHideTrue }) => {
             setloaderState(false);
             // // console.log('Error Facing during Get All Fee Group API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const AddFee = async (data) => {
@@ -87,8 +90,9 @@ const AddStudentFeeForm = ({ AddFeeId, modalHideTrue }) => {
         }
         catch (error) {
             setloaderState(false);
+        }
+        finally {
             setloaderState(false);
-
         }
     }
 

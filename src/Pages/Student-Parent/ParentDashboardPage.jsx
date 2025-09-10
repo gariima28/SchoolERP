@@ -118,6 +118,9 @@ const DashboardPage = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   return (

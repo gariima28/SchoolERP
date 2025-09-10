@@ -2,9 +2,8 @@ import axios from 'axios'
 const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
-// const Domain= 'http://192.168.20.109';
-const Domain = 'https://test.edu2all.in/sch';
-
+// const Domain = 'http://192.168.21.26:5001';
+const Domain = 'https://test.edu2all.in/sch/';
 
 // ******************************************************************************************************
 // Login  //

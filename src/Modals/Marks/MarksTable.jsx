@@ -124,6 +124,7 @@ const MarksTable = ({
         } catch (err) {
             toast.error("Network error – please try again");
         } finally {
+            // setloaderState(false);
             setRows((prev) => {
                 const copy = [...prev];
                 if (copy[index]) copy[index].isSaving = false;

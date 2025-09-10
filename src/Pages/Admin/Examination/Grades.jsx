@@ -509,10 +509,10 @@ const Grades = () => {
                                     className={`form-control font14 ${errorsAdd.grade ? 'border-danger' : ''}`}
                                     {...registerAdd('grade', {
                                         required: 'Grade is required *',
-                                        pattern: {
-                                            value: /^[A-Za-z0-9\s]+$/,
-                                            message: 'Invalid grade format',
-                                        },
+                                        // pattern: {
+                                        //     value: /^[A-Za-z0-9+\s]+$/,
+                                        //     message: 'Invalid grade format',
+                                        // },
                                     })}
                                 />
                                 {errorsAdd.grade && <p className="font12 text-danger">{errorsAdd.grade.message}</p>}

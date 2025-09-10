@@ -7,8 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import DataLoader from 'src/Layouts/Loader';
 import ActionControls from '../../../Layouts/ActionControls';
-import { Offcanvas } from 'bootstrap';
-import * as bootstrap from 'bootstrap';
+
 
 const Container = styled.div`
 
@@ -228,6 +227,9 @@ const SessionManager = () => {
             }
 
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getSessionById = async (id) => {
@@ -254,6 +256,9 @@ const SessionManager = () => {
         catch (error) {
             setloaderState(false);
             // console.log('Error During Get Session', error);
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -294,6 +299,9 @@ const SessionManager = () => {
                 toast.error(error?.response?.data?.message)
                 // console.log(error, 'error')
             }
+            finally {
+                setloaderState(false);
+            }
         }
     }
 
@@ -315,6 +323,9 @@ const SessionManager = () => {
         catch (error) {
             setloaderState(false);
             // console.log(error, 'error')
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -344,6 +355,9 @@ const SessionManager = () => {
         catch (error) {
             setloaderState(false);
             // console.log('Error During Get Session', error);
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -392,6 +406,9 @@ const SessionManager = () => {
                 setloaderState(false);
                 console.error('Error during delete:', error);
             }
+            finally {
+                setloaderState(false);
+            }
         }
     }
 
@@ -402,8 +419,15 @@ const SessionManager = () => {
 
     const openAddCanvas = () => {
         const offcanvasElement = document.getElementById('Add_staticBackdrop');
-        const bsOffcanvas = new Offcanvas(offcanvasElement);
-        bsOffcanvas.show();
+        // const bsOffcanvas = new Offcanvas(offcanvasElement);
+        // bsOffcanvas.show();
+        if (offcanvasElement) {
+            let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+            if (!offcanvas) {
+                offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+            }
+            offcanvas.show();
+        }
     };
 
     const [openDropdownId, setOpenDropdownId] = useState(null);
@@ -443,7 +467,7 @@ const SessionManager = () => {
                         <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
                             <ol className="breadcrumb mb-1">
                                 <li className="breadcrumb-item"><a href="/" className='bredcrumText text-decoration-none'>Home</a></li>
-                                <li className="breadcrumb-item"><a href="/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
+                                <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
                                 <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">Session Manager</li>
                             </ol>
                         </nav>
@@ -486,7 +510,7 @@ const SessionManager = () => {
                             <p className='text-center m-3'><button className='btn addButtons text-white' type='button' disabled={sessionId === activeSessionId ? true : false} onClick={activeSession}> Active</button></p>
                         </form> */}
 
-                        <h2 className='orangeText mb-3'>Active Session</h2>
+                        {/* <h2 className='orangeText mb-3'>Active Session</h2>
                         <div className="overflow-scroll mb-3">
                             <table className="table align-middle table-striped">
                                 <thead>
@@ -511,7 +535,7 @@ const SessionManager = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <h2 className='orangeText mb-3'>Other Session</h2>
+                        <h2 className='orangeText mb-3'>Other Session</h2> */}
                         {sessionData.length > 0 ?
                             <>
                                 <div className="overflow-scroll">

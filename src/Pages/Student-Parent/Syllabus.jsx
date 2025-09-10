@@ -81,6 +81,9 @@ const Syllabus = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   };
   const downloadFileFunction = (base64Data, fileName) => {
     // Decode base64 string

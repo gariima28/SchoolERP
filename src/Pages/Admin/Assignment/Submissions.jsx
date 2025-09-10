@@ -17,7 +17,7 @@ import ProgressBar from '@ramonak/react-progress-bar';
 import toast from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import ActionControls from '../../../Layouts/ActionControls';
-import * as bootstrap from 'bootstrap';
+
 import { useForm } from 'react-hook-form';
 
 const Container = styled.div`
@@ -244,6 +244,9 @@ const Submission = () => {
     } catch (err) {
       console.error('CSV Download Error', err);
     }
+    finally {
+      // setloaderState(false);
+    }
   };
 
   const DownloadPDF = async () => {
@@ -254,6 +257,9 @@ const Submission = () => {
       }
     } catch (err) {
       console.error('PDF Download Error', err);
+    }
+    finally {
+      // setloaderState(false);
     }
   };
 
@@ -366,6 +372,9 @@ const Submission = () => {
       setLoaderState(false);
       toast.error("An error occurred while downloading the assignment-", error);
     }
+    finally {
+      setLoaderState(false);
+    }
   };
 
 
@@ -386,6 +395,9 @@ const Submission = () => {
       });
     } catch (err) {
       toast.error("Failed to fetch submission");
+    }
+    finally {
+      // setloaderState(false);
     }
   };
 
@@ -699,7 +711,7 @@ const Submission = () => {
                                           Upload
                                         </button>
                                       ) : item.status === "MARKS_PENDING" ? (
-                                            <button className="btn font14 align-self-center submitButton" data-bs-toggle="offcanvas" data-bs-target="#addSubmission" aria-controls="addSubmission" onClick={() => { getSubmissionsById(item.id); setUploadType(false) }}>
+                                        <button className="btn font14 align-self-center submitButton" data-bs-toggle="offcanvas" data-bs-target="#addSubmission" aria-controls="addSubmission" onClick={() => { getSubmissionsById(item.id); setUploadType(false) }}>
                                           Marks Submit
                                         </button>
                                       ) : (

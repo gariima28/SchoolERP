@@ -43,6 +43,9 @@ const AddFeeType = ({ addedSuccess }) => {
             setloaderState(false);
             toast.error('Error adding fee type');
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     return (

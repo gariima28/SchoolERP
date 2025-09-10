@@ -209,6 +209,9 @@ const Addon = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const UpdateSpeFeaName = async (data) => {
@@ -248,6 +251,9 @@ const Addon = () => {
       setloaderState(false);
       // console.log(error)
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const getSpeFeatureById = async (id) => {
@@ -268,6 +274,9 @@ const Addon = () => {
       setloaderState(false);
       setloaderState(false);
 
+    }
+    finally {
+      setloaderState(false);
     }
   }
 
@@ -297,6 +306,9 @@ const Addon = () => {
       catch (error) {
         setloaderState(false);
         console.error('Error during login:', error);
+      }
+      finally {
+        setloaderState(false);
       }
     }
   }

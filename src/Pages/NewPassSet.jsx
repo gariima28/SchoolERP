@@ -218,6 +218,9 @@ const NewPassSet = () => {
                 // setloaderx/State(false);
                 // console.log(error)
             }
+            finally {
+                // setloaderState(false);
+            }
         }
     }
 

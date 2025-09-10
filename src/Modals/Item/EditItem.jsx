@@ -58,6 +58,9 @@ const EditItem = ({ EditId, closeCanvas }) => {
             setloaderState(false);
             // console.log('Error Facing during Get All Item API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getItemDataById = async () => {
@@ -97,6 +100,9 @@ const EditItem = ({ EditId, closeCanvas }) => {
             setloaderState(false);
             // console.log('Error Facing during Get Item By Id API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const updateItem = async (data) => {
@@ -130,6 +136,9 @@ const EditItem = ({ EditId, closeCanvas }) => {
             setloaderState(false);
             setloaderState(false);
             // console.log('Error Facing during Add New Item API - ', error)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 

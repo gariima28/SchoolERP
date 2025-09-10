@@ -114,6 +114,9 @@ const OfflinePayment = () => {
             setloaderState(false)
             // console.log('first', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     return (

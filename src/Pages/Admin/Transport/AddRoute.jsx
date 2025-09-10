@@ -88,6 +88,9 @@ const AddRoute = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const handleCancleButton = () => {

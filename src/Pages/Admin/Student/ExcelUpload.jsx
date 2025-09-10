@@ -88,6 +88,9 @@ const ExcelUpload = () => {
             toast.error(response.data.message)
             // console.log(error, 'error')
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const Download_Slip = async () => {

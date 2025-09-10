@@ -210,6 +210,9 @@ const AssignStudent = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const UnAssignStudentData = async (StudentId) => {
@@ -232,6 +235,9 @@ const AssignStudent = () => {
             setloaderState(false);
             setloaderState(false);
 
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
