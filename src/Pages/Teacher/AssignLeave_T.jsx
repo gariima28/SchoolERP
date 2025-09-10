@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-// import StateTable_1 from './StateTable_1';
 import { TeacherAttendanceCheckInApi } from 'src/Utils/Apis'
 import { TeacherAttendanceCheckOutApi } from 'src/Utils/Apis'
 import { TeacherAttendanceTeacherGetAllApi } from 'src/Utils/Apis'
-// import MyStopwatch from 'src/Pages/MyTime'
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { useNavigate } from 'react-router-dom';
 import MyTime from 'src/Pages/Teacher/MyTime_T';
@@ -660,9 +658,6 @@ const AssignLeave = () => {
       const [val1, val2] = dateValue.split('-');
       const formattedVal1 = val1.replace(/,/g, '');
       const formattedVal2 = val2.replace(/,/g, '');
-      // console.log('Statrt week date = ', formattedVal1)
-      // console.log('end wek date = ', formattedVal2)
-
       setStartWeekDate(formattedVal1);
       setEndWeekDate(formattedVal2)
     }

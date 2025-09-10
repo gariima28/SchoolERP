@@ -645,12 +645,9 @@ const ClassRoutine = () => {
 
   // Section by class for section 
   const MySyllabusSectionGetApi = async () => {
-    // console.log('class id inside the section func',classId)
     setLoader(true)
     try {
       const response = await SyllabusSectionGetAllApi(classId);
-
-      // console.log('Section-get-all-api in classRoutine', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setSectionData(response?.data?.allSections)
@@ -711,11 +708,9 @@ const ClassRoutine = () => {
     formData.append('teacherId', teacherId);
     formData.append('day', day);
     formData.append('period', startTime);
-
     setLoader(true)
     try {
       const response = await ClassRoitinePostApi(formData);
-      // console.log('class-routine-post-api', response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setShow(false)
@@ -752,7 +747,6 @@ const ClassRoutine = () => {
       const response = await TeacherClassRoutineGetAll(classNo, sectionName);
       console.log('class routine get all data in teacher', response)
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setSlotGetAll(response?.data?.routine?.periods)
         setClassRoutineData(response?.data?.routine?.timetable)
         setLoader(false)
@@ -766,12 +760,10 @@ const ClassRoutine = () => {
   
   // ClassRoutine get by id api 
   const MyClassRoutineGetByIdApi = async (id) => {
-    console.log('get by id data of class routine', id)
     setIdForUpdate(id)
     setLoader(true)
     try {
       const response = await ClassRoutineGetByIdApi(id);
-      console.log('class routine get by id data ', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setClassNo(response?.data?.routine?.classNo)
@@ -797,12 +789,9 @@ const ClassRoutine = () => {
     formData.append('subjectId', subjectId);
     formData.append('teacherId', teacherId);
     formData.append('day', day);
-    // formData.append('period', startTime);
-
     setLoader(true)
     try {
       const response = await ClassRoutinePutApi(idForUpdate, formData);
-      // console.log('class-routine-post-api', response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setHideRoutine(false)
@@ -890,8 +879,6 @@ const ClassRoutine = () => {
       setLoader(true)
       try {
         const response = await ClassRoutineSlotPostApi(formData);
-        // console.log('class routine slot api', response)
-
         if (response?.status === 200) {
           if (response?.data?.status === "success") {
             toast.success(response?.data?.message);
@@ -902,7 +889,6 @@ const ClassRoutine = () => {
             setSlotEndTime('')
             setPeriod('')
             setSlotboolean(false)
-
             const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
             offcanvasInstance.hide();
             setTimeout(() => {
@@ -930,9 +916,7 @@ const ClassRoutine = () => {
     setLoader(true)
     try {
       const response = await SlotGetAllApi();
-      console.log('Slot  get all data ', response)
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setSlotGetAll(response?.data)
         setLoader(false)
       } else {
@@ -944,20 +928,16 @@ const ClassRoutine = () => {
   }
   // Slot get by id api 
   const MySlotGetByIdApi = async (id) => {
-    console.log('update slot id',id)
         setIdForUpdate(id)
     setLoader(true)
     try {
       const response = await SlotGetByIdApi(id);
-      console.log('Slot data by id ', response)
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setSlotStartTime(response?.data?.startHourTime)
         setSlotEndTime(response?.data?.endHourTime)
         setPeriod(response?.data?.periodNo)
         setLoader(false)
       } else {
-        // toast.error(response?.data?.classes?.message);
         setLoader(false)
       }
     } catch (error) {
@@ -971,11 +951,9 @@ const ClassRoutine = () => {
     formData.append('periodNo', period);
     formData.append('startHourTime', slotStartTime);
     formData.append('endHourTime', slotEndTime);
-
     setLoader(true)
     try {
       const response = await SlotPutApi(idForUpdate, formData);
-      console.log('slot put api response', response)
       if (response?.status === 200) {
         toast.success(response?.data);
         setHideRoutine(false)
@@ -1039,12 +1017,6 @@ const ClassRoutine = () => {
                 <span>Export CSV File</span>
               </CSVLink>
             </div>
-            {/* <div className='for-width'>
-              <Link type="button" className="btn btn-success heading-16 my-own-button me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight101020" aria-controls="offcanvasRight" onClick={ClearData}>+ ADD Time Slot</Link>
-            </div>
-            <div className='for-width'>
-              <Link type="button" className="btn btn-success heading-16 my-own-button me-2" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1012" aria-controls="offcanvasRight" onClick={ClearData}>+ ADD Class Routine</Link>
-            </div> */}
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-12px' }}>Class Routine Details</h5>
@@ -1080,7 +1052,6 @@ const ClassRoutine = () => {
                 </select>
               </div>
             </div>
-
           </div>
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
@@ -1098,7 +1069,6 @@ const ClassRoutine = () => {
                    </th>
                   {
                     slotGetAll?.map((item, index) => (
-                      // <th key={index} className='table-row-bg-color no-wrap'>{item.periodNo} <br /> {item.startHourTime} - {item.endHourTime}</th>
                       <th key={index} className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
                         {item.periodNo} <br />
                         {item.startHourTime?.split(':').slice(0, 2).join(':') ? item.startHourTime?.split(':').slice(0, 2).join(':') : ''} - {item.endHourTime?.split(':').slice(0, 2).join(':') ? item.endHourTime?.split(':').slice(0, 2).join(':') : ''}
@@ -1107,8 +1077,6 @@ const ClassRoutine = () => {
                   }
                 </tr>
               </thead>
-
-
               <tbody className='heading-14 align-middle greyTextColor text-center'>
                 {
                   classRoutineData?.map((item, index) => (
@@ -1127,7 +1095,6 @@ const ClassRoutine = () => {
                                 </button>
                                 <ul className="dropdown-menu anchor-color heading-14">
                                   <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
-                                  {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li> */}
                                 </ul>
                               </div>
                             </div>
@@ -1142,7 +1109,6 @@ const ClassRoutine = () => {
               </tbody>
             </table>
           </div>
-
         </div>
         {/* ################## Off Canvas Area ####################  */}
 

@@ -441,6 +441,7 @@ font-size: 12px;
 `;
 // ## style css area end ####  
 
+
 const OtherStaff = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -815,10 +816,10 @@ const OtherStaff = () => {
               addButtonAction={handleAddButton}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={otherStaffAllData.length > 0}
+              showExportPDF={otherStaffAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              showExportCSV={otherStaffAllData.length > 0}
+              showExportCSV={otherStaffAllData?.length > 0}
               exportCSVText="Export CSV"
               exportCSVAction={''}
             />
