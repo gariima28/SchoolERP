@@ -638,7 +638,6 @@ const Leave = () => {
     setLoader(true)
     try {
       const response = await TeacherLeaveTeacherAllApi();
-      console.log(' Teacher Leave type get All Api data', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setLeaveData(response?.data?.leave)
@@ -658,7 +657,6 @@ const Leave = () => {
 
   // Leave Post Api 
   const MyTeacherLeaveApplyPostApi = async () => {
-
     if (FuncValidation()) {
       const formData = {
         "reason": reason,
@@ -723,7 +721,6 @@ const Leave = () => {
   const MyGetallLeaveOfTeacher = async () => {
     try {
       var response = await TeachergetAllLeaveOfTeacherDataApi();
-      console.log(response, 'All leave data in line chartttttttt')
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setLeaveAllData(response?.data?.leave);

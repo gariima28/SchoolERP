@@ -542,7 +542,7 @@ const Event = () => {
   const [endTime, setEndTime] = useState()
   const [eventStatus, setEventStatus] = useState()
   const [eventDescription, setEventDescription] = useState()
-  console.log('description in get by id', eventDescription)
+  // console.log('description in get by id', eventDescription)
   const [eventAllData, setEventAllData] = useState([])
   const [idForDelete, setIdForDelete] = useState()
   const [searchKey, setSearchKey] = useState('')
@@ -625,7 +625,7 @@ const Event = () => {
   };
 
 
-  
+
   // Class functionlity with checkBox
   const [selectedClassIds, setSelectedClassIds] = useState([]);
   // console.log('selectedClassIds in array', selectedClassIds);
@@ -731,7 +731,7 @@ const Event = () => {
     }
     else {
     }
-    if (!eventDescription || eventDescription === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=\- .]+$/.test(eventDescription)) {
+    if (!eventDescription || eventDescription === "" || !/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? \s]+$/.test(eventDescription)) {
       setIsValidDescriptionRequired(true)
       isValid = false
       setLoader(false)
@@ -787,7 +787,7 @@ const Event = () => {
   }
   const handleDescription = (e2) => {
     setEventDescription(e2);
-    const nameRegex = /^[a-zA-Z0-9!@#$%^&*()_+=\- .]+$/;
+    const nameRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? \s]+$/;
     setIsValidDescriptionRequired(nameRegex.test(e2));
 
     if (e2 === "" || !nameRegex.test(e2)) {
@@ -917,7 +917,7 @@ const Event = () => {
       } catch (error) {
         console.log(error)
         setLoader(false)
-        setLoader(false)
+
       }
     }
 
@@ -936,9 +936,11 @@ const Event = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.msg);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
   // Delete api
@@ -962,9 +964,11 @@ const Event = () => {
       } else {
         toast.error(response?.data?.message);
         setShowdelete(true)
+        setLoader(false)
       }
     } catch (error) {
-      console.log('catch')
+      console.log(error)
+      setLoader(false)
     }
   }
   // Get by id 
@@ -973,8 +977,6 @@ const Event = () => {
     setEventIdForUpdate(id)
     try {
       const response = await EventGetByIdApi(id);
-      console.log('all data by get by id', response)
-
       if (response?.status === 200) {
         // toast.success(response?.data?.msg);
         // setAllDataById(response?.data?.events)
@@ -994,9 +996,11 @@ const Event = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
-      console.log('catch')
+      console.log(error)
+      setLoader(false)
     }
   }
   // Event Put api 
@@ -1032,10 +1036,12 @@ const Event = () => {
       } else {
         toast.error(response?.data?.message);
         setShow(true)
+        setLoader(false)
       }
 
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
 
@@ -1069,7 +1075,7 @@ const Event = () => {
     setSelectedClasses(selected);
   };
 
-    // Handle search input change
+  // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
     debouncedSearch(value);
@@ -1084,7 +1090,7 @@ const Event = () => {
     setPageNo(1);
     MyClassRoutineGetAllApi(searchKey);
   };
-    const handleAddOffcanvasOpen = () => {
+  const handleAddOffcanvasOpen = () => {
     const offcanvasElement = document.getElementById('staticBackdrop');
     if (offcanvasElement) {
       const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
@@ -1094,11 +1100,11 @@ const Event = () => {
       toast.error('Unable to open Add event form');
     }
   };
- const [tooltip, setTooltip] = useState({
-        show: false,
-        content: '',
-        position: { x: 0, y: 0 }
-      });
+  const [tooltip, setTooltip] = useState({
+    show: false,
+    content: '',
+    position: { x: 0, y: 0 }
+  });
   return (
     <Container>
       {
@@ -1118,8 +1124,8 @@ const Event = () => {
               </ol>
             </nav>
           </div>
-           {/* new csv design */}
-            <div className="d-flex g-1 for-media-query">
+          {/* new csv design */}
+          <div className="d-flex g-1 for-media-query">
             <ActionControls
               showAddButton={true}
               addButtonText={`Add Event`}
@@ -1161,7 +1167,7 @@ const Event = () => {
                       <tr className='heading-14' >
                         <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
                         {/* <td className=' greyText pe-0 eventName}</td> */}
-                          <td
+                        <td
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.eventName.length > 17 ? "tooltip" : undefined}
                           data-bs-placement="top"
@@ -1230,7 +1236,7 @@ const Event = () => {
                             <button className="btn btn-secondary dropdown-toggle my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Action  &nbsp;
                             </button>
-                            <ul className="dropdown-menu anchor-color heading-14" style={{position:'fixed' }}>
+                            <ul className="dropdown-menu anchor-color heading-14" style={{ position: 'fixed' }}>
                               <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1212" aria-controls="offcanvasRight" onClick={(e) => MyEventGetByIdApi(item.eventId)} >Edit</Link></li>
                               <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => setIdForDelete(item.eventId)}>Delete</Link></li>
                             </ul>
@@ -1272,20 +1278,20 @@ const Event = () => {
                 </div>
               )
             }
-           
+
           </div>
-            <div className="d-flex" style={{ marginBottom: '10px'}}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
-              </div>
+          <div className="d-flex" style={{ marginBottom: '10px' }}>
+            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+            <div className="ms-auto">
+              <ReactPaginate
+                previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+              />
             </div>
-         
+          </div>
+
         </div>
         {/* ################## Off Canvas Area ####################  */}
 
@@ -1309,7 +1315,7 @@ const Event = () => {
                   <div className="input " >
                     <div className="mb-3" style={{ marginTop: '-4px' }}>
                       <label for="exampleFormControlInput1" className="form-label  heading-14">Event Name</label>
-                      <input type="text" className="form-control form-focus label-color  heading-14" value={eventName} onChange={(e) => handleName(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Book Name" />
+                      <input type="text" className="form-control form-focus label-color  heading-14" value={eventName} onChange={(e) => handleName(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Event Name" />
                     </div>
                     <div className='pt-1'>
                       {isValidNameRequired && (
@@ -1375,7 +1381,7 @@ const Event = () => {
                             Event For
                           </label>
                           <div className="dropdown">
-                            <button
+                            {/* <button
                               className="form-select form-select-sm form-focus label-color dropdown-toggle"
                               type="button"
                               id="eventForDropdown"
@@ -1383,14 +1389,62 @@ const Event = () => {
                               aria-expanded="false"
                             >
                               {roleNameStore.length > 0 ? roleNameStore.join(', ') : '--Choose--'}
+                            </button> */}
+                            <button
+                              className="form-select form-select-sm form-focus label-color dropdown-toggle"
+                              type="button"
+                              id="eventForDropdown"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              {roleNameStore.length === allEventRole.length
+                                ? "All"
+                                : roleNameStore.length > 1
+                                  ? `${roleNameStore.length} Selected`
+                                  : roleNameStore.length === 1
+                                    ? roleNameStore[0]
+                                    : "--Choose--"}
                             </button>
 
-                            <ul className="dropdown-menu" aria-labelledby="eventForDropdown" style={{ width: '100%' }}>
+                            <ul
+                              className="dropdown-menu"
+                              aria-labelledby="eventForDropdown"
+                              style={{
+                                width: '100%',
+                                maxHeight: '200px',   
+                                overflowY: 'auto',    // add vertical scroll
+                                overflowX: 'hidden'   // prevent horizontal scroll
+                              }}
+                            >
                               {allEventRole?.map(item => (
                                 <li key={item.roleId || item.classId}>
                                   <div className="dropdown-item">
                                     <div className="form-check">
                                       <input
+                                        className="form-check-input my-form-check-input"
+                                        type="checkbox"
+                                        checked={roleNameStore.includes(item.roleName)}
+                                        onChange={() => handleRoleSelection(item.roleName)}
+                                        id={`event-role-${item.roleId || item.classId}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`event-role-${item.roleId || item.classId}`}
+                                      >
+                                        {item.roleName}
+                                      </label>
+                                    </div>
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                            {/* <ul className="dropdown-menu" aria-labelledby="eventForDropdown" style={{ width: '100%', overflowY: 'auto' }}>
+                              {allEventRole?.map(item => (
+                                <li key={item.roleId || item.classId}>
+                                  <div className="dropdown-item">
+                                    <div className="form-check">
+                                      <input
+
                                         className="form-check-input my-form-check-input"
                                         type="checkbox"
                                         checked={roleNameStore.includes(item.roleName)}
@@ -1404,10 +1458,11 @@ const Event = () => {
                                   </div>
                                 </li>
                               ))}
-                            </ul>
+                            </ul> */}
                           </div>
                         </div>
                       </div>
+
                       {/* Class for  */}
                       <div className="mb-3">
                         <label htmlFor="classDropdown" className="form-label mb-1 label-text-color focus heading-14">
@@ -1422,7 +1477,7 @@ const Event = () => {
                             aria-expanded="false"
                           >
                             {selectedClassIds.length === classData?.length
-                              ? "All Classes"
+                              ? "All "
                               : selectedClassIds.length > 0
                                 ? selectedClassIds.map(id => {
                                   const classItem = classData.find(item => item.classId === id);

@@ -569,6 +569,7 @@ const AssignClassTeacher = () => {
     setLoader(true)
     try {
       const response = await SectionRoomByIdGetApi(classId);
+      console.log('my section response----++++', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setSectionData(response?.data?.allSections)
@@ -654,6 +655,7 @@ const AssignClassTeacher = () => {
         setShowdelete(false)
         MyAssignClassTeachgerGetApi()
         setLoader(false)
+        MyTeacherGetApi()
         toast.success(response?.data?.message);
         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
         offcanvasInstance.hide();

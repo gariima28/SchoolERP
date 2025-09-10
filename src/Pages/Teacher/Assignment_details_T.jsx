@@ -434,15 +434,11 @@ const Assignment_details = () => {
     const [show, setShow] = useState(true)
     const [hide, setHide] = useState(false)
     const [IdForDelete, setIdForDelete] = useState()
-    // console.log('id for delete', IdForDelete)
 
     const [IdForUpdate, setIdForUpdate] = useState()
 
     const id = useParams()
-
-    // console.log('id by params', id)
     let newId = id.id
-    console.log('new idddd from publishh', newId)
 
     useEffect(() => {
         MyAssigmntGetByIdGetAll()
@@ -453,7 +449,6 @@ const Assignment_details = () => {
         setLoader(true)
         try {
             const response = await TeacherAssignmntGetByIdApi(newId);
-            console.log('Get all by id  Data in assignmnt deatilssssss', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.message)
                 setTitle(response?.data?.assignment?.title)
