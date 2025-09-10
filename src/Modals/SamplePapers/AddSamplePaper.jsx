@@ -178,6 +178,9 @@ const AddSamplePaper = ({ addedSuccess }) => {
       console.error(error);
       toast.error("Failed to fetch class data");
     }
+    finally {
+      // setloaderState(false);
+    }
   };
 
   const getAllTeacherData = async (val) => {
@@ -189,6 +192,9 @@ const AddSamplePaper = ({ addedSuccess }) => {
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch teacher data");
+    }
+    finally {
+      // setloaderState(false);
     }
   };
 
@@ -260,6 +266,9 @@ const AddSamplePaper = ({ addedSuccess }) => {
       console.error(error);
       toast.error("Failed to add sample paper");
     }
+    finally {
+      // setloaderState(false);
+    }
   };
 
   return (
@@ -287,7 +296,7 @@ const AddSamplePaper = ({ addedSuccess }) => {
                     if (value.length < 2) {
                       return "Minimum Length is 2";
                     }
-                    if (!/^[a-zA-Z0-9\s'-]+$/.test(value)) {
+                    if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value)) {
                       return "Invalid Characters in Title";
                     }
                     return true;
@@ -482,9 +491,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
                 })}
               >
                 <option value="">-- Select --</option>
-                <option value="Active">Active</option>
-                <option value="Draft">Draft</option>
-                <option value="Archives">Archives</option>
+                <option value="ACTIVE">Active</option>
+                <option value="INACTIVE">InActive</option>
               </select>
               {errors.status && (
                 <p className="font12 text-danger">{errors.status.message}</p>
@@ -507,7 +515,7 @@ const AddSamplePaper = ({ addedSuccess }) => {
                     if (value.length < 2) {
                       return "Minimum Length is 2";
                     }
-                    if (!/^[a-zA-Z0-9\s'-]+$/.test(value)) {
+                    if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value)) {
                       return "Invalid Characters in Description";
                     }
                     return true;
@@ -531,16 +539,16 @@ const AddSamplePaper = ({ addedSuccess }) => {
                 placeholder="Upload"
                 accept=".pdf, .docx"
                 {...register("file", {
-                  required: "File is required *",
-                  validate: (value) => {
-                    if (
-                      value.length > 0 &&
-                      (value[0].size < 10240 || value[0].size > 204800)
-                    ) {
-                      return "File size must be between 10 KB to 200 KB";
-                    }
-                    return true;
-                  },
+                  required: "Sample Paper Document is required *",
+                  // validate: (value) => {
+                  //   if (
+                  //     value.length > 0 &&
+                  //     (value[0].size < 10240 || value[0].size > 204800)
+                  //   ) {
+                  //     return "File size must be between 10 KB to 200 KB";
+                  //   }
+                  //   return true;
+                  // },
                 })}
               />
               {errors.file && (

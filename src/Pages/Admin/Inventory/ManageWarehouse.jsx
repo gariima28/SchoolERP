@@ -142,8 +142,15 @@ const ManageWareHouse = () => {
 
   const openAddCanvas = () => {
     const offcanvasElement = document.getElementById('add_staticBackdrop');
-    const bsOffcanvas = new Offcanvas(offcanvasElement);
-    bsOffcanvas.show();
+    // const bsOffcanvas = new Offcanvas(offcanvasElement);
+    // bsOffcanvas.show();
+    if (offcanvasElement) {
+      let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+      if (!offcanvas) {
+        offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+      }
+      offcanvas.show();
+    }
   };
 
   // Form instances
@@ -259,6 +266,9 @@ const ManageWareHouse = () => {
       setLoaderState(false);
       toast.error('Error fetching roles');
     }
+    finally {
+      setLoaderState(false);
+    }
   };
 
   const getAllDataByRoleId = async () => {
@@ -284,6 +294,9 @@ const ManageWareHouse = () => {
       setLoaderState(false);
       toast.error('Error fetching staff data');
       console.error('Error in getAllDataByRoleId:', error);
+    }
+    finally {
+      setLoaderState(false);
     }
   };
 

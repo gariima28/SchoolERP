@@ -114,6 +114,9 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
     } catch (error) {
       // setloaderState(false);
     }
+    finally {
+      // setloaderState(false);
+    }
   };
 
   const getAllTeacherData = async (val) => {
@@ -127,6 +130,9 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
         toast.error(response?.data?.message);
       }
     } catch (error) {
+      // setloaderState(false);
+    }
+    finally {
       // setloaderState(false);
     }
   };
@@ -174,6 +180,10 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
         // toast.error(response?.data?.message);
       }
     } catch (e) {}
+
+    finally {
+      // setloaderState(false);
+    }
   };
 
   const UpdateAssignment = async (data) => {
@@ -201,6 +211,9 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
     } catch (error) {
       // setloaderState(false);
       // // console.log(error)
+    }
+    finally {
+      // setloaderState(false);
     }
   };
 
@@ -242,7 +255,7 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                       if (value.length < 2) {
                         return "Minimum Length is 2";
                       }
-                      if (!/^[a-zA-Z0-9\s'-]+$/.test(value)) {
+                      if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value)) {
                         return "Invalid Characters in Title";
                       }
                       return true;
@@ -456,7 +469,7 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                     validate: (value) => {
                       if (!value) return true;
                       if (value.length < 2) return "Minimum Length is 2";
-                      if (!/^[a-zA-Z0-9\s'-]+$/.test(value))
+                      if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value))
                         return "Invalid Characters in Description";
                       return true;
                     },
@@ -497,15 +510,15 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                       accept=".pdf,.docs"
                       {...register("file", {
                         required: "Admin file is required *",
-                        validate: (value) => {
-                          if (
-                            value.length > 0 &&
-                            (value[0].size < 10240 || value[0].size > 204800)
-                          ) {
-                            return "File size must be between 10 KB to 200 KB";
-                          }
-                          return true;
-                        },
+                        // validate: (value) => {
+                        //   if (
+                        //     value.length > 0 &&
+                        //     (value[0].size < 10240 || value[0].size > 204800)
+                        //   ) {
+                        //     return "File size must be between 10 KB to 200 KB";
+                        //   }
+                        //   return true;
+                        // },
                       })}
                     />
                   )}

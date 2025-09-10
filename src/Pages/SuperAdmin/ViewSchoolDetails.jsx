@@ -100,6 +100,9 @@ const ViewSchoolDetails = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   return (

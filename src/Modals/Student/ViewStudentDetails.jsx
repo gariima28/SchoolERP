@@ -69,6 +69,9 @@ const ViewStudentDetails = ({ studentGetId }) => {
       // setloaderState(false);
 
     }
+    finally {
+      // setloaderState(false);
+    }
   }
 
 

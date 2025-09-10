@@ -103,6 +103,9 @@ const SamplePaper = () => {
             setloaderState(false);
             // console.log('Error Facing during Get All Sample Paper API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePageClick = (event) => {
@@ -141,6 +144,9 @@ const SamplePaper = () => {
         } catch (error) {
             setloaderState(false);
             toast.error('An error occurred while downloading the Sample Paper-', error);
+        }
+        finally {
+            setloaderState(false);
         }
     };
 

@@ -86,6 +86,9 @@ const Subject = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePageClick = (event) => {

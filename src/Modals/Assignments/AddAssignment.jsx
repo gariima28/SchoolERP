@@ -101,6 +101,9 @@ const AddAssignment = ({ addedSuccess }) => {
         } catch (error) {
             console.error(error);
         }
+        finally {
+            // setloaderState(false);
+        }
     };
 
     const getAllTeacherData = async (val) => {
@@ -111,6 +114,9 @@ const AddAssignment = ({ addedSuccess }) => {
             }
         } catch (error) {
             console.error(error);
+        }
+        finally {
+            // setloaderState(false);
         }
     };
 
@@ -166,6 +172,9 @@ const AddAssignment = ({ addedSuccess }) => {
             console.error(error);
             toast.error('An error occurred while adding the assignment');
         }
+        finally {
+            // setloaderState(false);
+        }
     };
 
     return (
@@ -185,7 +194,7 @@ const AddAssignment = ({ addedSuccess }) => {
                                     validate: value => {
                                         if (!/^[A-Z]/.test(value)) return 'Title must start with an uppercase letter';
                                         if (value.length < 2) return 'Minimum Length is 2';
-                                        if (!/^[a-zA-Z0-9\s'-]+$/.test(value)) return 'Invalid Characters in Title';
+                                        if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value)) return 'Invalid Characters in Title';
                                         return true;
                                     }
                                 })}
@@ -338,7 +347,7 @@ const AddAssignment = ({ addedSuccess }) => {
                                     validate: value => {
                                         if (!value) return true;
                                         if (value.length < 2) return 'Minimum Length is 2';
-                                        if (!/^[a-zA-Z0-9\s'-]+$/.test(value)) return 'Invalid Characters in Description';
+                                        if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value)) return 'Invalid Characters in Description';
                                         return true;
                                     }
                                 })}
@@ -354,11 +363,11 @@ const AddAssignment = ({ addedSuccess }) => {
                                 accept='.pdf, .docx, .png'
                                 {...register('file', {
                                     required: 'File is required *',
-                                    validate: value => {
-                                        if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800))
-                                            return 'File size must be between 10 KB to 200 KB';
-                                        return true;
-                                    }
+                                    // validate: value => {
+                                    //     if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800))
+                                    //         return 'File size must be between 10 KB to 200 KB';
+                                    //     return true;
+                                    // }
                                 })}
                             />
                             {errors.file && <p className="font12 text-danger">{errors.file.message}</p>}

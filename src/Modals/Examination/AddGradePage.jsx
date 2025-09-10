@@ -48,6 +48,9 @@ const AddGradePage = ({ setAddValue }) => {
             console.error('Error during update:', error);
             toast.error('Error during update:', error);
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     return (

@@ -84,6 +84,9 @@ const EditItemStock = ({ EditId, closeCanvas }) => {
             setloaderState(false);
             // console.log('Error Facing during Get All Item API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllItemCategoryData = async () => {
@@ -110,6 +113,9 @@ const EditItemStock = ({ EditId, closeCanvas }) => {
             setloaderState(false);
             // console.log('Error Facing during Get All Item API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllItemSupplierData = async () => {
@@ -135,6 +141,9 @@ const EditItemStock = ({ EditId, closeCanvas }) => {
             setloaderState(false);
             // console.log('Error Facing during Get All Item API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllItemStoreData = async () => {
@@ -159,6 +168,9 @@ const EditItemStock = ({ EditId, closeCanvas }) => {
         catch (error) {
             setloaderState(false);
             // console.log('Error Facing during Get All Item API - ', error)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -204,6 +216,9 @@ const EditItemStock = ({ EditId, closeCanvas }) => {
             setloaderState(false);
             // // console.log('Error Facing during Get Item By Id API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const updateItemStock = async (data) => {
@@ -244,6 +259,9 @@ const EditItemStock = ({ EditId, closeCanvas }) => {
         catch (error) {
             setloaderState(false);
             // console.log('Error Facing during Add New Item API - ', error)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 

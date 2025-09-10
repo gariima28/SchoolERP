@@ -162,6 +162,9 @@ const Marksheet = () => {
             }
 
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllExamTermData = async () => {
@@ -195,6 +198,9 @@ const Marksheet = () => {
                 }, 200);
             }
 
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -244,6 +250,9 @@ const Marksheet = () => {
             setloaderState(false);
             setIsSearched(false);
             console.error('Error During Get Marksheet', error);
+        }
+        finally {
+            setloaderState(false);
         }
     };
 

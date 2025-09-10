@@ -95,6 +95,9 @@ const ClassRoutines = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   return (
