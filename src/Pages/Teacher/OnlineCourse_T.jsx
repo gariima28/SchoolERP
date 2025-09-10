@@ -503,11 +503,9 @@ font-size: 12px;
 const OnlineCourse = () => {
 
   const [forDelete, setForDelete] = useState(false)
-
   const [loader, setLoader] = useState(false)
   const [hide, setHide] = useState(false)
   const [show, setShow] = useState(true)
-
   const [hide12, setHide12] = useState(false)
   const [show12, setShow12] = useState(true)
   const [editshow, setEditshow] = useState(true)
@@ -516,10 +514,8 @@ const OnlineCourse = () => {
   const [addhide, setAddhide] = useState(false)
   const [showdelete, setShowdelete] = useState(true)
   const [hidedelete, setHidedelete] = useState(false)
-
   const [IdForDelete, setIdForDelete] = useState()
   const [IdForUpdate, setIdForUpdate] = useState()
-
   const [courseName, setCourseName] = useState()
   const [lesson, setLesson] = useState()
   const [courseSection, setCourseSection] = useState()
@@ -589,15 +585,6 @@ const OnlineCourse = () => {
     }
     else {
     }
-    // // section no 
-    // if (!courseSection || courseSection === "" || !/^\d{2,4}$/.test(courseSection)) {
-    //   setIsValidSectionRequired(true)
-    //   isValid = false
-    //   setLoader(false)
-    // }
-    // else {
-
-    // }
     return isValid;
   }
   const handleName = (e2) => {
@@ -758,7 +745,6 @@ const OnlineCourse = () => {
     setLoader(true)
     try {
       const response = await TeacherOnlineCourseGetAllApi(searchKey, pageNo, pageSize);
-      // console.log('My online course get all DATAAAAAA', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setOnlineAllData(response?.data?.CourseData)
@@ -781,7 +767,6 @@ const OnlineCourse = () => {
     setLoader(true)
     try {
       const response = await TeacherOnlineDeleteApi(id);
-      // // console.log('my-subs-api',response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         MyOnlinCoruseGetAllApi()
@@ -810,7 +795,6 @@ const OnlineCourse = () => {
     setLoader(true)
     try {
       const response = await TeacherOnlineGetById(id);
-      // console.log('My OOLINE COURSE get DATA by get by id', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setCourseName(response?.data?.course?.courseName)
@@ -851,10 +835,7 @@ const OnlineCourse = () => {
       formData.append('status', status)
       formData.append('courseImage', courseImage);
       formData.append('courseFile', courseFile);
-
       const response = await TeacherOnlinePutApi(id, formData);
-      // console.log('The-online-put-Api', response)
-
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setShow(false)
@@ -968,7 +949,6 @@ const OnlineCourse = () => {
                   <th className='no-wrap'>Actions</th>
                 </tr>
               </thead>
-
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
                   onlineAllData && onlineAllData?.length > 0 ? (
@@ -991,7 +971,6 @@ const OnlineCourse = () => {
                               <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
                               </svg>
-
                             </button>
                             <ul className="dropdown-menu anchor-color heading-14">
                               <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop12" aria-controls="staticBackdrop" onClick={(e) => MyOnlineGetById(item.courseId)} >Edit</Link></li>
@@ -1016,7 +995,6 @@ const OnlineCourse = () => {
                       </tr>
                     )
                 }
-
               </tbody>
             </table>
             <div className="d-flex" style={{ marginBottom: '10px' }}>
@@ -1087,7 +1065,6 @@ const OnlineCourse = () => {
                       <label for="exampleFormControlInput1" className="form-label label-color heading-16">Teacher</label>
                       <select class="form-select form-focus label-color heading-14 " value={teacherId} onChange={(e) => setTeacherId(e.target.value)} aria-label="Default select example">
                         <option selected>--Choose--</option>
-
                         {
                           teacherAllData?.map(item => (
                             <option value={`${item.staffId ? item.staffId : ''}`} >{`${item.staffName ? item.staffName : ''}`}</option>
@@ -1133,7 +1110,6 @@ const OnlineCourse = () => {
                         <option value='false'>False</option>
                       </select>
                     </div>
-
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={MyOnlinePostApi}>Add New Course</button>
                       <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>

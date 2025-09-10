@@ -555,15 +555,12 @@ border-radius: 10px !important;
 const AssignLeave = () => {
 
   const navigate = useNavigate();
-
   const [loader, setLoader] = useState(false)
   const [forDelete2, setForDelete2] = useState(false)
   const [startWeekDate, setStartWeekDate] = useState('')
   const [endWeekDate, setEndWeekDate] = useState('')
 
   const [monthYear, setMonthYear] = useState('')
-  // console.log('my month date',monthYear)
-
   const [hide, setHide] = useState(false)
   const [show, setShow] = useState(true)
   const [hide22, setHide22] = useState(false)

@@ -532,22 +532,16 @@ const DailyAttendance = ({ items }) => {
   const [attendance, setAttendance] = useState(false)
   const [present, setPresent] = useState([])
   const [absent, setAbsent] = useState([])
-  // console.log('present', present)
-  // console.log('absent', absent)
-
   const [classId, setClassId] = useState()
   const [sectionId, setSectionId] = useState()
   const [sectionId2, setSectionId2] = useState()
-  // console.log('my section id is', sectionId2)
   const [month, setMonth] = useState()
   const [year, setYear] = useState()
   const [sectionName, setSectionName] = useState()
   const [search, setSearch] = useState('')
-
   const [showMonth, setShowMonth] = useState()
   const [showLastUpdate, setShowLastUpdate] = useState()
   const [showTime, setShowTime] = useState()
-
   const [date, setDate] = useState()
   const [name, setName] = useState()
   const [radioChecked, setRadioChecked] = useState()
@@ -602,9 +596,6 @@ const DailyAttendance = ({ items }) => {
 
   const Download_Slip = async () => {
     try {
-      // console.log(" section id is ", sectionId2)
-      // console.log(" month is ", sectionId2)
-      // console.log(" year  is ", sectionId2)
       const response = await TeacherDailyAttendancehCSVBymonth(sectionId2, month, year);
       // console.log("csv responsee attendance", response)
       if (response?.status === 200) {
@@ -635,7 +626,6 @@ const DailyAttendance = ({ items }) => {
   const MySyllabusSectionGetApi = async () => {
     try {
       const response = await TeacherSyllabusSectionGetAllApi(classId);
-      // console.log('Section-get-all-api in Syllabus', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setSectionData(response?.data?.allSections)
@@ -653,7 +643,6 @@ const DailyAttendance = ({ items }) => {
     try {
       const response = await TeacherDailyAttendancehGetAll(sectionId, date);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setDailyAttenSearDateData(response?.data?.studentList)
         // // console.log(response?.data?.studentList, 'msg student list')
       } else {
@@ -664,7 +653,6 @@ const DailyAttendance = ({ items }) => {
       // console.log(error)
     }
   }
-
   // Daily attendance get all Api by month
   const MyDailyAttendanceGetAllApiByMonth = async () => {
     const formData = new FormData()
@@ -677,7 +665,6 @@ const DailyAttendance = ({ items }) => {
     setLoader(true)
     try {
       const response = await TeacherDailyAttendancehGetAllBymonth(sectionId2, month, year, search, 1, 10, pageNo, pageSize);
-      // console.log('my Daily attendance data by month ', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setDailyDataByMonth(response?.data?.attendance)

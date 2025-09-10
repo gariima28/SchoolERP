@@ -2,10 +2,8 @@ import axios from 'axios'
 const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
-// const Domain= 'http://89.116.122.211:5000';
-const Domain = 'https://test.edu2all.in/sch/';
-
-
+// const Domain= 'http://192.168.20.109';
+const Domain = 'https://test.edu2all.in/sch';
 
 
 // ******************************************************************************************************
@@ -6439,18 +6437,19 @@ export const AssignGetAllApi = async (classId, subjectId, pageNo, pageSize) => {
     return [];
   }
 }
-//  Delete Api 
-export const AssignDeleteDeleteApi = async (subjectIdForDelete, staffIdForDelete) => {
+
+export const AssignDeleteDeleteApi = async (data) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res2 = await axios.delete(`${Domain}/subject/removeSubjectTeacher?subjectId=${subjectIdForDelete}&teacherId=${staffIdForDelete}`)
-    if (res2) {
-      return res2;
-    }
-    else {
-      return []
-    }
+    const res2 = await axios.delete(`${Domain}/subject/removeSubjectTeacher`, {
+      data: data, // This sends the data as raw JSON in the request body
+      headers: {
+        'Content-Type': 'application/json' // Explicitly set content type
+      }
+    });
+    return res2;
   } catch (error) {
+    console.error('Delete API error:', error);
     return [];
   }
 }

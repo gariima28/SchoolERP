@@ -360,8 +360,8 @@ font-size: 12px;
     opacity: var(--bs-btn-disabled-opacity);
 }
 .my-form-check-input:checked{
-  background-color: #008479;
-  border-color: #008479;
+  background-color: #B50000;
+  border-color: #B50000;
 } 
 
 .pagination {
@@ -472,8 +472,22 @@ const AssignSubjectTeacher = () => {
   const [hidedelete, setHidedelete] = useState(false)
 
 
+  const [subjectClassForDelete, setSubjectClassForDelete] = useState()
+  const [subjectSectionsForDelete, setSubjectSectionsForDelete] = useState()
   const [subjectIdForDelete, setSubjectIdForDelete] = useState()
   const [staffIdForDelete, setStaffIdForDelete] = useState()
+
+  const [classSectiomData, setClassSectiomData] = useState([])
+  const addClassWithSections = (classId, sectionIds) => {
+
+    setClassSectiomData(prev => [
+      ...prev,
+      {
+        classId: classId,
+        sectionIds: Array.isArray(sectionIds) ? sectionIds : [sectionIds]
+      }
+    ])
+  }
 
   const [classId, setClassId] = useState()
   // console.log('class id ', classId)
@@ -495,7 +509,7 @@ const AssignSubjectTeacher = () => {
 
   const [selectedClassSections, setSelectedClassSections] = useState([]);
   const [transformedSections, setTransformedSections] = useState([]);
-  console.log("Assign subject teacher post", transformedSections);
+  // console.log("Assign subject teacher post", transformedSections);
 
   useEffect(() => {
     const transformed = selectedClassSections.reduce((acc, curr) => {
@@ -715,13 +729,12 @@ const AssignSubjectTeacher = () => {
       setLoader(false)
     }
   }
-
   // Assign Get all Api 
   const MyAssignGetAllApi = async () => {
     setLoader(true)
     try {
       const response = await AssignGetAllApi(classId, subjectId, pageNo, pageSize);
-      console.log('assign subject teacher get all data', response)
+      console.log('assign subject teacher get all data+++++++++++', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setAssignSubTeaAllData(response?.data?.teacher)
@@ -730,17 +743,24 @@ const AssignSubjectTeacher = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
-
   // Delete api
-  const MyStaffDeleteApi = async (subjectIdForDelete, staffIdForDelete) => {
+  const MyStaffDeleteApi = async () => {
+    const data = {
+      "subjectId": subjectIdForDelete,
+      "teacherId": staffIdForDelete,
+      "classSection": classSectiomData
+    }
+
     setLoader(true)
     try {
-      const response = await AssignDeleteDeleteApi(subjectIdForDelete, staffIdForDelete);
+      const response = await AssignDeleteDeleteApi(data);
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         MyAssignGetAllApi()
@@ -756,12 +776,13 @@ const AssignSubjectTeacher = () => {
       } else {
         toast.error(response?.data?.message);
         setShowdelete(true)
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
-
   const handleForDelete = () => {
     MyStaffDeleteApi(subjectIdForDelete, staffIdForDelete)
   }
@@ -771,6 +792,7 @@ const AssignSubjectTeacher = () => {
     setClassNo('')
     setSubjectId('')
     setTeacherId('')
+    setForDelete(false)
   }
 
   const ClearDataInSearch = () => {
@@ -778,6 +800,7 @@ const AssignSubjectTeacher = () => {
     setClassNo('');
     setSubjectId('');
     setAssignSubTeaAllData([]);
+    setForDelete(false)
   };
 
   const heading = [
@@ -943,8 +966,8 @@ const AssignSubjectTeacher = () => {
                       <td className=' greyText no-wrap'>{item.staffName}</td>
                       <td className=' greyText no-wrap  '>{item.classNo}</td>
                       {
-                        item?.sectionNames.map((item, index) => (
-                          <td className=' greyText no-wrap  ' key={index}>{item}</td>
+                        item?.sectionNames?.map((item, index) => (
+                          <td className=' greyText no-wrap ' key={index}>{item}</td>
                         ))
                       }
                       <td className=' greyText no-wrap ' >
@@ -956,7 +979,8 @@ const AssignSubjectTeacher = () => {
                             </svg>
                           </button>
                           <ul className="dropdown-menu anchor-color heading-14">
-                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => { setSubjectIdForDelete(item.subjectId), setStaffIdForDelete(item.staffId) }}>Remove</Link></li>
+                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => { setSubjectIdForDelete(item.subjectId), setStaffIdForDelete(item.staffId), addClassWithSections(item.classId, item.sectionIds) }}>Remove</Link></li>
+                            {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => { setSubjectIdForDelete(item.subjectId), setStaffIdForDelete(item.staffId) , setSubjectClassForDelete(item.classId) , setSubjectSectionsForDelete(item.sectionIds) , addClassWithSections(item.classId, item.sectionIds) }}>Remove</Link></li> */}
                           </ul>
                         </div>
                       </td>
@@ -1229,17 +1253,31 @@ const AssignSubjectTeacher = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                      <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" on type="checkbox" value="" id="flexCheckDefault" />
+                      {/* <div className="form-check mt-1">
+                        <input className="form-check-input my-form-check-input"   type="checkbox" value="" id="flexCheckDefault" />
                         <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
+                          I Agree to delete the Profile Data
+                        </label>
+                      </div> */}
+                      <div className="form-check mt-1">
+                        <input
+                          className="form-check-input my-form-check-input"
+                          onChange={() => setForDelete(!forDelete)}
+                          type="checkbox"
+                          checked={forDelete}
+                          value=""
+                          id="flexCheckDefault"
+                          name="deleteAgreement" // Added name attribute
+                        />
+                        <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
                       </div>
 
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00 my-button112233RedDelete" disabled={forDelete ? false : true} onClick={handleForDelete}>Delete</button>
-                        <button type="button" className="btn cancel-btn  ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn cancel-btn  ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                       </div>
 
                     </div>
@@ -1269,104 +1307,3 @@ export default AssignSubjectTeacher
 
 
 
-
-
-
-
-
-
-
-
-
-// const [selectedClassSections, setSelectedClassSections] = useState([]);
-// const selectedSections = selectedClassSections;
-
-// console.log('mmy class and section dynimically',selectedClassSections)
-// const isClassChecked = (classItem) => {
-//   return classItem.sections.some(section =>
-//     selectedClassSections.some(s =>
-//       s.classId === classItem.classId &&
-//       s.sectionId === section.classSecId
-//     )
-//   );
-// };
-
-//  const toggleAllSectionsInClass = (classItem) => {
-//   setSelectedClassSections(prev => {
-//     const isChecked = isClassChecked(classItem);
-
-//     if (isChecked) {
-//       // Uncheck all sections of this class
-//       return prev.filter(s => s.classId !== classItem.classId);
-//     } else {
-//       // Check all sections of this class
-//       const newSelections = classItem.sections.map(section => ({
-//         classId: classItem.classId,
-//         sectionId: section.classSecId
-//       }));
-//       const filtered = prev.filter(s => s.classId !== classItem.classId);
-//       return [...filtered, ...newSelections];
-//     }
-//   });
-// };
-
-// const toggleSection = (classId, sectionId) => {
-//   setSelectedClassSections(prev => {
-//     const exists = prev.some(s => s.classId === classId && s.sectionId === sectionId);
-
-//     if (exists) {
-//       return prev.filter(s => !(s.classId === classId && s.sectionId === sectionId));
-//     } else {
-//       return [...prev, { classId, sectionId }];
-//     }
-//   });
-// };
-
-
-
-
-
-
-// ---------------------- 
-//   <tbody className='heading-14 align-middle greyTextColor'>
-//                         {SectionWithClass?.map((classItem, index) => (
-//                           <tr key={index} className='heading-14'>
-//                             <td className='greyText no-wrap'>
-//                               <div className="d-flex align-items-center gap-2">
-//                                 <input
-//                                   className="form-check-input my-form-check-input"
-//                                   type="checkbox"
-//                                   checked={isClassChecked(classItem)} // ✅ NEW LOGIC
-//                                   onChange={() => toggleAllSectionsInClass(classItem)}
-//                                   id={`class-all-${classItem.classId}`}
-//                                 />
-//                                 <label htmlFor={`class-all-${classItem.classId}`}>
-//                                   {classItem.classNo}
-//                                 </label>
-//                               </div>
-//                             </td>
-
-//                             {classItem.sections?.map((sectionItem, sectionIndex) => (
-//                               <td key={sectionIndex} className='greyText no-wrap'>
-//                                 <div className="d-flex align-items-center gap-2">
-//                                   <input
-//                                     className="form-check-input my-form-check-input"
-//                                     type="checkbox"
-//                                     checked={selectedSections.some(s =>
-//                                       s.classId === classItem.classId &&
-//                                       s.sectionId === sectionItem.classSecId
-//                                     )}
-//                                     onChange={() =>
-//                                       toggleSection(classItem.classId, sectionItem.classSecId)
-//                                     }
-//                                     id={`section-${classItem.classId}-${sectionItem.classSecId}`}
-//                                   />
-//                                   <label htmlFor={`section-${classItem.classId}-${sectionItem.classSecId}`}>
-//                                     {sectionItem.sectionName}
-//                                   </label>
-//                                 </div>
-//                               </td>
-//                             ))}
-//                           </tr>
-//                         ))}
-//                       </tbody>

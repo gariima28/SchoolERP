@@ -583,22 +583,6 @@ const Subject = () => {
   }
   // ###### validation ##########
 
-
-  // class Get all data from class page for class id  
-  // const UpdatClassGetApi = async () => {
-  //   setLoader(true)
-  //   try {
-  //     const response = await ClassGetApi(searchKey2, pageNo2, pageSize2);
-  //     if (response?.status === 200) {
-  //       setClassData(response?.data?.classes)
-  //       setLoader(false)
-  //     } else {
-  //       toast.error(response?.data?.classes?.message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
   const fetchAllClasses = async () => {
     setLoader(true);
     try {
@@ -708,7 +692,6 @@ const Subject = () => {
         setTimeout(() => {
           setShowdelete(true)
         }, 0.5)
-
       } else {
         toast.error(response?.data?.message);
       }
@@ -853,9 +836,9 @@ const Subject = () => {
             <table className="table table-sm table-striped">
               <thead className=''>
                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                  <th className='no-wrap' style={{ width: '100px' }}>#</th>
-                  <th className='no-wrap' style={{ width: '250px' }}>Subject Name</th>
-                  <th className='no-wrap' style={{ width: '630px' }}>Subject Id</th>
+                  <th className='no-wrap' >#</th>
+                  <th className='no-wrap' >Subject Name</th>
+                  <th className='no-wrap' style={{ width: '60%' }}>Subject Id</th>
                   <th >Actions</th>
                 </tr>
               </thead>
