@@ -696,9 +696,7 @@ const Marks_T = () => {
     setLoader(true)
     try {
       const response = await TeacherClassGetApi();
-      // console.log('class-get-all-api in Marks', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setClassdata(response?.data?.data)
         setLoader(false)
       } else {
@@ -714,9 +712,7 @@ const Marks_T = () => {
     setLoader(true)
     try {
       const response = await TeacherSectionRoomByIdGetApi(classId);
-      // console.log('SECTION-get-all-api', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.message)
         setSectionData(response?.data?.allSections)
         setLoader(false)
       } else {
@@ -733,7 +729,6 @@ const Marks_T = () => {
     setLoader(true)
     try {
       const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classNo);
-      console.log('Subject-get-all-api in Marks', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setSubjectData(response?.data?.subjects)
@@ -752,7 +747,6 @@ const Marks_T = () => {
     setLoader(true)
     try {
       const response = await TeacherExamTermGetAll(searchKey);
-      console.log('Exam Category-get-all-api in Marks', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setExamTermData(response?.data?.data)
@@ -771,7 +765,6 @@ const Marks_T = () => {
     setLoader(true)
     try {
       const response = await TeacherSessionyGetAll(searchKey);
-      // console.log('Session Data', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setSessionAllData(response?.data?.sessions)
@@ -789,10 +782,8 @@ const Marks_T = () => {
     const value = e.target.value;
     const [val1, val2] = value.split(',');
     setSectionId(parseInt(val1))
-    // const num = val2.trim()
     setSectionName(val2)
-    // console.log('my section id s = ', val1)
-    // console.log('my section no is = ', val2)
+ 
   }
 
   // Marks Post Api 
@@ -839,7 +830,6 @@ const Marks_T = () => {
     setLoader(true)
     try {
       const response = await TeacherMarksGetAll(classNo,sectionId, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize);
-      console.log('Marks All Data', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setMarksAllData(response?.data?.marks)

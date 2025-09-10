@@ -505,9 +505,6 @@ const Event = () => {
   const [endTimeDataById, setEndTimeDataById] = useState()
   const [eventStatusDataById, setEventStatusDataById] = useState()
   const [eventIdForUpdate, setEventIdForUpdate] = useState()
-  // // console.log('event id for update',eventIdForUpdate)
-  // // console.log('my DATAAAA event name',eventNameDataById)
-
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
   const [isValidDateRequired, setIsValidDateRequired] = useState(false);
   const [isValidTimeRequired, setIsValidTimeRequired] = useState(false);
@@ -521,7 +518,7 @@ const Event = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const handlePageClick = (event) => {
-    setPageNo(event.selected + 1); // as event start from 0 index
+    setPageNo(event.selected + 1); 
   };
 
   useEffect(() => {
@@ -663,7 +660,6 @@ const Event = () => {
       formData.append('endTime', endTime);
       try {
         const response = await TeacherEventPostApi(formData);
-        // // console.log('class-post-api', response)
         if (response?.status === 200) {
           if (response?.data?.status === "success") {
             toast.success(response?.data?.message);
@@ -695,7 +691,6 @@ const Event = () => {
     setLoader(true)
     try {
       const response = await TeacherEventGetAllApi(searchKey, pageNo, pageSize);
-      // console.log('Event get All Api data', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setEventAllData(response?.data?.events)
@@ -716,7 +711,6 @@ const Event = () => {
     setLoader(true)
     try {
       const response = await TeacherEventDeleteApi(id);
-      // // console.log('my-subs-api',response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         MyEventGetAllApi()
@@ -744,11 +738,7 @@ const Event = () => {
     setEventIdForUpdate(id)
     try {
       const response = await TeacherEventGetByIdApi(id);
-      // console.log('all data by ger by id', response)
-
       if (response?.status === 200) {
-        // toast.success(response?.data?.msg);
-        // setAllDataById(response?.data?.events)
         setEventName(response?.data?.events?.eventName)
         setStartDate(response?.data?.events?.startingDate)
         setStartTime(response?.data?.events?.startingTime)
@@ -776,7 +766,6 @@ const Event = () => {
         formData.append('startTime', startTimeDataById)
         formData.append('endDate', endDateDataById)
         formData.append('endTime', endTimeDataById)
-
         const response = await TeacherEventPutApi(id, formData);
         // console.log('MY_SECTION____put-Api', response)
         if (response?.status === 200) {
@@ -887,7 +876,6 @@ const Event = () => {
                   eventAllData?.map((item, index) => (
                     <tr className='heading-14' >
                       <td className=' no-wrap greyText pe-0'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                      {/* <td className=' no-wrap greyText pe-0'>{item.eventName}</td> */}
                         <td
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.eventName.length > 17 ? "tooltip" : undefined}
@@ -921,20 +909,6 @@ const Event = () => {
                       <td className='greyText pe-0 no-wrap'>
                         <p className={`greyText pe-0 ${item.status === "Ongoing" ? 'my-Ongoing-status' : `${item.status === "Upcoming" ? 'my-Upcoming-status' : 'my-Closed-status'}`}`}>{item.status}</p>
                       </td>
-                      {/* <td className=' greyText  pe-0 no-wrap' >
-                        <div className="dropdown my-button-show">
-                          <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Action  &nbsp;
-                            <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                              <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
-                            </svg>
-                          </button>
-                          <ul className="dropdown-menu anchor-color heading-14">
-                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1212" aria-controls="offcanvasRight" onClick={(e) => MyEventGetByIdApi(item.eventId)} >Edit</Link></li>
-                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => setIdForDelete(item.eventId)}>Delete</Link></li>
-                          </ul>
-                        </div>
-                      </td> */}
                     </tr>
 
                   ))}
@@ -1122,7 +1096,6 @@ const Event = () => {
                         </p>
                       )}
                     </div>
-
                     <div className="mb-1">
                       <label for="exampleFormControlInput1" className="form-label label-color heading-16">Status</label>
                       <select class="form-select  form-select-sm form-focus " onChange={(e) => setEventStatusDataById(e.target.value)} value={eventStatusDataById} aria-label="Default select example">
@@ -1151,9 +1124,7 @@ const Event = () => {
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
-
                 <div className="offcanvas-body">
-
                   <div className="sure-main-container mt-4">
                     <div className="sure-container">
                       <div>
@@ -1163,7 +1134,6 @@ const Event = () => {
                           <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
                         </svg>
                       </div>
-
                       <div className="sure-content mt-2">
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
@@ -1174,12 +1144,10 @@ const Event = () => {
                           I Agree to delete the Profile Data
                         </label>
                       </div>
-
                       <div className="mt-4">
                         <button type="button" className="btn  my-btn button00" disabled={forDelete ? false : true} onClick={handleForDelete} >Delete</button>
                         <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                       </div>
-
                     </div>
                   </div>
                 </div>

@@ -603,7 +603,6 @@ const handleRoomChange = (index, value) => {
             setRooms('')
       }
     }
-
   }
   const HandleState = () => {
     setShow12(true)
@@ -616,7 +615,7 @@ const handleRoomChange = (index, value) => {
     setLoader(true)
     try {
       const response = await ClassGetApi(searchKey2, pageNo2, pageSize2);
-      console.log('all classess in section',response)
+      // console.log('all classess in section',response)
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.msg)
         setClassdata(response?.data?.classes)
@@ -633,9 +632,7 @@ const handleRoomChange = (index, value) => {
     setLoader(true)
     try {
       const response = await NullRoomGetApi();
-      // console.log('all free rooms in section', response)
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.msg)
         setDataFromClassroom(response?.data?.rooms)
         setLoader(false)
       } else {
@@ -651,9 +648,7 @@ const handleRoomChange = (index, value) => {
     try {
       const response = await SectionRoomGetApi(searchKey, pageNo, pageSize);
 
-      console.log('section get all api', response)
       if (response?.status === 200) {
-        // toast.success(response?.data?.message)
         setSectionAllData(response?.data?.classes)
         setLoader(false)
         setCurrentPage(response?.data?.currentPage)
@@ -681,9 +676,8 @@ const handleRoomChange = (index, value) => {
         toast.error(response?.data?.msg);
         setHidedelete(true)
       }
-
     } catch (error) {
-      console.log('catch')
+      console.log(error)
     }
   }
   // Get by id 
@@ -692,7 +686,6 @@ const handleRoomChange = (index, value) => {
     setLoader(true)
     try {
       const response = await SectionGetByIdApi(id);
-      console.log('SECTION-get-by-id', response)
       setClassNoById(response.data.sections)
       setSection(response.data.sections?.sectionName)
       setPutpackage(response.data.sections?.roomNo)
@@ -705,7 +698,7 @@ const handleRoomChange = (index, value) => {
         toast.error(response?.data?.msg);
       }
     } catch (error) {
-      console.log('catch')
+      console.log(error)
     }
   }
   // Section Put api 
@@ -752,7 +745,6 @@ const handleRoomChange = (index, value) => {
     setPutpackage('')
     setClasschange('')
     UpdatNullRoomGetApi()
-
     setSections([''])
     setSection('')
     setRooms([''])
@@ -825,7 +817,6 @@ const handleRoomChange = (index, value) => {
                             </button>
                             <ul className="dropdown-menu anchor-color heading-14">
                               <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop00" aria-controls="staticBackdrop" onClick={(e) => MySectionGetByIdApi(item.sectionId)} >Edit</Link></li>
-                              {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => setIdForDelete(item.sectionId)}>Delete</Link></li> */}
                             </ul>
                           </div>
                         </td>
@@ -1050,9 +1041,7 @@ const handleRoomChange = (index, value) => {
           )
         }
 
-        {/* ################## Off Canvas Area ####################  */}
-
-        {/* ##### offcanvas edit start ########  */}
+  
         {/* ########## content area #################  */}
         {
           show && (
@@ -1123,14 +1112,12 @@ const handleRoomChange = (index, value) => {
         }
         {/* ################# After click ###############  */}
 
-        {/* ##### offcanvase edit  end ########  */}
 
         {/* ############## Offcanvas view profile ######### */}
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight33" aria-labelledby="offcanvasRightLabel">
           <div className="container-fluid">
             <div className="offcanvas-header p-0 pt-3">
               <Link data-bs-dismiss="offcanvas" className='ps-3' ><img src="/images/Vector (13).svg" alt="" /></Link>
-
               <h5 className="offcanvas-title heading-16 pe-3" id="offcanvasRightLabel">View Profile</h5>
             </div>
             <hr />
@@ -1144,9 +1131,7 @@ const handleRoomChange = (index, value) => {
                   <p className='heading-14'>admin@example.com</p>
                 </div>
               </div>
-
               <div className='view-details-background-color p-3 mt-4'>
-
                 <div className="between-content mt- ">
                   <div className='d-flex justify-content-between  '>
                     <div >
@@ -1156,9 +1141,7 @@ const handleRoomChange = (index, value) => {
                       <p className='heading-14 '>4290 Gregory Lane <br />Louisville, KY 40202</p>
                     </div>
                   </div>
-
                 </div>
-
                 <hr className='mt-4' />
                 <div className='d-flex   justify-content-between mt-2'>
                   <div >
@@ -1197,9 +1180,7 @@ const handleRoomChange = (index, value) => {
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
-
                 <div className="offcanvas-body">
-
                   <div className="sure-main-container mt-4">
                     <div className="sure-container">
                       <div>
@@ -1209,7 +1190,6 @@ const handleRoomChange = (index, value) => {
                           <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
                         </svg>
                       </div>
-
                       <div className="sure-content mt-2">
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
@@ -1220,17 +1200,14 @@ const handleRoomChange = (index, value) => {
                           I Agree to delete the Profile Data
                         </label>
                       </div>
-
                       <div className="mt-4">
                         <button type="button" className="btn btn-outline-primary button00" onClick={(e) => SubsDeleteApi(idForDelete)}>Delete</button>
                         <button type="button" className="btn btn-outline-primary button00 ms-2">Cancel</button>
                       </div>
-
                     </div>
                   </div>
                 </div>
               </div>
-
             )
           }
           {/* ############## After click ##############  */}
@@ -1255,20 +1232,14 @@ const handleRoomChange = (index, value) => {
                     </div>
                     <div className='button-position'>
                       <button type="button" className="btn btn-outline-primary button11 mt-4 mb" data-bs-dismiss="offcanvas" aria-label="Close" style={{ fontSize: '14px' }}>Continue</button>
-
                     </div>
-
                   </div>
                 </div>
               </div>
-
             )
           }
         </div>
         {/* ################ offcanvas delete end #############  */}
-
-
-
       </div>
     </Container>
   )
