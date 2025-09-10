@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { MyUseContext } from '../ContextApi/UseContext'
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
 import { StaffPostApi, StaffGetById, StaffPutApi, RolePermissionGetApi } from '../../../Utils/Apis';
 const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const navigate = useNavigate();
-  const myUserId = data;
+  const { id } = useParams();
+  const { myId } = useContext(MyUseContext);
+  const myUserID = myId ?? id ?? "";
 
-  const { myId, setMyId } = useContext(MyUseContext)
-  const myUserID = myId !== undefined ? myId : '';
-  
+
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
   const [gender, setGender] = useState('');
@@ -192,7 +191,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       }
     } catch (error) {
       setLoader(false);
-      toast.error('Failed to fetch roles');
+      // toast.error('Failed to fetch roles');
     }
   };
 
@@ -238,11 +237,9 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
           toast.success(response?.data?.message);
           setemptyValue(response?.data?.status);
           setUserId(response?.data?.status);
-          setFunction(response?.data?.otherstaff?.id);
-          setMyId(response?.data?.otherstaff?.id);
-
-
-          localStorage.setItem('MyUserID', response?.data?.otherstaff?.id);
+          // setFunction(response?.data?.otherstaff?.id);
+          navigate(`/admin/users/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
+          // setMyId(response?.data?.otherstaff?.id);
           setLoader(false);
         } else {
           toast.error(response?.data?.message);
@@ -290,7 +287,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       }
     } catch (error) {
       setLoader(false);
-      toast.error('Failed to fetch user data');
+      // toast.error('Failed to fetch user data');
     }
   };
 

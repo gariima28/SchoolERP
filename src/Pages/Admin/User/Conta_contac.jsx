@@ -2,15 +2,18 @@ import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { UserContactGetAllApi, Conatct_conat_ById, Conatct_conat_PutApi, TeacherLeaveTeacherAllApi } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
+import { useParams } from 'react-router-dom';
 
 
 const Conta_contac = ({ data }) => {
   const { transferId, myUserId } = data;
   const staffId = transferId;
-  const MyUserID = localStorage.getItem('MyUserID');
 
-  const { myId, setMyId } = useContext(MyUseContext)
-  const myUserID = myId !== undefined ? myId : '';
+  const { id } = useParams();
+  const { myId } = useContext(MyUseContext);
+  const myUserID = myId ?? id ?? "";
+
+  console.log(myUserID, "myUserID");
 
   const [loader, setLoader] = useState(false);
   const [leaveAllData, setLeaveAllData] = useState([]);
@@ -75,7 +78,7 @@ const Conta_contac = ({ data }) => {
   };
 
   const handleStartDate = (e) => {
-    const value = e.target.value;
+    const value = e;
     setContractStart(value);
     const dateRegex = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
     setIsValidContractStartRequired(!value || !dateRegex.test(value));
@@ -160,7 +163,7 @@ const Conta_contac = ({ data }) => {
 
       setLoader(true);
       try {
-        const response = await UserContactGetAllApi(MyUserID, formData);
+        const response = await UserContactGetAllApi(myUserID, formData);
         if (response?.data?.status === 'success') {
           toast.success(response?.data?.message);
           setUpdateStatus(response?.data?.status);

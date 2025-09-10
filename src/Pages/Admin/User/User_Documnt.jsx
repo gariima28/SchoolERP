@@ -6,6 +6,7 @@ import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { DocumentPostApi, DocumentPutApi, DocumentDeleteApi, getDocumentByDocumentId, getDocumentByStaffId} from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
+import { useParams } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -191,8 +192,9 @@ const Container = styled.div`
 
 const User_Documnt = () => {
 
-  const { myId, setMyId } = useContext(MyUseContext)
-  const myUserID = myId !== undefined ? myId : '';
+  const { id } = useParams();
+  const { myId } = useContext(MyUseContext);
+  const myUserID = myId ?? id ?? "";
 
   // State Management
   const [loader, setLoader] = useState(false);
@@ -236,11 +238,11 @@ const User_Documnt = () => {
         setDocuments(response?.data?.documents || []);
         setTotalPages(response?.data?.totalPages || 1);
       } else {
-        toast.error(response?.data?.msg || 'Failed to fetch documents');
+        toast.error(response?.data?.message);
       }
     } catch (error) {
   
-      toast.error('Failed to fetch documents');
+      // toast.error('Failed to fetch documents');
     } finally {
       setLoader(false);
     }

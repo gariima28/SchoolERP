@@ -2,11 +2,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { BankGetAllApi, personal_Bank_details__GetById, BankPostApi, BankPutApi } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
+import { useParams } from 'react-router-dom';
 
 const Per_info_bank = () => {
 
-  const { myId, setMyId } = useContext(MyUseContext)
-  const myUserID = myId !== undefined ? myId : '';
+  const { id } = useParams();
+  const { myId } = useContext(MyUseContext);
+  const myUserID = myId ?? id ?? "";
+
   const [loader, setLoader] = useState(false);
   const [accountNumber, setAccountNumber] = useState('');
   const [bankName, setBankName] = useState('');

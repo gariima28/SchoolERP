@@ -527,7 +527,7 @@ const Teacher = () => {
     setLoader(true);
     try {
       const response = await TeacherGetAllApi(searchKey, pageNo, pageSize);
-      console.log('teacher data---',response)
+      console.log('teacher data---', response)
       if (response?.status === 200) {
         setTeacherAllData(response?.data?.staffList);
         setCurrentPage(response?.data?.currentPage)
@@ -792,7 +792,7 @@ const Teacher = () => {
   }
 
   const handleAddButton = () => {
-    navigate(`/admin/users/mainuserform/${id}/userbasicinformation`)
+    navigate(`/admin/users/mainuserform/userbasicinformation`)
   }
 
 
@@ -900,8 +900,15 @@ const Teacher = () => {
                               </svg>
                             </button>
                             <ul className="dropdown-menu anchor-color heading-14">
-                              <li> <Link className="dropdown-item" onClick={(e) => localoStorage(item.id)} to={`/admin/users/mainuserform/${item.id}`}>  Edit  </Link>  </li>
-                               <li>
+                              <li>
+                                <Link
+                                  className="dropdown-item"
+                                  to={`/admin/users/mainuserform/${item.id}/userbasicinformation`}
+                                >
+                                  Edit
+                                </Link>
+                              </li>
+                              <li>
                                 <Link
                                   className="dropdown-item"
                                   data-bs-toggle="offcanvas"
