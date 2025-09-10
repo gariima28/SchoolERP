@@ -144,6 +144,9 @@ const SingleStudentAdmission = () => {
                 }, 200);
             }
         }
+        finally {
+            setLoaderState(false);
+        }
     };
 
     const AddNewStudent = async (data) => {

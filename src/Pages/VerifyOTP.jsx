@@ -208,6 +208,9 @@ const VerifyOTP = () => {
                 setloaderState(false);
                 toast.error(error.response?.data?.message)
             }
+            finally {
+                setloaderState(false);
+            }
         }
     }
 

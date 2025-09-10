@@ -92,6 +92,9 @@ const Submissions = () => {
             setloaderState(false);
             // console.log('Error Facing during Get All Submissions API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePageClick = (event) => {
@@ -117,6 +120,9 @@ const Submissions = () => {
         } catch (error) {
             setloaderState(false);
             toast.error('An error occurred while downloading the Submissions-', error);
+        }
+        finally {
+            setloaderState(false);
         }
     };
 

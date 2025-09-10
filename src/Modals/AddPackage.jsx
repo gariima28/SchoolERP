@@ -40,9 +40,12 @@ const AddPackage = ({ closingOfAddCanvas, closingCancel }) => {
                 setLoaderState(false);
             }
         } catch (error) {
-            setloaderState(false);
+            setLoaderState(false);
             toast.error('An error occurred. Please try again.');
             console.error('API Error:', error);
+            setLoaderState(false);
+        }
+        finally {
             setLoaderState(false);
         }
     };

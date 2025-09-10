@@ -278,6 +278,9 @@ const FeesType = () => {
         setTimeout(() => {}, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   const DeleteFeeTypeById = async (id) => {
@@ -301,6 +304,9 @@ const FeesType = () => {
       } catch (error) {
         setloaderState(false);
         toast.error(error?.response?.data?.message);
+      }
+      finally {
+        setloaderState(false);
       }
     }
   };
@@ -349,6 +355,9 @@ const FeesType = () => {
       setloaderState(false);
       toast.error(error?.response?.data?.message);
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   const getFeeTypeDataById = async (editId) => {
@@ -375,6 +384,9 @@ const FeesType = () => {
     } catch (error) {
       setloaderState(false);
       toast.error(error?.response?.data?.message);
+    }
+    finally {
+      setloaderState(false);
     }
   };
 
@@ -414,6 +426,9 @@ const FeesType = () => {
       setloaderState(false);
       toast.error(error?.response?.data?.message);
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   // Download CSV
@@ -433,6 +448,9 @@ const FeesType = () => {
       }
       toast.error("Error downloading CSV");
     }
+    finally {
+      setloaderState(false);
+    }
   };
 
   // Download PDF
@@ -446,6 +464,9 @@ const FeesType = () => {
       }
     } catch (error) {
       toast.error("Error downloading PDF");
+    }
+    finally {
+      setloaderState(false);
     }
   };
 
@@ -521,6 +542,9 @@ const FeesType = () => {
           navigate("/");
         }, 200);
       }
+    }
+    finally {
+      setloaderState(false);
     }
   };
 

@@ -106,6 +106,9 @@ const Marks = () => {
             }
 
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllSession = async () => {
@@ -128,6 +131,9 @@ const Marks = () => {
                     navigate('/')
                 }, 200);
             }
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -159,6 +165,9 @@ const Marks = () => {
             }
 
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllMarksData = async () => {
@@ -189,6 +198,9 @@ const Marks = () => {
         catch (e) {
             setIsSearched(false)
             toast.error(e.response?.data?.message);
+            setloaderState(false);
+        }
+        finally {
             setloaderState(false);
         }
     }

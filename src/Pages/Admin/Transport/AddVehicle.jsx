@@ -98,6 +98,9 @@ const AddVehicle = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getAllDriverData = async () => {
@@ -124,6 +127,9 @@ const AddVehicle = () => {
             setloaderState(false);
             setloaderState(false)
             // console.log('Error facing in fetching Driver', error)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -163,6 +169,9 @@ const AddVehicle = () => {
             toast.error(error);
             // console.log(error, 'catch error')
             setloaderState(false)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 

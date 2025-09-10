@@ -3,10 +3,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import { Conatct_Deduction_getById, Conatct_Deduction_PutApi, getAllHRDeductionName, AssignDeductionToStaff, getAllHRDeductionByStaffID, DeleteItemAssignDeductionToStaff } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
+import { useParams } from 'react-router-dom';
 const Conta_allown = () => {
 
-  const { myId, setMyId } = useContext(MyUseContext)
-  const myUserID = myId !== undefined ? myId : '';
+  const { id } = useParams();
+  const { myId } = useContext(MyUseContext);
+  const myUserID = myId ?? id ?? "";
+
   const [loaderState, setLoaderState] = useState(false);
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);

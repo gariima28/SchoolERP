@@ -72,7 +72,6 @@ const SuperAdminDashboard = () => {
 
   useEffect(() => {
     getAllDashData();
-    getAllRequest();
   }, [])
 
 
@@ -103,41 +102,10 @@ const SuperAdminDashboard = () => {
         }, 200);
       }
     }
-  }
-
-  const getAllRequest = async () => {
-    try {
-      setloaderState(true);
-      const search = '';
-      const page = '';
-      const size = '';
-      const startDate = '';
-      const endDate = '';
-      var response = await RequestGetApi(search, page, size, startDate, endDate);
-      // // console.log(response)
-      if (response?.status === 200) {
-        if (response?.data?.status === 'success') {
-          setAllRequest(response?.data?.data);
-          setloaderState(false);
-        }
-      }
-      else {
-        // console.log(response?.data?.message);
-      }
-    }
-    catch (error) {
+    finally {
       setloaderState(false);
-      setloaderState(false);
-      console.error('Error fetching student data:', error);
-      if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token')
-        setTimeout(() => {
-          navigate('/')
-        }, 200);
-      }
     }
   }
-
 
   return (
     <>

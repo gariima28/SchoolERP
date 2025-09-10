@@ -203,6 +203,9 @@ const AllRoute = () => {
                 }, 200);
             }
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const getRouteDataById = async (id) => {
@@ -228,6 +231,9 @@ const AllRoute = () => {
             setloaderState(false);
             console.error('Error during Get By Id:', error);
             toast.error('Error during Get By Id:', error)
+        }
+        finally {
+            setloaderState(false);
         }
     }
 
@@ -270,6 +276,9 @@ const AllRoute = () => {
             console.error('Error during update:', error);
             toast.error('Error during update:', error)
         }
+        finally {
+            setloaderState(false);
+        }
     };
 
     const deleteRouteDataById = async (id) => {
@@ -297,6 +306,9 @@ const AllRoute = () => {
                 setloaderState(false);
                 console.error('Error during deletion:', error);
                 toast.error('An error occurred while deleting the route');
+            }
+            finally {
+                setloaderState(false);
             }
         } else {
             toast.error('You must agree to delete the Route Data');

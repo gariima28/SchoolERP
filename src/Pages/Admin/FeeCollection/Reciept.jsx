@@ -226,6 +226,9 @@ const Reciept = () => {
                 }, 200);
             }
         }
+        finally {
+            setLoaderState(false);
+        }
     };
 
     const handleClassChange = (value) => {
@@ -249,9 +252,18 @@ const Reciept = () => {
     const handleDateRangeChange = (item) => {
         setDateRange([item.selection]);
         const { startDate, endDate } = item.selection;
-        setStartDate(startDate ? startDate.toISOString().split('T')[0] : '');
-        setEndDate(endDate ? endDate.toISOString().split('T')[0] : '');
-        console.log('DateRange updated:', item.selection); // Debug log
+        // Convert to local date string without timezone offset
+        const formatDate = (date) => {
+            if (date) {
+                return date.toISOString().split('T')[0]; // This will now be adjusted manually if needed
+                // Alternatively, use toLocaleDateString with specific options:
+                // return date.toLocaleDateString('en-CA').replace(/\//g, '-'); // e.g., '2025-09-01'
+            }
+            return '';
+        };
+        setStartDate(formatDate(startDate));
+        setEndDate(formatDate(endDate));
+        console.log('DateRange updated:', { startDate: formatDate(startDate), endDate: formatDate(endDate) }); // Debug log
     };
 
     // Format date range for display
@@ -307,9 +319,8 @@ const Reciept = () => {
     const [invoiceId, setInvoiceId] = useState('');
     const toggleDropdown = (index) => {
         setIsDropdownOpen(isDropdownOpen === index ? null : index);
-        setInvoiceId(index)
+        setInvoiceId(index);
     };
-
 
     return (
         <Container>
@@ -358,7 +369,6 @@ const Reciept = () => {
                                         readOnly
                                         value={formattedDate}
                                         onClick={() => {
-                                            // Reset dateRange when opening to ensure no default selection
                                             setDateRange([
                                                 {
                                                     startDate: null,
@@ -460,7 +470,6 @@ const Reciept = () => {
                                 </button>
                             </div>
                         </form>
-                        {/* Rest of the JSX (table, offcanvas, modal) remains unchanged */}
                         {searchBtn ? (
                             <div className="row">
                                 {RecieptData.length > 0 ? (
@@ -631,3 +640,4 @@ const Reciept = () => {
 };
 
 export default Reciept;
+// 146-631

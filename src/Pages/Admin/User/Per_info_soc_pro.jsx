@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { SocialGetAllApi, personal_info_Social__GetById } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
 
 const Per_info_soc_pro = () => {
 
-    const { myId, setMyId } = useContext(MyUseContext)
-    const myUserID = myId !== undefined ? myId : '';
+      const { id } = useParams();
+      const { myId } = useContext(MyUseContext);
+      const myUserID = myId ?? id ?? "";
 
     const [loader, setLoader] = useState(false);
     const [faceBookUrl, setFaceBookUrl] = useState('');

@@ -91,6 +91,9 @@ const AddDropPoint = () => {
         }, 200);
       }
     }
+    finally {
+      setloaderState(false);
+    }
   }
 
   const AddNewDropPoint = async (data) => {
@@ -120,6 +123,9 @@ const AddDropPoint = () => {
       setloaderState(false);
       setloaderState(false);
       console.error('Error during login:', error);
+    }
+    finally {
+      setloaderState(false);
     }
   }
 

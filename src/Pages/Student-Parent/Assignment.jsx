@@ -104,6 +104,9 @@ const Assignment = () => {
             setloaderState(false);
             // console.log('Error Facing during Get All Assignment API - ', error)
         }
+        finally {
+            setloaderState(false);
+        }
     }
 
     const handlePageClick = (event) => {
@@ -129,6 +132,9 @@ const Assignment = () => {
         } catch (error) {
             setloaderState(false);
             toast.error('An error occurred while downloading the Assignment-', error);
+        }
+        finally {
+            setloaderState(false);
         }
     };
 

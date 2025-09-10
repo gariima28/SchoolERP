@@ -114,6 +114,9 @@ const ActionControls = ({
         } catch (error) {
             toast.error(error?.response?.data?.message || 'Error downloading CSV');
         }
+        finally {
+            // setloaderState(false);
+        }
     };
 
     // Handle PDF download
@@ -138,6 +141,9 @@ const ActionControls = ({
             }
         } catch (error) {
             toast.error(error?.response?.data?.message || 'Error downloading PDF');
+        }
+        finally {
+            // setloaderState(false);
         }
     };
 

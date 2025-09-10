@@ -54,6 +54,9 @@ const PackageDashboard = () => {
                 }, 200);
             }
         }
+        finally {
+            setLoaderState(false);
+        }
     }
 
     const getPlanById = async (planId) => {
@@ -76,7 +79,7 @@ const PackageDashboard = () => {
                 console.error(response?.data?.message || 'Failed to fetch plan details.');
             }
         } catch (error) {
-            setloaderState(false);
+            setLoaderState(false);
             console.error('Error fetching plan details:', error);
         } finally {
             setLoaderState(false);
