@@ -325,7 +325,7 @@ const ManagePurchase = () => {
         console.log('first 1')
         const formValues = {
           supplierId: data.supplierId || "",
-          examTermId: data.examTermId || "",
+          categoryId: data.categoryId || "",
           itemId: data.itemId || "",
           userId: data.userId || "",
           unit: data.unit || "",
@@ -341,7 +341,7 @@ const ManagePurchase = () => {
         } else {
           console.log('first 4')
           setValueEdit("supplierId", data.supplierId || "");
-          setValueEdit("examTermId", data.examTermId || "");
+          setValueEdit("categoryId", data.categoryId || "");
           setValueEdit("itemId", data.itemId || "");
           setValueEdit("userId", data.userId || "");
           setValueEdit("unit", data.unit || "");
@@ -369,7 +369,7 @@ const ManagePurchase = () => {
       setLoaderState(true);
       const formData = new FormData();
       formData.append("supplierId", data.supplierId);
-      formData.append("examTermId", data.examTermId);
+      formData.append("categoryId", data.categoryId);
       formData.append("itemId", data.itemId);
       formData.append("userId", data.userId);
       formData.append("unit", data.unit);
@@ -403,7 +403,7 @@ const ManagePurchase = () => {
       setLoaderState(true);
       const formData = new FormData();
       formData.append("supplierId", data.supplierId);
-      formData.append("examTermId", data.examTermId);
+      formData.append("categoryId", data.categoryId);
       formData.append("itemId", data.itemId);
       formData.append("userId", data.userId);
       formData.append("unit", data.unit);
@@ -425,7 +425,7 @@ const ManagePurchase = () => {
       } else {
         toast.error(response?.data?.message || "Failed to update purchase");
         setValueEdit("supplierId", initialFormValues.supplierId);
-        setValueEdit("examTermId", initialFormValues.examTermId);
+        setValueEdit("categoryId", initialFormValues.categoryId);
         setValueEdit("itemId", initialFormValues.itemId);
         setValueEdit("userId", initialFormValues.userId);
         setValueEdit("unit", initialFormValues.unit);
@@ -437,7 +437,7 @@ const ManagePurchase = () => {
     } catch (error) {
       toast.error("Error updating purchase");
       setValueEdit("supplierId", initialFormValues.supplierId);
-      setValueEdit("examTermId", initialFormValues.examTermId);
+      setValueEdit("categoryId", initialFormValues.categoryId);
       setValueEdit("itemId", initialFormValues.itemId);
       setValueEdit("userId", initialFormValues.userId);
       setValueEdit("unit", initialFormValues.unit);
@@ -582,7 +582,7 @@ const ManagePurchase = () => {
                   <thead>
                     <tr>
                       {tableHeadingData.map((item) => (
-                        <th key={item} className={`textWrapClass font14 text-center ${item === "Action" && "text-end"}`}>
+                        <th key={item} className={`textWrapClass font14 text-start ${item === "Action" && "text-end"}`}>
                           {item}
                         </th>
                       ))}
@@ -792,8 +792,8 @@ const ManagePurchase = () => {
                 </label>
                 <select
                   id="categoryAdd"
-                  className={`form-select font14 ${errorsAdd.examTermId ? "border-danger" : ""}`}
-                  {...registerAdd("examTermId", { required: "Category is required *" })}
+                  className={`form-select font14 ${errorsAdd.categoryId ? "border-danger" : ""}`}
+                  {...registerAdd("categoryId", { required: "Category is required *" })}
                 >
                   <option value="">--- Choose ---</option>
                   {itemCategoryData.map((category) => (
@@ -802,7 +802,7 @@ const ManagePurchase = () => {
                     </option>
                   ))}
                 </select>
-                {errorsAdd.examTermId && <p className="font12 text-danger">{errorsAdd.examTermId.message}</p>}
+                {errorsAdd.categoryId && <p className="font12 text-danger">{errorsAdd.categoryId.message}</p>}
               </div>
               <div className="mb-3">
                 <label htmlFor="productNameAdd" className="form-label font14">
@@ -985,8 +985,8 @@ const ManagePurchase = () => {
                 </label>
                 <select
                   id="categoryEdit"
-                  className={`form-select font14 ${errorsEdit.examTermId ? "border-danger" : ""}`}
-                  {...registerEdit("examTermId", { required: "Category is required *" })}
+                  className={`form-select font14 ${errorsEdit.categoryId ? "border-danger" : ""}`}
+                  {...registerEdit("categoryId", { required: "Category is required *" })}
                 >
                   <option value="">--- Choose ---</option>
                   {itemCategoryData.map((category) => (
@@ -995,7 +995,7 @@ const ManagePurchase = () => {
                     </option>
                   ))}
                 </select>
-                {errorsEdit.examTermId && <p className="font12 text-danger">{errorsEdit.examTermId.message}</p>}
+                {errorsEdit.categoryId && <p className="font12 text-danger">{errorsEdit.categoryId.message}</p>}
               </div>
               <div className="mb-3">
                 <label htmlFor="productNameEdit" className="form-label font14">

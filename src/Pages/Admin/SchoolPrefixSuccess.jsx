@@ -62,7 +62,7 @@ const SchoolPrefixSuccess = () => {
                 <div className="container-fluid h-100">
                     <div className="row h-100">
                         <div className="col-md-6 col-sm-12 p-5 imagearea">
-                            <img src="/images/pana.svg" alt="" className='img-fluid m-5' />
+                            <img src="/images/soft-skills/amico.svg" alt="" className='img-fluid m-5' />
                         </div>
                         <div className="col-md-6 col-sm-12 p-5 formarea">
                             <div className="row text-center pt-5 mt-5">
@@ -71,7 +71,7 @@ const SchoolPrefixSuccess = () => {
                             <div className="row p-5 ms-3 me-3">
                                 <Span14Font>
                                     <p className='d-flex justify-content-center'><img src="/images/passverify.svg" alt="" /></p>
-                                    <p className='text-center'>Password Reset!</p>
+                                    <p className='text-center'>Prefix Added!</p>
                                     <p className='text-grey text-center'>Your Prefix has been successfully registered, Click<br />below to continue your access.</p>
                                     <form>
                                         <div className="d-grid gap-2 col-12 mx-auto">

@@ -224,17 +224,14 @@ const ManageWareHouse = () => {
       setEditWarehouseId(id);
       const response = await getByIdWarehouseApi(id);
       if (response?.status === 200 && response?.data?.status === 'success') {
-        const data = response.data.discount;
-        const formValues = {
-          title: data.title || '',
-          discountType: data.discountType || '',
-          description: data.description || '',
-          amount: data.amount || '',
-        };
-        setValueUpdate('title', data.title);
-        setValueUpdate('discountType', data.discountType);
+        const data = response.data.warehouse;
+        setValueUpdate('warehouseName', data.warehouseName);
+        setValueUpdate('role', data.roleType);
+        setValueUpdate('warehouseKeeper', data.warehouseKeeperId || '');
+        setValueUpdate('email', data.keeperEmail || '');
+        setValueUpdate('phoneNumber', data.keeperPhone || '');
+        setValueUpdate('address', data.keeperAddress || '');
         setValueUpdate('description', data.description || '');
-        setValueUpdate('amount', data.amount || '');
         setInitialFormValues(formValues);
       } else {
         toast.error(response?.data?.message || 'Failed to fetch Warehouse');
@@ -339,14 +336,18 @@ const ManageWareHouse = () => {
   const updateWarehouse = async (data) => {
     try {
       setLoaderState(true);
-      const formData = new FormData();
-      formData.append('title', data.title);
-      formData.append('discountType', data.discountType);
-      formData.append('description', data.description || '');
-      formData.append('amount', data.amount);
-      formData.append('fineType', data.discountType); // Fixed reference to discountType
+      const rawJson = {
+        warehouseName: data.warehouseName || '',
+        roleType: data.role || '',
+        warehouseKeeperId: parseInt(data.warehouseKeeper) || '',
+        warehouseKeeperName: data.warehouseKeeperName || '',
+        keeperEmail: data.email || '',
+        keeperPhone: data.phoneNumber || '',
+        keeperAddress: data.address || '',
+        description: data.description || '',
+      }; // Fixed reference to discountType
 
-      const response = await updateByIdWarehouseApi(editWarehouseId, formData);
+      const response = await updateByIdWarehouseApi(editWarehouseId, rawJson);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message);
         getAllWarehouseData(searchInputVal);

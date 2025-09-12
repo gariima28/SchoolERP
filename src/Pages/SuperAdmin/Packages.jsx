@@ -778,7 +778,7 @@ const Packages = () => {
                                             <Icon icon="ion:checkbox" width="1.5em" height="1.5em" style={{ color: '#00A67E', cursor: 'pointer' }} />
                                           </p>
                                         ) : (
-                                          <Icon icon="bxs:checkbox" width="2.1em" height="2.1em" style={{ color: '#fff', cursor: 'pointer' }} />
+                                          <Icon icon="bxs:checkbox" width="2.1em" height="2.1em" style={{ color: '#00a67f5c', cursor: 'pointer' }} />
                                         )}
                                       </h3>
                                     )}

@@ -268,7 +268,7 @@ const AdminDashboard = () => {
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
-                            <Link to="/admin/transport/drivers">
+                            <Link to="/admin/users/drivers/24">
                               <img
                                 src="/images/Vector.svg"
                                 alt=""
@@ -403,7 +403,7 @@ const AdminDashboard = () => {
                       DashData?.holidays.slice(0, 9).map((item, index) => (
                         <div className="col-4 p-1" key={index}>
                           <div className="holidayCard border-2 borderradius8 p-4 h-100">
-                            <p className="font14 text-center">{item.title.slice(0,14)}{item.title.length>14 ? '...' : ''}</p>
+                            <p className="font14 text-center">{item.title.slice(0, 14)}{item.title.length > 14 ? '...' : ''}</p>
                             <p className="greyText font14 text-center">
                               {item.date}
                             </p>
