@@ -304,6 +304,12 @@ const AllSchools = () => {
             // const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
             // if (offcanvas) {
             //   offcanvas.hide();
+            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+              const backdrop = document.querySelector('.offcanvas-backdrop');
+              if (backdrop) {
+                backdrop.remove();
+              }
+            }, { once: true });
             // }
 
             const offcanvasElement = document.getElementById('SpeFeature_staticBackdrop');
@@ -313,6 +319,12 @@ const AllSchools = () => {
                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
               }
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
 
           }, 1500);
@@ -356,6 +368,12 @@ const AllSchools = () => {
             const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
             if (offcanvas) {
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
           }, 300);
         }

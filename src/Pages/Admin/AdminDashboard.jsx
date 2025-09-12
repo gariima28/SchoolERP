@@ -221,7 +221,7 @@ const AdminDashboard = () => {
                         <div className="d-flex">
                           <div className="w-100">
                             <h1 className="orangeText">
-                              {DashData?.counts?.teachers}
+                              {DashData?.counts?.vehicles}
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
@@ -264,7 +264,7 @@ const AdminDashboard = () => {
                         <div className="d-flex">
                           <div className="w-100">
                             <h1 className="orangeText">
-                              {DashData?.counts?.parents}
+                              {DashData?.counts?.drivers}
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">

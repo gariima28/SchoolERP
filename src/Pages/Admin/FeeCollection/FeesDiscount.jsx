@@ -250,6 +250,12 @@ const FeesDiscount = () => {
         const offcanvasElement = document.getElementById('addFeeDiscount');
         const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || 'Failed to add fee discount');
       }
@@ -280,6 +286,12 @@ const FeesDiscount = () => {
         const offcanvasElement = document.getElementById('editFeeDiscount');
         const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || 'Failed to update fee discount');
         setValueUpdate('title', initialFormValues.title);
@@ -311,6 +323,12 @@ const FeesDiscount = () => {
         const offcanvasElement = document.getElementById('deleteFeeDiscount');
         const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || 'Failed to delete fee discount');
       }

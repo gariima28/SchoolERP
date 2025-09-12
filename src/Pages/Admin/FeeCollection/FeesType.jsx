@@ -275,39 +275,11 @@ const FeesType = () => {
       toast.error(error?.response?.data?.message);
       if (error?.response?.data?.statusCode === 401) {
         localStorage.removeItem("token");
-        setTimeout(() => {}, 200);
+        setTimeout(() => { }, 200);
       }
     }
     finally {
       setloaderState(false);
-    }
-  };
-
-  const DeleteFeeTypeById = async (id) => {
-    if (isChecked) {
-      try {
-        var response = await deleteFeeTypeByIdApi(id);
-        if (response?.status === 200) {
-          if (response.data.status === "success") {
-            toast.success(response?.data?.message);
-            setIsChecked(false);
-            const offcanvasElement = document.getElementById("deleteFeeType");
-            const offcanvas =
-              bootstrap.Offcanvas.getInstance(offcanvasElement) ||
-              new bootstrap.Offcanvas(offcanvasElement);
-            offcanvas.hide();
-            getAllFeeTypeData("");
-          }
-        } else {
-          toast.error(response?.error);
-        }
-      } catch (error) {
-        setloaderState(false);
-        toast.error(error?.response?.data?.message);
-      }
-      finally {
-        setloaderState(false);
-      }
     }
   };
 
@@ -339,6 +311,12 @@ const FeesType = () => {
             bootstrap.Offcanvas.getInstance(offcanvasElement) ||
             new bootstrap.Offcanvas(offcanvasElement);
           offcanvas.hide();
+          offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+            const backdrop = document.querySelector('.offcanvas-backdrop');
+            if (backdrop) {
+              backdrop.remove();
+            }
+          }, { once: true });
           getAllFeeTypeData("");
           setTimeout(() => {
             resetAdd();
@@ -392,94 +370,83 @@ const FeesType = () => {
 
   const updateFeeType = async (data) => {
     try {
+      setloaderState(true); // Use consistent naming (setloaderState instead of setloaderState)
       const formData = new FormData();
-      if (data?.title !== Originaltitle) {
-        formData.append("title", data?.title);
+      if (data?.title !== Originaltitle) { // Use originalTitle (consistent with state naming)
+        formData.append('title', data?.title);
       }
-      if (data?.description !== OriginalDescription) {
-        formData.append("description", data?.description);
+      if (data?.description !== OriginalDescription) { // Use originalDescription
+        formData.append('description', data?.description);
       }
 
-      var response = await updateFeeTypeByIdApi(editId, formData);
-      if (response?.status === 200) {
-        if (response?.data?.status === "success") {
-          setloaderState(false);
-          toast.success(response?.data?.message);
-          const offcanvasElement = document.getElementById("editFeeType");
-          const offcanvas =
-            bootstrap.Offcanvas.getInstance(offcanvasElement) ||
-            new bootstrap.Offcanvas(offcanvasElement);
+      const response = await updateFeeTypeByIdApi(editId, formData);
+      if (response?.status === 200 && response?.data?.status === 'success') {
+        toast.success(response.data.message);
+        resetUpdate(); // Reset form immediately
+        getAllFeeTypeData(''); // Refresh data
+        const offcanvasElement = document.getElementById('editFeeType');
+        if (offcanvasElement) {
+          const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
           offcanvas.hide();
-          getAllFeeTypeData("");
-          setTimeout(() => {
-            resetUpdate();
-          }, 700);
-        } else {
-          setloaderState(false);
-          toast.error(response?.data?.message);
+          offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+            const backdrop = document.querySelector('.offcanvas-backdrop');
+            if (backdrop) {
+              backdrop.remove();
+            }
+          }, { once: true });
+          // Ensure backdrop is removed
+          offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+            const backdrop = document.querySelector('.offcanvas-backdrop');
+            if (backdrop) {
+              backdrop.remove();
+            }
+          }, { once: true });
         }
       } else {
+        toast.error(response?.data?.message || 'Failed to update fee type');
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Error updating fee type');
+    } finally {
+      setloaderState(false);
+    }
+  };
+
+  const DeleteFeeTypeById = async (id) => {
+    if (isChecked) {
+      try {
+        setloaderState(true);
+        const response = await deleteFeeTypeByIdApi(id);
+        if (response?.status === 200 && response?.data?.status === 'success') {
+          toast.success(response.data.message);
+          setIsChecked(false);
+          getAllFeeTypeData('');
+          const offcanvasElement = document.getElementById('deleteFeeType');
+          if (offcanvasElement) {
+            const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
+            offcanvas.hide();
+            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+              const backdrop = document.querySelector('.offcanvas-backdrop');
+              if (backdrop) {
+                backdrop.remove();
+              }
+            }, { once: true });
+            // Ensure backdrop is removed
+            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+              const backdrop = document.querySelector('.offcanvas-backdrop');
+              if (backdrop) {
+                backdrop.remove();
+              }
+            }, { once: true });
+          }
+        } else {
+          toast.error(response?.data?.message || 'Failed to delete fee type');
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message || 'Error deleting fee type');
+      } finally {
         setloaderState(false);
-        toast.error(response?.data?.message);
       }
-    } catch (error) {
-      setloaderState(false);
-      toast.error(error?.response?.data?.message);
-    }
-    finally {
-      setloaderState(false);
-    }
-  };
-
-  // Download CSV
-  const DownloadCSV = async () => {
-    try {
-      const response = await DownloadFeeTypeExcel();
-      if (response?.status === 200) {
-        const rows = response?.data?.split("\n").map((row) => row.split(","));
-        setCsvData(rows); // Update csvData state
-      } else {
-        toast.error("Failed to download CSV");
-      }
-    } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
-        navigate("/");
-      }
-      toast.error("Error downloading CSV");
-    }
-    finally {
-      setloaderState(false);
-    }
-  };
-
-  // Download PDF
-  const DownloadPDF = async () => {
-    try {
-      const response = await DownloadFeeTypePDF();
-      if (response?.status === 200 && response?.data?.status === "success") {
-        setPDFResponse(response.data);
-      } else {
-        toast.error("Failed to download PDF");
-      }
-    } catch (error) {
-      toast.error("Error downloading PDF");
-    }
-    finally {
-      setloaderState(false);
-    }
-  };
-
-  // Handle PDF Download
-  const handleDownloadPdf = () => {
-    if (pdfResponse?.pdf) {
-      const blob = base64ToBlob(pdfResponse.pdf, "application/pdf");
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "Fee Type Data.pdf";
-      link.click();
-    } else {
-      toast.error("No PDF data available");
     }
   };
 
@@ -780,9 +747,8 @@ const FeesType = () => {
                 <input
                   id="title"
                   type="text"
-                  className={`form-control font14 ${
-                    errorsAdd.title ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errorsAdd.title ? "border-danger" : ""
+                    }`}
                   placeholder="Enter Title"
                   {...registerAdd("title", {
                     required: "Title is required *",
@@ -807,9 +773,8 @@ const FeesType = () => {
                 <input
                   id="description"
                   type="text"
-                  className={`form-control font14 ${
-                    errorsAdd.description ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errorsAdd.description ? "border-danger" : ""
+                    }`}
                   placeholder="Enter Description"
                   {...registerAdd("description", {
                     validate: (value) => {
@@ -885,9 +850,8 @@ const FeesType = () => {
                 <input
                   id="titleEdit"
                   type="text"
-                  className={`form-control font14 ${
-                    errorsUpdate.title ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errorsUpdate.title ? "border-danger" : ""
+                    }`}
                   placeholder="Enter Title"
                   {...registerUpdate("title", {
                     required: "Title is required *",
@@ -918,9 +882,8 @@ const FeesType = () => {
                 <input
                   id="description"
                   type="text"
-                  className={`form-control font14 ${
-                    errorsUpdate.description ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errorsUpdate.description ? "border-danger" : ""
+                    }`}
                   placeholder="Enter Description"
                   {...registerUpdate("description", {
                     validate: (value) => {
@@ -1040,11 +1003,12 @@ const FeesType = () => {
 };
 
 export default FeesType;
+
 const Fees = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const [loaderState, setLoaderState] = useState(false);
+  const [loaderState, setloaderState] = useState(false);
   const [feeTypeId, setFeeTypeId] = useState("");
   const [feeTypeData, setFeeTypeData] = useState([]);
   const [classData, setClassData] = useState([]); // Store classes from API response
@@ -1064,9 +1028,9 @@ const Fees = () => {
   });
 
   useEffect(() => {
-    setFeeTypeId("");
     getAllFeeTypeData();
-  }, [token]);
+    setFeeTypeId("");
+  }, []);
 
   useEffect(() => {
     if (feeTypeId) {
@@ -1076,7 +1040,7 @@ const Fees = () => {
 
   const getAllFeeTypeData = async () => {
     try {
-      setLoaderState(true);
+      setloaderState(true);
       const response = await getAllFeeTypeApi("", "", "");
       if (response?.status === 200 && response?.data?.status === "success") {
         setFeeTypeData(response?.data?.feeTypes);
@@ -1090,13 +1054,13 @@ const Fees = () => {
         navigate("/");
       }
     } finally {
-      setLoaderState(false);
+      setloaderState(false);
     }
   };
 
   const getAllFeesDataByFeeType = async (feeTypeId) => {
     try {
-      setLoaderState(true);
+      setloaderState(true);
       const response = await getAllFeesApi(feeTypeId);
       if (response?.status === 200 && response?.data?.status === "success") {
         toast.success(response.data.message);
@@ -1138,7 +1102,7 @@ const Fees = () => {
       toast.error(err.response?.data?.message || "Failed to fetch fees data");
       setClassData([]);
     } finally {
-      setLoaderState(false);
+      setloaderState(false);
     }
   };
 
@@ -1185,12 +1149,28 @@ const Fees = () => {
     });
 
     try {
-      setLoaderState(true);
+      setloaderState(true);
       if (editMode) {
         const response = await updateFeesApi(feeTypeId, formData);
         if (response?.status === 200 && response?.data?.status === "success") {
           toast.success(response.data.message);
-          handleCancel();
+          const offcanvasElement = document.getElementById('addFees');
+          const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
+          offcanvas.hide();
+          offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+            const backdrop = document.querySelector('.offcanvas-backdrop');
+            if (backdrop) {
+              backdrop.remove();
+            }
+          }, { once: true });
+          reset();
+          setClassData([]);
+          setFeeTypeId('');
+          setCheckedClasses({});
+          setAmounts({});
+          setEditMode(false);
+          setInitialFeeData({});
+          setInitialAmounts({});
         } else {
           toast.error(response.data.message || "Failed to update fees");
         }
@@ -1208,7 +1188,7 @@ const Fees = () => {
         "API Error: " + (error?.response?.data?.message || error.message)
       );
     } finally {
-      setLoaderState(false);
+      setloaderState(false);
     }
   };
 
@@ -1221,6 +1201,17 @@ const Fees = () => {
     setEditMode(false);
     setInitialFeeData({});
     setInitialAmounts({});
+    const offcanvasElement = document.getElementById('addFees');
+    if (offcanvasElement) {
+      const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
+      offcanvas.hide();
+      offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      }, { once: true });
+    }
   };
 
   return (
@@ -1245,9 +1236,8 @@ const Fees = () => {
             </div>
             <select
               id="feeType"
-              className={`form-select font14 ${
-                errors.feeType ? "border-danger" : ""
-              }`}
+              className={`form-select font14 ${errors.feeType ? "border-danger" : ""
+                }`}
               {...register("feeType", {
                 required: "Fee Type is required *",
               })}
@@ -1319,7 +1309,7 @@ const Fees = () => {
                               editMode
                                 ? !initialFeeData[classItem.classId]
                                 : initialFeeData[classItem.classId] ||
-                                  !checkedClasses[classItem.classId]
+                                !checkedClasses[classItem.classId]
                             }
                           />
                         </td>

@@ -280,6 +280,12 @@ const ManageSupplier = () => {
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
           new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || "Failed to add supplier");
       }
@@ -320,6 +326,12 @@ const ManageSupplier = () => {
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
           new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || "Failed to update supplier");
         setValueEdit("supplierName", initialFormValues.supplierName);
@@ -357,6 +369,12 @@ const ManageSupplier = () => {
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
           new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || "Failed to delete supplier");
       }
@@ -916,9 +934,11 @@ const ManageSupplier = () => {
                       !value ||
                       ((/^[A-Z]/.test(value) ||
                         "Description must start with an uppercase letter") &&
-                        (value.length >= 4 || "Minimum Length is 4") &&
-                        (/^[a-zA-Z\s'-]+$/.test(value) ||
-                          "Invalid Characters in Description")),
+                        (value.length >= 4 || "Minimum Length is 4")
+                        // &&
+                        // (/^[a-zA-Z\s'-]+$/.test(value) ||
+                        //   "Invalid Characters in Description")
+                      ),
                   })}
                 />
                 {errorsAdd.supplierDescription && (
@@ -1140,9 +1160,11 @@ const ManageSupplier = () => {
                       !value ||
                       ((/^[A-Z]/.test(value) ||
                         "Description must start with an uppercase letter") &&
-                        (value.length >= 4 || "Minimum Length is 4") &&
-                        (/^[a-zA-Z\s'-]+$/.test(value) ||
-                          "Invalid Characters in Description")),
+                        (value.length >= 4 || "Minimum Length is 4")
+                        // &&
+                        // (/^[a-zA-Z\s'-]+$/.test(value) ||
+                        //   "Invalid Characters in Description")
+                      ),
                   })}
                 />
                 {errorsEdit.supplierDescription && (

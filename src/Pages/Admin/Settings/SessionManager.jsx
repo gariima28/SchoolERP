@@ -279,6 +279,12 @@ const SessionManager = () => {
                                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                             }
                             offcanvas.hide();
+                            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                const backdrop = document.querySelector('.offcanvas-backdrop');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                }
+                            }, { once: true });
                         }
                         getAllSession();
                         // Clear form
@@ -348,6 +354,12 @@ const SessionManager = () => {
                             offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                         }
                         offcanvas.hide();
+                        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                            const backdrop = document.querySelector('.offcanvas-backdrop');
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                        }, { once: true });
                     }
                 }
             }
@@ -395,6 +407,12 @@ const SessionManager = () => {
                                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                             }
                             offcanvas.hide();
+                            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                const backdrop = document.querySelector('.offcanvas-backdrop');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                }
+                            }, { once: true });
                         }
                     }
                 }
@@ -461,8 +479,8 @@ const SessionManager = () => {
     return (
 
         <Container>
-            <div className="container-fluid p-4">
-                <div className="row pb-3 gap-xl-0 gap-3">
+            <div className="container-fluid pt-4">
+                <div className="row px-2 gap-xl-0 gap-3">
                     <div className="col-xxl-4 col-xl-3 col-lg-12 col-sm-12 flex-frow-1 ">
                         <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
                             <ol className="breadcrumb mb-1">
@@ -491,7 +509,7 @@ const SessionManager = () => {
                         />
                     </div>
                 </div>
-                <div className="row pb-3">
+                <div className="row px-3 pt-3">
                     <div className="cardradius bg-white p-3">
                         {/* <p className='activeSession font18 p-2 ps-3 fontWeight500'>Active session - <small className='font18 orangeText fontWeight500'>{activeSessionData}</small></p> */}
                         {/* <form action="" className="row">
