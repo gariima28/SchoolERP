@@ -354,11 +354,15 @@ color: #000 !important;
         background-color: #008479 !important;
         border: 2px solid  #008479;
         color: #fff !important;
+        padding: 2px 10px 2px 10px;
+        border-radius: 5px;
     }
     .Approve22 button{
         background-color: #F16145;
         border: 2px solid #F16145;
         color: #fff !important;
+        padding: 2px 10px 2px 10px;
+        border-radius: 5px;
   
     }
     .pagination {

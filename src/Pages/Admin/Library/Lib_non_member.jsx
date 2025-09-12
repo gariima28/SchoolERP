@@ -512,8 +512,6 @@ let {classNo, sectionName} = data;
     <Container>
       <div className="main-content-conatainer pt-1 ">
         {/* ###### copy content till here for all component ######  */}
-
-
         <div className="table-container  table-responsive">
 
           <table className="table table-sm table-striped text-center ">

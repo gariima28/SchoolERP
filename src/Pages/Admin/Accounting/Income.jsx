@@ -775,10 +775,12 @@ const Income = () => {
         } else {
           toast.error(response?.data?.message);
           setShowadd(true)
+          setLoader(false)
         }
 
       } catch (error) {
         setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }
@@ -787,12 +789,8 @@ const Income = () => {
 
   // Double Date --------------------------
 
-  //  Date range 
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-
-  // console.log('my both date1 =', startDate, typeof (startDate))
-  // console.log('my both date2 =', endDate, typeof (endDate))
 
   const handleDateChange = (dates) => {
     setStartDate(formatDate(dates[0]));
@@ -800,17 +798,11 @@ const Income = () => {
   };
 
   const formatDate = (date) => {
-    if (!date) return '';
+    if (!date) return "";
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-  // Double Date --------------------------
-
-  const handleChange = (e) => {
-    const trimmedValue = e.target.value.trimStart();
-    setSearchKey(trimmedValue);
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`; // YYYY-MM-DD
   };
   const ClearHandle = () => {
     setDate('')
@@ -818,7 +810,17 @@ const Income = () => {
     setCategoryId('')
     setIsValidDateRequired(false)
     setIsValidAmountRequired(false)
+    setForDelete(false)
+    setStartDate(null)
+    setEndDate(null)
   }
+  // Double Date --------------------------
+
+  const handleChange = (e) => {
+    const trimmedValue = e.target.value.trimStart();
+    setSearchKey(trimmedValue);
+  };
+
 
   return (
     <Container>
@@ -846,7 +848,7 @@ const Income = () => {
                 <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} id="basic-addon2" onClick={MyIncome2GetAllApi}>Search</span>
               </div>
             </div>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={''}>+ Add Income</Link>
+            <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onClick={ClearHandle} to={''}>+ Add Income</Link>
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Income Details</h5>
@@ -857,17 +859,37 @@ const Income = () => {
 
             <div className="col-lg-6 col-md-6 col-sm-12  ">
 
-              <div class="dropdown" style={{ marginTop: "-4px" }}>
-                <label for="exampleFormControlInput1" className="form-label label-color heading-14">Date Range</label>
-                <input type="text" class="form-control  form-control-sm form-focus font-color" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="Select date" />
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div className="dropdown" style={{ marginTop: "-4px" }}>
+                <label
+                  htmlFor="exampleFormControlInput1"
+                  className="form-label label-color heading-14"
+                >
+                  Date Range
+                </label>
+
+                {/* Show selected date range */}
+                <input
+                  type="text"
+                  className="form-control form-control-sm form-focus font-color"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  placeholder="Select date"
+                  readOnly
+                  value={
+                    startDate && endDate ? `${startDate} - ${endDate}` : ""
+                  }
+                />
+
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <Flatpickr
-                    class="dropdown-item"
+                    className="dropdown-item"
                     placeholder="Date Range"
                     value={[startDate, endDate]}
                     options={{
-                      mode: 'range',
-                      dateFormat: 'Y-n-j',
+                      mode: "range",
+                      dateFormat: "Y-m-d",
                     }}
                     onChange={handleDateChange}
                   />
@@ -877,8 +899,8 @@ const Income = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12  ">
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label mb-1 label-color focus heading-14">Expenses Category</label>
-                <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setCategoryId(e.target.value)} aria-label="Default select example" >
+                <label for="exampleFormControlInput1" class="form-label mb-1 label-color focus heading-14">Income Category</label>
+                <select class="form-select  form-select-sm form-focus label-color" value={examTermId} onChange={(e) => setCategoryId(e.target.value)} aria-label="Default select example" >
                   <option selected>Select Income Category</option>
                   {
                     incomeCategoryData?.map(item =>
@@ -894,7 +916,7 @@ const Income = () => {
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success my-green" onClick={MyIncome2GetAllApi}>Search</button>
-              <button type="button" class="btn btn-outline-success">Cancel</button>
+              <button type="button" class="btn btn-outline-success" onClick={ClearHandle} >Cancel</button>
             </div>
           </div>
 
@@ -1103,15 +1125,23 @@ const Income = () => {
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
                       <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" type="checkbox" onClick={(e) => setForDelete(!forDelete)} value="" id="flexCheckDefault" />
-                        <label className="form-check-label agree" for="flexCheckDefault">
+                        <input
+                          className="form-check-input my-form-check-input"
+                          onChange={() => setForDelete(!forDelete)}
+                          type="checkbox"
+                          checked={forDelete}
+                          value=""
+                          id="flexCheckDefault"
+                          name="deleteAgreement"
+                        />
+                        <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
                       </div>
 
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00 my-button112233RedDelete" disabled={forDelete ? false : true} onClick={(e) => MyIncomeDelApi(IdForDelete)} >Delete</button>
-                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                       </div>
 
                     </div>

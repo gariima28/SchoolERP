@@ -808,6 +808,7 @@ const BookListManager = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
@@ -837,6 +838,7 @@ const BookListManager = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
@@ -846,7 +848,6 @@ const BookListManager = () => {
   // Delete api
   const BookManDeleteApi = async (id) => {
     setLoader(true)
-
     try {
       const response = await BookManagerDeleteApi(id);
       if (response?.status === 200) {
@@ -855,10 +856,10 @@ const BookListManager = () => {
         setShowdelete(false)
         setHidedelete(true)
         setLoader(false)
+        MyRolPermisGetAllApi()
         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
         offcanvasInstance.hide();
-        setShow(false)
-
+        
         setTimeout(() => {
           setShowdelete(true)
           setForDelete(false)
@@ -866,6 +867,7 @@ const BookListManager = () => {
       } else {
         toast.error(response?.data?.message);
         setShowdelete(true)
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
@@ -874,7 +876,6 @@ const BookListManager = () => {
   }
   // Teacher Put api 
   const MyNoticePutApi = async (id) => {
-
     if (FuncValidation()) {
       setLoader(true)
       try {
@@ -908,14 +909,12 @@ const BookListManager = () => {
           setShow12(true)
           setLoader(false)
         }
-
       } catch (error) {
         console.log(error)
         setLoader(false)
       }
     }
   }
-
 
   const handleForDelete = () => {
     BookManDeleteApi(IdForDelete)
@@ -942,13 +941,13 @@ const BookListManager = () => {
     setIsValidQuantityRequired(false);
     setIsValidRackNumberRequired(false);
     setIsValidShelfNumberRequired(false);
+    setForDelete(false)
 
-  }
+  } 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     // // console.log('my imageeee---000',file)
     setImageFile(file);
-    // setPreview(URL.createObjectURL(file));
   };
   const buttManage = () => {
     setManageButton(!manageButton)
@@ -1228,13 +1227,7 @@ const BookListManager = () => {
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Cover Page</label>
                       <input type="file" className="form-control form-focus  label-color heading-14" onChange={(e) => setCoverPage(e.target.files[0])} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Number of Copy" />
                     </div>
-                    {/* <div className='pt-1'>
-                      {isValidNoOfCopyRequired && (
-                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                          Number copy is required
-                        </p>
-                      )}
-                    </div> */}
+                 
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => SubcPutDataApi()}>Submit</button>
@@ -1281,13 +1274,6 @@ const BookListManager = () => {
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Book Id</label>
                       <input type="email" className="form-control form-focus  label-color heading-14" value={bookID} onChange={(e) => handleNumberOfCopy(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Book Id" />
                     </div>
-                    {/* <div className='pt-1'>
-                      {isValidNoOfCopyRequired && (
-                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                          Number copy is required
-                        </p>
-                      )}
-                    </div> */}
 
                     <div className="mb-3" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Edition</label>
@@ -1444,9 +1430,17 @@ const BookListManager = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                      <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
-                        <label className="form-check-label agree" for="flexCheckDefault">
+                     <div className="form-check mt-1">
+                        <input
+                          className="form-check-input my-form-check-input"
+                          onChange={() => setForDelete(!forDelete)}
+                          type="checkbox"
+                          checked={forDelete}
+                          value=""
+                          id="flexCheckDefault"
+                          name="deleteAgreement" 
+                        />
+                        <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
                       </div>
