@@ -513,10 +513,12 @@ const PendingSbmssn = ({ data }) => {
     try {
       const response = await TeacherSubmissionGetByIdApi(id);
       console.log('Submission get all api by idd++++++++++++', response);
+      console.log(response?.data?.submission?.submissionPath, 'response?.data?.submission?.submissionPath')
       if (response?.status === 200) {
 
         setResult(response?.data?.submission?.resultMarks)
-        setFile(response?.data?.submission?.assignmentPath)
+        console.log(response?.data?.submission?.submissionPath, 'response?.data?.submission?.submissionPath')
+        setFile(response?.data?.submission?.submissionPath)
         setDescription(response?.data?.submission?.description)
         setUpdateStatus(response?.data?.status)
 
