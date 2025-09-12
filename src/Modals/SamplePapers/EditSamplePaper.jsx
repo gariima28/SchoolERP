@@ -477,7 +477,7 @@ const EditSamplePaper = ({ EditItemId, EditedSuccess }) => {
                         if (value.length < 2) {
                           return "Minimum Length is 2";
                         }
-                        if (!/^[a-zA-Z0-9'\-\(\)\[\]\{\}\s]+$/.test(value)) {
+                        if (!/^[a-zA-Z0-9,.;"*%_?><!`~|\/'\-\(\)\[\]\{\}\s]+$/.test(value)) {
                           return "Invalid Characters in Description";
                         }
                         return true;

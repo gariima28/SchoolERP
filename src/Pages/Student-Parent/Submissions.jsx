@@ -156,7 +156,7 @@ const Submissions = () => {
         try {
             setloaderState(true);
             const formData = new FormData();
-            formData.append("submissionPath", data.file[0]);
+            formData.append("submissionFile", data.file[0]);
             formData.append("description", data.description);
 
             const response = await submitSubmissionsByStudentApi(assignmentId, formData);
@@ -228,7 +228,7 @@ const Submissions = () => {
                                             <td className='textWrapClass greyText'>
                                                 {item.status === 'PENDING' ? <p className='font14 align-self-start m-0'>
                                                     <Icon icon="mdi:cloud-upload-outline" width="1.3em" height="1.3em" style={{ color: '#008479' }} />
-                                                    <Link className="ms-2" to="" data-bs-toggle="offcanvas" data-bs-target="#addSubmission" aria-controls="addSubmission" onClick={() => { setSubjectName(item.subjectName); setAssignmentId(item.assignmentId) }}> Upload File </Link>
+                                                    <Link className="ms-2" to="" data-bs-toggle="offcanvas" data-bs-target="#addSubmission" aria-controls="addSubmission" onClick={() => { setSubjectName(item.subjectName); setAssignmentId(item.id) }}> Upload File </Link>
                                                 </p>
                                                     : <p className='font14 align-self-start m-0'>
                                                         <Icon icon="bxs:file-pdf" width="1.3em" height="1.3em" style={{ color: 'red' }} />

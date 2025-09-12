@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { getStudentDataByIdApi } from 'src/Utils/Apis';
 import toast, { Toaster } from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
+import { getRecieptByIdApi } from '../../../Utils/Apis';
 
 const Container = styled.div`
 
@@ -78,42 +79,34 @@ const Container = styled.div`
 
 `;
 
-const StudentFeeDetails = () => {
+const StudentFeeDetails = ({ RecieptViewId }) => {
 
     //loader State
     const [loaderState, setloaderState] = useState(false);
-    // Variable State
-    const [studentId, setStudentId] = useState('')
-    const [studentName, setStudentName] = useState('')
-    const [gender, setGender] = useState('')
-    const [fatherName, setFatherName] = useState('')
-    const [classNo, setClassNo] = useState(0);
-    const [studentRollNo, setStudentRollNo] = useState('')
-    const [studentPh, setStudentPh] = useState('')
-    const [studentImage, setStudentImage] = useState('')
-    const [invoices, setInvoices] = useState([
-        {
-            id: 1,
-            feeType: 'Tuition Fee (March, April)',
-            totalAmount: '18,950',
-            discount: '100',
-            dueAmount: '0',
-        },
-        {
-            id: 2,
-            feeType: 'Admission Fee',
-            totalAmount: '18,950',
-            discount: '100',
-            dueAmount: '0',
-        },
-        {
-            id: 3,
-            feeType: 'Certificate Fee',
-            totalAmount: '18,950',
-            discount: '100',
-            dueAmount: '0',
-        },
-    ]);
+    const [RecieptIdData, setRecieptIdData] = useState();
+    const [FeeIdData, setFeeIdData] = useState([]);
+    useEffect(() => {
+        getAllRecieptById(RecieptViewId)
+    }, [RecieptViewId])
+
+    const getAllRecieptById = async (id) => {
+        try {
+            // setLoaderState(true);
+            const response = await getRecieptByIdApi(id);
+            if (response?.status === 200 && response?.data?.status === 'success') {
+                setRecieptIdData(response?.data?.receipt);
+                setFeeIdData(response?.data?.receipt?.invoice?.feeDetails || []);
+                // setSearchBtn(true);
+                toast.success(response?.data?.message || 'Invoices fetched successfully');
+            } else {
+                // toast.error(response?.data?.message || 'Failed to fetch invoices');
+            }
+        } catch (error) {
+            // toast.error(error?.response?.data?.message || 'Error fetching invoices');
+        } finally {
+        }
+    };
+
 
     const [itemData, setItemData] = useState([
         {
@@ -142,50 +135,6 @@ const StudentFeeDetails = () => {
         },
     ]);
 
-    // useEffect(() => {
-    //     getStudentDataById();
-    // }, [token])
-
-    // const getStudentDataById = async () => {
-    //     try {
-    //         setloaderState(true);
-    //         var response = await getStudentDataByIdApi(id);
-    //         if (response?.status === 200) {
-    //             if (response?.data?.status === 'success') {
-    //                 setStudentName(response?.data?.student?.studentName);
-    //                 setGender(response?.data?.student?.gender);
-    //                 setStudentId(response?.data?.student?.studentId);
-    //                 setFatherName(response?.data?.student?.fatherName);
-    //                 setClassNo(response?.data?.student?.classNo);
-    //                 setStudentPh(response?.data?.student?.studentPhone);
-    //                 setStudentImage(response?.data?.student?.studentImage);
-    //                 // toast.success(response?.data?.message);
-    //                 setloaderState(false);
-    //             }
-    //             else {
-    //                 // console.log('error')
-    //                 toast.error(response?.data?.message);
-    //             }
-    //         }
-    //         else {
-    //             // console.log('error')
-    //             toast.error(response?.data?.message);
-    //         }
-    //     }
-    //     catch (error) {
-    //         setloaderState(false);
-    //         setloaderState(false);
-    //         // console.log(error)
-    //         if (error?.response?.data?.statusCode === 401) {
-    //             sessionStorage.removeItem('token')
-    //             setTimeout(() => {
-    //                 navigate('/')
-    //             }, 200);
-    //         }
-
-    //     }
-    // }
-
     return (
 
         <Container>
@@ -194,13 +143,17 @@ const StudentFeeDetails = () => {
                 <div className="row purpleBg cardradius2">
                     <div className="col-md-2 col-4 align-self-center">
                         <div className="row">
-                            {/* <img src={studentImage} alt="" /> */}
-                            <img className='' src={studentImage} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
+                            {RecieptIdData?.invoice?.studentName === null ? (
+                                <img className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
+                            ) : (
+                                <img className="border rounded-circle p-1" src={RecieptIdData?.invoice?.studentName} alt="..." height={35} />
+                            )}
+                            {/* <img className='' src={RecieptIdData?.invoice?.studentName} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /> */}
                         </div>
                     </div>
                     <div className="col-md-10 col-8 mt-2">
                         <div className="row">
-                            <h2 className='text-black p-1 ps-md-3'>ABC Sharma</h2>
+                            <h2 className='text-black p-1 ps-md-3'>{RecieptIdData?.invoice?.studentName}</h2>
                         </div>
                         <div className="row">
                             <div className="col-md-6 col-12">
@@ -209,25 +162,25 @@ const StudentFeeDetails = () => {
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Class: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentName} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={RecieptIdData?.invoice?.classNo} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Section: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentName} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={RecieptIdData?.invoice?.section} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Email: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentName} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={RecieptIdData?.invoice?.email} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Phone: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentName} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={RecieptIdData?.invoice?.phoneNumber} />
                                             </div>
                                         </div>
                                     </form>
@@ -239,25 +192,25 @@ const StudentFeeDetails = () => {
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Invoice: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={classNo} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={RecieptIdData?.invoice?.invoiceNo} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Status: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={classNo} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={RecieptIdData?.invoice?.status} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Date: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={classNo} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={RecieptIdData?.invoice?.studentName} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Month: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={classNo} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={RecieptIdData?.invoice?.studentName} />
                                             </div>
                                         </div>
                                     </form>
@@ -279,7 +232,7 @@ const StudentFeeDetails = () => {
                         </thead>
                         <tbody>
                             <tr></tr>
-                            {invoices.map((invoice, index) => (
+                            {FeeIdData.map((invoice, index) => (
                                 <tr key={invoice.id} className="align-middle">
                                     <th className="font14 pt-3 textWrapClass text-center greyText">{index + 1}.</th>
                                     <td className="font14 pt-3 textWrapClass greyText">{invoice.feeType}</td>
@@ -297,12 +250,12 @@ const StudentFeeDetails = () => {
                         <table className="table align-middle border">
                             <tbody>
                                 <tr></tr>
-                                {itemData.map((data, index) => (
+                                {/* {itemData.map((data, index) => (
                                     <tr key={index} className="align-middle">
                                         <td className="font14 pt-3 textWrapClass text-start greyText">{data.key}</td>
                                         <td className="font14 pt-3 textWrapClass text-end greyText">{data.value}</td>
                                     </tr>
-                                ))}
+                                ))} */}
                             </tbody>
                         </table>
                     </div>
