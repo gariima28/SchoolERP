@@ -795,6 +795,13 @@ const Teacher = () => {
     navigate(`/admin/users/mainuserform/userbasicinformation`)
   }
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(null);
+
+  const toggleDropdown = (index, e) => {
+      e.preventDefault(); // Prevent default to avoid conflicts
+      e.stopPropagation(); // Stop event bubbling to keep dropdown open
+      setIsDropdownOpen(isDropdownOpen === index ? null : index);
+  };
 
   return (
     <Container>
@@ -880,26 +887,15 @@ const Teacher = () => {
                         <td className=" greyText  pe-0 no-wrap">
                           <div className="dropdown my-button-show">
                             <button
-                              className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14"
+                              className="btn btn-sm actionButtons dropdown-toggle"
                               type="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
+                              onClick={(e) => toggleDropdown(index, e)}
+                              aria-expanded={isDropdownOpen === index}
                             >
-                              Action &nbsp;
-                              <svg
-                                width="11"
-                                height="7"
-                                viewBox="0 0 11 7"
-                                fill="none"
-                                xmlns=""
-                              >
-                                <path
-                                  d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z"
-                                  fill="black"
-                                />
-                              </svg>
+                              <span>Action</span>
                             </button>
-                            <ul className="dropdown-menu anchor-color heading-14">
+                            {/* Dropdown menu: Show/hide based on state */}
+                            <ul className={`dropdown-menu ${isDropdownOpen === index ? 'show' : ''}`}>
                               <li>
                                 <Link
                                   className="dropdown-item"
@@ -1155,7 +1151,7 @@ const Teacher = () => {
                   >
                     Update
                   </button>
-                  <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">
+                  <button type="button" className="btn cancelButtons" data-bs-dismiss="offcanvas" aria-label="Close">
                     Cancel
                   </button>
                 </div>
@@ -1324,7 +1320,7 @@ const Teacher = () => {
                       </button>
                       <button
                         type="button"
-                        class="btn cancel-btn ms-2"
+                        class="btn cancelButtons ms-2"
                         data-bs-dismiss="offcanvas" aria-label="Close"
                       >
                         Cancel

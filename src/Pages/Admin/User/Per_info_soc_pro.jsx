@@ -318,7 +318,7 @@ const Per_info_soc_pro = () => {
                                 >
                                     {updateStatus === 'success' ? 'Update Social' : 'Submit Social'}
                                 </button>
-                                <button type="button" className="btn btn-outline-success heading-12 ms-1">
+                                <button type="button" className="btn cancelButtons heading-12 ms-1">
                                     Cancel
                                 </button>
                             </div>

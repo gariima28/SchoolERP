@@ -237,6 +237,12 @@ const ExamTerm = () => {
                 const offcanvasElement = document.getElementById('addExamTerm');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to add exam term');
             }
@@ -271,6 +277,12 @@ const ExamTerm = () => {
                 const offcanvasElement = document.getElementById('editExamTerm');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to update exam term');
                 setValueUpdate('examTermName', initialFormValues.examTermName);
@@ -300,6 +312,12 @@ const ExamTerm = () => {
                 const offcanvasElement = document.getElementById('deleteExamTerm');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to delete exam term');
             }

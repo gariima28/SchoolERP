@@ -255,6 +255,12 @@ const AllRoute = () => {
                             offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                         }
                         offcanvas.hide();
+                        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                            const backdrop = document.querySelector('.offcanvas-backdrop');
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                        }, { once: true });
                         const backdrop = document.querySelector('.offcanvas-backdrop');
                         if (backdrop) {
                             backdrop.remove();
@@ -296,6 +302,12 @@ const AllRoute = () => {
                                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                             }
                             offcanvas.hide();
+                            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                const backdrop = document.querySelector('.offcanvas-backdrop');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                }
+                            }, { once: true });
                         }
                         setIsChecked(false)
                     }, 400);

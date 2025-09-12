@@ -167,6 +167,12 @@ const Assignment = () => {
             if (offcanvasElement) {
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             }
             setCloseAddModal(false); // Reset state after closing
         }
@@ -175,6 +181,12 @@ const Assignment = () => {
             if (offcanvasElement) {
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             }
             setCloseEditModal(false); // Reset state after closing
             getAllClassData();
@@ -331,6 +343,12 @@ const Assignment = () => {
                                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                             }
                             offcanvas.hide();
+                            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                const backdrop = document.querySelector('.offcanvas-backdrop');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                }
+                            }, { once: true });
 
                             const backdrop = document.querySelector('.offcanvas-backdrop');
                             if (backdrop) {

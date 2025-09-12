@@ -342,7 +342,7 @@ const Conta_contac = ({ data }) => {
           .btn-outline-success {
             border-color: #008479;
             color: #008479;
-            padding: 10px 20px;
+            padding: 7px 14px;
             border-radius: 8px;
             transition: all 0.3s ease;
           }
@@ -684,7 +684,7 @@ const Conta_contac = ({ data }) => {
               </button>
               <button
                 type="button"
-                className="btn btn-outline-success heading-14"
+                className="btn cancelButtons heading-14"
                 onClick={clearData}
                 tabIndex="11"
                 aria-label="Cancel"

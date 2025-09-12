@@ -20,7 +20,9 @@ z-index: 9999999999;
 const DataLoader = () => {
     return (
         <DataLoaderContainer>
-            <p className='font20 mb-4' style={{color: "#029084"}}>Loading Data...</p>
+            <p className='font20 mb-4' style={{ color: "#029084" }}>
+                Please be patient, data is loading...
+            </p>
             {/* <BallTriangle height={100} width={100} radius={5} color="red" ariaLabel="ball-triangle-loading" wrapperStyle={{}} wrapperClass="" visible={true} /> */}
             <Circles height="100" width="100" color="#008479" ariaLabel="circles-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
             {/* <ThreeCircles visible={true} height="100" width="100" color="#008479" ariaLabel="three-circles-loading" wrapperStyle={{}} wrapperClass="" /> */}

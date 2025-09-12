@@ -1,537 +1,529 @@
 import React, { useEffect, useState, useContext } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
-import DataLoader from 'src/Layouts/Loader';
-import { Conatct_Deduction_getById, Conatct_Deduction_PutApi, getAllHRDeductionName, AssignDeductionToStaff, getAllHRDeductionByStaffID, DeleteItemAssignDeductionToStaff } from '../../../Utils/Apis';
-import { MyUseContext } from '../ContextApi/UseContext';
 import { useParams } from 'react-router-dom';
-const Conta_allown = () => {
+import toast, { Toaster } from 'react-hot-toast';
+import { useForm, Controller } from 'react-hook-form';
+import * as bootstrap from 'bootstrap';
+import styled from 'styled-components';
+import DataLoader from 'src/Layouts/Loader';
+import {
+  Conatct_Deduction_getById,
+  Conatct_Deduction_PutApi,
+  getAllHRDeductionName,
+  AssignDeductionToStaff,
+  getAllHRDeductionByStaffID,
+  DeleteItemAssignDeductionToStaff,
+} from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
 
+// Styled components (consolidated from inline styles)
+const StyledContainer = styled.div`
+  .form-check-input:checked {
+    background-color: #008479 !important;
+    border-color: #008479 !important;
+  }
+  .form-container {
+    background: linear-gradient(145deg, #ffffff 0%, #e6f4f1 100%);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 6px 20px rgba(0, 132, 121, 0.1);
+    transition: all 0.3s ease;
+    animation: slideIn 0.5s ease-out;
+  }
+  .form-container:hover {
+    box-shadow: 0 8px 24px rgba(0, 132, 121, 0.15);
+  }
+  @keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .form-control, .form-select {
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid #ced4da;
+    background: #f8fafc;
+  }
+  .form-control:hover, .form-select:hover {
+    border-color: #008479;
+    background: #fff;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #008479;
+    box-shadow: 0 0 0 0.2rem rgba(0, 132, 121, 0.25);
+    outline: none;
+    background: #fff;
+  }
+  .form-label {
+    font-weight: 600;
+    color: #1a3c34;
+    margin-bottom: 5px;
+    position: relative;
+    display: inline-block;
+  }
+  .form-label:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #008479;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    animation: fadeIn 0.2s ease forwards;
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  .my-green {
+    background: linear-gradient(135deg, #008479 0%, #006b63 100%) !important;
+    border: none !important;
+    color: #fff !important;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+  .my-green:hover {
+    background: linear-gradient(135deg, #006b63 0%, #005a50 100%) !important;
+    transform: scale(1.05);
+  }
+  .my-green:disabled {
+    background: #b0b0b0 !important;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .btn-outline-success {
+    border-color: #008479;
+    color: #008479;
+    padding: 7px 14px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  .btn-outline-success:hover {
+    background: linear-gradient(135deg, #008479 0%, #006b63 100%);
+    color: #fff;
+    transform: scale(1.05);
+  }
+  .error-message {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: 3px;
+    min-height: 16px;
+    animation: fadeIn 0.3s ease;
+  }
+  .valid-indicator::after {
+    content: '✔';
+    color: #28a745;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+  }
+  .form-group {
+    margin-bottom: 0.4rem;
+    position: relative;
+  }
+  .row-margin {
+    margin-bottom: 0.5rem;
+  }
+  .buttons-tops {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .loader {
+    border: 2px solid #fff;
+    border-top: 2px solid #008479;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 10px;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .table-container {
+    margin-top: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 132, 121, 0.1);
+    overflow-x: auto;
+  }
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .table thead {
+    background: linear-gradient(135deg, #008479 0%, #006b63 100%);
+    color: #fff;
+  }
+  .table th {
+    padding: 12px;
+    font-weight: 600;
+    text-align: left;
+    font-size: 14px;
+  }
+  .table td {
+    padding: 12px;
+    font-size: 14px;
+    color: #1a3c34;
+    border-bottom: 1px solid #e9ecef;
+  }
+  .table tbody tr:nth-child(even) {
+    background: #f8fafc;
+  }
+  .table tbody tr:hover {
+    background: #e6f4f1;
+    transition: background 0.3s ease;
+  }
+  .action-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+  .action-btn.edit {
+    background: #28a745;
+    color: #fff;
+    border: none;
+  }
+  .action-btn.delete {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+  }
+  .action-btn:hover {
+    transform: scale(1.05);
+  }
+  .offcanvas {
+    background: #f8fafc;
+    border-radius: 0 16px 16px 0;
+  }
+  .offcanvas-header {
+    /* background: linear-gradient(135deg, #008479 0%, #006b63 100%);
+    color: #fff; */
+    padding: 16px;
+  }
+  .offcanvas-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .offcanvas-body {
+    padding: 24px;
+  }
+`;
+
+const Conta_deduction = () => {
   const { id } = useParams();
   const { myId } = useContext(MyUseContext);
-  const myUserID = myId ?? id ?? "";
+  const myUserID = myId ?? id ?? '';
 
   const [loaderState, setLoaderState] = useState(false);
-  const [loader, setLoader] = useState(false);
-  const [show, setShow] = useState(true);
-  const [updateStatus, setUpdateStatus] = useState();
-  const [deduction, setDeduction] = useState('');
-  const [title, setTitle] = useState('');
-  const [amountOption, setAmountOption] = useState('');
-  const [amount, setAmount] = useState('');
-  const [isValidDeductionRequired, setIsValidDeductionRequired] = useState(false);
-  const [isValidTitleRequired, setIsValidTitleRequired] = useState(false);
-  const [isValidAmountOptionRequired, setIsValidAmountOptionRequired] = useState(false);
-  const [isValidAmountRequired, setIsValidAmountRequired] = useState(false);
-  const [deductionList, setDeductionList] = useState([]);
-  const [editDeduction, setEditDeduction] = useState(null);
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [deductionData, setDeductionData] = useState([]);
-  const [setDeductionDataOfStaff, setSetDeductionDataOfStaff] = useState([])
+  const [staffDeductionData, setStaffDeductionData] = useState([]);
+  const [editDeduction, setEditDeduction] = useState(null);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
 
+  // Form hooks for Add and Edit forms
+  const {
+    control: addControl,
+    handleSubmit: handleAddSubmit,
+    reset: resetAddForm,
+    formState: { errors: addErrors },
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      deductionNameId: '',
+      amount: '',
+      deductionOption: '',
+    },
+  });
+
+  const {
+    control: editControl,
+    handleSubmit: handleEditSubmit,
+    reset: resetEditForm,
+    formState: { errors: editErrors },
+    setValue: setEditValue,
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      deductionNameId: '',
+      amount: '',
+      deductionOption: '',
+    },
+  });
+
+  // Initialize Bootstrap offcanvas
   useEffect(() => {
-    if (myUserID) {
-      MyStaffGetById();
+    const offcanvasElement = document.getElementById('editDeductionOffcanvas');
+    if (offcanvasElement) {
+      const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+      offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+        resetEditForm();
+        setEditDeduction(null);
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        if (backdrop) backdrop.remove();
+      });
     }
-    getAllDeductionName();
   }, []);
 
-  const FuncValidation = () => {
-    let isValid = true;
-    const textRegex = /^[A-Za-z\s]+$/;
-    const numberRegex = /^\d+(\.\d{1,2})?$/;
-
-    if (!deduction || !textRegex.test(deduction)) {
-      setIsValidDeductionRequired(true);
-      isValid = false;
-      setLoader(false);
+  // Fetch data on mount
+  useEffect(() => {
+    if (myUserID) {
+      getAllDeductionName();
+      getAllDeductionNameByStaffId();
     } else {
-      setIsValidDeductionRequired(false);
+      toast.error('User ID not found');
+      // Optionally redirect: navigate('/');
     }
+  }, [myUserID, pageNo]);
 
-    if (!title || !textRegex.test(title)) {
-      setIsValidTitleRequired(true);
-      isValid = false;
-      setLoader(false);
-    } else {
-      setIsValidTitleRequired(false);
-    }
-
-    if (!amountOption || !numberRegex.test(amountOption)) {
-      setIsValidAmountOptionRequired(true);
-      isValid = false;
-      setLoader(false);
-    } else {
-      setIsValidAmountOptionRequired(false);
-    }
-
-    if (!amount || !numberRegex.test(amount)) {
-      setIsValidAmountRequired(true);
-      isValid = false;
-      setLoader(false);
-    } else {
-      setIsValidAmountRequired(false);
-    }
-
-    return isValid;
-  };
-
-  const handleDeduction = (e2) => {
-    console.log(e2);
-    setDeduction(e2);
-    const textRegex = /^[A-Za-z\s]+$/;
-  };
-
-  const handleTitle = (e2) => {
-    setTitle(e2);
-    const textRegex = /^[A-Za-z\s]+$/;
-    setIsValidTitleRequired(!e2 || !textRegex.test(e2));
-  };
-
-  const handleAmountOption = (e2) => {
-    setAmountOption(e2);
-    const numberRegex = /^\d+(\.\d{1,2})?$/;
-    setIsValidAmountOptionRequired(!e2 || !numberRegex.test(e2));
-  };
-
-  const handleAmount = (e2) => {
-    setAmount(e2);
-    const numberRegex = /^\d+(\.\d{1,2})?$/;
-    setIsValidAmountRequired(!e2 || !numberRegex.test(e2));
-  };
-
-
+  // Fetch all deduction names for dropdown
   const getAllDeductionName = async () => {
     try {
       setLoaderState(true);
       const response = await getAllHRDeductionName('', pageNo, pageSize);
       if (response?.status === 200 && response?.data?.status === 'success') {
         setDeductionData(response.data.deductionNames || []);
+        // setTotalPages(response.data.totalPages || 1);
       } else {
-        toast.error(response?.data?.message || 'Failed to fetch Deductions');
+        toast.error(response?.data?.message || 'Failed to fetch deductions');
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
         localStorage.removeItem('token');
         // navigate('/');
       }
-      toast.error('Error fetching Deductions');
+      toast.error('Error fetching deductions');
     } finally {
       setLoaderState(false);
     }
   };
 
-
-  const MyStaffGetById = async () => {
-    setLoader(true);
-    try {
-      const response = await Conatct_Deduction_getById(myUserID);
-      if (response?.status === 200) {
-        setUpdateStatus(response?.data?.status)
-        setSetDeductionDataOfStaff(response.data.statutory || []);
-        setDeduction(response?.data?.deduction?.deductionOption || '');
-        setTitle(response?.data?.deduction?.title || '');
-        setAmountOption(response?.data?.deduction?.amountOption || '');
-        setAmount(response?.data?.deduction?.amount || '');
-        setLoader(false);
-      } else {
-        toast.error(response?.data?.msg || 'Failed to fetch Deduction data');
-        setLoader(false);
-      }
-    } catch (error) {
-      setLoader(false);
-      toast.error('Failed to fetch Deduction data');
-    }
-  };
-
-
-
+  // Fetch staff-specific deductions
   const getAllDeductionNameByStaffId = async () => {
     try {
       setLoaderState(true);
       const response = await getAllHRDeductionByStaffID(myUserID);
-      console.log(response, "firsyt")
-      if (response?.status === 200) {
-        console.log(response.data.statutory, "sec")
-        setSetDeductionDataOfStaff(response.data.statutory || []);
+      console.log(response)
+      if (response?.status === 200 && response?.data?.status === 'success') {
+        setStaffDeductionData(response.data.statutory || []);
+        console.log(response.data.statutory, 'deductiondata')
         setTotalPages(response.data.totalPages || 1);
       } else {
-        toast.error(response?.data?.message || 'Failed to fetch Deductions');
+        toast.error(response?.data?.message || 'Failed to fetch staff deductions');
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
         localStorage.removeItem('token');
+        // navigate('/');
       }
-      toast.error('Error fetching Deductions');
+      toast.error('Error fetching staff deductions');
     } finally {
       setLoaderState(false);
     }
   };
 
-
-  const MyStaffePutApi = async () => {
-    const formData = new FormData();
-    formData.append('deductionNameId', deduction);
-    formData.append('deductionOption', amountOption);
-    formData.append('amount', amount);
-    setLoader(true);
+  // Add new deduction
+  const handleAddDeduction = async (data) => {
     try {
+      setLoaderState(true);
+      const formData = new FormData();
+      formData.append('deductionNameId', data.deductionNameId);
+      formData.append('deductionOption', data.deductionOption);
+      formData.append('amount', data.amount);
+
+      console.log('Adding deduction with FormData:', Object.fromEntries(formData)); // Debug log
+
       const response = await AssignDeductionToStaff(myUserID, formData);
-      console.log(response, "Update Deduction");
-      if (response?.status === 200) {
+      if (response?.status === 200 && response?.data?.status === 'success') {
+        toast.success(response.data.message);
+        resetAddForm();
         getAllDeductionNameByStaffId();
-        toast.success(response?.data?.message);
-        setShow(false);
-        setLoader(false);
-        clearData();
       } else {
-        toast.error(response?.data?.message || 'Failed to update Deduction');
-        setShow(true);
-        setLoader(false);
+        toast.error(response?.data?.message || 'Failed to add deduction');
       }
     } catch (error) {
-      setLoader(false);
-      toast.error('Failed to update Deduction');
+      toast.error(error?.response?.data?.message || 'Error adding deduction');
+    } finally {
+      setLoaderState(false);
     }
   };
 
-
+  // Edit deduction
   const handleEdit = (item) => {
+    console.log('Editing item:', item); // Debug log
     setEditDeduction(item);
-    setDeduction(item.deductionOption);
-    setTitle(item.title);
-    setAmountOption(item.amountOption);
-    setAmount(item.amount);
-    setShowOffcanvas(true);
+    setEditValue('deductionNameId', item.deductionNameId || item.statutoryDeductionId || '');
+    setEditValue('amount', item.amount || '');
+    setEditValue('deductionOption', item.deductionOption || '');
+    const offcanvasElement = document.getElementById('editDeductionOffcanvas');
+    if (offcanvasElement) {
+      const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
+      offcanvas.show();
+    }
   };
 
-  const handleDelete = async (ids) => {
-    setLoader(true);
+  // Update deduction
+  const handleUpdateDeduction = async (data) => {
+    if (!editDeduction) {
+      toast.error('No deduction selected for update');
+      return;
+    }
     try {
+      setLoaderState(true);
+      const formData = new FormData();
+      formData.append('deductionNameId', data.deductionNameId);
+      formData.append('deductionOption', data.deductionOption);
+      formData.append('amount', data.amount);
+
+      console.log('Updating deduction with ID:', editDeduction.statutoryDeductionId || editDeduction.id); // Debug log
+      console.log('FormData:', Object.fromEntries(formData)); // Debug log
+
+      const response = await Conatct_Deduction_PutApi(editDeduction.statutoryDeductionId || editDeduction.id, formData);
+      if (response?.status === 200 && response?.data?.status === 'success') {
+        toast.success(response.data.message);
+        getAllDeductionNameByStaffId();
+        const offcanvasElement = document.getElementById('editDeductionOffcanvas');
+        if (offcanvasElement) {
+          const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+          offcanvas.hide();
+        }
+        resetEditForm();
+        setEditDeduction(null);
+      } else {
+        toast.error(response?.data?.message || 'Failed to update deduction');
+      }
+    } catch (error) {
+      console.error('Update error:', error.response?.data); // Debug log
+      toast.error(error?.response?.data?.message || 'Error updating deduction');
+    } finally {
+      setLoaderState(false);
+    }
+  };
+
+  // Delete deduction
+  const handleDelete = async (ids) => {
+    try {
+      setLoaderState(true);
       const response = await DeleteItemAssignDeductionToStaff(myUserID, ids);
-      if (response?.data?.status === "success") {
+      if (response?.data?.status === 'success') {
         toast.success('Deduction deleted successfully');
         getAllDeductionNameByStaffId();
       } else {
-        toast.error(response?.data?.message || 'Failed to delete Deduction');
+        toast.error(response?.data?.message || 'Failed to delete deduction');
       }
     } catch (error) {
-      toast.error('Failed to delete Deduction');
+      toast.error(error?.response?.data?.message || 'Error deleting deduction');
     } finally {
-      setLoader(false);
+      setLoaderState(false);
     }
-  };
-
-  const handleUpdateDeduction = async () => {
-    if (FuncValidation()) {
-      const formData = new FormData();
-      formData.append('DeductionOption', deduction);
-      formData.append('amountOption', amountOption);
-      formData.append('title', title);
-      formData.append('amount', amount);
-
-      setLoader(true);
-      try {
-        const response = await Conatct_Deduction_PutApi(editDeduction.id, formData);
-        if (response?.status === 200) {
-          toast.success(response?.data?.message);
-          setShowOffcanvas(false);
-
-          clearData();
-        } else {
-          toast.error(response?.data?.message || 'Failed to update Deduction');
-        }
-      } catch (error) {
-        toast.error('Failed to update Deduction');
-      } finally {
-        setLoader(false);
-      }
-    }
-  };
-
-  const clearData = () => {
-    setDeduction('');
-    setTitle('');
-    setAmountOption('');
-    setAmount('');
-    setIsValidDeductionRequired(false);
-    setIsValidTitleRequired(false);
-    setIsValidAmountOptionRequired(false);
-    setIsValidAmountRequired(false);
-    setEditDeduction(null);
-    setShowOffcanvas(false);
   };
 
   return (
-    <>
+    <StyledContainer className="container-fluid">
       {loaderState && <DataLoader />}
-      <style>
-        {`
-          .form-container {
-            background: linear-gradient(145deg, #ffffff 0%, #e6f4f1 100%);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 6px 20px rgba(0, 132, 121, 0.1);
-            transition: all 0.3s ease;
-            animation: slideIn 0.5s ease-out;
-          }
-          .form-container:hover {
-            box-shadow: 0 8px 24px rgba(0, 132, 121, 0.15);
-          }
-          @keyframes slideIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-          }
-          .form-control, .form-select {
-            border-radius: 8px;
-            font-size: 14px;
-            padding: 10px;
-            transition: all 0.3s ease;
-            border: 1px solid #ced4da;
-            background: #f8fafc;
-          }
-          .form-control:hover, .form-select:hover {
-            border-color: #008479;
-            background: #fff;
-          }
-          .form-control:focus, .form-select:focus {
-            border-color: #008479;
-            box-shadow: 0 0 0 0.2rem rgba(0, 132, 121, 0.25);
-            outline: none;
-            background: #fff;
-          }
-          .form-label {
-            font-weight: 600;
-            color: #1a3c34;
-            margin-bottom: 5px;
-            position: relative;
-            display: inline-block;
-          }
-          .form-label:hover::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #008479;
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            white-space: nowrap;
-            z-index: 10;
-            opacity: 0;
-            animation: fadeIn 0.2s ease forwards;
-          }
-          @keyframes fadeIn {
-            to { opacity: 1; }
-          }
-          .my-green {
-            background: linear-gradient(135deg, #008479 0%, #006b63 100%) !important;
-            border: none !important;
-            color: #fff !important;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: transform 0.2s ease, background 0.3s ease;
-          }
-          .my-green:hover {
-            background: linear-gradient(135deg, #006b63 0%, #005a50 100%) !important;
-            transform: scale(1.05);
-          }
-          .my-green:disabled {
-            background: #b0b0b0 !important;
-            cursor: not-allowed;
-            transform: none;
-          }
-          .btn-outline-success {
-            border-color: #008479;
-            color: #008479;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-          }
-          .btn-outline-success:hover {
-            background: linear-gradient(135deg, #008479 0%, #006b63 100%);
-            color: #fff;
-            transform: scale(1.05);
-          }
-          .error-message {
-            font-size: 12px;
-            color: #dc3545;
-            margin-top: 3px;
-            min-height: 16px;
-            animation: fadeIn 0.3s ease;
-          }
-          .valid-indicator::after {
-            content: '✔';
-            color: #28a745;
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-          }
-          .form-group {
-            margin-bottom: 0.4rem;
-            position: relative;
-          }
-          .row-margin {
-            margin-bottom: 0.5rem;
-          }
-          .buttons-tops {
-            margin-top: 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-          }
-          .loader {
-            border: 2px solid #fff;
-            border-top: 2px solid #008479;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-left: 10px;
-          }
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-          .table-container {
-            margin-top: 2rem;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 132, 121, 0.1);
-            overflow-x: auto;
-          }
-          .table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-          }
-          .table thead {
-            background: linear-gradient(135deg, #008479 0%, #006b63 100%);
-            color: #fff;
-          }
-          .table th {
-            padding: 12px;
-            font-weight: 600;
-            text-align: left;
-            font-size: 14px;
-          }
-          .table td {
-            padding: 12px;
-            font-size: 14px;
-            color: #1a3c34;
-            border-bottom: 1px solid #e9ecef;
-          }
-          .table tbody tr:nth-child(even) {
-            background: #f8fafc;
-          }
-          .table tbody tr:hover {
-            background: #e6f4f1;
-            transition: background 0.3s ease;
-          }
-          .action-btn {
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-          }
-          .action-btn.edit {
-            background: #28a745;
-            color: #fff;
-            border: none;
-          }
-          .action-btn.delete {
-            background: #dc3545;
-            color: #fff;
-            border: none;
-          }
-          .action-btn:hover {
-            transform: scale(1.05);
-          }
-          .offcanvas {
-            background: #f8fafc;
-            border-radius: 0 16px 16px 0;
-          }
-          .offcanvas-header {
-            background: linear-gradient(135deg, #008479 0%, #006b63 100%);
-            color: #fff;
-            padding: 16px;
-          }
-          .offcanvas-title {
-            font-size: 16px;
-            font-weight: 600;
-          }
-          .offcanvas-body {
-            padding: 24px;
-          }
-        `}
-      </style>
-      <div className="container-fluid">
-        <div className="form-container">
-          <p className="heading-16 mb-3" style={{ color: '#1a3c34', fontWeight: '700' }}>Add Deduction</p>
+      <div className="form-container">
+        <p className="heading-16 mb-3" style={{ color: '#1a3c34', fontWeight: '700' }}>
+          Add Deduction
+        </p>
+        <form onSubmit={handleAddSubmit(handleAddDeduction)}>
           <div className="row px-1 row-margin">
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
                 <label
-                  htmlFor="Deduction"
-                  className="form-label heading-14 label-color"
-                  data-tooltip="Select Deduction name"
+                  htmlFor="deduction"
+                  className="form-label font14 label-color"
+                  data-tooltip="Select deduction name"
                   aria-label="Deduction Name"
                 >
                   Deduction Name <span style={{ color: '#dc3545' }}>*</span>
                 </label>
-
-                {deductionData.length > 0 ? (
-                  <select
-                    className="form-select form-select-sm form-focus label-color"
-                    id="Deduction"
-                    value={deduction}
-                    onChange={(e) => handleDeduction(e.target.value)}
-                    tabIndex="1"
-                    aria-describedby="DeductionError"
-                  >
-                    <option value="">--Choose--</option>
-                    {deductionData.map((item, index) => (
-                      <option key={item.id || index} value={item.id}>
-                        {item.deductionName}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <p className="text-muted small mt-2">No Deductions found</p>
+                <Controller
+                  name="deductionNameId"
+                  control={addControl}
+                  rules={{
+                    required: 'Deduction name is required',
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: 'Please select a valid deduction',
+                    },
+                  }}
+                  render={({ field }) => (
+                    <select
+                      className={`form-select form-select-sm form-focus label-color ${addErrors.deductionNameId ? 'border-danger' : ''}`}
+                      id="deduction"
+                      {...field}
+                      aria-describedby="deductionError"
+                    >
+                      <option value="">--Choose--</option>
+                      {deductionData.length > 0 ? (
+                        deductionData.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.deductionName}
+                          </option>
+                        ))
+                      ) : (
+                        <option disabled>No deductions found</option>
+                      )}
+                    </select>
+                  )}
+                />
+                {addErrors.deductionNameId && (
+                  <div id="deductionError" className="error-message">
+                    {addErrors.deductionNameId.message}
+                  </div>
                 )}
               </div>
-
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
                 <label
                   htmlFor="amount"
-                  className="form-label heading-14 label-color"
+                  className="form-label font14 label-color"
                   data-tooltip="Enter amount (e.g., 1000.00)"
                   aria-label="Amount"
                 >
                   Amount <span style={{ color: '#dc3545' }}>*</span>
                 </label>
-                <input
-                  type="text"
-                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidAmountRequired && amount ? 'valid-indicator' : ''}`}
-                  id="amount"
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChange={(e) => handleAmount(e.target.value)}
-                  tabIndex="2"
-                  aria-describedby="amountError"
+                <Controller
+                  name="amount"
+                  control={addControl}
+                  rules={{
+                    required: 'Amount is required',
+                    pattern: {
+                      value: /^\d+(\.\d{1,2})?$/,
+                      message: 'Enter a valid amount (e.g., 1000.00)',
+                    },
+                  }}
+                  render={({ field }) => (
+                    <input
+                      type="text"
+                      className={`form-control form-control-sm font14 grey-input-text-color input-border-color ${!addErrors.amount && field.value ? 'valid-indicator' : ''}`}
+                      id="amount"
+                      placeholder="Enter amount"
+                      {...field}
+                      aria-describedby="amountError"
+                    />
+                  )}
                 />
-                {isValidAmountRequired && (
+                {addErrors.amount && (
                   <div id="amountError" className="error-message">
-                    Valid amount is required
+                    {addErrors.amount.message}
                   </div>
                 )}
               </div>
@@ -542,76 +534,90 @@ const Conta_allown = () => {
               <div className="row">
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="applyOption"
-                      id="instantApply"
-                      value="instant"
-                      checked={amountOption === 'INSTANT_APPLY'}
-                      onChange={() => setAmountOption('INSTANT_APPLY')}
-                      tabIndex="3"
+                    <Controller
+                      name="deductionOption"
+                      control={addControl}
+                      rules={{ required: 'Please select a deduction type' }}
+                      render={({ field }) => (
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="applyOption"
+                          id="instantApply"
+                          value="INSTANT_APPLY"
+                          checked={field.value === 'INSTANT_APPLY'}
+                          onChange={() => field.onChange('INSTANT_APPLY')}
+                        />
+                      )}
                     />
-                    <label className="form-check-label" htmlFor="instantApply">
+                    <label className="form-check-label font14" htmlFor="instantApply">
                       Instant Apply
                     </label>
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="applyOption"
-                      id="nextMonthApply"
-                      value="nextMonth"
-                      checked={amountOption === 'NEXT_MONTH_APPLY'}
-                      onChange={() => setAmountOption('NEXT_MONTH_APPLY')}
-                      tabIndex="4"
+                    <Controller
+                      name="deductionOption"
+                      control={addControl}
+                      rules={{ required: 'Please select a deduction type' }}
+                      render={({ field }) => (
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="applyOption"
+                          id="nextMonthApply"
+                          value="NEXT_MONTH_APPLY"
+                          checked={field.value === 'NEXT_MONTH_APPLY'}
+                          onChange={() => field.onChange('NEXT_MONTH_APPLY')}
+                        />
+                      )}
                     />
-                    <label className="form-check-label" htmlFor="nextMonthApply">
+                    <label className="form-check-label font14" htmlFor="nextMonthApply">
                       Next Month Apply
                     </label>
                   </div>
                 </div>
+                {addErrors.deductionOption && (
+                  <div className="error-message">
+                    {addErrors.deductionOption.message}
+                  </div>
+                )}
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-sm-12"></div>
           </div>
           <div className="row buttons-tops text-center">
-            <div className="my-button11 heading-14">
+            <div className="my-button11 font14">
               <button
-                type="button"
-                className="btn btn-outline-success my-green heading-12 me-1"
-                onClick={MyStaffePutApi}
-                disabled={loader}
-                tabIndex="5"
-                aria-label={updateStatus === "success" ? 'Update Deduction' : 'Add Deduction'}
+                type="submit"
+                className="btn btn-outline-success my-green font14 me-1"
+                disabled={loaderState}
+                aria-label="Add Deduction"
               >
-                {loader ? (
+                {loaderState ? (
                   <>
                     <span>Loading</span>
                     <span className="loader"></span>
                   </>
                 ) : (
-                  updateStatus === "success" ? 'Update Deduction' : 'Add Deduction'
+                  'Add Deduction'
                 )}
               </button>
               <button
                 type="button"
-                className="btn btn-outline-success heading-12"
-                onClick={clearData}
-                tabIndex="6"
+                className="btn cancelButtons font14"
+                onClick={() => resetAddForm()}
                 aria-label="Cancel"
               >
                 Cancel
               </button>
-              <Toaster />
             </div>
           </div>
-        </div>
+        </form>
+      </div>
 
-        <div className="table-container mt-4">
+      <div className="table-container mt-4">
+        {staffDeductionData.length > 0 ? (
           <table className="table" aria-label="Deduction List">
             <thead>
               <tr>
@@ -622,98 +628,143 @@ const Conta_allown = () => {
               </tr>
             </thead>
             <tbody>
-              {setDeductionDataOfStaff.length > 0 ? (
-                setDeductionDataOfStaff.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{item.title}</td>
-                    <td>{item.deductionOption}</td>
-                    <td>{item.amount}</td>
-                    <td>
-                      <button
-                        className="action-btn edit me-2"
-                        onClick={() => handleEdit(item)}
-                        tabIndex={7 + index * 2}
-                        aria-label={`Edit Deduction ${item.deductionNameId}`}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="action-btn delete"
-                        onClick={() => handleDelete(item.statutoryDeductionId)}
-                        tabIndex={8 + index * 2}
-                        aria-label={`Delete Deduction ${item.deductionOption}`}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="text-center">
-                    No Deductions found
+              {staffDeductionData.map((item, index) => (
+                <tr key={item.statutoryDeductionId || item.id}>
+                  <td>{item.title || 'N/A'}</td>
+                  <td>{item.deductionOption}</td>
+                  <td>{item.amount}</td>
+                  <td>
+                    <button
+                      className="action-btn edit me-2"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#editDeductionOffcanvas"
+                      aria-controls="editDeductionOffcanvas"
+                      onClick={() => handleEdit(item)}
+                      tabIndex={7 + index * 2}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="action-btn delete"
+                      onClick={() => handleDelete(item.statutoryDeductionId || item.id)}
+                      aria-label={`Delete deduction ${item.deductionName || 'N/A'}`}
+                      tabIndex={8 + index * 2}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
-        </div>
-
-        <div className={`offcanvas offcanvas-end ${showOffcanvas ? 'show' : ''}`} tabIndex="-1" id="editDeductionOffcanvas" aria-labelledby="editDeductionOffcanvasLabel">
-          <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="editDeductionOffcanvasLabel">Edit Deduction</h5>
-            <button type="button" className="btn-close btn-close-white" onClick={clearData} aria-label="Close"></button>
+        ) : (
+          <div className="d-flex justify-content-center p-5">
+            <img src="/images/search.svg" alt="" className='img-fluid' />
           </div>
-          <div className="offcanvas-body">
+        )}
+      </div>
+
+      <div
+        className="offcanvas offcanvas-end"
+        tabIndex="-1"
+        id="editDeductionOffcanvas"
+        aria-labelledby="editDeductionOffcanvasLabel"
+      >
+        <div className="offcanvas-header border-bottom">
+          <h5 className="offcanvas-title" id="editDeductionOffcanvasLabel">
+            Edit Deduction
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="offcanvas"
+            onClick={() => {
+              resetEditForm();
+              setEditDeduction(null);
+            }}
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="offcanvas-body">
+          <form onSubmit={handleEditSubmit(handleUpdateDeduction)}>
             <div className="form-group mb-3">
               <label
                 htmlFor="editDeduction"
-                className="form-label heading-14 label-color"
-                data-tooltip="Select Deduction name"
+                className="form-label font14 label-color"
+                data-tooltip="Select deduction name"
                 aria-label="Deduction Name"
               >
                 Deduction Name <span style={{ color: '#dc3545' }}>*</span>
               </label>
-              <select
-                className="form-select form-select-sm form-focus label-color"
-                id="editDeduction"
-                value={deduction}
-                onChange={(e) => handleDeduction(e.target.value)}
-                tabIndex="8"
-                aria-describedby="editDeductionError"
-              >
-                <option value="">--Choose--</option>
-                <option value="Housing">Housing</option>
-                <option value="Travel">Travel</option>
-              </select>
-              {isValidDeductionRequired && (
+              <Controller
+                name="deductionNameId"
+                control={editControl}
+                rules={{
+                  required: 'Deduction name is required',
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: 'Please select a valid deduction',
+                  },
+                }}
+                render={({ field }) => (
+                  <select
+                    className={`form-select form-select-sm form-focus label-color ${editErrors.deductionNameId ? 'border-danger' : ''}`}
+                    id="editDeduction"
+                    {...field}
+                    aria-describedby="editDeductionError"
+                  >
+                    <option value="">--Choose--</option>
+                    {deductionData.length > 0 ? (
+                      deductionData.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.deductionName}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>No deductions found</option>
+                    )}
+                  </select>
+                )}
+              />
+              {editErrors.deductionNameId && (
                 <div id="editDeductionError" className="error-message">
-                  Deduction name is required
+                  {editErrors.deductionNameId.message}
                 </div>
               )}
             </div>
             <div className="form-group mb-3">
               <label
                 htmlFor="editAmount"
-                className="form-label heading-14 label-color"
+                className="form-label font14 label-color"
                 data-tooltip="Enter amount (e.g., 1000.00)"
                 aria-label="Amount"
               >
                 Amount <span style={{ color: '#dc3545' }}>*</span>
               </label>
-              <input
-                type="text"
-                className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidAmountRequired && amount ? 'valid-indicator' : ''}`}
-                id="editAmount"
-                placeholder="Enter amount"
-                value={amount}
-                onChange={(e) => handleAmount(e.target.value)}
-                tabIndex="9"
-                aria-describedby="editAmountError"
+              <Controller
+                name="amount"
+                control={editControl}
+                rules={{
+                  required: 'Amount is required',
+                  pattern: {
+                    value: /^\d+(\.\d{1,2})?$/,
+                    message: 'Enter a valid amount (e.g., 1000.00)',
+                  },
+                }}
+                render={({ field }) => (
+                  <input
+                    type="text"
+                    className={`form-control form-control-sm font14 grey-input-text-color input-border-color ${!editErrors.amount && field.value ? 'valid-indicator' : ''}`}
+                    id="editAmount"
+                    placeholder="Enter amount"
+                    {...field}
+                    aria-describedby="editAmountError"
+                  />
+                )}
               />
-              {isValidAmountRequired && (
+              {editErrors.amount && (
                 <div id="editAmountError" className="error-message">
-                  Valid amount is required
+                  {editErrors.amount.message}
                 </div>
               )}
             </div>
@@ -721,50 +772,65 @@ const Conta_allown = () => {
               <div className="row">
                 <div className="col-6">
                   <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="editApplyOption"
-                      id="editInstantApply"
-                      value="instant"
-                      checked={amountOption === 'instant'}
-                      onChange={() => setAmountOption('instant')}
-                      tabIndex="10"
+                    <Controller
+                      name="deductionOption"
+                      control={editControl}
+                      rules={{ required: 'Please select a deduction type' }}
+                      render={({ field }) => (
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="editApplyOption"
+                          id="editInstantApply"
+                          value="INSTANT_APPLY"
+                          checked={field.value === 'INSTANT_APPLY'}
+                          onChange={() => field.onChange('INSTANT_APPLY')}
+                        />
+                      )}
                     />
-                    <label className="form-check-label" htmlFor="editInstantApply">
+                    <label className="form-check-label font14" htmlFor="editInstantApply">
                       Instant Apply
                     </label>
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="editApplyOption"
-                      id="editNextMonthApply"
-                      value="nextMonth"
-                      checked={amountOption === 'nextMonth'}
-                      onChange={() => setAmountOption('nextMonth')}
-                      tabIndex="11"
+                    <Controller
+                      name="deductionOption"
+                      control={editControl}
+                      rules={{ required: 'Please select a deduction type' }}
+                      render={({ field }) => (
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="editApplyOption"
+                          id="editNextMonthApply"
+                          value="NEXT_MONTH_APPLY"
+                          checked={field.value === 'NEXT_MONTH_APPLY'}
+                          onChange={() => field.onChange('NEXT_MONTH_APPLY')}
+                        />
+                      )}
                     />
-                    <label className="form-check-label" htmlFor="editNextMonthApply">
+                    <label className="form-check-label font14" htmlFor="editNextMonthApply">
                       Next Month Apply
                     </label>
                   </div>
                 </div>
+                {editErrors.deductionOption && (
+                  <div className="error-message">
+                    {editErrors.deductionOption.message}
+                  </div>
+                )}
               </div>
             </div>
             <div className="buttons-tops text-center">
               <button
-                type="button"
-                className="btn btn-outline-success my-green heading-12 me-1"
-                onClick={handleUpdateDeduction}
-                disabled={loader}
-                tabIndex="12"
+                type="submit"
+                className="btn btn-outline-success my-green font14 me-1"
+                disabled={loaderState}
                 aria-label="Update Deduction"
               >
-                {loader ? (
+                {loaderState ? (
                   <>
                     <span>Loading</span>
                     <span className="loader"></span>
@@ -775,19 +841,23 @@ const Conta_allown = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-outline-success heading-12"
-                onClick={clearData}
-                tabIndex="13"
+                className="btn cancelButtons font14"
+                data-bs-dismiss="offcanvas"
+                onClick={() => {
+                  resetEditForm();
+                  setEditDeduction(null);
+                }}
                 aria-label="Cancel"
               >
                 Cancel
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
-    </>
+      <Toaster />
+    </StyledContainer>
   );
 };
 
-export default Conta_allown;
+export default Conta_deduction;

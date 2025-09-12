@@ -321,6 +321,12 @@ const ManageWareHouse = () => {
         const offcanvasElement = document.getElementById('add_staticBackdrop');
         const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || 'Failed to add Warehouse');
       }
@@ -356,6 +362,12 @@ const ManageWareHouse = () => {
         const offcanvasElement = document.getElementById('Edit_staticBackdrop');
         const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || 'Failed to update Warehouse');
         setValueUpdate('title', initialFormValues.title);
@@ -387,6 +399,12 @@ const ManageWareHouse = () => {
         const offcanvasElement = document.getElementById('Delete_staticBackdrop');
         const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || 'Failed to delete Warehouse');
       }
