@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
 // import { CAlert } from '@coreui/react';
@@ -381,8 +378,8 @@ font-size: 12px;
     opacity: var(--bs-btn-disabled-opacity);
 }
 .my-form-check-input:checked{
-  background-color: #008479;
-  border-color: #008479;
+  background-color: #B50000;
+  border-color: #B50000;
 } 
 .pagination {
     display: flex;
@@ -715,6 +712,7 @@ const Event = () => {
       }
     } catch (err) {
       console.log(err);
+      setLoader(false)
     }
   };
 
@@ -1062,9 +1060,6 @@ const Event = () => {
     setIsValidDescriptionRequired(false)
     setIsValidNameRequired(false)
   }
-
-
-
   const handleRoleChange = (e) => {
     const selected = Array.from(e.target.selectedOptions, option => option.value);
     setSelectedRoles(selected);
@@ -1105,6 +1100,10 @@ const Event = () => {
     content: '',
     position: { x: 0, y: 0 }
   });
+
+  const clearHandler = () => {
+    setForDelete(false)
+  }
   return (
     <Container>
       {
@@ -1531,7 +1530,7 @@ const Event = () => {
 
                     <div className="mb-3" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label  heading-14">Description</label>
-                      <textarea class="form-control heading-14 px-4" id="exampleFormControlTextarea1" rows="5" onChange={(e) => handleDescription(e.target.value)} placeholder='Enter Event Description'>
+                      <textarea class="form-control heading-14 px-3" id="exampleFormControlTextarea1" rows="5" onChange={(e) => handleDescription(e.target.value)} placeholder='Enter Event Description'>
                       </textarea>
                       {errors.putemail && <span style={{ color: 'red' }}>{errors.putemail}</span>}
                     </div>
@@ -1905,16 +1904,30 @@ const Event = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                      <div className="form-check mt-1">
+                       <div className="form-check mt-1">
+                        <input
+                          className="form-check-input my-form-check-input"
+                          onChange={() => setForDelete(!forDelete)}
+                          type="checkbox"
+                          checked={forDelete}
+                          value=""
+                          id="flexCheckDefault"
+                          name="deleteAgreement" 
+                        />
+                        <label className="form-check-label agree" htmlFor="flexCheckDefault">
+                          I Agree to delete the Profile Data
+                        </label>
+                      </div>
+                      {/* <div className="form-check mt-1">
                         <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
-                      </div>
+                      </div> */}
 
                       <div className="mt-4">
                         <button type="button" className="btn  my-btn button00" disabled={forDelete ? false : true} onClick={handleForDelete} >Delete</button>
-                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearHandler}>Cancel</button>
                       </div>
 
                     </div>
@@ -1932,69 +1945,3 @@ const Event = () => {
 }
 
 export default Event
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* Roles Multi-Select Dropdown */ }
-
-{/* {/* <div className="dropdown mb-2">
-                        <button
-                          className="btn btn-outline-secondary dropdown-toggle w-100 text-start"
-                          type="button"
-                          id="roleDropdown"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#dee2e6'} 
-                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                        >
-                          {selectedRoles.length > 0
-                            ? selectedRoles.map(r => roleOptions.find(o => o.value === r)?.label).join(', ')
-                            : 'Select Roles'}
-                        </button>
-                        <ul
-                          className="dropdown-menu w-100"
-                          aria-labelledby="roleDropdown"
-                          style={{ maxHeight: '200px', overflowY: 'auto', zIndex: 1000 }}
-                        >
-                          {roleOptions?.map((role) => (
-                            <li key={role.value}>
-                              <label className="dropdown-item mb-0" onClick={(e) => e.stopPropagation()}>
-                                <input
-                                  type="checkbox"
-                                  checked={selectedRoles.includes(role.value)}
-                                  onChange={(e) => {
-                                    e.stopPropagation();
-                                    const newSelected = selectedRoles.includes(role.value)
-                                      ? selectedRoles.filter(r => r !== role.value)
-                                      : [...selectedRoles, role.value];
-                                    setSelectedRoles(newSelected);
-                                  }}
-                                  className="me-2"
-                                />
-                                {role.label}
-                              </label>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <small className="text-muted">*You can Select multiple roles.</small> */}

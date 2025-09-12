@@ -8,7 +8,6 @@ import { TakeAttendancePostApi } from '../../../Utils/Apis'
 import { CSVLink } from 'react-csv';
 import { SatffAttendancePutApi } from '../../../Utils/Apis'
 import { AttendanceGetAllBymonth } from '../../../Utils/Apis'
-
 import toast, { Toaster } from 'react-hot-toast';
 import HashLoader from 'src/Pages/HashLoaderCom';
 import ActionControls from '../../../Layouts/ActionControls';
@@ -464,14 +463,15 @@ const TakeAttendance = () => {
   const [present, setPresent] = useState([])
   const [absent, setAbsent] = useState([])
   const [attendanceDataByMonth, setAttendanceDataByMonth] = useState([])
+  const [role, setRole] = useState()
+  const [month, setMonth] = useState()
+  const [year, setYear] = useState()
 
 
   const [takeAttenSearhDate, setTakeAttenSearhDate] = useState([])
   const [searchKey, setSearchKey] = useState('')
   const [rolePermisAllData, setRolePermisAllData] = useState([])
-  const [month, setMonth] = useState()
   const [date, setDate] = useState()
-  const [year, setYear] = useState()
   const [roleid, setRoleId] = useState()
   const [pageNo, setPageNo] = useState(1);
   const UpdateHandleBtn = (e) => {
@@ -559,7 +559,6 @@ const TakeAttendance = () => {
       let absentValue = id;
       setAbsent([...absent, absentValue])
     }
-
   };
 
   // *****************************
@@ -585,6 +584,7 @@ const TakeAttendance = () => {
           setHidedelete(true)
           setLoader(false)
           setHide(false)
+           setRoleId('')
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
           offcanvasInstance.hide();
           setHide(false)
@@ -608,7 +608,7 @@ const TakeAttendance = () => {
   const MyNewDailyAttendancePutApi = async () => {
     const data = {
       "date": date,
-      "sectionId": roleid,
+      "roleId": roleid,
       "presentStaffId": present,
       "absentStaffId": absent,
     }
@@ -642,10 +642,15 @@ const TakeAttendance = () => {
   const MyAttendanceGetAllApiByMonth = async () => {
     setLoader(true)
     try {
-      const response = await AttendanceGetAllBymonth(roleid, month, year, search, 1, 10);
+      const response = await AttendanceGetAllBymonth(roleid, month, year, searchKey, 1, 10);
+      console.log('attendance by month data----------', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setAttendanceDataByMonth(response?.data?.attendance)
+        setRole(response?.data?.roleName)
+        setMonth(response?.data?.month)
+        setYear(response?.data?.year)
+       
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
@@ -667,17 +672,19 @@ const TakeAttendance = () => {
     setShow(true)
     setHide2(true)
 
+
   }
   const ClearData = () => {
     setMonth('')
     setYear('')
     setRoleId('')
     setAttendanceDataByMonth([])
+
   }
     // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
-    setPageNo(1); // Reset to first page on search change
+    setPageNo(1); 
   };
   return (
     <Container>
@@ -792,21 +799,19 @@ const TakeAttendance = () => {
           </div>
 
           <div className="row mt-4 mb-4 bg-color-pink p-3 m-3   responsive-direction">
-
             <div className="col-3 ">
-
             </div>
             <div className="col-2 pe-0 rsnsve-pd mrgn-left">
               <span className='heading-16 greyText '>Role</span>
-              <span className='heading-16'>- Admin</span>
+              <span className='heading-16'>- {role ? role : 'N-I-R'}</span>
             </div>
             <div className="col-2 px-0 rsnsve-pd">
               <span className='heading-16 greyText '> Month</span>
-              <span>- March </span>
+              <span>- {month ? month : 'N-I-R'}</span>
             </div>
             <div className="col-2 rsnsve-pd">
               <span className='heading-16 greyText '> Year</span>
-              <span>-  2024</span>
+              <span>-  {year ? year : 'N-I-R'}</span>
             </div>
           </div>
 
@@ -848,8 +853,6 @@ const TakeAttendance = () => {
                   <th className='table-row-bg-color no-wrap'>29</th>
                   <th className='table-row-bg-color no-wrap'>30</th>
                   <th className='table-row-bg-color no-wrap'>31</th>
-
-
                 </tr>
               </thead>
               <tbody className='heading-14 align-middle greyTextColor'>
@@ -906,7 +909,7 @@ const TakeAttendance = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Take Attendance</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -984,7 +987,7 @@ const TakeAttendance = () => {
                       </div>
                       <div className='my-button11 '>
                         <button type="button" className="btn btn-outline-success heading-16" style={{ color: '#fff', backgroundColor: '#008479' }} onClick={MyTakeAttendancePostApi}>Submit</button>
-                        <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                        <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
                       </div>
                     </div>
                   )

@@ -551,7 +551,7 @@ const Income_category = () => {
     let isValid = true;
 
     // type
-    if (!name || name === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(name)) {
+    if (!name || name === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=\-\s]+$/.test(name)) {
       setIsValidTypeRequired(true);
       isValid = false
       setLoader(false)
@@ -562,7 +562,7 @@ const Income_category = () => {
   // type
   const handleType = (e2) => {
     setName(e2);
-    const nameRegex = /^[a-zA-Z0-9!@#$%^&*()_+=-]+$/;
+    const nameRegex = /^[a-zA-Z0-9!@#$%^&*()_+=\-\s]+$/;
     setIsValidTypeRequired(nameRegex.test(e2));
     if (e2 === "" || !nameRegex.test(e2)) {
       setIsValidTypeRequired(true);

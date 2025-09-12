@@ -365,6 +365,7 @@ const Per_info_emer_cont = () => {
 
   // Delete emergency contact
   const handleDelete = (emergencyId) => {
+    console.log('id')
     setDeleteContactId(emergencyId);
     setIsDeleteConfirmed(false);
   };
@@ -373,7 +374,7 @@ const Per_info_emer_cont = () => {
     if (!isDeleteConfirmed) return;
     setLoader(true);
     try {
-      const response = await EmergencyDeleteApi(myUserID, deleteContactId);
+      const response = await EmergencyDeleteApi(deleteContactId);
       if (response?.data?.status === 'success') {
         toast.success(response?.data?.message);
         fetchEmergencyContacts();
