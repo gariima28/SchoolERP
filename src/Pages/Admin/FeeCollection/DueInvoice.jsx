@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import StudentFeeDetails from './StudentFeeDetails';
 import toast from 'react-hot-toast';
+import ReactPaginate from 'react-paginate';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 // Styled components remain unchanged
 const Container = styled.div`
@@ -165,6 +167,17 @@ const DueInvoice = () => {
     const [allSectionData, setAllSectionData] = useState([]);
     const [DueInvoiceData, setDueInvoiceData] = useState([]);
     const datePickerRef = useRef(null);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [pageNo, setPageNo] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+
+    const handlePageClick = (data) => {
+        const selectedPage = data.selected + 1;
+        setPageNo(selectedPage);
+    };
+
     const {
         register: registerAdd,
         handleSubmit: handleSubmitAdd,
@@ -204,6 +217,55 @@ const DueInvoice = () => {
         getAllClassData();
     }, [token]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.target.closest(".dropdownbtn")) {
+                setIsDropdownOpen(null);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
+    // Collect Fees
+    const collectFees = async (data) => {
+        console.log('sd')
+        try {
+            console.log('sd')
+            setLoaderState(true);
+            const formData = new FormData();
+            formData.append('amount', data.amount);
+            formData.append('paymentMethod', data.paymentMethod);
+            formData.append('description', data.description || '');
+            console.log('sd')
+
+            const response = await collectFeesApi(formData, invoiceId);
+            console.log(0, response)
+            if (response?.status === 200 && response?.data?.status === 'success') {
+                console.log(1)
+                toast.success(response.data.message);
+                console.log(2)
+                resetUpdate();
+                console.log(3)
+                const offcanvasElement = document.getElementById('collectFees');
+                console.log(4)
+                const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
+                offcanvas.hide();
+            } else {
+                console.log(5)
+                toast.error(response?.data?.message || 'Failed to Collect Fees');
+            }
+        } catch (error) {
+            toast.error('Error Collecting Fees');
+        } finally {
+            setLoaderState(false);
+        }
+    };
+
+
     const getAllClassData = async () => {
         try {
             setLoaderState(true);
@@ -224,6 +286,8 @@ const DueInvoice = () => {
                     navigate('/');
                 }, 200);
             }
+        } finally {
+            setLoaderState(false);
         }
     };
 
@@ -280,9 +344,11 @@ const DueInvoice = () => {
     const getAllDueInvoice = async () => {
         try {
             setLoaderState(true);
-            const response = await getAllDueInvoiceApi(startDate, endDate, classNo, section, status);
+            const response = await getAllDueInvoiceApi(startDate, endDate, classNo, section, status, pageNo, pageSize);
             if (response?.status === 200 && response?.data?.status === 'success') {
                 setDueInvoiceData(response?.data?.invoices || []);
+                setTotalPages(response?.data?.totalPages);
+                setCurrentPage(response?.data?.currentPage);
                 setSearchBtn(true);
                 toast.success(response?.data?.message || 'Invoices fetched successfully');
             } else {
@@ -303,8 +369,8 @@ const DueInvoice = () => {
         navigate('/admin/feeCollection/collectFees');
     };
 
-    const toggleDropdown = (index) => {
-        setIsDropdownOpen(isDropdownOpen === index ? null : index);
+    const toggleDropdown = (id) => {
+        setIsDropdownOpen((prev) => (prev === id ? null : id));
     };
 
     return (
@@ -454,13 +520,14 @@ const DueInvoice = () => {
                                                     <tr>
                                                         <th className="font14 textWrapClass tableHeading text-center">#</th>
                                                         <th className="font14 textWrapClass tableHeading">Invoice No</th>
+                                                        <th className="font14 textWrapClass tableHeading">Due Date</th>
                                                         <th className="font14 textWrapClass tableHeading">Student</th>
-                                                        <th className="font14 textWrapClass tableHeading">Invoice Title</th>
+                                                        {/* <th className="font14 textWrapClass tableHeading">Invoice Title</th> */}
                                                         <th className="font14 textWrapClass tableHeading">Total Amount</th>
                                                         <th className="font14 textWrapClass tableHeading">Discount</th>
                                                         <th className="font14 textWrapClass tableHeading">Due Amount</th>
                                                         <th className="font14 textWrapClass tableHeading">Paid Status</th>
-                                                        <th className="font14 textWrapClass tableHeading text-center">Action</th>
+                                                        {/* <th className="font14 textWrapClass tableHeading text-center">Action</th> */}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -468,22 +535,27 @@ const DueInvoice = () => {
                                                         <tr key={invoice.id} className="align-top">
                                                             <th className="font14 pt-3 textWrapClass text-center greyText">{index + 1}.</th>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.invoiceNo}</td>
+                                                            <td className="font14 pt-3 textWrapClass greyText">{invoice?.dueDate}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.studentName}</td>
-                                                            <td className="font14 pt-3 textWrapClass greyText">{invoice?.invoiceTitle}</td>
+                                                            {/* <td className="font14 pt-3 textWrapClass greyText">{invoice?.invoiceTitle}</td> */}
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.totalAmount}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.discount}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.dueAmount}</td>
                                                             <td className=' pt-3 textWrapClass'><span className={`font14 ${invoice?.status === 'Paid' || invoice?.status === 'PAID' ? 'paidbutton' : 'unPaidbutton'}`}>{invoice?.status}</span></td>
-                                                            <td className="font14 pt-3 textWrapClass text-center">
+                                                            {/* <td className="font14 pt-3 textWrapClass text-center">
                                                                 <div className="dropdown dropdownbtn">
                                                                     <button
                                                                         className="btn btn-sm actionButtons dropdown-toggle"
                                                                         type="button"
-                                                                        onClick={() => toggleDropdown(invoice.id)}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation(); // important: table row pe click hone se close na ho
+                                                                            toggleDropdown(invoice.id);
+                                                                        }}
                                                                     >
                                                                         Action
                                                                     </button>
-                                                                    <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === invoice.id ? 'show z-index-high' : ''}`}>
+                                                                    <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === invoice.id ? "show z-index-high" : ""
+                                                                        }`}>
                                                                         <li>
                                                                             <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#collectFees" aria-controls="collectFees">Collect Fees</button>
                                                                         </li>
@@ -492,14 +564,32 @@ const DueInvoice = () => {
                                                                         </li>
                                                                     </ul>
                                                                 </div>
-                                                            </td>
+                                                            </td> */}
                                                         </tr>
                                                     ))}
                                                 </tbody>
                                             </table>
                                         </div>
+
                                         <div className="d-flex">
-                                            {/* Pagination component can be added here if needed */}
+                                            <p className="font14">
+                                                Showing {currentPage} of {totalPages} Pages
+                                            </p>
+                                            <div className="ms-auto">
+                                                <ReactPaginate
+                                                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                                                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                                                    breakLabel={'...'}
+                                                    breakClassName={'break-me'}
+                                                    pageCount={totalPages}
+                                                    marginPagesDisplayed={2}
+                                                    pageRangeDisplayed={10}
+                                                    onPageChange={handlePageClick}
+                                                    containerClassName={'pagination'}
+                                                    subContainerClassName={'pages pagination'}
+                                                    activeClassName={'active'}
+                                                />
+                                            </div>
                                         </div>
                                     </>
                                 ) : (
@@ -533,7 +623,7 @@ const DueInvoice = () => {
                     </h2>
                 </div>
                 <div className="offcanvas-body p-3">
-                    <form onSubmit={handleSubmitUpdate()}>
+                    <form onSubmit={handleSubmitUpdate(collectFees)}>
                         <div className="mb-3">
                             <label htmlFor="amount" className="form-label font14">Amount</label>
                             <input
