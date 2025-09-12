@@ -143,6 +143,7 @@ const AddVehicle = () => {
                 formData.append('driverId', data?.driverId),
                 formData.append('totalSeat', data?.totalSeat),
                 formData.append('status', data?.status)
+                formData.append('routeId', data?.routeId)
 
             var response = await AddNewVehicleApi(formData);
             // console.log(response, 'add vehicle');

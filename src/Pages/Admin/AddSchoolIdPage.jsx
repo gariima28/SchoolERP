@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { updateSchoolDataByIdAPI } from 'src/Utils/Apis';
 import DataLoader from 'src/Layouts/Loader';
+import { isValid } from 'date-fns';
 
 
 const Container = styled.div`
@@ -102,31 +103,29 @@ const AddSchoolIdPage = () => {
 
   const setprefix = async () => {
     setloaderState(true)
-    if (validateFields) {
-      try {
-        const formData = new FormData();
-        formData.append('schoolPrefix', prefix)
-        var response = await updateSchoolDataByIdAPI(formData);
-        // console.log(response)
-        if (response?.status === 200) {
-          if (response.data.status === 'success') {
-            setloaderState(false)
-            sessionStorage.removeItem('token');
-            sessionStorage.removeItem('isNewLogin');
-            navigate('/schoolPrefixSuccess')
-          }
-        } else {
+    try {
+      const formData = new FormData();
+      formData.append('schoolPrefix', prefix)
+      var response = await updateSchoolDataByIdAPI(formData);
+      // console.log(response)
+      if (response?.status === 200) {
+        if (response.data.status === 'success') {
           setloaderState(false)
-          toast.error(response?.error);
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('isNewLogin');
+          navigate('/schoolPrefixSuccess')
         }
-      } catch (error) {
-        setloaderState(false);
+      } else {
         setloaderState(false)
-        console.error('Error during adding prefix:', error);
+        toast.error(response?.error);
       }
-      finally {
-        setloaderState(false);
-      }
+    } catch (error) {
+      setloaderState(false);
+      setloaderState(false)
+      console.error('Error during adding prefix:', error);
+    }
+    finally {
+      setloaderState(false);
     }
   }
 

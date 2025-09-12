@@ -2,8 +2,8 @@ import axios from 'axios'
 const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
-// const Domain = 'http://192.168.21.26:5001';
-const Domain = 'https://test.edu2all.in/sch/';
+// const Domain = 'http://192.168.20.109:5000';
+const Domain = 'https://test.edu2all.in/sch';
 
 // ******************************************************************************************************
 // Login  //
@@ -2865,10 +2865,10 @@ export const getAllEventsApi = async (searchKey) => {
 // ******************************************************************************************************
 
 
-export const getAllRecieptApi = async (startDate, endDate, classNo, section, status) => {
+export const getAllRecieptApi = async (startDate, endDate, classNo, section, status, page, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/receipt/getAll?startDate=${startDate}&endDate=${endDate}&classNo=${classNo}&section=${section}&status=${status}`);
+    var res = await axios.get(`${Domain}/receipt/getAll?startDate=${startDate}&endDate=${endDate}&classNo=${classNo}&section=${section}&status=${status}&page=${page}&size=${size}`);
     if (res) {
       return res;
     } else {
@@ -2907,10 +2907,10 @@ export const getRecieptCsvApi = async () => {
   }
 }
 
-export const getAllManageInvoiceApi = async (startDate, endDate, classNo, section, status) => {
+export const getAllManageInvoiceApi = async (startDate, endDate, classNo, section, status, page, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/invoice/manage?startDate=${startDate}&endDate=${endDate}&classNo=${classNo}&section=${section}`);
+    var res = await axios.get(`${Domain}/invoice/manage?startDate=${startDate}&endDate=${endDate}&classNo=${classNo}&section=${section}&page=${page}&size=${size}`);
     if (res) {
       return res;
     } else {
@@ -2921,10 +2921,10 @@ export const getAllManageInvoiceApi = async (startDate, endDate, classNo, sectio
   }
 }
 
-export const getAllDueInvoiceApi = async (startDate, endDate, classNo, section, status) => {
+export const getAllDueInvoiceApi = async (startDate, endDate, classNo, section, status, page, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/invoice/due?startDate=${startDate}&endDate=${endDate}&classNo=${classNo}&section=${section}`);
+    var res = await axios.get(`${Domain}/invoice/due?startDate=${startDate}&endDate=${endDate}&classNo=${classNo}&section=${section}&page=${page}&size=${size}`);
     if (res) {
       return res;
     } else {
@@ -3584,7 +3584,7 @@ export const getFeeDiscountByIdApi = async (id) => {
 export const updateFeeDiscountByIdApi = async (id, data) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.put(`${Domain}/discount/update/${id}`, data);
+    var res = await axios.put(`${Domain}/discount/updateById/${id}`, data);
     if (res) {
       return res;
     } else {

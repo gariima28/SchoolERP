@@ -76,7 +76,7 @@ const AddDriver = () => {
                     setloaderState(false)
                     toast.success(response?.data?.message)
                     setTimeout(() => {
-                        navigate('/admin/transport/drivers');
+                        navigate('/admin/users/drivers/24');
                     }, 1500);
                 }
                 else {
