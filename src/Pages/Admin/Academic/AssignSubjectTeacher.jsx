@@ -734,7 +734,7 @@ const AssignSubjectTeacher = () => {
     setLoader(true)
     try {
       const response = await AssignGetAllApi(classId, subjectId, pageNo, pageSize);
-      console.log('assign subject teacher get all data+++++++++++', response)
+      // console.log('assign subject teacher get all data+++++++++++', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setAssignSubTeaAllData(response?.data?.teacher)
@@ -965,11 +965,14 @@ const AssignSubjectTeacher = () => {
                       <td className=' greyText no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
                       <td className=' greyText no-wrap'>{item.staffName}</td>
                       <td className=' greyText no-wrap  '>{item.classNo}</td>
-                      {
+                      <td className=' greyText no-wrap  '>
+                        {
                         item?.sectionNames?.map((item, index) => (
                           <td className=' greyText no-wrap ' key={index}>{item}</td>
                         ))
                       }
+                      </td>
+                      
                       <td className=' greyText no-wrap ' >
                         <div className="dropdown my-button-show">
                           <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">

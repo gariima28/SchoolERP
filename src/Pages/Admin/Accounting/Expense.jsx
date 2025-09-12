@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { ExpensePostApi } from '../../../Utils/Apis'
-import { IncomeCategorygetAllApi } from '../../../Utils/Apis'
+import { ExpenseCategorygetAllApi } from '../../../Utils/Apis'
 import { ExpenseAllApi } from '../../../Utils/Apis'
 import { ExpenseDeleteApi } from '../../../Utils/Apis'
 import { ExpenseGetByIdApi } from '../../../Utils/Apis'
@@ -626,11 +626,12 @@ const Expense = () => {
   const MyIncomeGetAllApi = async () => {
     setLoader(true)
     try {
-      const response = await IncomeCategorygetAllApi(searchKey, pageNo, pageSize);
-      // console.log('expense category in expense',response)
+      const response = await ExpenseCategorygetAllApi(searchKey, pageNo, pageSize);
+      // const response = await IncomeCategorygetAllApi(searchKey, pageNo, pageSize);
+      // console.log('expense category in expense=-=-=-=-',response)
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
-        setIncomeCategoryData(response?.data?.incomeCategories)
+        setIncomeCategoryData(response?.data?.categories)
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
@@ -697,6 +698,7 @@ const Expense = () => {
     setLoader(true)
     try {
       const response = await ExpenseAllApi(searchKey, pageNo, pageSize, startDate, endDate, examTermId);
+      console.log('valueees of expense all api=-=-=-=', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setMyExpenseCategoryData(response?.data?.expenses)
@@ -704,7 +706,6 @@ const Expense = () => {
         setTotalPages(response?.data?.totalPages);
         setLoader(false)
       } else {
-        // toast.error(response?.data?.classes?.message);
         setLoader(false)
       }
     } catch (error) {
@@ -736,8 +737,6 @@ const Expense = () => {
       }
     } catch (error) {
       setLoader(false);
-
-      // console.log(error)
     }
   }
   //  Get by id 
@@ -805,19 +804,21 @@ const Expense = () => {
   // Double Date --------------------------
 
   //  Date range 
-  const [startDate, setStartDate] = useState();
+ const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  // console.log(startDate, endDate, ' start and end datesssss')
 
   const handleDateChange = (dates) => {
     setStartDate(formatDate(dates[0]));
     setEndDate(formatDate(dates[1]));
   };
+
   const formatDate = (date) => {
-    if (!date) return '';
+    if (!date) return "";
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`; // YYYY-MM-DD
   };
 
   // Double Date --------------------------
@@ -834,6 +835,8 @@ const Expense = () => {
     setMyExpenseCategoryData([])
     setIsValidDateRequired(false)
     setIsValidAmountRequired(false)
+     setStartDate(null)
+    setEndDate(null)
   }
 
   return (
@@ -871,22 +874,42 @@ const Expense = () => {
           {/* ###### copy content till here for all component ######  */}
           <div className="row p-3">
             <div className='col-lg-6 col-md-6 col-sm-12'>
-              <div class=" dropdown" style={{ marginTop: "-4px" }}>
-                <label for="exampleFormControlInput1" className="form-label label-color heading-14">Date Range</label>
-                <input type="text" class="form-control  form-control-sm form-focus font-color" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="Select date" />
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Flatpickr
-                    class="dropdown-item"
-                    placeholder="Date Range"
-                    value={[startDate, endDate]}
-                    options={{
-                      mode: 'range',
-                      dateFormat: 'Y-n-j',
-                    }}
-                    onChange={handleDateChange}
-                  />
-                </div>
-              </div>
+              <div className="dropdown" style={{ marginTop: "-4px" }}>
+                             <label
+                               htmlFor="exampleFormControlInput1"
+                               className="form-label label-color heading-14"
+                             >
+                               Date Range
+                             </label>
+             
+                             {/* Show selected date range */}
+                             <input
+                               type="text"
+                               className="form-control form-control-sm form-focus font-color"
+                               id="dropdownMenuButton"
+                               data-bs-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false"
+                               placeholder="Select date"
+                               readOnly
+                               value={
+                                 startDate && endDate ? `${startDate} - ${endDate}` : ""
+                               }
+                             />
+             
+                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                               <Flatpickr
+                                 className="dropdown-item"
+                                 placeholder="Date Range"
+                                 value={[startDate, endDate]}
+                                 options={{
+                                   mode: "range",
+                                   dateFormat: "Y-m-d",
+                                 }}
+                                 onChange={handleDateChange}
+                               />
+                             </div>
+                           </div>
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12  ">
@@ -896,7 +919,7 @@ const Expense = () => {
                   <option selected>Select Expense Category</option>
                   {
                     incomeCategoryData?.map(item =>
-                      <option value={item.id}>{item.incomeCategoryName}</option>
+                      <option value={item.id}>{item.expenseCategoryName}</option>
                     )
                   }
                 </select>
@@ -1020,7 +1043,7 @@ const Expense = () => {
                       <option selected>Select Expense Category</option>
                       {
                         incomeCategoryData?.map(item =>
-                          <option value={item.id}>{item.incomeCategoryName}</option>
+                          <option value={item.id}>{item.expenseCategoryName}</option>
                         )
                       }
                     </select>

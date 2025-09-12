@@ -378,7 +378,7 @@ const User_Documnt = () => {
     if (!isDeleteConfirmed) return;
     setLoader(true);
     try {
-      const response = await DocumentDeleteApi(myUserID, deleteDocumentId);
+      const response = await DocumentDeleteApi(deleteDocumentId);
       if (response?.data?.status === 'success') {
         toast.success(response?.data?.message);
         fetchDocuments();

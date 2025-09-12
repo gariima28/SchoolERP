@@ -129,9 +129,11 @@ const Deduction = () => {
             const response = await getDeductionByIdApi(id);
             if (response?.status === 200 && response?.data?.status === 'success') {
                 const data = response?.data?.deductionName;
+                console.log(data)
                 if (isView) {
                     setViewDeductionData(data);
                 } else {
+                    console.log(data.deductionName)
                     setValueEdit('DeductionName', data.deductionName || '');
                     setInitialFormValues({ deductionName: data.deductionName || '' });
                 }
@@ -435,7 +437,7 @@ const Deduction = () => {
                                             className={`form-control font14 ${errorsEdit.deductionName ? 'border-danger' : ''
                                                 }`}
                                             placeholder="Enter Deduction Name"
-                                            {...registerEdit('deductionName', {
+                                            {...registerEdit('DeductionName', {
                                                 required: 'Deduction Name is required *',
                                                 minLength: {
                                                     value: 1,

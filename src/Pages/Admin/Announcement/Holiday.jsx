@@ -1102,7 +1102,7 @@ const cleardata = () => {
 
                     <div className="mb-3" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label  heading-14">Description</label>
-                      <textarea class="form-control px-4 heading-14 label-color" id="exampleFormControlTextarea1" value={holidayDescription} onChange={(e) => handleDescription(e.target.value)} rows="3" placeholder='Enter Description'></textarea>
+                      <textarea class="form-control px-2 heading-14 label-color" id="exampleFormControlTextarea1" value={holidayDescription} onChange={(e) => handleDescription(e.target.value)} rows="3" placeholder='Enter Description'></textarea>
                     </div>
                     <div className='pt-1'>
                       {isValidDescriptionRequired && (
@@ -1241,7 +1241,7 @@ const cleardata = () => {
                           checked={forDelete}
                           value=""
                           id="flexCheckDefault"
-                          name="deleteAgreement" // Added name attribute
+                          name="deleteAgreement" 
                         />
                         <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data

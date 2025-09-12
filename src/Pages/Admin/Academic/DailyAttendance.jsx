@@ -585,9 +585,11 @@ const DailyAttendance = ({ items }) => {
         setSectionData(response?.data?.allSections)
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
   // Daily attendance get all aapi by search-date
@@ -600,9 +602,11 @@ const DailyAttendance = ({ items }) => {
         setDailyAttenSearDateData(response?.data?.studentList)
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
   // Daily attendance get all aapi by month
@@ -622,9 +626,11 @@ const DailyAttendance = ({ items }) => {
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
 
@@ -684,12 +690,15 @@ const DailyAttendance = ({ items }) => {
           toast.error(response?.data?.message);
           // setShow(true)
           setLoader(false)
+          
         }
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
 
@@ -714,7 +723,6 @@ const DailyAttendance = ({ items }) => {
         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
         offcanvasInstance.hide();
         setShow(false)
-
         setTimeout(() => {
           setShow(true)
           setMyTrueFalse(true)
@@ -722,10 +730,12 @@ const DailyAttendance = ({ items }) => {
       } else {
         toast.error(response?.data?.msg);
         setEditshow(true)
+        setLoader(false)
       }
 
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
   // ****************************************************************************************************************************

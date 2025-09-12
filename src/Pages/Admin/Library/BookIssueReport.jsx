@@ -966,7 +966,7 @@ const BookIssueReport = () => {
                   <option selected>--Choose--</option>
                   {
                     sectionData?.map((item =>
-                      <option value={item.sectionId}>{item.sectionName}</option>
+                      <option value={item.sectionName}>{item.sectionName}</option>
                     ))
                   }
                 </select>
