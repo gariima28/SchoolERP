@@ -264,12 +264,12 @@ const FeesDiscount = () => {
   const updateFeeDiscount = async (data) => {
     try {
       setLoaderState(true);
+      console.log(data)
       const formData = new FormData();
       formData.append('title', data.title);
       formData.append('discountType', data.discountType);
       formData.append('description', data.description || '');
       formData.append('amount', data.amount);
-      formData.append('fineType', discountType);
 
       const response = await updateFeeDiscountByIdApi(editFeeDiscountId, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
