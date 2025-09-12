@@ -486,8 +486,6 @@ overflow : scroll;
 `;
 // ## style css area end ####  
 
-
-
 const Assignmnt_submss = () => {
 
   const location = useLocation();
@@ -788,7 +786,9 @@ const Assignmnt_submss = () => {
 
                       <div className="row pb-2 gap-sm-0 gap-3 ">
                         <div className="col-md-2 col-sm-12x col-12 text-center margn-bttm">
-                          <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === '' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('All') }}>All</span>
+
+                          <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === 'All' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('') }}>All</span>
+
                         </div>
                         <div className="col-md-2 col-sm-12x col-12 text-center margn-bttm">
                           <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === 'SUBMITTED' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('SUBMITTED') }}>Submitted</span>

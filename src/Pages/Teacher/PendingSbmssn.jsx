@@ -515,13 +515,12 @@ const PendingSbmssn = ({ data }) => {
       console.log('Submission get all api by idd++++++++++++', response);
       console.log(response?.data?.submission?.submissionPath, 'response?.data?.submission?.submissionPath')
       if (response?.status === 200) {
-
         setResult(response?.data?.submission?.resultMarks)
-        console.log(response?.data?.submission?.submissionPath, 'response?.data?.submission?.submissionPath')
+
         setFile(response?.data?.submission?.submissionPath)
+
         setDescription(response?.data?.submission?.description)
         setUpdateStatus(response?.data?.status)
-
         // toast.success(response?.data?.msg)
         setLoader(false)
       } else {
@@ -704,14 +703,14 @@ const PendingSbmssn = ({ data }) => {
                           :
                           <div className="mb-3  for-media-margin">
                             <label for="exampleFormControlInput1" className="form-label heading-14 label-color">User Image <span style={{ color: 'red' }}>*</span></label>
-                            <input type="file" className="form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color" onChange={handleFileChange} style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput12" placeholder="Doe" />
+                            <input type="file"className="form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color" onChange={handleFileChange} style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput12" placeholder="Doe" />
                           </div>
                       }
                     </div>
                   </div>
                   <div className="mb-3" style={{ marginTop: '-6px' }}>
                     <label for="exampleFormControlInput1" className="form-label  heading-14">Description ( Optional )</label>
-                    <textarea class="form-control px-4 heading-14 label-color" id="exampleFormControlTextarea1" value={description} onChange={(e) => setDescription(e.target.value)} rows="3" placeholder='Enter Description'></textarea>
+                    <textarea class="form-control px-3 heading-14 label-color" id="exampleFormControlTextarea1" value={description} onChange={(e) => setDescription(e.target.value)} rows="3" placeholder='Enter Description'></textarea>
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyDepartmentPostApi}>Update</button>
