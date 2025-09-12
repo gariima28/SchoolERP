@@ -222,7 +222,8 @@ const ManageSupplier = () => {
   const getSupplierDataById = async (id, isView = false) => {
     try {
       setLoaderState(true);
-      setEditSupplierId(isView ? "" : id);
+      setEditSupplierId(id);
+      console.log(id, "Supplier ID");
       const response = await getSupplierByIdApi(id);
       console.log(response, "Supplier Data")
       if (response?.status === 200 && response?.data?.status === "success") {
@@ -292,7 +293,9 @@ const ManageSupplier = () => {
   // Update Supplier
   const updateSupplier = async (data) => {
     try {
+      console.log('1')
       setLoaderState(true);
+      console.log('1')
       const payload = {
         supplierName: data.supplierName,
         contactPersonName: data.contactPersonName,
@@ -301,10 +304,14 @@ const ManageSupplier = () => {
         supplierAddress: data.supplierAddress,
         supplierDescription: data.supplierDescription || undefined,
       };
+      console.log('1')
 
-      const response = await updateSupplierByIdApi(payload, formData);
+      const response = await updateSupplierByIdApi(editSupplierId, payload);
+      console.log('1')
       if (response?.status === 200 && response?.data?.status === "success") {
+        console.log('1')
         toast.success(response.data.message);
+        console.log('1')
         getAllSupplierData(searchInputVal);
         resetEdit();
         setInitialFormValues({});

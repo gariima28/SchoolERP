@@ -701,7 +701,7 @@ const Assignmnt_submss = () => {
             </nav>
           </div>
           <div className='d-flex g-1 for-media-query'>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={''}>+ Add Assignment</Link>
+            {/* <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={''}>+ Add Assignment</Link> */}
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-12px' }}>Submission Details</h5>
@@ -786,7 +786,9 @@ const Assignmnt_submss = () => {
 
                       <div className="row pb-2 gap-sm-0 gap-3 ">
                         <div className="col-md-2 col-sm-12x col-12 text-center margn-bttm">
+
                           <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === 'All' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('') }}>All</span>
+
                         </div>
                         <div className="col-md-2 col-sm-12x col-12 text-center margn-bttm">
                           <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === 'SUBMITTED' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('SUBMITTED') }}>Submitted</span>

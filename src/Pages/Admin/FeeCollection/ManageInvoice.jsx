@@ -11,6 +11,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import StudentFeeDetails from './StudentFeeDetails';
 import toast from 'react-hot-toast';
 import { collectFeesApi } from '../../../Utils/Apis';
+import ReactPaginate from 'react-paginate';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 // Styled components remain unchanged
 const Container = styled.div`
@@ -168,6 +170,16 @@ const ManageInvoice = () => {
     const [manageInvoiceData, setManageInvoiceData] = useState([]);
     const datePickerRef = useRef(null);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [pageNo, setPageNo] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+
+    const handlePageClick = (data) => {
+        const selectedPage = data.selected + 1;
+        setPageNo(selectedPage);
+    };
+
     const {
         register: registerUpdate,
         handleSubmit: handleSubmitUpdate,
@@ -217,6 +229,8 @@ const ManageInvoice = () => {
                     navigate('/');
                 }, 200);
             }
+        } finally {
+            setLoaderState(false);
         }
     };
 
@@ -271,9 +285,11 @@ const ManageInvoice = () => {
     const getAllManageInvoice = async () => {
         try {
             setLoaderState(true);
-            const response = await getAllManageInvoiceApi(startDate, endDate, classNo, section, status);
+            const response = await getAllManageInvoiceApi(startDate, endDate, classNo, section, status, pageNo, pageSize);
             if (response?.status === 200 && response?.data?.status === 'success') {
                 setManageInvoiceData(response?.data?.invoices || []);
+                setTotalPages(response?.data?.totalPages);
+                setCurrentPage(response?.data?.currentPage);
                 setSearchBtn(true);
                 toast.success(response?.data?.message || 'Invoices fetched successfully');
             } else {
@@ -484,7 +500,7 @@ const ManageInvoice = () => {
                                                         <th className="font14 textWrapClass tableHeading text-center">#</th>
                                                         <th className="font14 textWrapClass tableHeading">Invoice No</th>
                                                         <th className="font14 textWrapClass tableHeading">Student</th>
-                                                        <th className="font14 textWrapClass tableHeading">Invoice Title</th>
+                                                        {/* <th className="font14 textWrapClass tableHeading">Invoice Title</th> */}
                                                         <th className="font14 textWrapClass tableHeading">Total Amount</th>
                                                         <th className="font14 textWrapClass tableHeading">Discount</th>
                                                         <th className="font14 textWrapClass tableHeading">Due Amount</th>
@@ -498,7 +514,7 @@ const ManageInvoice = () => {
                                                             <th className="font14 pt-3 textWrapClass text-center greyText">{index + 1}.</th>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.invoiceNo}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.studentName}</td>
-                                                            <td className="font14 pt-3 textWrapClass greyText">{invoice?.invoiceTitle}</td>
+                                                            {/* <td className="font14 pt-3 textWrapClass greyText">{invoice?.invoiceTitle}</td> */}
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.totalAmount}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.discount}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.dueAmount}</td>
@@ -527,8 +543,26 @@ const ManageInvoice = () => {
                                                 </tbody>
                                             </table>
                                         </div>
+
                                         <div className="d-flex">
-                                            {/* Pagination component can be added here if needed */}
+                                            <p className="font14">
+                                                Showing {currentPage} of {totalPages} Pages
+                                            </p>
+                                            <div className="ms-auto">
+                                                <ReactPaginate
+                                                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                                                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                                                    breakLabel={'...'}
+                                                    breakClassName={'break-me'}
+                                                    pageCount={totalPages}
+                                                    marginPagesDisplayed={2}
+                                                    pageRangeDisplayed={10}
+                                                    onPageChange={handlePageClick}
+                                                    containerClassName={'pagination'}
+                                                    subContainerClassName={'pages pagination'}
+                                                    activeClassName={'active'}
+                                                />
+                                            </div>
                                         </div>
                                     </>
                                 ) : (

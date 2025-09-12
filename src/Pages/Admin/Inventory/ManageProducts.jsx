@@ -244,7 +244,7 @@ const ManageProduct = () => {
       if (response?.status === 200 && response?.data?.status === "success") {
         const data = response.data.item;
         const formValues = {
-          examTermId: data.examTermId || "",
+          categoryId: data.categoryId || "",
           warehouseId: data.warehouseId || "",
           itemName: data.itemName || "",
           productCode: data.productCode || "",
@@ -253,7 +253,7 @@ const ManageProduct = () => {
         if (isView) {
           setViewProductData(data);
         } else {
-          setValueEdit("examTermId", data.examTermId || "");
+          setValueEdit("categoryId", data.categoryId || "");
           setValueEdit("warehouseId", data.warehouseId || "");
           setValueEdit("itemName", data.itemName || "");
           setValueEdit("productCode", data.productCode || "");
@@ -275,7 +275,7 @@ const ManageProduct = () => {
     try {
       setLoaderState(true);
       const formValues = {
-        examTermId: data.examTermId || "",
+        categoryId: data.categoryId || "",
         warehouseId: data.warehouseId || "",
         itemName: data.itemName || "",
         productCode: data.productCode || "",
@@ -306,7 +306,7 @@ const ManageProduct = () => {
     try {
       setLoaderState(true);
       const formData = new FormData();
-      formData.append("examTermId", data.examTermId);
+      formData.append("categoryId", data.categoryId);
       formData.append("warehouseId", data.warehouseId);
       formData.append("itemName", data.itemName);
       formData.append("productCode", data.productCode);
@@ -322,7 +322,7 @@ const ManageProduct = () => {
           ?.click();
       } else {
         toast.error(response?.data?.message || "Failed to update product");
-        setValueEdit("examTermId", initialFormValues.examTermId);
+        setValueEdit("categoryId", initialFormValues.categoryId);
         setValueEdit("warehouseId", initialFormValues.warehouseId);
         setValueEdit("itemName", initialFormValues.itemName);
         setValueEdit("productCode", initialFormValues.productCode);
@@ -330,7 +330,7 @@ const ManageProduct = () => {
       }
     } catch (error) {
       toast.error("Error updating product");
-      setValueEdit("examTermId", initialFormValues.examTermId);
+      setValueEdit("categoryId", initialFormValues.categoryId);
       setValueEdit("warehouseId", initialFormValues.warehouseId);
       setValueEdit("itemName", initialFormValues.itemName);
       setValueEdit("productCode", initialFormValues.productCode);
@@ -627,8 +627,8 @@ const ManageProduct = () => {
                 </label>
                 <select
                   id="categoryAdd"
-                  className={`form-select font14 ${errorsAdd.examTermId ? "border-danger" : ""}`}
-                  {...registerAdd("examTermId", { required: "Category is required *" })}
+                  className={`form-select font14 ${errorsAdd.categoryId ? "border-danger" : ""}`}
+                  {...registerAdd("categoryId", { required: "Category is required *" })}
                 >
                   <option value="">--- Choose ---</option>
                   {itemCategoryData.map((category) => (
@@ -637,7 +637,7 @@ const ManageProduct = () => {
                     </option>
                   ))}
                 </select>
-                {errorsAdd.examTermId && <p className="font12 text-danger">{errorsAdd.examTermId.message}</p>}
+                {errorsAdd.categoryId && <p className="font12 text-danger">{errorsAdd.categoryId.message}</p>}
               </div>
               <div className="mb-3">
                 <label htmlFor="warehouseAdd" className="form-label font14">
@@ -749,8 +749,8 @@ const ManageProduct = () => {
                 </label>
                 <select
                   id="categoryEdit"
-                  className={`form-select font14 ${errorsEdit.examTermId ? "border-danger" : ""}`}
-                  {...registerEdit("examTermId", { required: "Category is required *" })}
+                  className={`form-select font14 ${errorsEdit.categoryId ? "border-danger" : ""}`}
+                  {...registerEdit("categoryId", { required: "Category is required *" })}
                 >
                   <option value="">--- Choose ---</option>
                   {itemCategoryData.map((category) => (
@@ -759,7 +759,7 @@ const ManageProduct = () => {
                     </option>
                   ))}
                 </select>
-                {errorsEdit.examTermId && <p className="font12 text-danger">{errorsEdit.examTermId.message}</p>}
+                {errorsEdit.categoryId && <p className="font12 text-danger">{errorsEdit.categoryId.message}</p>}
               </div>
               <div className="mb-3">
                 <label htmlFor="warehouseEdit" className="form-label font14">
