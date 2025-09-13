@@ -459,7 +459,7 @@ const AdAdminForm = () => {
                     <div className="row ">
                         <div className='my-button11 heading-16 mb-5 mt-3'>
                             <button type="button" className="btn btn-outline-success" onClick={(e) => SubcPutDataApi()}>Add Staff</button>
-                            <button type="button" className="btn btn-outline-success">Cancel</button>
+                            <button type="button" className="btn cancelButtons">Cancel</button>
                             <Toaster />
                         </div>
                     </div>

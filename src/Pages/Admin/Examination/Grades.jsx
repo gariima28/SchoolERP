@@ -247,6 +247,12 @@ const Grades = () => {
                 const offcanvasElement = document.getElementById('addGrade');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to add grade');
             }
@@ -280,6 +286,12 @@ const Grades = () => {
                 const offcanvasElement = document.getElementById('editGrade');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to update grade');
                 Object.keys(initialFormValues).forEach(key => setValueUpdate(key, initialFormValues[key]));
@@ -307,6 +319,12 @@ const Grades = () => {
                 const offcanvasElement = document.getElementById('deleteGrade');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to delete grade');
             }

@@ -56,7 +56,6 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   const [allClassData, setAllClassData] = useState([]);
   const [allSectionData, setAllSectionData] = useState([]);
   const [initialValues, setInitialValues] = useState({});
-  const [isFormChanged, setIsFormChanged] = useState(false);
 
   // Country, State, City States
   const [countries, setCountries] = useState([]);
@@ -64,6 +63,8 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   const [cities, setCities] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
+  const [pendingStateCode, setPendingStateCode] = useState(''); // Changed to code
+  const [pendingCityName, setPendingCityName] = useState('');
 
   const apiKey = 'ZGpVTFdPWU03YVRmcGJtd3NWWEYyT2JhQWNKMzNmYXR6ZjNYME1Rcw==';
   const headers = { 'X-CSCAPI-KEY': apiKey };
@@ -73,6 +74,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   });
 
   const watchFields = watch();
+  const [isFormChanged, setIsFormChanged] = useState(false);
 
   useEffect(() => {
     const isChanged = Object.keys(initialValues).some((key) => {
@@ -90,43 +92,52 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       if (response.ok) {
         const data = await response.json();
         setCountries(data);
+        console.log('Countries fetched:', data);
       } else {
         toast.error('Failed to fetch countries');
       }
     } catch (error) {
       toast.error('Error fetching countries');
+      console.error('Error fetching countries:', error);
     }
   };
 
   const fetchStates = async (countryCode) => {
+    if (!countryCode) return;
     try {
+      setLoaderState(true);
       const response = await fetch(`https://api.countrystatecity.in/v1/countries/${countryCode}/states`, { headers });
       if (response.ok) {
         const data = await response.json();
         setStates(data);
-        setCities([]);
+        setCities([]); // Reset cities
         setSelectedState('');
         setValue('state', '');
         setValue('city', '');
+        console.log('States fetched for country', countryCode, ':', data);
       } else {
         toast.error('Failed to fetch states');
       }
     } catch (error) {
       toast.error('Error fetching states');
+      console.error('Error fetching states:', error);
     }
   };
 
   const fetchCities = async (countryCode, stateCode) => {
+    if (!countryCode || !stateCode) return;
     try {
       const response = await fetch(`https://api.countrystatecity.in/v1/countries/${countryCode}/states/${stateCode}/cities`, { headers });
       if (response.ok) {
         const data = await response.json();
         setCities(data);
+        console.log('Cities fetched for state', stateCode, ':', data);
       } else {
         toast.error('Failed to fetch cities');
       }
     } catch (error) {
       toast.error('Error fetching cities');
+      console.error('Error fetching cities:', error);
     }
   };
 
@@ -137,14 +148,65 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   useEffect(() => {
     if (selectedCountry) {
       fetchStates(selectedCountry);
+    } else {
+      setStates([]);
+      setCities([]);
+      setSelectedState('');
+      setValue('state', '');
+      setValue('city', '');
     }
   }, [selectedCountry]);
 
   useEffect(() => {
     if (selectedState && selectedCountry) {
       fetchCities(selectedCountry, selectedState);
+    } else {
+      setCities([]);
+      setValue('city', '');
     }
   }, [selectedState, selectedCountry]);
+
+  // Handle state selection after states are fetched (match by code)
+  useEffect(() => {
+    if (states.length > 0 && pendingStateCode) {
+      console.log('Trying to match state code:', pendingStateCode);
+      const matchingState = states.find((state) => state.iso2 === pendingStateCode);
+      if (matchingState) {
+        console.log('State matched:', matchingState);
+        setValue('state', matchingState.iso2);
+        setSelectedState(matchingState.iso2);
+        setInitialValues((prev) => ({ ...prev, state: matchingState.iso2 }));
+      } else {
+        console.log('No matching state found for code:', pendingStateCode);
+        setValue('state', '');
+        setSelectedState('');
+        setInitialValues((prev) => ({ ...prev, state: '' }));
+      }
+      setPendingStateCode('');
+    }
+    if (!pendingStateCode && !pendingCityName && states.length > 0) {
+      setLoaderState(false); // Stop loader if no pending state/city
+    }
+  }, [states, pendingStateCode, setValue]);
+
+  // Handle city selection after cities are fetched (match by name)
+  useEffect(() => {
+    if (cities.length > 0 && pendingCityName) {
+      console.log('Trying to match city:', pendingCityName);
+      const matchingCity = cities.find((city) => city.name.toLowerCase() === pendingCityName.toLowerCase());
+      if (matchingCity) {
+        console.log('City matched:', matchingCity);
+        setValue('city', matchingCity.name);
+        setInitialValues((prev) => ({ ...prev, city: matchingCity.name }));
+      } else {
+        console.log('No matching city found for:', pendingCityName);
+        setValue('city', '');
+        setInitialValues((prev) => ({ ...prev, city: '' }));
+      }
+      setPendingCityName('');
+      setLoaderState(false); // Stop loader after city is set
+    }
+  }, [cities, pendingCityName, setValue]);
 
   // Other API Functions
   const getAllClassData = async () => {
@@ -153,15 +215,13 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       const response = await getAllClassApi();
       if (response?.status === 200 && response?.data?.status === 'success') {
         setAllClassData(response?.data?.classes);
-        setLoaderState(false);
       } else {
-        setLoaderState(false);
         toast.error(response?.data?.message);
       }
     } catch (error) {
-      setLoaderState(false);
-    }
-    finally {
+      toast.error('Error fetching classes');
+      console.error('Error fetching classes:', error);
+    } finally {
       setLoaderState(false);
     }
   };
@@ -169,6 +229,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   const handleClassChange = async (val) => {
     setLoaderState(true);
     if (!allClassData || allClassData.length === 0) {
+      setLoaderState(false);
       return;
     }
     const classNoVal = val;
@@ -179,89 +240,93 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     } else {
       setAllSectionData([]);
     }
-    setLoaderState(false);
-    if (selectedClass.section.length > 0) {
+    if (selectedClass?.section?.length > 0) {
       setValue('sectionName', selectedClass.section[0].classSecId);
     }
+    setLoaderState(false);
   };
 
   const getStudentDataById = async () => {
     setLoaderState(true);
     try {
       const response = await getStudentDataByIdApi(studentGetId);
-      if (response?.status === 200 && response?.data?.status === 'success') {
-        const student = response?.data?.student;
-        setValue('studentName', student?.studentName || '');
-        setValue('fatherName', student?.fatherName || '');
-        setValue('motherName', student?.motherName || '');
-        setValue('studentPh', student?.studentPhone || '');
-        setValue('parentNo', student?.parentNo || '');
-        setValue('studentEmail', student?.studentEmail || '');
-        setStudentEmailVal(student?.studentEmail || '');
-        setValue('parentEmail', student?.parentEmail || '');
-        setParentEmailVal(student?.parentEmail || '');
-        setValue('fatherOccupation', student?.fatherOccupation || '');
-        setValue('motherOccupation', student?.motherOccupation || '');
-        await handleClassChange(student?.classNo);
-        setValue('sectionName', student?.classSection || '');
-        setValue('studentDOB', student?.dateOfBirth || '');
-        setValue('studentAddress', student?.address || '');
-        setValue('emergencyNo', student?.emergencyNo || '');
-        setValue('studentImage', student?.studentImage || '');
-        setStudentImageVal(student?.studentImage || '');
-        setValue('parentImage', student?.parentImage || '');
-        setParentImageVal(student?.parentImage || '');
-        setValue('bloodGroup', student?.bloodGroup || '');
-        // Set optional fields
-        setValue('country', student?.country || '');
-        setValue('state', student?.state || '');
-        setValue('city', student?.city || '');
-        setValue('pinCode', student?.pinCode || '');
-        setSelectedCountry(student?.country || '');
-        setSelectedState(student?.state || '');
+      if (response?.status === 200) {
+        if (response?.data?.status === 'success') {
+          const student = response?.data?.student;
+          console.log('Student data:', student);
+          setValue('studentName', student?.studentName || '');
+          setValue('fatherName', student?.fatherName || '');
+          setValue('motherName', student?.motherName || '');
+          setValue('studentPh', student?.studentPhone || '');
+          setValue('parentNo', student?.parentNo || '');
+          setValue('studentEmail', student?.studentEmail || '');
+          setStudentEmailVal(student?.studentEmail || '');
+          setValue('parentEmail', student?.parentEmail || '');
+          setParentEmailVal(student?.parentEmail || '');
+          setValue('fatherOccupation', student?.fatherOccupation || '');
+          setValue('motherOccupation', student?.motherOccupation || '');
+          await handleClassChange(student?.classNo);
+          setValue('sectionName', student?.classSection || '');
+          setValue('studentDOB', student?.dateOfBirth || '');
+          setValue('studentAddress', student?.address || '');
+          setValue('emergencyNo', student?.emergencyNo || '');
+          setValue('studentImage', student?.studentImage || '');
+          setStudentImageVal(student?.studentImage || '');
+          setValue('parentImage', student?.parentImage || '');
+          setParentImageVal(student?.parentImage || '');
+          setValue('bloodGroup', student?.bloodGroup || '');
+          setValue('gender', student?.gender || '');
+          setValue('pinCode', student?.pinCode || '');
 
-        setInitialValues({
-          studentName: student?.studentName,
-          fatherName: student?.fatherName,
-          motherName: student?.motherName,
-          studentPh: student?.studentPhone,
-          parentNo: student?.parentNo,
-          studentEmail: student?.studentEmail,
-          parentEmail: student?.parentEmail,
-          fatherOccupation: student?.fatherOccupation,
-          motherOccupation: student?.motherOccupation,
-          sectionName: student?.classSection,
-          studentDOB: student?.dateOfBirth,
-          studentAddress: student?.address,
-          emergencyNo: student?.emergencyNo,
-          studentImage: student?.studentImage,
-          parentImage: student?.parentImage,
-          bloodGroup: student?.bloodGroup,
-          country: student?.country,
-          state: student?.state,
-          city: student?.city,
-          pinCode: student?.pinCode,
-        });
+          // Set country, state code, and city name
+          setSelectedCountry(student?.country || '');
+          setValue('country', student?.country || '');
+          setPendingStateCode(student?.state || ''); // Backend provides state code
+          setPendingCityName(student?.city || ''); // Backend provides city name
 
-        if (!student?.studentImage) {
-          setChangeImageType(false);
+          setInitialValues({
+            studentName: student?.studentName,
+            fatherName: student?.fatherName,
+            motherName: student?.motherName,
+            studentPh: student?.studentPhone,
+            parentNo: student?.parentNo,
+            studentEmail: student?.studentEmail,
+            parentEmail: student?.parentEmail,
+            fatherOccupation: student?.fatherOccupation,
+            motherOccupation: student?.motherOccupation,
+            sectionName: student?.classSection,
+            studentDOB: student?.dateOfBirth,
+            studentAddress: student?.address,
+            emergencyNo: student?.emergencyNo,
+            studentImage: student?.studentImage,
+            parentImage: student?.parentImage,
+            bloodGroup: student?.bloodGroup,
+            gender: student?.gender,
+            country: student?.country,
+            state: student?.state, // State code
+            city: student?.city, // City name
+            pinCode: student?.pinCode,
+          });
+
+          if (!student?.studentImage) {
+            setChangeImageType(false);
+          } else {
+            setChangeImageType(true);
+          }
+          if (!student?.parentImage) {
+            setChangeImageTypeParent(false);
+          } else {
+            setChangeImageTypeParent(true);
+          }
         } else {
-          setChangeImageType(true);
+          toast.error(response?.data?.message);
         }
-        if (!student?.parentImage) {
-          setChangeImageTypeParent(false);
-        } else {
-          setChangeImageTypeParent(true);
-        }
-        setLoaderState(false);
       } else {
-        setLoaderState(false);
+        // toast.error(response?.data?.message);
       }
     } catch (error) {
-      setLoaderState(false);
-    }
-    finally {
-      setLoaderState(false);
+      toast.error('Error fetching student data');
+      console.error('Error fetching student data:', error);
     }
   };
 
@@ -288,40 +353,40 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       formData.append('emergencyNo', data.emergencyNo);
       formData.append('studentPh', data.studentPh);
       formData.append('bloodGroup', data.bloodGroup);
-      // Optional fields
+      formData.append('gender', data.gender);
       formData.append('country', data.country || '');
+      // Send state code (iso2) as backend expects code
       formData.append('state', data.state || '');
+      // Send city name
       formData.append('city', data.city || '');
       formData.append('pinCode', data.pinCode || '');
-      if (data?.studentImage !== studentImageVal) {
+      if (data?.studentImage && data?.studentImage !== studentImageVal) {
         formData.append('studentImage', data.studentImage[0]);
       }
-      if (data?.parentImage !== parentImageVal) {
+      if (data?.parentImage && data?.parentImage !== parentImageVal) {
         formData.append('parentImage', data.parentImage[0]);
       }
 
       const response = await updateStudentApi(studentGetId, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
-        setLoaderState(false);
         toast.success(response?.data?.message);
         onReload(true);
       } else {
-        setLoaderState(false);
         toast.error(response?.data?.message);
       }
     } catch (error) {
-      setLoaderState(false);
       toast.error('Error updating student');
       console.error('Error during update:', error);
-    }
-    finally {
+    } finally {
       setLoaderState(false);
     }
   };
 
   useEffect(() => {
-    getAllClassData();
-    getStudentDataById();
+    setLoaderState(true);
+    Promise.all([getAllClassData(), getStudentDataById()]).finally(() => {
+      // Loader will be stopped by state/city effects
+    });
   }, [token, studentGetId]);
 
   const watchClassNo = watch('classNo');
@@ -344,7 +409,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                 required: 'Student Name is required *',
                 validate: (value) => {
                   if (!/^[A-Z]/.test(value)) return 'Student Name must start with an uppercase letter';
-                  if (value.length < 4) return 'Minimum Length is 4 bond'
+                  if (value.length < 4) return 'Minimum Length is 4';
                   if (!/^[a-zA-Z\s'-]+$/.test(value)) return 'Invalid Characters in Student Name';
                   return true;
                 },
@@ -384,8 +449,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                 },
               })}
             />
-            {errors.fatherName && <p className="font12 textгура:utf-8
-            text-danger">{errors.fatherName.message}</p>}
+            {errors.fatherName && <p className="font12 text-danger">{errors.fatherName.message}</p>}
           </div>
           <div className="mb-3">
             <label htmlFor="motherName" className="form-label font14">Mother Name*</label>
@@ -615,7 +679,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                 },
               })}
             />
-            {errors.emergencyNo && <p className="font12 text-danger">{errors.emergyNo.message}</p>}
+            {errors.emergencyNo && <p className="font12 text-danger">{errors.emergencyNo.message}</p>}
           </div>
           <div className="mb-3">
             <label htmlFor="country" className="form-label font14">Country</label>
@@ -661,7 +725,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                 ))
               ) : (
                 <option value="" disabled>
-                    {watchCountry ? '-- No States Found --' : '-- Select Country First --'}
+                  {watchCountry ? '-- No States Found --' : '-- Select Country First --'}
                 </option>
               )}
             </select>
@@ -713,7 +777,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="studentImage" className="form-label font14">Student Image*</label>
             <div className="d-flex bg-white">
-              {studentImageVal !== null && changeImageType ? (
+              {studentImageVal && changeImageType ? (
                 <input
                   id="studentImageText"
                   type="text"
@@ -728,7 +792,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                   className={`form-control formimagetext font14 ${errors.studentImage ? 'border-danger' : ''}`}
                   accept=".jpg, .jpeg, .png"
                   {...register('studentImage', {
-                    required: 'Student Image is required *',
+                    required: !studentImageVal ? 'Student Image is required *' : false,
                     validate: (value) => {
                       if (value && value.length > 0) {
                         const file = value[0];
@@ -743,9 +807,9 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                 <span
                   className="text-white font14 align-self-center"
                   onClick={() => setChangeImageType(!changeImageType)}
-                  disabled={studentImageVal === null || studentImageVal === '' ? true : false}
+                  disabled={!studentImageVal}
                 >
-                  {studentImageVal !== null && changeImageType ? 'Edit' : 'View'}
+                  {studentImageVal && changeImageType ? 'Edit' : 'View'}
                 </span>
               </div>
             </div>
@@ -754,7 +818,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="parentImage" className="form-label font14">Parent Image*</label>
             <div className="d-flex bg-white">
-              {parentImageVal !== null && changeImageTypeParent ? (
+              {parentImageVal && changeImageTypeParent ? (
                 <input
                   id="parentImageText"
                   type="text"
@@ -769,7 +833,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                   className={`form-control formimagetext font14 ${errors.parentImage ? 'border-danger' : ''}`}
                   accept=".jpg, .jpeg, .png"
                   {...register('parentImage', {
-                    required: 'Parent Image is required *',
+                    required: !parentImageVal ? 'Parent Image is required *' : false,
                     validate: (value) => {
                       if (value && value.length > 0) {
                         const file = value[0];
@@ -784,9 +848,9 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                 <span
                   className="text-white font14 align-self-center"
                   onClick={() => setChangeImageTypeParent(!changeImageTypeParent)}
-                  disabled={parentImageVal === null || parentImageVal === '' ? true : false}
+                  disabled={!parentImageVal}
                 >
-                  {parentImageVal !== null && changeImageTypeParent ? 'Edit' : 'View'}
+                  {parentImageVal && changeImageTypeParent ? 'Edit' : 'View'}
                 </span>
               </div>
             </div>

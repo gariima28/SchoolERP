@@ -785,8 +785,16 @@ const OtherStaff = () => {
   }
 
   const handleAddButton = () => {
-    navigate(`/admin/users/mainuserform/${'0'}`)
+    navigate(`/admin/users/mainuserform/userbasicinformation`)
   }
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(null);
+
+  const toggleDropdown = (index, e) => {
+      e.preventDefault(); // Prevent default to avoid conflicts
+      e.stopPropagation(); // Stop event bubbling to keep dropdown open
+      setIsDropdownOpen(isDropdownOpen === index ? null : index);
+  };
 
   return (
     <Container>
@@ -873,14 +881,17 @@ const OtherStaff = () => {
                         <td className=' greyText pe-0 no-wrap'>{item.staffEmail}</td>
                         <td className=' greyText  pe-0 no-wrap' >
                           <div className="dropdown my-button-show">
-                            <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Action  &nbsp;
-                              <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                                <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
-                              </svg>
+                            <button
+                              className="btn btn-sm actionButtons dropdown-toggle"
+                              type="button"
+                              onClick={(e) => toggleDropdown(index, e)}
+                              aria-expanded={isDropdownOpen === index}
+                            >
+                              <span>Action</span>
                             </button>
-                            <ul className="dropdown-menu anchor-color heading-14">
-                              <li><Link className="dropdown-item" onClick={(e) => localoStorage(item.id)} to={`/admin/users/mainuserform/${item.id}`}>Edit</Link></li>
+                            {/* Dropdown menu: Show/hide based on state */}
+                            <ul className={`dropdown-menu ${isDropdownOpen === index ? 'show' : ''}`}>
+                              <li><Link className="dropdown-item" to={`/admin/users/mainuserform/${item.id}/userbasicinformation`}>Edit</Link></li>
                               <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="staticBackdrop" onClick={(e) => setIdForDelete(item.id)}>Delete</Link></li>
                             </ul>
                           </div>
@@ -1032,7 +1043,7 @@ const OtherStaff = () => {
 
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success" onClick={(e) => { MyNoticePutApi(IdForUpdate) }}>Update</button>
-                    <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                    <button type="button" className="btn cancelButtons" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                   </div>
                 </div>
               </div>
@@ -1141,7 +1152,7 @@ const OtherStaff = () => {
 
                       <div className="mt-4">
                         <button type="button" class="btn my-btn button00" disabled={forDelete ? false : true} onClick={handleForDelete} >Delete</button>
-                        <button type="button" class="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" class="btn cancelButtons ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                       </div>
 
                     </div>

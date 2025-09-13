@@ -207,6 +207,12 @@ const Packages = () => {
                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
               }
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
           }
 
@@ -218,6 +224,12 @@ const Packages = () => {
                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
               }
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
           }
 
@@ -229,6 +241,12 @@ const Packages = () => {
                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
               }
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
           }
 
@@ -240,6 +258,12 @@ const Packages = () => {
                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
               }
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
           }
 
@@ -439,6 +463,12 @@ const Packages = () => {
         offcanvas = new bootstrap.Offcanvas(offcanvasElement);
       }
       offcanvas.hide();
+      offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      }, { once: true });
     }
   }
 
@@ -450,6 +480,12 @@ const Packages = () => {
         offcanvas = new bootstrap.Offcanvas(offcanvasElement);
       }
       offcanvas.hide();
+      offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      }, { once: true });
     }
   }
 

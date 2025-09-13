@@ -27,7 +27,7 @@ const Per_Info_Bio = () => {
             <div className="row mt-2 buttons-tops">
           <div className='my-button11 heading-14'>
             <button type="button" class="btn btn-outline-success my-green heading-12" >Update Bio</button>
-            <button type="button" class="btn btn-outline-success heading-12 ms-1    ">Cancel</button>
+                <button type="button" class="btn cancelButtons heading-12 ms-1    ">Cancel</button>
           </div>
         </div>
           </div>

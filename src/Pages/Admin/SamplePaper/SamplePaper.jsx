@@ -162,6 +162,12 @@ const SamplePaper = () => {
             if (offcanvasElement) {
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
                 // Explicitly remove backdrop
                 const backdrops = document.querySelectorAll('.offcanvas-backdrop');
                 backdrops.forEach(backdrop => backdrop.remove());
@@ -174,6 +180,12 @@ const SamplePaper = () => {
             if (offcanvasElement) {
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
                 // Explicitly remove backdrop
                 const backdrops = document.querySelectorAll('.offcanvas-backdrop');
                 backdrops.forEach(backdrop => backdrop.remove());
@@ -353,6 +365,12 @@ const SamplePaper = () => {
                         if (offcanvasElement) {
                             const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                             offcanvas.hide();
+                            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                const backdrop = document.querySelector('.offcanvas-backdrop');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                }
+                            }, { once: true });
                             // Explicitly remove all backdrops
                             const backdrops = document.querySelectorAll('.offcanvas-backdrop');
                             backdrops.forEach(backdrop => backdrop.remove());
@@ -595,6 +613,12 @@ const SamplePaper = () => {
                                     const offcanvasElement = document.getElementById('add_staticBackdrop');
                                     const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                                     offcanvas.hide();
+                                    offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                        const backdrop = document.querySelector('.offcanvas-backdrop');
+                                        if (backdrop) {
+                                            backdrop.remove();
+                                        }
+                                    }, { once: true });
                                     const backdrops = document.querySelectorAll('.offcanvas-backdrop');
                                     backdrops.forEach(backdrop => backdrop.remove());
                                 }}
@@ -621,6 +645,12 @@ const SamplePaper = () => {
                                     const offcanvasElement = document.getElementById('Edit_staticBackdrop');
                                     const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                                     offcanvas.hide();
+                                    offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                        const backdrop = document.querySelector('.offcanvas-backdrop');
+                                        if (backdrop) {
+                                            backdrop.remove();
+                                        }
+                                    }, { once: true });
                                     const backdrops = document.querySelectorAll('.offcanvas-backdrop');
                                     backdrops.forEach(backdrop => backdrop.remove());
                                 }}
@@ -647,6 +677,12 @@ const SamplePaper = () => {
                                     const offcanvasElement = document.getElementById('Delete_staticBackdrop');
                                     const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                                     offcanvas.hide();
+                                    offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                        const backdrop = document.querySelector('.offcanvas-backdrop');
+                                        if (backdrop) {
+                                            backdrop.remove();
+                                        }
+                                    }, { once: true });
                                     const backdrops = document.querySelectorAll('.offcanvas-backdrop');
                                     backdrops.forEach(backdrop => backdrop.remove());
                                     setIsChecked(false);
@@ -690,6 +726,12 @@ const SamplePaper = () => {
                                                 const offcanvasElement = document.getElementById('Delete_staticBackdrop');
                                                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                                                 offcanvas.hide();
+                                                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                                                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                                                    if (backdrop) {
+                                                        backdrop.remove();
+                                                    }
+                                                }, { once: true });
                                                 const backdrops = document.querySelectorAll('.offcanvas-backdrop');
                                                 backdrops.forEach(backdrop => backdrop.remove());
                                                 setIsChecked(false);

@@ -356,6 +356,12 @@ const IssueItem = () => {
                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
               }
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
             setTimeout(() => {
               setIsChecked(false)

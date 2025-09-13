@@ -343,6 +343,12 @@ const ExamSchedule = () => {
                 const offcanvasElement = document.getElementById('addExamSchedule');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to add exam schedule');
             }
@@ -397,6 +403,12 @@ const ExamSchedule = () => {
                 const offcanvasElement = document.getElementById('editExamSchedule');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to update exam schedule');
                 Object.keys(initialFormValues).forEach(key => setValueUpdate(key, initialFormValues[key]));
@@ -421,6 +433,12 @@ const ExamSchedule = () => {
                 const offcanvasElement = document.getElementById('deleteExamSchedule');
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to delete exam schedule');
             }

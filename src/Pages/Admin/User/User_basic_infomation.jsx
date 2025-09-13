@@ -8,7 +8,8 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const { id } = useParams();
   const { myId } = useContext(MyUseContext);
   const myUserID = myId ?? id ?? "";
-
+  console.log(id)
+  console.log(myId)
 
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
@@ -267,7 +268,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
         setFirstAdd(response?.data?.user?.staffAddress || '');
         setSecondAddress(response?.data?.user?.address2 || '');
         setGender(response?.data?.user?.staffGender || '');
-        setStatus(response?.data?.user?.staffStatus || '');
+        setStatus(response?.data?.user?.staffStatus || false);
         setMaritalstatus(response?.data?.user?.maritalStatus || '');
         setState(response?.data?.user?.state || '');
         setCity(response?.data?.user?.city || '');
@@ -279,7 +280,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
         dataFunct(response?.data?.user);
         const timestamp = response?.data?.user?.staffDOB;
         const formattedDate = timestamp ? timestamp.split("T")[0] : '';
-        setDob(formattedDate);
+        setDob(response?.data?.user?.staffDOB);
         setLoader(false);
       } else {
         toast.error(response?.data?.msg || 'Failed to fetch user data');
@@ -367,6 +368,11 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
     <>
       <style>
         {`
+
+          .form-select{
+            color: #acacbd !important;
+          }
+
           .form-container {
             background: linear-gradient(145deg, #ffffff 0%, #e6f4f1 100%);
             border-radius: 16px;
@@ -446,7 +452,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
           .btn-outline-success {
             border-color: #008479;
             color: #008479;
-            padding: 10px 20px;
+            padding: 7px 14px;
             border-radius: 8px;
             transition: all 0.3s ease;
           }
@@ -519,7 +525,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   type="text"
                   className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidFirstNameRequired && firstName ? 'valid-indicator' : ''}`}
                   id="firstName"
-                  placeholder="John"
+                  placeholder="Enter First Name"
                   value={emptyValue === "success" ? '' : firstName}
                   onChange={(e) => handleName(e.target.value)}
                   tabIndex="1"
@@ -546,7 +552,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   type="text"
                   className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidLastNameRequired && lastName ? 'valid-indicator' : ''}`}
                   id="lastName"
-                  placeholder="Doe"
+                  placeholder="Enter Last Name"
                   value={emptyValue === "success" ? '' : lastName}
                   onChange={(e) => handleSecondName(e.target.value)}
                   tabIndex="2"
@@ -573,7 +579,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   type="text"
                   className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidPhoneRequired && phone ? 'valid-indicator' : ''}`}
                   id="phone"
-                  placeholder="Number"
+                  placeholder="Enter Contact Number"
                   value={emptyValue === "success" ? '' : phone}
                   onChange={(e) => handlePhone(e.target.value)}
                   tabIndex="3"
@@ -627,7 +633,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   type="text"
                   className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidEmailRequired && email ? 'valid-indicator' : ''}`}
                   id="email"
-                  placeholder="Email"
+                  placeholder="Enter Email Address"
                   disabled={updateStatus === "success"}
                   value={emptyValue === "success" ? '' : email}
                   onChange={(e) => handleEmail(e.target.value)}
@@ -688,8 +694,8 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   aria-describedby="statusError"
                 >
                   <option value="">--Choose--</option>
-                  <option value="true">Active</option>
-                  <option value="false">InActive</option>
+                  <option value={true}>Active</option>
+                  <option value={false}>InActive</option>
                 </select>
               </div>
             </div>
@@ -1423,7 +1429,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   type="text"
                   className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidFirstAddRequired && firstAdd ? 'valid-indicator' : ''}`}
                   id="address1"
-                  placeholder="Address"
+                  placeholder="Enter Address"
                   value={emptyValue === "success" ? '' : firstAdd}
                   onChange={(e) => handleFirstAdd(e.target.value)}
                   tabIndex="17"
@@ -1485,7 +1491,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
               </button>
               <button
                 type="button"
-                className="btn btn-outline-success heading-12 ms-2"
+                className="btn cancelButtons heading-12 ms-2"
                 onClick={clearData}
                 tabIndex="23"
                 aria-label="Cancel"

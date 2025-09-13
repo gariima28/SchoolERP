@@ -141,7 +141,7 @@ const AllStudents = () => {
     try {
       setloaderState(true);
       var response = await getStudentDataApi(ClassIdValue, searchBySection, searchByKey, pageNo, pageSize);
-      console.log('all student data',response)
+      console.log('all student data', response)
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setTimeout(() => {
@@ -160,6 +160,12 @@ const AllStudents = () => {
                 offcanvas = new bootstrap.Offcanvas(offcanvasElement);
               }
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
           }
         }
