@@ -337,7 +337,7 @@ export const RoleBasedRoutes = {
     { path: "/parent/marks", element: <Marks_P /> },
     { path: "/parent/offlineExam", element: <OfflineExams_P /> },
     { path: "/parent/fees", element: <Fees_P /> },
-    { path: "/parent/offlinePaymentForm/:id", element: <OfflinePayment_P /> },
+    { path: "/parent/offlinePaymentForm", element: <OfflinePayment_P /> },
     { path: "/parent/onlineCourse", element: <OnlineCourse_P /> },
     { path: "/parent/teacher", element: <Teacher_P /> },
     { path: "/parent/assignments", element: <Assignment_P /> },
