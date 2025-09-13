@@ -1020,24 +1020,7 @@ const AssignSubjectTeacher = () => {
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="offcanvas-body pt-0">
-                  {/* <div className="mb-3">
-                    <label htmlFor="exampleFormControlInput1" className="form-label mb-1 label-text-color focus heading-14">
-                      Class
-                    </label>
-                    <select
-                      className="form-select form-select-sm form-focus label-color"
-                      value={`${classId}, ${classNo}`}
-                      onChange={handle}
-                      aria-label="Default select example"
-                    >
-                      <option value="">--Choose--</option>
-                      {classData?.map(item => (
-                        <option key={item.classId} value={`${item.classId}, ${item.classNo}`}>
-                          {item.classNo}
-                        </option>
-                      ))}
-                    </select>
-                  </div> */}
+               
 
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Subject Name</label>

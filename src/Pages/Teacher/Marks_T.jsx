@@ -978,7 +978,7 @@ const Marks_T = () => {
             </div>
             <div className="col-2 p-0 ps-4 padding-lft">
               <span className='heading-16 greyText'>Class </span>
-              - {classId}
+              - {classNo}
             </div>
             <div className="col-2 p-0 padding-lft">
               <span className='heading-16 greyText'> Section</span>

@@ -6,7 +6,7 @@ import HashLoader from 'src/Pages/HashLoaderCom';
 
 import { addNewExamScheduleApi } from 'src/Utils/Apis'
 import { TeacherClassGetApi } from 'src/Utils/Apis'
-import { TeacherSubjectByClassIdInSyllabusGetAllApi } from 'src/Utils/Apis'
+import { SubjectByClassIdInSyllabusGetAllApi } from 'src/Utils/Apis'
 import { TeacherExamTermGetAll } from 'src/Utils/Apis'
 import { TeacherClassRoomGetApi } from 'src/Utils/Apis'
 import { TeacherSectionRoomByIdGetApi } from 'src/Utils/Apis'
@@ -469,7 +469,8 @@ const OfflineExam_T = () => {
     const [IdForDelete, setIdForDelete] = useState()
     const [IdForUpdate, setIdForUpdate] = useState()
     const [examAllData, setExamAllData] = useState([])
-    const [classId, setClassId] = useState('')
+    const [section, setSection] = useState('')
+    
     const [classNoForApi, setClassNoForApi] = useState('')
     console.log('classNoForApi new', classNoForApi)
     const [date, setDate] = useState()
@@ -484,47 +485,55 @@ const OfflineExam_T = () => {
     const [subjectId, setSubjectId] = useState()
     const [classdata, setClassdata] = useState([])
     const [sectionData, setSectionData] = useState([])
+    console.log('sectionData jstttt nowww', sectionData)
     const [subjectData, setSubjectData] = useState([])
     const [examTermData, setExamTermData] = useState([])
     const [sessionAllData, setSessionAllData] = useState([])
     const [classroomdata, setClassroomdata] = useState([])
     const [regex, setRegex] = useState('/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/')
-
+    
     const [isValidDateValiRequired, setIsValidDateValiRequired] = useState(false);
     const [isValidMarksValiRequired, setIsValidMarksValiRequired] = useState(false);
     const [isValidPassingMarksValiRequired, setIsValidPassingMarksValiRequired] = useState(false);
     const [isValidStartTimeValiRequired, setIsValidStartTimeValiRequired] = useState(false);
     const [isValidEndTimeValiRequired, setIsValidEndTimeValiRequired] = useState(false);
     const [classNo, setClassNo] = useState('')
-
+    const [classId, setClassId] = useState('')
+    console.log('classNo new', classNo)
+    console.log('classNo id', classId)
+    
     const [searchKey, setSearchKey] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-
+    
     const handlePageClick = (event) => {
         setPageNo(event.selected + 1);
     };
     useEffect(() => {
-        MyExamGetAllApi()
         MyExamTerm()
         UpdatClassGetApi()
         ClassRoomGetAllApi()
-        MySectionGetApi()
-        if (classNoForApi) {
-            MySubjectByClassIdGetApi()
-        }
     }, [classId, pageNo, classNoForApi])
 
+    useEffect(() => {
+        MySectionGetApi()
+        if (classNo) {
+            MySubjectByClassIdGetApi()
 
+        }
+        MySubjectByClassIdGetApi()
+    }, [classId, classNo])
+    useEffect(() => {
+        MyExamGetAllApi()
+    }, [])
     const Handle = (e) => {
         const value = e.target.value;
         const [val1, val2] = value.split(',').map(item => item.trim());
         setClassId(parseInt(val1));
         setClassNo(val2);
-        // console.log('Class ID:', val1);
-        // console.log('Class No:', val2);
+
     };
     const [errors, setErrors] = useState({});
     // ###### validation ##########
@@ -636,7 +645,7 @@ const OfflineExam_T = () => {
         }
     }
 
-    // ###### validation ##########
+    // ###### validation #########
 
     // Get All Api from class list page for id 
     const UpdatClassGetApi = async () => {
@@ -661,14 +670,14 @@ const OfflineExam_T = () => {
     const MySubjectByClassIdGetApi = async () => {
         setLoader(true)
         try {
-            const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classNoForApi);
+            const response = await SubjectByClassIdInSyllabusGetAllApi(classNo);
             console.log('Subject-get-all-api in offline', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.classes?.message)
                 setSubjectData(response?.data?.subjects)
                 setLoader(false)
             } else {
-                toast.error(response?.data?.classes?.message);
+                // toast.error(response?.data?.classes?.message);
                 setLoader(false)
             }
         } catch (error) {
@@ -696,11 +705,11 @@ const OfflineExam_T = () => {
         }
     }
     // Section Get All Api from section page for id 
-    const MySectionGetApi = async () => {
+    const MySectionGetApi = async (id) => {
         setLoader(true)
         try {
             const response = await TeacherSectionRoomByIdGetApi(classId);
-            // console.log('SECTION-get-all-api in sample paper', response);
+            console.log('SECTION-get-all-api in offline paper', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.message)
                 setSectionData(response?.data?.allSections)
@@ -745,7 +754,8 @@ const OfflineExam_T = () => {
         if (FuncValidation()) {
             const formData = new FormData()
             formData.append('examTermId', ExamTerm);
-            formData.append('classNo', String(classNoForApi));
+            formData.append('classNo', classNo);
+            formData.append('section', sectionName);
             formData.append('subject', subjectId);
             formData.append('roomNo', classRoomId);
             formData.append('totalMarks', marks);
@@ -762,7 +772,7 @@ const OfflineExam_T = () => {
                         toast.success(response?.data?.message);
                         MyExamGetAllApi()
                         setShow(false)
-                        setHide(true)
+                        // setHide(true)
                         setLoader(false)
                         setExamTerm('')
                         setClassId('')
@@ -773,6 +783,7 @@ const OfflineExam_T = () => {
                         setEndTime('')
                         setMarks('')
                         setPassingMarks('')
+                        MyExamGetAllApi()
                         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
                         offcanvasInstance.hide();
                         setTimeout(() => {
@@ -794,13 +805,12 @@ const OfflineExam_T = () => {
         }
 
     }
-
     // Exam Get All Api   
     const MyExamGetAllApi = async () => {
         setLoader(true)
         try {
             const response = await getAllExamScheduleApiForTeacher(searchKey, pageNo, pageSize, classNo, sectionName);
-            console.log('Exam get All Api data', response);
+            console.log('Exam get All Api data+++++++++++', response);
             if (response?.status === 200) {
                 // toast.success(response?.data?.message)
                 setExamAllData(response?.data?.examSchedules)
@@ -826,6 +836,7 @@ const OfflineExam_T = () => {
                 toast.success(response?.data?.message);
                 MyExamGetAllApi()
                 setShowdelete(false)
+
                 const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
                 offcanvasInstance.hide();
                 setTimeout(() => {
@@ -855,8 +866,10 @@ const OfflineExam_T = () => {
                 // toast.success(response?.data?.msg);
                 setExamTerm(response?.data?.examSchedule?.examTermId)
                 setClassId(response?.data?.examSchedule?.classId)
+                setClassNo(String(response?.data?.examSchedule?.classNo))
+                setSectionName(response?.data?.examSchedule?.section)
                 setClassNoForApi(response?.data?.examSchedule?.classNo)
-                setSubjectId(response?.data?.examSchedule?.subjectId)
+                setSubjectId(response?.data?.examSchedule?.subject)
                 setClassRoomId(response?.data?.examSchedule?.roomId)
                 setDate(response?.data?.examSchedule?.date)
                 setStartTime(response?.data?.examSchedule?.startingTime)
@@ -875,47 +888,40 @@ const OfflineExam_T = () => {
     }
     // Put Api 
     const MyOfflinePutApi = async () => {
-        // // console.log('my id for update', id)
-        // if (FuncValidation()) {
-            
-        // }
+        const formData = new FormData()
+        formData.append('examTermId', ExamTerm);
+        formData.append('classNo', String(classId));
+        formData.append('subject', subjectId);
+        formData.append('roomNo', classRoomId);
+        formData.append('totalMarks', marks);
+        formData.append('date', date);
+        formData.append('startingTime', startTime);
+        formData.append('endingTime', endTime);
+        formData.append('passingMarks', passingMarks);
         try {
-                const formData = new FormData()
-                formData.append('examTermId', ExamTerm);
-                formData.append('classNo', String(classId));
-                formData.append('subject', subjectId);
-                formData.append('roomNo', classRoomId);
-                formData.append('totalMarks', marks);
-                formData.append('date', date);
-                formData.append('startingTime', startTime);
-                formData.append('endingTime', endTime);
-                formData.append('passingMarks', passingMarks);
-
-                const response = await updateExamScheduleApi(IdForUpdate, formData);
-
-                // console.log('My_offline_Api', response)
-                if (response?.status === 200) {
-                    if (response?.data?.status === "success") {
-                        toast.success(response?.data?.message);
-                        setEditshow(false)
-
-                        MyHolidayGetAllApi()
-                        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-                        offcanvasInstance.hide();
-                        setTimeout(() => {
-                            setEditshow(true)
-                        }, 0.5)
-                    }
-                } else {
-                    toast.error(response?.data?.message);
-                    setEditshow(true)
-                    setLoader(false)
+            const response = await updateExamScheduleApi(IdForUpdate, formData);
+            // console.log('My_offline_Api', response)
+            if (response?.status === 200) {
+                if (response?.data?.status === "success") {
+                    toast.success(response?.data?.message);
+                    setEditshow(false)
+                    MyHolidayGetAllApi()
+                    MyExamGetAllApi()
+                    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+                    offcanvasInstance.hide();
+                    setTimeout(() => {
+                        setEditshow(true)
+                    }, 0.5)
                 }
-
-            } catch (error) {
+            } else {
+                toast.error(response?.data?.message);
+                setEditshow(true)
                 setLoader(false)
-                // console.log(error)
             }
+        } catch (error) {
+            setLoader(false)
+            // console.log(error)
+        }
     }
     const handleChange = (e) => {
         const trimmedValue = e.target.value.trimStart();
@@ -924,7 +930,9 @@ const OfflineExam_T = () => {
     const ClearData = () => {
         setExamTerm('')
         setClassId('')
+        setClassNo('')
         setSubjectId('')
+        setSectionName('')
         setClassRoomId('')
         setDate('')
         setStartTime('')
@@ -935,6 +943,9 @@ const OfflineExam_T = () => {
         setIsValidStartTimeValiRequired(false)
         setIsValidEndTimeValiRequired(false)
         setIsValidMarksValiRequired(false)
+        // setTimeout(() => {
+        //     setExamAllData()
+        // }, 0.5)
 
     }
     return (
@@ -1016,7 +1027,7 @@ const OfflineExam_T = () => {
                     <div className="row mb-3 buttons-topss">
                         <div className='my-button11 heading-16'>
                             <button type="button" class="btn btn-outline-success my-green" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyExamGetAllApi}>Search</button>
-                            <button type="button" class="btn btn-outline-success">Cancel</button>
+                            <button type="button" class="btn btn-outline-success" onClick={ClearData}>Cancel</button>
                         </div>
                     </div>
                     {/* ###### copy content till here for all component ######  */}
@@ -1119,15 +1130,29 @@ const OfflineExam_T = () => {
 
                                         <div className="mb-1  ">
                                             <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class</label>
-                                            <select class="form-select  form-select-sm  form-focus  label-color" value={classNoForApi} onChange={(e) => setClassNoForApi(e.target.value)} aria-label="Default select example">
-                                                <option value={''}>--Choose--</option>
+                                            <select class="form-select  form-select-sm form-focus label-color"
+                                                value={`${classId},${classNo}`}
+                                                onChange={Handle}
+                                                aria-label="Default select example">
+                                                <option value="">--Choose--</option>
                                                 {
-                                                    classdata?.map(item =>
-                                                        <option value={item.classNo}>{item.classNo}</option>
-                                                    )
+                                                    classdata?.map((item =>
+                                                        <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
+                                                    ))
                                                 }
                                             </select>
 
+                                        </div>
+                                        <div className="mb-1  ">
+                                            <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
+                                            <select class="form-select  form-select-sm form-focus " value={section} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
+                                                <option selected>--Choose--</option>
+                                                {
+                                                    sectionData?.map((item =>
+                                                        <option value={item.sectionName}>{item.sectionName}</option>
+                                                    ))
+                                                }
+                                            </select>
                                         </div>
                                         <div className="mb-1  ">
                                             <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Subject</label>
@@ -1253,15 +1278,29 @@ const OfflineExam_T = () => {
 
                                         <div className="mb-1  ">
                                             <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class</label>
-                                            <select class="form-select  form-select-sm  form-focus  label-color" value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
-                                                <option selected>--Choose--</option>
+                                            <select class="form-select  form-select-sm form-focus label-color"
+                                                value={`${classId},${classNo}`}
+                                                onChange={Handle}
+                                                aria-label="Default select example">
+                                                <option value="">--Choose--</option>
                                                 {
-                                                    classdata?.map(item =>
-                                                        <option value={item.classId}>{item.classNo}</option>
-                                                    )
+                                                    classdata?.map((item =>
+                                                        <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
+                                                    ))
                                                 }
                                             </select>
 
+                                        </div>
+                                           <div className="mb-1  ">
+                                            <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
+                                            <select class="form-select  form-select-sm form-focus " value={sectionName} onChange={(e) => setSection(e.target.value)} aria-label="Default select example">
+                                                <option selected>--Choose--</option>
+                                                {
+                                                    sectionData?.map((item =>
+                                                        <option value={item.sectionName}>{item.sectionName}</option>
+                                                    ))
+                                                }
+                                            </select>
                                         </div>
                                         <div className="mb-1  ">
                                             <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Subject</label>
