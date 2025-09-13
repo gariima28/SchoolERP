@@ -788,7 +788,7 @@ const Per_info_emer_cont = () => {
                     Delete {loader && <span className="loader"></span>}
                   </button>
                   <button
-                    className="btn btn-outline-success heading-12 ms-2"
+                    className="btn cancelButtons heading-12 ms-2"
                     data-bs-dismiss="offcanvas"
                     onClick={() => {
                       setIsDeleteConfirmed(false);

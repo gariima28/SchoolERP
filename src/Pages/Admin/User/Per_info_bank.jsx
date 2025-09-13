@@ -212,7 +212,7 @@ const Per_info_bank = () => {
           .btn-outline-success {
             border-color: #008479;
             color: #008479;
-            padding: 10px 20px;
+            padding: 7px 14px;
             border-radius: 8px;
             transition: all 0.3s ease;
           }
@@ -396,7 +396,7 @@ const Per_info_bank = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-outline-success heading-12 ms-2"
+                className="btn cancelButtons heading-12 ms-2"
                 onClick={clearData}
                 tabIndex="6"
                 aria-label="Cancel"

@@ -387,6 +387,12 @@ const ManagePurchase = () => {
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
           new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || "Failed to add purchase");
       }
@@ -422,6 +428,12 @@ const ManagePurchase = () => {
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
           new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || "Failed to update purchase");
         setValueEdit("supplierId", initialFormValues.supplierId);
@@ -465,6 +477,12 @@ const ManagePurchase = () => {
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
           new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || "Failed to delete purchase");
       }

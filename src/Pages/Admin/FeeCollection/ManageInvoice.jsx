@@ -340,6 +340,12 @@ const ManageInvoice = () => {
                 console.log(4)
                 const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 console.log(5)
                 toast.error(response?.data?.message || 'Failed to Collect Fees');

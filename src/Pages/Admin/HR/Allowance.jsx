@@ -111,6 +111,12 @@ const Allowance = () => {
                     bootstrap.Offcanvas.getInstance(offcanvasElement) ||
                     new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to add allowance');
             }
@@ -168,6 +174,12 @@ const Allowance = () => {
                     bootstrap.Offcanvas.getInstance(offcanvasElement) ||
                     new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to update allowance');
                 setValueEdit('allowanceName', initialFormValues.allowanceName);
@@ -200,6 +212,12 @@ const Allowance = () => {
                     bootstrap.Offcanvas.getInstance(offcanvasElement) ||
                     new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.hide();
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                    const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                }, { once: true });
             } else {
                 toast.error(response?.data?.message || 'Failed to delete allowance');
             }

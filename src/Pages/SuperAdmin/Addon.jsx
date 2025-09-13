@@ -235,6 +235,12 @@ const Addon = () => {
             const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
             if (offcanvas) {
               offcanvas.hide();
+              offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) {
+                  backdrop.remove();
+                }
+              }, { once: true });
             }
           }, 700);
         }
@@ -297,6 +303,12 @@ const Addon = () => {
             const offcanvasElement = document.getElementById('Delete_staticBackdrop');
             const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
             offcanvas.hide();
+            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+              const backdrop = document.querySelector('.offcanvas-backdrop');
+              if (backdrop) {
+                backdrop.remove();
+              }
+            }, { once: true });
           }
         }
         else {

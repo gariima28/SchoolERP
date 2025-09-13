@@ -229,6 +229,12 @@ const ItemCategory = () => {
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
           new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || "Failed to add item category");
       }

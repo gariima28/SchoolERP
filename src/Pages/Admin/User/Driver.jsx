@@ -378,6 +378,12 @@ const Driver = () => {
                             offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                         }
                         offcanvas.hide();
+                        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                            const backdrop = document.querySelector('.offcanvas-backdrop');
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                        }, { once: true });
                     }
                 }
                 else {
@@ -421,25 +427,25 @@ const Driver = () => {
     const getRollForAdminDashboard = async () => {
         setLoader(true);
         try {
-          const response = await roleName(id);
-          console.log(response, "Resone for roles")
-          if (response?.status === 200) {
-            setuserName(response?.data?.roles?.roleName);
-            setLoader(false);
-          } else {
-          }
+            const response = await roleName(id);
+            console.log(response, "Resone for roles")
+            if (response?.status === 200) {
+                setuserName(response?.data?.roles?.roleName);
+                setLoader(false);
+            } else {
+            }
         } catch (error) {
-          setLoader(false);
+            setLoader(false);
         }
-      };
+    };
 
     const handleSearchButton = () => {
         getAllSchoolData(searchKeyData)
-      }
-    
-      const handleAddButton = () => {
+    }
+
+    const handleAddButton = () => {
         navigate(`/admin/users/mainuserform/${'0'}`)
-      }
+    }
 
 
     return (

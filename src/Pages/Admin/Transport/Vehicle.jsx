@@ -322,6 +322,18 @@ const Vehicle = () => {
                             offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                         }
                         offcanvas.hide();
+                        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                            const backdrop = document.querySelector('.offcanvas-backdrop');
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                        }, { once: true });
+                        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                            const backdrop = document.querySelector('.offcanvas-backdrop');
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                        }, { once: true });
                     }
                 } else {
                     setloaderState(false)
@@ -406,6 +418,18 @@ const Vehicle = () => {
                         offcanvas = new bootstrap.Offcanvas(offcanvasElement);
                     }
                     offcanvas.hide();
+                    offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                        const backdrop = document.querySelector('.offcanvas-backdrop');
+                        if (backdrop) {
+                            backdrop.remove();
+                        }
+                    }, { once: true });
+                    offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                        const backdrop = document.querySelector('.offcanvas-backdrop');
+                        if (backdrop) {
+                            backdrop.remove();
+                        }
+                    }, { once: true });
                 }
             } else {
                 setloaderState(false)
@@ -421,36 +445,6 @@ const Vehicle = () => {
         }
     };
 
-    const [click, setClick] = useState(true);
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Backspace') {
-            setTimeout(() => {
-                const updatedValue = e.target.value.trim();
-                // console.log(updatedValue, 'updatedValue');
-
-                // If the value is empty for the first time, call getAllSpecialFeature and set click to false
-                if (updatedValue === '' && click) {
-                    getAllVehicleData('search');
-                    setClick(false); // Ensure this is only triggered once
-                    return;
-                }
-
-                // If updatedValue is not empty, reset click to true so it can trigger again in future
-                if (updatedValue !== '') {
-                    getAllVehicleData(updatedValue);
-                    setClick(true);
-                }
-
-                // Update state with the current input value
-                setSearchByKey(updatedValue);
-
-                // Fetch school data based on the updated input value
-
-            }, 200);
-        }
-    };
-
     const handleAddButton = () => {
         navigate('/admin/transport/vehicle/addVehicle')
     }
@@ -463,10 +457,36 @@ const Vehicle = () => {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
 
-    const toggleDropdown = (index) => {
+    const toggleDropdown = (index, e) => {
+        e.preventDefault(); // Prevent default to avoid conflicts
+        e.stopPropagation(); // Stop event bubbling to keep dropdown open
         setIsDropdownOpen(isDropdownOpen === index ? null : index);
     };
 
+    const handleEditClick = (vehicleId, e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDropdownOpen(null); // Close dropdown after action
+        getVehicleDataById(vehicleId);
+    };
+
+    const handleDeleteClick = (vehicleId, e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDropdownOpen(null); // Close dropdown after action
+        setDelVehicleId(vehicleId);
+    };
+
+    // Close dropdown when clicking outside (optional, for better UX)
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (isDropdownOpen !== null && !e.target.closest('.dropdown')) {
+                setIsDropdownOpen(null);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isDropdownOpen]);
 
     return (
         <>
@@ -539,7 +559,45 @@ const Vehicle = () => {
                                                         <td className='textWrapClass font14 greyText'>{item.routeClass.routeName}</td>
                                                         <td className={`textWrapClass font14 ${item.vehicleStatus ? 'activeText' : 'deactiveText'}`}>{item.vehicleStatus ? 'Active' : 'InActive'}</td>
                                                         <td className='textWrapClass text-end'>
-                                                            <div className="dropdown dropdownbtn">
+                                                            <div className={`dropdown dropdownbtn ${isDropdownOpen === index ? 'show' : ''}`}>
+                                                                {/* Toggle button: Use onClick to manage state */}
+                                                                <button
+                                                                    className="btn btn-sm actionButtons dropdown-toggle"
+                                                                    type="button"
+                                                                    onClick={(e) => toggleDropdown(index, e)}
+                                                                    aria-expanded={isDropdownOpen === index}
+                                                                >
+                                                                    <span>Action</span>
+                                                                </button>
+                                                                {/* Dropdown menu: Show/hide based on state */}
+                                                                <ul className={`dropdown-menu ${isDropdownOpen === index ? 'show' : ''}`}>
+                                                                    <li>
+                                                                        <button
+                                                                            className="dropdown-item greyText"
+                                                                            type="button"
+                                                                            data-bs-toggle="offcanvas"
+                                                                            data-bs-target="#Edit_staticBackdrop"
+                                                                            aria-controls="Edit_staticBackdrop"
+                                                                            onClick={(e) => handleEditClick(item.vehicleId, e)}
+                                                                        >
+                                                                            Edit
+                                                                        </button>
+                                                                    </li>
+                                                                    <li>
+                                                                        <button
+                                                                            className="dropdown-item greyText"
+                                                                            type="button"
+                                                                            data-bs-toggle="offcanvas"
+                                                                            data-bs-target="#Delete_staticBackdrop"
+                                                                            aria-controls="Delete_staticBackdrop"
+                                                                            onClick={(e) => handleDeleteClick(item.vehicleId, e)}
+                                                                        >
+                                                                            Delete
+                                                                        </button>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            {/* <div className="dropdown dropdownbtn">
                                                                 <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                     <span>Action</span>
                                                                 </button>
@@ -555,7 +613,7 @@ const Vehicle = () => {
                                                                         </button>
                                                                     </li>
                                                                 </ul>
-                                                            </div>
+                                                            </div> */}
                                                         </td>
                                                     </tr>
                                                 ))}

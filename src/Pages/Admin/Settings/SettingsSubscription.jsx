@@ -172,214 +172,212 @@ const Subscription = () => {
 
     return (
         <Container>
-            <div className="container-fluid">
-                <div className="row p-2 pt-4">
-                    <div className="row pb-3">
-                        <div className="col-lg-6 col-md-6 col-sm-12 flex-frow-1">
-                            <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
-                                <ol className="breadcrumb mb-1">
-                                    <li className="breadcrumb-item"><a href="/" className='bredcrumText text-decoration-none'>Home</a></li>
-                                    <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
-                                    <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">Subscription</li>
-                                </ol>
-                            </nav>
-                            <p className='font16 ps-0 fontWeight500'>Subscription</p>
-                        </div>
-                        <div className="col-lg-6 col-md-6 col-sm-12 text-end">
-                            {/* <div className="row">
-                                <div className="col-md-3 col-sm-6 text-end p-0">
-                                    <Link className="btn ps-2 pe-2 ExportBtns bg-white" type="submit" >
-                                        <span className='font16 textVerticalCenter'>
-                                            <Icon icon="fa-solid:file-csv" width="1.4em" height="1.4em" style={{ color: "#008479" }} />
-                                            <span className='ms-1'>Export to CSV</span>
-                                        </span>
-                                    </Link>
-                                </div>
-                                <div className="col-md-3 col-sm-6 text-center p-0">
-                                    <Link className="btn ps-2 pe-2 ExportBtns bg-white" type="submit" >
-                                        <span className='font16 textVerticalCenter'>
-                                            <Icon icon="fluent:document-pdf-24-filled" width="1.4em" height="1.4em" style={{ color: "#008479" }} />
-                                            <span className='ms-1'>Export to PDF</span>
-                                        </span>
-                                    </Link>
-                                </div>
-                                <div className="col-md-6 col-sm-6 p-0">
-                                    <form className="d-flex" role="search">
-                                        <input className="form-control formcontrolsearch" type="search" placeholder="Search" aria-label="Search" />
-                                        <button className="btn searchButtons text-white" type="submit"><span className='font16'>Search</span></button>
-                                    </form>
-                                </div>
-                            </div> */}
-                        </div>
+            <div className="container-fluid pt-3">
+                <div className="row pb-3 px-3">
+                    <div className="col-lg-6 col-md-6 col-sm-12 flex-frow-1">
+                        <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
+                            <ol className="breadcrumb mb-1">
+                                <li className="breadcrumb-item"><a href="/" className='bredcrumText text-decoration-none'>Home</a></li>
+                                <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
+                                <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">Subscription</li>
+                            </ol>
+                        </nav>
+                        <p className='font16 ps-0 fontWeight500'>Subscription</p>
                     </div>
-                    <div className="row pb-3">
-                        <div className="cardradius bg-white p-3">
-                            {updateSubscription
-                                ?
-                                <>
-                                    {allPlansData.length > 0 ?
-                                        <>
-                                            <table className="table align-middle table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th className='tableHeading text-center'><span className='font14'>#</span></th>
-                                                        <th className='tableHeading '><span className='font14'>Package</span></th>
-                                                        <th className='tableHeading '><span className='font14'>Price <img src="/images/StatusArrow.svg" alt="" /></span></th>
-                                                        <th className='tableHeading '><span className='font14'>Interval <img src="/images/StatusArrow.svg" alt="" /></span></th>
-                                                        <th className='tableHeading '><span className='font14'>Period <img src="/images/StatusArrow.svg" alt="" /></span></th>
-                                                        <th className='tableHeading '><span className='font14'>Student Limit <img src="/images/StatusArrow.svg" alt="" /></span></th>
-                                                        <th className='tableHeading '><span className='font14'>Feature Details</span></th>
-                                                        <th className='tableHeading '><span className='font14'>Status <img src="/images/StatusArrow.svg" alt="" /></span></th>
-                                                        <th className='tableHeading text-center'><span className='font14'></span></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {allPlansData?.map((item, index) => (
-                                                        <tr>
-                                                            <th className='text-center greyText'><span className='font14'>{index + 1}</span></th>
-                                                            <td className='greyText'>
-                                                                <span className='font14 align-self-start'>{item?.planName}</span>
-                                                            </td>
-                                                            <td className='greyText'>
-                                                                <span className='font14 align-self-start'>{item?.price}</span>
-                                                            </td>
-                                                            <td className='greyText'>
-                                                                <span className='font14 align-self-start'>{item?.type}</span>
-                                                            </td>
-                                                            <td className='greyText'>
-                                                                <span className='font14 align-self-start'>{item?.value}</span>
-                                                            </td>
-                                                            <td className='greyText'>
-                                                                <span className='font14 align-self-start'>{item?.studentLimit}</span>
-                                                            </td>
-                                                            <td className='greyText'>
-                                                                {item?.usedAddons === null ? '-' : <p className='font14 align-self-start m-0' data-bs-toggle="modal" data-bs-target="#viewSubscriptionFeature" data-bs-backdrop="false">
-                                                                    <Link className='blueText text-decoration-none' to='' onClick={() => { setViewFeatureOfPlan(item?.usedAddons), setPackageName(item?.planName) }}>View Features</Link>
-                                                                    <Icon className='ms-2 ' icon="bi:info-circle-fill" width="1.2em" height="1.2em" style={{ color: '#8F8F8F' }} />
-                                                                </p>}
-                                                            </td>
-                                                            <td className='greyText'>
-                                                                <span className='font14 align-self-start active'>Active</span>
-                                                            </td>
-                                                            <td className='text-center'>
-                                                                <Link className="btn addButtons text-white" to='/admin/settings/paymentSettings'>
-                                                                    {/* <span className='font20' onClick={()=>updateSubscriptionData(item.planId)}>Book Now</span> */}
-                                                                    <span className='font14'>Book Now</span>
-                                                                </Link>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-
-                                            <div className="d-flex">
-                                                <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-                                                <div className="ms-auto">
-                                                    <ReactPaginate
-                                                        previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                                                        nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                                                        breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                                                        onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </>
-                                        :
-                                        <>
-                                            <div className="d-flex justify-content-center p-5 m-5">
-                                                <img src="/images/search.svg" alt="" className='img-fluid p-5' />
-                                            </div>
-                                        </>
-                                    }
-                                </>
-
-                                :
-                                <>
-                                    <div className="overflow-scroll">
-                                        <table className="table table222 align-middle border">
-                                            <thead className='tableHead'>
+                    <div className="col-lg-6 col-md-6 col-sm-12 text-end">
+                        {/* <div className="row">
+                            <div className="col-md-3 col-sm-6 text-end p-0">
+                                <Link className="btn ps-2 pe-2 ExportBtns bg-white" type="submit" >
+                                    <span className='font16 textVerticalCenter'>
+                                        <Icon icon="fa-solid:file-csv" width="1.4em" height="1.4em" style={{ color: "#008479" }} />
+                                        <span className='ms-1'>Export to CSV</span>
+                                    </span>
+                                </Link>
+                            </div>
+                            <div className="col-md-3 col-sm-6 text-center p-0">
+                                <Link className="btn ps-2 pe-2 ExportBtns bg-white" type="submit" >
+                                    <span className='font16 textVerticalCenter'>
+                                        <Icon icon="fluent:document-pdf-24-filled" width="1.4em" height="1.4em" style={{ color: "#008479" }} />
+                                        <span className='ms-1'>Export to PDF</span>
+                                    </span>
+                                </Link>
+                            </div>
+                            <div className="col-md-6 col-sm-6 p-0">
+                                <form className="d-flex" role="search">
+                                    <input className="form-control formcontrolsearch" type="search" placeholder="Search" aria-label="Search" />
+                                    <button className="btn searchButtons text-white" type="submit"><span className='font16'>Search</span></button>
+                                </form>
+                            </div>
+                        </div> */}
+                    </div>
+                </div>
+                <div className="row px-4">
+                    <div className="cardradius bg-white p-3">
+                        {updateSubscription
+                            ?
+                            <>
+                                {allPlansData.length > 0 ?
+                                    <>
+                                        <table className="table align-middle table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td className='tableHeading'><span className='font14'>Current Plan</span></td>
-                                                    <td className='tableHeading'></td>
-                                                    <td className='tableHeading'></td>
+                                                    <th className='tableHeading text-center'><span className='font14'>#</span></th>
+                                                    <th className='tableHeading '><span className='font14'>Package</span></th>
+                                                    <th className='tableHeading '><span className='font14'>Price <img src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Interval <img src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Period <img src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Student Limit <img src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Feature Details</span></th>
+                                                    <th className='tableHeading '><span className='font14'>Status <img src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading text-center'><span className='font14'></span></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td className='greyText text-start'>
-                                                        <span className='font14'>Plan</span>
-                                                    </td>
-                                                    <td className='greyText text-center'>
-                                                        <span className='font14'>-</span>
-                                                    </td>
-                                                    <td className='greyText text-end'>
-                                                        <span className='font14'>{getSubscriptionData?.plan}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className='greyText text-start'>
-                                                        <span className='font14'>Valid</span>
-                                                    </td>
-                                                    <td className='greyText text-center'>
-                                                        <span className='font14'>-</span>
-                                                    </td>
-                                                    <td className='greyText text-end'>
-                                                        <span className='font14'>{getSubscriptionData?.valid}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className='greyText text-start'>
-                                                        <span className='font14'>Total Students</span>
-                                                    </td>
-                                                    <td className='greyText text-center'>
-                                                        <span className='font14'>-</span>
-                                                    </td>
-                                                    <td className='greyText text-end'>
-                                                        <span className='font14'>{getSubscriptionData?.totalStudent}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className='greyText text-start'>
-                                                        <span className='font14'>Subscription Purchase Date</span>
-                                                    </td>
-                                                    <td className='greyText text-center'>
-                                                        <span className='font14'>-</span>
-                                                    </td>
-                                                    <td className='greyText text-end'>
-                                                        <span className='font14'>{getSubscriptionData?.purchaseDate.split('T')[0]}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className='greyText text-start'>
-                                                        <span className='font14'>Subscription Renew Date</span>
-                                                    </td>
-                                                    <td className='greyText text-center'>
-                                                        <span className='font14'>-</span>
-                                                    </td>
-                                                    <td className='greyText text-end'>
-                                                        <span className='font14'>{getSubscriptionData?.renewDate || '-'}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className='greyText text-start'>
-                                                        <span className='font14'>Amount To Be Charged</span>
-                                                    </td>
-                                                    <td className='greyText text-center'>
-                                                        <span className='font14'>-</span>
-                                                    </td>
-                                                    <td className='greyText text-end'>
-                                                        <span className='font14'>{getSubscriptionData?.amount}</span>
-                                                    </td>
-                                                </tr>
+                                                {allPlansData?.map((item, index) => (
+                                                    <tr>
+                                                        <th className='text-center greyText'><span className='font14'>{index + 1}</span></th>
+                                                        <td className='greyText'>
+                                                            <span className='font14 align-self-start'>{item?.planName}</span>
+                                                        </td>
+                                                        <td className='greyText'>
+                                                            <span className='font14 align-self-start'>{item?.price}</span>
+                                                        </td>
+                                                        <td className='greyText'>
+                                                            <span className='font14 align-self-start'>{item?.type}</span>
+                                                        </td>
+                                                        <td className='greyText'>
+                                                            <span className='font14 align-self-start'>{item?.value}</span>
+                                                        </td>
+                                                        <td className='greyText'>
+                                                            <span className='font14 align-self-start'>{item?.studentLimit}</span>
+                                                        </td>
+                                                        <td className='greyText'>
+                                                            {item?.usedAddons === null ? '-' : <p className='font14 align-self-start m-0' data-bs-toggle="modal" data-bs-target="#viewSubscriptionFeature" data-bs-backdrop="false">
+                                                                <Link className='blueText text-decoration-none' to='' onClick={() => { setViewFeatureOfPlan(item?.usedAddons), setPackageName(item?.planName) }}>View Features</Link>
+                                                                <Icon className='ms-2 ' icon="bi:info-circle-fill" width="1.2em" height="1.2em" style={{ color: '#8F8F8F' }} />
+                                                            </p>}
+                                                        </td>
+                                                        <td className='greyText'>
+                                                            <span className='font14 align-self-start active'>Active</span>
+                                                        </td>
+                                                        <td className='text-center'>
+                                                            <Link className="btn addButtons text-white" to='/admin/settings/paymentSettings'>
+                                                                {/* <span className='font20' onClick={()=>updateSubscriptionData(item.planId)}>Book Now</span> */}
+                                                                <span className='font14'>Book Now</span>
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))}
                                             </tbody>
                                         </table>
-                                    </div>
-                                    <div className='overflow-scroll'>
-                                        <p className='text-center m-md-5 mt-3 mb-3'><button className="btn ps-0 pe-0 addCategoryButtons text-white" type="button" onClick={getAllPlans}><span className='font14 textVerticalCenter'>Update Subscription</span></button></p>
-                                    </div>
-                                </>
-                            }
-                        </div>
+
+                                        <div className="d-flex">
+                                            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                                            <div className="ms-auto">
+                                                <ReactPaginate
+                                                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                                                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                                                    breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                                                    onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+                                                />
+                                            </div>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <div className="d-flex justify-content-center p-5 m-5">
+                                            <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                        </div>
+                                    </>
+                                }
+                            </>
+
+                            :
+                            <>
+                                <div className="overflow-scroll">
+                                    <table className="table table222 align-middle border">
+                                        <thead className='tableHead'>
+                                            <tr>
+                                                <td className='tableHeading'><span className='font14'>Current Plan</span></td>
+                                                <td className='tableHeading'></td>
+                                                <td className='tableHeading'></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td className='greyText text-start'>
+                                                    <span className='font14'>Plan</span>
+                                                </td>
+                                                <td className='greyText text-center'>
+                                                    <span className='font14'>-</span>
+                                                </td>
+                                                <td className='greyText text-end'>
+                                                    <span className='font14'>{getSubscriptionData?.plan}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className='greyText text-start'>
+                                                    <span className='font14'>Valid</span>
+                                                </td>
+                                                <td className='greyText text-center'>
+                                                    <span className='font14'>-</span>
+                                                </td>
+                                                <td className='greyText text-end'>
+                                                    <span className='font14'>{getSubscriptionData?.valid}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className='greyText text-start'>
+                                                    <span className='font14'>Total Students</span>
+                                                </td>
+                                                <td className='greyText text-center'>
+                                                    <span className='font14'>-</span>
+                                                </td>
+                                                <td className='greyText text-end'>
+                                                    <span className='font14'>{getSubscriptionData?.totalStudent}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className='greyText text-start'>
+                                                    <span className='font14'>Subscription Purchase Date</span>
+                                                </td>
+                                                <td className='greyText text-center'>
+                                                    <span className='font14'>-</span>
+                                                </td>
+                                                <td className='greyText text-end'>
+                                                    <span className='font14'>{getSubscriptionData?.purchaseDate.split('T')[0]}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className='greyText text-start'>
+                                                    <span className='font14'>Subscription Renew Date</span>
+                                                </td>
+                                                <td className='greyText text-center'>
+                                                    <span className='font14'>-</span>
+                                                </td>
+                                                <td className='greyText text-end'>
+                                                    <span className='font14'>{getSubscriptionData?.renewDate || '-'}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className='greyText text-start'>
+                                                    <span className='font14'>Amount To Be Charged</span>
+                                                </td>
+                                                <td className='greyText text-center'>
+                                                    <span className='font14'>-</span>
+                                                </td>
+                                                <td className='greyText text-end'>
+                                                    <span className='font14'>{getSubscriptionData?.amount}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className='overflow-scroll'>
+                                    <p className='text-center m-md-5 mt-3 mb-3'><button className="btn ps-0 pe-0 addCategoryButtons text-white" type="button" onClick={getAllPlans}><span className='font14 textVerticalCenter'>Update Subscription</span></button></p>
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
             </div>

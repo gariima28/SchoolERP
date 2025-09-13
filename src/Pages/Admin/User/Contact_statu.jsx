@@ -236,7 +236,7 @@ const Contact_statu = ({ data }) => {
                 :
                 <button type="button heading-14" class="btn btn-outline-success my-green heading-14 me-1" onClick={ContactDataApi}>Submit</button>
             }
-            <button type="button" class="btn btn-outline-success heading-14">Cancel</button>
+            <button type="button" class="btn cancelButtons heading-14">Cancel</button>
           </div>
         </div>
       </div>

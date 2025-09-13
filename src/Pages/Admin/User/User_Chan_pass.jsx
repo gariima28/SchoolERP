@@ -27,7 +27,7 @@ const User_Chan_pass = (data) => {
                     <div className="row mt-3 buttons-tops text-center">
                         <div className='my-button11 heading-14'>
                             <button type="button" class="btn btn-outline-success my-green heading-12" >Change Password</button>
-                            <button type="button" class="btn btn-outline-success heading-12 ms-1    ">Cancel</button>
+                            <button type="button" class="btn cancelButtons heading-12 ms-1    ">Cancel</button>
                         </div>
                     </div>
                 </div>

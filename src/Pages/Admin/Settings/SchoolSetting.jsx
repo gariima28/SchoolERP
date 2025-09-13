@@ -252,17 +252,17 @@ const SchoolSetting = () => {
                         <DataLoader />
                     )
                 }
-                <div className="container-fluid">
-                    <div className="row p-2 pt-4">
+                <div className="container-fluid pt-4">
+                    <div className="row px-4 ">
                         <div className="row pb-3">
                             <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
                                 <ol className="breadcrumb mb-1">
-                                    <li className="breadcrumb-item"><a href="/" className='bredcrumText text-decoration-none'>Home</a></li>
-                                    <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
-                                    <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">School Settings</li>
+                                    <li className="breadcrumb-item"><a href="/" className='font14 bredcrumText text-decoration-none'>Home</a></li>
+                                    <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='font14 bredcrumText text-decoration-none'>Settings</a></li>
+                                    <li className="font14 breadcrumb-item active bredcrumActiveText" aria-current="page">School Settings</li>
                                 </ol>
                             </nav>
-                            <p className='font16 ps-0 fontWeight500'>School Settings</p>
+                            <p className='font14 ps-0 fontWeight500'>School Settings</p>
                         </div>
                         <div className="row pb-3">
                             <div className="overflow-scroll cardradius bg-white p-3">

@@ -155,7 +155,7 @@ const User_Prof_pic = ({ data }) => {
                                         :
                                         <button type="button" class="btn btn-outline-success my-green heading-12" onClick={ContactDataApi}>Add Picture</button>
                                 }
-                                <button type="button" class="btn btn-outline-success heading-12 ms-1 ">Cancel</button>
+                                <button type="button" class="btn cancelButtons heading-12 ms-1 ">Cancel</button>
                             </div>
                         </div>
                     </div>

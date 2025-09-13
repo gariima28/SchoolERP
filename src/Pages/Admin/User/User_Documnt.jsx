@@ -513,7 +513,7 @@ const User_Documnt = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-outline-success heading-14"
+                className="btn cancelButtons heading-14"
                 onClick={clearForm}
                 tabIndex="5"
                 aria-label="Cancel"
@@ -677,7 +677,7 @@ const User_Documnt = () => {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-outline-success heading-14"
+                    className="btn cancelButtons heading-14"
                     data-bs-dismiss="offcanvas"
                     onClick={() => {
                       resetEdit();
@@ -745,7 +745,7 @@ const User_Documnt = () => {
                     Delete {loader && <span className="loader"></span>}
                   </button>
                   <button
-                    className="btn btn-outline-success heading-14 ms-2"
+                    className="btn cancelButtons heading-14 ms-2"
                     data-bs-dismiss="offcanvas"
                     onClick={() => {
                       setIsDeleteConfirmed(false);

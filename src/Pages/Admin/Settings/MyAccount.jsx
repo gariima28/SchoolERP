@@ -136,8 +136,6 @@ const MyAccount = () => {
                     adminAddress: response?.data?.address,
                     adminGender: response?.data?.gender,
                     adminDesignation: response?.data?.designation,
-                })
-                setInitialValues({
                     adminDOB: response?.data?.dateOfBirth.split('T')[0],
                 })
                 setValue('adminDOB', response?.data?.dateOfBirth.split('T')[0])
@@ -169,7 +167,7 @@ const MyAccount = () => {
             formData.append("adminEmail", data?.adminadminEmail === null ? initialValues?.adminEmail : data?.adminEmail);
             formData.append("adminPhone", data?.adminPhone === null ? initialValues?.adminPhone : data?.adminPhone);
             formData.append("adminDesignation", data?.adminDesignation === null ? initialValues?.adminDesignation : data?.adminDesignation);
-            formData.append("adminDOB", data?.adminDOB === null ? initialValues?.adminDOB : data?.adminDOB);
+            formData.append("adminBirthDate", data?.adminDOB === null ? initialValues?.adminDOB : data?.adminDOB);
             formData.append("adminPhoto", data?.adminPhoto[0]);
             var response = await AdminAccountApi(formData);
             if (response?.status === 200) {
@@ -211,17 +209,17 @@ const MyAccount = () => {
                 )
             }
             <div className="container-fluid pt-4">
-                <div className="row pb-3">
+                <div className="row px-3">
                     <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
                         <ol className="breadcrumb mb-1">
-                            <li className="breadcrumb-item"><a href="/" className='bredcrumText text-decoration-none'>Home</a></li>
-                            <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText text-decoration-none'>Settings</a></li>
-                            <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">My Account</li>
+                            <li className="breadcrumb-item"><a href="/" className='bredcrumText font14 text-decoration-none'>Home</a></li>
+                            <li className="breadcrumb-item"><a href="/admin/settings/schoolSetting" className='bredcrumText font14 text-decoration-none'>Settings</a></li>
+                            <li className="breadcrumb-item active font14 bredcrumActiveText" aria-current="page">My Account</li>
                         </ol>
                     </nav>
-                    <p className='font16 ps-0 fontWeight500'>My Account</p>
+                    <p className='font14 ps-0 fontWeight500'>My Account</p>
                 </div>
-                <div className="row pb-3">
+                <div className="row px-3 pt-3">
                     <div className="overflow-scroll cardradius bg-white">
                         <div className="row p-4">
                             <div className="col-md-4 col-12">
