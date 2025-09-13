@@ -183,9 +183,9 @@ const Container = styled.div`
 
 const Per_info_emer_cont = () => {
 
-  const { id } = useParams();
-  const { myId } = useContext(MyUseContext);
-  const myUserID = myId ?? id ?? "";
+  const { roleIdUser } = useParams();
+  const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleIdUser ?? "";
 
   // State Management
   const [loader, setLoader] = useState(false);

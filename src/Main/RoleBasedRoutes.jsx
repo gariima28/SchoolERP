@@ -259,7 +259,7 @@ export const RoleBasedRoutes = {
     { path: '/admin/users/drivers/:id', element: <Driver /> },
     { path: '/admin/users/driver/addDriver', element: <AddDriver /> },
     {
-      path: '/admin/users/mainuserform',
+      path: '/admin/users/mainuserform/:roleIdUser',
       element: <MainUserForm />,
       children: [
         { path: 'userbasicinformation', element: <User_basic_infomation /> },
@@ -269,7 +269,7 @@ export const RoleBasedRoutes = {
       ]
     },
     {
-      path: '/admin/users/mainuserform/:id',
+      path: '/admin/users/mainuserform/:userId',
       element: <MainUserForm />,
       children: [
         { path: 'userbasicinformation', element: <User_basic_infomation /> },

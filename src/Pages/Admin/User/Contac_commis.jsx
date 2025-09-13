@@ -225,9 +225,9 @@ const StyledContainer = styled.div`
 `;
 
 const Conta_deduction = () => {
-  const { id } = useParams();
-  const { myId } = useContext(MyUseContext);
-  const myUserID = myId ?? id ?? '';
+  const { roleIdUser } = useParams();
+  const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleIdUser ?? "";
 
   const [loaderState, setLoaderState] = useState(false);
   const [deductionData, setDeductionData] = useState([]);

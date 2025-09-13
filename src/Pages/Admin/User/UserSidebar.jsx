@@ -247,12 +247,12 @@ const Container = styled.div`
 `;
 
 const UserSidebar = () => {
-  const { id } = useParams();
+  const { roleIdUser } = useParams();
   const navigate = useNavigate();
   const { myId, setUserId } = useContext(MyUseContext);
 
-  const myUserID = myId ?? id ?? "";
-  const isAddForm = !myId && !id;
+  const myUserID = myId ?? roleIdUser ?? "";
+  const isAddForm = !myId && !roleIdUser;
 
   const [image, setImage] = useState(null);
   const [updateStatus, setUpdateStatus] = useState();
@@ -333,11 +333,16 @@ const UserSidebar = () => {
         setUpdateStatus(response?.data?.status);
         setStaffImage(response?.data?.user?.staffImage || '/SampleProfile.png');
       } else {
-        toast.error(response?.data?.msg || 'Failed to fetch user data');
+        if (roleIdUser) {
+
+        } else {
+          toast.error(response?.data?.message);
+        }
+
         setStaffImage('/SampleProfile.png');
       }
     } catch (error) {
-      toast.error('Failed to fetch user data');
+      // toast.error('Failed to fetch user data');
       setStaffImage('/SampleProfile.png');
     }
   };
@@ -409,12 +414,12 @@ const UserSidebar = () => {
     }
   };
 
-  const isTabsDisabled = !myId && !id;
+  const isTabsDisabled = !myId && !roleIdUser;
 
   // Function to generate dynamic NavLink paths
   const getNavLinkPath = (section) => {
     return isAddForm
-      ? `/admin/users/mainuserform/${section}`
+      ? `/admin/users/mainuserform/${roleIdUser}/${section}`
       : `/admin/users/mainuserform/${myUserID}/${section}`;
   };
 
@@ -422,7 +427,7 @@ const UserSidebar = () => {
   const isNavLinkActive = (match, location, section) => {
     if (!match) return false;
     const basePathWithId = `/admin/users/mainuserform/${myUserID}/${section}`;
-    const basePathWithoutId = `/admin/users/mainuserform/${section}`;
+    const basePathWithoutId = `/admin/users/mainuserform/${roleIdUser}/${section}`;
     return (
       location.pathname === basePathWithId ||
       location.pathname === basePathWithoutId

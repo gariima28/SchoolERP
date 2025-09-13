@@ -9,9 +9,9 @@ const Conta_contac = ({ data }) => {
   const { transferId, myUserId } = data;
   const staffId = transferId;
 
-  const { id } = useParams();
-  const { myId } = useContext(MyUseContext);
-  const myUserID = myId ?? id ?? "";
+  const { roleIdUser } = useParams();
+  const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleIdUser ?? "";
 
   console.log(myUserID, "myUserID");
 

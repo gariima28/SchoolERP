@@ -5,11 +5,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { StaffPostApi, StaffGetById, StaffPutApi, RolePermissionGetApi } from '../../../Utils/Apis';
 const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { myId } = useContext(MyUseContext);
-  const myUserID = myId ?? id ?? "";
-  console.log(id)
-  console.log(myId)
+  const { roleIdUser } = useParams();
+  const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleIdUser ?? "";
+  console.log(roleIdUser)
+  console.log(userId)
 
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
@@ -22,7 +22,6 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const [city, setCity] = useState();
   const [religion, setReligion] = useState();
   const [emptyValue, setemptyValue] = useState();
-  const [userId, setUserId] = useState();
   const [rolePermisAllData, setRolePermisAllData] = useState([]);
   const [roleId, setRoleId] = useState('');
   const [myroleName, setMyroleName] = useState('');
@@ -179,8 +178,8 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       if (response?.status === 200) {
         const roles = response?.data?.roles || [];
         setRolePermisAllData(roles);
-        const matchedRole = roles.find((role) => role.roleId === Number(myUserId));
-        if (matchedRole && myUserId !== 0) {
+        const matchedRole = roles.find((role) => role.roleId === Number(roleIdUser));
+        if (matchedRole && roleIdUser !== 0) {
           setRoleId(matchedRole.roleId.toString());
           setMyroleName(matchedRole.roleName);
           setDropdownDisabled(true);
@@ -237,7 +236,6 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
         if (response?.data?.status === "success") {
           toast.success(response?.data?.message);
           setemptyValue(response?.data?.status);
-          setUserId(response?.data?.status);
           // setFunction(response?.data?.otherstaff?.id);
           navigate(`/admin/users/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
           // setMyId(response?.data?.otherstaff?.id);
@@ -283,7 +281,6 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
         setDob(response?.data?.user?.staffDOB);
         setLoader(false);
       } else {
-        toast.error(response?.data?.msg || 'Failed to fetch user data');
         setLoader(false);
       }
     } catch (error) {

@@ -792,7 +792,7 @@ const Teacher = () => {
   }
 
   const handleAddButton = () => {
-    navigate(`/admin/users/mainuserform/userbasicinformation`)
+    navigate(`/admin/users/mainuserform/${id}/userbasicinformation`)
   }
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
