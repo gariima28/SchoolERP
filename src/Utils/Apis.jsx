@@ -6086,10 +6086,10 @@ export const SyllabusSectionGetAllApi = async (classId) => {
 }
 
 // Get subject by class id in syllabus 
-export const SubjectByClassIdInSyllabusGetAllApi = async (classId) => {
+export const SubjectByClassIdInSyllabusGetAllApi = async (classNo) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/subject/getAllSubByClassId/${classId}`)
+    const res = await axios.get(`${Domain}/subject/getAllSubByClassId/${classNo}`)
     // // console.log('my-response', res)
     if (res) {
       return res;
