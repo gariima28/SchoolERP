@@ -675,12 +675,15 @@ const Event = () => {
           } else {
             toast.error(response?.data?.message);
             setAddshow(true)
+            setLoader(false)
           }
         } else {
           toast.error(response?.data?.message);
+          setLoader(false)
         }
       } catch (error) {
         setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }
@@ -688,6 +691,7 @@ const Event = () => {
 
   // Event Get All Api   
   const MyEventGetAllApi = async () => {
+    
     setLoader(true)
     try {
       const response = await TeacherEventGetAllApi(searchKey, pageNo, pageSize);
@@ -699,9 +703,11 @@ const Event = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.msg);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -726,9 +732,12 @@ const Event = () => {
       } else {
         toast.error(response?.data?.message);
         setShowdelete(true)
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
+      
       // console.log('catch')
     }
   }
@@ -748,9 +757,11 @@ const Event = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log('catch')
     }
   }
@@ -782,10 +793,12 @@ const Event = () => {
         } else {
           toast.error(response?.data?.message);
           setShow(true)
+          setLoader(false)
         }
 
       } catch (error) {
         setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }

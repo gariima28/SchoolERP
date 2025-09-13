@@ -160,7 +160,7 @@ const Add_assign_offcnvs = () => {
         console.log(val1, 'class id')
         console.log(val2, 'class no')
         MySectionGetApi(val1)
-        MySubjectByClassIdGetApi(val1)
+        MySubjectByClassIdGetApi(val2)
     }
 
     // Get All Api from class list page for id 
@@ -201,11 +201,11 @@ const Add_assign_offcnvs = () => {
         }
     }
     // Subject by class id From class get all api 
-    const MySubjectByClassIdGetApi = async (id) => {
+    const MySubjectByClassIdGetApi = async (classNo) => {
      // console.log(id, 'id in subject')
         setLoader(true)
         try {
-            const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(id);
+            const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classNo);
             console.log('class id for subject in assignment', classId)
             console.log('Subject-get-all-api in Assignment--', response);
             if (response?.status === 200) {

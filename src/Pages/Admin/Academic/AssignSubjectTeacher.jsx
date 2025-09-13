@@ -709,7 +709,7 @@ const AssignSubjectTeacher = () => {
           setTeacherId('')
           setTransformedSections([])
           setAllSectionWithClass([])
-
+          UpdatClassGetApi()
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
           offcanvasInstance.hide();
           setTimeout(() => {
@@ -967,12 +967,12 @@ const AssignSubjectTeacher = () => {
                       <td className=' greyText no-wrap  '>{item.classNo}</td>
                       <td className=' greyText no-wrap  '>
                         {
-                        item?.sectionNames?.map((item, index) => (
-                          <td className=' greyText no-wrap ' key={index}>{item}</td>
-                        ))
-                      }
+                          item?.sectionNames?.map((item, index) => (
+                            <td className=' greyText no-wrap ' key={index}>{item}</td>
+                          ))
+                        }
                       </td>
-                      
+
                       <td className=' greyText no-wrap ' >
                         <div className="dropdown my-button-show">
                           <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">

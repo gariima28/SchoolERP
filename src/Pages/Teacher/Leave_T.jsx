@@ -516,7 +516,6 @@ background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%);;
 `;
 // ## style css area end ####  
 
-
 const Leave = () => {
 
   const [forDelete, setForDelete] = useState(false)
@@ -644,6 +643,7 @@ const Leave = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
@@ -689,9 +689,11 @@ const Leave = () => {
           }
         } else {
           toast.error(response?.data?.message);
+          setLoader(false)
         }
       } catch (error) {
         console.log(error)
+        setLoader(false)
       }
     }
 
@@ -711,6 +713,7 @@ const Leave = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
@@ -729,10 +732,12 @@ const Leave = () => {
       else {
         setloaderState(false);
         console.log(response?.data?.msg);
+        setLoader(false)
       }
     }
     catch (error) {
       console.log('Error Facing during Get All Event API - ', error)
+      setLoader(false)
     }
   }
   const handleForDelete = () => {

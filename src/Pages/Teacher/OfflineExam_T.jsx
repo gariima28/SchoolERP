@@ -707,9 +707,11 @@ const OfflineExam_T = () => {
                 setLoader(false)
             } else {
                 toast.error(response?.data?.message);
+                setLoader(false)
             }
         } catch (error) {
             setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -740,7 +742,6 @@ const OfflineExam_T = () => {
 
     // Post api 
     const MyMarksPostApi = async () => {
-
         if (FuncValidation()) {
             const formData = new FormData()
             formData.append('examTermId', ExamTerm);
@@ -905,7 +906,6 @@ const OfflineExam_T = () => {
                             setEditshow(true)
                         }, 0.5)
                     }
-
                 } else {
                     toast.error(response?.data?.message);
                     setEditshow(true)
@@ -917,7 +917,6 @@ const OfflineExam_T = () => {
                 // console.log(error)
             }
     }
-
     const handleChange = (e) => {
         const trimmedValue = e.target.value.trimStart();
         setSearchKey(trimmedValue);
