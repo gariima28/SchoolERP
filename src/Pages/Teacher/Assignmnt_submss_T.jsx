@@ -522,6 +522,7 @@ const Assignmnt_submss = () => {
   const [assignmentId, setAssignmentId] = useState('')
   // console.log('subjectId', subjectId)
   const [singleState, setSingleState] = useState('');
+  const [singleState2, setSingleState2] = useState('All');
   const [updateGetAll, setUpdateGetAll] = useState(false);
 
   const [isValidFromDateRequired, setIsValidFromDateRequired] = useState(false);
@@ -533,11 +534,6 @@ const Assignmnt_submss = () => {
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [classNo, setClassNo] = useState('')
-
-
-  // const handlePageClick = (event) => {
-  //   setPageNo(event.selected + 1);
-  // };
 
   useEffect(() => {
     UpdatClassGetApi()
@@ -566,9 +562,11 @@ const Assignmnt_submss = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -585,9 +583,11 @@ const Assignmnt_submss = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -607,6 +607,7 @@ const Assignmnt_submss = () => {
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -624,9 +625,11 @@ const Assignmnt_submss = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -646,9 +649,11 @@ const Assignmnt_submss = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -679,8 +684,8 @@ const Assignmnt_submss = () => {
     setClassNo('')
     setAsssignmentId('')
     setSubjectId('')
+    setSectionId('')
     setSubmissionGetAllDataa([])
-
   }
   return (
     <Container>
@@ -728,7 +733,7 @@ const Assignmnt_submss = () => {
             <div className="col-lg-3 col-md-6 col-sm-12 ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Section</label>
-                <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm form-focus label-color" value={sectionId} onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
                   <option value="" >--Choose--</option>
                   {
                     sectionData?.map(item =>
@@ -741,7 +746,7 @@ const Assignmnt_submss = () => {
             <div className="col-lg-3 col-md-6 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Subject</label>
-                <select class="form-select  form-select-sm form-focus   label-color" onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm form-focus   label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
                   <option value="">--Choose--</option>
                   {
                     subjectData?.map(item =>
@@ -754,7 +759,7 @@ const Assignmnt_submss = () => {
             <div className="col-lg-3 col-md-6 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Assignment</label>
-                <select class="form-select  form-select-sm form-focus   label-color" onChange={(e) => setAsssignmentId(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm form-focus   label-color" value={assignmentId} onChange={(e) => setAsssignmentId(e.target.value)} aria-label="Default select example">
                   <option value="">--Choose--</option>
                   {
                     assignmntdata?.map(item =>
@@ -787,17 +792,17 @@ const Assignmnt_submss = () => {
                       <div className="row pb-2 gap-sm-0 gap-3 ">
                         <div className="col-md-2 col-sm-12x col-12 text-center margn-bttm">
 
-                          <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === 'All' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('') }}>All</span>
+                          <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState2 === 'All' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState2('All'), setSingleState('') }}>All</span>
 
                         </div>
                         <div className="col-md-2 col-sm-12x col-12 text-center margn-bttm">
-                          <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === 'SUBMITTED' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('SUBMITTED') }}>Submitted</span>
+                          <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === 'SUBMITTED' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('SUBMITTED'), setSingleState2('') }}>Submitted</span>
                         </div>
                         <div className="col-md-2 col-sm-12 col-12 text-center px-0 margn-bttm">
-                          <span className={`font16 fontSizeResponsive px-0 fontWeight500  ps-3 pb-2 pe-3 heading-16 ${singleState === 'MARKS_PENDING' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('MARKS_PENDING') }}>Marks Pending</span>
+                          <span className={`font16 fontSizeResponsive px-0 fontWeight500  ps-3 pb-2 pe-3 heading-16 ${singleState === 'MARKS_PENDING' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('MARKS_PENDING'), setSingleState2('')  }}>Marks Pending</span>
                         </div>
                         <div className="col-md-2 col-sm-12 col-12 text-center margn-bttm">
-                          <span className={`font16 fontSizeResponsive px-0 fontWeight500  ps-3 pb-2 pe-3 heading-16  ${singleState === 'PENDING' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('PENDING') }}>Pending</span>
+                          <span className={`font16 fontSizeResponsive px-0 fontWeight500  ps-3 pb-2 pe-3 heading-16  ${singleState === 'PENDING' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('PENDING'), setSingleState2('')  }}>Pending</span>
                         </div>
                       </div>
                     </div>
@@ -806,7 +811,7 @@ const Assignmnt_submss = () => {
                     search ?
                       <div className="row">
                         {
-                          singleState === '' && (<AllSubmission data={submissionGetAllData} />)
+                          singleState === 'All' && (<AllSubmission data={submissionGetAllData} />)
                         }
                         {
                           singleState === 'SUBMITTED' && (<SubmittedSubmission data={submissionGetAllData} />)

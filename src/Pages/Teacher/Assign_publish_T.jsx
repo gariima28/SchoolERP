@@ -743,7 +743,7 @@ const Assign_publish = (props) => {
     // // console.log(id, 'id in subject')
     setLoader(true)
     try {
-      const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(id);
+      const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classNo);
       // console.log('Subject-get-all-api in Assignment', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)

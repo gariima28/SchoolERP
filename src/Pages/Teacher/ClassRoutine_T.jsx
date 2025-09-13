@@ -635,11 +635,14 @@ const ClassRoutine = () => {
         // toast.success(response?.data?.classes?.message)
         setClassData(response?.data?.data)
         setLoader(false)
+
       } else {
         // toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
 
@@ -654,9 +657,11 @@ const ClassRoutine = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
 
@@ -671,9 +676,11 @@ const ClassRoutine = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
 
@@ -687,9 +694,11 @@ const ClassRoutine = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
   // other apis area end----------------------------
@@ -751,10 +760,12 @@ const ClassRoutine = () => {
         setClassRoutineData(response?.data?.routine?.timetable)
         setLoader(false)
       } else {
+        setLoader(false)
         // toast.error(response?.data?.classes?.message);
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
   
@@ -775,9 +786,11 @@ const ClassRoutine = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
   // class routine put Api 
@@ -921,9 +934,11 @@ const ClassRoutine = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
   // Slot get by id api 
@@ -984,7 +999,6 @@ const ClassRoutine = () => {
     }
   }
   // Slot apis 
-  
   return (
     <Container>
 

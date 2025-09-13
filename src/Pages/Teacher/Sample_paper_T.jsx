@@ -554,9 +554,7 @@ const Sample_paper = () => {
     const [classId, setClassId] = useState('')
     const [classNo, setClassNo] = useState('')
     const [title, setTitle] = useState()
-
     const [isValidTitleRequired, setIsValidTitleRequired] = useState(false);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
@@ -616,11 +614,7 @@ const Sample_paper = () => {
             toast.error('An error occurred while downloading the PDF.');
         }
     };
-    // useEffect(() => {
-    //     if (token) {
-    //         UpdatClassGetApi();
-    //     }
-    // }, [token]);
+
     useEffect(() => {
         UpdatClassGetApi();
     }, []);
@@ -683,9 +677,11 @@ const Sample_paper = () => {
                 setLoader(false)
             } else {
                 toast.error(response?.data?.classes?.message);
+                setLoader(false)
             }
         } catch (error) {
             setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -701,9 +697,11 @@ const Sample_paper = () => {
                 setLoader(false)
             } else {
                 toast.error(response?.data?.message);
+                setLoader(false)
             }
         } catch (error) {
             setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -719,9 +717,11 @@ const Sample_paper = () => {
                 setLoader(false)
             } else {
                 toast.error(response?.data?.classes?.message);
+                setLoader(false)
             }
         } catch (error) {
             setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -737,9 +737,11 @@ const Sample_paper = () => {
                 setLoader(false)
             } else {
                 toast.error(response?.data?.classes?.message);
+                setLoader(false)
             }
         } catch (error) {
             setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -810,9 +812,11 @@ const Sample_paper = () => {
 
             } else {
                 toast.error(response?.data?.classes?.message);
+                setLoader(false)
             }
         } catch (error) {
             setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -836,9 +840,11 @@ const Sample_paper = () => {
             } else {
                 toast.error(response?.data?.message);
                 setShowdelete(true)
+                setLoader(false)
             }
         } catch (error) {
             setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
@@ -860,54 +866,55 @@ const Sample_paper = () => {
                 setImageFile(response?.data?.SamplePaper?.samplePaperPath)
                 setCoverPage(response?.data?.SamplePaper?.samplePaperPath)
                 setUpdateStatus(response?.data?.status)
-
                 setLoader(false)
             } else {
                 toast.error(response?.data?.classes?.message);
+                setLoader(false)
             }
         } catch (error) {
             setloaderState(false);
+            setLoader(false)
             // console.log(error)
         }
     }
     //  Put api sample
-    const MySamplePutApi = async () => {
-        if (FuncValidation()) {
-            setLoader(true)
-            try {
-                const formData = new FormData()
-                formData.append('title', title);
-                formData.append('ClassId', classId);
-                formData.append('sectionIds', sectionId);
-                // formData.append('sectionIds', selectedSectionIds);
-                formData.append('subjectId', subjectId);
-                formData.append('teacherId', teacherId);
-                formData.append('status', status);
-                formData.append('file', imageFile);
+    const MySamplePutApi = async () => {   
+        setLoader(true)
+        try {
+            const formData = new FormData()
+            formData.append('title', title);
+            formData.append('ClassId', classId);
+            formData.append('sectionIds', sectionId);
+            // formData.append('sectionIds', selectedSectionIds);
+            formData.append('subjectId', subjectId);
+            formData.append('teacherId', teacherId);
+            formData.append('status', status);
+            formData.append('file', imageFile);
 
-                const response = await TeacherSamplePutApi(idForUpdate, formData);
-                // console.log('My-Sample-put-Api-response', response)
+            const response = await TeacherSamplePutApi(idForUpdate, formData);
+            // console.log('My-Sample-put-Api-response', response)
 
-                if (response?.status === 200) {
-                    toast.success(response?.data?.message);
-                    setShowadd(false)
-                    setHideedit(true)
-                    MySampleGetApi()
-                    setLoader(false)
-                    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-                    offcanvasInstance.hide();
-                    setTimeout(() => {
-                        setShowadd(true)
-                    }, 0.5)
-                } else {
-                    toast.error(response?.data?.message);
+            if (response?.status === 200) {
+                toast.success(response?.data?.message);
+                setShowadd(false)
+                setHideedit(true)
+                MySampleGetApi()
+                setLoader(false)
+                const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+                offcanvasInstance.hide();
+                setTimeout(() => {
                     setShowadd(true)
-                }
-
-            } catch (error) {
-                setloaderState(false);
-                // console.log(error)
+                }, 0.5)
+            } else {
+                toast.error(response?.data?.message);
+                setShowadd(true)
+                setLoader(false)
             }
+
+        } catch (error) {
+            setloaderState(false);
+            setLoader(false)
+            // console.log(error)
         }
     }
     const ClearData = () => {
@@ -919,6 +926,7 @@ const Sample_paper = () => {
         setStatus('')
         setIsValidTitleRequired(false)
         setSampleDataAll([])
+        setSectionData([])
     }
     const Handle = (e) => {
         const value = e.target.value;
@@ -977,7 +985,7 @@ const Sample_paper = () => {
                     </div>
                     <div className='d-flex g-1 for-media-query'>
 
-                        <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={HandleClear}>+ Add Sample Paper</Link>
+                        <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={HandleClear} onClick={ClearData}>+ Add Sample Paper</Link>
                     </div>
                 </div>
                 <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-12px' }}>Sample Paper Details</h5>

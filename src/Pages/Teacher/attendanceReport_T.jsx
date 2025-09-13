@@ -621,9 +621,11 @@ const AssignLeave = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
 
@@ -644,6 +646,7 @@ const AssignLeave = () => {
         }
       } catch (error) {
         console.log(error);
+        setLoader(false)
       }
     } else {
       try {
@@ -658,6 +661,7 @@ const AssignLeave = () => {
         }
       } catch (error) {
         console.log(error);
+        setLoader(false)
       }
     }
   };
