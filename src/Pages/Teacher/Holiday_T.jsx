@@ -666,13 +666,16 @@ const Holiday = () => {
             }, 0.5)
           } else {
             toast.error(response?.data?.message);
+            setLoader(false)
             setShow(true)
           }
         } else {
+          setLoader(false)
           toast.error(response?.data?.message);
         }
       } catch (error) {
         setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }
@@ -693,9 +696,11 @@ const Holiday = () => {
 
       } else {
         toast.error(response?.data?.classes?.msg);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -721,9 +726,11 @@ const Holiday = () => {
       } else {
         toast.error(response?.data?.message);
         setShowdelete(true)
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log('catch')
     }
   }
@@ -741,9 +748,11 @@ const Holiday = () => {
 
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -755,7 +764,6 @@ const Holiday = () => {
       formData.append('holidayTitle', holidayName)
       formData.append('holidayDescription', holidayDescription)
       formData.append('holidayDate', holidayDate)
-
       const response = await TeacherHolidayPutApi(id, formData);
       try {
         if (response?.status === 200) {
@@ -773,10 +781,12 @@ const Holiday = () => {
         } else {
           toast.error(response?.data?.message);
           setEditshow(true)
+          setLoader(false)
         }
 
       } catch (error) {
         setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }

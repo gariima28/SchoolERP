@@ -622,12 +622,6 @@ font-size: 12px;
 `;
 // ## style css area end ####  
 
-// const Marks = () => {
-
-// }
-
-// export default Marks
-
 
 const Marks_T = () => {
   const [loader, setLoader] = useState(false)
@@ -650,26 +644,21 @@ const Marks_T = () => {
   const [hideedit, setHideedit] = useState(false)
 
   const [grade, setGrade] = useState()
-  const [gainMarks, setGainMarks] = useState()
-  const [comments, setComments] = useState()
-  const [markId, setMarkId] = useState()
-  // console.log(markId, 'markId')
-  const [studentId, setStudentId] = useState()
-  // console.log(studentId, 'studentId')
+  const [thoeryMarks, setThoeryMarks] = useState()
+  const [practicleMarks, setPracticleMarks] = useState()
+  const [markObtaine, setMarkObtaine] = useState()
+  const [percentage, setPercentage] = useState()
 
   const [searchKey, setSearchKey] = useState('')
   const [classId, setClassId] = useState('')
   const [classNo, setClassNo] = useState('')
   const [sectionId, setSectionId] = useState('')
   const [sectionName, setSectionName] = useState()
-  // console.log('mark id ', markId)
-  // console.log('student id ', studentId)
   const [subjectId, setSubjectId] = useState('')
   const [subjectShow, setSubjectShow] = useState('')
   const [ExamTerm, setExamTerm] = useState('')
   const [examTermShow, setExamTermShow] = useState('')
   const [sessionName, setSessionName] = useState('')
-  // console.log('session ', sessionName)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -783,21 +772,31 @@ const Marks_T = () => {
     const [val1, val2] = value.split(',');
     setSectionId(parseInt(val1))
     setSectionName(val2)
- 
   }
 
   // Marks Post Api 
   const MyMarksPostApi = async (markId, studentId) => {
     const formData = new FormData()
-    formData.append('markId', markId);
-    formData.append('categoryName', ExamTerm);
-    formData.append('classId', classId);
-    formData.append('sectionId', sectionId);
-    formData.append('subjectId', subjectId);
-    formData.append('studentId', studentId);
-    formData.append('sessionName', sessionName);
-    formData.append('marks', gainMarks);
-    formData.append('comments', comments);
+    // formData.append('markId', markId);
+    // formData.append('examTermId', ExamTerm);
+    // formData.append('classId', classId);
+    // formData.append('sectionId', sectionId);
+    // formData.append('subjectId', subjectId);
+    // formData.append('studentId', studentId);
+    // formData.append('sessionName', sessionName);
+    // formData.append('marks', gainMarks);
+    // formData.append('theoryMarks', thoeryMarks);
+    // formData.append('practicalMarks', practicleMarks);
+    // formData.append('totalMarks', practicleMarks);
+
+        formData.append("studentId", studentId);
+        formData.append("examTermId", ExamTerm);
+        formData.append("classNo", classNo);
+        formData.append("classSec", sectionName);
+        formData.append("subject", subjectId);
+        formData.append("sessionName", sessionName);
+        formData.append("theoryMarks", thoeryMarks);
+        formData.append("practicalMarks", practicleMarks);
 
     setLoader(true)
     try {
@@ -829,12 +828,13 @@ const Marks_T = () => {
   const MyMarksGetAll = async () => {
     setLoader(true)
     try {
-      const response = await TeacherMarksGetAll(classNo,sectionId, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize);
+      const response = await TeacherMarksGetAll(classNo,sectionName, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize);
+      console.log(response, 'marks get all=========dataa')
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
-        setMarksAllData(response?.data?.marks)
-        setSubjectShow(response?.data?.subjectName)
-        setExamTermShow(response?.data?.ExamTerm)
+        setMarksAllData(response?.data?.studentMarksList?.students)
+        setSubjectShow(response?.data?.studentMarksList?.subject)
+        setExamTermShow(response?.data?.studentMarksList?.exam)
         setCurrentPage(response?.data?.currentPage);
         setTotalPages(response?.data?.totalPages);
         setLoader(false)
@@ -942,7 +942,7 @@ const Marks_T = () => {
                   <option value="">--Choose--</option>
                   {
                     subjectData?.map(item =>
-                      <option value={item.subjectId}>{item.subjectName}</option>
+                      <option value={item.subjectName}>{item.subjectName}</option>
                     )
                   }
                 </select>
@@ -997,9 +997,11 @@ const Marks_T = () => {
                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
                   <th className='no-wrap' style={{ width: '100px' }}>#</th>
                   <th className='no-wrap'>Student Name</th>
-                  <th className='no-wrap'>Mark</th>
-                  <th className='no-wrap' >Grade Point</th>
-                  <th className='no-wrap'>Comment</th>
+                  <th className='no-wrap'>Theory Marks</th>
+                  <th className='no-wrap' >Practical Marks</th>
+                  <th className='no-wrap'>Marks Obtained</th>
+                  <th className='no-wrap' >Percentage</th>
+                  <th className='no-wrap' >Grade</th>
                   <th className='no-wrap' >Actions</th>
                 </tr>
               </thead>
@@ -1010,13 +1012,19 @@ const Marks_T = () => {
                       <td className=' greyText no-wrap'>{index + 1}</td>
                       <td className=' greyText no-wrap' >{item.studentName}</td>
                       <td className=' greyText no-wrap' >
-                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setGainMarks(e.target.value)} value={item.gainMarks} />
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setThoeryMarks(e.target.value)} value={thoeryMarks} />
                       </td>
                       <td className=' greyText no-wrap' >
-                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setGrade(e.target.value)} value={item.gradePoints} />
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setPracticleMarks(e.target.value)} value={practicleMarks} />
                       </td>
                       <td className=' greyText no-wrap' >
-                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setComments(e.target.value)} value={item.comments} />
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setMarkObtaine(e.target.value)} value={markObtaine} />
+                      </td>
+                      <td className=' greyText no-wrap' >
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setPercentage(e.target.value)} value={percentage} />
+                      </td>
+                      <td className=' greyText no-wrap' >
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setGrade(e.target.value)} value={grade} />
                       </td>
                       <td className=' greyText no-wrap' >
                         <div className='edit-icon' onClick={() => MyMarksPostApi(item.markId, item.studentId)}>

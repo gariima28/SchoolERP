@@ -776,60 +776,113 @@ const Issue_Report = () => {
 
 
   // post Api of issue book
+  // const MyIssueBookApi = async () => {
+  //   if (FuncValidation()) {
+  //     const formData = new FormData()
+  //     formData.append('returnDate', returnDate);
+  //     formData.append('classId', Class);
+  //     formData.append('sectionId', sectionId);
+  //     formData.append('studentId', studentMembberId);
+  //     formData.append('bookId', booById);
+  //     setLoader(true)
+  //     try {
+  //       const response = await BookIssue(formData);
+  //       console.log('issue book post api', response)
+  //       if (response?.data?.status === "success") {
+  //         toast.success(response?.data?.message);
+  //         MyRolPermisGetAllApi()
+  //         setLoader(false)
+  //         setBooById('')
+  //         setEdition('')
+  //         setLanguage('')
+  //         setRackNumber('')
+  //         setShelfNumber('')
+  //         setAuthor2('')
+  //         setQuantity('')
+  //         setClass('')
+  //         setClassNo('')
+  //         setSectionId('')
+  //         setStudentMembberId('')
+  //         setReturnDate('')
+  //         setShow(false)
+  //           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+  //           offcanvasInstance.hide();
+  //           setTimeout(() => {
+  //             setShow(true)
+  //           }, 0.5)
+      
+  //       } else {
+  //         toast.error(response?.data?.message);
+  //         // setShow(true)
+  //         setLoader(false)
+  //       }
+  //     } catch (error) {
+  //       console.log(error)
+  //       setLoader(false)
+  //     }
+  //   }
+
+
+  // }
   const MyIssueBookApi = async () => {
-    if (FuncValidation()) {
-      const formData = new FormData()
-      formData.append('returnDate', returnDate);
-      formData.append('classId', Class);
-      formData.append('sectionId', sectionId);
-      formData.append('studentId', studentMembberId);
-      formData.append('bookId', booById);
-      setLoader(true)
-      try {
-        const response = await BookIssue(formData);
-        console.log('issue book post api', response)
-        if (response?.data?.status === "success") {
-          toast.success(response?.data?.message);
-          MyRolPermisGetAllApi()
-          setLoader(false)
-          setBooById('')
-          setEdition('')
-          setLanguage('')
-          setRackNumber('')
-          setShelfNumber('')
-          setAuthor2('')
-          setQuantity('')
-          setClass('')
-          setClassNo('')
-          setSectionId('')
-          setStudentMembberId('')
-          setReturnDate('')
-          setShow(false)
-            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+  if (FuncValidation()) {
+    const formData = new FormData()
+    formData.append('returnDate', returnDate);
+    formData.append('classId', Class);
+    formData.append('sectionId', sectionId);
+    formData.append('studentId', studentMembberId);
+    formData.append('bookId', booById);
+    setLoader(true)
+    try {
+      const response = await BookIssue(formData);
+      console.log('issue book post api', response)
+      if (response?.data?.status === "success") {
+        toast.success(response?.data?.message);
+        MyRolPermisGetAllApi()
+        setLoader(false)
+        
+        // Reset all form fields
+        setBooById('')
+        setEdition('')
+        setLanguage('')
+        setRackNumber('')
+        setShelfNumber('')
+        setAuthor2('')
+        setQuantity('')
+        setClass('')
+        setClassNo('')
+        setSectionId('')
+        setStudentMembberId('')
+        setReturnDate('')
+        
+        // Hide the offcanvas
+        if (offcanvasRef.current) {
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+          if (offcanvasInstance) {
             offcanvasInstance.hide();
-            setTimeout(() => {
-              setShow(true)
-            }, 0.5)
-          // const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-          // offcanvasInstance.hide();
-          // const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('staticBackdrop'));
-          // offcanvas.hide();
-          setTimeout(() => {
-            setShow(true)
-          }, 0.5)
-        } else {
-          toast.error(response?.data?.message);
-          // setShow(true)
-          setLoader(false)
+          } else {
+            // If no instance exists, create one and hide it
+            const newOffcanvas = new bootstrap.Offcanvas(offcanvasRef.current);
+            newOffcanvas.hide();
+          }
         }
-      } catch (error) {
-        console.log(error)
+        
+        // Reset show state after a delay if needed
+        setTimeout(() => {
+          setShow(false)
+        }, 500)
+      } else {
+        toast.error(response?.data?.message);
         setLoader(false)
       }
+    } catch (error) {
+      console.log(error)
+      setLoader(false)
     }
-
-
   }
+}
+
+  
   //  Get All Api issue book 
   const MyBookIssueGetAllApi = async () => {
     setLoader(true)
@@ -1205,22 +1258,22 @@ const Issue_Report = () => {
         </div>
         {/* ################## Off Canvas Area ####################  */}
 
-        {
-          show && (
-            <>
-              <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel" ref={offcanvasRef}>
-                <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" onClick={clearData}>
-                    <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
-                    </svg>
-                  </Link>
-                  <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Issue Book</h5>
-                </div>
-                <hr className='mx-3' style={{ marginTop: '-3px' }} />
 
-                <div class="offcanvas-body">
-                  <div className="input " >
+{
+  show && (
+    <div className="offcanvas offcanvas-end" data-bs-backdrop="static" tabIndex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel" ref={offcanvasRef}>
+      <div className="offcanvas-header">
+        <Link data-bs-dismiss="offcanvas" onClick={clearData}>
+          <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
+          </svg>
+        </Link>
+        <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Issue Book</h5>
+      </div>
+      <hr className='mx-3' style={{ marginTop: '-3px' }} />
+
+      <div className="offcanvas-body">
+       <div className="input " >
 
                     <div className="mb-1  ">
                       <label for="exampleFormControlInput1" className="form-label  heading-16">Book</label>
@@ -1232,15 +1285,7 @@ const Issue_Report = () => {
                           ))
                         }
                       </select>
-                      {/* <div className='pt-1'>
-                        {isValidNameRequired && (
-                          <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                            Book name is required
-                          </p>
-                        )}
-                      </div> */}
                     </div>
-
                     <div className="mt-1" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14 ">Edition</label>
                       <input type="email" className="form-control form-focus  label-color heading-14 input-custom-bg" value={edition} style={{ marginTop: '-4px', backgroundColor: '#aaa' }} id="exampleFormControlInput1" placeholder="Enter Edition" disabled />
@@ -1291,13 +1336,7 @@ const Issue_Report = () => {
                         }
 
                       </select>
-                      {/* <div className='pt-1'>
-                        {isValidNameRequired && (
-                          <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                            Book name is required
-                          </p>
-                        )}
-                      </div> */}
+                 
                     </div>
                     <div className="mt-1  ">
                       <label for="exampleFormControlInput1" className="form-label  heading-16">Library Member</label>
@@ -1310,13 +1349,121 @@ const Issue_Report = () => {
                         }
 
                       </select>
-                      {/* <div className='pt-1'>
-                        {isValidNameRequired && (
-                          <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                            Book name is required
-                          </p>
-                        )}
-                      </div> */}
+                   
+                    </div>
+                    <div className="mt-2" style={{ marginTop: '-6px' }}>
+                      <label for="exampleFormControlInput1" className="form-label label-color heading-14">Return date</label>
+                      <input type="date" className="form-control form-focus  label-color heading-14" style={{ marginTop: '-4px' }} value={returnDate} onChange={(e) => handleDate(e.target.value)} id="exampleFormControlInput1" placeholder="Number of Copy" />
+                    </div>
+                    <div className='pt-3'>
+                      {isValidDateRequired && (
+                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                          Date is required
+                        </p>
+                      )}
+                    </div>
+                    <div className='my-button11 '>
+                      <button type="button" className="btn btn-outline-success my-button112233" onClick={MyIssueBookApi}>Submit</button>
+                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearData}>Cancel</button>
+                    </div>
+
+                  </div>
+      </div>
+    </div>
+  )
+}
+        {/* {
+          show && (
+            <>
+              <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel" ref={offcanvasRef}>
+                <div className="offcanvas-header">
+                  <Link data-bs-dismiss="offcanvas" onClick={clearData}>
+                    <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
+                    </svg>
+                  </Link>
+                  <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Issue Book</h5>
+                </div>
+                <hr className='mx-3' style={{ marginTop: '-3px' }} />
+
+                <div class="offcanvas-body">
+                  <div className="input " >
+
+                    <div className="mb-1  ">
+                      <label for="exampleFormControlInput1" className="form-label  heading-16">Book</label>
+                      <select class="form-select form-select-sm form-focus  label-color" value={booById} onChange={(e) => setBooById(e.target.value)} aria-label="Default select example">
+                        <option selected value="">--Choose--</option>
+                        {
+                          allBook?.map(item => (
+                            <option value={item.bookId}>{item.bookName}</option>
+                          ))
+                        }
+                      </select>
+                    </div>
+                    <div className="mt-1" style={{ marginTop: '-6px' }}>
+                      <label for="exampleFormControlInput1" className="form-label label-color heading-14 ">Edition</label>
+                      <input type="email" className="form-control form-focus  label-color heading-14 input-custom-bg" value={edition} style={{ marginTop: '-4px', backgroundColor: '#aaa' }} id="exampleFormControlInput1" placeholder="Enter Edition" disabled />
+                    </div>
+                    <div className="mt-1 mb-2" style={{ marginTop: '-4px' }}>
+                      <label for="exampleFormControlInput1" className="form-label label-color heading-14">Author</label>
+                      <input type="email" className="form-control form-focus  label-color heading-14 input-custom-bg" value={Author2} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Author Name" disabled />
+                    </div>
+                    <div className="mb-3" style={{ marginTop: '-6px' }}>
+                      <label for="exampleFormControlInput1" className="form-label label-color heading-14">Language</label>
+                      <input type="email" className="form-control form-focus  label-color heading-14 input-custom-bg" value={language} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Language" disabled />
+                    </div>
+                    <div className="mb-3" style={{ marginTop: '-6px' }}>
+                      <label for="exampleFormControlInput1" className="form-label label-color heading-14">Rack Number</label>
+                      <input type="email" className="form-control form-focus  label-color heading-14 input-custom-bg" value={rackNumber} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Price" disabled />
+                    </div>
+                    <div className="mb-3" style={{ marginTop: '-6px' }}>
+                      <label for="exampleFormControlInput1" className="form-label label-color heading-14">Shelf Number</label>
+                      <input type="email" className="form-control form-focus  label-color heading-14 input-custom-bg" value={shelfNumber} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Book Id" disabled />
+                    </div>
+                    <div className="mb-3" style={{ marginTop: '-6px' }}>
+                      <label for="exampleFormControlInput1" className="form-label label-color heading-14">Quantity</label>
+                      <input type="email" className="form-control form-focus  label-color heading-14 input-custom-bg" value={quantity} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Quantity" disabled />
+                    </div>
+                    <div className="mb-1  ">
+                      <label for="exampleFormControlInput1" className="form-label  heading-16">Class</label>
+                      <select class="form-select form-select-sm form-focus  label-color" value={`${Class}, ${classNo}`} onChange={handle} aria-label="Default select example">
+                        <option selected value="">--Choose--</option>
+                        {
+                          classData?.map(item => (
+                            <option value={`${item.classId}, ${item.classNo}`}>{item.classNo}</option>
+                          ))
+                        }
+
+                      </select>
+
+                    </div>
+                    <div className="mb-1  ">
+                      <label for="exampleFormControlInput1" className="form-label  heading-16">Section</label>
+                      <select class="form-select  form-select-sm form-focus  label-color" value={`${sectionId}, ${sectionName}`} onChange={(e) => SectionHandle(e)} aria-label="Default select example">
+                        <option selected value="">--Choose--</option>
+                        {
+                          sectionData?.map(item => (
+                            <option value={`${item.sectionId}, ${item.sectionName}`}>{item.sectionName}</option>
+
+                            // <option value={item.sectionId}>{item.sectionName}</option>
+                          ))
+                        }
+
+                      </select>
+                 
+                    </div>
+                    <div className="mt-1  ">
+                      <label for="exampleFormControlInput1" className="form-label  heading-16">Library Member</label>
+                      <select class="form-select form-select-sm form-focus  label-color" value={studentMembberId} onChange={(e) => setStudentMembberId(e.target.value)} aria-label="Default select example">
+                        <option selected value="">--Choose--</option>
+                        {
+                          AllMember?.map(item => (
+                            <option value={item.studentId}>{item.studentName}</option>
+                          ))
+                        }
+
+                      </select>
+                   
                     </div>
                     <div className="mt-2" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Return date</label>
@@ -1339,7 +1486,7 @@ const Issue_Report = () => {
               </div>
             </>
           )
-        }
+        } */}
 
 
         {/* ################## Off Canvas Area ####################  */}

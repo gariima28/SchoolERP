@@ -509,9 +509,10 @@ const AssignmentTea_T = () => {
   const [title, setTitle] = useState()
 
   const [classId, setClassId] = useState()
+  const [classNo, setClassNo] = useState()
   const [sectionId, setSectionId] = useState('')
   const [subjectId, setSubjectId] = useState('')
-  console.log('subjectId--------------', subjectId)
+  // console.log('subjectId--------------', subjectId)
   const [singleState, setSingleState] = useState('published');
   const [updateGetAll, setUpdateGetAll] = useState(false);
 
@@ -542,6 +543,16 @@ const AssignmentTea_T = () => {
     MyAssignmntGetApi()
   }, [updateGetAll])
 
+  const Handle = (e) => {
+    const value = e.target.value;
+    const [val1, val2] = value.split(',').map(item => item.trim());
+    setClassId(parseInt(val1));
+    setClassNo(val2);
+    // console.log('Class ID:', val1);
+    // console.log('Class No:', val2);
+  };
+
+
   // Get All Api from class list page for id 
   const UpdatClassGetApi = async () => {
     setLoader(true)
@@ -554,9 +565,11 @@ const AssignmentTea_T = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -573,9 +586,11 @@ const AssignmentTea_T = () => {
         setLoader(false)
       } else {
         // toast.error(response?.data?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -584,7 +599,7 @@ const AssignmentTea_T = () => {
   const MySubjectByClassIdGetApi = async () => {
     setLoader(true)
     try {
-      const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classId);
+      const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classNo);
       // // console.log('Subject-get-all-api in Assignmnt', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
@@ -592,9 +607,11 @@ const AssignmentTea_T = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -612,9 +629,11 @@ const AssignmentTea_T = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -659,11 +678,15 @@ const AssignmentTea_T = () => {
             <div className="col-lg-4 col-md-6 col-sm-12 ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
-                <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm form-focus label-color"  value={`${classId},${classNo}`}
+                  onChange={Handle} aria-label="Default select example">
+                {/* <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setClassId(e.target.value)} aria-label="Default select example"> */}
                   <option value="" >--Choose--</option>
                   {
                     classdata?.map(item =>
-                      <option value={item.classId}>{item.classNo}</option>
+                      // <option value={item.classId}>{item.classNo}</option>
+                      <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
+
                     )
                   }
                 </select>
