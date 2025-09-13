@@ -535,7 +535,7 @@ const SubmittedSbmssn = ({ data }) => {
      const formData = new FormData()
       formData.append('resultMarks', result);
       formData.append('description', description);
-      formData.append('submissionPath', file);
+      formData.append('submissionPath', imageFile);
       setLoader(true)
       try {
         const response = await TeacherSubmissionPutByIdApi(IdForUpdate, formData);
@@ -662,13 +662,6 @@ const SubmittedSbmssn = ({ data }) => {
                       <label for="exampleFormControlInput1" class="form-label heading-16">Result</label>
                       <input type="email" class="form-control form-control-sm" id="exampleFormControlInput1" value={result} onChange={(e) => setResult(e.target.value)} placeholder="Enter Result" />
                     </div>
-                    {/* <div>
-                      {isValidNameRequired && (
-                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                          Department name is required
-                        </p>
-                      )}
-                    </div> */}
                   </div>
              
                     <div className='row pe-1 '>
@@ -678,10 +671,10 @@ const SubmittedSbmssn = ({ data }) => {
                             ?
                             <div class="mb-3 " style={{ display: 'flex', }}>
                               <div className='w-100'>
-                                <label for="exampleFormControlInput1" className="form-label heading-14 label-color">Upload Image </label>
+                                <label for="exampleFormControlInput1" className="form-label heading-14 label-color">Upload Image22 </label>
                                 {
                                   manageButton ?
-                                    <input type="file" class="form-control" id="exampleFormControlInput1" onChange={handleFileChange} placeholder="select file" accept='.jpg, .png, .jpeg' />
+                                    <input type="file" class="form-control" id="exampleFormControlInput1" onChange={handleFileChange} placeholder="select file" accept='.jpg, .png, .jpeg .pdf' />
                                     :
                                     <input type="text" class="form-control" id="exampleFormControlInput1" value={file} placeholder="name@example.com" />
                                 }

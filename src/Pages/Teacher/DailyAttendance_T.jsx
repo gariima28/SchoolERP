@@ -606,6 +606,7 @@ const DailyAttendance = ({ items }) => {
       // console.log(err);
     }
   };
+
   // class Get all data from class page for class id  
   const UpdatClassGetApi = async () => {
     try {
@@ -616,9 +617,11 @@ const DailyAttendance = ({ items }) => {
         setClassData(response?.data?.data)
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -631,9 +634,11 @@ const DailyAttendance = ({ items }) => {
         setSectionData(response?.data?.allSections)
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -647,9 +652,11 @@ const DailyAttendance = ({ items }) => {
         // // console.log(response?.data?.studentList, 'msg student list')
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -677,9 +684,11 @@ const DailyAttendance = ({ items }) => {
 
       } else {
         toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -726,13 +735,16 @@ const DailyAttendance = ({ items }) => {
           }, 0.5)
         } else {
           toast.error(response?.data?.message);
+          setLoader(false)
           // setShow(true)
         }
       } else {
         toast.error(response?.data?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -777,10 +789,12 @@ const DailyAttendance = ({ items }) => {
       } else {
         toast.error(response?.data?.message);
         setEditshow(true)
+        setLoader(false)
       }
 
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -804,7 +818,6 @@ const DailyAttendance = ({ items }) => {
   };
 
   // ****************************************************************************************************************************
-
   const handleChange = (e) => {
     const trimmedValue = e.target.value.trimStart();
     setSearch(trimmedValue);
@@ -821,8 +834,6 @@ const DailyAttendance = ({ items }) => {
     setShowLastUpdate('')
     setShowTime('')
   }
-
-
   return (
     <Container>
       {

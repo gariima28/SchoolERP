@@ -583,7 +583,6 @@ const Expense_category = () => {
 
   // Expense category Post Api 
   const MyIncomeCategoryPostApi = async () => {
-
     if (FuncValidation()) {
       const formData = new FormData()
       formData.append('categoryName', name);

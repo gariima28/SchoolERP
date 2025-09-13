@@ -593,12 +593,15 @@ const Notice = () => {
           } else {
             toast.error(response?.data?.message);
             setAddshow(true)
+            setLoader(false)
           }
         } else {
           toast.error(response?.data?.message);
+          setLoader(false)
         }
       } catch (error) {
         setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }
@@ -621,9 +624,11 @@ const Notice = () => {
         setAddhide(false)
       } else {
         toast.error(response?.data?.classes?.msg);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -649,9 +654,11 @@ const Notice = () => {
       } else {
         toast.error(response?.data?.message);
         setShowdelete(true)
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log('catch')
     }
   }
@@ -672,9 +679,11 @@ const Notice = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.message);
+        setLoader(false)
       }
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -705,10 +714,12 @@ const Notice = () => {
         } else {
           toast.error(response?.data?.message);
           setEditshow(true)
+          setLoader(false)
         }
 
       } catch (error) {
         setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }

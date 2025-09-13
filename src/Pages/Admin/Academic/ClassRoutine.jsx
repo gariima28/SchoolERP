@@ -675,7 +675,7 @@ const ClassRoutine = () => {
   const MySubjectByClassIdGetApi = async () => {
     setLoader(true)
     try {
-      const response = await SubjectByClassIdInSyllabusGetAllApi(classId);
+      const response = await SubjectByClassIdInSyllabusGetAllApi(classNo);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setSubjectData(response?.data?.subjects)
