@@ -431,13 +431,6 @@ const FeesType = () => {
                 backdrop.remove();
               }
             }, { once: true });
-            // Ensure backdrop is removed
-            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-              const backdrop = document.querySelector('.offcanvas-backdrop');
-              if (backdrop) {
-                backdrop.remove();
-              }
-            }, { once: true });
           }
         } else {
           toast.error(response?.data?.message || 'Failed to delete fee type');

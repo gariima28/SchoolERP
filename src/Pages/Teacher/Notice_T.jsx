@@ -818,7 +818,7 @@ const Notice = () => {
                           data-bs-placement="top"
                           title={item.noticeTitle.length > 17 ? item.noticeTitle : undefined}
                         >
-                          {item.noticeTitle?.length > 17 ? (
+                          {item?.noticeTitle?.length > 17 ? (
                             <div className="d-flex align-items-center">
                               <span className="text-truncate" style={{ maxWidth: 'calc(100% - 18px)' }}>
                                 {item.noticeTitle.substring(0, 17)}

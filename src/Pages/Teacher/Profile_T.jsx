@@ -315,7 +315,7 @@ const Profile = () => {
                                     <p className='pt-1 color123'>Phone:</p>
                                     <p className='pt-1 color123'>Address:</p>
                                 </div>
-                                <div className="col-lg-6 col-md-6 col-sm-6">
+                                <div className="col-lg-6 col-md-6 col-sm-6" style={{ overflowWrap: 'break-word' }}>
                                     <p className='pt-1'>{staffEmail}</p>
                                     <p className='pt-1'>{phone}</p>
                                     <p className='pt-1'>{address}</p>
