@@ -465,12 +465,13 @@ const OfflineExam_T = () => {
     const [hidedelete, setHidedelete] = useState(false)
     const [forDelete, setForDelete] = useState(false)
     const [show, setShow] = useState(true)
+    const [show2, setShow2] = useState(true)
     const [hide, setHide] = useState(false)
     const [IdForDelete, setIdForDelete] = useState()
     const [IdForUpdate, setIdForUpdate] = useState()
     const [examAllData, setExamAllData] = useState([])
     const [section, setSection] = useState('')
-    
+
     const [classNoForApi, setClassNoForApi] = useState('')
     console.log('classNoForApi new', classNoForApi)
     const [date, setDate] = useState()
@@ -491,7 +492,7 @@ const OfflineExam_T = () => {
     const [sessionAllData, setSessionAllData] = useState([])
     const [classroomdata, setClassroomdata] = useState([])
     const [regex, setRegex] = useState('/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/')
-    
+
     const [isValidDateValiRequired, setIsValidDateValiRequired] = useState(false);
     const [isValidMarksValiRequired, setIsValidMarksValiRequired] = useState(false);
     const [isValidPassingMarksValiRequired, setIsValidPassingMarksValiRequired] = useState(false);
@@ -501,13 +502,13 @@ const OfflineExam_T = () => {
     const [classId, setClassId] = useState('')
     console.log('classNo new', classNo)
     console.log('classNo id', classId)
-    
+
     const [searchKey, setSearchKey] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    
+
     const handlePageClick = (event) => {
         setPageNo(event.selected + 1);
     };
@@ -904,16 +905,17 @@ const OfflineExam_T = () => {
             if (response?.status === 200) {
                 if (response?.data?.status === "success") {
                     toast.success(response?.data?.message);
-                    setEditshow(false)
+                    setShow2(false)
                     MyHolidayGetAllApi()
                     MyExamGetAllApi()
                     const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-                    offcanvasInstance.hide();
-                    setTimeout(() => {
-                        setEditshow(true)
-                    }, 0.5)
+                        offcanvasInstance.hide();
+                        setTimeout(() => {
+                            setShow2(true)
+                        }, 0.5)
                 }
-            } else {
+            }
+            else {
                 toast.error(response?.data?.message);
                 setEditshow(true)
                 setLoader(false)
@@ -1247,7 +1249,7 @@ const OfflineExam_T = () => {
                 {/* ################## Add Off Canvas Area end ####################  */}
 
                 {/* ################## Edit Off Canvas Area end ####################  */}
-                {
+                {/* {
                     editshow && (
                         <>
                             <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop101" aria-labelledby="staticBackdropLabel" ref={offcanvasRef22}>
@@ -1291,7 +1293,7 @@ const OfflineExam_T = () => {
                                             </select>
 
                                         </div>
-                                           <div className="mb-1  ">
+                                        <div className="mb-1  ">
                                             <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
                                             <select class="form-select  form-select-sm form-focus " value={sectionName} onChange={(e) => setSection(e.target.value)} aria-label="Default select example">
                                                 <option selected>--Choose--</option>
@@ -1389,10 +1391,151 @@ const OfflineExam_T = () => {
                             </div>
                         </>
                     )
-                }
-                {/* ################## Edit Off Canvas Area ####################  */}
+                } */}
+     {
+                    show2 && (
+                        <>
+                            <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop101" aria-labelledby="staticBackdropLabel" ref={offcanvasRef22}>
+                                <div className="offcanvas-header">
+                                    <Link data-bs-dismiss="offcanvas" >
+                                        <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
+                                        </svg>
+                                    </Link>
+                                    <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Exam</h5>
+                                </div>
+                                <hr className='mx-3' style={{ marginTop: '-3px' }} />
 
-                {/* ################ offcanvas delete start #############  */}
+                                <div class="offcanvas-body pt-0">
+                                    <div className="input " >
+
+                                        <div className="mb-1  ">
+                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Exam Name</label>
+                                            <select class="form-select  form-select-sm form-focus  label-color" value={ExamTerm} onChange={(e) => setExamTerm(e.target.value)} aria-label="Default select example">
+                                                <option value={''}>--Chosse--</option>
+                                                {
+                                                    examTermData?.map(item =>
+                                                        <option value={item.examTermId}>{item.examTermName}</option>
+                                                    )
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div className="mb-1  ">
+                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class</label>
+                                            <select class="form-select  form-select-sm form-focus label-color"
+                                                value={`${classId},${classNo}`}
+                                                onChange={Handle}
+                                                aria-label="Default select example">
+                                                <option value="">--Choose--</option>
+                                                {
+                                                    classdata?.map((item =>
+                                                        <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
+                                                    ))
+                                                }
+                                            </select>
+
+                                        </div>
+                                        <div className="mb-1  ">
+                                            <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
+                                            <select class="form-select  form-select-sm form-focus " value={sectionName} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
+                                                <option selected>--Choose--</option>
+                                                {
+                                                    sectionData?.map((item =>
+                                                        <option value={item.sectionName}>{item.sectionName}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className="mb-1  ">
+                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Subject</label>
+                                            <select class="form-select  form-select-sm form-focus  label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
+                                                <option selected>--Chosee--</option>
+                                                {
+                                                    subjectData?.map(item =>
+                                                        <option value={item.subjectName}>{item.subjectName}</option>
+                                                    )
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className="mb-1  ">
+                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class Room</label>
+                                            <select class="form-select  form-select-sm form-focus  label-color" value={classRoomId} onChange={(e) => setClassRoomId(e.target.value)} aria-label="Default select example">
+                                                <option selected>--Choose--</option>
+                                                {
+                                                    classroomdata.map(item =>
+                                                        <option value={item.roomNo}>{item.roomNo}</option>
+                                                    )
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Date </label>
+                                            <input type="date" className="form-control form-focus   heading-14" value={date} onChange={(e) => handleDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                        </div>
+                                        <div className=''>
+                                            {isValidDateValiRequired && (
+                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                    Date is required
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Starting Time</label>
+                                            <input type="time" className="form-control form-focus   heading-14" value={startTime} onChange={(e) => handleStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                        </div>
+                                        <div className=''>
+                                            {isValidStartTimeValiRequired && (
+                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                    Start time is required
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Ending Time </label>
+                                            <input type="time" className="form-control form-focus   heading-14" value={endTime} onChange={(e) => handleEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                        </div>
+                                        <div className=''>
+                                            {isValidEndTimeValiRequired && (
+                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                    End time is required
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Passing Marks </label>
+                                            <input type="email" className="form-control form-focus heading-14" value={passingMarks} onChange={(e) => handlePassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                        </div>
+                                        <div className=''>
+                                            {isValidPassingMarksValiRequired && (
+                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                    Marks is required
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Total Marks </label>
+                                            <input type="email" className="form-control form-focus heading-14" value={marks} onChange={(e) => handleMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                        </div>
+                                        <div className=''>
+                                            {isValidMarksValiRequired && (
+                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                    Marks is required
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        <div className='my-button11 '>
+                                            <button type="button" className="btn btn-outline-success my-button112233" onClick={MyOfflinePutApi}>Update Exam</button>
+                                            <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )
+                }
 
                 {
                     showdelete && (
@@ -1441,35 +1584,7 @@ const OfflineExam_T = () => {
                 }
                 {/* ############## After click ##############  */}
 
-                {/* {
-                        hidedelete && (
-                            <div className="container-fluid">
-                                <div className="offcanvas-header p-0 pt-3">
-                                    <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
-                                    <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
-                                </div>
-                                <hr className='' />
-                                <div className="delete-section mt-5">
-                                    <div className="bg-container">
-                                        <div className="img-container22">
-                                            <img src="/images/XMLID_1_.png" alt="" />
-                                        </div>
-                                        <div className="content mt-5">
-                                            <p >Successful Delete</p>
-                                            <hr style={{ width: '' }} />
-                                            <p className='mb-5' style={{ color: '#ADADBD', fontSize: '14px' }}>Your profile has been <br /> Successfully Delete</p>
-                                        </div>
-                                        <div className='button-position'>
-                                            <button type="button" className="btn btn-outline-primary button11 mt-4 mb" data-bs-dismiss="offcanvas" aria-label="Close" style={{ fontSize: '14px' }}>Continue</button>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        )
-                    } */}
+               
             </div>
             {/* ################ offcanvas delete end #############  */}
 

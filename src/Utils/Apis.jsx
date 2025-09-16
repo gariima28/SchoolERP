@@ -113,6 +113,20 @@ export const getAllDashDataApi = async (graphKey, day, month, year) => {
     return [];
   }
 }
+export const teacherGetAllDashDataApi = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/dashboard/mainDash`);
+
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
 
 export const getSidebarDataApi = async () => {
   try {

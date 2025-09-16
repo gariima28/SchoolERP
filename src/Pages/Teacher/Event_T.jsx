@@ -863,7 +863,7 @@ const Event = () => {
                 <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} onClick={MyEventGetAllApi} id="basic-addon2" >Search</span>
               </div>
             </div>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">+ Add Event</Link>
+            {/* <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">+ Add Event</Link> */}
           </div>
 
         </div>

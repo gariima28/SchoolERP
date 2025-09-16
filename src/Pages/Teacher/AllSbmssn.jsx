@@ -458,7 +458,7 @@ font-size: 12px;
 const AllSbmssn = ({ data }) => {
 
   const submissionGetAllData = data || [];
-  // console.log('submissionGetAllData----', submissionGetAllData)
+  console.log('submissionGetAllData----in all page', submissionGetAllData)
 
   const [loader, setLoader] = useState(false)
   const [forDelete, setForDelete] = useState(false)
