@@ -3,14 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
 import { CSVLink } from 'react-csv';
-import { OtherStaffCSV, roleName } from '../../../Utils/Apis'
+import { OtherStaffCSV, getroleName } from '../../../Utils/Apis'
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { StaffDeleteApi } from '../../../Utils/Apis';
 import { StaffPutApi } from '../../../Utils/Apis';
 import { StaffGetById } from '../../../Utils/Apis';
 import { RolePermissionGetApi } from '../../../Utils/Apis';
-import { AccountantGetAllApi } from '../../../Utils/Apis';
+import { UsersGetApiByRoleId } from '../../../Utils/Apis';
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ActionControls from '../../../Layouts/ActionControls';
@@ -448,12 +448,10 @@ font-size: 12px;
 
 const Accountant = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  console.log("Extracted ID in accountant:", id);
+  const { roleId } = useParams();
+  console.log("Extracted ID in accountant:", roleId);
   const [userName, setuserName] = useState('');
 
-  const Id = localStorage.getItem('ID');
-  const [roleId, setRoleId] = useState(Id)
   const [forDelete, setForDelete] = useState(false)
   const [loader, setLoader] = useState(false)
 
@@ -518,7 +516,7 @@ const Accountant = () => {
   const MyTeacherGetAllApi = async () => {
     setLoader(true)
     try {
-      const response = await AccountantGetAllApi(searchKey, pageNo, pageSize);
+      const response = await UsersGetApiByRoleId(roleId, searchKey, pageNo, pageSize);
       // console.log('accountanttttttt', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
@@ -761,7 +759,7 @@ const Accountant = () => {
   const getRollForAdminDashboard = async () => {
     setLoader(true);
     try {
-      const response = await roleName(id);
+      const response = await getroleName(roleId);
       console.log(response, "Resone for roles")
       if (response?.status === 200) {
         setuserName(response?.data?.roles?.roleName);
@@ -810,7 +808,7 @@ const Accountant = () => {
   }
 
   const handleAddButton = () => {
-    navigate(`/admin/users/mainuserform/${id}/userbasicinformation`)
+    navigate(`/admin/users/accountant/${roleId}/add/mainuserform/userbasicinformation`)
   }
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
@@ -919,7 +917,7 @@ const Accountant = () => {
                             </button>
                             {/* Dropdown menu: Show/hide based on state */}
                             <ul className={`dropdown-menu ${isDropdownOpen === index ? 'show' : ''}`}>
-                              <li><Link className="dropdown-item" to={`/admin/users/mainuserform/${item.id}/userbasicinformation`}>Edit</Link></li>
+                              <li><Link className="dropdown-item" to={`/admin/users/accountant/${roleId}/update/mainuserform/${item.id}/userbasicinformation`}>Edit</Link></li>
                               <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="staticBackdrop" onClick={(e) => setIdForDelete(item.id)}>Delete</Link></li>
                             </ul>
                           </div>

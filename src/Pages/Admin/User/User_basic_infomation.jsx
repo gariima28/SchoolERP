@@ -5,11 +5,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { StaffPostApi, StaffGetById, StaffPutApi, RolePermissionGetApi } from '../../../Utils/Apis';
 const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const navigate = useNavigate();
-  const { roleIdUser } = useParams();
-  const { userId } = useContext(MyUseContext);
-  const myUserID = userId ?? roleIdUser ?? "";
-  console.log(roleIdUser)
-  console.log(userId)
+  const { roleName, roleId, userId } = useParams();
+  // const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleId ?? "";
+
 
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
@@ -23,7 +22,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const [religion, setReligion] = useState();
   const [emptyValue, setemptyValue] = useState();
   const [rolePermisAllData, setRolePermisAllData] = useState([]);
-  const [roleId, setRoleId] = useState('');
+  // const [roleId, setRoleId] = useState('');
   const [myroleName, setMyroleName] = useState('');
   const [dropdownDisabled, setDropdownDisabled] = useState(false);
   const [originalMail, setOriginalMail] = useState();
@@ -82,14 +81,6 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       setIsValidFirstAddRequired(false);
     }
 
-    if (!secondAddress || secondAddress === "" || !/^[a-zA-Z0-9\s,.'-/#%]+$/.test(secondAddress)) {
-      setIsValidsecondAddressRequired(true);
-      isValid = false;
-      setLoader(false);
-    } else {
-      setIsValidsecondAddressRequired(false);
-    }
-
     if (!email || email === "" || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
       setIsValidEmailRequired(true);
       isValid = false;
@@ -144,8 +135,8 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
 
   const handleSecondAdd = (e2) => {
     setSecondAddress(e2);
-    const addRegex = /^[a-zA-Z0-9\s,.'-/#%]+$/;
-    setIsValidsecondAddressRequired(!e2 || !addRegex.test(e2));
+    // const addRegex = /^[a-zA-Z0-9\s,.'-/#%]+$/;
+    // setIsValidsecondAddressRequired(!e2 || !addRegex.test(e2));
   };
 
   const handleEmail = (e2) => {
@@ -178,8 +169,8 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       if (response?.status === 200) {
         const roles = response?.data?.roles || [];
         setRolePermisAllData(roles);
-        const matchedRole = roles.find((role) => role.roleId === Number(roleIdUser));
-        if (matchedRole && roleIdUser !== 0) {
+        const matchedRole = roles.find((role) => role.roleId === Number(roleId));
+        if (matchedRole && roleId !== 0) {
           setRoleId(matchedRole.roleId.toString());
           setMyroleName(matchedRole.roleName);
           setDropdownDisabled(true);
@@ -237,7 +228,8 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
           toast.success(response?.data?.message);
           setemptyValue(response?.data?.status);
           // setFunction(response?.data?.otherstaff?.id);
-          navigate(`/admin/users/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
+          navigate(`/admin/users/${roleName}/${roleId}/add/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
+          // navigate(`/admin/users/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
           // setMyId(response?.data?.otherstaff?.id);
           setLoader(false);
         } else {
@@ -253,11 +245,17 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
 
   const MyStaffGetById = async () => {
     setLoader(true);
+    console.log(1, '1')
     try {
-      const response = await StaffGetById(myUserID);
+      console.log(1, '2', userId)
+      const response = await StaffGetById(userId);
+      console.log(1, '3', response)
       if (response?.status === 200) {
+        console.log(2, 1)
         setUpdateStatus(response?.data?.status);
+        console.log(2, 2)
         setFirstName(response?.data?.user?.staffName || '');
+        console.log(2, 3, response?.data?.user?.staffName)
         setLastName(response?.data?.user?.staffLastName || '');
         setPhone(response?.data?.user?.staffPhone || '');
         setEmail(response?.data?.user?.staffEmail || '');
@@ -275,11 +273,12 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
         setReligion(response?.data?.user?.religion || '');
         setImageFile(response?.data?.user?.staffImage || '');
         setCitizenship(response?.data?.user?.citizenship || '');
-        dataFunct(response?.data?.user);
         const timestamp = response?.data?.user?.staffDOB;
         const formattedDate = timestamp ? timestamp.split("T")[0] : '';
-        setDob(response?.data?.user?.staffDOB);
+        console.log(formattedDate)
+        setDob(formattedDate);
         setLoader(false);
+        dataFunct(response?.data?.user);
       } else {
         setLoader(false);
       }
@@ -331,34 +330,43 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
     }
   };
 
+  const isAddFlow = location.pathname.includes('/add/');
+
+  const isBasicInfoDisabled = isAddFlow && myUserID;
+
   const clearData = () => {
-    setStatus('');
-    setMaritalstatus('');
-    setBloodGroup('');
-    setNationality('');
-    setState('');
-    setCity('');
-    setReligion('');
-    setemptyValue('');
-    setOriginalMail('');
-    setUpdateStatus('');
-    setFirstName('');
-    setLastName('');
-    setFirstAdd('');
-    setSecondAddress('');
-    setEmail('');
-    setPhone('');
-    setpinCode('');
-    setDob('');
-    setCitizenship('');
-    setIsValidFirstNameRequired(false);
-    setIsValidLastNameRequired(false);
-    setIsValidFirstAddRequired(false);
-    setIsValidsecondAddressRequired(false);
-    setIsValidPhoneRequired(false);
-    setIsValidPinCodeRequired(false);
-    setIsValidEmailRequired(false);
-    setIsValidDobRequired(false);
+    if (isBasicInfoDisabled) {
+      setStatus('');
+      setMaritalstatus('');
+      setBloodGroup('');
+      setNationality('');
+      setState('');
+      setCity('');
+      setReligion('');
+      setemptyValue('');
+      setOriginalMail('');
+      setUpdateStatus('');
+      setFirstName('');
+      setLastName('');
+      setFirstAdd('');
+      setSecondAddress('');
+      setEmail('');
+      setPhone('');
+      setpinCode('');
+      setDob('');
+      setCitizenship('');
+      setIsValidFirstNameRequired(false);
+      setIsValidLastNameRequired(false);
+      setIsValidFirstAddRequired(false);
+      setIsValidsecondAddressRequired(false);
+      setIsValidPhoneRequired(false);
+      setIsValidPinCodeRequired(false);
+      setIsValidEmailRequired(false);
+      setIsValidDobRequired(false);
+    }
+    else {
+      navigate(`/admin/users/${roleName}/${roleId}`)
+    }
   };
 
   return (
@@ -734,14 +742,14 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   className="form-select form-select-sm form-focus-input heading-14 grey-input-text-color input-border-color"
                   id="roleName"
                   disabled={dropdownDisabled || updateStatus === "success"}
-                  value={roleId && myroleName ? `${roleId}, ${myroleName}` : ''}
+                  value={roleId}
                   onChange={RoleIdName}
                   tabIndex="9"
                   aria-describedby="roleNameError"
                 >
                   <option value="">--Choose--</option>
                   {rolePermisAllData?.map((item) => (
-                    <option key={item.roleId} value={`${item.roleId}, ${item.roleName}`}>
+                    <option key={item.roleId} value={item.roleId}>
                       {item.roleName}
                     </option>
                   ))}

@@ -8,7 +8,7 @@ import DataLoader from 'src/Layouts/Loader';
 import ReactPaginate from 'react-paginate';
 import { CSVLink } from 'react-csv';
 import { useForm } from 'react-hook-form';
-import { roleName } from '../../../Utils/Apis';
+import { getroleName } from '../../../Utils/Apis';
 
 const Container = styled.div`
 
@@ -427,7 +427,7 @@ const Driver = () => {
     const getRollForAdminDashboard = async () => {
         setLoader(true);
         try {
-            const response = await roleName(id);
+            const response = await getroleName(id);
             console.log(response, "Resone for roles")
             if (response?.status === 200) {
                 setuserName(response?.data?.roles?.roleName);

@@ -162,6 +162,26 @@ const Container = styled.div`
     vertical-align: middle;
     color: #4a4a4a;
   }
+
+  .action-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+  .action-btn.edit {
+    background: #008479;
+    color: #fff;
+    border: none;
+  }
+  .action-btn.delete {
+    background: #B50000;
+    color: #fff;
+    border: none;
+  }
+  .action-btn:hover {
+    transform: scale(1.05);
+  }
   .table tr:hover {
     background: #e6f4f1;
   }
@@ -192,9 +212,9 @@ const Container = styled.div`
 
 const User_Documnt = () => {
 
-  const { roleIdUser } = useParams();
-  const { userId } = useContext(MyUseContext);
-  const myUserID = userId ?? roleIdUser ?? "";
+  const { roleId, userId } = useParams();
+  // const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleId ?? "";
 
   // State Management
   const [loader, setLoader] = useState(false);
@@ -543,26 +563,28 @@ const User_Documnt = () => {
                       <td>{(pageNo - 1) * pageSize + index + 1}</td>
                       <td>{doc.docName || 'N/A'}</td>
                       <td>
-                        <button
-                          className="action-btn edit me-2"
-                          onClick={() => handleEdit(doc.id)}
-                          data-bs-toggle="offcanvas"
-                          data-bs-target="#editDocument"
-                          tabIndex={6 + index * 2}
-                          aria-label={`Edit document ${doc.docName}`}
-                        >
-                          <Icon icon="tabler:edit" width="1.4em" height="1.4em" />
-                        </button>
-                        <button
-                          className="action-btn delete"
-                          onClick={() => handleDelete(doc.id)}
-                          data-bs-toggle="offcanvas"
-                          data-bs-target="#deleteDocument"
-                          tabIndex={7 + index * 2}
-                          aria-label={`Delete document ${doc.docName}`}
-                        >
-                          <Icon icon="tabler:trash" width="1.4em" height="1.4em" />
-                        </button>
+                        <div className="d-flex">
+                          <button
+                            className="btn action-btn edit me-2"
+                            onClick={() => handleEdit(doc.id)}
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#editDocument"
+                            tabIndex={6 + index * 2}
+                            aria-label={`Edit document ${doc.docName}`}
+                          >
+                            {/* <Icon icon="tabler:edit" width="1.4em" height="1.4em" /> */}Edit
+                          </button>
+                          <button
+                            className="btn action-btn delete"
+                            onClick={() => handleDelete(doc.id)}
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#deleteDocument"
+                            tabIndex={7 + index * 2}
+                            aria-label={`Delete document ${doc.docName}`}
+                          >
+                            {/* <Icon icon="tabler:trash" width="1.4em" height="1.4em" /> */}Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))

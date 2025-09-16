@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm, Controller } from 'react-hook-form';
 import * as bootstrap from 'bootstrap';
@@ -35,6 +35,11 @@ const StyledContainer = styled.div`
   @keyframes slideIn {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+  }
+
+  .formdltcheck:checked {
+    background-color: #b50000 !important;
+    border-color: #b50000 !important;
   }
   .form-control, .form-select {
     border-radius: 8px;
@@ -111,14 +116,14 @@ const StyledContainer = styled.div`
   }
   .error-message {
     font-size: 12px;
-    color: #dc3545;
+    color: #B50000;
     margin-top: 3px;
     min-height: 16px;
     animation: fadeIn 0.3s ease;
   }
   .valid-indicator::after {
     content: '✔';
-    color: #28a745;
+    color: #008479;
     position: absolute;
     right: 10px;
     top: 50%;
@@ -194,12 +199,12 @@ const StyledContainer = styled.div`
     transition: all 0.3s ease;
   }
   .action-btn.edit {
-    background: #28a745;
+    background: #008479;
     color: #fff;
     border: none;
   }
   .action-btn.delete {
-    background: #dc3545;
+    background: #B50000;
     color: #fff;
     border: none;
   }
@@ -223,12 +228,14 @@ const StyledContainer = styled.div`
 `;
 
 const Conta_allown = () => {
-  const { roleIdUser } = useParams();
-  const { userId } = useContext(MyUseContext);
-  const myUserID = userId ?? roleIdUser ?? '';
+  const { roleId, userId } = useParams();
+  // const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleId ?? '';
 
   const [loaderState, setLoaderState] = useState(false);
   const [allowanceData, setAllowanceData] = useState([]);
+  const [delAllowanceId, setDelAllowanceId] = useState();
+  const [isChecked, setIsChecked] = useState(false);
   const [staffAllowanceData, setStaffAllowanceData] = useState([]);
   const [editAllowance, setEditAllowance] = useState(null);
   const [pageNo, setPageNo] = useState(1);
@@ -285,7 +292,6 @@ const Conta_allown = () => {
       getAllAllowanceName();
       getAllAllowanceNameByStaffId();
     } else {
-      toast.error('User ID not found');
       // Optionally redirect: navigate('/');
     }
   }, [myUserID, pageNo]);
@@ -418,6 +424,16 @@ const Conta_allown = () => {
       if (response?.data?.status === 'success') {
         toast.success('Allowance deleted successfully');
         getAllAllowanceNameByStaffId();
+        setIsChecked(false)
+        const offcanvasElement = document.getElementById('deleteFeeDiscount');
+        const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
+        offcanvas.hide();
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || 'Failed to delete allowance');
       }
@@ -445,7 +461,7 @@ const Conta_allown = () => {
                   data-tooltip="Select allowance name"
                   aria-label="Allowance Name"
                 >
-                  Allowance Name <span style={{ color: '#dc3545' }}>*</span>
+                  Allowance Name <span style={{ color: '#B50000' }}>*</span>
                 </label>
                 <Controller
                   name="allowanceNameId"
@@ -488,7 +504,7 @@ const Conta_allown = () => {
                   data-tooltip="Enter amount (e.g., 1000.00)"
                   aria-label="Amount"
                 >
-                  Amount <span style={{ color: '#dc3545' }}>*</span>
+                  Amount <span style={{ color: '#B50000' }}>*</span>
                 </label>
                 <Controller
                   name="amount"
@@ -634,12 +650,23 @@ const Conta_allown = () => {
                       Edit
                     </button>
                     <button
+                      className="action-btn delete btn text-white text-decoration-none"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#deleteFeeDiscount"
+                      aria-controls="deleteFeeDiscount"
+                      onClick={() => setDelAllowanceId(item.allowanceId)} //delAllowanceId
+                    >
+                      {/* <Icon icon="mi:delete" width="1.5em" height="1.5em" style={{ color: '#8F8F8F' }} /> */}
+                      Delete
+                    </button>
+                    {/* <button
                       className="action-btn delete"
                       onClick={() => handleDelete(item.allowanceId)}
                       aria-label={`Delete allowance ${item.allowanceName}`}
                     >
                       Delete
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}
@@ -683,7 +710,7 @@ const Conta_allown = () => {
                 data-tooltip="Select allowance name"
                 aria-label="Allowance Name"
               >
-                Allowance Name <span style={{ color: '#dc3545' }}>*</span>
+                Allowance Name <span style={{ color: '#B50000' }}>*</span>
               </label>
               <Controller
                 name="allowanceNameId"
@@ -724,7 +751,7 @@ const Conta_allown = () => {
                 data-tooltip="Enter amount (e.g., 1000.00)"
                 aria-label="Amount"
               >
-                Amount <span style={{ color: '#dc3545' }}>*</span>
+                Amount <span style={{ color: '#B50000' }}>*</span>
               </label>
               <Controller
                 name="amount"
@@ -838,6 +865,63 @@ const Conta_allown = () => {
               </button>
             </div>
           </form>
+        </div>
+      </div>
+
+
+      {/* Delete Allowance */}
+      <div className="offcanvas offcanvas-end p-2" tabIndex="-1" id="deleteFeeDiscount" aria-labelledby="deleteFeeDiscountLabel">
+        <div className="offcanvas-header border-bottom border-2 p-2">
+          <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
+              <path
+                fill="#008479"
+                fillRule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+              />
+            </svg>
+          </Link>
+          <h2 className="offcanvas-title" id="deleteFeeDiscountLabel">
+            Delete Allowance
+          </h2>
+        </div>
+        <div className="offcanvas-body p-3">
+          <div>
+            <p className="text-center p-3">
+              <img src="/images/errorI.svg" className="img-fluid" alt="Error" />
+            </p>
+            <p className="text-center warningHeading">Are you Sure?</p>
+            <p className="text-center greyText warningText pt-2">
+              This Action will permanently delete<br />the Allowance
+            </p>
+            <p className="text-center warningText p-2">
+              <input
+                className="form-check-input formdltcheck me-2"
+                type="checkbox"
+                checked={isChecked}
+                id="flexCheckChecked"
+                onChange={(e) => setIsChecked(e.target.checked)}
+              />
+              I Agree to delete the Profile Data
+            </p>
+            <p className="text-center p-3">
+              <button
+                className="btn deleteButtons text-white"
+                disabled={!isChecked}
+                onClick={() => handleDelete(delAllowanceId)}
+              >
+                Delete
+              </button>
+              <button
+                className="btn dltcancelButtons ms-3"
+                data-bs-dismiss="offcanvas"
+                type="button"
+                onClick={() => setIsChecked(false)}
+              >
+                Cancel
+              </button>
+            </p>
+          </div>
         </div>
       </div>
       <Toaster />

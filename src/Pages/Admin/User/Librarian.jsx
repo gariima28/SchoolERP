@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { CSVLink } from 'react-csv';
-import { OtherStaffCSV, roleName } from '../../../Utils/Apis'
+import { OtherStaffCSV, getroleName } from '../../../Utils/Apis'
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import toast, { Toaster } from 'react-hot-toast';
-import { LibrarianGetAllApi } from '../../../Utils/Apis';
+import { UsersGetApiByRoleId } from '../../../Utils/Apis';
 import { StaffDeleteApi } from '../../../Utils/Apis';
 import { StaffPutApi } from '../../../Utils/Apis';
 import { StaffGetById } from '../../../Utils/Apis';
@@ -464,9 +464,9 @@ const Librarian = () => {
 
   const navigate = useNavigate();
   const Id = localStorage.getItem('ID');
-  const { id } = useParams();
-  console.log("Extracted ID in librarian:", id);
-  const [roleId, setRoleId] = useState(id)
+  const { roleId, userId } = useParams();
+  console.log("Extracted ID in librarian:", roleId);
+
   const [userName, setuserName] = useState('');
 
   const [loader, setLoader] = useState(false)
@@ -535,7 +535,7 @@ const Librarian = () => {
   const MyTeacherGetAllApi = async () => {
     (true)
     try {
-      const response = await LibrarianGetAllApi(searchKey, pageNo, pageSize);
+      const response = await UsersGetApiByRoleId(roleId, searchKey, pageNo, pageSize);
       // console.log('all librarian data', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
@@ -608,7 +608,7 @@ const Librarian = () => {
   const getRollForAdminDashboard = async () => {
     setLoader(true);
     try {
-      const response = await roleName(id);
+      const response = await getroleName(roleId);
       console.log(response, "Resone for roles")
       if (response?.status === 200) {
         setuserName(response?.data?.roles?.roleName);
@@ -817,15 +817,15 @@ const Librarian = () => {
   }
 
   const handleAddButton = () => {
-    navigate(`/admin/users/mainuserform/${id}/userbasicinformation`)
+    navigate(`/admin/users/librarian/${roleId}/add/mainuserform/userbasicinformation`)
   }
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
 
   const toggleDropdown = (index, e) => {
-      e.preventDefault(); // Prevent default to avoid conflicts
-      e.stopPropagation(); // Stop event bubbling to keep dropdown open
-      setIsDropdownOpen(isDropdownOpen === index ? null : index);
+    e.preventDefault(); // Prevent default to avoid conflicts
+    e.stopPropagation(); // Stop event bubbling to keep dropdown open
+    setIsDropdownOpen(isDropdownOpen === index ? null : index);
   };
 
   return (
@@ -863,7 +863,7 @@ const Librarian = () => {
               exportCSVText="Export CSV"
               exportCSVAction={''}
             />
-            </div>
+          </div>
 
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-22px' }}>Librarian List</h5>
@@ -908,7 +908,7 @@ const Librarian = () => {
                             </button>
                             {/* Dropdown menu: Show/hide based on state */}
                             <ul className={`dropdown-menu ${isDropdownOpen === index ? 'show' : ''}`}>
-                              <li><Link className="dropdown-item" to={`/admin/users/mainuserform/${item.id}/userbasicinformation`}>Edit</Link></li>
+                              <li><Link className="dropdown-item" to={`/admin/users/librarian/${roleId}/update/mainuserform/${item.id}/userbasicinformation`}>Edit</Link></li>
                               <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="staticBackdrop" onClick={(e) => setIdForDelete(item.id)}>Delete</Link></li>
                             </ul>
                           </div>

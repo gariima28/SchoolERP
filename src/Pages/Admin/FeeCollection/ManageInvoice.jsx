@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import StudentFeeDetails from './StudentFeeDetails';
 import toast from 'react-hot-toast';
-import { collectFeesApi } from '../../../Utils/Apis';
+import { collectFeesApi, getRecieptByIdApi } from '../../../Utils/Apis';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
@@ -166,6 +166,7 @@ const ManageInvoice = () => {
     ]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
     const [allClassData, setAllClassData] = useState([]);
+    const [recieptData, setRecieptData] = useState();
     const [allSectionData, setAllSectionData] = useState([]);
     const [manageInvoiceData, setManageInvoiceData] = useState([]);
     const datePickerRef = useRef(null);
@@ -297,6 +298,26 @@ const ManageInvoice = () => {
             }
         } catch (error) {
             toast.error(error?.response?.data?.message || 'Error fetching invoices');
+        } finally {
+            setLoaderState(false);
+        }
+    };
+
+    const getRecieptByStudentId = async (id) => {
+        try {
+            setLoaderState(true);
+            const response = await getRecieptByIdApi(id);
+            if (response?.status === 200 && response?.data?.status === 'success') {
+                setRecieptData(response?.data?.receipt);
+                // setTotalPages(response?.data?.totalPages);
+                // setCurrentPage(response?.data?.currentPage);
+                // setSearchBtn(true);
+                // toast.success(response?.data?.message || 'Invoices fetched successfully');
+            } else {
+                // toast.error(response?.data?.message || 'Failed to fetch invoices');
+            }
+        } catch (error) {
+            // toast.error(error?.response?.data?.message || 'Error fetching invoices');
         } finally {
             setLoaderState(false);
         }
@@ -539,7 +560,7 @@ const ManageInvoice = () => {
                                                                             <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#collectFees" aria-controls="collectFees">Collect Fees</button>
                                                                         </li>
                                                                         <li>
-                                                                            <button className="dropdown-item greyText" type="button" data-bs-toggle="modal" data-bs-target="#viewDetails">View</button>
+                                                                            <button className="dropdown-item greyText" type="button" data-bs-toggle="modal" data-bs-target="#viewDetails" onClick={() => getRecieptByStudentId(invoice.invoiceId)}>View</button>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -669,11 +690,11 @@ const ManageInvoice = () => {
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header pb-2">
-                            <h2 className="modal-title" id="viewDetailsLabel">Windsor Park High School</h2>
+                            <h2 className="modal-title" id="viewDetailsLabel">{recieptData?.invoice?.schoolName}</h2>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <StudentFeeDetails />
+                            <StudentFeeDetails recieptDataAll={recieptData}/>
                         </div>
                     </div>
                 </div>
