@@ -537,7 +537,7 @@ const PendingSbmssn = ({ data }) => {
     const formData = new FormData()
     formData.append('resultMarks', result);
     formData.append('description', description);
-    formData.append('submissionPath', file);
+    formData.append('submissionPath', imageFile);
     setLoader(true)
     try {
       const response = await TeacherSubmissionPutByIdApi(IdForUpdate, formData);

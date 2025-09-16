@@ -519,6 +519,9 @@ const ClassRoutine = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [byDefaultValue, setByDefaultValue] = useState(false);
+    const [tableSlotGetAll, setTableSlotGetAll] = useState([])
+  
 
   const [searchKey2, setSearchKey2] = useState('')
   const [pageNo2, setPageNo2] = useState('');
@@ -604,7 +607,7 @@ const ClassRoutine = () => {
 
   useEffect(() => {
     Download_Slip()
-    MyClassRoutineGetAllApi()
+    // MyClassRoutineGetAllApi()
     MySlotGetAllApi()
   }, [])
 
@@ -669,7 +672,7 @@ const ClassRoutine = () => {
   const MySubjectByClassIdGetApi = async () => {
     setLoader(true)
     try {
-      const response = await SubjectByClassIdInSyllabusGetAllApi(classId);
+      const response = await SubjectByClassIdInSyllabusGetAllApi(classNo);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setSubjectData(response?.data?.subjects)
@@ -758,7 +761,9 @@ const ClassRoutine = () => {
       if (response?.status === 200) {
         setSlotGetAll(response?.data?.routine?.periods)
         setClassRoutineData(response?.data?.routine?.timetable)
+        setTableSlotGetAll(response?.data?.routine?.periods)
         setLoader(false)
+        setByDefaultValue(true)
       } else {
         setLoader(false)
         // toast.error(response?.data?.classes?.message);
@@ -775,6 +780,7 @@ const ClassRoutine = () => {
     setLoader(true)
     try {
       const response = await ClassRoutineGetByIdApi(id);
+
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setClassNo(response?.data?.routine?.classNo)
@@ -865,12 +871,17 @@ const ClassRoutine = () => {
     setIsValidNameRequired(false)
     setIsValidTimeRequired(false)
     setIsValidEndTimeRequired(false)
+    setTableSlotGetAll([]);
+    setByDefaultValue(false)
   }
+
   const ClearDataInSearch = () => {
     setClassId('');
     setClassNo('');
     setSectionName('');
     setClassRoutineData([]);
+       setTableSlotGetAll([]);
+    setByDefaultValue(false)
   };
   const ClearDataInSearch2 = () => {
     setClassId('');
@@ -1074,55 +1085,69 @@ const ClassRoutine = () => {
             </div>
           </div>
 
-          <div className="table-container px-3 pt-4 table-responsive w-100">
-            <table className="table table-sm table-bordered">
-              <thead className='text-center'>
-                <tr className='heading-16 text-color-000 text-center' style={{ fontWeight: '500' }}>
-                   <th className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
-                       Day
-                   </th>
-                  {
-                    slotGetAll?.map((item, index) => (
-                      <th key={index} className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
-                        {item.periodNo} <br />
-                        {item.startHourTime?.split(':').slice(0, 2).join(':') ? item.startHourTime?.split(':').slice(0, 2).join(':') : ''} - {item.endHourTime?.split(':').slice(0, 2).join(':') ? item.endHourTime?.split(':').slice(0, 2).join(':') : ''}
-                      </th>
-                    ))
-                  }
-                </tr>
-              </thead>
-              <tbody className='heading-14 align-middle greyTextColor text-center'>
-                {
-                  classRoutineData?.map((item, index) => (
-                    <tr key={index}
-                      style={{
-                        backgroundColor: index % 2 === 0 ? '#FFF9F6' : '#ffffff',
-                      }}>
-                      <td className='greyText no-wrap ' style={{ backgroundColor: 'inherit' }}>{item.day}</td>
-                      {
-                        item?.periods?.map((item) => (
-                          <td className=' greyText no-wrap  paddingNoRes' style={{ backgroundColor: 'inherit' }}>
-                            <div className='mb-1' style={{ display: 'flex', justifyContent: 'end', alignItems: '' }}>
-                              <div className="dropdown my-button-show" >
-                                <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 " style={{ fontSize: '16px' }} type="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                                  ....
-                                </button>
-                                <ul className="dropdown-menu anchor-color heading-14">
-                                  <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div className='pb-1'>{item.teacher}</div>
-                            <div className='pb-3  '>{item.subject ? item.subject : item.breakType}</div>
-                          </td>
-                        ))
-                      }
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
-          </div>
+            <div className="table-container px-3 pt-4 table-responsive w-100">
+                      <table className="table table-sm table-bordered align-item-center">
+                        <thead className='text-center '>
+                          <tr className='heading-16  text-color-000 text-center' style={{ fontWeight: '500' }}>
+                            <th className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
+                              {byDefaultValue ? (
+                                <div>Days</div>
+                              ) : (
+                                <div>ClassRoutine Not Found...</div>
+                              )}
+                            </th>
+                            {
+                              tableSlotGetAll?.map((item, index) => (
+                                <>
+                                  <th key={index} className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
+                                    {item.periodNo} <br />
+                                    {item.startHourTime?.split(':').slice(0, 2).join(':') ? item.startHourTime?.split(':').slice(0, 2).join(':') : ''} - {item.endHourTime?.split(':').slice(0, 2).join(':') ? item.endHourTime?.split(':').slice(0, 2).join(':') : ''}
+                                  </th>
+                                </>
+                              ))
+                            }
+                          </tr>
+                        </thead>
+                        <tbody className='heading-14 align-middle greyTextColor text-center'>
+                          {
+                            classRoutineData?.map((item, index) => (
+                              <tr key={index}
+                                style={{
+                                  backgroundColor: index % 2 === 0 ? '#FFF9F6' : '#ffffff',
+                                }}>
+                                <td className='greyText no-wrap ' style={{ backgroundColor: 'inherit' }}>{item.day}</td>
+                                {
+                                  item?.periods?.map((item) => (
+                                    <td className=' greyText no-wrap  paddingNoRes' style={{ backgroundColor: 'inherit' }}>
+                                      <div className='mb-1' style={{ display: 'flex', justifyContent: 'end', alignItems: '' }}>
+                                        <div className="dropdown my-button-show" >
+                                          {
+                                            item?.teacher && item?.subject ? (
+                                              <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 " style={{ fontSize: '16px' }} type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                                                ....
+                                              </button>
+                                            )
+                                            :
+                                            ''
+                                          }
+          
+                                          <ul className="dropdown-menu anchor-color heading-14">
+                                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
+                                            {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li> */}
+                                          </ul>
+                                        </div>
+                                      </div>
+                                      <div className='pb-1'>{item.teacher}</div>
+                                      <div className='pb-3  '>{item.subject ? item.subject : item.breakType}</div>
+                                    </td>
+                                  ))
+                                }
+                              </tr>
+                            ))
+                          }
+                        </tbody>
+                      </table>
+                    </div>
         </div>
         {/* ################## Off Canvas Area ####################  */}
 
