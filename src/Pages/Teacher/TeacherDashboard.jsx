@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TeachergetAllAssignmentsDataApi, TeachergetAllClassRoutineDataApi, TeachergetAllEventDataApi, TeachergetAllHolidayDataApi, TeachergetAllLeaveOfTeacherDataApi, TeachergetAllDashboardAttendanceDataApi } from 'src/Utils/Apis';
+import { TeachergetAllAssignmentsDataApi, TeachergetAllClassRoutineDataApi, TeachergetAllEventDataApi, TeachergetAllHolidayDataApi, TeachergetAllLeaveOfTeacherDataApi, teacherGetAllDashDataApi } from 'src/Utils/Apis';
 import toast, { Toaster } from 'react-hot-toast';
 import HashLoader from 'src/Pages/HashLoaderCom';
 import TeacherDashChart from '../../Charts/TeacherDashChart'
@@ -128,179 +128,53 @@ const DashboardPage = () => {
   const today = date.toLocaleDateString('en-US', { weekday: 'long' });
 
   useEffect(() => {
-    getAllClassRoutine();
-    getAllAssignments();
-    getAllHolidays();
-    getAllEvents();
-    MyGetallLeaveOfTeacher();
     MyAttendanceShowOfTeacher();
-
   }, [token, timeTableDay]);
 
   const ToLowerCase = (value) => {
     setTimeTableDay(value.toLowerCase());
   }
 
-  
-  // class routine get all api
-  const getAllClassRoutine = async () => {
+    const MyAttendanceShowOfTeacher = async () => {
     try {
       setloaderState(true);
-      let response = await TeachergetAllClassRoutineDataApi(timeTableDay);
-      // console.log('my time table response',response)
+      // const response = await TeachergetAllDashboardAttendanceDataApi();
+      const response = await teacherGetAllDashDataApi();
+      console.log('All data from dashboard api =============',response)
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setloaderState(false);
-          setRoutineData(response?.data?.timeTable)
-          // toast.success(response.data.message);
-        }
-        else {
-          setloaderState(false);
-          toast.error(response?.data?.message);
-        }
-      }
-      else {
-        setloaderState(false);
-        console.log(response?.data?.msg);
-      }
-    }
-    catch (error) {
-      console.log('Error Facing during Get All ClassRoutines API - ', error)
-    }
-  }
 
-  const getAllAssignments = async () => {
-    try {
-      setloaderState(true);
-      var response = await TeachergetAllAssignmentsDataApi();
-      // console.log(response, 'Assignment responseeee-------------')
-      if (response?.status === 200) {
-        if (response?.data?.status === 'success') {
-          setloaderState(false);
-          setAssignmentData(response?.data?.assignment)
-          // toast.success(response.data.message);
-        }
-        else {
-          setloaderState(false);
-          toast.error(response?.data?.message);
-        }
-      }
-      else {
-        setloaderState(false);
-        console.log(response?.data?.msg);
-      }
-    }
-    catch (error) {
-      console.log('Error Facing during Get All Assignment API - ', error)
-    }
-  }
+          // routine data
+          setRoutineData(response?.data?.data?.timetable)
 
-  const getAllHolidays = async () => {
-    try {
-      setloaderState(true);
-      const searchByKey = ''
-      const pageNo = ''
-      const pageSize = ''
-      var response = await TeachergetAllHolidayDataApi(searchByKey, pageNo, pageSize);
-      // console.log(response, 'holiday')
-      if (response?.status === 200) {
-        if (response?.data?.status === 'success') {
-          setloaderState(false);
-          setHolidayData(response?.data?.holidays)
-          // toast.success(response.data.message);
-        }
-        else {
-          setloaderState(false);
-          toast.error(response?.data?.message);
-        }
-      }
-      else {
-        setloaderState(false);
-        console.log(response?.data?.msg);
-      }
-    }
-    catch (error) {
-      console.log('Error Facing during Get All Holiday API - ', error)
-    }
-  }
-  const getAllEvents = async () => {
-    try {
-      setloaderState(true);
-      const searchByKey = ''
-      const pageNo = ''
-      const pageSize = ''
-      var response = await TeachergetAllEventDataApi(searchByKey, pageNo, pageSize);
-      // console.log(response, 'Events')
-      if (response?.status === 200) {
-        if (response?.data?.status === 'success') {
-          setloaderState(false);
-          setEventData(response?.data?.events)
-          // toast.success(response.data.message);
-        }
-        else {
-          setloaderState(false);
-          toast.error(response?.data?.message);
-        }
-      }
-      else {
-        setloaderState(false);
-        console.log(response?.data?.msg);
-      }
-    }
-    catch (error) {
-      console.log('Error Facing during Get All Event API - ', error)
-    }
-  }
+          // assignment data 
+          setAssignmentData(response?.data?.data?.assignments)
 
-  const MyGetallLeaveOfTeacher = async () => {
-    try {
-      setloaderState(true);
-      var response = await TeachergetAllLeaveOfTeacherDataApi();
-      // console.log(response, 'All leave data in teacher dashboard' )
-      if (response?.status === 200) {
-        if (response?.data?.status === 'success') {
-          setloaderState(false);
-          setLeaveAllData(response?.data?.leave)
+          // holiday data 
+           setHolidayData(response?.data?.data?.holidays)
+
+          // event data 
+          setEventData(response?.data?.data?.events)
+
+          // leave data
+          setLeaveAllData(response?.data?.data?.leaveReport)
           setAvailableLeave(response?.data?.leave)
           setLeaveAllDataTransfer(response?.data?.leave)
-          // toast.success(response.data.message);
-        }
-        else {
-          setloaderState(false);
-          toast.error(response?.data?.message);
-        }
-      }
-      else {
-        setloaderState(false);
-        console.log(response?.data?.msg);
-      }
-    }
-    catch (error) {
-      console.log('Error Facing during Get All Event API - ', error)
-    }
-  }
 
-  const MyAttendanceShowOfTeacher = async () => {
-    try {
-      setloaderState(true);
-      const response = await TeachergetAllDashboardAttendanceDataApi();
-      console.log('timing show on dashaord',response)
-      if (response?.status === 200) {
-        if (response?.data?.status === 'success') {
-          setloaderState(false);
-
-          setShowTime(response?.data?.leave)
-          setShowLateByHours(response?.data?.ByHour)
-          setShowLateByMinutes(response?.data?.ByMin)
-          setShowDate(response?.data?.attendanceDate)
-          setShowLate(response?.data?.state)
-          setShowCheckIn(response?.data?.checkInTime)
-          setShowCheckOut(response?.data?.checkOutTime)
-          setShowTimeHours(response?.data?.workHour?.hours)
-          setShowTimeMinutes(response?.data?.workHour?.minutes)
-          setShowTimeSecond(response?.data?.workHour?.seconds)
-          setShowAttendanceBarGraph(response?.data?.percent)
-          setTotalTime(response?.data?.workHour)
+          // attendance data 
+          setShowTime(response?.data?.data?.checkInTimeInfo?.leave)
+          setShowLateByHours(response?.data?.data?.checkInTimeInfo?.ByHour)
+          setShowLateByMinutes(response?.data?.data?.checkInTimeInfo?.ByMin)
+          setShowDate(response?.data?.data?.checkInTimeInfo?.attendanceDate)
+          setShowLate(response?.data?.data?.checkInTimeInfo?.state)
+          setShowCheckIn(response?.data?.data?.checkInTimeInfo?.checkInTime)
+          setShowCheckOut(response?.data?.data?.checkInTimeInfo?.checkOutTime)
+          setShowTimeHours(response?.data?.data?.checkInTimeInfo?.workHour?.hours)
+          setShowTimeMinutes(response?.data?.data?.checkInTimeInfo?.workHour?.minutes)
+          setShowTimeSecond(response?.data?.data?.checkInTimeInfo?.workHour?.seconds)
+          setShowAttendanceBarGraph(response?.data?.data?.checkInTimeInfo?.percent)
+          // setTotalTime(response?.data?.data?.checkInTimeInfo?.workHour)
         }
         else {
           setloaderState(false);
@@ -361,7 +235,7 @@ const DashboardPage = () => {
                           <p className='greenText font18'>{item1.subject}</p>
                           <div className="d-flex pt-2">
                             <div className="flex-grow-1 align-self-center">
-                              <p className='font12'>{item1.startHourTime}-{item1.endHourTime}</p>
+                              <p className='font12'>{item1?.period?.startHourTime} - {item1?.period?.endHourTime}</p>
                             </div>
                             <div>
                               <p className='font12 greyText'>Class - {item1.classNo} {item1.section}</p>
@@ -481,7 +355,7 @@ const DashboardPage = () => {
                     <div className="col-6 p-1 " key={item.classRouteId}>
                       <div className='d-flex timeTableCard' >
                         <div className="p-2">
-                          <p className='greenText font18'>{item?.leaveType}</p>
+                          <p className='greenText font16'>{item?.leaveType}</p>
                           <div className="d-flex pt-2">
                             <div className="flex-grow-1 align-self-center">
                               <p className='font12'>Available {item?.leaveCount} day</p>
@@ -553,8 +427,9 @@ const DashboardPage = () => {
                 {HolidayData?.map((item) => (
                   <div className="col-6 p-2" key={item.holidayId}>
                     <div className="holidayCard p-4">
-                      <p className='font16 text-center'>{item.holidayTitle}</p>
-                      <p className='greyText font14 text-center'>{item.holidayDate}</p>
+                      <p className='font16 text-center'>{item.title}</p>
+                      <p className='greyText font14 text-center'>{item.startDate}</p>
+                      <p className='greyText font14 text-center'>{item.endDate}</p>
                     </div>
                   </div>
                 ))}
