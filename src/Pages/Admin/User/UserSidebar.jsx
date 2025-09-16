@@ -6,9 +6,9 @@ import { MyUseContext } from '../ContextApi/UseContext';
 import { useForm, Controller } from 'react-hook-form';
 import * as bootstrap from 'bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
-import { StaffGetById, StaffPostApi, StaffPutApi } from '../../../Utils/Apis';
+import { StaffGetById, StaffPostApi, StaffImageUpdate } from '../../../Utils/Apis';
 
-// Styled components (unchanged)
+// Styled components (same as before - unchanged)
 const Container = styled.div`
   .modal-image {
     width: 100%;
@@ -250,7 +250,7 @@ const UserSidebar = () => {
   const { roleName, roleId: roleIdFromParams, userId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { myId, setUserId } = useContext(MyUseContext);
+  const { myId, setUserId, setProfileImageForBasicInfo } = useContext(MyUseContext); // Add setProfileImageForBasicInfo to context
 
   const myUserID = myId ?? userId ?? "";
   const isAddFlow = location.pathname.includes('/add/');
@@ -364,7 +364,7 @@ const UserSidebar = () => {
     const formData = new FormData();
     formData.append('staffImage', data.image);
     try {
-      const response = await StaffPutApi(myUserID, formData);
+      const response = await StaffImageUpdate(myUserID, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success('Image updated successfully');
         setStaffImage(response?.data?.user?.staffImage || URL.createObjectURL(data.image));
@@ -383,33 +383,43 @@ const UserSidebar = () => {
     }
   };
 
-  const AddProfileImage = async (data) => {
+  // Modified function to handle image when no userId is present
+  const handleImageForBasicInfo = async (data) => {
     if (!data.image) {
       toast.error('Please select an image');
       return;
     }
-    setLoaderState(true);
-    const formData = new FormData();
-    formData.append('staffImage', data.image);
-    try {
-      const response = await StaffPostApi(formData);
-      if (response?.status === 200 && response?.data?.status === 'success') {
-        toast.success('Image updated successfully');
-        setStaffImage(response?.data?.user?.staffImage || URL.createObjectURL(data.image));
-        setUserId(response?.data?.otherstaff?.id);
-        const modalElement = document.getElementById('imageModal');
-        if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal.hide();
-        }
-        navigate(`/admin/users/${roleName}/${roleIdFromParams}/update/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
-      } else {
-        toast.error(response?.data?.message || 'Failed to add profile image');
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || 'Failed to add profile image');
-    } finally {
-      setLoaderState(false);
+    
+    // Create image URL for preview
+    const imageUrl = URL.createObjectURL(data.image);
+    
+    // Store image data in context so User_basic_infomation component can access it
+    setProfileImageForBasicInfo({
+      file: data.image,
+      preview: imageUrl
+    });
+    
+    // Update sidebar image preview
+    setStaffImage(imageUrl);
+    
+    toast.success('Image selected successfully');
+    
+    // Close modal
+    const modalElement = document.getElementById('imageModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  };
+
+  // Modified form submission logic
+  const handleFormSubmit = (data) => {
+    if (myUserID) {
+      // If userId exists, update profile image directly
+      UpdateProfileImage(data);
+    } else {
+      // If no userId, pass image to User_basic_infomation component
+      handleImageForBasicInfo(data);
     }
   };
 
@@ -540,7 +550,7 @@ const UserSidebar = () => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body d-flex justify-content-center">
-              <form className="d-flex justify-content-center flex-column" onSubmit={handleSubmit(isAddFlow ? AddProfileImage : UpdateProfileImage)}>
+              <form className="d-flex justify-content-center flex-column" onSubmit={handleSubmit(handleFormSubmit)}>
                 {isCameraOpen ? (
                   <video ref={videoRef} autoPlay className="modal-image" />
                 ) : (
