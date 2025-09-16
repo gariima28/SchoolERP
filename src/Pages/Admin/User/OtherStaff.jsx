@@ -6,7 +6,7 @@ import { OtherStaffCSV } from '../../../Utils/Apis'
 import { Link, useLocation } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { StaffGetById } from '../../../Utils/Apis'
-import { StaffGetAllApi } from '../../../Utils/Apis'
+import { UsersGetApiByRoleId } from '../../../Utils/Apis'
 import { RolePermissionGetApi } from '../../../Utils/Apis'
 import ReactPaginate from 'react-paginate';
 import { StaffDeleteApi } from '../../../Utils/Apis'
@@ -444,8 +444,8 @@ font-size: 12px;
 
 const OtherStaff = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  console.log("Extracted ID in other:", id);
+  const { roleId } = useParams();
+  console.log("Extracted ID in other staff:", roleId);
 
   const [forDelete, setForDelete] = useState(false)
   const [loader, setLoader] = useState(false)
@@ -511,7 +511,7 @@ const OtherStaff = () => {
   const MyTeacherGetAllApi = async () => {
     setLoader(true)
     try {
-      const response = await StaffGetAllApi(searchKey, pageNo, pageSize);
+      const response = await UsersGetApiByRoleId(roleId, searchKey, pageNo, pageSize);
       // console.log('my others staff', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
@@ -785,15 +785,15 @@ const OtherStaff = () => {
   }
 
   const handleAddButton = () => {
-    navigate(`/admin/users/mainuserform/${id}/userbasicinformation`)
+    navigate(`/admin/users/otherStaff/${roleId}/add/mainuserform/userbasicinformation`)
   }
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
 
   const toggleDropdown = (index, e) => {
-      e.preventDefault(); // Prevent default to avoid conflicts
-      e.stopPropagation(); // Stop event bubbling to keep dropdown open
-      setIsDropdownOpen(isDropdownOpen === index ? null : index);
+    e.preventDefault(); // Prevent default to avoid conflicts
+    e.stopPropagation(); // Stop event bubbling to keep dropdown open
+    setIsDropdownOpen(isDropdownOpen === index ? null : index);
   };
 
   return (
@@ -891,7 +891,7 @@ const OtherStaff = () => {
                             </button>
                             {/* Dropdown menu: Show/hide based on state */}
                             <ul className={`dropdown-menu ${isDropdownOpen === index ? 'show' : ''}`}>
-                              <li><Link className="dropdown-item" to={`/admin/users/mainuserform/${item.id}/userbasicinformation`}>Edit</Link></li>
+                              <li><Link className="dropdown-item" to={`/admin/users/otherStaff/${roleId}/update/mainuserform/${item.id}/userbasicinformation`}>Edit</Link></li>
                               <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="staticBackdrop" onClick={(e) => setIdForDelete(item.id)}>Delete</Link></li>
                             </ul>
                           </div>

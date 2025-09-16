@@ -138,8 +138,8 @@ const DailyAttendance = () => {
           </div>
           <div className="row mb-4">
             <p className='text-center p-3'>
-              <button type='button' className='btn printButtons text-white' onClick={() => setAttendanceSearch(true)}>Search</button>
-              <button type='button' className='btn cancelButtons ms-3' onClick={() => setAttendanceSearch(false)}>Cancel</button>
+              {/* <button type='button' className='btn printButtons text-white' onClick={() => setAttendanceSearch(true)}>Search</button> */}
+              <button type='button' className='btn cancelButtons' onClick={() => setAttendanceSearch(false)}>Cancel</button>
             </p>
           </div>
           <div className="row">

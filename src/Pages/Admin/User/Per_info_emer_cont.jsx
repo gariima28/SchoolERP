@@ -179,13 +179,34 @@ const Container = styled.div`
     background: #e6f4f1;
     color: #006b63;
   }
+
+
+  .action-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+  .action-btn.edit {
+    background: #008479;
+    color: #fff;
+    border: none;
+  }
+  .action-btn.delete {
+    background: #B50000;
+    color: #fff;
+    border: none;
+  }
+  .action-btn:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const Per_info_emer_cont = () => {
 
-  const { roleIdUser } = useParams();
-  const { userId } = useContext(MyUseContext);
-  const myUserID = userId ?? roleIdUser ?? "";
+  const { roleId, userId } = useParams();
+  // const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleId ?? "";
 
   // State Management
   const [loader, setLoader] = useState(false);
@@ -557,24 +578,24 @@ const Per_info_emer_cont = () => {
                       <td>{contact.relationship}</td>
                       <td>
                         <button
-                          className="action-btn edit me-2"
+                          className=" btn action-btn edit me-2"
                           onClick={() => handleEdit(contact.emergencyId)}
                           data-bs-toggle="offcanvas"
                           data-bs-target="#editEmergencyContact"
                           tabIndex={7 + index * 2}
                           aria-label={`Edit contact ${contact.emergencyId}`}
                         >
-                          <Icon icon="tabler:edit" width="1.4em" height="1.4em" />
+                          {/* <Icon icon="tabler:edit" width="1.4em" height="1.4em" /> */}Edit
                         </button>
                         <button
-                          className="action-btn delete"
+                          className=" btn action-btn delete text-white"
                           onClick={() => handleDelete(contact.emergencyId)}
                           data-bs-toggle="offcanvas"
                           data-bs-target="#deleteEmergencyContact"
                           tabIndex={8 + index * 2}
                           aria-label={`Delete contact ${contact.emergencyId}`}
                         >
-                          <Icon icon="tabler:trash" width="1.4em" height="1.4em" />
+                          {/* <Icon icon="tabler:trash" width="1.4em" height="1.4em" /> */} Delete
                         </button>
                       </td>
                     </tr>
