@@ -9146,10 +9146,10 @@ export const TeacherMyDailyAttendancePutApi = async (datares) => {
     return [];
   }
 }
-export const TeacherDailyAttendancehGetAllBymonth = async (month, year, search, pageNo, pageSize) => {
+export const TeacherDailyAttendancehGetAllBymonth = async (sectionId2,month, year, search, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/attendance/search-month?month=${month}&year=${year}&searchKey=${search}&page=${pageNo}&size=${pageSize}`)
+    const res = await axios.get(`${Domain}/attendance/search-month?sectionId=${sectionId2}&month=${month}&year=${year}&searchKey=${search}&page=${pageNo}&size=${pageSize}`)
     // const res = await axios.get(`${Domain}/attendance/search-month?sectionId=${sectionId2}&month=${month}&year=${year}&searchKey=${search}&page=${pageNo}&size=${pageSize}`)
     // // console.log('my-response', res)
     if (res) {

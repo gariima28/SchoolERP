@@ -470,6 +470,7 @@ const ClassRoutine = () => {
   const [sectionName, setSectionName] = useState('')
   const [subjectId, setSubjectId] = useState('')
   const [teacherId, setTeacherId] = useState('')
+
   const [day, setDay] = useState()
   const [endTime, setEndTime] = useState()
   const [startTime, setStartTime] = useState()
@@ -520,8 +521,8 @@ const ClassRoutine = () => {
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [byDefaultValue, setByDefaultValue] = useState(false);
-    const [tableSlotGetAll, setTableSlotGetAll] = useState([])
-  
+  const [tableSlotGetAll, setTableSlotGetAll] = useState([])
+
 
   const [searchKey2, setSearchKey2] = useState('')
   const [pageNo2, setPageNo2] = useState('');
@@ -773,7 +774,7 @@ const ClassRoutine = () => {
       setLoader(false)
     }
   }
-  
+
   // ClassRoutine get by id api 
   const MyClassRoutineGetByIdApi = async (id) => {
     setIdForUpdate(id)
@@ -812,25 +813,28 @@ const ClassRoutine = () => {
     try {
       const response = await ClassRoutinePutApi(idForUpdate, formData);
       if (response?.status === 200) {
-        toast.success(response?.data?.message);
-        setHideRoutine(false)
-        setHide(true)
-        setLoader(false)
-        setClassNo('')
-        setClassId('')
-        setSection('')
-        setSectionName('')
-        setSubjectId('')
-        setTeacherId('')
-        setDay('')
-        setEndTime('')
-        setStartTime('')
-        setTimeSlot('')
-        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-        offcanvasInstance.hide();
-        setTimeout(() => {
-          setHideRoutine(true)
-        }, 0.5)
+        if (response?.data?.status === "success") {
+          toast.success(response?.data?.message);
+          setHideRoutine(false)
+          setHide(true)
+          setLoader(false)
+          setClassNo('')
+          setClassId('')
+          setSection('')
+          setSectionName('')
+          setSubjectId('')
+          setTeacherId('')
+          setDay('')
+          setEndTime('')
+          setStartTime('')
+          setTimeSlot('')
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+          offcanvasInstance.hide();
+          setTimeout(() => {
+            setHideRoutine(true)
+          }, 0.5)
+        }
+
       } else {
         toast.error(response?.data?.message);
         setLoader(false)
@@ -880,7 +884,7 @@ const ClassRoutine = () => {
     setClassNo('');
     setSectionName('');
     setClassRoutineData([]);
-       setTableSlotGetAll([]);
+    setTableSlotGetAll([]);
     setByDefaultValue(false)
   };
   const ClearDataInSearch2 = () => {
@@ -893,7 +897,6 @@ const ClassRoutine = () => {
 
   // post api 
   const MyClassRoutineSlotPostApi = async () => {
-
     if (FuncValidation()) {
       const formData = new FormData()
       formData.append('periodNo', period);
@@ -932,8 +935,6 @@ const ClassRoutine = () => {
         setLoader(false)
       }
     }
-
-
   }
   // Slot get all api 
   const MySlotGetAllApi = async () => {
@@ -954,7 +955,7 @@ const ClassRoutine = () => {
   }
   // Slot get by id api 
   const MySlotGetByIdApi = async (id) => {
-        setIdForUpdate(id)
+    setIdForUpdate(id)
     setLoader(true)
     try {
       const response = await SlotGetByIdApi(id);
@@ -1085,69 +1086,69 @@ const ClassRoutine = () => {
             </div>
           </div>
 
-            <div className="table-container px-3 pt-4 table-responsive w-100">
-                      <table className="table table-sm table-bordered align-item-center">
-                        <thead className='text-center '>
-                          <tr className='heading-16  text-color-000 text-center' style={{ fontWeight: '500' }}>
-                            <th className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
-                              {byDefaultValue ? (
-                                <div>Days</div>
-                              ) : (
-                                <div>ClassRoutine Not Found...</div>
-                              )}
-                            </th>
-                            {
-                              tableSlotGetAll?.map((item, index) => (
-                                <>
-                                  <th key={index} className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
-                                    {item.periodNo} <br />
-                                    {item.startHourTime?.split(':').slice(0, 2).join(':') ? item.startHourTime?.split(':').slice(0, 2).join(':') : ''} - {item.endHourTime?.split(':').slice(0, 2).join(':') ? item.endHourTime?.split(':').slice(0, 2).join(':') : ''}
-                                  </th>
-                                </>
-                              ))
-                            }
-                          </tr>
-                        </thead>
-                        <tbody className='heading-14 align-middle greyTextColor text-center'>
-                          {
-                            classRoutineData?.map((item, index) => (
-                              <tr key={index}
-                                style={{
-                                  backgroundColor: index % 2 === 0 ? '#FFF9F6' : '#ffffff',
-                                }}>
-                                <td className='greyText no-wrap ' style={{ backgroundColor: 'inherit' }}>{item.day}</td>
-                                {
-                                  item?.periods?.map((item) => (
-                                    <td className=' greyText no-wrap  paddingNoRes' style={{ backgroundColor: 'inherit' }}>
-                                      <div className='mb-1' style={{ display: 'flex', justifyContent: 'end', alignItems: '' }}>
-                                        <div className="dropdown my-button-show" >
-                                          {
-                                            item?.teacher && item?.subject ? (
-                                              <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 " style={{ fontSize: '16px' }} type="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                                                ....
-                                              </button>
-                                            )
-                                            :
-                                            ''
-                                          }
-          
-                                          <ul className="dropdown-menu anchor-color heading-14">
-                                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
-                                            {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li> */}
-                                          </ul>
-                                        </div>
-                                      </div>
-                                      <div className='pb-1'>{item.teacher}</div>
-                                      <div className='pb-3  '>{item.subject ? item.subject : item.breakType}</div>
-                                    </td>
-                                  ))
-                                }
-                              </tr>
-                            ))
-                          }
-                        </tbody>
-                      </table>
-                    </div>
+          <div className="table-container px-3 pt-4 table-responsive w-100">
+            <table className="table table-sm table-bordered align-item-center">
+              <thead className='text-center '>
+                <tr className='heading-16  text-color-000 text-center' style={{ fontWeight: '500' }}>
+                  <th className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
+                    {byDefaultValue ? (
+                      <div>Days</div>
+                    ) : (
+                      <div>ClassRoutine Not Found...</div>
+                    )}
+                  </th>
+                  {
+                    tableSlotGetAll?.map((item, index) => (
+                      <>
+                        <th key={index} className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
+                          {item.periodNo} <br />
+                          {item.startHourTime?.split(':').slice(0, 2).join(':') ? item.startHourTime?.split(':').slice(0, 2).join(':') : ''} - {item.endHourTime?.split(':').slice(0, 2).join(':') ? item.endHourTime?.split(':').slice(0, 2).join(':') : ''}
+                        </th>
+                      </>
+                    ))
+                  }
+                </tr>
+              </thead>
+              <tbody className='heading-14 align-middle greyTextColor text-center'>
+                {
+                  classRoutineData?.map((item, index) => (
+                    <tr key={index}
+                      style={{
+                        backgroundColor: index % 2 === 0 ? '#FFF9F6' : '#ffffff',
+                      }}>
+                      <td className='greyText no-wrap ' style={{ backgroundColor: 'inherit' }}>{item.day}</td>
+                      {
+                        item?.periods?.map((item) => (
+                          <td className=' greyText no-wrap  paddingNoRes pt-2' style={{ backgroundColor: 'inherit' }}>
+                            <div className='mb-1' style={{ display: 'flex', justifyContent: 'end', alignItems: '' }}>
+                              <div className="dropdown my-button-show " >
+                                {/* {
+                                  item?.teacher && item?.subject ? (
+                                    <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 " style={{ fontSize: '16px' }} type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                                      ....
+                                    </button>
+                                  )
+                                    :
+                                    ''
+                                } */}
+
+                                <ul className="dropdown-menu anchor-color heading-14">
+                                  <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
+                                  {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li> */}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className='pb-1'>{item.teacher}</div>
+                            <div className='pb-3  '>{item.subject ? item.subject : item.breakType}</div>
+                          </td>
+                        ))
+                      }
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
         {/* ################## Off Canvas Area ####################  */}
 
@@ -1402,7 +1403,7 @@ const ClassRoutine = () => {
                           <option value="Sunday">Sunday</option>
                         </select>
                       </div>
-               
+
 
                       <div className='my-button11 mb-3'>
                         <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => { MyClassRoutinePutApi() }}>Update Routine</button>
@@ -1534,7 +1535,7 @@ const ClassRoutine = () => {
                                         </g>
                                       </svg>
                                     </div>
-                                    
+
                                   </td>
                                 </tr>
                               ))
@@ -1604,7 +1605,7 @@ const ClassRoutine = () => {
                 <hr className='' style={{ marginTop: '-3px' }} />
 
                 <div className="flex-grow-1 overflow-auto px-3">
-                   <div className="mb-3">
+                  <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label heading-16">Period</label>
                     <input type="text" className="form-control form-control-sm" disabled={''} value={period} onChange={(e) => { handlePeriode(e.target.value); setCondition(!condition); }} id="exampleFormControlInput1" placeholder="Enter Period" />
                   </div>
