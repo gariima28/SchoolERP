@@ -901,18 +901,20 @@ const OfflineExam_T = () => {
         formData.append('passingMarks', passingMarks);
         try {
             const response = await updateExamScheduleApi(IdForUpdate, formData);
-            // console.log('My_offline_Api', response)
+            console.log('My_offline_Api', response, 11111)
             if (response?.status === 200) {
+
                 if (response?.data?.status === "success") {
                     toast.success(response?.data?.message);
                     setShow2(false)
-                    MyHolidayGetAllApi()
                     MyExamGetAllApi()
+
                     const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-                        offcanvasInstance.hide();
-                        setTimeout(() => {
-                            setShow2(true)
-                        }, 0.5)
+                    offcanvasInstance.hide();
+                    setTimeout(() => {
+                        setShow2(true)
+                    }, 0.5)
+           
                 }
             }
             else {
@@ -1392,7 +1394,7 @@ const OfflineExam_T = () => {
                         </>
                     )
                 } */}
-     {
+                {
                     show2 && (
                         <>
                             <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop101" aria-labelledby="staticBackdropLabel" ref={offcanvasRef22}>
@@ -1584,7 +1586,7 @@ const OfflineExam_T = () => {
                 }
                 {/* ############## After click ##############  */}
 
-               
+
             </div>
             {/* ################ offcanvas delete end #############  */}
 

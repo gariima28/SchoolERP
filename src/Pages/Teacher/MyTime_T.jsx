@@ -76,11 +76,20 @@ const MyTime = ({ data }) => {
 
   return (
     <>
-      {loaderState && <HashLoader />}
-      <div className="timer" style={{ fontSize: '20px', paddingTop: '3px' }}>
-        {secondsToTimeString(timeDiff) ? secondsToTimeString(timeDiff) : '00:00:00'}
-      </div>
-    </>
+  {loaderState && <HashLoader />}
+  <div className="timer" style={{ fontSize: '20px', paddingTop: '3px' }}>
+    {timeDiff ?? timeDiff === 0
+      ? secondsToTimeString(timeDiff ?? 0)
+      : '00:00:00'}
+  </div>
+</>
+
+    // <>
+    //   {loaderState && <HashLoader />}
+    //   <div className="timer" style={{ fontSize: '20px', paddingTop: '3px' }}>
+    //     {secondsToTimeString(timeDiff) ? secondsToTimeString(timeDiff) : '00:00:00'}
+    //   </div>
+    // </>
   );
 };
 
