@@ -59,7 +59,7 @@ const Grades = () => {
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
                     setloaderState(false);
-                    setGradeData(response?.data?.grade)
+                    setGradeData(response?.data?.grades || [])
                     setCurrentPage(response?.data?.currentPage)
                     setTotalPages(response?.data?.totalPages)
                     // toast.success(response.data.message);

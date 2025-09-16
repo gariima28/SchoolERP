@@ -6,9 +6,9 @@ import { useParams } from 'react-router-dom';
 
 const Per_info_bank = () => {
 
-  const { roleIdUser } = useParams();
-  const { userId } = useContext(MyUseContext);
-  const myUserID = userId ?? roleIdUser ?? "";
+  const { roleId, userId } = useParams();
+  // const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleId ?? "";
 
   const [loader, setLoader] = useState(false);
   const [accountNumber, setAccountNumber] = useState('');

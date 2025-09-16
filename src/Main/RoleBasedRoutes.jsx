@@ -252,14 +252,28 @@ export const RoleBasedRoutes = {
     { path: "/admin/inventory/addSale", element: <AddSale /> },
     { path: "/admin/inventory/issueItem", element: <ManageIssue /> },
 
-    { path: '/admin/users/teacher/:id', element: <Teacher /> },
-    { path: '/admin/users/accountant/:id', element: <Accountant /> },
-    { path: '/admin/users/librarian/:id', element: <Librarian /> },
-    { path: '/admin/users/other_staff/:id', element: <OtherStaff /> },
-    { path: '/admin/users/drivers/:id', element: <Driver /> },
+    { path: '/admin/users/teacher/:roleId', element: <Teacher /> },
+    { path: '/admin/users/accountant/:roleId', element: <Accountant /> },
+    { path: '/admin/users/librarian/:roleId', element: <Librarian /> },
+    { path: '/admin/users/otherStaff/:roleId', element: <OtherStaff /> },
+    { path: '/admin/users/drivers/:roleId', element: <Driver /> },
     { path: '/admin/users/driver/addDriver', element: <AddDriver /> },
+
+    // Add flow
     {
-      path: '/admin/users/mainuserform/:roleIdUser',
+      path: '/admin/users/:roleName/:roleId/add/mainuserform',
+      element: <MainUserForm />,
+      children: [
+        { path: 'userbasicinformation', element: <User_basic_infomation /> },
+        { path: ':userId/usercontact', element: <User_Contact /> },
+        { path: ':userId/userperinfo', element: <User_Per_info /> },
+        { path: ':userId/userdocuments', element: <User_Documents /> },
+      ]
+    },
+
+    // Update flow
+    {
+      path: '/admin/users/:roleName/:roleId/update/mainuserform/:userId',
       element: <MainUserForm />,
       children: [
         { path: 'userbasicinformation', element: <User_basic_infomation /> },
@@ -268,16 +282,7 @@ export const RoleBasedRoutes = {
         { path: 'userdocuments', element: <User_Documents /> },
       ]
     },
-    {
-      path: '/admin/users/mainuserform/:userId',
-      element: <MainUserForm />,
-      children: [
-        { path: 'userbasicinformation', element: <User_basic_infomation /> },
-        { path: 'usercontact', element: <User_Contact /> },
-        { path: 'userperinfo', element: <User_Per_info /> },
-        { path: 'userdocuments', element: <User_Documents /> },
-      ]
-    },
+
     { path: "/admin/holiday", element: <Holiday /> },
 
     { path: "/admin/notice", element: <Notice /> },
@@ -335,7 +340,7 @@ export const RoleBasedRoutes = {
   PARENT: [
     { path: "/parent/grades", element: <Grades_P /> },
     { path: "/parent/marks", element: <Marks_P /> },
-    { path: "/parent/offlineExam", element: <OfflineExams_P /> },
+    { path: "/parent/examSchedule", element: <OfflineExams_P /> },
     { path: "/parent/fees", element: <Fees_P /> },
     { path: "/parent/offlinePaymentForm", element: <OfflinePayment_P /> },
     { path: "/parent/onlineCourse", element: <OnlineCourse_P /> },
@@ -354,7 +359,7 @@ export const RoleBasedRoutes = {
     { path: "/student/dailyAttendance", element: <DailyAttendance_S /> },
     { path: "/student/grades", element: <Grades_P /> },
     { path: "/student/marks", element: <Marks_P /> },
-    { path: "/student/offlineExam", element: <OfflineExams_P /> },
+    { path: "/student/examSchedule", element: <OfflineExams_P /> },
     { path: "/student/offlinePaymentForm/:id", element: <OfflinePayment_P /> },
     { path: "/student/onlineCourse", element: <OnlineCourse_P /> },
     { path: "/student/teacher", element: <Teacher_P /> },
