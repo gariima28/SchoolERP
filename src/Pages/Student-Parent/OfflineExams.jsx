@@ -90,8 +90,6 @@ const ExamSchedule = () => {
       const response = await getExamTermDataApi("", "", "");
       if (response?.status === 200 && response?.data?.status === "success") {
         setExamTermData(response.data.data || []);
-        setTotalPages(response.data.totalPages || 1);
-        setCurrentPage(response.data.currentPage || 1);
       } else {
         toast.error(response?.data?.message || "Failed to fetch exam terms");
       }

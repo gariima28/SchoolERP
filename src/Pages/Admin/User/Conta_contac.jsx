@@ -9,9 +9,9 @@ const Conta_contac = ({ data }) => {
   const { transferId, myUserId } = data;
   const staffId = transferId;
 
-  const { roleIdUser } = useParams();
-  const { userId } = useContext(MyUseContext);
-  const myUserID = userId ?? roleIdUser ?? "";
+  const { roleId, userId } = useParams();
+  // const { userId } = useContext(MyUseContext);
+  const myUserID = userId ?? roleId ?? "";
 
   console.log(myUserID, "myUserID");
 
@@ -223,8 +223,10 @@ const Conta_contac = ({ data }) => {
       try {
         const response = await Conatct_conat_PutApi(myUserID, formData);
         if (response?.status === 200) {
-          toast.success(response?.data?.message || 'Contract updated successfully');
-          clearData();
+          if(response.data.status === 'success'){
+            toast.success(response?.data?.message || 'Contract updated successfully');
+            clearData();
+          }
           setLoader(false);
         } else {
           toast.error(response?.data?.message || 'Failed to update contract');

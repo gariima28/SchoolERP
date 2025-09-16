@@ -1090,7 +1090,7 @@ const ClassRoutine = () => {
               <ol className="breadcrumb ms-2">
                 <li className="breadcrumb-item active heading-14 font-color" aria-current="page">Home</li>
                 <li className="breadcrumb-item active heading-14 font-color" aria-current="page">Academic</li>
-                <li className="breadcrumb-item breadcrum-li heading-14" ><Link href="#" onClick={MyClassRoutineGetAllApi}>Class Routine123</Link></li>
+                <li className="breadcrumb-item breadcrum-li heading-14" ><Link href="#" onClick={MyClassRoutineGetAllApi}>Class Routine</Link></li>
               </ol>
             </nav>
           </div>
@@ -1203,8 +1203,8 @@ const ClassRoutine = () => {
                                       ....
                                     </button>
                                   )
-                                  :
-                                  ''
+                                    :
+                                    ''
                                 }
 
                                 <ul className="dropdown-menu anchor-color heading-14">

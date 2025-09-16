@@ -3,13 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from "styled-components";
 import ReactPaginate from 'react-paginate';
 import { CSVLink } from 'react-csv';
-import { OtherStaffCSV, roleName } from '../../../Utils/Apis'
+import { OtherStaffCSV, getroleName } from '../../../Utils/Apis'
 
 import { Link, useLocation } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { StaffGetById } from "../../../Utils/Apis";
 
-import { TeacherGetAllApi } from "../../../Utils/Apis";
+import { UsersGetApiByRoleId } from "../../../Utils/Apis";
 import { RolePermissionGetApi } from "../../../Utils/Apis";
 
 import { StaffDeleteApi } from "../../../Utils/Apis";
@@ -451,8 +451,8 @@ const Container = styled.div`
 
 const Teacher = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-
+  const { roleId } = useParams();
+  console.log('Extracted roleId in teacher', roleId)
   const [forDelete, setForDelete] = useState(false);
 
   const [loader, setLoader] = useState(false);
@@ -526,7 +526,7 @@ const Teacher = () => {
   const MyTeacherGetAllApi = async () => {
     setLoader(true);
     try {
-      const response = await TeacherGetAllApi(searchKey, pageNo, pageSize);
+      const response = await UsersGetApiByRoleId(roleId, searchKey, pageNo, pageSize);
       console.log('teacher data---', response)
       if (response?.status === 200) {
         setTeacherAllData(response?.data?.staffList);
@@ -762,7 +762,7 @@ const Teacher = () => {
   const getRollForAdminDashboard = async () => {
     setLoader(true);
     try {
-      const response = await roleName(id);
+      const response = await getroleName(roleId);
       console.log(response, "Resone for roles")
       if (response?.status === 200) {
         setuserName(response?.data?.roles?.roleName);
@@ -792,15 +792,15 @@ const Teacher = () => {
   }
 
   const handleAddButton = () => {
-    navigate(`/admin/users/mainuserform/${id}/userbasicinformation`)
+    navigate(`/admin/users/teacher/${roleId}/add/mainuserform/userbasicinformation`)
   }
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
 
   const toggleDropdown = (index, e) => {
-      e.preventDefault(); // Prevent default to avoid conflicts
-      e.stopPropagation(); // Stop event bubbling to keep dropdown open
-      setIsDropdownOpen(isDropdownOpen === index ? null : index);
+    e.preventDefault(); // Prevent default to avoid conflicts
+    e.stopPropagation(); // Stop event bubbling to keep dropdown open
+    setIsDropdownOpen(isDropdownOpen === index ? null : index);
   };
 
   return (
@@ -899,7 +899,8 @@ const Teacher = () => {
                               <li>
                                 <Link
                                   className="dropdown-item"
-                                  to={`/admin/users/mainuserform/${item.id}/userbasicinformation`}
+                                  to={`/admin/users/teacher/${roleId}/update/mainuserform/${item.id}/userbasicinformation`}
+                                // to={`/admin/users/mainuserform//userbasicinformation`}
                                 >
                                   Edit
                                 </Link>

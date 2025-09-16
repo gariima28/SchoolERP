@@ -2,7 +2,7 @@ import axios from 'axios'
 const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
-// const Domain = 'http://192.168.20.109:5000';
+// const Domain = 'http://192.168.21.232:5000';
 const Domain = 'https://test.edu2all.in/sch';
 
 // ******************************************************************************************************
@@ -1919,7 +1919,7 @@ export const CsvGradeApi = async () => {
 export const StudentGradeApi = async (page, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.delete(`${Domain}/api/grades/student?page=${page}&size=${size}`);
+    var res = await axios.get(`${Domain}/api/grades/student?page=${page}&size=${size}`);
     if (res) {
       return res;
     } else {
@@ -2605,7 +2605,7 @@ export const DownloadSubmissionPDF = async () => {
 export const getAllMarksApi = async (classNo, sectionId, subjectId, sessionName, examTermId, page, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/marks/filter?classNo=${classNo}&classSec=${sectionId}&subject=${subjectId}&sessionName=${sessionName}&examTermId=${examTermId}`,);
+    var res = await axios.get(`${Domain}/marks/filter?classNo=${classNo}&classSec=${sectionId}&subject=${subjectId}&sessionName=${sessionName}&examTermId=${examTermId}&page=${page}&size=${size}`,);
     // var res = await axios.get(`${Domain}/marks/all?classId=${classId}&sectionId=${sectionId}&subjectId=${subjectId}&sessionName=${sessionName}&ExamTerm=${ExamTerm}`,);
     // &page=${page}&size=${size}
 
@@ -4202,7 +4202,7 @@ export const RolePermissionGetApi = async () => {
   }
 }
 
-export const roleName = async (roleId) => {
+export const getroleName = async (roleId) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/role/getByRoleId/${roleId}`)
@@ -5013,6 +5013,23 @@ export const StaffPostApi = async (datares) => {
 
 }
 
+
+// Staff Get All Api
+export const UsersGetApiByRoleId = async (roleId, searchKey, pageNo, pageSize) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/otherStaff/getStaffByRole/${roleId}?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`)
+    // const res= await axios.get(${Domain}/otherStaff/getStaffBySchId/${id})
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
 
 // Staff Get All Api
 export const StaffGetAllApi = async (searchKey, pageNo, pageSize) => {
@@ -7320,10 +7337,10 @@ export const Conatct_conat_ById = async (id) => {
     return [];
   }
 }
-export const Conatct_conat_PutApi = async (id) => {
+export const Conatct_conat_PutApi = async (id, formData) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.put(`${Domain}/contact/updateContract/${id}`)
+    const res = await axios.put(`${Domain}/contact/updateContract/${id}`, formData)
     if (res) {
       return res;
     }
@@ -7960,10 +7977,10 @@ export const getAllExamSchedulesDataApi = async (pageNo, size) => {
 // ******************************************************************************************************
 
 
-export const getAllMarksDataApi = async (pageNo, size) => {
+export const getAllMarksDataApi = async (examTermId, pageNo, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/marks/stu-get-marks?page=${pageNo}&size=${size}`);
+    var res = await axios.get(`${Domain}/marks/marksheetForStudentPanel?examTermId=${examTermId}&page=${pageNo}&size=${size}`);
 
     if (res) {
       return res;

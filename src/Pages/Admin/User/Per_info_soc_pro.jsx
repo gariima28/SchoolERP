@@ -6,9 +6,9 @@ import { MyUseContext } from '../ContextApi/UseContext';
 
 const Per_info_soc_pro = () => {
 
-   const { roleIdUser } = useParams();
-   const { userId } = useContext(MyUseContext);
-   const myUserID = userId ?? roleIdUser ?? "";
+   const { roleId, userId } = useParams();
+//    const { userId } = useContext(MyUseContext);
+   const myUserID = userId ?? roleId ?? "";
 
     const [loader, setLoader] = useState(false);
     const [faceBookUrl, setFaceBookUrl] = useState('');

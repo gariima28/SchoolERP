@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import styled from 'styled-components';
-import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import { NavLink, useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { MyUseContext } from '../ContextApi/UseContext';
 import { useForm, Controller } from 'react-hook-form';
@@ -167,7 +167,7 @@ const Container = styled.div`
     color: #666 !important;
     background-color: #edf5f6 !important;
     opacity: 0.6;
-    pointer-events: fill !important;
+    pointer-events: none !important;
     position: relative;
   }
   .my-nav-link:hover::after {
@@ -247,19 +247,33 @@ const Container = styled.div`
 `;
 
 const UserSidebar = () => {
-  const { roleIdUser } = useParams();
+  const { roleName, roleId: roleIdFromParams, userId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { myId, setUserId } = useContext(MyUseContext);
 
-  const myUserID = myId ?? roleIdUser ?? "";
-  const isAddForm = !myId && !roleIdUser;
+  const myUserID = myId ?? userId ?? "";
+  const isAddFlow = location.pathname.includes('/add/');
+  const isUpdateFlow = location.pathname.includes('/update/');
+
+  // Disable tabs if in add flow and no userId is present
+  const isTabsDisabled = isAddFlow && !myUserID;
+
+  // Role mapping based on roleId
+  const roleMapping = {
+    '1': 'Teacher',
+    '2': 'Accountant',
+    '3': 'Librarian',
+    '4': 'Other Staff',
+    '5': 'Driver'
+  };
 
   const [image, setImage] = useState(null);
   const [updateStatus, setUpdateStatus] = useState();
   const [staffImage, setStaffImage] = useState(null);
   const [modalImage, setModalImage] = useState(null);
   const [previousImage, setPreviousImage] = useState(null);
-  const [userMyRole, setUserMyRole] = useState('');
+  const [userMyRole, setUserMyRole] = useState(roleMapping[roleIdFromParams] || 'Role');
   const [transferData, setTransferData] = useState(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [loaderState, setLoaderState] = useState(false);
@@ -275,12 +289,12 @@ const UserSidebar = () => {
 
   // Initialize Bootstrap modal
   useEffect(() => {
-    if (!isAddForm) {
+    if (myUserID) {
       GetProfileImageById();
     } else {
       setStaffImage('/SampleProfile.png');
     }
-  }, [myUserID, isAddForm]);
+  }, [myUserID]);
 
   useEffect(() => {
     const modalElement = document.getElementById('imageModal');
@@ -332,17 +346,11 @@ const UserSidebar = () => {
       if (response?.status === 200 && response?.data?.status === 'success') {
         setUpdateStatus(response?.data?.status);
         setStaffImage(response?.data?.user?.staffImage || '/SampleProfile.png');
+        setUserMyRole(response?.data?.user?.role || roleMapping[roleIdFromParams] || 'Role');
       } else {
-        if (roleIdUser) {
-
-        } else {
-          toast.error(response?.data?.message);
-        }
-
         setStaffImage('/SampleProfile.png');
       }
     } catch (error) {
-      // toast.error('Failed to fetch user data');
       setStaffImage('/SampleProfile.png');
     }
   };
@@ -394,7 +402,7 @@ const UserSidebar = () => {
           const modal = bootstrap.Modal.getInstance(modalElement);
           modal.hide();
         }
-        navigate(`/admin/users/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
+        navigate(`/admin/users/${roleName}/${roleIdFromParams}/update/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
       } else {
         toast.error(response?.data?.message || 'Failed to add profile image');
       }
@@ -414,25 +422,35 @@ const UserSidebar = () => {
     }
   };
 
-  const isTabsDisabled = !myId && !roleIdUser;
-
   // Function to generate dynamic NavLink paths
   const getNavLinkPath = (section) => {
-    return isAddForm
-      ? `/admin/users/mainuserform/${roleIdUser}/${section}`
-      : `/admin/users/mainuserform/${myUserID}/${section}`;
+    if (isAddFlow) {
+      if (section === 'userbasicinformation') {
+        return `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/userbasicinformation`;
+      }
+      return myUserID
+        ? `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/${myUserID}/${section}`
+        : '#';
+    } else if (isUpdateFlow) {
+      return `/admin/users/${roleName}/${roleIdFromParams}/update/mainuserform/${myUserID}/${section}`;
+    }
+    return `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/userbasicinformation`;
   };
 
   // Custom isActive matcher for NavLinks
   const isNavLinkActive = (match, location, section) => {
     if (!match) return false;
-    const basePathWithId = `/admin/users/mainuserform/${myUserID}/${section}`;
-    const basePathWithoutId = `/admin/users/mainuserform/${roleIdUser}/${section}`;
+    const basePathUpdate = `/admin/users/${roleName}/${roleIdFromParams}/update/mainuserform/${myUserID}/${section}`;
+    const basePathAddWithId = `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/${myUserID}/${section}`;
+    const basePathAddWithoutId = `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/${section}`;
     return (
-      location.pathname === basePathWithId ||
-      location.pathname === basePathWithoutId
+      location.pathname === basePathUpdate ||
+      location.pathname === basePathAddWithId ||
+      location.pathname === basePathAddWithoutId
     );
   };
+
+  const isBasicInfoDisabled = isAddFlow && myUserID;
 
   return (
     <Container>
@@ -460,14 +478,14 @@ const UserSidebar = () => {
         </div>
         <div className="profile-info">
           <p className="role heading-18 font-rsponsive">
-            {transferData?.userRole || userMyRole || 'Role'}
+            {transferData?.userRole || userMyRole}
           </p>
         </div>
         <div className="nav-tabs-container">
           <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <NavLink
               className={({ isActive }) =>
-                `nav-link d-flex align-items-center ${isActive ? 'active' : ''}`
+                `nav-link d-flex align-items-center ${isBasicInfoDisabled ? 'my-nav-link' : ''} ${isActive ? 'active' : ''}`
               }
               to={getNavLinkPath('userbasicinformation')}
               isActive={(match, location) => isNavLinkActive(match, location, 'userbasicinformation')}
@@ -522,7 +540,7 @@ const UserSidebar = () => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body d-flex justify-content-center">
-              <form className="d-flex justify-content-center flex-column" onSubmit={handleSubmit(isAddForm ? AddProfileImage : UpdateProfileImage)}>
+              <form className="d-flex justify-content-center flex-column" onSubmit={handleSubmit(isAddFlow ? AddProfileImage : UpdateProfileImage)}>
                 {isCameraOpen ? (
                   <video ref={videoRef} autoPlay className="modal-image" />
                 ) : (
