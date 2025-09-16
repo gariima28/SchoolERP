@@ -10,12 +10,16 @@ export const MyContext = createContext(0);
 
 export const IdProvider = ({children}) => {
 
-  const [sharedId, setSharedId] = useState('');  
+  const [sharedId, setSharedId] = useState('');
+  const [profileImageForBasicInfo, setProfileImageForBasicInfo] = useState(null);
+  
 
-  console.log('Provider rendered with sharedId:', sharedId);
+
+  console.log('Provider rendered with sharedId:', profileImageForBasicInfo);
 
   return  (
-    <MyContext.Provider value={{ sharedId, setSharedId }}> 
+    <MyContext.Provider value={{ sharedId, setSharedId, profileImageForBasicInfo, 
+    setProfileImageForBasicInfo  }}> 
       {children}
     </MyContext.Provider>
   )

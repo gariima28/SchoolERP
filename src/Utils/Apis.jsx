@@ -5149,6 +5149,25 @@ export const StaffPutApi = async (id, datares) => {
     return [];
   }
 }
+
+// staff Put Data Api 
+export const StaffImageUpdate = async (id, datares) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res2 = await axios.put(`${Domain}/otherStaff/updateUserProfilePic/${id}`, datares)
+    // // console.log('my-response-get-by-id', res2)
+
+    if (res2) {
+      return res2;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+
 //  /otherStaff/getUser/{userId}
 // ########################## Staff API end ########################### 
 

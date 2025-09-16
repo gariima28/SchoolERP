@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { MyUseContext } from '../ContextApi/UseContext'
 import { useNavigate, useParams } from 'react-router-dom';
 import { StaffPostApi, StaffGetById, StaffPutApi, RolePermissionGetApi } from '../../../Utils/Apis';
+import { MyUseContext } from '../ContextApi/UseContext';
 const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const navigate = useNavigate();
   const { roleName, roleId, userId } = useParams();
   // const { userId } = useContext(MyUseContext);
   const myUserID = userId ?? roleId ?? "";
 
-
+  const { profileImageForBasicInfo } = useContext(MyUseContext);
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
   const [gender, setGender] = useState('');
@@ -51,7 +51,12 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
     if (myUserID) {
       MyStaffGetById();
     }
-  }, []);
+     if (profileImageForBasicInfo) {
+      console.log('Selected image:', profileImageForBasicInfo);
+      // profileImageForBasicInfo.file - actual file object
+      // profileImageForBasicInfo.preview - preview URL
+    }
+  }, [profileImageForBasicInfo]);
 
 
   const FuncValidation = () => {
@@ -218,7 +223,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       formData.append('nationality', nationality);
       formData.append('pinCode', pinCode);
       formData.append('religion', religion);
-      formData.append('staffImage', imageFile);
+      formData.append('staffImage', profileImageForBasicInfo);
       formData.append('state', state);
       formData.append('citizenship', citizenship);
       setLoader(true);
@@ -227,10 +232,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
         if (response?.data?.status === "success") {
           toast.success(response?.data?.message);
           setemptyValue(response?.data?.status);
-          // setFunction(response?.data?.otherstaff?.id);
           navigate(`/admin/users/${roleName}/${roleId}/add/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
-          // navigate(`/admin/users/mainuserform/${response?.data?.otherstaff?.id}/usercontact`);
-          // setMyId(response?.data?.otherstaff?.id);
           setLoader(false);
         } else {
           toast.error(response?.data?.message);
