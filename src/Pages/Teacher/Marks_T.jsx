@@ -638,6 +638,9 @@ const Marks_T = () => {
   const [examTermData, setExamTermData] = useState([])
   const [sessionAllData, setSessionAllData] = useState([])
   const [marksAllData, setMarksAllData] = useState([])
+  const [examShow, setExamShow] = useState('')
+  const [subjectShow, setSubjectShow] = useState('')
+
   const [IdForDelete, setIdForDelete] = useState()
   const [IdForUpdate, setIdForUpdate] = useState()
   const [showadd, setShowadd] = useState(true)
@@ -655,7 +658,7 @@ const Marks_T = () => {
   const [sectionId, setSectionId] = useState('')
   const [sectionName, setSectionName] = useState()
   const [subjectId, setSubjectId] = useState('')
-  const [subjectShow, setSubjectShow] = useState('')
+  // const [subjectShow, setSubjectShow] = useState('')
   const [ExamTerm, setExamTerm] = useState('')
   const [examTermShow, setExamTermShow] = useState('')
   const [sessionName, setSessionName] = useState('')
@@ -774,79 +777,139 @@ const Marks_T = () => {
     setSectionName(val2)
   }
 
+  const handleFieldChange = (index, field, value) => {
+    setMarksAllData(prev =>
+      prev.map((row, i) =>
+        i === index ? { ...row, [field]: value } : row
+      )
+    );
+  };
   // Marks Post Api 
-  const MyMarksPostApi = async (markId, studentId) => {
-    const formData = new FormData()
-    // formData.append('markId', markId);
-    // formData.append('examTermId', ExamTerm);
-    // formData.append('classId', classId);
-    // formData.append('sectionId', sectionId);
-    // formData.append('subjectId', subjectId);
-    // formData.append('studentId', studentId);
-    // formData.append('sessionName', sessionName);
-    // formData.append('marks', gainMarks);
-    // formData.append('theoryMarks', thoeryMarks);
-    // formData.append('practicalMarks', practicleMarks);
-    // formData.append('totalMarks', practicleMarks);
+  const MyMarksPostApi = async (markId, studentId, row) => {
+    const formData = new FormData();
 
-        formData.append("studentId", studentId);
-        formData.append("examTermId", ExamTerm);
-        formData.append("classNo", classNo);
-        formData.append("classSec", sectionName);
-        formData.append("subject", subjectId);
-        formData.append("sessionName", sessionName);
-        formData.append("theoryMarks", thoeryMarks);
-        formData.append("practicalMarks", practicleMarks);
+    formData.append("studentId", studentId);
+    formData.append("examTermId", ExamTerm);
+    formData.append("classNo", classNo);
+    formData.append("classSec", sectionName);
+    formData.append("subject", subjectId);
+    formData.append("sessionName", sessionName);
+    formData.append("theoryMarks", row.theoryMarks);
+    formData.append("practicalMarks", row.practicalMarks);
+    formData.append("obtainedMarks", row.obtainedMarks);
+    formData.append("percentage", row.percentage);
+    formData.append("grade", row.grade);
+    // formData.append("studentId", student.studentId);
+    // formData.append("examTermId", ExamTerm);
+    // formData.append("classNo", classNo);
+    // formData.append("classSec", sectionName);
+    // formData.append("subject", subjectId);
+    // formData.append("sessionName", sessionName);
+    // formData.append("theoryMarks", student.theoryMarks);
+    // formData.append("practicalMarks", student.practicalMarks);
 
-    setLoader(true)
     try {
       const response = await TeacherMarksPostApi(formData);
-      // // console.log('class-post-api', response)
-      if (response?.status === 200) {
-        if (response?.data?.status === "success") {
-          toast.success(response?.data?.message);
-
-          setShow(false)
-
-          setLoader(false)
-        } else {
-          toast.error(response?.data?.message);
-          setShow(true)
-          setLoader(false)
-        }
+      if (response?.status === 200 && response?.data?.status === "success") {
+        toast.success(response.data.message || "Marks updated");
+        // refresh list if needed
+        // MyMarksGetAll();
       } else {
-        toast.error(response?.data?.message);
-        setLoader(false)
+        toast.error(response?.data?.message || "Update failed");
       }
     } catch (error) {
-      setLoader(false)
-      // console.log(error)
+      toast.error("Error updating marks");
+    } finally {
+      setLoader(false);
     }
-  }
+  };
+  // const MyMarksPostApi = async (markId, studentId) => {
+  //   const formData = new FormData()
+  //       formData.append("studentId", studentId);
+  //       formData.append("examTermId", ExamTerm);
+  //       formData.append("classNo", classNo);
+  //       formData.append("classSec", sectionName);
+  //       formData.append("subject", subjectId);
+  //       formData.append("sessionName", sessionName);
+  //       formData.append("theoryMarks", thoeryMarks);
+  //       formData.append("practicalMarks", practicleMarks);
+
+  //   setLoader(true)
+  //   try {
+  //     const response = await TeacherMarksPostApi(formData);
+  //     // // console.log('class-post-api', response)
+  //     if (response?.status === 200) {
+  //       if (response?.data?.status === "success") {
+  //         toast.success(response?.data?.message);
+
+  //         setShow(false)
+
+  //         setLoader(false)
+  //       } else {
+  //         toast.error(response?.data?.message);
+  //         setShow(true)
+  //         setLoader(false)
+  //       }
+  //     } else {
+  //       toast.error(response?.data?.message);
+  //       setLoader(false)
+  //     }
+  //   } catch (error) {
+  //     setLoader(false)
+  //     // console.log(error)
+  //   }
+  // }
 
   //   Get All Api
   const MyMarksGetAll = async () => {
-    setLoader(true)
+    setLoader(true);
     try {
-      const response = await TeacherMarksGetAll(classNo,sectionName, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize);
-      console.log(response, 'marks get all=========dataa')
+      const response = await TeacherMarksGetAll(
+        classNo,
+        sectionName,
+        subjectId,
+        sessionName,
+        ExamTerm,
+        searchKey,
+        pageNo,
+        pageSize
+      );
+
       if (response?.status === 200) {
-        // toast.success(response?.data?.message)
-        setMarksAllData(response?.data?.studentMarksList?.students)
-        setSubjectShow(response?.data?.studentMarksList?.subject)
-        setExamTermShow(response?.data?.studentMarksList?.exam)
-        setCurrentPage(response?.data?.currentPage);
-        setTotalPages(response?.data?.totalPages);
-        setLoader(false)
+        setMarksAllData(response?.data?.studentMarksList?.students || []);
+        setExamShow(response?.data?.studentMarksList?.exam);
+        setSubjectShow(response?.data?.studentMarksList?.subject);
       } else {
         toast.error(response?.data?.message);
-        setLoader(false)
       }
     } catch (error) {
-      setLoader(false)
-      // console.log(error)
+      toast.error("Something went wrong while fetching marks.");
+    } finally {
+      setLoader(false);
     }
-  }
+  };
+  // const MyMarksGetAll = async () => {
+  //   setLoader(true)
+  //   try {
+  //     const response = await TeacherMarksGetAll(classNo,sectionName, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize);
+  //     console.log(response, 'marks get all=========dataa')
+  //     if (response?.status === 200) {
+  //       // toast.success(response?.data?.message)
+  //       setMarksAllData(response?.data?.studentMarksList?.students)
+  //       setSubjectShow(response?.data?.studentMarksList?.subject)
+  //       setExamTermShow(response?.data?.studentMarksList?.exam)
+  //       setCurrentPage(response?.data?.currentPage);
+  //       setTotalPages(response?.data?.totalPages);
+  //       setLoader(false)
+  //     } else {
+  //       toast.error(response?.data?.message);
+  //       setLoader(false)
+  //     }
+  //   } catch (error) {
+  //     setLoader(false)
+  //     // console.log(error)
+  //   }
+  // }
   const Handle = (e) => {
     const value = e.target.value;
     const [val1, val2] = value.split(',').map(item => item.trim());
@@ -907,7 +970,7 @@ const Marks_T = () => {
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-sm-12 ">
-               <div class="mb-3">
+              <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
                 <select class="form-select  form-select-sm form-focus label-color"
                   value={`${classId},${classNo}`}
@@ -974,7 +1037,7 @@ const Marks_T = () => {
             <div className="col-1"></div>
             <div className="col-3 p-0 ps-5 padding-lft">
               <span className='heading-16 greyText'>  Exam</span>
-              - {examTermShow}
+              - {examShow}
             </div>
             <div className="col-2 p-0 ps-4 padding-lft">
               <span className='heading-16 greyText'>Class </span>
@@ -1005,26 +1068,105 @@ const Marks_T = () => {
                   <th className='no-wrap' >Actions</th>
                 </tr>
               </thead>
-              <tbody className='heading-14 align-middle greyTextColor'>
+              <tbody className="heading-14 align-middle greyTextColor">
+                {marksAllData.map((item, index) => (
+                  <tr className="heading-14" key={item.studentId}>
+                    <td className="greyText no-wrap">{index + 1}</td>
+                    <td className="greyText no-wrap">{item.studentName}</td>
+
+                    <td className="greyText no-wrap">
+                      <input
+                        type="text"
+                        className="form-focus form-control-sm table-input"
+                        value={item.theoryMarks || ""}
+                        onChange={(e) =>
+                          handleFieldChange(index, "theoryMarks", e.target.value)
+                        }
+                      />
+                    </td>
+
+                    <td className="greyText no-wrap">
+                      <input
+                        type="text"
+                        className="form-focus form-control-sm table-input"
+                        value={item.practicalMarks || ""}
+                        onChange={(e) =>
+                          handleFieldChange(index, "practicalMarks", e.target.value)
+                        }
+                      />
+                    </td>
+
+                    <td className="greyText no-wrap">
+                      <input
+                        type="text"
+                        className="form-focus form-control-sm table-input"
+                        value={item.obtainedMarks || ""}
+                        onChange={(e) =>
+                          handleFieldChange(index, "obtainedMarks", e.target.value)
+                        }
+                      />
+                    </td>
+
+                    <td className="greyText no-wrap">
+                      <input
+                        type="text"
+                        className="form-focus form-control-sm table-input"
+                        value={item.percentage || ""}
+                        onChange={(e) =>
+                          handleFieldChange(index, "percentage", e.target.value)
+                        }
+                      />
+                    </td>
+
+                    <td className="greyText no-wrap">
+                      <input
+                        type="text"
+                        className="form-focus form-control-sm table-input"
+                        value={item.grade || ""}
+                        onChange={(e) =>
+                          handleFieldChange(index, "grade", e.target.value)
+                        }
+                      />
+                    </td>
+
+                    <td className="greyText no-wrap">
+                      <div
+                        className="edit-icon"
+                        onClick={() => MyMarksPostApi(item.markId, item.studentId, item)}
+                      >
+                        <svg width="45" height="32" viewBox="0 0 51 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="51" height="38" rx="5" fill="#008479" />
+                          <path d="M24.4967 30C22.8357 29.9995 21.1984 29.6049 19.7195 28.8486C18.2405 28.0923 16.9621 26.996 15.9893 25.6496C15.0164 24.3032 14.3769 22.7452 14.1232 21.1036C13.8695 19.462 14.0089 17.7837 14.5299 16.2064C15.051 14.6292 15.9388 13.1981 17.1204 12.0306C18.302 10.8632 19.7438 9.99275 21.3272 9.49083C22.9107 8.9889 24.5906 8.86981 26.229 9.14333C27.8674 9.41686 29.4175 10.0752 30.7521 11.0643C30.9307 11.2094 31.0464 11.4178 31.0751 11.6462C31.1039 11.8745 31.0434 12.1051 30.9063 12.29C30.7693 12.4749 30.5662 12.5997 30.3393 12.6386C30.1125 12.6774 29.8794 12.6272 29.6887 12.4985C28.1135 11.3291 26.1899 10.7251 24.229 10.7844C22.2681 10.8436 20.3845 11.5626 18.8828 12.825C17.3811 14.0874 16.3492 15.8194 15.9539 17.741C15.5585 19.6626 15.8229 21.6613 16.7043 23.414C17.5857 25.1667 19.0325 26.5708 20.8108 27.3993C22.589 28.2278 24.5948 28.4323 26.5037 27.9796C28.4125 27.527 30.1129 26.4437 31.3298 24.9049C32.5467 23.3661 33.209 21.4618 33.2095 19.5C33.2082 19.0405 33.1709 18.5819 33.0978 18.1283C33.0796 18.0109 33.0847 17.8912 33.1128 17.7758C33.1409 17.6604 33.1915 17.5517 33.2616 17.4558C33.3317 17.36 33.42 17.2789 33.5215 17.2172C33.6229 17.1555 33.7356 17.1144 33.8529 17.0962C33.9703 17.078 34.09 17.0831 34.2054 17.1112C34.3208 17.1393 34.4295 17.1898 34.5254 17.26C34.6212 17.3301 34.7023 17.4184 34.764 17.5198C34.8257 17.6213 34.8668 17.7339 34.885 17.8513C34.9649 18.3971 35.0022 18.9484 34.9967 19.5C34.9944 22.284 33.8874 24.9534 31.9187 26.922C29.9501 28.8906 27.2808 29.9976 24.4967 30Z" fill="white" />
+                          <path d="M25.614 22.8511C25.3774 22.8501 25.1508 22.7553 24.984 22.5875L20.7393 18.3428C20.5929 18.1719 20.5164 17.952 20.5251 17.7271C20.5338 17.5022 20.627 17.2888 20.7861 17.1297C20.9453 16.9705 21.1586 16.8773 21.3835 16.8686C21.6084 16.8599 21.8283 16.9364 21.9993 17.0828L25.614 20.693L36.3776 9.93387C36.5485 9.78747 36.7684 9.71097 36.9933 9.71966C37.2182 9.72835 37.4316 9.82158 37.5907 9.98073C37.7499 10.1399 37.8431 10.3532 37.8518 10.5781C37.8605 10.803 37.784 11.0229 37.6376 11.1939L26.244 22.5875C26.0772 22.7553 25.8506 22.8501 25.614 22.8511Z" fill="white" />
+                        </svg>
+                      </div>
+
+                    </td>
+
+                  </tr>
+                ))}
+              </tbody>
+
+              {/* <tbody className='heading-14 align-middle greyTextColor'>
                 {
                   marksAllData?.map((item, index) => (
                     <tr className='heading-14' >
                       <td className=' greyText no-wrap'>{index + 1}</td>
                       <td className=' greyText no-wrap' >{item.studentName}</td>
                       <td className=' greyText no-wrap' >
-                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setThoeryMarks(e.target.value)} value={thoeryMarks} />
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setThoeryMarks(e.target.value)} value={item.theoryMarks} />
                       </td>
                       <td className=' greyText no-wrap' >
-                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setPracticleMarks(e.target.value)} value={practicleMarks} />
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setPracticleMarks(e.target.value)} value={item.practicalMarks} />
                       </td>
                       <td className=' greyText no-wrap' >
-                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setMarkObtaine(e.target.value)} value={markObtaine} />
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setMarkObtaine(e.target.value)} value={item.obtainedMarks} />
                       </td>
                       <td className=' greyText no-wrap' >
-                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setPercentage(e.target.value)} value={percentage} />
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setPercentage(e.target.value)} value={item.percentage} />
                       </td>
                       <td className=' greyText no-wrap' >
-                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setGrade(e.target.value)} value={grade} />
+                        <input type="text" class="form-focus form-control-sm table-input " onChange={(e) => setGrade(e.target.value)} value={item.grade} />
                       </td>
                       <td className=' greyText no-wrap' >
                         <div className='edit-icon' onClick={() => MyMarksPostApi(item.markId, item.studentId)}>
@@ -1038,7 +1180,7 @@ const Marks_T = () => {
                       </td>
                     </tr>
                   ))}
-              </tbody>
+              </tbody> */}
               <Toaster />
             </table>
             <div className="d-flex" style={{ marginBottom: '10px' }}>

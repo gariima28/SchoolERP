@@ -135,12 +135,14 @@ const DashboardPage = () => {
     setTimeTableDay(value.toLowerCase());
   }
 
-    const MyAttendanceShowOfTeacher = async () => {
+
+  // All dashboard data in this single api call
+  const MyAttendanceShowOfTeacher = async () => {
     try {
       setloaderState(true);
       // const response = await TeachergetAllDashboardAttendanceDataApi();
       const response = await teacherGetAllDashDataApi();
-      console.log('All data from dashboard api =============',response)
+      console.log('All data from dashboard api =============', response)
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setloaderState(false);
@@ -152,7 +154,7 @@ const DashboardPage = () => {
           setAssignmentData(response?.data?.data?.assignments)
 
           // holiday data 
-           setHolidayData(response?.data?.data?.holidays)
+          setHolidayData(response?.data?.data?.holidays)
 
           // event data 
           setEventData(response?.data?.data?.events)
@@ -210,10 +212,10 @@ const DashboardPage = () => {
 
       <div className="row mx-2">
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards p-2 h-100">
+          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
             <div className="col-12">
-              <div className="row">
-                <div className="d-flex p-1">
+              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+                <div className="d-flex p-2">
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Timetable Details</p>
                   </div>
@@ -226,36 +228,43 @@ const DashboardPage = () => {
                 </div>
               </div>
 
-              <div className="row heading-16">
-                {RoutineData?.map((item) => (
-                  <div className='row' key={item.day}>
-                    {item?.periodTable?.map((item1) => (
-                      <div className="col-6 p-1" key={item1.classRouteId}>
-                        <div className="timeTableCard p-2">
-                          <p className='greenText font18'>{item1.subject}</p>
-                          <div className="d-flex pt-2">
-                            <div className="flex-grow-1 align-self-center">
-                              <p className='font12'>{item1?.period?.startHourTime} - {item1?.period?.endHourTime}</p>
-                            </div>
-                            <div>
-                              <p className='font12 greyText'>Class - {item1.classNo} {item1.section}</p>
+              <div className="row heading-16 px-2 pt-2">
+                {
+                  RoutineData && RoutineData.length > 0 ? (
+                    RoutineData?.map((item) => (
+                      <div className='row' key={item.day}>
+                        {item?.periodTable?.map((item1) => (
+                          <div div className="col-6 p-1" key={item1.classRouteId}>
+                            <div className="timeTableCard p-2">
+                              <p className='greenText font18'>{item1.subject}</p>
+                              <div className="d-flex pt-2">
+                                <div className="flex-grow-1 align-self-center">
+                                  <p className='font12'>{item1?.period?.startHourTime} - {item1?.period?.endHourTime}</p>
+                                </div>
+                                <div>
+                                  <p className='font12 greyText'>Class - {item1.classNo} {item1.section}</p>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                ))}
+                    ))
+                  ) : (
+                    <p className='text-center pt-3 pb-3' style={{ color: 'red' }}>No ClassRoutine Found...</p>
+                  )
+                }
               </div>
 
             </div>
           </div>
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards p-2 h-100">
+          <div className="row cards  h-100 " style={{borderRadius:'8px 8px 0px 0px'}}>
             <div className="col-12">
-              <div className=" d-flex justify-content-between">
-                <div className="pt-2">
+             <div className='row p-0' style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+               <div className=" d-flex justify-content-between p-1" >
+                <div className="pt-2 ps-2">
                   <p >Attendance</p>
                 </div>
                 <div className="">
@@ -264,13 +273,14 @@ const DashboardPage = () => {
                     </div>
                     <div className='pe-2'>
                       {/* <Link className="btn my-btn12 heading-12  mt-1" data-bs-dismiss="offcanvas" onClick={() => AllDaysAttendanceHandle()} >Last 7 Days</Link> */}
-                      <Link className="btn my-btn12 heading-12  mt-1" >Today</Link>
+                      <Link className="btn my-btn12 heading-12  mt-1" ><p style={{color:'#fff'}}>Today</p></Link>
                     </div>
                   </div>
                 </div>
               </div>
+             </div>
               <hr />
-              <div className="row">
+              <div className="row px-2">
                 <div className='text-center mt-4'>
                   <h4 className='mb-0'>{totalTime} Hrs</h4>
                   {/* <h4 className='mb-0'>{`${showTimeHours ? showTimeHours : 0} : ${showTimeMinutes ? showTimeMinutes : 0} : ${showTimeSecond ? showTimeSecond : 0}`} Hrs</h4> */}
@@ -295,144 +305,173 @@ const DashboardPage = () => {
       </div>
       <div className="row mx-2">
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards p-2 h-100">
+          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
             <div className="col-12">
-              <div className="row">
-                <div className="d-flex p-1">
+              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+                <div className="d-flex p-2">
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Assignment Details</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/assignmenttea'>View All</Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/assignmenttea'><p style={{color:'#fff'}}>View All</p></Link>
                 </div>
               </div>
-              <div className="row">
-                {AssignmentData.slice(0, 3).map((item) => (
-                  <div className="col-12 p-1" key={item.id}>
-                    <div className="timeTableCard p-2">
-                      <div className="row mb-2">
-                        <div className="col-4 align-self-center">
-                          <p className='greenText font16'>{item.title}</p>
-                        </div>
-                        <div className="col-4 align-self-center">
-                          <p className='font14'>{item.subjectName}</p>
-                        </div>
-                        <div className="col-4 align-self-center">
-                          <p className='font12'></p>
+              <div className="row px-2 pt-2">
+                {
+                  AssignmentData && AssignmentData.length > 0 ? (
+                    AssignmentData?.slice(0, 3).map((item) => (
+                      <div className="col-12 p-1" key={item.id}>
+                        <div className="timeTableCard p-2">
+                          <div className="row mb-2">
+                            <div className="col-4 align-self-center">
+                              <p className='greenText font16'>{item.title}</p>
+                            </div>
+                            <div className="col-4 align-self-center">
+                              <p className='font14'>{item.subjectName}</p>
+                            </div>
+                            <div className="col-4 align-self-center">
+                              <p className='font12'></p>
+                            </div>
+                          </div>
+                          <div className="row pt-1 heading-16">
+                            <div className="col-2 align-self-center">
+                              <p className='font12 greyText'>Class - {item.classNo}</p>
+                            </div>
+                            <div className="col-5 align-self-center">
+                              <p className='font12 greyText'>Start Date - {item.StartDate}</p>
+                            </div>
+                            <div className="col-5 align-self-center">
+                              <p className='font12 greyText'>End Date - {item.endDate}</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div className="row pt-1 heading-16">
-                        <div className="col-2 align-self-center">
-                          <p className='font12 greyText'>Class - {item.sectionName}</p>
-                        </div>
-                        <div className="col-5 align-self-center">
-                          <p className='font12 greyText'>Start Date - {item.startDate}</p>
-                        </div>
-                        <div className="col-5 align-self-center">
-                          <p className='font12 greyText'>End Date - {item.endDate}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    ))
+                  ) : (
+                    <p className='text-center pt-3 pb-3' style={{ color: 'red' }}>No Assignment Found...</p>
+                  )
+                }
               </div>
             </div>
           </div>
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards p-2 h-100">
+          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
             <div className="col-12">
-              <div className="row">
-                <div className="d-flex p-1">
+              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+                <div className="d-flex p-2">
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Leave Report</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/leave'>View All</Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/leave'><p style={{color:"#fff"}}>View All</p></Link>
                 </div>
               </div>
-              <div className="row heading-16">
+              <div  className="row px-2 pt-2"> 
                 {
-                  leaveAllData?.map((item, index) => (
-                    <div className="col-6 p-1 " key={item.classRouteId}>
-                      <div className='d-flex timeTableCard' >
-                        <div className="p-2">
-                          <p className='greenText font16'>{item?.leaveType}</p>
-                          <div className="d-flex pt-2">
-                            <div className="flex-grow-1 align-self-center">
-                              <p className='font12'>Available {item?.leaveCount} day</p>
-                              <p className='font12'>Booked {item?.bookedCount} day</p>
+                  leaveAllData && leaveAllData.length > 0 ? (
+                    leaveAllData?.map((item, index) => (
+                      <div className="col-6 p-1 " key={item.classRouteId}>
+                        <div className='d-flex timeTableCard' >
+                          <div className="p-2">
+                            <p className='greenText font16'>{item?.leaveType}</p>
+                            <div className="d-flex pt-2">
+                              <div className="flex-grow-1 align-self-center">
+                                <p className='font12'>Available {item?.leaveCount} day</p>
+                                <p className='font12'>Booked {item?.bookedCount} day</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        {
+                          {
 
-                        }
-                        <div className='my-class'>
-                          <p className='ps-3' >
-                            <TeacherDashChart leaveData={[item]} />
-                          </p>
+                          }
+                          <div className='my-class'>
+                            <p className='ps-3' >
+                              <TeacherDashChart leaveData={[item]} />
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p className='text-center pt-3 pb-3' style={{ color: 'red' }}>No Leave Found...</p>
+                  )
+                }
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="row mx-2">
+      <div className="row mx-2" >
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards p-2 h-100">
+          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
             <div className="col-12">
-              <div className="row">
-                <div className="d-flex p-1">
+              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+                <div className="d-flex p-2" >
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Upcoming Events</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' to='/teacher/event'>View All</Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12 '  to='/teacher/event' ><p style={{color:'#fff'}}>View All</p></Link>
                 </div>
               </div>
-              <div className="row">
-                {EventData.map((item) => (
-                  <div className="col-12 p-1" key={item.eventId}>
-                    <div className="eventCards">
-                      <div className="borderLeftOrange p-2">
-                        <div className="d-flex p-1">
-                          <div className="flex-fill">
-                            <p className='font14'>{item.eventName}</p>
-                          </div>
-                          <div className="flex-shrink">
-                            <p className="font14 text-end greyText">{item.startDate}</p>
+              <div className="row px-2 pt-2">
+                {EventData && EventData.length > 0 ? (
+                  EventData?.map((item) => (
+                    <div className="col-12 p-1" key={item.eventId}>
+                      <div className="eventCards"> 
+                        <div className="borderLeftOrange p-2">
+                          <div className="d-flex p-1">
+                            <div className="flex-fill">
+                              <p className="font14">{item.title}</p>
+                            </div>
+                            <div className="flex-shrink">
+                              <p className="font14 text-end greyText">{item.startDate}</p>
+                            </div>
+                            &nbsp; &nbsp;
+                            <div className="flex-shrink">
+                              <p className="font14 text-end greyText">{item.endDate}</p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="text-center pt-3 pb-3" style={{ color: "red" }}>
+                    No Event Found...
+                  </p>
+                )}
               </div>
+
+          
             </div>
           </div>
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards p-2 h-100">
+          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
             <div className="col-12">
-              <div className="row">
-                <div className="d-flex p-1">
+              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+                <div className="d-flex p-2">
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Upcoming Holiday</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/holiday'>View All</Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/holiday'><p style={{color:'#fff'}}>View All</p></Link>
                 </div>
               </div>
-              <div className="row">
-                {HolidayData?.map((item) => (
-                  <div className="col-6 p-2" key={item.holidayId}>
-                    <div className="holidayCard p-4">
-                      <p className='font16 text-center'>{item.title}</p>
-                      <p className='greyText font14 text-center'>{item.startDate}</p>
-                      <p className='greyText font14 text-center'>{item.endDate}</p>
-                    </div>
-                  </div>
-                ))}
+              <div className="row px-1 pt-2">
+                {
+                  HolidayData?.length > 0 ? (
+                    HolidayData?.map((item) => (
+                      <div className="col-6 p-2" key={item.holidayId}>
+                        <div className="holidayCard p-3">
+                          <p className='font16 text-center'>{item.title}</p>
+                          <p className='greyText font14 text-center'>{item.startDate}</p>
+                          <p className='greyText font14 text-center'>{item.endDate}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className='text-center pt-3 pb-3' style={{ color: 'red' }}>No Holiday Found...</p>
+                  )
+                }
               </div>
             </div>
           </div>
