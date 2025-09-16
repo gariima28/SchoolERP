@@ -1049,7 +1049,6 @@ const ClassRoutine = () => {
     setSearchKey(value);
     debouncedSearch(value);
   };
-
   // Handle Search Button Click
   const handleSearchButton = () => {
     if (searchKey.trim() === '') {
@@ -1074,7 +1073,6 @@ const ClassRoutine = () => {
     }, 2000),
     []
   );
-
 
   return (
     <Container>
@@ -1171,7 +1169,7 @@ const ClassRoutine = () => {
                     {byDefaultValue ? (
                       <div>Days</div>
                     ) : (
-                      <div>Not Found ClassRoutine...</div>
+                      <div> ClassRoutine Not Found...</div>
                     )}
                   </th>
                   {

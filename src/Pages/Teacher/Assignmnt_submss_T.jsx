@@ -653,7 +653,7 @@ const Assignmnt_submss = () => {
       }
     } catch (error) {
       setloaderState(false);
-      setLoader(false)
+      
       // console.log(error)
     }
   }
@@ -811,7 +811,7 @@ const Assignmnt_submss = () => {
                     search ?
                       <div className="row">
                         {
-                          singleState === 'All' && (<AllSubmission data={submissionGetAllData} />)
+                          singleState === '' && (<AllSubmission data={submissionGetAllData} />)
                         }
                         {
                           singleState === 'SUBMITTED' && (<SubmittedSubmission data={submissionGetAllData} />)
