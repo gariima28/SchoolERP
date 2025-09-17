@@ -124,7 +124,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <Container className='container-fluid px-4'>
+    <Container className='container-fluid px-4 pb-4'>
       {
         loaderState && (
           <DataLoader />
@@ -320,19 +320,47 @@ const DashboardPage = () => {
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' to='/parent/event'>View All</Link>
                 </div>
               </div>
-              <div className="row p-2">
-                {DashData?.notices.length > 0
+              <div className="row">
+                {DashData?.events.length > 0
                   ?
-                  DashData?.notices.slice(0, 4).map((item) => (
-                    <div className="col-12 p-1" key={item.eventId}>
-                      <div className="eventCards">
-                        <div className="borderLeftOrange p-2">
-                          <div className="d-flex p-1">
-                            <div className="flex-fill">
-                              <p className='font14'>{item.eventName}</p>
-                            </div>
-                            <div className="flex-shrink">
-                              <p className="font14 text-end greyText">{item.startDate}</p>
+                  DashData?.events.slice(0, 4).map((item, index) => (
+                    <div className="col-12 p-0" key={item.eventId}>
+                      <div className={`border-bottom p-2 pt-3 overflow-hidden ${index % 2 === 0 ? 'bg-cream' : 'bg-white'}`}>
+                        <div className="row g-0">
+                          {/* Left Image */}
+                          <div className="col-md-3">
+                            <img
+                              src={item.imageUrl || "/images/svg.png"}
+                              alt={item.title}
+                              className="img-fluid h-100 w-100 object-fit-cover font14"
+                            />
+                          </div>
+
+                          {/* Right Content */}
+                          <div className="col-md-9">
+                            <div className="card-body d-flex flex-column justify-content-center">
+                              {/* Date */}
+                              <div className="d-flex justify-content-between">
+                                <p className="greenText font14 mb-1 fw-semibold">
+                                  {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
+                                </p>
+                                <span className="greenText font14 mb-1 fw-semibold">
+                                  {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
+                                </span>
+                              </div>
+
+                              {/* Title */}
+                              <h6 className="fw-bold font14 mb-1">{item.title}</h6>
+
+                              {/* Description */}
+                              <p className="greyText font12 small mb-2">
+                                {item.description || "-- No Description --"}
+                              </p>
+
+                              {/* Badge */}
+                              {item.status === "upcoming" && (
+                                <span className="badge bg-warning text-dark align-self-start">Coming Soon</span>
+                              )}
                             </div>
                           </div>
                         </div>
