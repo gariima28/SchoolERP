@@ -548,7 +548,7 @@ const Assignmnt_submss = () => {
   useEffect(() => {
     MyAssignmntGetApi()
     MySubmissionGetAllApi()
-  }, [updateGetAll,singleState])
+  }, [updateGetAll, singleState])
 
   // Get All Api from class list page for id 
   const UpdatClassGetApi = async () => {
@@ -640,7 +640,7 @@ const Assignmnt_submss = () => {
   const MySubmissionGetAllApi = async () => {
     setLoader(true)
     try {
-      const response = await TeacherSubmissionGetAllApi(classId, sectionId, subjectId, asssignmentId, searchKey, pageNo, pageSize,singleState);
+      const response = await TeacherSubmissionGetAllApi(classId, sectionId, subjectId, asssignmentId, searchKey, pageNo, pageSize, singleState);
       console.log('Submission get all api ++++++++++++', response);
       if (response?.status === 200) {
         setSearch(true)
@@ -653,12 +653,12 @@ const Assignmnt_submss = () => {
       }
     } catch (error) {
       setloaderState(false);
-      
+
       // console.log(error)
     }
   }
 
-// Get submissio by id
+  // Get submissio by id
 
 
   const [search, setSearch] = useState(false)
@@ -679,7 +679,7 @@ const Assignmnt_submss = () => {
     console.log('Class No:', val2);
   };
 
-  const clearHandle = () =>{
+  const clearHandle = () => {
     setClassId('')
     setClassNo('')
     setAsssignmentId('')
@@ -772,7 +772,7 @@ const Assignmnt_submss = () => {
 
             <div className="row mt-1 buttons-topss">
               <div className='my-button11 heading-16'>
-                <button type="button" class="btn btn-outline-success my-green" style={{backgroundColor:'#008479', color:'#fff'}} onClick={MySubmissionGetAllApi}>Search</button>
+                <button type="button" class="btn btn-outline-success my-green" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MySubmissionGetAllApi}>Search</button>
                 <button type="button" class="btn btn-outline-success" onClick={clearHandle}>Cancel</button>
               </div>
             </div>
@@ -799,10 +799,10 @@ const Assignmnt_submss = () => {
                           <span className={`font16 fontSizeResponsive px-0 fontWeight500 ps-3 pb-2 pe-3 heading-16  ${singleState === 'SUBMITTED' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('SUBMITTED'), setSingleState2('') }}>Submitted</span>
                         </div>
                         <div className="col-md-2 col-sm-12 col-12 text-center px-0 margn-bttm">
-                          <span className={`font16 fontSizeResponsive px-0 fontWeight500  ps-3 pb-2 pe-3 heading-16 ${singleState === 'MARKS_PENDING' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('MARKS_PENDING'), setSingleState2('')  }}>Marks Pending</span>
+                          <span className={`font16 fontSizeResponsive px-0 fontWeight500  ps-3 pb-2 pe-3 heading-16 ${singleState === 'MARKS_PENDING' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('MARKS_PENDING'), setSingleState2('') }}>Marks Pending</span>
                         </div>
                         <div className="col-md-2 col-sm-12 col-12 text-center margn-bttm">
-                          <span className={`font16 fontSizeResponsive px-0 fontWeight500  ps-3 pb-2 pe-3 heading-16  ${singleState === 'PENDING' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('PENDING'), setSingleState2('')  }}>Pending</span>
+                          <span className={`font16 fontSizeResponsive px-0 fontWeight500  ps-3 pb-2 pe-3 heading-16  ${singleState === 'PENDING' ? 'ActiveState' : 'InActiveState'}`} onClick={() => { setSingleState('PENDING'), setSingleState2('') }}>Pending</span>
                         </div>
                       </div>
                     </div>
@@ -817,7 +817,7 @@ const Assignmnt_submss = () => {
                           singleState === 'SUBMITTED' && (<SubmittedSubmission data={submissionGetAllData} />)
                         }
                         {
-                          singleState === 'MARKS_PENDING' && (<MarksSubmission  data={submissionGetAllData} />)
+                          singleState === 'MARKS_PENDING' && (<MarksSubmission data={submissionGetAllData} />)
                         }
                         {
                           singleState === 'PENDING' && (<PendingSubmission data={submissionGetAllData} />)
@@ -842,7 +842,7 @@ const Assignmnt_submss = () => {
             show && (
               <>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Assignment</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -859,14 +859,14 @@ const Assignmnt_submss = () => {
             hide && (
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="delete-section  mt-5">
                   <div className="bg-container">
                     <div className="img-container">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Added</p>
@@ -891,7 +891,7 @@ const Assignmnt_submss = () => {
             showadd && (
               <>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class Routine</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -942,14 +942,14 @@ const Assignmnt_submss = () => {
             hideedit && (
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="delete-section  mt-5">
                   <div className="bg-container">
                     <div className="img-container">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Edit</p>

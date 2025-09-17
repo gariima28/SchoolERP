@@ -412,9 +412,9 @@ const AdminDashboard = () => {
                       ))
                     ) : (
                       <div className="col-12">
-                        <div className="d-flex justify-content-center p-5 m-5">
-                          <span>No Holiday Data Yet !!!</span>
-                        </div>
+                          <div className="d-flex justify-content-center p-5 m-5">
+                            <span className='text-danger'>No Holiday Data Yet !!!</span>
+                          </div>
                       </div>
                     )}
                   </div>
@@ -456,9 +456,10 @@ const AdminDashboard = () => {
                         </div>
                       ))
                     ) : (
-                      <div className="d-flex justify-content-center p-5 m-5">
-                        <span>No Notice Data Yet !!!</span>
-                      </div>
+
+                        <div className="d-flex justify-content-center p-5 m-5">
+                          <span className='text-danger'>No Notice Data Yet !!!</span>
+                        </div>
                     )}
                   </div>
                 </div>
@@ -500,9 +501,12 @@ const AdminDashboard = () => {
                         </div>
                       ))
                     ) : (
-                      <div className="d-flex justify-content-center p-5 m-5">
-                        <span>No Notice Data Yet !!!</span>
-                      </div>
+
+                        <div className="col-12">
+                          <div className="d-flex justify-content-center p-5 m-5">
+                            <span className='text-danger'>No Event Data Yet !!!</span>
+                          </div>
+                        </div>
                     )}
                   </div>
                 </div>
@@ -542,9 +546,9 @@ const AdminDashboard = () => {
                         </div>
                       ))
                     ) : (
-                      <div className="d-flex justify-content-center p-5 m-5">
-                        <span>No Event Data Yet !!!</span>
-                      </div>
+                  <div className="d-flex justify-content-center p-5 m-5">
+                    <span className='text-danger'>No Notice Data Yet !!!</span>
+                  </div>
                     )}
                   </div>
                 </div>

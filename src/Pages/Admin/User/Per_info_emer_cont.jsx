@@ -241,7 +241,7 @@ const Per_info_emer_cont = () => {
     if (myUserID) {
       fetchEmergencyContacts();
     }
-  }, [ currentPage, pageSize]);
+  }, [currentPage, pageSize]);
 
   const fetchEmergencyContacts = async () => {
     setLoader(true);
@@ -451,9 +451,8 @@ const Per_info_emer_cont = () => {
                 </label>
                 <input
                   type="text"
-                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${
-                    !isValidNameRequired && name ? 'valid-indicator' : ''
-                  }`}
+                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidNameRequired && name ? 'valid-indicator' : ''
+                    }`}
                   id="name"
                   placeholder="John Doe"
                   value={name}
@@ -480,9 +479,8 @@ const Per_info_emer_cont = () => {
                 </label>
                 <input
                   type="text"
-                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${
-                    !isValidContactRequired && contact ? 'valid-indicator' : ''
-                  }`}
+                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidContactRequired && contact ? 'valid-indicator' : ''
+                    }`}
                   id="contact"
                   placeholder="Enter number"
                   value={contact}
@@ -508,9 +506,8 @@ const Per_info_emer_cont = () => {
                   Relationship <span style={{ color: '#dc3545' }}>*</span>
                 </label>
                 <select
-                  className={`form-select form-select-sm form-focus label-color ${
-                    !isValidRelationshipRequired && relationship ? 'valid-indicator' : ''
-                  }`}
+                  className={`form-select form-select-sm form-focus label-color ${!isValidRelationshipRequired && relationship ? 'valid-indicator' : ''
+                    }`}
                   id="relationship"
                   value={relationship}
                   onChange={(e) => handleRelationship(e.target.value)}
@@ -556,7 +553,7 @@ const Per_info_emer_cont = () => {
           </div>
         </div>
         <div className="table-container">
-          
+
           <div className="table-responsive">
             <table className="table table-sm table-striped text-center">
               <thead>
@@ -661,9 +658,8 @@ const Per_info_emer_cont = () => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${
-                      errorsEdit.fullName ? 'border-danger' : ''
-                    }`}
+                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${errorsEdit.fullName ? 'border-danger' : ''
+                      }`}
                     id="editFullName"
                     placeholder="John Doe"
                     {...registerEdit('fullName', {
@@ -688,9 +684,8 @@ const Per_info_emer_cont = () => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${
-                      errorsEdit.phoneNumber ? 'border-danger' : ''
-                    }`}
+                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${errorsEdit.phoneNumber ? 'border-danger' : ''
+                      }`}
                     id="editPhoneNumber"
                     placeholder="Enter number"
                     {...registerEdit('phoneNumber', {
@@ -714,9 +709,8 @@ const Per_info_emer_cont = () => {
                     Relationship <span style={{ color: '#dc3545' }}>*</span>
                   </label>
                   <select
-                    className={`form-select form-select-sm label-color ${
-                      errorsEdit.relationship ? 'border-danger' : ''
-                    }`}
+                    className={`form-select form-select-sm label-color ${errorsEdit.relationship ? 'border-danger' : ''
+                      }`}
                     id="editRelationship"
                     {...registerEdit('relationship', {
                       required: 'Relationship is required',
@@ -782,7 +776,7 @@ const Per_info_emer_cont = () => {
               <div style={{ zIndex: -1 }}>
                 <p className="p-2">Emergency Contact</p>
                 <p className="text-center p-3">
-                  <img src="/images/errorI.svg" className="img-fluid" alt="Error" />
+                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className="img-fluid" alt="Error" />
                 </p>
                 <p className="text-center heading-16" style={{ color: '#1a3c34', fontWeight: '700' }}>
                   Are you Sure?

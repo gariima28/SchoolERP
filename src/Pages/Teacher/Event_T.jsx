@@ -518,7 +518,7 @@ const Event = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const handlePageClick = (event) => {
-    setPageNo(event.selected + 1); 
+    setPageNo(event.selected + 1);
   };
 
   useEffect(() => {
@@ -691,7 +691,7 @@ const Event = () => {
 
   // Event Get All Api   
   const MyEventGetAllApi = async () => {
-    
+
     setLoader(true)
     try {
       const response = await TeacherEventGetAllApi(searchKey, pageNo, pageSize);
@@ -737,7 +737,7 @@ const Event = () => {
     } catch (error) {
       setloaderState(false);
       setLoader(false)
-      
+
       // console.log('catch')
     }
   }
@@ -824,11 +824,11 @@ const Event = () => {
     setIsValidEndTimeRequired(false)
 
   }
-    const [tooltip, setTooltip] = useState({
-      show: false,
-      content: '',
-      position: { x: 0, y: 0 }
-    });
+  const [tooltip, setTooltip] = useState({
+    show: false,
+    content: '',
+    position: { x: 0, y: 0 }
+  });
   return (
     <Container>
       {
@@ -889,34 +889,34 @@ const Event = () => {
                   eventAllData?.map((item, index) => (
                     <tr className='heading-14' >
                       <td className=' no-wrap greyText pe-0'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td
-                          className='greyText pe-0 no-wrap position-relative'
-                          data-bs-toggle={item.eventName.length > 17 ? "tooltip" : undefined}
-                          data-bs-placement="top"
-                          title={item.eventName.length > 17 ? item.eventName : undefined}
-                        >
-                          {item.eventName?.length > 17 ? (
-                            <div className="d-flex align-items-center">
-                              <span className="text-truncate" style={{ maxWidth: 'calc(100% - 18px)' }}>
-                                {item.eventName.substring(0, 17)}
-                              </span>
-                              <span className="info-indicator ms-1">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                  <circle cx="8" cy="8" r="7" fill="#aaa" stroke="#aaa" strokeWidth="0.5" />
-                                  <text x="8" y="11"
-                                    fontFamily="Arial, sans-serif"
-                                    fontSize="10"
-                                    fontWeight="bold"
-                                    fill="white"
-                                    textAnchor="middle"
-                                    dominantBaseline="middle">i</text>
-                                </svg>
-                              </span>
-                            </div>
-                          ) : (
-                            item.eventName
-                          )}
-                        </td>
+                      <td
+                        className='greyText pe-0 no-wrap position-relative'
+                        data-bs-toggle={item.eventName.length > 17 ? "tooltip" : undefined}
+                        data-bs-placement="top"
+                        title={item.eventName.length > 17 ? item.eventName : undefined}
+                      >
+                        {item.eventName?.length > 17 ? (
+                          <div className="d-flex align-items-center">
+                            <span className="text-truncate" style={{ maxWidth: 'calc(100% - 18px)' }}>
+                              {item.eventName.substring(0, 17)}
+                            </span>
+                            <span className="info-indicator ms-1">
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" fill="#aaa" stroke="#aaa" strokeWidth="0.5" />
+                                <text x="8" y="11"
+                                  fontFamily="Arial, sans-serif"
+                                  fontSize="10"
+                                  fontWeight="bold"
+                                  fill="white"
+                                  textAnchor="middle"
+                                  dominantBaseline="middle">i</text>
+                              </svg>
+                            </span>
+                          </div>
+                        ) : (
+                          item.eventName
+                        )}
+                      </td>
                       <td className=' no-wrap greyText pe-0'>{item.startDate} {item.startTime}</td>
                       <td className=' no-wrap greyText pe-0'>{item.endDate} {item.endTime}</td>
                       <td className='greyText pe-0 no-wrap'>
@@ -1133,7 +1133,7 @@ const Event = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />

@@ -230,11 +230,11 @@ const NewPassSet = () => {
                 <div className="container-fluid h-100">
                     <div className="row h-100">
                         <div className="col-md-6 col-sm-12 p-5 imagearea">
-                            <img src="/images/pana.svg" alt="" className='img-fluid m-5' />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/pana.svg" alt="" className='img-fluid m-5' />
                         </div>
                         <div className="col-md-6 col-sm-12 p-5 formarea">
                             <div className="row me-xl-5 ms-xl-5 ps-xl-5 pe-xl-5 ps-lg-5 pe-lg-5 p-sm-5 m-sm-5 p-3">
-                                <p className='text-center mb-5'><img src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
+                                <p className='text-center mb-5'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
                                 <Span14Font>
                                     <p className='font18 mb-1'>Forgot Password?</p>
                                     <h2 className='text-grey font16 mb-3'>We have sent a verification code to your mobile number</h2>

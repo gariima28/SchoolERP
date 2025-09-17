@@ -401,7 +401,7 @@ const AssignStudent = () => {
                                 </>
                                 :
                                 <div className="d-flex justify-content-center p-5 m-5">
-                                    <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                                 </div>
                             }
                         </div>
@@ -451,7 +451,7 @@ const AssignStudent = () => {
                                                         <td className='textWrapClass greyText'><h3>{item.studentId}</h3></td>
                                                         <td className='textWrapClass greyText'><h3>{item.studentName}</h3></td>
                                                         <td className='textWrapClass greyText'><h3>{item.dropName}</h3></td>
-                                                        <td className='textWrapClass text-center'><img src='/images/dlt_Icon.svg' data-bs-dismiss="modal" onClick={() => UnAssignStudentData(item.studentId)} style={{ cursor: 'pointer' }} /></td>
+                                                        <td className='textWrapClass text-center'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src='/images/dlt_Icon.svg' data-bs-dismiss="modal" onClick={() => UnAssignStudentData(item.studentId)} style={{ cursor: 'pointer' }} /></td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -459,7 +459,7 @@ const AssignStudent = () => {
                                     </>
                                     :
                                     <div className="d-flex justify-content-center p-5">
-                                        <img src="/images/search.svg" alt="" className='img-fluid ' />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid ' />
                                     </div>
                                 }
                             </div>

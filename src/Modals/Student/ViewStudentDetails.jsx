@@ -79,7 +79,7 @@ const ViewStudentDetails = ({ studentGetId }) => {
   return (
 
     <div className="p-3">
-      <p className='p-3 text-center'><img className='border rounded-5' src={studentImage} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /></p>
+      <p className='p-3 text-center'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='border rounded-5' src={studentImage} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /></p>
       <p className='pb-1 font26 text-center'>{studentName}</p>
       <p className='pb-1 font16 text-center'>{studentEmail}</p>
       <p className='pb-1 font14 text-center'><span>Student Id - </span><span className='fw-bolder'>{studentId}</span></p>

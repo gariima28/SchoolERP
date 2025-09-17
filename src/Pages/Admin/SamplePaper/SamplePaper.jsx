@@ -499,7 +499,7 @@ const SamplePaper = () => {
                                 <div className="row">
                                     {allSamplePaperData && allSamplePaperData.length === 0 ? (
                                         <div className="d-flex justify-content-center p-5">
-                                            <img src="/images/search.svg" alt="" className='img-fluid' />
+                                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid' />
                                         </div>
                                     ) : (
                                         <>
@@ -596,7 +596,7 @@ const SamplePaper = () => {
                                 </div>
                             ) : (
                                 <div className="d-flex justify-content-center p-5">
-                                    <img src="/images/search.svg" alt="" className='img-fluid' />
+                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid' />
                                 </div>
                             )}
                         </div>
@@ -698,7 +698,7 @@ const SamplePaper = () => {
                             <div>
                                 <div className=''>
                                     <p className='modalLightBorder p-2'>SamplePaper</p>
-                                    <p className='text-center p-3'> <img src="/images/errorI.svg" className='img-fluid' alt="" /></p>
+                                    <p className='text-center p-3'> <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className='img-fluid' alt="" /></p>
                                     <p className='text-center warningHeading'>Are you Sure?</p>
                                     <p className='text-center greyText warningText pt-2'>This Action will permanently delete<br />the Sample Paper Data</p>
                                     <p className='text-center warningText p-2'>

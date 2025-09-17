@@ -875,7 +875,7 @@ const Subject = () => {
                         <td colSpan="6" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
 
                               <h2><b>No Data Found</b></h2>
                             </div>
@@ -911,7 +911,7 @@ const Subject = () => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" onClick={ClearHandle}><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" onClick={ClearHandle}><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Subject</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -979,10 +979,10 @@ const Subject = () => {
                             ))}
                           </tbody>
                         )
-                        :
-                        (
-                          <div><p>Classes Not Created Yet...</p></div>
-                        )
+                          :
+                          (
+                            <div><p>Classes Not Created Yet...</p></div>
+                          )
                       }
 
                     </table>
@@ -1032,7 +1032,7 @@ const Subject = () => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Add subject</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1135,7 +1135,7 @@ const Subject = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />

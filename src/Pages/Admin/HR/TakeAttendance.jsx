@@ -584,7 +584,7 @@ const TakeAttendance = () => {
           setHidedelete(true)
           setLoader(false)
           setHide(false)
-           setRoleId('')
+          setRoleId('')
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
           offcanvasInstance.hide();
           setHide(false)
@@ -650,7 +650,7 @@ const TakeAttendance = () => {
         setRole(response?.data?.roleName)
         setMonth(response?.data?.month)
         setYear(response?.data?.year)
-       
+
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
@@ -681,10 +681,10 @@ const TakeAttendance = () => {
     setAttendanceDataByMonth([])
 
   }
-    // Handle search input change
+  // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
-    setPageNo(1); 
+    setPageNo(1);
   };
   return (
     <Container>
@@ -707,7 +707,7 @@ const TakeAttendance = () => {
           </div>
           {/* new csv design */}
 
-           <div className="d-flex g-1 for-media-query">
+          <div className="d-flex g-1 for-media-query">
             <ActionControls
               showAddButton={false}
               addButtonText=""
@@ -723,7 +723,7 @@ const TakeAttendance = () => {
               searchAction={MyAttendanceGetAllApiByMonth}
               onSearchChange={handleSearchChange}
             />
-             <div class="dropdown">
+            <div class="dropdown">
               <button className="btn btn-success heading-16 my-own-button me-3  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Attendance
               </button>
@@ -888,7 +888,7 @@ const TakeAttendance = () => {
                       <tr>
                         <td colSpan="100%" style={{ minHeight: '100%' }}>
                           <div className="text-center">
-                            <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                             <h2><b>No Data Found</b></h2>
                           </div>
                         </td>
@@ -909,7 +909,7 @@ const TakeAttendance = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Take Attendance</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1007,7 +1007,7 @@ const TakeAttendance = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight123" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Update Attendance</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />

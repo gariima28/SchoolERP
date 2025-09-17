@@ -38,7 +38,7 @@ const Marks = () => {
     //loader State
     const [loaderState, setloaderState] = useState(false);
     const [examScheduleSearch, setExamScheduleSearch] = useState(false);
-      const [selectedExam, setSelectedExam] = useState('');
+    const [selectedExam, setSelectedExam] = useState('');
     const searchByKey = '';
 
     const [MarksData, setMarksData] = useState([]);
@@ -48,7 +48,7 @@ const Marks = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
-      const [examTermData, setExamTermData] = useState([]);
+    const [examTermData, setExamTermData] = useState([]);
     const [pageSize, setPageSize] = useState(10);
 
     useEffect(() => {
@@ -226,14 +226,14 @@ const Marks = () => {
                             :
                             <>
                                 <div className="d-flex justify-content-center p-5 m-5">
-                                    <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                                 </div>
                             </>
                         }
                     </div>
                 ) : (
                     <div className="d-flex justify-content-center p-5 m-5">
-                        <img src="/images/search.svg" alt="" className="img-fluid p-5" />
+                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid p-5" />
                     </div>
                 )}
                 <Toaster />

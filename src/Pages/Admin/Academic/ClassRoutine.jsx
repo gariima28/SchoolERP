@@ -1240,7 +1240,7 @@ const ClassRoutine = () => {
             <>
               <div className="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop1012" aria-labelledby="staticBackdropLabel" ref={offcanvasRef}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Class Routine</h5>
                 </div>
                 <hr className='mx-3' style={{ marginTop: '-3px' }} />
@@ -1413,7 +1413,7 @@ const ClassRoutine = () => {
                 showadd && (
                   <div className="container-fluid h-100 d-flex flex-column">
                     <div className="offcanvas-header">
-                      <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                      <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                       <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class Routine</h5>
                     </div>
                     <hr className='' style={{ marginTop: '-3px' }} />
@@ -1508,7 +1508,7 @@ const ClassRoutine = () => {
                 hideedit && (
                   <div className="container-fluid h-100 d-flex flex-column">
                     <div className="offcanvas-header">
-                      <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                      <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                       <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                     </div>
                     <hr className='' style={{ marginTop: '-3px' }} />
@@ -1516,7 +1516,7 @@ const ClassRoutine = () => {
                       <div className="delete-section">
                         <div className="bg-container">
                           <div className="img-container">
-                            <img src="/images/XMLID_1_.png" alt="" />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                           </div>
                           <div className="content mt-5">
                             <p>Successful Edit</p>
@@ -1544,7 +1544,7 @@ const ClassRoutine = () => {
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight101020" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid h-100 d-flex flex-column">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Time Slot</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1637,7 +1637,7 @@ const ClassRoutine = () => {
                                   <td colSpan="12" className="text-center">
                                     <div className="d-flex justify-content-center align-items-center m-5">
                                       <div className="text-center">
-                                        <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                                         <h2><b>No Data Found</b></h2>
                                       </div>
                                     </div>
@@ -1660,7 +1660,7 @@ const ClassRoutine = () => {
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight909090" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
               <div className="container-fluid h-100 d-flex flex-column">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Update Time Slot</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />

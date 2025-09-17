@@ -220,11 +220,11 @@ const VerifyOTP = () => {
                 <div className="container-fluid h-100">
                     <div className="row h-100">
                         <div className="col-md-6 col-sm-12 p-5 imagearea">
-                            <img src="/images/pana.svg" alt="" className='img-fluid m-5' />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/pana.svg" alt="" className='img-fluid m-5' />
                         </div>
                         <div className="col-md-6 col-sm-12 p-5 formarea">
                             <div className="row me-xl-5 ms-xl-5 ps-xl-5 pe-xl-5 ps-lg-5 pe-lg-5 p-sm-5 m-sm-5 p-3">
-                                <p className='text-center mb-5'><img src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
+                                <p className='text-center mb-5'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
                                 <Span14Font>
                                     <p className='font18 mb-1'>Forgot Password?</p>
                                     <h2 className='text-grey font16 mb-3'>We have sent a verification code to your mobile number</h2>
@@ -271,70 +271,70 @@ const VerifyOTP = () => {
 export default VerifyOTP
 
 
-                {
-                  /* Add */
-                }
-                {
-                  /* <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="add_staticBackdrop" aria-labelledby="staticBackdropLabel">
-                    <div className="offcanvas-header border-bottom border-2 p-1">
-                        <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
-                                <path fill="#008479" fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                            </svg>
-                        </Link>
-                        <h2 className="offcanvas-title" id="staticBackdropLabel">Submission Add</h2>
-                    </div>
-                    <div className="offcanvas-body p-0">
-                        <AddSubmission addedSuccess={handleAddSubmissionModal} />
-                    </div>
-                </div> */
-                }
+{
+    /* Add */
+}
+{
+    /* <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="add_staticBackdrop" aria-labelledby="staticBackdropLabel">
+      <div className="offcanvas-header border-bottom border-2 p-1">
+          <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
+                  <path fill="#008479" fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+              </svg>
+          </Link>
+          <h2 className="offcanvas-title" id="staticBackdropLabel">Submission Add</h2>
+      </div>
+      <div className="offcanvas-body p-0">
+          <AddSubmission addedSuccess={handleAddSubmissionModal} />
+      </div>
+  </div> */
+}
 
-                {
-                  /* Edit */
-                }
-                {
-                  /* <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="Edit_staticBackdrop" aria-labelledby="staticBackdropLabel">
-                    <div className="offcanvas-header border-bottom border-2 p-1">
-                        <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
-                                <path fill="#008479" fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                            </svg>
-                        </Link>
-                        <h2 className="offcanvas-title" id="staticBackdropLabel">Submission Edit</h2>
-                    </div>
-                    <div className="offcanvas-body p-0">
-                        <EditSubmission EditItemId={EditItemId} editedSuccess={handleEditSubmissionModal} />
-                    </div>
-                </div> */
-                }
+{
+    /* Edit */
+}
+{
+    /* <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="Edit_staticBackdrop" aria-labelledby="staticBackdropLabel">
+      <div className="offcanvas-header border-bottom border-2 p-1">
+          <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
+                  <path fill="#008479" fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+              </svg>
+          </Link>
+          <h2 className="offcanvas-title" id="staticBackdropLabel">Submission Edit</h2>
+      </div>
+      <div className="offcanvas-body p-0">
+          <EditSubmission EditItemId={EditItemId} editedSuccess={handleEditSubmissionModal} />
+      </div>
+  </div> */
+}
 
-                {
-                  /* Delete */
-                }
-                {
-                  /* <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="Delete_staticBackdrop" aria-labelledby="staticBackdropLabel">
-                    <div className="offcanvas-header ps-0 modalHighborder p-1">
-                        <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
-                                <path fill="#B50000" fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                            </svg>
-                        </Link>
-                        <span className="offcanvas-title" id="staticBackdropLabel">Submission</span>
-                    </div>
-                    <div className="offcanvas-body p-0">
-                        {loaderState && (<DataLoader />)}
-                        <div className="" style={{ zIndex: -1 }}>
-                            <p className='modalLightBorder p-2'>Submission</p>
-                            <p className='text-center p-3'> <img src="/images/errorI.svg" className='img-fluid' alt="" /></p>
-                            <p className='text-center warningHeading'>Are you Sure?</p>
-                            <p className='text-center greyText warningText pt-2'>This Action will be permanently delete<br />the Submission Data</p>
-                            <p className='text-center warningText p-2'><input className="form-check-input formdltcheck me-2" type="checkbox" checked={isChecked} id="flexCheckChecked" onChange={(e) => setIsChecked(e.target.checked)} />I Agree to delete the Submission Data</p>
-                            <p className='text-center p-3'>
-                                <button className='btn deleteButtons text-white' disabled={!isChecked} onClick={() => DeleteSubmissionDataById(DeleteItemId)}>Delete</button>
-                                <button className='btn dltcancelButtons ms-3' data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setIsChecked(false)}>Cancel</button>
-                            </p>
-                        </div>
-                    </div>
-                </div> */
-                }
+{
+    /* Delete */
+}
+{
+    /* <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="Delete_staticBackdrop" aria-labelledby="staticBackdropLabel">
+      <div className="offcanvas-header ps-0 modalHighborder p-1">
+          <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
+                  <path fill="#B50000" fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+              </svg>
+          </Link>
+          <span className="offcanvas-title" id="staticBackdropLabel">Submission</span>
+      </div>
+      <div className="offcanvas-body p-0">
+          {loaderState && (<DataLoader />)}
+          <div className="" style={{ zIndex: -1 }}>
+              <p className='modalLightBorder p-2'>Submission</p>
+              <p className='text-center p-3'> <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className='img-fluid' alt="" /></p>
+              <p className='text-center warningHeading'>Are you Sure?</p>
+              <p className='text-center greyText warningText pt-2'>This Action will be permanently delete<br />the Submission Data</p>
+              <p className='text-center warningText p-2'><input className="form-check-input formdltcheck me-2" type="checkbox" checked={isChecked} id="flexCheckChecked" onChange={(e) => setIsChecked(e.target.checked)} />I Agree to delete the Submission Data</p>
+              <p className='text-center p-3'>
+                  <button className='btn deleteButtons text-white' disabled={!isChecked} onClick={() => DeleteSubmissionDataById(DeleteItemId)}>Delete</button>
+                  <button className='btn dltcancelButtons ms-3' data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setIsChecked(false)}>Cancel</button>
+              </p>
+          </div>
+      </div>
+  </div> */
+}

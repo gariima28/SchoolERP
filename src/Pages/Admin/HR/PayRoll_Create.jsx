@@ -1010,7 +1010,7 @@ const PayRoll_Create = () => {
                         show && (
                             <div className="container-fluid">
                                 <div className="offcanvas-header">
-                                    <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                                    <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                                     <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Take Attendance</h5>
                                 </div>
                                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1051,7 +1051,7 @@ const PayRoll_Create = () => {
                         hide && (
                             <div className="container-fluid">
                                 <div className="offcanvas-header">
-                                    <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                                    <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                                     <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Take Attendance</h5>
                                 </div>
                                 <hr className='' style={{ marginTop: '-3px' }} />

@@ -509,8 +509,8 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                 <Link
                   key={item.key || index}
                   className={`menus d-flex borderTopBottom ${activeMenu === item.key || isActiveLink(item.activeLink)
-                      ? " active"
-                      : ""
+                    ? " active"
+                    : ""
                     } ${!openSidebar ? "justify-content-center" : ""}`}
                   data-bs-toggle="offcanvas"
                   data-bs-target="#logoutCanvas"
@@ -712,7 +712,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                 <p className="border-bottom p-2">Logout</p>
                 <div className="text-center p-5">
                   <p className="mb-2">
-                    <img src="/images/logout.svg" alt="" />
+                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/logout.svg" alt="" />
                   </p>
                   <h1 className="mb-2">Are you Sure?</h1>
                   <h3 className="greyText">Are you Sure you want to logout?</h3>
@@ -740,7 +740,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                 <p className="modalLightBorder p-2 mb-0">Logout</p>
                 <div className="mt-3">
                   <div className="correvtSVG p-3 pt-4 rounded-circle">
-                    <img src="/images/Correct.svg" alt="" />
+                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Correct.svg" alt="" />
                   </div>
                   <div className="updatetext border m-4 border-2 ms-5 greydiv rounded-3 text-center greyText p-5">
                     <p className="warningHeading">Successful Updated</p>
