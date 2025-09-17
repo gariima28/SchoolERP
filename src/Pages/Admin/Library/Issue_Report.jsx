@@ -864,7 +864,7 @@ const Issue_Report = () => {
       const response = await BookManagerDeleteApi(id);
       if (response?.status === 200) {
         toast.success(response?.data?.message);
-        MyRolPermisGetAllApi()
+        // MyRolPermisGetAllApi()
         setShowdelete(false)
         setHidedelete(true)
         setLoader(false)
@@ -929,8 +929,6 @@ const Issue_Report = () => {
         const formData = new FormData()
         formData.append('returnDate', returnDate)
         formData.append('status', mainStatus)
-
-
         const response = await BookIssueReturn(id, formData);
         console.log('My issue and return book api Updatee', response)
         if (response?.status === 200) {
@@ -981,8 +979,6 @@ const Issue_Report = () => {
   };
 
   const clearData = () => {
-    // startDate('')
-    // endDate('')
     setBooById('')
     setEdition('')
     setLanguage('')
@@ -997,6 +993,7 @@ const Issue_Report = () => {
     setReturnDate('')
     setLoader(false)
   }
+  
   // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);

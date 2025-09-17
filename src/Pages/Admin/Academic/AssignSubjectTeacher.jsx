@@ -1285,11 +1285,3 @@ const AssignSubjectTeacher = () => {
 }
 
 export default AssignSubjectTeacher
-
-
-
-
-
-
-
-
