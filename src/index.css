@@ -453,6 +453,15 @@ tr {
     height: 38px;
 }
 
+.bg-cream {
+    background-color: #fffaf2;
+    /* cream shade */
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
 .CorrectSignButtons:hover,
 .CorrectSignButtons:focus {
     background-color: var(--greenColorBtn);
