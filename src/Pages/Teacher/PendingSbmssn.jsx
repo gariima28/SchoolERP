@@ -623,7 +623,7 @@ const PendingSbmssn = ({ data }) => {
                         <td colSpan="6" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -654,7 +654,7 @@ const PendingSbmssn = ({ data }) => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Marks Submission Details</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -703,7 +703,7 @@ const PendingSbmssn = ({ data }) => {
                           :
                           <div className="mb-3  for-media-margin">
                             <label for="exampleFormControlInput1" className="form-label heading-14 label-color">User Image <span style={{ color: 'red' }}>*</span></label>
-                            <input type="file"className="form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color" onChange={handleFileChange} style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput12" placeholder="Doe" />
+                            <input type="file" className="form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color" onChange={handleFileChange} style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput12" placeholder="Doe" />
                           </div>
                       }
                     </div>

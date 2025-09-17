@@ -1086,69 +1086,69 @@ const ClassRoutine = () => {
             </div>
           </div>
 
-          <div className="table-container px-3 pt-4 table-responsive w-100">
-            <table className="table table-sm table-bordered align-item-center">
-              <thead className='text-center '>
-                <tr className='heading-16  text-color-000 text-center' style={{ fontWeight: '500' }}>
-                  <th className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
-                    {byDefaultValue ? (
-                      <div>Days</div>
-                    ) : (
-                      <div>ClassRoutine Not Found...</div>
-                    )}
-                  </th>
-                  {
-                    tableSlotGetAll?.map((item, index) => (
-                      <>
-                        <th key={index} className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
-                          {item.periodNo} <br />
-                          {item.startHourTime?.split(':').slice(0, 2).join(':') ? item.startHourTime?.split(':').slice(0, 2).join(':') : ''} - {item.endHourTime?.split(':').slice(0, 2).join(':') ? item.endHourTime?.split(':').slice(0, 2).join(':') : ''}
-                        </th>
-                      </>
-                    ))
-                  }
-                </tr>
-              </thead>
-              <tbody className='heading-14 align-middle greyTextColor text-center'>
-                {
-                  classRoutineData?.map((item, index) => (
-                    <tr key={index}
-                      style={{
-                        backgroundColor: index % 2 === 0 ? '#FFF9F6' : '#ffffff',
-                      }}>
-                      <td className='greyText no-wrap ' style={{ backgroundColor: 'inherit' }}>{item.day}</td>
-                      {
-                        item?.periods?.map((item) => (
-                          <td className=' greyText no-wrap  paddingNoRes pt-2' style={{ backgroundColor: 'inherit' }}>
-                            <div className='mb-1' style={{ display: 'flex', justifyContent: 'end', alignItems: '' }}>
-                              <div className="dropdown my-button-show " >
-                                {/* {
-                                  item?.teacher && item?.subject ? (
-                                    <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 " style={{ fontSize: '16px' }} type="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                                      ....
-                                    </button>
-                                  )
-                                    :
-                                    ''
-                                } */}
-
-                                <ul className="dropdown-menu anchor-color heading-14">
-                                  <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
-                                  {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li> */}
-                                </ul>
-                              </div>
-                            </div>
-                            <div className='pb-1'>{item.teacher}</div>
-                            <div className='pb-3  '>{item.subject ? item.subject : item.breakType}</div>
-                          </td>
-                        ))
-                      }
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
-          </div>
+            <div className="table-container px-3 pt-4 table-responsive w-100">
+                      <table className="table table-sm table-bordered align-item-center">
+                        <thead className='text-center '>
+                          <tr className='heading-16  text-color-000 text-center' style={{ fontWeight: '500' }}>
+                            <th className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
+                              {byDefaultValue ? (
+                                <div>Days</div>
+                              ) : (
+                                <div>ClassRoutine Not Found...</div>
+                              )}
+                            </th>
+                            {
+                              tableSlotGetAll?.map((item, index) => (
+                                <>
+                                  <th key={index} className='table-row-bg-color no-wrap' style={{ fontSize: '15px' }}>
+                                    {item.periodNo} <br />
+                                    {item.startHourTime?.split(':').slice(0, 2).join(':') ? item.startHourTime?.split(':').slice(0, 2).join(':') : ''} - {item.endHourTime?.split(':').slice(0, 2).join(':') ? item.endHourTime?.split(':').slice(0, 2).join(':') : ''}
+                                  </th>
+                                </>
+                              ))
+                            }
+                          </tr>
+                        </thead>
+                        <tbody className='heading-14 align-middle greyTextColor text-center'>
+                          {
+                            classRoutineData?.map((item, index) => (
+                              <tr key={index}
+                                style={{
+                                  backgroundColor: index % 2 === 0 ? '#FFF9F6' : '#ffffff',
+                                }}>
+                                <td className='greyText no-wrap ' style={{ backgroundColor: 'inherit' }}>{item.day}</td>
+                                {
+                                  item?.periods?.map((item) => (
+                                    <td className=' greyText no-wrap  paddingNoRes' style={{ backgroundColor: 'inherit' }}>
+                                      <div className='mb-1' style={{ display: 'flex', justifyContent: 'end', alignItems: '' }}>
+                                        <div className="dropdown my-button-show" >
+                                          {
+                                            item?.teacher && item?.subject ? (
+                                              <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 " style={{ fontSize: '16px' }} type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                                                ....
+                                              </button>
+                                            )
+                                            :
+                                            ''
+                                          }
+          
+                                          <ul className="dropdown-menu anchor-color heading-14">
+                                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
+                                            {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li> */}
+                                          </ul>
+                                        </div>
+                                      </div>
+                                      <div className='pb-1'>{item.teacher}</div>
+                                      <div className='pb-3  '>{item.subject ? item.subject : item.breakType}</div>
+                                    </td>
+                                  ))
+                                }
+                              </tr>
+                            ))
+                          }
+                        </tbody>
+                      </table>
+                    </div>
         </div>
         {/* ################## Off Canvas Area ####################  */}
 
@@ -1158,7 +1158,7 @@ const ClassRoutine = () => {
             <>
               <div className="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop1012" aria-labelledby="staticBackdropLabel" ref={offcanvasRef}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Class Routine</h5>
                 </div>
                 <hr className='mx-3' style={{ marginTop: '-3px' }} />
@@ -1333,7 +1333,7 @@ const ClassRoutine = () => {
                 showadd && (
                   <div className="container-fluid h-100 d-flex flex-column">
                     <div className="offcanvas-header">
-                      <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                      <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                       <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class Routine</h5>
                     </div>
                     <hr className='' style={{ marginTop: '-3px' }} />
@@ -1418,7 +1418,7 @@ const ClassRoutine = () => {
                 hideedit && (
                   <div className="container-fluid h-100 d-flex flex-column">
                     <div className="offcanvas-header">
-                      <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                      <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                       <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                     </div>
                     <hr className='' style={{ marginTop: '-3px' }} />
@@ -1426,7 +1426,7 @@ const ClassRoutine = () => {
                       <div className="delete-section">
                         <div className="bg-container">
                           <div className="img-container">
-                            <img src="/images/XMLID_1_.png" alt="" />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                           </div>
                           <div className="content mt-5">
                             <p>Successful Edit</p>
@@ -1453,7 +1453,7 @@ const ClassRoutine = () => {
             showadd && (
               <div className="container-fluid h-100 d-flex flex-column">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Time Slot</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1546,7 +1546,7 @@ const ClassRoutine = () => {
                                   <td colSpan="12" className="text-center">
                                     <div className="d-flex justify-content-center align-items-center m-5">
                                       <div className="text-center">
-                                        <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                                         <h2><b>No Data Found</b></h2>
                                       </div>
                                     </div>
@@ -1568,14 +1568,14 @@ const ClassRoutine = () => {
             hideedit && (
               <div className="container-fluid h-100 d-flex flex-column">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="delete-section mt-5 flex-grow-1 d-flex flex-column">
                   <div className="bg-container">
                     <div className="img-container">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p>Successful Edit</p>
@@ -1599,7 +1599,7 @@ const ClassRoutine = () => {
             showadd22 && (
               <div className="container-fluid h-100 d-flex flex-column">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas"><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas"><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Update Time Slot</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />

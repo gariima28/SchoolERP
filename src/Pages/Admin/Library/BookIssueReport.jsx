@@ -545,7 +545,7 @@ const BookIssueReport = () => {
 
   const [student, setStudent] = useState()
   const [book, setBook] = useState()
-  
+
 
   const [Class, setClass] = useState()
   const [classNo, setClassNo] = useState('');
@@ -629,7 +629,7 @@ const BookIssueReport = () => {
   // ###### validation  end##########
 
 
- const HandleClearDate = () => {
+  const HandleClearDate = () => {
     setStartDate('')
     setEndDate('')
     MyBookIssueGetApi()
@@ -978,11 +978,11 @@ const BookIssueReport = () => {
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
               {/* <button type="button" class="btn btn-outline-success my-button112233" onClick={MyBookIssueGetApi}>Search</button> */}
-              <button type="button" class="btn btn-outline-success" disabled={classNo === '' || sectionName === ''}  style={{ backgroundColor: "#fff", color: '#000' }} onClick={ClearData}>Cancel</button>
+              <button type="button" class="btn btn-outline-success" disabled={classNo === '' || sectionName === ''} style={{ backgroundColor: "#fff", color: '#000' }} onClick={ClearData}>Cancel</button>
             </div>
           </div>
           <div className='px-3'>
-            <Connect_mb_nmb data={{ sectionName, classNo }}  />
+            <Connect_mb_nmb data={{ sectionName, classNo }} />
           </div>
           {/* <div className="pt-3 mx-3  table-responsive">
 
@@ -1040,7 +1040,7 @@ const BookIssueReport = () => {
                         <td colSpan="12" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/Group 192.png" alt="" />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Group 192.png" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -1315,7 +1315,7 @@ const BookIssueReport = () => {
               <>
                 <div className="offcanvas-header d-block for-my-display">
                   <div className="offcanvas-header p-0 ">
-                    <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                    <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                     <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
                   </div>
                   <hr className='' />
@@ -1348,7 +1348,7 @@ const BookIssueReport = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />

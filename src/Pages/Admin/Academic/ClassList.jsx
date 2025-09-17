@@ -699,7 +699,7 @@ const ClassList = () => {
                         <td colSpan="6" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -772,7 +772,7 @@ const ClassList = () => {
             <>
               <div className="offcanvas offcanvas-end " tabindex="-1" id="staticBackdrop12" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -812,7 +812,7 @@ const ClassList = () => {
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight33" aria-labelledby="offcanvasRightLabel">
           <div className="container-fluid">
             <div className="offcanvas-header p-0 pt-3">
-              <Link data-bs-dismiss="offcanvas" className='ps-3' ><img src="/images/Vector (13).svg" alt="" /></Link>
+              <Link data-bs-dismiss="offcanvas" className='ps-3' ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
 
               <h5 className="offcanvas-title heading-16 pe-3" id="offcanvasRightLabel">View Profile</h5>
             </div>
@@ -820,7 +820,7 @@ const ClassList = () => {
             <div className="offcanvas-body">
               <div className="main-container">
                 <div className="image-container">
-                  <img src="/images/Ellipse 26 (3).png" alt="" />
+                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Ellipse 26 (3).png" alt="" />
                 </div>
                 <div className="delete-content mt-2">
                   <p>John Doe</p>
@@ -875,7 +875,7 @@ const ClassList = () => {
             showdelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -921,14 +921,14 @@ const ClassList = () => {
             hidedelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
                 </div>
                 <hr className='' />
                 <div className="delete-section mt-5">
                   <div className="bg-container">
                     <div className="img-container22">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Delete</p>

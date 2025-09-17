@@ -603,9 +603,9 @@ const AllSchools = () => {
                           <th style={{ textWrap: 'nowrap' }}><h2>School name</h2></th>
                           <th style={{ textWrap: 'nowrap' }}><h2>Address</h2></th>
                           <th style={{ textWrap: 'nowrap' }}><h2>Phone</h2></th>
-                          <th style={{ textWrap: 'nowrap' }}><h2>Package <img src="/images/StatusArrow.svg" alt="" /></h2></th>
+                          <th style={{ textWrap: 'nowrap' }}><h2>Package <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/StatusArrow.svg" alt="" /></h2></th>
                           <th style={{ textWrap: 'nowrap' }} className='bolddText'><h2>Spe. Features</h2></th>
-                          <th style={{ textWrap: 'nowrap' }}><h2>Status <img src="/images/StatusArrow.svg" alt="" /></h2></th>
+                          <th style={{ textWrap: 'nowrap' }}><h2>Status <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/StatusArrow.svg" alt="" /></h2></th>
                           <th style={{ textWrap: 'nowrap' }}><h2>Action</h2></th>
                         </tr>
                       </thead>
@@ -650,7 +650,7 @@ const AllSchools = () => {
                 </>
                 :
                 <div className='h-100 text-center m-5'>
-                  <img src='/images/search.svg' style={{ height: '40vh' }} />
+                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src='/images/search.svg' style={{ height: '40vh' }} />
                 </div>
               }
             </div>
@@ -740,7 +740,7 @@ const AllSchools = () => {
                   <div>
                     <p className='modalLightBorder p-2 mb-0'>School List</p>
                     <div className="mt-3  ">
-                      <div className='correvtSVG p-3 pt-4 rounded-circle'><img src="/images/Correct.svg" alt="" /></div>
+                      <div className='correvtSVG p-3 pt-4 rounded-circle'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Correct.svg" alt="" /></div>
                       <div className="updatetext border m-4 border-2  ms-5 greydiv rounded-3 text-center greyText p-5">
                         <p className='warningHeading'>Successful Updated</p>
                         <p className='greyText warningText pt-2'>Your Changes has been<br />Successfully Saved</p>
@@ -856,7 +856,7 @@ const AllSchools = () => {
                   <div>
                     <p className='modalLightBorder p-2 mb-0'>School List</p>
                     <div className="mt-3  ">
-                      <div className='correvtSVG p-3 pt-4 rounded-circle'><img src="/images/Correct.svg" alt="" /></div>
+                      <div className='correvtSVG p-3 pt-4 rounded-circle'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Correct.svg" alt="" /></div>
                       <div className="updatetext border m-4 border-2  ms-5 greydiv rounded-3 text-center greyText p-5">
                         <p className='warningHeading'>Successful Updated</p>
                         <p className='greyText warningText pt-2'>Your Changes has been<br />Successfully Saved</p>
@@ -888,7 +888,7 @@ const AllSchools = () => {
                 <>
                   <div className=''>
                     <p className='modalLightBorder p-2'>School List</p>
-                    <p className='text-center p-3'> <img src="/images/errorI.svg" className='img-fluid' alt="" /></p>
+                    <p className='text-center p-3'> <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className='img-fluid' alt="" /></p>
                     <p className='text-center warningHeading'>Are you Sure?</p>
                     <p className='text-center greyText warningText pt-2'>This Action will be permanently delete<br />the School Data</p>
                     <p className='text-center warningText p-2'><input className="form-check-input formdltcheck me-2" type="checkbox" value="" id="flexCheckChecked" onChange={(e) => setIsChecked(e.target.checked)} />I Agree to delete the School Data</p>
@@ -903,7 +903,7 @@ const AllSchools = () => {
                   <div >
                     <p className='border-bottom p-3'>School List</p>
                     <div className="">
-                      <div className='deleteSVG border border-2 p-4 rounded-circle'><img src="/images/deleteicon.svg" alt="" /></div>
+                      <div className='deleteSVG border border-2 p-4 rounded-circle'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/deleteicon.svg" alt="" /></div>
                       <div className="deletetext border m-4 border-2 greydiv ms-5 rounded-3 text-center greyText p-5">
                         <p className='warningHeading'>Successful Deleted</p>
                         <p className='greyText warningText pt-2'>Your data has been<br />Successfully Delete</p>

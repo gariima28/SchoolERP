@@ -520,7 +520,7 @@ const Deduction = () => {
                                 <div style={{ zIndex: -1 }}>
                                     <p className="modalLightBorder p-2">Deduction</p>
                                     <p className="text-center p-3">
-                                        <img src="/images/errorI.svg" className="img-fluid" alt="Error" />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className="img-fluid" alt="Error" />
                                     </p>
                                     <p className="text-center warningHeading">Are you Sure?</p>
                                     <p className="text-center greyText warningText pt-2">

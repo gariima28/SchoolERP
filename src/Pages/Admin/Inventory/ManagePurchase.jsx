@@ -675,7 +675,7 @@ const ManagePurchase = () => {
               </div>
             ) : (
               <div className="d-flex justify-content-center p-5 m-5">
-                <img src="/images/search.svg" alt="No data" className="img-fluid p-5" />
+                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="No data" className="img-fluid p-5" />
               </div>
             )}
           </div>
@@ -1175,7 +1175,7 @@ const ManagePurchase = () => {
             <div style={{ zIndex: -1 }}>
               <p className="modalLightBorder p-2">Purchase</p>
               <p className="text-center p-3">
-                <img src="/images/errorI.svg" className="img-fluid" alt="Error" />
+                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className="img-fluid" alt="Error" />
               </p>
               <p className="text-center warningHeading">Are you Sure?</p>
               <p className="text-center greyText warningText pt-2">

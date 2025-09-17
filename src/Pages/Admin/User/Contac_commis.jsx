@@ -236,8 +236,8 @@ const Conta_deduction = () => {
 
   const [loaderState, setLoaderState] = useState(false);
   const [deductionData, setDeductionData] = useState([]);
-    const [delAllowanceId, setDelAllowanceId] = useState();
-    const [isChecked, setIsChecked] = useState(false);
+  const [delAllowanceId, setDelAllowanceId] = useState();
+  const [isChecked, setIsChecked] = useState(false);
   const [staffDeductionData, setStaffDeductionData] = useState([]);
   const [editDeduction, setEditDeduction] = useState(null);
   const [pageNo, setPageNo] = useState(1);
@@ -687,7 +687,7 @@ const Conta_deduction = () => {
           </table>
         ) : (
           <div className="d-flex justify-content-center p-5">
-            <img src="/images/search.svg" alt="" className='img-fluid' />
+            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid' />
           </div>
         )}
       </div>
@@ -884,61 +884,61 @@ const Conta_deduction = () => {
         </div>
       </div>
 
-            {/* Delete Allowance */}
-            <div className="offcanvas offcanvas-end p-2" tabIndex="-1" id="deleteFeeDiscount" aria-labelledby="deleteFeeDiscountLabel">
-              <div className="offcanvas-header border-bottom border-2 p-2">
-                <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
-                    <path
-                      fill="#008479"
-                      fillRule="evenodd"
-                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
-                    />
-                  </svg>
-                </Link>
-                <h2 className="offcanvas-title" id="deleteFeeDiscountLabel">
-                  Delete Allowance
-                </h2>
-              </div>
-              <div className="offcanvas-body p-3">
-                <div>
-                  <p className="text-center p-3">
-                    <img src="/images/errorI.svg" className="img-fluid" alt="Error" />
-                  </p>
-                  <p className="text-center warningHeading">Are you Sure?</p>
-                  <p className="text-center greyText warningText pt-2">
-                    This Action will permanently delete<br />the Allowance
-                  </p>
-                  <p className="text-center warningText p-2">
-                    <input
-                      className="form-check-input formdltcheck me-2"
-                      type="checkbox"
-                      checked={isChecked}
-                      id="flexCheckChecked"
-                      onChange={(e) => setIsChecked(e.target.checked)}
-                    />
-                    I Agree to delete the Profile Data
-                  </p>
-                  <p className="text-center p-3">
-                    <button
-                      className="btn deleteButtons text-white"
-                      disabled={!isChecked}
-                      onClick={() => handleDelete(delAllowanceId)}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      className="btn dltcancelButtons ms-3"
-                      data-bs-dismiss="offcanvas"
-                      type="button"
-                      onClick={() => setIsChecked(false)}
-                    >
-                      Cancel
-                    </button>
-                  </p>
-                </div>
-              </div>
-            </div>
+      {/* Delete Allowance */}
+      <div className="offcanvas offcanvas-end p-2" tabIndex="-1" id="deleteFeeDiscount" aria-labelledby="deleteFeeDiscountLabel">
+        <div className="offcanvas-header border-bottom border-2 p-2">
+          <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
+              <path
+                fill="#008479"
+                fillRule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+              />
+            </svg>
+          </Link>
+          <h2 className="offcanvas-title" id="deleteFeeDiscountLabel">
+            Delete Allowance
+          </h2>
+        </div>
+        <div className="offcanvas-body p-3">
+          <div>
+            <p className="text-center p-3">
+              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className="img-fluid" alt="Error" />
+            </p>
+            <p className="text-center warningHeading">Are you Sure?</p>
+            <p className="text-center greyText warningText pt-2">
+              This Action will permanently delete<br />the Allowance
+            </p>
+            <p className="text-center warningText p-2">
+              <input
+                className="form-check-input formdltcheck me-2"
+                type="checkbox"
+                checked={isChecked}
+                id="flexCheckChecked"
+                onChange={(e) => setIsChecked(e.target.checked)}
+              />
+              I Agree to delete the Profile Data
+            </p>
+            <p className="text-center p-3">
+              <button
+                className="btn deleteButtons text-white"
+                disabled={!isChecked}
+                onClick={() => handleDelete(delAllowanceId)}
+              >
+                Delete
+              </button>
+              <button
+                className="btn dltcancelButtons ms-3"
+                data-bs-dismiss="offcanvas"
+                type="button"
+                onClick={() => setIsChecked(false)}
+              >
+                Cancel
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
       <Toaster />
     </StyledContainer>
   );

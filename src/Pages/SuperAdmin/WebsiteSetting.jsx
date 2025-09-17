@@ -118,7 +118,7 @@ const ManageFaq = () => {
 
                     <div className='d-flex gap-2 header-1  mx-3 '>
                         <div className="input-icon ps-2" style={{ marginTop: '2.5px' }}>
-                            {/* <img src="/images/website.svg" alt="" /> */}
+                            {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/website.svg" alt="" /> */}
                             <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.5 5H11.25V6.25H17.5V5ZM17.5 7.5H11.25V8.75H17.5V7.5ZM15 10H11.25V11.25H15V10ZM8.75 5H2.5V11.25H8.75V5ZM0 0V16.25H20V0H0ZM18.75 15H1.25L1.3 2.5H18.75V15Z" fill="black" />
                             </svg>

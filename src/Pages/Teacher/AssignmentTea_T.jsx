@@ -620,7 +620,7 @@ const AssignmentTea_T = () => {
   const MyAssignmntGetApi = async () => {
     setLoader(true)
     try {
-      const response = await TeacherAssignmntGetAllApi(classId,sectionId, subjectId, searchKey, pageNo, pageSize);
+      const response = await TeacherAssignmntGetAllApi(classId, sectionId, subjectId, searchKey, pageNo, pageSize);
       console.log('Assignmnt get all api response*******', response);
       if (response?.status === 200) {
         setSearch(true)
@@ -678,9 +678,9 @@ const AssignmentTea_T = () => {
             <div className="col-lg-4 col-md-6 col-sm-12 ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
-                <select class="form-select  form-select-sm form-focus label-color"  value={`${classId},${classNo}`}
+                <select class="form-select  form-select-sm form-focus label-color" value={`${classId},${classNo}`}
                   onChange={Handle} aria-label="Default select example">
-                {/* <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setClassId(e.target.value)} aria-label="Default select example"> */}
+                  {/* <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => setClassId(e.target.value)} aria-label="Default select example"> */}
                   <option value="" >--Choose--</option>
                   {
                     classdata?.map(item =>
@@ -775,7 +775,7 @@ const AssignmentTea_T = () => {
             show && (
               <>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Assignment</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -792,14 +792,14 @@ const AssignmentTea_T = () => {
             hide && (
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="delete-section  mt-5">
                   <div className="bg-container">
                     <div className="img-container">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Added</p>
@@ -824,7 +824,7 @@ const AssignmentTea_T = () => {
             showadd && (
               <>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class Routine</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -875,14 +875,14 @@ const AssignmentTea_T = () => {
             hideedit && (
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="delete-section  mt-5">
                   <div className="bg-container">
                     <div className="img-container">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Edit</p>

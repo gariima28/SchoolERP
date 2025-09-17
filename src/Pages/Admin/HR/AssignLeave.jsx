@@ -952,7 +952,7 @@ const AssignLeave = () => {
                         <td colSpan="6" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -1133,7 +1133,7 @@ const AssignLeave = () => {
               <>
                 <div className="offcanvas-header d-block for-my-display">
                   <div className="offcanvas-header p-0 ">
-                    <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                    <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                     <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
                   </div>
                   <hr className='' />
@@ -1169,7 +1169,7 @@ const AssignLeave = () => {
             showdelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -1232,7 +1232,7 @@ const AssignLeave = () => {
             showdelete12 && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -1275,14 +1275,14 @@ const AssignLeave = () => {
             hidedelete12 && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
                 </div>
                 <hr className='' />
                 <div className="delete-section mt-5">
                   <div className="bg-container">
                     <div className="img-container22">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Delete</p>

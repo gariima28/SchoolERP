@@ -454,7 +454,7 @@ font-size: 12px;
 
 
 
-const MarksPendingSbmssn = ({data}) => {
+const MarksPendingSbmssn = ({ data }) => {
 
   const submissionGetAllData = data || [];
   // console.log('submissionGetAllData----', submissionGetAllData)
@@ -532,39 +532,39 @@ const MarksPendingSbmssn = ({data}) => {
   }
   //  Update Api submission
   const MyDepartmentPostApi = async () => {
-  
-     const formData = new FormData()
-      formData.append('resultMarks', result);
-      formData.append('description', description);
-      formData.append('submissionPath', file);
-      setLoader(true)
-      try {
-        const response = await TeacherSubmissionPutByIdApi(IdForUpdate, formData);
-        if (response?.status === 200) {
-          if (response?.data?.status === "success") {
-            toast.success(response?.data?.message);
-            setShow(false)
-            MySubmissionGetAllApi()
-            setLoader(false)
-            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-            offcanvasInstance.hide();
-            setTimeout(() => {
-              setShow(true)
-            }, 0.5)
 
-          } else {
-            toast.error(response?.data?.message);
+    const formData = new FormData()
+    formData.append('resultMarks', result);
+    formData.append('description', description);
+    formData.append('submissionPath', file);
+    setLoader(true)
+    try {
+      const response = await TeacherSubmissionPutByIdApi(IdForUpdate, formData);
+      if (response?.status === 200) {
+        if (response?.data?.status === "success") {
+          toast.success(response?.data?.message);
+          setShow(false)
+          MySubmissionGetAllApi()
+          setLoader(false)
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+          offcanvasInstance.hide();
+          setTimeout(() => {
             setShow(true)
-            setLoader(false)
-          }
+          }, 0.5)
+
         } else {
-          toast.error(response?.data?.msg);
+          toast.error(response?.data?.message);
+          setShow(true)
           setLoader(false)
         }
-      } catch (error) {
-        setloaderState(false);
-        // console.log(error)
+      } else {
+        toast.error(response?.data?.msg);
+        setLoader(false)
       }
+    } catch (error) {
+      setloaderState(false);
+      // console.log(error)
+    }
 
   }
 
@@ -623,7 +623,7 @@ const MarksPendingSbmssn = ({data}) => {
                         <td colSpan="6" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -654,7 +654,7 @@ const MarksPendingSbmssn = ({data}) => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Marks Submission Details</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -672,42 +672,42 @@ const MarksPendingSbmssn = ({data}) => {
                       )}
                     </div> */}
                   </div>
-             
-                    <div className='row pe-1 '>
-                      <div className='col-lg-12 col-md-12 col-sm-12 pe-0'>
-                        {
-                          updateStatus === "success"
-                            ?
-                            <div class="mb-3 " style={{ display: 'flex', }}>
-                              <div className='w-100'>
-                                <label for="exampleFormControlInput1" className="form-label heading-14 label-color">Upload Image </label>
-                                {
-                                  manageButton ?
-                                    <input type="file" class="form-control" id="exampleFormControlInput1" onChange={handleFileChange} placeholder="select file" accept='.jpg, .png, .jpeg' />
-                                    :
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" value={file} placeholder="name@example.com" />
-                                }
-                              </div>
-                              <div style={{ margin: 'auto', paddingTop: '30px', paddingLeft: '5px' }}>
-                                {
-                                  manageButton ? (
-                                    <button type="button" class="btn btn-outline-success my-green heading-14 " style={{backgroundColor:'#008479', color:'#fff'}} onClick={buttManage} >View </button>
+
+                  <div className='row pe-1 '>
+                    <div className='col-lg-12 col-md-12 col-sm-12 pe-0'>
+                      {
+                        updateStatus === "success"
+                          ?
+                          <div class="mb-3 " style={{ display: 'flex', }}>
+                            <div className='w-100'>
+                              <label for="exampleFormControlInput1" className="form-label heading-14 label-color">Upload Image </label>
+                              {
+                                manageButton ?
+                                  <input type="file" class="form-control" id="exampleFormControlInput1" onChange={handleFileChange} placeholder="select file" accept='.jpg, .png, .jpeg' />
+                                  :
+                                  <input type="text" class="form-control" id="exampleFormControlInput1" value={file} placeholder="name@example.com" />
+                              }
+                            </div>
+                            <div style={{ margin: 'auto', paddingTop: '30px', paddingLeft: '5px' }}>
+                              {
+                                manageButton ? (
+                                  <button type="button" class="btn btn-outline-success my-green heading-14 " style={{ backgroundColor: '#008479', color: '#fff' }} onClick={buttManage} >View </button>
+                                )
+                                  :
+                                  (
+                                    <button type="button" class="btn btn-outline-success my-green heading-14 " style={{ backgroundColor: '#008479', color: '#fff' }} onClick={buttManage}>Edit</button>
                                   )
-                                    :
-                                    (
-                                      <button type="button" class="btn btn-outline-success my-green heading-14 " style={{backgroundColor:'#008479', color:'#fff'}} onClick={buttManage}>Edit</button>
-                                    )
-                                }
-                              </div>
+                              }
                             </div>
-                            :
-                            <div className="mb-3  for-media-margin">
-                              <label for="exampleFormControlInput1" className="form-label heading-14 label-color">User Image <span style={{ color: 'red' }}>*</span></label>
-                              <input type="file" className="form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color" onChange={handleFileChange} style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput12" placeholder="Doe" />
-                            </div>
-                        }
-                      </div>
+                          </div>
+                          :
+                          <div className="mb-3  for-media-margin">
+                            <label for="exampleFormControlInput1" className="form-label heading-14 label-color">User Image <span style={{ color: 'red' }}>*</span></label>
+                            <input type="file" className="form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color" onChange={handleFileChange} style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput12" placeholder="Doe" />
+                          </div>
+                      }
                     </div>
+                  </div>
                   <div className="mb-3" style={{ marginTop: '-6px' }}>
                     <label for="exampleFormControlInput1" className="form-label  heading-14">Description ( Optional )</label>
                     <textarea class="form-control px-4 heading-14 label-color" id="exampleFormControlTextarea1" value={description} onChange={(e) => setDescription(e.target.value)} rows="3" placeholder='Enter Description'></textarea>

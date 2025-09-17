@@ -594,13 +594,13 @@ const ManageInvoice = () => {
                                     </>
                                 ) : (
                                     <div className="d-flex justify-content-center p-5">
-                                        <img src="/images/search.svg" alt="" className="img-fluid" />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid" />
                                     </div>
                                 )}
                             </div>
                         ) : (
                             <div className="d-flex justify-content-center p-5">
-                                <img src="/images/search.svg" alt="" className="img-fluid" />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid" />
                             </div>
                         )}
                     </div>
@@ -694,7 +694,7 @@ const ManageInvoice = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <StudentFeeDetails recieptDataAll={recieptData}/>
+                            <StudentFeeDetails recieptDataAll={recieptData} />
                         </div>
                     </div>
                 </div>

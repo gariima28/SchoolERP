@@ -562,7 +562,7 @@ const Lib_member = ({ data }) => {
                       <td colSpan="12" className="text-center">
                         <div className="d-flex justify-content-center align-items-center m-5 ">
                           <div className="text-center">
-                            <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                             <h2><b>No Data Found</b></h2>
                           </div>
                         </div>

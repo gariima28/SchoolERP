@@ -794,6 +794,7 @@ const Marks_T = () => {
     formData.append("classSec", sectionName);
     formData.append("subject", subjectId);
     formData.append("sessionName", sessionName);
+
     formData.append("theoryMarks", row.theoryMarks);
     formData.append("practicalMarks", row.practicalMarks);
     formData.append("obtainedMarks", row.obtainedMarks);
@@ -807,6 +808,7 @@ const Marks_T = () => {
     // formData.append("sessionName", sessionName);
     // formData.append("theoryMarks", student.theoryMarks);
     // formData.append("practicalMarks", student.practicalMarks);
+
 
     try {
       const response = await TeacherMarksPostApi(formData);
@@ -1206,7 +1208,7 @@ const Marks_T = () => {
             show && (
               <>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Syllabus</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1262,14 +1264,14 @@ const Marks_T = () => {
             hide && (
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="delete-section  mt-5">
                   <div className="bg-container">
                     <div className="img-container">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Added</p>
@@ -1294,7 +1296,7 @@ const Marks_T = () => {
             showadd && (
               <>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class Routine</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1347,14 +1349,14 @@ const Marks_T = () => {
             hideedit && (
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="delete-section  mt-5">
                   <div className="bg-container">
                     <div className="img-container">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Edit</p>
@@ -1380,7 +1382,7 @@ const Marks_T = () => {
             showdelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -1426,14 +1428,14 @@ const Marks_T = () => {
             hidedelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
                 </div>
                 <hr className='' />
                 <div className="delete-section mt-5">
                   <div className="bg-container">
                     <div className="img-container22">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p className='heading-20'>Successful Delete</p>

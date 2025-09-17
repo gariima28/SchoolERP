@@ -763,7 +763,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div>
             <p className='modalLightBorder p-2 mb-0'>Student List</p>
             <div className="mt-3  ">
-              <div className='correvtSVG p-3 pt-4 rounded-circle'><img src="/images/Correct.svg" alt="" /></div>
+              <div className='correvtSVG p-3 pt-4 rounded-circle'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Correct.svg" alt="" /></div>
               <div className="updatetext border m-4 border-2  ms-5 greydiv rounded-3 text-center greyText p-5">
                 <p className='warningHeading'>Successful Updated</p>
                 <p className='greyText warningText pt-2'>Your Changes has been<br />Successfully Saved</p>
@@ -1926,7 +1926,7 @@ setloaderState(false);
 //           <div>
 //             <p className='modalLightBorder p-2 mb-0'>Student List</p>
 //             <div className="mt-3  ">
-//               <div className='correvtSVG p-3 pt-4 rounded-circle'><img src="/images/Correct.svg" alt="" /></div>
+//               <div className='correvtSVG p-3 pt-4 rounded-circle'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Correct.svg" alt="" /></div>
 //               <div className="updatetext border m-4 border-2  ms-5 greydiv rounded-3 text-center greyText p-5">
 //                 <p className='warningHeading'>Successful Updated</p>
 //                 <p className='greyText warningText pt-2'>Your Changes has been<br />Successfully Saved</p>

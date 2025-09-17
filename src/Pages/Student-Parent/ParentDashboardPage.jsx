@@ -262,7 +262,11 @@ const DashboardPage = () => {
                     </div>
                   ))
                   :
-                  <p className='text-danger font14'> No Data Found !!!</p>
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center p-5 m-5">
+                      <span className='text-danger'>No Assignment Data Yet !!!</span>
+                    </div>
+                  </div>
                 }
               </div>
             </div>
@@ -292,8 +296,11 @@ const DashboardPage = () => {
                     </>
                   ))
                   :
-                  <div className="d-flex justify-content-center p-5 m-5">
-                    <span>No Notice Data Yet !!!</span>
+
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center p-5 m-5">
+                      <span className='text-danger'>No Notice Data Yet !!!</span>
+                    </div>
                   </div>
                 }
               </div>
@@ -333,7 +340,12 @@ const DashboardPage = () => {
                     </div>
                   ))
                   :
-                  <p>No Data Found !!!</p>
+
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center p-5 m-5">
+                      <span className='text-danger'>No Events Data Yet !!!</span>
+                    </div>
+                  </div>
                 }
               </div>
             </div>
@@ -362,7 +374,12 @@ const DashboardPage = () => {
                     </div>
                   ))
                   :
-                  <p>No Data Found !!!</p>
+
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center p-5 m-5">
+                      <span className='text-danger'>No Holiday Data Yet !!!</span>
+                    </div>
+                  </div>
                 }
               </div>
             </div>

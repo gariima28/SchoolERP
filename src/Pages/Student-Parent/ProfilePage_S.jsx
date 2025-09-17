@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import DataLoader from 'src/Layouts/Loader';
-import { getStudentProfileDataApi, updateStudentProfileDataApi } from 'src/Utils/Apis';
+import { getStudentProfileApi, updateStudentProfileDataApi } from 'src/Utils/Apis';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 
@@ -134,25 +134,25 @@ const ProfilePage = () => {
     const getProfileData = async () => {
         try {
             setloaderState(true);
-            var response = await getStudentProfileDataApi();
+            var response = await getStudentProfileApi();
             console.log(response, 'profile')
             if (response?.status === 200) {
-                if (response?.data?.status === 'success') {
+                if (response?.data?.status === 'save') {
                     setloaderState(false);
-                    setStudentName(response?.data?.student?.studentName)
-                    setStudentClass(response?.data?.student?.classNo)
-                    setStudentSection(response?.data?.student?.classSection)
-                    setStudentPhone(response?.data?.student?.studentPhone)
-                    setValue('phoneNumber', response?.data?.student?.studentPhone)
-                    setStudentAddress(response?.data?.student?.address)
-                    setValue('studentAddress', response?.data?.student?.address)
-                    setStudentEmail(response?.data?.student?.studentEmail)
-                    setStudentDOB(response?.data?.student?.dateOfBirth)
-                    setStudentGender(response?.data?.student?.studentGender)
-                    setValue('multipartFile', response?.data?.student?.multipartFile)
-                    setSchoolLogoVal(response?.data?.student?.studentImage)
+                    setStudentName(response?.data?.name)
+                    setStudentClass(response?.data?.classNo)
+                    setStudentSection(response?.data?.classSection)
+                    setStudentPhone(response?.data?.phone)
+                    setValue('phoneNumber', response?.data?.phone)
+                    setStudentAddress(response?.data?.address)
+                    setValue('studentAddress', response?.data?.address)
+                    setStudentEmail(response?.data?.email)
+                    setStudentDOB(response?.data?.dateOfBirth.split("T")[0])
+                    setStudentGender(response?.data?.gender)
+                    setValue('multipartFile', response?.data?.image)
+                    setSchoolLogoVal(response?.data?.image)
                     // toast.success(response.data.message);
-                    if (response?.data?.student?.studentImage) {
+                    if (response?.data?.studentImage) {
                         setChangeImageType(true)
                     }
                 }
@@ -249,7 +249,7 @@ const ProfilePage = () => {
                 <div className="col-md-4 col-sm-12">
                     <div className="row h-100">
                         <div className="headingBgColor borderRadius5 ps-4 pe-4">
-                            <p className='p-3 text-center'><img className='rounded-circle' src={schoolLogoVal} alt="Student Profile Image" width={80} height={80} /></p>
+                            <p className='p-3 text-center'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={schoolLogoVal || '/images/fallback.png'} alt="Student Profile Image" width={80} height={80} /></p>
                             <p className="text-center mb-2"><span className='font14 text-center mb-2 activeTexttt fontWeight600'>{StudentName}</span></p>
                             <div className="d-flex align-items-center justify-content-center mb-2">
                                 <span className="font14 c">
@@ -297,7 +297,7 @@ const ProfilePage = () => {
                         </div>
                         <div className={`col-12`}>
                             <label htmlFor="validationDefault01" className="form-label font14">Class & Section</label>
-                            <input type="text" className={`form-control font14 readonly-bg`} id="validationDefault02" value={StudentSection} disabled />
+                            <input type="text" className={`form-control font14 readonly-bg`} id="validationDefault02" value={`${StudentClass} - ${StudentSection}`} disabled />
                         </div>
                         <div className="col-12">
                             <label htmlFor="validationDefault02" className="form-label font14">Birthday</label>
@@ -323,15 +323,28 @@ const ProfilePage = () => {
                         </div>
                         <div className="col-12">
                             <label htmlFor="multipartFile" className="form-label font14">Photo*</label>
-                            <div className="d-flex bg-white">
+                            {/* <div className="d-flex bg-white">
                                 {schoolLogoVal && changeImageType ?
                                     // <input id="multipartFile" type="text" className='form-control formimagetext font14' value={schoolLogoVal.split('/').pop()} disabled />
-                                    <p className='col-10 border borderRadiusleft'><img className='' src={schoolLogoVal} height={34} alt='student image' /></p>
+                                    <p className='col-8 border borderRadiusleft'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={schoolLogoVal} height={34} alt='student image' /></p>
                                     :
                                     <input id="multipartFile" type="file" className={`form-control col-10 formimagetext font14 ${errors.multipartFile ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('multipartFile', { required: 'Student Image is required *', validate: value => { if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800)) { return 'File size must be between 10 KB to 200 KB'; } return true; } })} />
                                 }
                                 <div className='formcontrolButtonborder p-1 ps-3 pe-3 text-center'>
                                     <span className="text-white font14 align-self-center col-2" onClick={() => setChangeImageType(!changeImageType)}>
+                                        {schoolLogoVal !== null && changeImageType ? 'Edit' : 'View'}
+                                    </span>
+                                </div>
+                            </div> */}
+                            <div className="d-flex bg-white">
+                                {schoolLogoVal && changeImageType ?
+                                    // <input id="multipartFile" type="text" className='form-control formimagetext font14' value={schoolLogoVal.split('/').pop()} disabled />
+                                    <p className='col-11 border borderRadiusleft'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={schoolLogoVal} height={34} alt='student image' /></p>
+                                    :
+                                    <input id="multipartFile" type="file" className={`form-control formimagetext font14 ${errors.multipartFile ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('multipartFile', { required: 'Student Image is required *' })} />
+                                }
+                                <div className='formcontrolButtonborder p-1 ps-3 pe-3 text-center'>
+                                    <span className="text-white font14 align-self-center" onClick={() => setChangeImageType(!changeImageType)}>
                                         {schoolLogoVal !== null && changeImageType ? 'Edit' : 'View'}
                                     </span>
                                 </div>

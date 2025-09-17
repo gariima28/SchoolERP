@@ -510,7 +510,7 @@ const Reciept = () => {
                                                         <tr key={reciept.invoiceId} className="align-top">
                                                             <th className="font14 pt-3 textWrapClass text-center greyText">{index + 1}.</th>
                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.invoiceNo}</td>
-                                                            <td className="font14 pt-3 textWrapClass greyText">{reciept?.paymentDate.slice(0,10)}</td>
+                                                            <td className="font14 pt-3 textWrapClass greyText">{reciept?.paymentDate.slice(0, 10)}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.studentName}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.classNo} - {reciept?.invoice?.section}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.totalAmount}</td>
@@ -574,13 +574,13 @@ const Reciept = () => {
                                     </>
                                 ) : (
                                     <div className="d-flex justify-content-center p-5">
-                                        <img src="/images/search.svg" alt="" className="img-fluid" />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid" />
                                     </div>
                                 )}
                             </div>
                         ) : (
                             <div className="d-flex justify-content-center p-5">
-                                <img src="/images/search.svg" alt="" className="img-fluid" />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid" />
                             </div>
                         )}
                     </div>
@@ -1094,13 +1094,13 @@ const Reciept = () => {
 //                                     </>
 //                                 ) : (
 //                                     <div className="d-flex justify-content-center p-5">
-//                                         <img src="/images/search.svg" alt="" className="img-fluid" />
+//                                         <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid" />
 //                                     </div>
 //                                 )}
 //                             </div>
 //                         ) : (
 //                             <div className="d-flex justify-content-center p-5">
-//                                 <img src="/images/search.svg" alt="" className="img-fluid" />
+//                                 <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid" />
 //                             </div>
 //                         )}
 //                     </div>

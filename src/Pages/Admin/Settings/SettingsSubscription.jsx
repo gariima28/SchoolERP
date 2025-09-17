@@ -223,12 +223,12 @@ const Subscription = () => {
                                                 <tr>
                                                     <th className='tableHeading text-center'><span className='font14'>#</span></th>
                                                     <th className='tableHeading '><span className='font14'>Package</span></th>
-                                                    <th className='tableHeading '><span className='font14'>Price <img src="/images/StatusArrow.svg" alt="" /></span></th>
-                                                    <th className='tableHeading '><span className='font14'>Interval <img src="/images/StatusArrow.svg" alt="" /></span></th>
-                                                    <th className='tableHeading '><span className='font14'>Period <img src="/images/StatusArrow.svg" alt="" /></span></th>
-                                                    <th className='tableHeading '><span className='font14'>Student Limit <img src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Price <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Interval <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Period <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Student Limit <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/StatusArrow.svg" alt="" /></span></th>
                                                     <th className='tableHeading '><span className='font14'>Feature Details</span></th>
-                                                    <th className='tableHeading '><span className='font14'>Status <img src="/images/StatusArrow.svg" alt="" /></span></th>
+                                                    <th className='tableHeading '><span className='font14'>Status <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/StatusArrow.svg" alt="" /></span></th>
                                                     <th className='tableHeading text-center'><span className='font14'></span></th>
                                                 </tr>
                                             </thead>
@@ -286,7 +286,7 @@ const Subscription = () => {
                                     :
                                     <>
                                         <div className="d-flex justify-content-center p-5 m-5">
-                                            <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                                         </div>
                                     </>
                                 }

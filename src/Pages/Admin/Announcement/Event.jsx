@@ -1252,7 +1252,7 @@ const Event = () => {
                         <td colSpan="12" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -1410,7 +1410,7 @@ const Event = () => {
                               aria-labelledby="eventForDropdown"
                               style={{
                                 width: '100%',
-                                maxHeight: '200px',   
+                                maxHeight: '200px',
                                 overflowY: 'auto',    // add vertical scroll
                                 overflowX: 'hidden'   // prevent horizontal scroll
                               }}
@@ -1883,7 +1883,7 @@ const Event = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -1904,7 +1904,7 @@ const Event = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                       <div className="form-check mt-1">
+                      <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input"
                           onChange={() => setForDelete(!forDelete)}
@@ -1912,7 +1912,7 @@ const Event = () => {
                           checked={forDelete}
                           value=""
                           id="flexCheckDefault"
-                          name="deleteAgreement" 
+                          name="deleteAgreement"
                         />
                         <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data

@@ -149,7 +149,7 @@ const OnlineCourse = () => {
                                             </div>
                                         </div>
                                         <div className="row pt-3">
-                                            <img className='img-fluid' src={course?.courseImage} alt={course?.courseName} />
+                                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='img-fluid' src={course?.courseImage} alt={course?.courseName} />
                                         </div>
                                         <div className="row p-4">
                                             <p className='text-center'>
@@ -165,7 +165,7 @@ const OnlineCourse = () => {
                     :
                     <>
                         <div className="d-flex justify-content-center p-5 m-5">
-                            <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                         </div>
                     </>
                 }

@@ -600,13 +600,13 @@ const DueInvoice = () => {
                                     </>
                                 ) : (
                                     <div className="d-flex justify-content-center p-5">
-                                        <img src="/images/search.svg" alt="" className="img-fluid" />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid" />
                                     </div>
                                 )}
                             </div>
                         ) : (
                             <div className="d-flex justify-content-center p-5">
-                                <img src="/images/search.svg" alt="" className="img-fluid" />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid" />
                             </div>
                         )}
                     </div>

@@ -155,8 +155,8 @@ const StudentPayFeeDetails = () => {
                 <div className="row purpleBg cardradius2">
                     <div className="col-md-2 col-4 align-self-center">
                         <div className="row">
-                            {/* <img src={studentImage} alt="" /> */}
-                            <img className='' src={studentImage} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
+                            {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={studentImage} alt="" /> */}
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={studentImage} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
                         </div>
                     </div>
                     <div className="col-md-10 col-8 mt-2">
