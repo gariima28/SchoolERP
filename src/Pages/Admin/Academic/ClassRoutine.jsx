@@ -832,6 +832,12 @@ const ClassRoutine = () => {
         setTimeout(() => {
           setHideRoutine(true)
         }, 0.5)
+          // offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          //     const backdrop = document.querySelector('.offcanvas-backdrop');
+          //     if (backdrop) {
+          //       backdrop.remove();
+          //     }
+          //   }, { once: true });
       } else {
         toast.error(response?.data?.message);
         setLoader(false)
@@ -1209,7 +1215,7 @@ const ClassRoutine = () => {
 
                                 <ul className="dropdown-menu anchor-color heading-14">
                                   <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoutineGetByIdApi(item.classRouteId)} >Edit</Link></li>
-                                  <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li>
+                                  {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={''}>Delete</Link></li> */}
                                 </ul>
                               </div>
                             </div>
