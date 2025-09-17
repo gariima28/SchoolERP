@@ -806,38 +806,43 @@ const ClassRoutine = () => {
     formData.append('subjectId', subjectId);
     formData.append('teacherId', teacherId);
     formData.append('day', day);
-    // formData.append('period', startTime);
-
     setLoader(true)
     try {
       const response = await ClassRoutinePutApi(idForUpdate, formData);
       // console.log('class-routine-post-api', response)
       if (response?.status === 200) {
-        toast.success(response?.data?.message);
-        setHideRoutine(false)
-        setHide(true)
-        setLoader(false)
-        setClassNo('')
-        setClassId('')
-        setSection('')
-        setSectionName('')
-        setSubjectId('')
-        setTeacherId('')
-        setDay('')
-        setEndTime('')
-        setStartTime('')
-        setTimeSlot('')
-        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-        offcanvasInstance.hide();
-        setTimeout(() => {
-          setHideRoutine(true)
-        }, 0.5)
-          // offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-          //     const backdrop = document.querySelector('.offcanvas-backdrop');
-          //     if (backdrop) {
-          //       backdrop.remove();
-          //     }
-          //   }, { once: true });
+        if (response?.data?.status === 'success') {
+          toast.success(response?.data?.message);
+          setHideRoutine(false)
+          setHide(true)
+          setLoader(false)
+          setClassNo('')
+          setClassId('')
+          setSection('')
+          setSectionName('')
+          setSubjectId('')
+          setTeacherId('')
+          setDay('')
+          setEndTime('')
+          setStartTime('')
+          setTimeSlot('')
+
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+          offcanvasInstance.hide();
+          setTimeout(() => {
+            setHideRoutine(true)
+          }, 0.5)
+        } else {
+          toast.error(response?.data?.message);
+          setLoader(false)
+        }
+
+        // offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+        //     const backdrop = document.querySelector('.offcanvas-backdrop');
+        //     if (backdrop) {
+        //       backdrop.remove();
+        //     }
+        //   }, { once: true });
       } else {
         toast.error(response?.data?.message);
         setLoader(false)

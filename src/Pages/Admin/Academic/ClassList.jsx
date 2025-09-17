@@ -791,17 +791,13 @@ const ClassList = () => {
                       )}
                     </div>
                   </div>
-
                   <div className='my-button11 '>
-                    <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => MyClassPutApi(IdForUpdate)}>Update</button>
+                    <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => MyClassPutApi(IdForUpdate)} style={{backgroundColor:'#008479', color:'#fff'}}>Update</button>
                     <button type="button" className="btn btn-outline-success heading-16 " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData} >Cancel</button>
                   </div>
                 </div>
-
               </div>
             </>
-
-
           )
         }
         {/* ################# After click ###############  */}

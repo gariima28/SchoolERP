@@ -650,6 +650,9 @@ const ClassRoom = () => {
     setAddclassroom('')
     setIsValidNameRequired(false)
   }
+  const ClearData2 = () => {
+  setForDelete(false)
+  }
   return (
     <Container>
       {
@@ -784,7 +787,6 @@ const ClassRoom = () => {
                     <Toaster />
                   </div>
                 </div>
-
               </div>
             </>
           )
@@ -840,7 +842,7 @@ const ClassRoom = () => {
             showdelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3' onClick={ClearData2}><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -863,7 +865,7 @@ const ClassRoom = () => {
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
                       <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input " onClick={() => setForDelete(true)} type="checkbox" value="" id="flexCheckDefault" />
+                        <input className="form-check-input my-form-check-input " onClick={() => setForDelete(!forDelete)} checked={forDelete} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
@@ -871,7 +873,7 @@ const ClassRoom = () => {
 
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00" disabled={forDelete ? false : true} onClick={handleForDelete}>Delete</button>
-                        <button type="button" className="btn  cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn  cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData2}>Cancel</button>
                       </div>
                     </div>
                   </div>

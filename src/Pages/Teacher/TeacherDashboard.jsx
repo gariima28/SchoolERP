@@ -6,6 +6,7 @@ import { TeachergetAllAssignmentsDataApi, TeachergetAllClassRoutineDataApi, Teac
 import toast, { Toaster } from 'react-hot-toast';
 import HashLoader from 'src/Pages/HashLoaderCom';
 import TeacherDashChart from '../../Charts/TeacherDashChart'
+// import { eventImage } from '../../../public/images/event.png'
 
 const Container = styled.div`
 
@@ -89,6 +90,8 @@ border:1px solid #aaa;
 width: "100%" !important;
 border-radius: 10px !important;
 }
+.imageSize img{
+  width: 120px;}
 
 `;
 
@@ -104,6 +107,7 @@ const DashboardPage = () => {
   const [RoutineData, setRoutineData] = useState([]);
   const [DailyAttendanceData, setDailyAttendanceData] = useState([]);
   const [EventData, setEventData] = useState([]);
+  console.log('Event data in dashboard page', EventData)
   const [leaveAllData, setLeaveAllData] = useState([]);
   const [availableLeave, setAvailableLeave] = useState([]);
   const [leaveAllDataTransfer, setLeaveAllDataTransfer] = useState([]);
@@ -282,7 +286,7 @@ const DashboardPage = () => {
               <hr />
               <div className="row px-2">
                 <div className='text-center mt-4'>
-                  <h4 className='mb-0'>{`${showTimeHours}:${showTimeMinutes}:${showTimeSecond}`} Hrs</h4>
+                  <h4 className='mb-0'>{`${showTimeHours ? showTimeHours : "00"}:${showTimeMinutes ? showTimeMinutes : "00"}:${showTimeSecond ? showTimeSecond : "00"}`} Hrs</h4>
                   {/* <h4 className='mb-0'>{`${showTimeHours ? showTimeHours : 0} : ${showTimeMinutes ? showTimeMinutes : 0} : ${showTimeSecond ? showTimeSecond : 0}`} Hrs</h4> */}
                   <p className='pt-0'>{showDate}</p>
                   <p className='heading-14 pb-3' style={{ color: '#FF914C' }}>{showLate} by {`${showLateByHours ? showLateByHours : 0} : ${showLateByMinutes ? showLateByMinutes : 0}`}</p>
@@ -419,16 +423,23 @@ const DashboardPage = () => {
                       <div className="eventCards"> 
                         <div className="borderLeftOrange p-2">
                           <div className="d-flex p-1">
-                            <div className="flex-fill">
-                              <p className="font14">{item.title}</p>
+                            <div className="flex-fill imageSize d-flex ">
+                             <p>
+                              {
+                                item.eventImage ? <img src={item.eventImage} alt="Event" /> : <img src="/images/event.png" alt="Event" />
+                              }
+                              {/* <img src="/images/event.png" alt="Event" /> */}
+                             </p>
+                             <div className='ps-3' style={{fontSize:'14px'}}>
+                              <p style={{color:"#008479"}}>{item.eventDay} {item.startDate}</p>
+                              <p style={{color:'#aaa'}}>{item.eventDescription}</p>
+                             </div>
+                              {/* <p className="font14"><img src={eventImage} alt="" /></p> */}
                             </div>
-                            <div className="flex-shrink">
-                              <p className="font14 text-end greyText">{item.startDate}</p>
+                            <div className="flex-shrink" style={{backgroundColor:'#FF914C', color:'red', borderRadius:'10px', height:'fit-content', padding:'2px 12px'}}>
+                              <p className="font14 text-end " style={{ color:'#fff',}}>{item.comingSoon ? "Coming Soon" : 'Upcoming'}</p>
                             </div>
-                            &nbsp; &nbsp;
-                            <div className="flex-shrink">
-                              <p className="font14 text-end greyText">{item.endDate}</p>
-                            </div>
+                           
                           </div>
                         </div>
                       </div>

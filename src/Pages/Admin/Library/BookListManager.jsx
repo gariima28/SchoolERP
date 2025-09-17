@@ -1060,7 +1060,6 @@ const BookListManager = () => {
 
                             {/* <ul className="dropdown-menu anchor-color heading-14">
                               <li>
-
                                 <Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => BookManGetByIdApi(item.bookId)}>Edit</Link>
                               </li>
                               <li>
@@ -1409,7 +1408,7 @@ const BookListManager = () => {
           showdelete && (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
-                <div className="offcanvas-header p-0 pt-3">
+                <div className="offcanvas-header p-0 pt-3" onClick={ClearData}>
                   <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>

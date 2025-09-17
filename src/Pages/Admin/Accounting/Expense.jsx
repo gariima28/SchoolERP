@@ -837,6 +837,11 @@ const Expense = () => {
     setIsValidAmountRequired(false)
      setStartDate(null)
     setEndDate(null)
+    setForDelete(false)
+  }
+  const ClearHandle2 = () => {
+
+    setForDelete(false)
   }
 
   return (
@@ -1162,7 +1167,7 @@ const Expense = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3' onClick={ClearHandle2}><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -1183,16 +1188,24 @@ const Expense = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                      <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" onChange={(e) => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
-                        <label className="form-check-label agree" for="flexCheckDefault">
+                       <div className="form-check mt-1">
+                        <input
+                          className="form-check-input my-form-check-input"
+                          onChange={() => setForDelete(!forDelete)}
+                          type="checkbox"
+                          checked={forDelete}
+                          value=""
+                          id="flexCheckDefault"
+                          name="deleteAgreement" 
+                        />
+                        <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
                       </div>
 
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00 my-button112233RedDelete" disabled={forDelete ? false : true} onClick={(e) => MyEpenseDelApi(IdForDelete)} >Delete</button>
-                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle2}>Cancel</button>
                       </div>
 
                     </div>
