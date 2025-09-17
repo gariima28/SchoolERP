@@ -483,19 +483,48 @@ const AdminDashboard = () => {
                       </Link>
                     </div>
                   </div>
-                  <div className="row p-2">
+                  <div className="row">
                     {DashData?.events.length > 0 ? (
                       DashData?.events.slice(0, 6).map((item, index) => (
-                        <div
-                          className="p-0 mt-1 mb-1 eventBorder eventBg"
-                          key={index}
-                        >
-                          <div className="d-flex p-2 border-left-orange">
-                            <div className="flex-fill">
-                              <h2 className="font14">{item?.title}</h2>
-                            </div>
-                            <div className="flex-shrink text-end greyText font14">
-                              <h2>{item?.date}</h2>
+                        <div className="col-12 p-0" key={item.eventId}>
+                          <div className={`border-bottom p-2 pt-3 overflow-hidden ${index % 2 === 0 ? 'bg-cream' : 'bg-white'}`}>
+                            <div className="row g-0">
+                              {/* Left Image */}
+                              <div className="col-md-3">
+                                <img
+                                  src={item.imageUrl || "/images/svg.png"}
+                                  alt={item.title}
+                                  className="img-fluid h-100 w-100 object-fit-cover font14"
+                                />
+                              </div>
+
+                              {/* Right Content */}
+                              <div className="col-md-9">
+                                <div className="card-body d-flex flex-column justify-content-center">
+                                  {/* Date */}
+                                  <div className="d-flex justify-content-between">
+                                    <p className="greenText font14 mb-1 fw-semibold">
+                                      {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
+                                    </p>
+                                    <span className="greenText font14 mb-1 fw-semibold">
+                                      {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
+                                    </span>
+                                  </div>
+
+                                  {/* Title */}
+                                  <h6 className="fw-bold font14 mb-1">{item.title}</h6>
+
+                                  {/* Description */}
+                                  <p className="greyText font12 small mb-2">
+                                    {item.description || "-- No Description --"}
+                                  </p>
+
+                                  {/* Badge */}
+                                  {item.status === "upcoming" && (
+                                    <span className="badge bg-warning text-dark align-self-start">Coming Soon</span>
+                                  )}
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -511,48 +540,6 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="row px-2 h-100">
-                <div className="card p-2">
-                  <div className="card-header bg-white ps-1 pe-1">
-                    <div className="d-flex p-1">
-                      <div className="flex-fill">
-                        <h2>Upcoming Events</h2>
-                      </div>
-                      <div className="flex-fill text-end">
-                        <Link
-                          className="p-1 rounded-2 borderOrange text-black text-decoration-none font12"
-                          to="/admin/event"
-                        >
-                          View All
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card greyTopborders greyBottomborders border-0 p-1">
-                    {DashData?.events.length > 0 ? (
-                      DashData?.events.slice(0, 5).map((item, index) => (
-                        <div
-                          className="p-0 mt-1 mb-1 eventBorder eventBg"
-                          key={index}
-                        >
-                          <div className="d-flex p-2 border-left-orange">
-                            <div className="flex-fill">
-                              <h2 className="font14">{item?.title}</h2>
-                            </div>
-                            <div className="flex-shrink text-end greyText font14">
-                              <h2>{item?.date}</h2>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                  <div className="d-flex justify-content-center p-5 m-5">
-                    <span className='text-danger'>No Notice Data Yet !!!</span>
-                  </div>
-                    )}
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
