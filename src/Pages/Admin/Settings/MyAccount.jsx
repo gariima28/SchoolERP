@@ -226,8 +226,8 @@ const MyAccount = () => {
                                 <div className="row h-100">
                                     <div className="headingBgColor cardradius2 ps-4 pe-4">
                                         <p className='p-3 text-center'>
-                                            {/* <img className='rounded-circle' src={adminPhotoVal} alt="" height={60} /> */}
-                                            <img className='border rounded-5' src={adminPhotoVal} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
+                                            {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={adminPhotoVal} alt="" height={60} /> */}
+                                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='border rounded-5' src={adminPhotoVal} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
                                         </p>
                                         <h2 className='text-center mb-2 activeTexttt fontWeight600'>{initialValues.adminName}</h2>
                                         <div className="d-flex align-items-center justify-content-center mb-2">
@@ -301,7 +301,7 @@ const MyAccount = () => {
                                             {adminPhotoVal !== null && changeImageType ?
                                                 // <input id="adminPhoto" type="text" className='form-control formimagetext font14' value={adminPhotoVal.split('/').pop()} disabled />
                                                 <div style={{ width: '100%', border: '1px solid #E4E7EB' }}>
-                                                    <img src={adminPhotoVal} alt="Admin Image" height={30} style={{ cursor: "pointer" }} onClick={handleImageClick} />
+                                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={adminPhotoVal} alt="Admin Image" height={30} style={{ cursor: "pointer" }} onClick={handleImageClick} />
                                                 </div>
                                                 :
                                                 <input id="adminPhoto" type="file" className={`form-control formimagetext font14 ${errors.adminPhoto ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('adminPhoto', { required: 'Admin Image is required *', validate: value => { if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800)) { return 'File size must be between 10 KB to 200 KB'; } return true; } })} />

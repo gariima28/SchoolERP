@@ -108,7 +108,7 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
             setloaderState(true);
             var response = await getStudentsListInParentApi();
             if (response?.status === 200) {
-                if(response.data.status==='success'){
+                if (response.data.status === 'success') {
                     setStudentsData(response.data.students)
                     setloaderState(false);
                 }
@@ -128,18 +128,18 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
             setloaderState(false);
         }
     }
-    
-    
+
+
     const handleStudentSelect = (studentId) => {
         setSelectedStudent(studentId)
     };
-    
-    const handleContinue = async() => {
+
+    const handleContinue = async () => {
         try {
             // setloaderState(true);
             var response = await selectStudentInParentApi(selectedStudent);
             if (response?.status === 200) {
-                if(response.data.status==='success'){
+                if (response.data.status === 'success') {
                     setStudentsData(response.data.students)
                     sessionStorage.setItem('selectedStudentId', selectedStudent);
                     sessionStorage.removeItem(token);
@@ -207,9 +207,9 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                         >
                                             <div className="col-md-3 align-self-center">
                                                 {data?.image === null ? (
-                                                    <img className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
+                                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
                                                 ) : (
-                                                    <img className="border rounded-circle p-1" src={data?.image} alt="..." height={35} />
+                                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={data?.image} alt="..." height={35} />
                                                 )}
                                             </div>
                                             <div className="col-md-9 display-nonee text-start3">
@@ -261,9 +261,9 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                     >
                                         <div className="col-md-3 align-self-center">
                                             {data?.image === null ? (
-                                                <img className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
+                                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
                                             ) : (
-                                                <img className="border rounded-circle p-1" src={data?.image} alt="..." height={35} />
+                                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={data?.image} alt="..." height={35} />
                                             )}
                                         </div>
                                         <div className="col-md-9 display-nonee text-start3">
@@ -301,6 +301,7 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                         onClick={() => handleStudentSelect(student.studentId)}
                                     >
                                         <img
+                                            onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }}
                                             src={student.studentImage}
                                             alt={student.studentName}
                                             className="rounded-circle mb-2"

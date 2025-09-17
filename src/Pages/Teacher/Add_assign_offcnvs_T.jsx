@@ -202,7 +202,7 @@ const Add_assign_offcnvs = () => {
     }
     // Subject by class id From class get all api 
     const MySubjectByClassIdGetApi = async (classNo) => {
-     // console.log(id, 'id in subject')
+        // console.log(id, 'id in subject')
         setLoader(true)
         try {
             const response = await TeacherSubjectByClassIdInSyllabusGetAllApi(classNo);
@@ -336,7 +336,7 @@ const Add_assign_offcnvs = () => {
                                         Valid title is required
                                     </p>
                                 )}
-                            </div>                    
+                            </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
                                 <select class="form-select  form-select-sm form-focus label-color"
@@ -433,7 +433,7 @@ const Add_assign_offcnvs = () => {
                                 </select>
                             </div>
                             <div className='my-button11 '>
-                                <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{backgroundColor:'#008479', color:"#fff"}} onClick={AssignmntDataApi}>Add Assignment</button>
+                                <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: "#fff" }} onClick={AssignmntDataApi}>Add Assignment</button>
                                 <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                             </div>
                         </div>
@@ -443,7 +443,7 @@ const Add_assign_offcnvs = () => {
                     <div className="delete-section  mt-5">
                         <div className="bg-container">
                             <div className="img-container">
-                                <img src="/images/XMLID_1_.png" alt="" />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                             </div>
                             <div className="content mt-5">
                                 <p >Successful Added</p>

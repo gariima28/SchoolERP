@@ -55,7 +55,7 @@ const ABC = () => {
                         <li className="nav-item nav-profile">
                             <a href="#" className="nav-link">
                                 <div className="nav-profile-image">
-                                    <img src="assets/images/faces/face1.jpg" alt="profile" />
+                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="assets/images/faces/face1.jpg" alt="profile" />
                                     <span className="login-status online"></span>
                                 </div>
                                 <div className="nav-profile-text d-flex flex-column">

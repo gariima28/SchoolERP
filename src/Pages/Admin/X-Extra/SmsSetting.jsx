@@ -495,7 +495,7 @@ const SmsSetting = () => {
                                show && (
                                  <div className="container-fluid">
                                  <div className="offcanvas-header">
-                                  <Link  data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                                  <Link  data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Create Leave</h5>
                                 </div>
                                 <hr className='' style={{marginTop:'-3px'}}/>
@@ -540,14 +540,14 @@ const SmsSetting = () => {
                              hide && (
                               <div className="container-fluid">
                               <div className="offcanvas-header">
-                              <Link  data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                              <Link  data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                               <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                             </div>
                             <hr className='' style={{marginTop:'-3px'}}/>
                            <div className="delete-section  mt-5">
                            <div className="bg-container">
                              <div className="img-container">
-                               <img src="/images/XMLID_1_.png" alt="" />
+                               <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                              </div>
                              <div className="content mt-5">
                                <p >Successful Added</p>

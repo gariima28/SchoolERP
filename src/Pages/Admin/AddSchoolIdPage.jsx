@@ -136,11 +136,11 @@ const AddSchoolIdPage = () => {
         <div className="container-fluid h-100">
           <div className="row h-100">
             <div className="col-md-6 col-sm-12 p-5 imagearea d-flex align-item-center justify-content-center">
-              <img src="/images/soft-skills/amico.svg" alt="" className='img-fluid m-5' />
+              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/soft-skills/amico.svg" alt="" className='img-fluid m-5' />
             </div>
             <div className="col-md-6 col-sm-12 p-5 formarea  align-item-center">
               <div className="row me-xl-5 ms-xl-5 ps-xl-5 pe-xl-5 ps-lg-5 pe-lg-5 p-sm-5 m-sm-5 p-3">
-                <p className='text-center mb-5'><img src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
+                <p className='text-center mb-5'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
                 <Span14Font>
                   <p className='font18 mb-1'>School Prefix?</p>
                   <h2 className='text-grey font14 mb-3'>After adding prefix, we'll redirect you to login for accessing your Panel</h2>

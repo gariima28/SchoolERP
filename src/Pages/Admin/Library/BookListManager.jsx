@@ -859,7 +859,7 @@ const BookListManager = () => {
         MyRolPermisGetAllApi()
         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
         offcanvasInstance.hide();
-        
+
         setTimeout(() => {
           setShowdelete(true)
           setForDelete(false)
@@ -943,7 +943,7 @@ const BookListManager = () => {
     setIsValidShelfNumberRequired(false);
     setForDelete(false)
 
-  } 
+  }
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     // // console.log('my imageeee---000',file)
@@ -1078,7 +1078,7 @@ const BookListManager = () => {
                         <td colSpan="12" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -1227,7 +1227,7 @@ const BookListManager = () => {
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Cover Page</label>
                       <input type="file" className="form-control form-focus  label-color heading-14" onChange={(e) => setCoverPage(e.target.files[0])} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Number of Copy" />
                     </div>
-                 
+
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => SubcPutDataApi()}>Submit</button>
@@ -1410,7 +1410,7 @@ const BookListManager = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -1430,7 +1430,7 @@ const BookListManager = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                     <div className="form-check mt-1">
+                      <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input"
                           onChange={() => setForDelete(!forDelete)}
@@ -1438,7 +1438,7 @@ const BookListManager = () => {
                           checked={forDelete}
                           value=""
                           id="flexCheckDefault"
-                          name="deleteAgreement" 
+                          name="deleteAgreement"
                         />
                         <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data

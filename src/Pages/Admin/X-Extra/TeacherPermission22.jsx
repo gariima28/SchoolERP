@@ -497,7 +497,7 @@ const TeacherPermission22 = () => {
                   <td className=' greyText' >
                     <div className='d-flex'>
                       <div className="img-div">
-                        <img src="/images/image 1 (1).png" alt="" />
+                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/image 1 (1).png" alt="" />
                       </div>
                       <span className='ps-2 pt-1'>John doe</span>
                     </div>
@@ -525,7 +525,7 @@ const TeacherPermission22 = () => {
                   <td className=' greyText table-row-bg-color ' >
                     <div className='d-flex'>
                       <div className="img-div">
-                        <img src="/images/image 1 (1).png" alt="" />
+                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/image 1 (1).png" alt="" />
                       </div>
                       <span className='ps-2 pt-1'>John doe</span>
                     </div>
@@ -552,7 +552,7 @@ const TeacherPermission22 = () => {
                   <td className=' greyText' >
                     <div className='d-flex'>
                       <div className="img-div">
-                        <img src="/images/image 1 (1).png" alt="" />
+                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/image 1 (1).png" alt="" />
                       </div>
                       <span className='ps-2 pt-1'>John doe</span>
                     </div>
@@ -580,7 +580,7 @@ const TeacherPermission22 = () => {
                   <td className=' greyText table-row-bg-color' >
                     <div className='d-flex'>
                       <div className="img-div">
-                        <img src="/images/image 1 (1).png" alt="" />
+                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/image 1 (1).png" alt="" />
                       </div>
                       <span className='ps-2 pt-1'>John doe</span>
                     </div>
@@ -608,7 +608,7 @@ const TeacherPermission22 = () => {
                   <td className=' greyText' >
                     <div className='d-flex'>
                       <div className="img-div">
-                        <img src="/images/image 1 (1).png" alt="" />
+                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/image 1 (1).png" alt="" />
                       </div>
                       <span className='ps-2 pt-1'>John doe</span>
                     </div>
@@ -636,7 +636,7 @@ const TeacherPermission22 = () => {
                   <td className=' greyText table-row-bg-color' >
                     <div className='d-flex'>
                       <div className="img-div">
-                        <img src="/images/image 1 (1).png" alt="" />
+                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/image 1 (1).png" alt="" />
                       </div>
                       <span className='ps-2 pt-1'>John doe</span>
                     </div>
@@ -667,7 +667,7 @@ const TeacherPermission22 = () => {
                <td className='table-row-bg-color greyText'>
                <div className='d-flex'>
                <div className="img-div">
-               <img src="/images/image 1 (1).png" alt="" />
+               <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/image 1 (1).png" alt="" />
                </div>
                 <span className='ps-2 pt-1'>John doe</span>
                </div>
@@ -750,7 +750,7 @@ const TeacherPermission22 = () => {
             show && (
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Admin Edit</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -801,14 +801,14 @@ const TeacherPermission22 = () => {
             hide && (
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="delete-section  mt-5">
                   <div className="bg-container">
                     <div className="img-container">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Updated</p>
@@ -832,7 +832,7 @@ const TeacherPermission22 = () => {
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight33" aria-labelledby="offcanvasRightLabel">
           <div className="container-fluid">
             <div className="offcanvas-header p-0 pt-3">
-              <Link data-bs-dismiss="offcanvas" className='ps-3' ><img src="/images/Vector (13).svg" alt="" /></Link>
+              <Link data-bs-dismiss="offcanvas" className='ps-3' ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
 
               <h5 className="offcanvas-title heading-16 pe-3" id="offcanvasRightLabel">View Profile</h5>
             </div>
@@ -840,7 +840,7 @@ const TeacherPermission22 = () => {
             <div className="offcanvas-body">
               <div className="main-container">
                 <div className="image-container">
-                  <img src="/images/Ellipse 26 (4).png" alt="" />
+                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Ellipse 26 (4).png" alt="" />
                 </div>
                 <div className="delete-content2233 mt-2">
                   <p className='heading-25'>Marah Petersen</p>
@@ -948,7 +948,7 @@ const TeacherPermission22 = () => {
             showdelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -965,7 +965,7 @@ const TeacherPermission22 = () => {
                         </svg>
                       </div>
                       {/* <div className="symbol-container">
-                                         <img src="/images/Group.png" alt="" />
+                                         <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Group.png" alt="" />
                                        </div> */}
                       <div className="sure-content mt-2">
                         <h5 className='heading-20'>Are you sure?</h5>
@@ -996,14 +996,14 @@ const TeacherPermission22 = () => {
             hidedelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
                 </div>
                 <hr className='' />
                 <div className="delete-section mt-5">
                   <div className="bg-container">
                     <div className="img-container22">
-                      <img src="/images/XMLID_1_.png" alt="" />
+                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Delete</p>

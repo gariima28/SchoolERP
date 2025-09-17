@@ -441,7 +441,7 @@ font-size: 12px;
 
 const Lib_non_member = ({ data }) => {
 
-let {classNo, sectionName} = data;
+  let { classNo, sectionName } = data;
 
   const handlePageClick = (event) => {
     setPageNo(event.selected + 1);
@@ -467,7 +467,7 @@ let {classNo, sectionName} = data;
   const MyAddRemoveLibrarianGetAllApi = async () => {
     setLoader(true)
     try {
-      const response = await GetAllNonMemberApi(classNo,sectionName,nonMember);
+      const response = await GetAllNonMemberApi(classNo, sectionName, nonMember);
       console.log('all non member', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
@@ -526,8 +526,8 @@ let {classNo, sectionName} = data;
                 <th className='no-wrap'>Roll Number</th>
                 <th className='no-wrap'>Action</th>
               </tr>
-            </thead> 
-             <tbody className='heading-14 align-middle greyTextColor'>
+            </thead>
+            <tbody className='heading-14 align-middle greyTextColor'>
               {
                 AllnonMember && AllnonMember?.length > 0 ? (
                   AllnonMember?.map((item, index) => (
@@ -541,10 +541,12 @@ let {classNo, sectionName} = data;
                       <td className=' greyText pe-0 no-wrap'>{item.rollNumber ? item.rollNumber : 'N-I-R'}</td>
                       <td className=' greyText  pe-0 no-wrap' >
                         <div className="dropdown my-button-show" >
-                          <button className="btn btn-secondary dropdown-togg my-button-drop heading-14" 
-                          style={{ backgroundColor: '#008479', color: '#fff', padding: '3px 10px 3px 10px', 
-                          fontSize: '14px', border: 'none' }} type="button" aria-expanded="false" class="btn btn-primary"
-                           data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => setRemoveID(item.studentId)}>
+                          <button className="btn btn-secondary dropdown-togg my-button-drop heading-14"
+                            style={{
+                              backgroundColor: '#008479', color: '#fff', padding: '3px 10px 3px 10px',
+                              fontSize: '14px', border: 'none'
+                            }} type="button" aria-expanded="false" class="btn btn-primary"
+                            data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => setRemoveID(item.studentId)}>
                             Add Library Member
                           </button>
                         </div>
@@ -559,7 +561,7 @@ let {classNo, sectionName} = data;
                       <td colSpan="12" className="text-center">
                         <div className="d-flex justify-content-center align-items-center m-5 ">
                           <div className="text-center">
-                            <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                             <h2><b>No Data Found</b></h2>
                           </div>
                         </div>

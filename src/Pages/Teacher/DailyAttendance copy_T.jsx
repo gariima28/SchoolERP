@@ -943,7 +943,7 @@ const DailyAttendance = ({ items }) => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Take Attendance</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1054,7 +1054,7 @@ const DailyAttendance = ({ items }) => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight123" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Update Attendance</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />

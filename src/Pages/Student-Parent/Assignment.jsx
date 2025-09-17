@@ -80,7 +80,7 @@ const Assignment = () => {
     const getAllAssignments = async () => {
         try {
             setloaderState(true);
-            var response = await getAllAssignmentsDataApi(searchByKey,pageNo, pageSize);
+            var response = await getAllAssignmentsDataApi(searchByKey, pageNo, pageSize);
             // console.log(response, 'Assignment')
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
@@ -226,7 +226,7 @@ const Assignment = () => {
                     :
                     <>
                         <div className="d-flex justify-content-center p-5 m-5">
-                            <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                         </div>
                     </>
                 }
