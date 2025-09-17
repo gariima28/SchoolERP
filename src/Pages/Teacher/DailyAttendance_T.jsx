@@ -869,15 +869,17 @@ const DailyAttendance = ({ items }) => {
                 <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} id="basic-addon2" onClick={MyDailyAttendanceGetAllApiByMonth}>Search</span>
               </div>
             </div>
+            
             <div class="dropdown">
               <button className="btn btn-success heading-16 my-own-button me-3  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Attendnace
               </button>
               <ul class="dropdown-menu">
-                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to="#">Take Attendance </Link></li>
-                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight123" aria-controls="offcanvasRight" to="#">Update Attendance</Link></li>
+                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to="#" onClick={clearData}>Take Attendance </Link></li>
+                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight123" aria-controls="offcanvasRight" to="#" onClick={clearData}>Update Attendance</Link></li>
               </ul>
             </div>
+            
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Attendance</h5>

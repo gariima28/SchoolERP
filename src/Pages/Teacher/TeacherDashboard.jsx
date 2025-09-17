@@ -282,7 +282,7 @@ const DashboardPage = () => {
               <hr />
               <div className="row px-2">
                 <div className='text-center mt-4'>
-                  <h4 className='mb-0'>{totalTime} Hrs</h4>
+                  <h4 className='mb-0'>{`${showTimeHours}:${showTimeMinutes}:${showTimeSecond}`} Hrs</h4>
                   {/* <h4 className='mb-0'>{`${showTimeHours ? showTimeHours : 0} : ${showTimeMinutes ? showTimeMinutes : 0} : ${showTimeSecond ? showTimeSecond : 0}`} Hrs</h4> */}
                   <p className='pt-0'>{showDate}</p>
                   <p className='heading-14 pb-3' style={{ color: '#FF914C' }}>{showLate} by {`${showLateByHours ? showLateByHours : 0} : ${showLateByMinutes ? showLateByMinutes : 0}`}</p>
