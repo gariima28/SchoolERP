@@ -526,7 +526,7 @@ const ExamTerm = () => {
                             </>
                         ) : (
                             <div className="d-flex justify-content-center p-5 m-5">
-                                <img src="/images/search.svg" alt="No data" className="img-fluid" />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="No data" className="img-fluid" />
                             </div>
                         )}
                     </div>
@@ -749,7 +749,7 @@ const ExamTerm = () => {
                     <div className="offcanvas-body p-3">
                         <div>
                             <p className="text-center p-3">
-                                <img src="/images/errorI.svg" className="img-fluid" alt="Error" />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className="img-fluid" alt="Error" />
                             </p>
                             <p className="text-center warningHeading">Are you Sure?</p>
                             <p className="text-center greyText warningText pt-2">

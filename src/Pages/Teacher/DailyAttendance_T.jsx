@@ -1052,7 +1052,7 @@ const DailyAttendance = ({ items }) => {
                       <tr>
                         <td colSpan="100%" className='no-wrap' style={{ minHeight: '100%' }}>
                           <div className="text-center">
-                            <img src="/images/search.svg" alt="No Data" className="img-fluid" />
+                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="No Data" className="img-fluid" />
                             <h2><b>No Data Found</b></h2>
                           </div>
                         </td>
@@ -1063,19 +1063,19 @@ const DailyAttendance = ({ items }) => {
 
               </tbody>
             </table>
-          
+
           </div>
-            <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
-              </div>
+          <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
+            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+            <div className="ms-auto">
+              <ReactPaginate
+                previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+              />
             </div>
+          </div>
         </div>
 
         {
@@ -1083,7 +1083,7 @@ const DailyAttendance = ({ items }) => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Take Attendance</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1194,7 +1194,7 @@ const DailyAttendance = ({ items }) => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight123" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Update Attendance</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />

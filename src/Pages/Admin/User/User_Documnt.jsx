@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { DocumentPostApi, DocumentPutApi, DocumentDeleteApi, getDocumentByDocumentId, getDocumentByStaffId} from '../../../Utils/Apis';
+import { DocumentPostApi, DocumentPutApi, DocumentDeleteApi, getDocumentByDocumentId, getDocumentByStaffId } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
 import { useParams } from 'react-router-dom';
 
@@ -248,7 +248,7 @@ const User_Documnt = () => {
     if (myUserID) {
       fetchDocuments();
     }
-  }, [ pageNo, pageSize]);
+  }, [pageNo, pageSize]);
 
   const fetchDocuments = async () => {
     setLoader(true);
@@ -261,7 +261,7 @@ const User_Documnt = () => {
         toast.error(response?.data?.message);
       }
     } catch (error) {
-  
+
       // toast.error('Failed to fetch documents');
     } finally {
       setLoader(false);
@@ -297,7 +297,7 @@ const User_Documnt = () => {
     setIsValidDocumentNameRequired(!value || !nameRegex.test(value));
   };
 
-  
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && ['image/jpeg', 'image/png'].includes(file.type)) {
@@ -457,9 +457,8 @@ const User_Documnt = () => {
                 </label>
                 <input
                   type="text"
-                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${
-                    !isValidDocumentNameRequired && docName ? 'valid-indicator' : ''
-                  }`}
+                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidDocumentNameRequired && docName ? 'valid-indicator' : ''
+                    }`}
                   id="documentTitle"
                   placeholder="Enter document title"
                   value={docName}
@@ -649,9 +648,8 @@ const User_Documnt = () => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${
-                      errorsEdit.docName ? 'border-danger' : ''
-                    }`}
+                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${errorsEdit.docName ? 'border-danger' : ''
+                      }`}
                     id="editDocumentName"
                     placeholder="Enter document title"
                     {...registerEdit('docName', {
@@ -740,7 +738,7 @@ const User_Documnt = () => {
               <div style={{ zIndex: -1 }}>
                 <p className="p-2">Document</p>
                 <p className="text-center p-3">
-                  <img src="/images/errorI.svg" className="img-fluid" alt="Error" />
+                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className="img-fluid" alt="Error" />
                 </p>
                 <p className="text-center heading-16" style={{ color: '#1a3c34', fontWeight: '700' }}>
                   Are you Sure?

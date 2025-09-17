@@ -461,7 +461,7 @@ const Departments = () => {
   const [departmentDataById, setDepartmentDataById] = useState([])
   const [departmentName, setDepartmentName] = useState()
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
-  
+
   const [searchKey, setSearchKey] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -529,7 +529,7 @@ const Departments = () => {
             setTimeout(() => {
               setShow(true)
             }, 0.5)
-            
+
           } else {
             toast.error(response?.data?.message);
             setShow(true)
@@ -657,9 +657,9 @@ const Departments = () => {
   const ClearHandle = () => {
     setDepartmentName('')
     setIsValidNameRequired(false)
-      setForDelete(false)
+    setForDelete(false)
   }
-  
+
   return (
     <Container>
       {
@@ -688,7 +688,7 @@ const Departments = () => {
                 <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} id="basic-addon2" onClick={MyDepartmentGetAllApi}>Search</span>
               </div>
             </div>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={''}onClick={ClearHandle} >+ ADD Department</Link>
+            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={''} onClick={ClearHandle} >+ ADD Department</Link>
           </div>
 
         </div>
@@ -697,7 +697,7 @@ const Departments = () => {
         <div className="main-content-conatainer pt-1 ">
           {/* ###### copy content till here for all component ######  */}
 
-          <div className={`table-container px-3 table-responsive ${departmentData.length > 0 ? 'myTableResponsive' : '' }`}  >
+          <div className={`table-container px-3 table-responsive ${departmentData.length > 0 ? 'myTableResponsive' : ''}`}  >
             <table className="table table-sm  table-striped ">
               <thead className=''>
                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
@@ -739,7 +739,7 @@ const Departments = () => {
                         <td colSpan="6" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -752,17 +752,17 @@ const Departments = () => {
               <Toaster />
             </table>
           </div>
-            <div className="d-flex px-3" style={{ marginBottom: '10px' }}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
-              </div>
+          <div className="d-flex px-3" style={{ marginBottom: '10px' }}>
+            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+            <div className="ms-auto">
+              <ReactPaginate
+                previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+              />
             </div>
+          </div>
 
         </div>
         {/* ################## Off Canvas Area ####################  */}
@@ -773,7 +773,7 @@ const Departments = () => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" onClick={ClearHandle}><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" onClick={ClearHandle}><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Department</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -812,7 +812,7 @@ const Departments = () => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Department</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -853,7 +853,7 @@ const Departments = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -874,7 +874,7 @@ const Departments = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                       <div className="form-check mt-1">
+                      <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input"
                           onChange={() => setForDelete(!forDelete)}

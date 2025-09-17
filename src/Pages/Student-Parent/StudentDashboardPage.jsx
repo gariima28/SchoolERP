@@ -77,7 +77,7 @@ const Container = styled.div`
 `;
 
 const DashboardPage = () => {
-  
+
   const token = sessionStorage.getItem('token');
   //loader State
   const [loaderState, setloaderState] = useState(false);
@@ -101,7 +101,7 @@ const DashboardPage = () => {
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setDashData(response?.data?.data);
-          setRoutineData(response?.data?.data?.timetable);
+          setRoutineData(response?.data?.data?.timetable[0]?.periodTable);
           setDailyAttendanceData(response?.data?.data?.attendance?.attendance);
           setloaderState(false);
         }
@@ -145,23 +145,23 @@ const DashboardPage = () => {
                 </div>
               </div>
               <div className="row">
-                {/* {RoutineData.length > 0 ? RoutineData.map((item) => (
+                {RoutineData.length > 0 ? RoutineData.map((item) => (
                   <div className="col-sm-6 col-12 p-1" key={item.classRouteId}>
                     <div className="timeTableCard p-2">
                       <p className='greenText font18'>{item.subject}</p>
                       <div className="d-flex pt-2">
                         <div className="flex-grow-1 align-self-center">
-                          <p className='font12'>{item.startHourTime.slice(0, 5)}-{item.endHourTime.slice(0, 5)}</p>
+                          <p className='font12'>{item?.period?.startHourTime.slice(0, 5)}-{item?.period?.endHourTime.slice(0, 5)}</p>
                         </div>
                         <div className="">
-                          <p className='font12 greyText'>Class - {item.section}</p>
+                          <p className='font12 greyText'>Class - {item.classNo} {`( ${item.section} )`}</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 )) :
                   <div className='d-flex justify-content-center h-100 align-item-center'><span className='text-danger'>TimeTable not Assigned</span></div>
-                } */}
+                }
               </div>
             </div>
           </div>
@@ -237,7 +237,12 @@ const DashboardPage = () => {
                     </div>
                   ))
                   :
-                  <p className='text-danger font14'> No Data Found !!!</p>
+
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center p-5 m-5">
+                      <span className='text-danger'>No Assignment Data Yet !!!</span>
+                    </div>
+                  </div>
                 }
               </div>
             </div>
@@ -254,8 +259,8 @@ const DashboardPage = () => {
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/notice'>View All</Link>
                 </div>
               </div>
-              {/* <div className="row p-2 py-3">
-                {DashData?.notices.length > 0
+              <div className="row p-2 py-3">
+                {/* {DashData?.notices.length > 0
                   ?
                   DashData?.notices.slice(0, 2).map((item, index) => (
                     <>
@@ -267,11 +272,14 @@ const DashboardPage = () => {
                     </>
                   ))
                   :
-                  <div className="d-flex justify-content-center p-5 m-5">
-                    <span>No Notice Data Yet !!!</span>
-                  </div>
-                }
-              </div> */}
+
+                  <div className="col-12">
+                          <div className="d-flex justify-content-center p-5 m-5">
+                            <span className='text-danger'>No Notice Data Yet !!!</span>
+                          </div>
+                        </div>
+                } */}
+              </div>
             </div>
           </div>
         </div>
@@ -288,8 +296,8 @@ const DashboardPage = () => {
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' to='/parent/event'>View All</Link>
                 </div>
               </div>
-              {/* <div className="row p-2">
-                {DashData?.notices.length > 0
+              <div className="row p-2">
+                {DashData?.events.length > 0
                   ?
                   DashData?.notices.slice(0, 4).map((item) => (
                     <div className="col-12 p-1" key={item.eventId}>
@@ -308,9 +316,13 @@ const DashboardPage = () => {
                     </div>
                   ))
                   :
-                  <p>No Data Found !!!</p>
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center p-5 m-5">
+                      <span className='text-danger'>No Events Data Yet !!!</span>
+                    </div>
+                  </div>
                 }
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
@@ -337,7 +349,12 @@ const DashboardPage = () => {
                     </div>
                   ))
                   :
-                  <p>No Data Found !!!</p>
+
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center p-5 m-5">
+                      <span className='text-danger'>No Holiday Data Yet !!!</span>
+                    </div>
+                  </div>
                 }
               </div>
             </div>

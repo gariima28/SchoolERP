@@ -300,7 +300,7 @@ const Profile = () => {
                             <div className="content-div">
                                 <div className='image-container'>
                                     <p className='my-image'>
-                                        <img src={imageFile} alt="" />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={imageFile} alt="" />
                                     </p>
                                 </div>
                                 <h2 className='heading-20 mt-2' >{staffName}</h2>
@@ -423,7 +423,7 @@ const Profile = () => {
                             </div>
 
                             <div className='my-button11 mt-2'>
-                                <button type="button" className="btn btn-outline-success heading-12 btn-bgAndColor" style={{backgroundColor:"#008479", color:'#fff'}} onClick={MyProfilePutApi}>Save Changes</button>
+                                <button type="button" className="btn btn-outline-success heading-12 btn-bgAndColor" style={{ backgroundColor: "#008479", color: '#fff' }} onClick={MyProfilePutApi}>Save Changes</button>
                                 <button type="button" className="btn btn-outline-success heading-12 ms-1">Cancel</button>
                             </div>
                         </div>

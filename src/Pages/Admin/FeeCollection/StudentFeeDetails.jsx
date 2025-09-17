@@ -101,7 +101,7 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
             key: 'Paid Date :',
             value: `${recieptDataAll?.invoice.paidDate}`
         },
-    ]); 
+    ]);
 
     return (
 
@@ -111,11 +111,11 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
                     <div className="col-md-2 col-4 align-self-center">
                         <div className="row">
                             {recieptDataAll?.invoice?.studentName === null ? (
-                                <img className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
                             ) : (
-                                <img className="border rounded-circle p-1" src={recieptDataAll?.invoice?.studentName} alt="..." height={35} />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={recieptDataAll?.invoice?.studentName} alt="..." height={35} />
                             )}
-                            {/* <img className='' src={recieptDataAll?.invoice?.studentName} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /> */}
+                            {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={recieptDataAll?.invoice?.studentName} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /> */}
                         </div>
                     </div>
                     <div className="col-md-10 col-8 mt-2">
@@ -216,7 +216,7 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
                             <p className='font14 greyText'>Fees Details</p>
                             <hr />
                             <div className="d-flex justify-content-center">
-                                <img src="/images/search.svg" alt="" className='img-fluid' />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid' />
                             </div>
                         </>
                     }
@@ -281,7 +281,7 @@ export default StudentFeeDetails
                             <p className='font14 greyText'>Fees Details</p>
                             <hr />
                             <div className="d-flex justify-content-center">
-                                <img src="/images/search.svg" alt="" className='img-fluid' />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid' />
                             </div>
                         </>
                     } */}

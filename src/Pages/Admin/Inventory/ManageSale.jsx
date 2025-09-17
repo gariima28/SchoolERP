@@ -306,7 +306,7 @@ const ItemSale = () => {
                 </div>
               ) : (
                 <div className="d-flex justify-content-center p-5 m-5">
-                  <img src="/images/search.svg" alt="" className="img-fluid p-5" />
+                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid p-5" />
                 </div>
               )}
             </div>
@@ -542,7 +542,7 @@ const ItemSale = () => {
               <div className="" style={{ zIndex: -1 }}>
                 <p className="modalLightBorder p-2">Sale</p>
                 <p className="text-center p-3">
-                  <img src="/images/errorI.svg" className="img-fluid" alt="" />
+                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className="img-fluid" alt="" />
                 </p>
                 <p className="text-center warningHeading">Are you Sure?</p>
                 <p className="text-center greyText warningText pt-2">

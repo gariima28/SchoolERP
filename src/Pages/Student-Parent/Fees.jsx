@@ -362,7 +362,7 @@ const Fees = () => {
                                 <div className="row greenBG cardradius2 p-3">
                                     <div className="col-md-2 col-3 align-self-center">
                                         <div className="row">
-                                            <img src={invoiceData?.invoices[0]?.studentImage} alt="" />
+                                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={invoiceData?.invoices[0]?.studentImage} alt="" />
                                         </div>
                                     </div>
                                     <div className="col-md-10 col-9 ">

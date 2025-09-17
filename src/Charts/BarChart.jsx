@@ -132,9 +132,10 @@ const BarChart = ({ graphKey, graphFilterShow }) => {
                     ?
                     <Bar data={data} options={options}></Bar>
                     :
-                    <div className="d-flex justify-content-center p-5 m-5">
-                        {/* <img src="/images/search.svg" alt="" className='img-fluid' /> */}
-                        <span>No Attendance Data Yet !!!</span>
+                    <div className="col-12">
+                        <div className="d-flex justify-content-center p-5 m-5">
+                            <span className='text-danger'>No Attendance Data Yet !!!</span>
+                        </div>
                     </div>
                 }
             </div>

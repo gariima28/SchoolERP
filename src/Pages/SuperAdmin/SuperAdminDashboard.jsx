@@ -128,7 +128,7 @@ const SuperAdminDashboard = () => {
                 <div className="row pe-0 pt-2">
                   <div className="d-flex pe-2">
                     <div className="w-100"><h1 className='orangeText'>{DashData?.counts?.totalSchool}</h1></div>
-                    <div className="flex-shrink-1"><Link to='/superadmin/schools/allSchools'><img src="/images/Vector.svg" alt="" height={20} /></Link></div>
+                    <div className="flex-shrink-1"><Link to='/superadmin/schools/allSchools'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector.svg" alt="" height={20} /></Link></div>
                   </div>
                 </div>
               </div>
@@ -144,7 +144,7 @@ const SuperAdminDashboard = () => {
                 <div className="row pe-0 pt-2">
                   <div className="d-flex pe-2">
                     <div className="w-100"><h1 className='orangeText'>{DashData?.counts?.totalAddOns}</h1></div>
-                    <div className="flex-shrink-1"><Link to='/superadmin/addon/allAddons'><img src="/images/Vector.svg" alt="" height={20} /></Link></div>
+                    <div className="flex-shrink-1"><Link to='/superadmin/addon/allAddons'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector.svg" alt="" height={20} /></Link></div>
                   </div>
                 </div>
               </div>
@@ -169,7 +169,7 @@ const SuperAdminDashboard = () => {
                 <div className="row pe-0 pt-2">
                   <div className="d-flex pe-2">
                     <div className="w-100"><h1 className='orangeText'>{DashData?.counts?.totalSubscription}</h1></div>
-                    <div className="flex-shrink-1"><Link to='/superadmin/subscriptions'><img src="/images/Vector.svg" alt="" height={20} /></Link></div>
+                    <div className="flex-shrink-1"><Link to='/superadmin/subscriptions'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector.svg" alt="" height={20} /></Link></div>
                   </div>
                 </div>
               </div>
@@ -189,7 +189,7 @@ const SuperAdminDashboard = () => {
                 <div className="row pe-0 pt-2">
                   <div className="d-flex pe-2">
                     <div className="w-100"><h1 className='orangeText'>{DashData?.counts?.totalPackage}</h1></div>
-                    <div className="flex-shrink-1"><Link to='/superadmin/packages'><img src="/images/Vector.svg" alt="" height={20} /></Link></div>
+                    <div className="flex-shrink-1"><Link to='/superadmin/packages'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector.svg" alt="" height={20} /></Link></div>
                   </div>
                 </div>
               </div>

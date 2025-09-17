@@ -363,7 +363,7 @@ const Marks = () => {
                             <div className="row">
                                 {!isSearched ? (
                                     <div className="d-flex justify-content-center p-5">
-                                        <img src="/images/search.svg" alt="Search" className='img-fluid' />
+                                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="Search" className='img-fluid' />
                                     </div>
                                 ) : (
                                     <Suspense fallback={<DataLoader />}>
@@ -396,7 +396,7 @@ const Marks = () => {
 
                                             :
                                             <div className="d-flex justify-content-center p-5">
-                                                <img src="/images/search.svg" alt="Search" className='img-fluid' />
+                                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="Search" className='img-fluid' />
                                             </div>
                                         }
                                     </Suspense>

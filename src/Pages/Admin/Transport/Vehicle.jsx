@@ -636,7 +636,7 @@ const Vehicle = () => {
                                 :
 
                                 <div className="d-flex justify-content-center p-5 m-5">
-                                    <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
                                 </div>
                             }
                         </div>
@@ -730,7 +730,7 @@ const Vehicle = () => {
                         {loaderState && (<DataLoader />)}
                         <div className="" style={{ zIndex: -1 }}>
                             <p className='modalLightBorder p-2'>Vehicle</p>
-                            <p className='text-center p-3'> <img src="/images/errorI.svg" className='img-fluid' alt="" /></p>
+                            <p className='text-center p-3'> <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className='img-fluid' alt="" /></p>
                             <p className='text-center warningHeading'>Are you Sure?</p>
                             <p className='text-center greyText warningText pt-2'>This Action will be permanently delete<br />the Vehicle Data</p>
                             <p className='text-center warningText p-2'><input className="form-check-input formdltcheck me-2" type="checkbox" value="" id="flexCheckChecked" onChange={(e) => setIsChecked(e.target.checked)} />I Agree to delete the Vehicle Data</p>
@@ -749,7 +749,7 @@ const Vehicle = () => {
                                     <div >
                                         <p className='border-bottom p-3'>Vehicle</p>
                                         <div className="">
-                                            <div className='deleteSVG border border-2 p-4 rounded-circle'><img src="/images/deleteicon.svg" alt="" /></div>
+                                            <div className='deleteSVG border border-2 p-4 rounded-circle'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/deleteicon.svg" alt="" /></div>
                                             <div className="deletetext border m-4 border-2 greydiv ms-5 rounded-3 text-center greyText p-5">
                                                 <p className='warningHeading'>Successful Deleted</p>
                                                 <p className='greyText warningText pt-2'>Your data has been<br />Successfully Delete</p>

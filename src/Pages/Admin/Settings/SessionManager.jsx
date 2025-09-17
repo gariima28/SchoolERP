@@ -640,7 +640,7 @@ const SessionManager = () => {
                             </>
                             :
                             <div className='h-100 text-center m-5'>
-                                <img src='/images/search.svg' style={{ height: '30vh' }} />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src='/images/search.svg' style={{ height: '30vh' }} />
                             </div>
                         }
                     </div>
@@ -727,7 +727,7 @@ const SessionManager = () => {
                     {loaderState && (<DataLoader />)}
                     <div className="" style={{ zIndex: -1 }}>
                         <p className='modalLightBorder p-2'>Session</p>
-                        <p className='text-center p-3'> <img src="/images/errorI.svg" className='img-fluid' alt="" /></p>
+                        <p className='text-center p-3'> <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/errorI.svg" className='img-fluid' alt="" /></p>
                         <p className='text-center warningHeading'>Are you Sure?</p>
                         <p className='text-center greyText warningText pt-2'>This Action will be permanently delete<br />the Session Manager Data</p>
                         <p className='text-center warningText p-2'><input className="form-check-input formdltcheck me-2" type="checkbox" checked={isChecked} id="flexCheckChecked" onChange={(e) => setIsChecked(e.target.checked)} />I Agree to delete the Session Manager Data</p>

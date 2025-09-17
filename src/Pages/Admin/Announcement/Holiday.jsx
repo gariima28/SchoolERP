@@ -540,7 +540,7 @@ const Holiday = () => {
       }
     } catch (err) {
       // console.log(err);
-      
+
     }
   };
   // PDF 
@@ -870,7 +870,7 @@ const Holiday = () => {
     setHolidayEndDate('')
   }
 
-    // Handle search input change
+  // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
     debouncedSearch(value);
@@ -885,7 +885,7 @@ const Holiday = () => {
     setPageNo(1);
     MyClassRoutineGetAllApi(searchKey);
   };
-    const handleAddOffcanvasOpen = () => {
+  const handleAddOffcanvasOpen = () => {
     const offcanvasElement = document.getElementById('staticBackdrop');
     if (offcanvasElement) {
       const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
@@ -895,9 +895,9 @@ const Holiday = () => {
       toast.error('Unable to open Add Fee Type form');
     }
   };
-const cleardata = () => {
-  setForDelete(false)
-}
+  const cleardata = () => {
+    setForDelete(false)
+  }
 
   return (
     <Container>
@@ -920,8 +920,8 @@ const cleardata = () => {
             </nav>
           </div>
 
-           {/* new csv design */}
-             <div className="d-flex g-1 for-media-query">
+          {/* new csv design */}
+          <div className="d-flex g-1 for-media-query">
             <ActionControls
               showAddButton={true}
               addButtonText={`Add Holiday`}
@@ -969,7 +969,7 @@ const cleardata = () => {
                         <td className=' greyText pe-0 no-wrap'>{item.startDate}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.endDate}</td>
                         {/* <td className=' greyText pe-0 no-wrap'>{item.description}</td> */}
-                         <td
+                        <td
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.description.length > 17 ? "tooltip" : undefined}
                           data-bs-placement="top"
@@ -1020,7 +1020,7 @@ const cleardata = () => {
                         <td colSpan="12" className="text-center no-wrap">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img src="/images/search.svg" alt="" />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -1212,7 +1212,7 @@ const cleardata = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -1233,7 +1233,7 @@ const cleardata = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                     <div className="form-check mt-1">
+                      <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input"
                           onChange={() => setForDelete(!forDelete)}
@@ -1241,7 +1241,7 @@ const cleardata = () => {
                           checked={forDelete}
                           value=""
                           id="flexCheckDefault"
-                          name="deleteAgreement" 
+                          name="deleteAgreement"
                         />
                         <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data

@@ -240,7 +240,7 @@ const Login = () => {
                         setToastDisplayed(true);
                         toast.error(responseData?.message || 'Login failed. Please try again.');
                     }
-                    
+
                 }
             } else {
                 if (!toastDisplayed) {
@@ -265,7 +265,7 @@ const Login = () => {
                 }
             }
         }
-        finally{
+        finally {
             window.location.reload()
             navigate('/');
         }
@@ -277,11 +277,11 @@ const Login = () => {
             <div className="conatiner-fluid loginmain">
                 <div className="row loginrow">
                     <div className="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-center">
-                        <img src="/images/loginimg.svg" alt="" className='img-fluid m-4' />
+                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/loginimg.svg" alt="" className='img-fluid m-4' />
                     </div>
                     <div className="col-lg-6 col-md-12 col-sm-12">
                         <div className="row me-xl-5 ms-xl-5 ps-xl-5 pe-xl-5 ps-lg-5 pe-lg-5 p-sm-5 m-sm-5 p-3 m-3">
-                            <p className='text-center'><img src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
+                            <p className='text-center'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
                             <form className='pt-xl-3 pe-xl-5 ps-xl-5 pt-lg-2 pe-lg-2 ps-lg-2'>
                                 <div className="mb-3">
                                     <label htmlFor="exampleInputEmail1" className="form-label">Email</label>

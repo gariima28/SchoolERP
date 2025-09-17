@@ -804,7 +804,7 @@ const Expense = () => {
   // Double Date --------------------------
 
   //  Date range 
- const [startDate, setStartDate] = useState();
+  const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   // console.log(startDate, endDate, ' start and end datesssss')
 
@@ -835,7 +835,7 @@ const Expense = () => {
     setMyExpenseCategoryData([])
     setIsValidDateRequired(false)
     setIsValidAmountRequired(false)
-     setStartDate(null)
+    setStartDate(null)
     setEndDate(null)
   }
 
@@ -875,41 +875,41 @@ const Expense = () => {
           <div className="row p-3">
             <div className='col-lg-6 col-md-6 col-sm-12'>
               <div className="dropdown" style={{ marginTop: "-4px" }}>
-                             <label
-                               htmlFor="exampleFormControlInput1"
-                               className="form-label label-color heading-14"
-                             >
-                               Date Range
-                             </label>
-             
-                             {/* Show selected date range */}
-                             <input
-                               type="text"
-                               className="form-control form-control-sm form-focus font-color"
-                               id="dropdownMenuButton"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false"
-                               placeholder="Select date"
-                               readOnly
-                               value={
-                                 startDate && endDate ? `${startDate} - ${endDate}` : ""
-                               }
-                             />
-             
-                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                               <Flatpickr
-                                 className="dropdown-item"
-                                 placeholder="Date Range"
-                                 value={[startDate, endDate]}
-                                 options={{
-                                   mode: "range",
-                                   dateFormat: "Y-m-d",
-                                 }}
-                                 onChange={handleDateChange}
-                               />
-                             </div>
-                           </div>
+                <label
+                  htmlFor="exampleFormControlInput1"
+                  className="form-label label-color heading-14"
+                >
+                  Date Range
+                </label>
+
+                {/* Show selected date range */}
+                <input
+                  type="text"
+                  className="form-control form-control-sm form-focus font-color"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  placeholder="Select date"
+                  readOnly
+                  value={
+                    startDate && endDate ? `${startDate} - ${endDate}` : ""
+                  }
+                />
+
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <Flatpickr
+                    className="dropdown-item"
+                    placeholder="Date Range"
+                    value={[startDate, endDate]}
+                    options={{
+                      mode: "range",
+                      dateFormat: "Y-m-d",
+                    }}
+                    onChange={handleDateChange}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12  ">
@@ -998,7 +998,7 @@ const Expense = () => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Expense</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1080,7 +1080,7 @@ const Expense = () => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Expense</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1162,7 +1162,7 @@ const Expense = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
