@@ -503,6 +503,7 @@ const ClassRoom = () => {
   }
   const offcanvasRef = useRef()
   const offcanvasRef22 = useRef()
+  const offcanvasRef33 = useRef()
 
   // Post Api 
   const SubcPutDataApi = async () => {
@@ -560,29 +561,38 @@ const ClassRoom = () => {
   }
 
   // Delete api
-
   const ClassRoomDeleteApi = async (id) => {
     setLoader(true)
     try {
       const response = await classRoomDeleteApi(id);
       if (response?.status === 200) {
-        setShowdelete(false)
-        setHidedelete(true)
-        toast.success(response?.data?.msg);
-        setLoader(false)
+        if (response?.data?.status === "success") {
+          toast.success(response?.data?.message);
+          // setShowdelete(false)
+          // setHidedelete(true)
+          ClassRoomGetAllApi()
+          // setForDelete(false)
+          setLoader(false)
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
+          offcanvasInstance.hide();
+          setTimeout(() => {
+            setShowdelete(true)
+          }, 0.5)
+        }
+
       } else {
-        setShowdelete(true)
-        toast.error(response?.data?.msg);
+        toast.error(response?.data?.message);
+        setLoader(false)
       }
 
     } catch (error) {
       setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
 
   // Get by id 
-
   const MyClassRoomGetByIdApi = async (id) => {
     setLoader(true)
     seUpdateroomid(id)
@@ -649,6 +659,9 @@ const ClassRoom = () => {
   const ClearData = () => {
     setAddclassroom('')
     setIsValidNameRequired(false)
+  }
+  const ClearData2 = () => {
+    setForDelete(false)
   }
   return (
     <Container>
@@ -724,7 +737,7 @@ const ClassRoom = () => {
                         <td colSpan="6" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
+                              <img src="/images/search.svg" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -760,7 +773,7 @@ const ClassRoom = () => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight12" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel" >Add Class Room</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -784,7 +797,6 @@ const ClassRoom = () => {
                     <Toaster />
                   </div>
                 </div>
-
               </div>
             </>
           )
@@ -799,7 +811,7 @@ const ClassRoom = () => {
             <>
               <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class Room</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -834,13 +846,13 @@ const ClassRoom = () => {
 
         {/* ################ offcanvas delete start #############  */}
 
-        <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight2233" aria-labelledby="offcanvasRightLabel">
+        <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight2233" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
 
           {
             showdelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3' onClick={ClearData2}><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
@@ -863,7 +875,7 @@ const ClassRoom = () => {
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
                       <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input " onClick={() => setForDelete(true)} type="checkbox" value="" id="flexCheckDefault" />
+                        <input className="form-check-input my-form-check-input " onClick={() => setForDelete(!forDelete)} checked={forDelete} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
@@ -871,7 +883,7 @@ const ClassRoom = () => {
 
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00" disabled={forDelete ? false : true} onClick={handleForDelete}>Delete</button>
-                        <button type="button" className="btn  cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn  cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData2}>Cancel</button>
                       </div>
                     </div>
                   </div>
@@ -882,18 +894,18 @@ const ClassRoom = () => {
           }
           {/* ############## After click ##############  */}
 
-          {
+          {/* {
             hidedelete && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
                 </div>
                 <hr className='' />
                 <div className="delete-section mt-5">
                   <div className="bg-container">
                     <div className="img-container22">
-                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
+                      <img src="/images/XMLID_1_.png" alt="" />
                     </div>
                     <div className="content mt-5">
                       <p >Successful Delete</p>
@@ -910,7 +922,7 @@ const ClassRoom = () => {
               </div>
 
             )
-          }
+          } */}
         </div>
         {/* ################ offcanvas delete end #############  */}
 
