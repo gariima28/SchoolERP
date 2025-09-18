@@ -266,8 +266,10 @@ const Login = () => {
             }
         }
         finally {
-            window.location.reload()
-            navigate('/');
+            // setTimeout(() => {
+            //     window.location.reload()
+            //     navigate('/');
+            // }, 1500);
         }
     };
 

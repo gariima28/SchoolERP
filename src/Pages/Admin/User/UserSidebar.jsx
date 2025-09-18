@@ -512,7 +512,7 @@ const UserSidebar = () => {
               isActive={(match, location) => isNavLinkActive(match, location, 'usercontact')}
               end
             >
-              <span className="flex-grow-1 heading-16">Contact</span>
+              <span className="flex-grow-1 heading-16">Contract</span>
               <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
             </NavLink>
             <NavLink

@@ -94,8 +94,8 @@ const AddSchool = () => {
       }
     }
     catch (error) {
-      setloaderState(false);
-      // setloaderState(false);
+      setLoaderState(false);
+      // setLoaderState(false);
       console.error('Error fetching student data:', error);
       if (error?.response?.data?.statusCode === 401) {
         sessionStorage.removeItem('token')
@@ -129,13 +129,13 @@ const AddSchool = () => {
       formData.append('schoolPhone', data?.schoolPhone);
       formData.append('planId', data?.planId);
       formData.append('schoolDis', data?.schoolDis);
-      formData.append('schoolLogo', data?.schoolLogo[0]);
+      formData.append('schoolImage', data?.schoolLogo[0]);
       formData.append('adminName', data?.adminName);
       formData.append('gender', data?.gender);
       formData.append('adminAddress', data?.adminAddress);
       formData.append('adminPhone', data?.adminPhone);
       formData.append('adminEmail', data?.adminEmail);
-      formData.append('adminPhoto', data?.adminPhoto[0]);
+      formData.append('adminImage', data?.adminPhoto[0]);
 
       const response = await addNewSchoolApi(formData);
       if (response?.status === 200) {
@@ -231,7 +231,7 @@ const AddSchool = () => {
                         </div>
                         <div className="col-md-6 mb-3">
                           <label htmlFor="schoolLogo" className="form-label font14">School Logo</label>
-                          <input id="schoolLogo" type="file" className={`form-control font14 ${errors.schoolLogo ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('schoolLogo', { required: 'School Logo is required *', validate: value => { if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800)) { return 'File size must be between 10 KB to 200 KB'; } return true; } })} />
+                          <input id="schoolLogo" type="file" className={`form-control font14 ${errors.schoolLogo ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('schoolLogo', { required: 'School Logo is required *' })} />
                           {errors.schoolLogo && <p className="font12 text-danger">{errors.schoolLogo.message}</p>}
                         </div>
                       </div>
@@ -288,7 +288,7 @@ const AddSchool = () => {
                         </div>
                         <div className="col-md-6 mb-3">
                           <label htmlFor="adminPhoto" className="form-label font14">Photo</label>
-                          <input id="adminPhoto" type="file" className={`form-control font14 ${errors.adminPhoto ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('adminPhoto', { required: 'Photo is required *', validate: value => { if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800)) { return 'File size must be between 10 KB to 200 KB'; } return true; } })} />
+                          <input id="adminPhoto" type="file" className={`form-control font14 ${errors.adminPhoto ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('adminPhoto', { required: 'Photo is required *' })} />
                           {errors.adminPhoto && <p className="font12 text-danger">{errors.adminPhoto.message}</p>}
                         </div>
                       </div>

@@ -493,6 +493,9 @@ const Accountant = () => {
     } catch (err) {
       // console.log(err);
     }
+    finally {
+      setLoader(false);
+    }
   };
 
 
@@ -528,8 +531,11 @@ const Accountant = () => {
         toast.error(response?.data?.message);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -558,8 +564,11 @@ const Accountant = () => {
         toast.error(response?.data?.msg);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
   // Delete api
@@ -584,8 +593,11 @@ const Accountant = () => {
         setShowdelete(true)
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -749,8 +761,11 @@ const Accountant = () => {
         }
 
       } catch (error) {
-        setloaderState(false);
+        setLoader(false);
         // console.log(error)
+      }
+      finally {
+        setLoader(false);
       }
     }
 
@@ -767,6 +782,9 @@ const Accountant = () => {
       } else {
       }
     } catch (error) {
+      setLoader(false);
+    }
+    finally {
       setLoader(false);
     }
   };
@@ -786,8 +804,11 @@ const Accountant = () => {
         // toast.error(response?.data?.msg);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -848,10 +869,10 @@ const Accountant = () => {
               addButtonAction={handleAddButton}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={AccountAllData.length > 0}
+              showExportPDF={AccountAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              showExportCSV={AccountAllData.length > 0}
+              showExportCSV={AccountAllData?.length > 0}
               exportCSVText="Export CSV"
               exportCSVAction={''}
             />
@@ -1056,7 +1077,7 @@ const Accountant = () => {
                       <select className="form-select form-control-md form-focus-input heading-14 grey-input-text-color input-border-color" onChange={(e) => setRoleID(e.target.value)} aria-label="Default select example" style={{ borderRadius: '5px' }} >
                         <option value="" >--Choose--</option>
                         {
-                          rolePermisAllDatashowde.map(item => (
+                          rolePermisAllDatashowde?.map(item => (
                             <option value={item.roleId} >{item.roleName}</option>
                           ))
                         }

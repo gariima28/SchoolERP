@@ -232,7 +232,6 @@ const StyledContainer = styled.div`
 const Conta_deduction = () => {
   const { roleId, userId } = useParams();
   // const { userId } = useContext(MyUseContext);
-  const myUserID = userId ?? roleId ?? "";
 
   const [loaderState, setLoaderState] = useState(false);
   const [deductionData, setDeductionData] = useState([]);
@@ -290,14 +289,14 @@ const Conta_deduction = () => {
 
   // Fetch data on mount
   useEffect(() => {
-    if (myUserID) {
+    if (userId) {
       getAllDeductionName();
       getAllDeductionNameByStaffId();
     } else {
       toast.error('User ID not found');
       // Optionally redirect: navigate('/');
     }
-  }, [myUserID, pageNo]);
+  }, [userId, pageNo]);
 
   // Fetch all deduction names for dropdown
   const getAllDeductionName = async () => {
@@ -325,7 +324,7 @@ const Conta_deduction = () => {
   const getAllDeductionNameByStaffId = async () => {
     try {
       setLoaderState(true);
-      const response = await getAllHRDeductionByStaffID(myUserID);
+      const response = await getAllHRDeductionByStaffID(userId);
       console.log(response)
       if (response?.status === 200 && response?.data?.status === 'success') {
         setStaffDeductionData(response.data.statutory || []);
@@ -356,7 +355,7 @@ const Conta_deduction = () => {
 
       console.log('Adding deduction with FormData:', Object.fromEntries(formData)); // Debug log
 
-      const response = await AssignDeductionToStaff(myUserID, formData);
+      const response = await AssignDeductionToStaff(userId, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message);
         resetAddForm();
@@ -401,7 +400,7 @@ const Conta_deduction = () => {
       console.log('Updating deduction with ID:', editDeduction.statutoryDeductionId || editDeduction.id); // Debug log
       console.log('FormData:', Object.fromEntries(formData)); // Debug log
 
-      const response = await Conatct_Deduction_PutApi(editDeduction.statutoryDeductionId || editDeduction.id, formData);
+      const response = await Conatct_Deduction_PutApi(userId, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message);
         getAllDeductionNameByStaffId();
@@ -410,8 +409,12 @@ const Conta_deduction = () => {
           const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
           offcanvas.hide();
         }
-        resetEditForm();
-        setEditDeduction(null);
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
         toast.error(response?.data?.message || 'Failed to update deduction');
       }
@@ -427,7 +430,7 @@ const Conta_deduction = () => {
   const handleDelete = async (ids) => {
     try {
       setLoaderState(true);
-      const response = await DeleteItemAssignDeductionToStaff(myUserID, ids);
+      const response = await DeleteItemAssignDeductionToStaff(userId, ids);
       if (response?.data?.status === 'success') {
         toast.success('Deduction deleted successfully');
         getAllDeductionNameByStaffId();

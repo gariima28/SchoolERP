@@ -8,6 +8,7 @@ import { Conatct_reimbursement_GetById } from '../../../Utils/Apis'
 
 const Conta_reimburse = ({ data }) => {
 
+  const { roleId, userId } = useParams();
   const staffId = data.data;
 
   const MyUserID = localStorage.getItem('MyUserID');

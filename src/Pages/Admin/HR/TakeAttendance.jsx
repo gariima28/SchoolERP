@@ -712,11 +712,11 @@ const TakeAttendance = () => {
               showAddButton={false}
               addButtonText=""
               addButtonAction={''}
-              showExportPDF={false}
+              showExportPDF={attendanceDataByMonth?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               exportPDFFileName="Daily Attendance.pdf"
-              showExportCSV={false}
+              showExportCSV={attendanceDataByMonth?.length>0}
               exportCSVFileName="Daily Attendance.xlsx"
               showSearch={true}
               searchValue={searchKey}
@@ -863,7 +863,7 @@ const TakeAttendance = () => {
                         <td className=' greyText no-wrap'>{index + 1}</td>
                         <td className=' greyText no-wrap'>{item.staffName}</td>
                         {
-                          item?.attendance.map((item, index) => (
+                          item?.attendance?.map((item, index) => (
                             <td className='greyText no-wrap' >
                               {
                                 item.status === "present" ?
@@ -1024,7 +1024,7 @@ const TakeAttendance = () => {
                     <select class="form-select form-focus input-bg label-color" value={roleid} onChange={(e) => setRoleId(e.target.value)} aria-label="Default select example">
                       <option value="" >--Choose--</option>
                       {
-                        rolePermisAllData.map(item => (
+                        rolePermisAllData?.map(item => (
                           <option value={item.roleId} >{item.roleName}</option>
                         ))
                       }
@@ -1052,7 +1052,7 @@ const TakeAttendance = () => {
                           </thead>
                           <tbody className='heading-14 align-middle greyTextColor ' >
                             {
-                              takeAttenSearhDate.map((item, index) => (
+                              takeAttenSearhDate?.map((item, index) => (
                                 <tr className='heading-14' key={index}>
                                   <td className='greyText'>{index + 1}</td>
                                   <td className='greyText'>{item.staffName}</td>

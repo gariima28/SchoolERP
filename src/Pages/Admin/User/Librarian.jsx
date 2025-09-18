@@ -511,6 +511,9 @@ const Librarian = () => {
     } catch (err) {
       // console.log(err);
     }
+    finally {
+      setLoader(false);
+    }
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -547,8 +550,11 @@ const Librarian = () => {
         toast.error(response?.data?.message);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -573,8 +579,11 @@ const Librarian = () => {
         toast.error(response?.data?.msg);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -600,8 +609,11 @@ const Librarian = () => {
         setShowdelete(true)
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -616,6 +628,9 @@ const Librarian = () => {
       } else {
       }
     } catch (error) {
+      setLoader(false);
+    }
+    finally {
       setLoader(false);
     }
   };
@@ -777,8 +792,11 @@ const Librarian = () => {
         }
 
       } catch (error) {
-        setloaderState(false);
+        setLoader(false);
         // console.log(error)
+      }
+      finally {
+        setLoader(false);
       }
     }
 
@@ -796,8 +814,11 @@ const Librarian = () => {
         // toast.error(response?.data?.msg);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -856,10 +877,10 @@ const Librarian = () => {
               addButtonAction={handleAddButton}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={LibrarianAllData.length > 0}
+              showExportPDF={LibrarianAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              showExportCSV={LibrarianAllData.length > 0}
+              showExportCSV={LibrarianAllData?.length > 0}
               exportCSVText="Export CSV"
               exportCSVAction={''}
             />
@@ -1049,7 +1070,7 @@ const Librarian = () => {
                       <select className="form-select form-control-md form-focus-input heading-14 grey-input-text-color input-border-color" onChange={(e) => setRoleID(e.target.value)} aria-label="Default select example" style={{ borderRadius: '5px' }} >
                         <option value="" >--Choose--</option>
                         {
-                          rolePermisAllDatashowde.map(item => (
+                          rolePermisAllDatashowde?.map(item => (
                             <option value={item.roleId} >{item.roleName}</option>
                           ))
                         }

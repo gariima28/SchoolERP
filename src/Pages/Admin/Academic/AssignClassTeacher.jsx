@@ -805,10 +805,10 @@ const AssignClassTeacher = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={false}
+              showExportPDF={assignAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              showExportCSV={assignAllData.length > 0}
+              showExportCSV={assignAllData?.length > 0}
               exportCSVText="Export CSV"
               exportCSVAction={ClassTeacherCSV}
               onSearchChange={handleSearchChange}
@@ -866,7 +866,7 @@ const AssignClassTeacher = () => {
                         <td colSpan="6" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Group 192.png" alt="" />
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -984,7 +984,7 @@ const AssignClassTeacher = () => {
                       <select class="form-select form-focus label-color heading-14 " value={teacher} onChange={(e) => setTeacher(e.target.value)} aria-label="Default select example">
                         <option selected>--Choose</option>
                         {
-                          teacherData.map(item => (
+                          teacherData?.map(item => (
                             <option value={item.id}>{item.staffName}</option>
                           ))
                         }
