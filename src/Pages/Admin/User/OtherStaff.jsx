@@ -490,6 +490,9 @@ const OtherStaff = () => {
     } catch (err) {
       // console.log(err);
     }
+    finally {
+      setLoader(false);
+    }
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -523,8 +526,11 @@ const OtherStaff = () => {
         toast.error(response?.data?.message);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -552,8 +558,11 @@ const OtherStaff = () => {
         setShowdelete(true)
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -577,8 +586,11 @@ const OtherStaff = () => {
         toast.error(response?.data?.msg);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
 
@@ -742,8 +754,11 @@ const OtherStaff = () => {
         }
 
       } catch (error) {
-        setloaderState(false);
+        setLoader(false);
         // console.log(error)
+      }
+      finally {
+        setLoader(false);
       }
     }
 
@@ -763,8 +778,11 @@ const OtherStaff = () => {
         // toast.error(response?.data?.msg);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
+    }
+    finally {
+      setLoader(false);
     }
   }
   const handleForDelete = () => {
@@ -1033,7 +1051,7 @@ const OtherStaff = () => {
                         <option value="" >--Choose--</option>
 
                         {
-                          rolePermisAllDatashowde.map(item => (
+                          rolePermisAllDatashowde?.map(item => (
                             <option value={item.roleId} >{item.roleName}</option>
                           ))
                         }

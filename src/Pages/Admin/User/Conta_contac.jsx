@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { UserContactGetAllApi, Conatct_conat_ById, Conatct_conat_PutApi, TeacherLeaveTeacherAllApi } from '../../../Utils/Apis';
+import { UserContactGetAllApi, Conatct_conat_ById, Conatct_conat_PutApi, TeacherLeaveTeacherAllApi, DepartmentGetAllApi, LeaveGetAllApi } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
 import { useParams } from 'react-router-dom';
 
@@ -33,12 +33,37 @@ const Conta_contac = ({ data }) => {
   const [isValidHourlyRateRequired, setIsValidHourlyRateRequired] = useState(false);
   const [isValidPayslipRequired, setIsValidPayslipRequired] = useState(false);
 
+  const [departmentData, setDepartmentData] = useState([]);
+  const [leaveData, setLeaveData] = useState([]);
+
   useEffect(() => {
     if (myUserID) {
       MyStaffGetById();
+      MyDepartmentGetAllApi();
+      MyLeaveGetAllApi();
     }
     MyGetallLeaveOfTeacher();
   }, []);
+
+  // Get all api 
+  const MyDepartmentGetAllApi = async () => {
+    setLoader(true)
+    try {
+      const response = await DepartmentGetAllApi('', '', '');
+      if (response?.status === 200) {
+        // toast.success(response?.data?.message)
+        setDepartmentData(response?.data?.Departments)
+        setCurrentPage(response?.data?.currentPage)
+        setTotalPages(response?.data?.totalPages)
+        setLoader(false)
+      } else {
+        toast.error(response?.data?.message);
+      }
+    } catch (error) {
+      setloaderState(false);
+      // console.log(error)
+    }
+  }
 
   const FuncValidation = () => {
     let isValid = true;
@@ -108,8 +133,8 @@ const Conta_contac = ({ data }) => {
     setContractEnd(e.target.value);
   };
 
-  const handleDepartment = (e) => {
-    setDepartment(e.target.value);
+  const handleDepartment = (val) => {
+    setDepartment(val);
   };
 
   const handleDesignation = (e) => {
@@ -206,6 +231,25 @@ const Conta_contac = ({ data }) => {
     }
   };
 
+  // Leave Get All Api   
+  const MyLeaveGetAllApi = async () => {
+    setLoader(true)
+    try {
+      const response = await LeaveGetAllApi('', '', '');
+      if (response?.status === 200) {
+        // toast.success(response?.data?.msg)
+        setLeaveData(response?.data?.leave)
+        setCurrentPage(response?.data?.currentPage);
+        setTotalPages(response?.data?.totalPages);
+        setLoader(false)
+      } else {
+        toast.error(response?.data?.msg);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const MyStaffPutApi = async () => {
     if (FuncValidation()) {
       const formData = new FormData();
@@ -223,7 +267,7 @@ const Conta_contac = ({ data }) => {
       try {
         const response = await Conatct_conat_PutApi(myUserID, formData);
         if (response?.status === 200) {
-          if(response.data.status === 'success'){
+          if (response.data.status === 'success') {
             toast.success(response?.data?.message || 'Contract updated successfully');
             clearData();
           }
@@ -449,14 +493,14 @@ const Conta_contac = ({ data }) => {
                   className="form-select form-select-sm form-focus label-color"
                   id="department"
                   value={department}
-                  onChange={handleDepartment}
+                  onChange={() => handleDepartment(e.target.value)}
                   tabIndex="2"
                   aria-describedby="departmentError"
                 >
                   <option value="">--Choose--</option>
-                  <option value="HR">HR</option>
-                  <option value="IT">IT</option>
-                  <option value="Finance">Finance</option>
+                  {departmentData?.map((item) => (
+                    <option key={item.departmentId} value={item.departmentId}>{item.departmentName}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -642,12 +686,19 @@ const Conta_contac = ({ data }) => {
                     aria-describedby="leaveCategoriesNote"
                   >
                     <option value="">--Choose--</option>
-                    {leaveAllData.map((item, index) => (
-                      <option key={index} value={item.leaveType}>
-                        {item.leaveType}
-                      </option>
-                    ))}
-                    <option value="All">All</option>
+                    {leaveData.length > 0
+                      ?
+                      (
+                        <>
+                          <option value="All" disabled>All</option>
+                          {leaveData?.map((item) => (
+                            <option key={item.departmentId} value={item.departmentId}>{item.departmentName}</option>
+                          ))}
+                        </>
+                      )
+                      :
+                      <option value="no" disabled>-- No Leave Created Yet --</option>
+                    }
                   </select>
                 )}
                 <p id="leaveCategoriesNote" className="note-text">

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components'
 import { DownloadDriverExcel, DownloadDriverPDF, deleteDriverApi, getDriverDataApi, getDriverDataByIdApi, updateDriverDataApi } from 'src/Utils/Apis';
 import toast from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import ReactPaginate from 'react-paginate';
-import { CSVLink } from 'react-csv';
 import { useForm } from 'react-hook-form';
 import { getroleName } from '../../../Utils/Apis';
+import ActionControls from '../../../Layouts/ActionControls';
 
 const Container = styled.div`
 
@@ -152,7 +152,8 @@ const base64ToBlob = (base64Data, contentType) => {
 };
 
 const Driver = () => {
-
+    const navigate = useNavigate()
+      const { roleId, userId } = useParams();
     // token
     const token = sessionStorage.getItem('token');
     // loader State
@@ -228,6 +229,9 @@ const Driver = () => {
         } catch (err) {
             // console.log(err);
         }
+        finally {
+            setLoader(false);
+        }
     };
 
     // PDF Download Response
@@ -241,6 +245,9 @@ const Driver = () => {
             }
         } catch (err) {
             // console.log(err);
+        }
+        finally {
+            setLoader(false);
         }
     };
 
@@ -287,6 +294,9 @@ const Driver = () => {
                     navigate('/')
                 }, 200);
             }
+        }
+        finally {
+            setLoader(false);
         }
     }
 
@@ -339,6 +349,9 @@ const Driver = () => {
             setloaderState(false);
             setloaderState(false);
             console.error('Error during login:', error);
+        }
+        finally {
+            setLoader(false);
         }
     }
 
@@ -401,6 +414,9 @@ const Driver = () => {
             setloaderState(false);
             console.error('Error during login:', error);
         }
+        finally {
+            setLoader(false);
+        }
     };
 
     const [click, setClick] = useState(true);
@@ -425,26 +441,29 @@ const Driver = () => {
 
 
     const getRollForAdminDashboard = async () => {
-        setLoader(true);
+        // setLoader(true);
         try {
             const response = await getroleName(id);
             console.log(response, "Resone for roles")
             if (response?.status === 200) {
                 setuserName(response?.data?.roles?.roleName);
-                setLoader(false);
+                // setLoader(false);
             } else {
             }
         } catch (error) {
+            // setLoader(false);
+        }
+        finally {
             setLoader(false);
         }
     };
 
     const handleSearchButton = () => {
-        getAllSchoolData(searchKeyData)
+        getAllDriverData(searchByKey)
     }
 
     const handleAddButton = () => {
-        navigate(`/admin/users/mainuserform/${'0'}`)
+        navigate(`/admin/users/driver/${roleId}/add/mainuserform/userbasicinformation`)
     }
 
 
@@ -465,7 +484,7 @@ const Driver = () => {
                             <p className='font14 ps-0 fontWeight500'>Driver List</p>
                         </div>
                         <div className="col-xxl-8 col-xl-9 col-lg-12 col-sm-12 pe-0">
-                            <div className="row gap-sm-0 gap-3">
+                            {/* <div className="row gap-sm-0 gap-3">
                                 <div className="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12 text-end">
                                     {driverData.length > 0 &&
                                         <div className="row">
@@ -501,7 +520,20 @@ const Driver = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
+                            <ActionControls
+                                showAddButton={true}
+                                addButtonText={`Add Driver`}
+                                addButtonAction={handleAddButton}
+                                showSearch={true}
+                                searchAction={handleSearchButton}
+                                showExportPDF={driverData?.length > 0}
+                                exportPDFText="Export PDF"
+                                exportPDFAction={''}
+                                showExportCSV={driverData?.length > 0}
+                                exportCSVText="Export CSV"
+                                exportCSVAction={''}
+                            />
                         </div>
                     </div>
                     <div className="row pb-3 pe-0">
@@ -535,9 +567,12 @@ const Driver = () => {
                                                                 </button>
                                                                 <ul className="dropdown-menu">
                                                                     <li>
-                                                                        <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop" onClick={() => getDriverDataById(item.driverId)}>
+                                                                         <Link
+                                                                            className="dropdown-item"
+                                                                            to={`/admin/users/teacher/${roleId}/update/mainuserform/${item.id}/userbasicinformation`}
+                                                                        >
                                                                             Edit
-                                                                        </button>
+                                                                        </Link>
                                                                     </li>
                                                                     <li>
                                                                         <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => setDeleteId(item.driverId)}>

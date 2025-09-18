@@ -1131,10 +1131,10 @@ const Event = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={false}
+              showExportPDF={eventAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              showExportCSV={eventAllData.length > 0}
+              showExportCSV={eventAllData?.length > 0}
               exportCSVText="Export CSV"
               exportCSVAction={EventCSV}
               onSearchChange={handleSearchChange}
@@ -1396,7 +1396,7 @@ const Event = () => {
                               data-bs-toggle="dropdown"
                               aria-expanded="false"
                             >
-                              {roleNameStore.length === allEventRole.length
+                              {roleNameStore?.length === allEventRole?.length
                                 ? "All"
                                 : roleNameStore.length > 1
                                   ? `${roleNameStore.length} Selected`
@@ -1477,8 +1477,8 @@ const Event = () => {
                           >
                             {selectedClassIds.length === classData?.length
                               ? "All "
-                              : selectedClassIds.length > 0
-                                ? selectedClassIds.map(id => {
+                              : selectedClassIds?.length > 0
+                                ? selectedClassIds?.map(id => {
                                   const classItem = classData.find(item => item.classId === id);
                                   return classItem ? classItem.classNo : "";
                                 }).join(", ")

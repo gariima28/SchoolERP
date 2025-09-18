@@ -503,6 +503,9 @@ const Teacher = () => {
     } catch (err) {
       // console.log(err);
     }
+    finally {
+      setLoader(false);
+    }
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -539,6 +542,9 @@ const Teacher = () => {
     } catch (error) {
       setLoader(false);
     }
+    finally {
+      setLoader(false);
+    }
   };
   const MyStaffGetById = async (id) => {
     setIdForUpdate(id);
@@ -560,6 +566,9 @@ const Teacher = () => {
     } catch (error) {
       setLoader(false);
       // console.log(error);
+    }
+    finally {
+      setLoader(false);
     }
   };
 
@@ -585,6 +594,9 @@ const Teacher = () => {
         setShowdelete(true);
       }
     } catch (error) {
+      setLoader(false);
+    }
+    finally{
       setLoader(false);
     }
   };
@@ -741,6 +753,9 @@ const Teacher = () => {
       } catch (error) {
         setLoader(false);
       }
+      finally {
+        setLoader(false);
+      }
     }
 
   };
@@ -757,6 +772,9 @@ const Teacher = () => {
     } catch (error) {
       setLoader(false);
     }
+    finally {
+      setLoader(false);
+    }
   };
 
   const getRollForAdminDashboard = async () => {
@@ -770,6 +788,9 @@ const Teacher = () => {
       } else {
       }
     } catch (error) {
+      setLoader(false);
+    }
+    finally{
       setLoader(false);
     }
   };
@@ -841,10 +862,10 @@ const Teacher = () => {
               addButtonAction={handleAddButton}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={TeacherAllData.length > 0}
+              showExportPDF={TeacherAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              showExportCSV={TeacherAllData.length > 0}
+              showExportCSV={TeacherAllData?.length > 0}
               exportCSVText="Export CSV"
               exportCSVAction={''}
             />
@@ -884,6 +905,7 @@ const Teacher = () => {
                         <td className=" greyText pe-0 no-wrap">{item.staffAddress}</td>
                         <td className=" greyText pe-0 no-wrap">{item.staffPhone}</td>
                         <td className=" greyText pe-0 no-wrap">{item.staffEmail}</td>
+                        <td className=" greyText pe-0 no-wrap">{item.staffStatus}</td>
                         <td className=" greyText  pe-0 no-wrap">
                           <div className="dropdown my-button-show">
                             <button
@@ -1135,7 +1157,7 @@ const Teacher = () => {
                     >
                       <option value="" >--Choose--</option>
 
-                      {rolePermisAllDatashowde.map((item) => (
+                      {rolePermisAllDatashowde?.map((item) => (
                         <option value={item.roleId}>{item.roleName}</option>
                       ))}
                     </select>

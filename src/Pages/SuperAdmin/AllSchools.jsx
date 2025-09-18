@@ -600,7 +600,8 @@ const AllSchools = () => {
                       <thead>
                         <tr>
                           <th style={{ textWrap: 'nowrap' }}><h2>#</h2></th>
-                          <th style={{ textWrap: 'nowrap' }}><h2>School name</h2></th>
+                          <th style={{ textWrap: 'nowrap' }}><h2>School Name</h2></th>
+                          <th style={{ textWrap: 'nowrap' }}><h2>Admin Email</h2></th>
                           <th style={{ textWrap: 'nowrap' }}><h2>Address</h2></th>
                           <th style={{ textWrap: 'nowrap' }}><h2>Phone</h2></th>
                           <th style={{ textWrap: 'nowrap' }}><h2>Package <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/StatusArrow.svg" alt="" /></h2></th>
@@ -613,8 +614,9 @@ const AllSchools = () => {
                         {schoolData.map((item, index) => (
                           <tr key={item.id} className='my-bg-color align-middle'>
                             <th className='greyText' style={{ textWrap: 'nowrap' }}><h3>{index + 1 + (currentPage - 1) * pageSize}</h3></th>
-                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.schoolName}</h3></td>
-                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{(item.schoolAddress).substring(0, 100)}</h3></td>
+                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.schoolName.length > 20 ? item.schoolName.substring(0, 20)+'...' : item.schoolName}</h3></td>
+                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{(item.adminEmail).substring(0, 100)}</h3></td>
+                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.schoolAddress.length > 20 ? item.schoolAddress.substring(0, 20) + '...' : item.schoolAddress}</h3></td>
                             <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.schoolPhone}</h3></td>
                             <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.plans.planName}</h3></td>
                             <td style={{ textWrap: 'nowrap' }}><h3>{(item.plans.usedAddons).length > 0 ? <span className='blueText text-decoration-none' data-bs-toggle="modal" data-bs-target="#specialFeaturesModal" style={{ cursor: 'pointer' }} onClick={(e) => setViewFeaturesData(item.plans.usedAddons)}>View Features</span> : <span className='blueText text-decoration-none text-center' style={{ cursor: 'pointer' }}>---</span>}</h3></td>

@@ -45,15 +45,12 @@ const SchoolPrefixSuccess = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setTimeout(() => {
-            sessionStorage.removeItem('token')
-            sessionStorage.removeItem('subscription')
-            window.location.reload()
-            navigate('/')
-        }, 5000);
-
-    }, [])
+    const onContinue = () => {
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('subscription')
+        window.location.reload()
+        navigate('/')
+    }
 
 
     return (
@@ -75,7 +72,7 @@ const SchoolPrefixSuccess = () => {
                                     <p className='text-grey text-center'>Your Prefix has been successfully registered, Click<br />below to continue your access.</p>
                                     <form>
                                         <div className="d-grid gap-2 col-12 mx-auto">
-                                            <Link type="submit" className="btn btnsubmitOwn text-white" to='/'>Continue</Link>
+                                            <Link type="submit" className="btn btnsubmitOwn text-white" onClick={onContinue}>Continue</Link>
                                         </div>
                                         <div className="d-grid gap-2 col-12 mx-auto">
                                             <Link type="submit" className="m-2 text-center text-black text-decoration-none" to='/'>

@@ -808,10 +808,10 @@ const Notice = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={false}
+              showExportPDF={noticeAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              showExportCSV={noticeAllData.length > 0}
+              showExportCSV={noticeAllData?.length > 0}
               exportCSVText="Export Notice CSV"
               exportCSVAction={NoticeCSV}
               onSearchChange={handleSearchChange}

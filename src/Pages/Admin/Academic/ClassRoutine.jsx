@@ -949,9 +949,12 @@ const ClassRoutine = () => {
       const response = await SlotGetAllApi();
       console.log('Slot  get all data ', response)
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
-        setSlotGetAll(response?.data)
-        setLoader(false)
+        if(response.data.status === 'success'){
+          // toast.success(response?.data?.classes?.message)
+          console.log(response?.data, 'response?.data')
+          setSlotGetAll(response?.data)
+          setLoader(false)
+        }
 
       } else {
         // toast.error(response?.data?.classes?.message);
@@ -1115,13 +1118,13 @@ const ClassRoutine = () => {
               showSecondAddButton={true}
               secondAddButtonText="Add Time Slot"
               secondAddButtonAction={handleSecondAddAction}
-              showExportPDF={false}
+              showExportPDF={classRoutineData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               exportPDFFileName="Fee Type.pdf"
-              showExportCSV={true}
+              showExportCSV={classRoutineData?.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={ClassRoutineCSV}
+              exportCSVAction={''}
               exportCSVFileName="Fee Type.xlsx"
               showSearch={false}
               searchValue={searchKey}

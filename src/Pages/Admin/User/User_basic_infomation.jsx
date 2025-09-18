@@ -13,7 +13,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
   const [gender, setGender] = useState('');
-  const [status, setStatus] = useState();
+  const [status, setStatus] = useState('');
   const [maritalStatus, setMaritalstatus] = useState();
   const [bloodGroup, setBloodGroup] = useState();
   const [nationality, setNationality] = useState();
@@ -225,6 +225,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       formData.append('religion', religion);
       formData.append('staffImage', profileImageForBasicInfo);
       formData.append('state', state);
+      formData.append('staffStatus', status);
       formData.append('citizenship', citizenship);
       setLoader(true);
       try {
@@ -266,7 +267,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
         setFirstAdd(response?.data?.user?.staffAddress || '');
         setSecondAddress(response?.data?.user?.address2 || '');
         setGender(response?.data?.user?.staffGender || '');
-        setStatus(response?.data?.user?.staffStatus || false);
+        setStatus(response?.data?.user?.staffStatus || '');
         setMaritalstatus(response?.data?.user?.maritalStatus || '');
         setState(response?.data?.user?.state || '');
         setCity(response?.data?.user?.city || '');
@@ -311,6 +312,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       formData.append('pinCode', pinCode);
       formData.append('religion', religion);
       formData.append('staffImage', imageFile);
+      formData.append('staffStatus', status);
       formData.append('state', state);
       formData.append('citizenship', citizenship);
       setLoader(true);
@@ -1457,11 +1459,12 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   data-tooltip="Enter secondary address"
                   aria-label="Address Line 2"
                 >
-                  Address Line 2 <span style={{ color: '#dc3545' }}>*</span>
+                  Address Line 2 
+                  {/* <span style={{ color: '#dc3545' }}>*</span> */}
                 </label>
                 <input
                   type="text"
-                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidsecondAddressRequired && secondAddress ? 'valid-indicator' : ''}`}
+                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color`}
                   id="address2"
                   placeholder="Enter Address"
                   value={emptyValue === "success" ? '' : secondAddress}
@@ -1469,11 +1472,6 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   tabIndex="18"
                   aria-describedby="address2Error"
                 />
-                {isValidsecondAddressRequired && (
-                  <div id="address2Error" className="error-message">
-                    Valid address is required
-                  </div>
-                )}
               </div>
             </div>
           </div>
