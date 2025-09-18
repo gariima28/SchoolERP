@@ -610,6 +610,7 @@ const ManageFaq = () => {
 
         } else {
           toast.error(response?.data?.message);
+          setLoader(false)
         }
         // if (response) {
         //   setShow1(false)
@@ -617,11 +618,13 @@ const ManageFaq = () => {
         // }
 
       } catch (error) {
-        setloaderState(false);
+        // setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
       finally {
-        setloaderState(false);
+        // setloaderState(false);
+        setLoader(false)
       }
     }
   }
@@ -642,7 +645,7 @@ const ManageFaq = () => {
     setHide2(true)
     setReply(false)
   }
-  //  Date range 
+  // Date range 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -817,7 +820,7 @@ const ManageFaq = () => {
                         <td colSpan="12" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Group 192.png" alt="" />
+                              <img src="/images/Group 192.png" alt="" />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -1071,14 +1074,14 @@ const ManageFaq = () => {
                     <input type="email" class="form-control form-focus input-bg label-color" value={reqemail} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="xyz12@gmail.com" disabled />
                   </div>
 
-                  <div class="mb-3 my-div-class" >
+                  {/* <div class="mb-3 my-div-class" >
                     <label for="exampleFormControlTextarea1" className="form-label label-color">Req. Message</label>
                     <textarea class="form-control form-focus heading-14  label-color" value={reqmsg} rows="2" id="exampleFormControlTextarea1" placeholder='Lorem Ipsumis simply dummy text ofthe printing and type setting industry.Lorem Ipsum has been the industrysstandard dummy text ever since the1500 when an unknown printer tooka galley of type and scrambled it to makea type specimen book' disabled></textarea>
-                  </div>
+                  </div> */}
 
                   <div>
                     <label for="exampleFormControlTextarea1" class="form-label label-color">Contact No</label>
-                    <div class="input-group mb-3 cont-drop-btn">
+                    <div class="input-group  cont-drop-btn">
                       <button class="btn btn-outline-secondary dropdown-toggle" style={{ border: '1px solid #ced4da' }} type="button" data-bs-toggle="dropdown" aria-expanded="false">+91</button>
                       {/* <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Action</a></li>
@@ -1096,7 +1099,7 @@ const ManageFaq = () => {
                         Atleast 10 integers required
                       </p>
                     )}
-                    <p className='ms-1' style={{ color: 'red', float: 'left', fontSize: '14px', marginTop: '-12px' }}>{isValidPasswordRequired}</p>
+                    <p className='ms-1' style={{ color: 'red', float: 'left', fontSize: '14px', marginTop: '-6px' }}>{isValidPasswordRequired}</p>
                   </div>
                   <br />
                   <div >
@@ -1126,7 +1129,7 @@ const ManageFaq = () => {
             hidesuccess && (
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
                 </div>
                 <hr className='' />
@@ -1167,7 +1170,7 @@ const ManageFaq = () => {
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
                   <Link data-bs-dismiss="offcanvas" className='ps-3'>
-                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" />
+                    <img src="/images/Vector (13).svg" alt="" />
                   </Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel">Delete Section</h5>
                 </div>
@@ -1241,7 +1244,7 @@ export default ManageFaq
          hidedelete && (
            <div className="container-fluid">
              <div className="offcanvas-header p-0 pt-3">
-               <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
+               <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
                <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
              </div>
              <hr className='' />

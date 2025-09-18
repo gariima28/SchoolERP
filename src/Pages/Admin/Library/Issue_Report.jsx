@@ -773,57 +773,7 @@ const Issue_Report = () => {
       setLoader(false)
     }
   }
-
-
   // post Api of issue book
-  // const MyIssueBookApi = async () => {
-  //   if (FuncValidation()) {
-  //     const formData = new FormData()
-  //     formData.append('returnDate', returnDate);
-  //     formData.append('classId', Class);
-  //     formData.append('sectionId', sectionId);
-  //     formData.append('studentId', studentMembberId);
-  //     formData.append('bookId', booById);
-  //     setLoader(true)
-  //     try {
-  //       const response = await BookIssue(formData);
-  //       console.log('issue book post api', response)
-  //       if (response?.data?.status === "success") {
-  //         toast.success(response?.data?.message);
-  //         MyRolPermisGetAllApi()
-  //         setLoader(false)
-  //         setBooById('')
-  //         setEdition('')
-  //         setLanguage('')
-  //         setRackNumber('')
-  //         setShelfNumber('')
-  //         setAuthor2('')
-  //         setQuantity('')
-  //         setClass('')
-  //         setClassNo('')
-  //         setSectionId('')
-  //         setStudentMembberId('')
-  //         setReturnDate('')
-  //         setShow(false)
-  //           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-  //           offcanvasInstance.hide();
-  //           setTimeout(() => {
-  //             setShow(true)
-  //           }, 0.5)
-
-  //       } else {
-  //         toast.error(response?.data?.message);
-  //         // setShow(true)
-  //         setLoader(false)
-  //       }
-  //     } catch (error) {
-  //       console.log(error)
-  //       setLoader(false)
-  //     }
-  //   }
-
-
-  // }
   const MyIssueBookApi = async () => {
     if (FuncValidation()) {
       const formData = new FormData()
@@ -838,9 +788,10 @@ const Issue_Report = () => {
         console.log('issue book post api', response)
         if (response?.data?.status === "success") {
           toast.success(response?.data?.message);
-          MyRolPermisGetAllApi()
+          // MyRolPermisGetAllApi()
+          MyBookIssueGetAllApi()
           setLoader(false)
-
+          setShow(false)
           // Reset all form fields
           setBooById('')
           setEdition('')
@@ -856,17 +807,22 @@ const Issue_Report = () => {
           setReturnDate('')
 
           // Hide the offcanvas
-          if (offcanvasRef.current) {
-            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-            if (offcanvasInstance) {
-              offcanvasInstance.hide();
-            } else {
-              // If no instance exists, create one and hide it
-              const newOffcanvas = new bootstrap.Offcanvas(offcanvasRef.current);
-              newOffcanvas.hide();
-            }
-          }
 
+          // if (offcanvasRef.current) {
+          //   const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+          //   if (offcanvasInstance) {
+          //     offcanvasInstance.hide();
+          //   } else {
+          //     const newOffcanvas = new bootstrap.Offcanvas(offcanvasRef.current);
+          //     newOffcanvas.hide();
+          //   }
+          // }
+
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+          offcanvasInstance.hide();
+          setTimeout(() => {
+            setShow(true)
+          }, 0.5)
           // Reset show state after a delay if needed
           setTimeout(() => {
             setShow(false)
@@ -881,8 +837,6 @@ const Issue_Report = () => {
       }
     }
   }
-
-
   //  Get All Api issue book 
   const MyBookIssueGetAllApi = async () => {
     setLoader(true)
@@ -910,7 +864,7 @@ const Issue_Report = () => {
       const response = await BookManagerDeleteApi(id);
       if (response?.status === 200) {
         toast.success(response?.data?.message);
-        MyRolPermisGetAllApi()
+        // MyRolPermisGetAllApi()
         setShowdelete(false)
         setHidedelete(true)
         setLoader(false)
@@ -975,16 +929,15 @@ const Issue_Report = () => {
         const formData = new FormData()
         formData.append('returnDate', returnDate)
         formData.append('status', mainStatus)
-
-
         const response = await BookIssueReturn(id, formData);
         console.log('My issue and return book api Updatee', response)
         if (response?.status === 200) {
           toast.success(response?.data?.message);
           setShow12(false)
+          MyBookIssueGetAllApi()
           // setHide12(true)
-          MyRolPermisGetAllApi()
-          MyRolPermisGetAllApi()
+          // MyRolPermisGetAllApi()
+          // MyRolPermisGetAllApi()
           setLoader(false)
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
           offcanvasInstance.hide();
@@ -1026,8 +979,6 @@ const Issue_Report = () => {
   };
 
   const clearData = () => {
-    // startDate('')
-    // endDate('')
     setBooById('')
     setEdition('')
     setLanguage('')
@@ -1042,10 +993,11 @@ const Issue_Report = () => {
     setReturnDate('')
     setLoader(false)
   }
+
   // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
-    setPageNo(1); // Reset to first page on search change
+    setPageNo(1); 
   };
 
   return (
@@ -1231,7 +1183,7 @@ const Issue_Report = () => {
                         <td colSpan="12" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
-                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
+                              <img src="/images/search.svg" alt="" className='img-fluid p-5' />
                               <h2><b>No Data Found</b></h2>
                             </div>
                           </div>
@@ -1319,9 +1271,7 @@ const Issue_Report = () => {
                           <option value={`${item.classId}, ${item.classNo}`}>{item.classNo}</option>
                         ))
                       }
-
                     </select>
-
                   </div>
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Section</label>
@@ -1330,7 +1280,6 @@ const Issue_Report = () => {
                       {
                         sectionData?.map(item => (
                           <option value={`${item.sectionId}, ${item.sectionName}`}>{item.sectionName}</option>
-
                           // <option value={item.sectionId}>{item.sectionName}</option>
                         ))
                       }
@@ -1347,9 +1296,7 @@ const Issue_Report = () => {
                           <option value={item.studentId}>{item.studentName}</option>
                         ))
                       }
-
                     </select>
-
                   </div>
                   <div className="mt-2" style={{ marginTop: '-6px' }}>
                     <label for="exampleFormControlInput1" className="form-label label-color heading-14">Return date</label>
@@ -1600,7 +1547,7 @@ const Issue_Report = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
                 <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
