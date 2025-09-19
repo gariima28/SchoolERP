@@ -222,8 +222,8 @@ const AddVehicle = () => {
                                     {errors.vehicleNo && <p className="font12 text-danger">{errors.vehicleNo.message}</p>}
                                 </div>
                                 <div className="col-md-6 col-sm-12 col-12">
-                                    <label htmlFor="vehicleModel" className="form-label font14">Vehicle Model <span className='text-danger'>*</span></label>
-                                    <input id="vehicleModel" type="text" className={`form-control font14 ${errors.vehicleModel ? 'border-danger' : ''}`} placeholder="Enter Vehicle Model" {...register('vehicleModel', { required: 'Vehicle Model is required *', validate: value => { if (!/^[A-Za-zA-Z0-9-\s]*$/.test(value)) { return 'Vehicle Model must start with an uppercase letter and can only contain letters, digits, and hyphens (-)'; } return true; } })} />
+                                    <label htmlFor="vehicleModel" className="form-label font14">Vehicle Type <span className='text-danger'>*</span></label>
+                                    <input id="vehicleModel" type="text" className={`form-control font14 ${errors.vehicleModel ? 'border-danger' : ''}`} placeholder="Enter Vehicle Type" {...register('vehicleModel', { required: 'Vehicle Type is required *', validate: value => { if (!/^[A-Za-zA-Z0-9-\s]*$/.test(value)) { return 'Vehicle Type must start with an uppercase letter and can only contain letters, digits, and hyphens (-)'; } return true; } })} />
                                     {errors.vehicleModel && <p className="font12 text-danger">{errors.vehicleModel.message}</p>}
                                 </div>
                                 <div className="col-md-6 col-sm-12 col-12">

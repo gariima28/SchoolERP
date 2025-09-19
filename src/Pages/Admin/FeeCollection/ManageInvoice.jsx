@@ -157,13 +157,17 @@ const ManageInvoice = () => {
     const [status, setStatus] = useState('');
     const [invoiceId, setInvoiceId] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
+
+    // Initialize dateRange with current date
+    const currentDate = new Date();
     const [dateRange, setDateRange] = useState([
         {
-            startDate: null,
-            endDate: null,
+            startDate: currentDate,
+            endDate: currentDate,
             key: 'selection',
         },
     ]);
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
     const [allClassData, setAllClassData] = useState([]);
     const [recieptData, setRecieptData] = useState();
@@ -249,20 +253,29 @@ const ManageInvoice = () => {
     const handleSectionChange = (value) => {
         setSection(value);
     };
-
+    
     // Handler for date range change
     const handleDateRangeChange = (item) => {
         setDateRange([item.selection]);
         const { startDate, endDate } = item.selection;
-        setStartDate(startDate ? startDate.toISOString().split('T')[0] : '');
-        setEndDate(endDate ? endDate.toISOString().split('T')[0] : '');
-        console.log('DateRange updated:', item.selection); // Debug log
+
+        // Normalize dates to local timezone to avoid UTC shift
+        const normalizeDate = (date) => {
+            if (!date) return '';
+            const localDate = new Date(date);
+            return `${localDate.getFullYear()}-${String(localDate.getMonth() + 1).padStart(2, '0')}-${String(localDate.getDate()).padStart(2, '0')}`;
+        };
+
+        setStartDate(normalizeDate(startDate));
+        setEndDate(normalizeDate(endDate));
+        console.log('DateRange updated:', item.selection, 'Normalized:', normalizeDate(startDate), normalizeDate(endDate)); // Debug log
     };
 
     // Format date range for display
     const formattedDate = dateRange[0].startDate && dateRange[0].endDate
         ? `${dateRange[0].startDate.toLocaleDateString()} - ${dateRange[0].endDate.toLocaleDateString()}`
         : 'Select Date Range';
+
 
     // Updated cancelSearch to reset dateRange and pickerKey
     const cancelSearch = () => {
@@ -335,6 +348,25 @@ const ManageInvoice = () => {
         setIsDropdownOpen(isDropdownOpen === index ? null : index);
         setInvoiceId(index)
     };
+    const dropdownRef = useRef(null);
+
+
+    // close dropdown on outside click
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setOpenDropdownId(null);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
 
     // Collect Fees
@@ -425,17 +457,7 @@ const ManageInvoice = () => {
                                     <input
                                         readOnly
                                         value={formattedDate}
-                                        onClick={() => {
-                                            // Reset dateRange when opening to ensure no default selection
-                                            setDateRange([
-                                                {
-                                                    startDate: null,
-                                                    endDate: null,
-                                                    key: 'selection',
-                                                },
-                                            ]);
-                                            setShowDatePicker(!showDatePicker);
-                                        }}
+                                        onClick={() => setShowDatePicker(!showDatePicker)}
                                         className="border border-gray-300 rounded padding-daterange font14 cursor-pointer w-100"
                                     />
                                     {showDatePicker && (
@@ -443,15 +465,31 @@ const ManageInvoice = () => {
                                             <DateRange
                                                 editableDateInputs={true}
                                                 onChange={handleDateRangeChange}
-                                                moveRangeOnFirstSelection={false}
-                                                ranges={dateRange}
+                                                moveRangeOnFirstSelection={false} // Prevents range movement on first click
+                                                ranges={dateRange} // Default to current date
                                                 preventSnapRefocus={true}
                                                 showDateDisplay={false}
-                                                rangeColors={['transparent']}
-                                                showSelectionPreview={false}
-                                                focusedRange={[0, 0]}
+                                                rangeColors={['#008479']} // Single color for selected date
+                                                showSelectionPreview={true} // Shows preview of selected date
+                                                focusedRange={[0, 0]} // Focus on the first range
                                                 showMonthAndYearPickers={true}
-                                                retainEndDateOnFirstSelection={false}
+                                                retainEndDateOnFirstSelection={false} // Ensures single date selection by default
+                                                initialFocusedRange={[0]} // Focus on the current date initially
+                                                date={currentDate} // Open calendar to current date
+                                                months={1} // Show only one month at a time
+                                                direction="vertical" // Ensure single month view
+                                                // Ensure only the current date is selected initially
+                                                onRangeFocusChange={(focusedRange) => {
+                                                    if (focusedRange[0] === 0 && !dateRange[0].endDate) {
+                                                        setDateRange([
+                                                            {
+                                                                startDate: currentDate,
+                                                                endDate: currentDate,
+                                                                key: 'selection',
+                                                            },
+                                                        ]);
+                                                    }
+                                                }}
                                             />
                                         </div>
                                     )}
@@ -531,6 +569,7 @@ const ManageInvoice = () => {
                                                         <th className="font14 textWrapClass tableHeading">Total Amount</th>
                                                         <th className="font14 textWrapClass tableHeading">Discount</th>
                                                         <th className="font14 textWrapClass tableHeading">Due Amount</th>
+                                                        <th className="font14 textWrapClass tableHeading">Paid Amount</th>
                                                         <th className="font14 textWrapClass tableHeading">Paid Status</th>
                                                         <th className="font14 textWrapClass tableHeading text-center">Action</th>
                                                     </tr>
@@ -545,6 +584,7 @@ const ManageInvoice = () => {
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.totalAmount}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.discount}</td>
                                                             <td className="font14 pt-3 textWrapClass greyText">{invoice?.dueAmount}</td>
+                                                            <td className="font14 pt-3 textWrapClass greyText">{invoice?.paidAmount}</td>
                                                             <td className=' pt-3 textWrapClass'><span className={`font14 ${invoice?.status === 'Paid' || invoice?.status === 'PAID' ? 'paidbutton' : 'unPaidbutton'}`}>{invoice?.status}</span></td>
                                                             <td className="font14 pt-3 textWrapClass text-center">
                                                                 <div className="dropdown dropdownbtn">
@@ -556,9 +596,11 @@ const ManageInvoice = () => {
                                                                         Action
                                                                     </button>
                                                                     <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === invoice.invoiceId ? 'show z-index-high' : ''}`}>
-                                                                        <li>
-                                                                            <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#collectFees" aria-controls="collectFees">Collect Fees</button>
-                                                                        </li>
+                                                                        {invoice?.status === 'Paid' || invoice?.status === 'PAID' ? '' :
+                                                                            <li>
+                                                                                <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#collectFees" aria-controls="collectFees">Collect Fees</button>
+                                                                            </li>
+                                                                        }
                                                                         <li>
                                                                             <button className="dropdown-item greyText" type="button" data-bs-toggle="modal" data-bs-target="#viewDetails" onClick={() => getRecieptByStudentId(invoice.invoiceId)}>View</button>
                                                                         </li>

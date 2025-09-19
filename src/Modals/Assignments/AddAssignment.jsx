@@ -148,7 +148,6 @@ const AddAssignment = ({ addedSuccess }) => {
         try {
             const formData = new FormData();
             formData.append('title', data?.title);
-            formData.append('description', data?.description);
             formData.append('classId', data?.ClassId);
             formData.append('sectionId', data?.sectionId);
             formData.append('subjectId', data?.subjectId);

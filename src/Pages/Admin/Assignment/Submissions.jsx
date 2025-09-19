@@ -645,12 +645,12 @@ const Submission = () => {
                                     </th>
                                     <td className="textWrapClass greyText align-items-center">
                                       <img
-                                        className="border-rounded"
-                                        src={item.studentImage}
+                                        className="rounded-circle"
+                                        src={item.studentImage || '/images/fallback.png'}
                                         alt=""
                                         height={25}
                                       />
-                                      <span className="font14 align-self-center">
+                                      <span className="font14 align-self-center ms-2">
                                         {item.studentName}
                                       </span>
                                     </td>
@@ -698,7 +698,7 @@ const Submission = () => {
                                     </td>
                                     <td className="textWrapClass greyText">
                                       <span className="font14 align-self-center">
-                                        {item.resultMarks === 0 ? '-' : item.resultMarks + '/' + item.totalMarks}
+                                        {item.resultMarks === 0 ? 0 + '/' + item.totalMarks : item.resultMarks + '/' + item.totalMarks}
                                       </span>
                                     </td>
                                     <td>
@@ -811,12 +811,7 @@ const Submission = () => {
                         className={`form-control formimagetext font14 ${errors.file ? 'border-danger' : ''}`}
                         accept='.pdf, .docx, .png, .jpg'
                         {...register('file', {
-                          required: 'File is required *',
-                          validate: value => {
-                            if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800))
-                              return 'File size must be between 10 KB to 200 KB';
-                            return true;
-                          }
+                          required: 'File is required *'
                         })}
                       />
                       :

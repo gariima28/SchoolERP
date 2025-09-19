@@ -491,15 +491,20 @@ const Conta_deduction = () => {
                       aria-describedby="deductionError"
                     >
                       <option value="">--Choose--</option>
-                      {deductionData.length > 0 ? (
-                        deductionData.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.deductionName}
-                          </option>
-                        ))
-                      ) : (
-                        <option disabled>No deductions found</option>
-                      )}
+                      {deductionData.length > 0
+                        ?
+                        (
+                          <>
+                            {deductionData?.map((item) => (
+                              <option key={item.id} value={item.id}>
+                                {item.deductionName}
+                              </option>
+                            ))}
+                          </>
+                        )
+                        :
+                        <option value="no" disabled>-- No Deduction Created Yet --</option>
+                      }
                     </select>
                   )}
                 />
