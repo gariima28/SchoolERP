@@ -145,7 +145,7 @@ const DashboardPage = () => {
                 </div>
               </div>
               <div className="row">
-                {RoutineData.length > 0 ? RoutineData.map((item) => (
+                {RoutineData?.length > 0 ? RoutineData?.map((item) => (
                   <div className="col-sm-6 col-12 p-1" key={item.classRouteId}>
                     <div className="timeTableCard p-2">
                       <p className='greenText font18'>{item.subject}</p>

@@ -176,11 +176,11 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
         setRolePermisAllData(roles);
         const matchedRole = roles.find((role) => role.roleId === Number(roleId));
         if (matchedRole && roleId !== 0) {
-          setRoleId(matchedRole.roleId.toString());
+          // setRoleId(matchedRole.roleId.toString());
           setMyroleName(matchedRole.roleName);
           setDropdownDisabled(true);
         } else {
-          setRoleId('');
+          // setRoleId('');
           setMyroleName('');
           setDropdownDisabled(false);
         }

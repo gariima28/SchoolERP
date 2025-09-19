@@ -134,6 +134,7 @@ const Conta_contac = ({ data }) => {
   };
 
   const handleDepartment = (val) => {
+    console.log(val, 'val')
     setDepartment(val);
   };
 
@@ -191,6 +192,7 @@ const Conta_contac = ({ data }) => {
         const response = await UserContactGetAllApi(myUserID, formData);
         if (response?.data?.status === 'success') {
           toast.success(response?.data?.message);
+          MyStaffGetById()
           setUpdateStatus(response?.data?.status);
           clearData();
           setLoader(false);
@@ -215,7 +217,7 @@ const Conta_contac = ({ data }) => {
         setContractEnd(response?.data?.contact?.contractEnd || '');
         setBasicSalary(response?.data?.contact?.basicSalary || '');
         setHourlyRate(response?.data?.contact?.hourlyRate || '');
-        setPayslip(response?.data?.contact?.paySlipType || '');
+        setPayslip(response?.data?.contact?.paySlip || '');
         setOfficeShift(response?.data?.contact?.shift || '');
         setDepartment(response?.data?.contact?.department || '');
         setDesignation(response?.data?.contact?.designation || '');
@@ -493,13 +495,13 @@ const Conta_contac = ({ data }) => {
                   className="form-select form-select-sm form-focus label-color"
                   id="department"
                   value={department}
-                  onChange={() => handleDepartment(e.target.value)}
+                  onChange={(e) => handleDepartment(e.target.value)}
                   tabIndex="2"
                   aria-describedby="departmentError"
                 >
                   <option value="">--Choose--</option>
                   {departmentData?.map((item) => (
-                    <option key={item.departmentId} value={item.departmentId}>{item.departmentName}</option>
+                    <option key={item.departmentId} value={item.departmentName}>{item.departmentName}</option>
                   ))}
                 </select>
               </div>
@@ -690,9 +692,9 @@ const Conta_contac = ({ data }) => {
                       ?
                       (
                         <>
-                          <option value="All" disabled>All</option>
+                          <option value="All">All</option>
                           {leaveData?.map((item) => (
-                            <option key={item.departmentId} value={item.departmentId}>{item.departmentName}</option>
+                            <option key={item.id} value={item.id}>{item.leaveType}</option>
                           ))}
                         </>
                       )
@@ -719,7 +721,7 @@ const Conta_contac = ({ data }) => {
               <button
                 type="button"
                 className="btn btn-outline-success my-green heading-14 me-1"
-                onClick={updateStatus === 'success' ? MyStaffPutApi : ContactDataApi}
+                onClick={()=>ContactDataApi()}
                 disabled={loader}
                 tabIndex="10"
                 aria-label={updateStatus === 'success' ? 'Update Contract' : 'Submit Contract'}
