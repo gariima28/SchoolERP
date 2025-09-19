@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import ReactPaginate from 'react-paginate';
 import { useForm } from 'react-hook-form';
-import { getroleName } from '../../../Utils/Apis';
+import { getroleName, UsersGetApiByRoleId } from '../../../Utils/Apis';
 import ActionControls from '../../../Layouts/ActionControls';
 
 const Container = styled.div`
@@ -230,7 +230,7 @@ const Driver = () => {
             // console.log(err);
         }
         finally {
-            setLoader(false);
+            setloaderState(false);
         }
     };
 
@@ -247,7 +247,7 @@ const Driver = () => {
             // console.log(err);
         }
         finally {
-            setLoader(false);
+            setloaderState(false);
         }
     };
 
@@ -265,11 +265,11 @@ const Driver = () => {
     const getAllDriverData = async () => {
         try {
             setloaderState(true);
-            var response = await getDriverDataApi(searchByKey, pageNo, pageSize);
+            var response = await UsersGetApiByRoleId(roleId, searchByKey, pageNo, pageSize);
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
                     setloaderState(false);
-                    setDriverData(response?.data?.drivers);
+                    setDriverData(response?.data?.staffList);
                     setTotalPages(response?.data?.totalPages);
                     setCurrentPage(response?.data?.currentPage);
                     // toast.success(response.data.message););
@@ -296,7 +296,7 @@ const Driver = () => {
             }
         }
         finally {
-            setLoader(false);
+            setloaderState(false);
         }
     }
 
@@ -351,7 +351,7 @@ const Driver = () => {
             console.error('Error during login:', error);
         }
         finally {
-            setLoader(false);
+            setloaderState(false);
         }
     }
 
@@ -415,7 +415,7 @@ const Driver = () => {
             console.error('Error during login:', error);
         }
         finally {
-            setLoader(false);
+            setloaderState(false);
         }
     };
 
@@ -441,20 +441,20 @@ const Driver = () => {
 
 
     const getRollForAdminDashboard = async () => {
-        // setLoader(true);
+        // setloaderState(true);
         try {
             const response = await getroleName(id);
             console.log(response, "Resone for roles")
             if (response?.status === 200) {
                 setuserName(response?.data?.roles?.roleName);
-                // setLoader(false);
+                // setloaderState(false);
             } else {
             }
         } catch (error) {
-            // setLoader(false);
+            // setloaderState(false);
         }
         finally {
-            setLoader(false);
+            setloaderState(false);
         }
     };
 
@@ -538,7 +538,7 @@ const Driver = () => {
                     </div>
                     <div className="row pb-3 pe-0">
                         <div className=" cardradius bg-white p-3">
-                            {driverData.length > 0 ?
+                            {driverData?.length > 0 ?
                                 <>
                                     <div className="overflow-scroll">
                                         <table className="table align-middle table-striped">
@@ -549,6 +549,7 @@ const Driver = () => {
                                                     <th><h2>Address</h2></th>
                                                     <th><h2>Phone</h2></th>
                                                     <th><h2>Email</h2></th>
+                                                    <th><h2>Status</h2></th>
                                                     <th className='text-end'><h2>Action</h2></th>
                                                 </tr>
                                             </thead>
@@ -556,10 +557,11 @@ const Driver = () => {
                                                 {driverData?.map((item, index) => (
                                                     <tr key={item.id} className='my-bg-color align-middle'>
                                                         <th className='textWrapClass greyText'><h3>{index + 1}</h3></th>
-                                                        <td className='textWrapClass greyText'><h3>{item.driverName}</h3></td>
-                                                        <td className='textWrapClass greyText'><h3>{item.driverAddress}</h3></td>
-                                                        <td className='textWrapClass greyText'><h3>{item.phoneNumber}</h3></td>
-                                                        <td className='textWrapClass greyText'><h3>{item.driverEmail}</h3></td>
+                                                        <td className='textWrapClass greyText'><h3>{item.staffName}</h3></td>
+                                                        <td className='textWrapClass greyText'><h3>{item.staffAddress}</h3></td>
+                                                        <td className='textWrapClass greyText'><h3>{item.staffPhone}</h3></td>
+                                                        <td className='textWrapClass greyText'><h3>{item.staffEmail}</h3></td>
+                                                        <td className={`greyText pe-0 no-wrap ${item.staffStatus ? 'activeText' : 'deactiveText'}`}>{item.staffStatus ? 'Active' : 'InActive'}</td>
                                                         <td className='textWrapClass text-end'>
                                                             <div className="dropdown dropdownbtn">
                                                                 <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -568,7 +570,7 @@ const Driver = () => {
                                                                 <ul className="dropdown-menu">
                                                                     <li>
                                                                          <Link
-                                                                            className="dropdown-item"
+                                                                            className="dropdown-item greyText"
                                                                             to={`/admin/users/teacher/${roleId}/update/mainuserform/${item.id}/userbasicinformation`}
                                                                         >
                                                                             Edit

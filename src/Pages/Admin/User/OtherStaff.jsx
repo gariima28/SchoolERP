@@ -883,6 +883,7 @@ const OtherStaff = () => {
                   <th>Address</th>
                   <th>Phone</th>
                   <th>Email</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -897,6 +898,7 @@ const OtherStaff = () => {
                         <td className=' greyText pe-0 no-wrap'>{item.staffAddress}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.staffPhone}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.staffEmail}</td>
+                        <td className={`greyText pe-0 no-wrap ${item.staffStatus ? 'activeText' : 'deactiveText'}`}>{item.staffStatus ? 'Active' : 'InActive'}</td>
                         <td className=' greyText  pe-0 no-wrap' >
                           <div className="dropdown my-button-show">
                             <button
@@ -920,7 +922,7 @@ const OtherStaff = () => {
                     :
                     (
                       <tr>
-                        <td colSpan="6" className="text-center">
+                        <td colSpan="12" className="text-center">
                           <div className="d-flex justify-content-center align-items-center m-5 ">
                             <div className="text-center">
                               <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />

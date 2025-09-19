@@ -8,7 +8,7 @@ import { getAllClassApi } from 'src/Utils/Apis';
 import DataLoader from 'src/Layouts/Loader';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import StudentFeeDetails from './StudentFeeDetails';
+import StudentFeeDetails from './StudentFeeDetails'; // Ensure this is not lazy-loaded unless properly configured
 import toast from 'react-hot-toast';
 import { getAllRecieptApi, getRecieptCsvApi } from '../../../Utils/Apis';
 import ReactPaginate from 'react-paginate';
@@ -156,10 +156,13 @@ const Reciept = () => {
     const [section, setSection] = useState('');
     const [status, setStatus] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
+
+    // Initialize dateRange with current date
+    const currentDate = new Date(); // e.g., September 19, 2025, 01:29 PM IST
     const [dateRange, setDateRange] = useState([
         {
-            startDate: null,
-            endDate: null,
+            startDate: currentDate,
+            endDate: currentDate,
             key: 'selection',
         },
     ]);
@@ -179,7 +182,7 @@ const Reciept = () => {
     const [allSectionData, setAllSectionData] = useState([]);
     const [RecieptData, setRecieptData] = useState([]);
     const datePickerRef = useRef(null);
-    const dropdownRefs = useRef({}); // Store refs for each dropdown
+    const dropdownRefs = useRef({});
 
     const {
         register: registerAdd,
@@ -200,6 +203,8 @@ const Reciept = () => {
     } = useForm({
         mode: 'onChange',
     });
+    
+    const dropdownRef = useRef(null);
 
     // Click outside handler for date picker and dropdowns
     useEffect(() => {
@@ -267,24 +272,27 @@ const Reciept = () => {
         setSection(value);
     };
 
-    const [pickerKey, setPickerKey] = useState(0);
-
+    // Handler for date range change
     const handleDateRangeChange = (item) => {
         setDateRange([item.selection]);
         const { startDate, endDate } = item.selection;
-        const formatDate = (date) => {
-            if (date) {
-                return date.toISOString().split('T')[0];
-            }
-            return '';
+
+        // Normalize dates to local timezone to avoid UTC shift
+        const normalizeDate = (date) => {
+            if (!date) return '';
+            const localDate = new Date(date);
+            return `${localDate.getFullYear()}-${String(localDate.getMonth() + 1).padStart(2, '0')}-${String(localDate.getDate()).padStart(2, '0')}`;
         };
-        setStartDate(formatDate(startDate));
-        setEndDate(formatDate(endDate));
+
+        setStartDate(normalizeDate(startDate));
+        setEndDate(normalizeDate(endDate));
+        console.log('DateRange updated:', item.selection, 'Normalized:', normalizeDate(startDate), normalizeDate(endDate)); // Debug log
     };
 
+    // Format date range for display with null check
     const formattedDate = dateRange[0].startDate && dateRange[0].endDate
-        ? `${dateRange[0].startDate.toLocaleDateString()} - ${dateRange[0].endDate.toLocaleDateString()}`
-        : 'Select Date Range';
+        ? `${dateRange[0].startDate.toLocaleDateString('en-GB')} - ${dateRange[0].endDate.toLocaleDateString('en-GB')}`
+        : currentDate.toLocaleDateString('en-GB'); // Default to current date if null
 
     const cancelSearch = () => {
         setSearchBtn(true);
@@ -294,12 +302,11 @@ const Reciept = () => {
         setEndDate('');
         setDateRange([
             {
-                startDate: null,
-                endDate: null,
+                startDate: currentDate, // Reset to current date instead of null
+                endDate: currentDate,   // Reset to current date instead of null
                 key: 'selection',
             },
         ]);
-        setPickerKey((prev) => prev + 1);
         setAllSectionData([]);
         setRecieptData([]);
     };
@@ -313,12 +320,12 @@ const Reciept = () => {
                 setTotalPages(response?.data?.totalPages);
                 setCurrentPage(response?.data?.currentPage);
                 setSearchBtn(true);
-                toast.success(response?.data?.message || 'Invoices fetched successfully');
+                toast.success(response?.data?.message || 'Receipts fetched successfully');
             } else {
-                toast.error(response?.data?.message || 'Failed to fetch invoices');
+                toast.error(response?.data?.message || 'Failed to fetch receipts');
             }
         } catch (error) {
-            toast.error(error?.response?.data?.message || 'Error fetching invoices');
+            toast.error(error?.response?.data?.message || 'Error fetching receipts');
         } finally {
             setLoaderState(false);
         }
@@ -351,10 +358,10 @@ const Reciept = () => {
                                 <li className="breadcrumb-item">
                                     <a href="/admin/feeCollection/feesDiscount" className="bredcrumText text-decoration-none">Fee Collection</a>
                                 </li>
-                                <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">Reciept</li>
+                                <li className="breadcrumb-item active bredcrumActiveText" aria-current="page">Receipt</li>
                             </ol>
                         </nav>
-                        <p className="font14 ps-0 fontWeight500">Reciept</p>
+                        <p className="font14 ps-0 fontWeight500">Receipt</p>
                     </div>
                     <div className="col-xxl-8 col-xl-9 col-lg-12 col-sm-12 pe-0">
                         <ActionControls
@@ -383,16 +390,7 @@ const Reciept = () => {
                                     <input
                                         readOnly
                                         value={formattedDate}
-                                        onClick={() => {
-                                            setDateRange([
-                                                {
-                                                    startDate: null,
-                                                    endDate: null,
-                                                    key: 'selection',
-                                                },
-                                            ]);
-                                            setShowDatePicker(!showDatePicker);
-                                        }}
+                                        onClick={() => setShowDatePicker(!showDatePicker)}
                                         className="border border-gray-300 rounded padding-daterange font14 cursor-pointer w-100"
                                     />
                                     {showDatePicker && (
@@ -404,11 +402,26 @@ const Reciept = () => {
                                                 ranges={dateRange}
                                                 preventSnapRefocus={true}
                                                 showDateDisplay={false}
-                                                rangeColors={['transparent']}
-                                                showSelectionPreview={false}
+                                                rangeColors={['#008479']}
+                                                showSelectionPreview={true}
                                                 focusedRange={[0, 0]}
                                                 showMonthAndYearPickers={true}
                                                 retainEndDateOnFirstSelection={false}
+                                                initialFocusedRange={[0]}
+                                                date={currentDate}
+                                                months={1}
+                                                direction="vertical"
+                                                onRangeFocusChange={(focusedRange) => {
+                                                    if (focusedRange[0] === 0 && !dateRange[0].endDate) {
+                                                        setDateRange([
+                                                            {
+                                                                startDate: currentDate,
+                                                                endDate: currentDate,
+                                                                key: 'selection',
+                                                            },
+                                                        ]);
+                                                    }
+                                                }}
                                             />
                                         </div>
                                     )}
@@ -454,19 +467,6 @@ const Reciept = () => {
                                     )}
                                 </select>
                             </div>
-                            {/* <div className="col-md-3 col-sm-6 col-12">
-                                <label htmlFor="section" className="form-label font14">Status</label>
-                                <select
-                                    className="form-select bordeRadius5 font14"
-                                    aria-label="Default select example"
-                                    value={status}
-                                    onChange={(e) => setStatus(e.target.value)}
-                                >
-                                    <option value="">All Status</option>
-                                    <option value="PAID"> PAID </option>
-                                    <option value="UNPAID"> UNPAID </option>
-                                </select>
-                            </div> */}
                             <div className="text-center p-3 col-12">
                                 <button
                                     type="button"
@@ -603,7 +603,7 @@ const Reciept = () => {
                     </h2>
                 </div>
                 <div className="offcanvas-body p-3">
-                    <form onSubmit={handleSubmitUpdate()}>
+                    <form onSubmit={handleSubmitUpdate((data) => console.log(data))}>
                         <div className="mb-3">
                             <label htmlFor="amount" className="form-label font14">Amount</label>
                             <input
@@ -683,6 +683,24 @@ const Reciept = () => {
     );
 };
 
+export default Reciept;
+
+// import { useEffect, useRef, useState } from 'react';
+// import { DateRange } from 'react-date-range';
+// import 'react-date-range/dist/styles.css';
+// import 'react-date-range/dist/theme/default.css';
+// import styled from 'styled-components';
+// import ActionControls from '../../../Layouts/ActionControls';
+// import { getAllClassApi } from 'src/Utils/Apis';
+// import DataLoader from 'src/Layouts/Loader';
+// import { useForm } from 'react-hook-form';
+// import { Link, useNavigate } from 'react-router-dom';
+// import StudentFeeDetails from './StudentFeeDetails';
+// import toast from 'react-hot-toast';
+// import { getAllRecieptApi, getRecieptCsvApi } from '../../../Utils/Apis';
+// import ReactPaginate from 'react-paginate';
+// import { Icon } from '@iconify/react/dist/iconify.js';
+
 // const Reciept = () => {
 //     const navigate = useNavigate();
 //     const token = localStorage.getItem('token');
@@ -694,29 +712,17 @@ const Reciept = () => {
 //     const [section, setSection] = useState('');
 //     const [status, setStatus] = useState('');
 //     const [showDatePicker, setShowDatePicker] = useState(false);
+
+//     // Initialize dateRange with current date
+//     const currentDate = new Date();
 //     const [dateRange, setDateRange] = useState([
 //         {
-//             startDate: null,
-//             endDate: null,
+//             startDate: currentDate,
+//             endDate: currentDate,
 //             key: 'selection',
 //         },
 //     ]);
-//     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
-//     const [allClassData, setAllClassData] = useState([]);
-//     const [allSectionData, setAllSectionData] = useState([]);
-//     const [RecieptData, setRecieptData] = useState([]);
-//     const datePickerRef = useRef(null);
-//     const dropdownRef = useRef({}); // Store refs for each dropdown
 
-//     const {
-//         register: registerAdd,
-//         handleSubmit: handleSubmitAdd,
-//         formState: { errors: errorsAdd, isValid: isValidAdd },
-//         setValue: setValueAdd,
-//         reset: resetAdd,
-//     } = useForm({
-//         mode: 'onChange',
-//     });
 
 //     const [currentPage, setCurrentPage] = useState(1);
 //     const [totalPages, setTotalPages] = useState(1);
@@ -728,6 +734,42 @@ const Reciept = () => {
 //         setPageNo(selectedPage);
 //     };
 
+//     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
+//     const [allClassData, setAllClassData] = useState([]);
+//     const [allSectionData, setAllSectionData] = useState([]);
+//     const [RecieptData, setRecieptData] = useState([]);
+//     const datePickerRef = useRef(null);
+//     const dropdownRefs = useRef({}); // Store refs for each dropdown
+
+//     const {
+//         register: registerAdd,
+//         handleSubmit: handleSubmitAdd,
+//         formState: { errors: errorsAdd, isValid: isValidAdd },
+//         setValue: setValueAdd,
+//         reset: resetAdd,
+//     } = useForm({
+//         mode: 'onChange',
+//     });
+//     const dropdownRef = useRef(null);
+
+
+//     // close dropdown on outside click
+//     useEffect(() => {
+//         const handleClickOutside = (event) => {
+//             if (
+//                 dropdownRef.current &&
+//                 !dropdownRef.current.contains(event.target)
+//             ) {
+//                 setOpenDropdownId(null);
+//             }
+//         };
+
+//         document.addEventListener("click", handleClickOutside);
+//         return () => {
+//             document.removeEventListener("click", handleClickOutside);
+//         };
+//     }, []);
+
 //     const {
 //         register: registerUpdate,
 //         handleSubmit: handleSubmitUpdate,
@@ -738,14 +780,19 @@ const Reciept = () => {
 //         mode: 'onChange',
 //     });
 
-//     // Click outside handler for date picker
+//     // Click outside handler for date picker and dropdowns
 //     useEffect(() => {
 //         const handleClickOutside = (event) => {
+//             // Close date picker if clicked outside
 //             if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
 //                 setShowDatePicker(false);
 //             }
-//             // Close dropdown if clicked outside of any dropdown
-//             if (Object.values(dropdownRef.current).every(ref => !ref || !ref.contains(event.target))) {
+//             // Close dropdown if clicked outside all dropdowns
+//             if (
+//                 Object.values(dropdownRefs.current).every(
+//                     (ref) => !ref || !ref.contains(event.target)
+//                 )
+//             ) {
 //                 setIsDropdownOpen(null);
 //             }
 //         };
@@ -801,22 +848,30 @@ const Reciept = () => {
 
 //     const [pickerKey, setPickerKey] = useState(0);
 
+
+//     // Handler for date range change
 //     const handleDateRangeChange = (item) => {
 //         setDateRange([item.selection]);
 //         const { startDate, endDate } = item.selection;
-//         const formatDate = (date) => {
-//             if (date) {
-//                 return date.toISOString().split('T')[0];
-//             }
-//             return '';
+
+//         // Normalize dates to local timezone to avoid UTC shift
+//         const normalizeDate = (date) => {
+//             if (!date) return '';
+//             const localDate = new Date(date);
+//             return `${localDate.getFullYear()}-${String(localDate.getMonth() + 1).padStart(2, '0')}-${String(localDate.getDate()).padStart(2, '0')}`;
 //         };
-//         setStartDate(formatDate(startDate));
-//         setEndDate(formatDate(endDate));
+
+//         setStartDate(normalizeDate(startDate));
+//         setEndDate(normalizeDate(endDate));
+//         console.log('DateRange updated:', item.selection, 'Normalized:', normalizeDate(startDate), normalizeDate(endDate)); // Debug log
 //     };
 
+//     // Format date range for display
 //     const formattedDate = dateRange[0].startDate && dateRange[0].endDate
 //         ? `${dateRange[0].startDate.toLocaleDateString()} - ${dateRange[0].endDate.toLocaleDateString()}`
 //         : 'Select Date Range';
+
+
 
 //     const cancelSearch = () => {
 //         setSearchBtn(true);
@@ -839,7 +894,7 @@ const Reciept = () => {
 //     const getAllReciept = async () => {
 //         try {
 //             setLoaderState(true);
-//             const response = await getAllRecieptApi(startDate, endDate, classNo, section, status);
+//             const response = await getAllRecieptApi(startDate, endDate, classNo, section, status, pageNo, pageSize);
 //             if (response?.status === 200 && response?.data?.status === 'success') {
 //                 setRecieptData(response?.data?.receipts || []);
 //                 setTotalPages(response?.data?.totalPages);
@@ -864,10 +919,9 @@ const Reciept = () => {
 //         navigate('/admin/feeCollection/collectFees');
 //     };
 
-//     const [invoiceId, setInvoiceId] = useState('');
+//     const [RecieptViewId, setRecieptViewId] = useState('');
 //     const toggleDropdown = (id) => {
 //         setIsDropdownOpen((prev) => (prev === id ? null : id));
-//         setInvoiceId(id);
 //     };
 
 //     return (
@@ -910,22 +964,13 @@ const Reciept = () => {
 //                 <div className="row pb-3">
 //                     <div className="bg-white rounded-2 p-4">
 //                         <form className="row g-3">
-//                             <div className="col-md-3 col-sm-6 col-12 d-flex flex-column position-relative">
+//                             <div className="col-md-4 col-sm-6 col-12 d-flex flex-column position-relative">
 //                                 <label htmlFor="dateRange" className="form-label font14">Date Range</label>
 //                                 <div className="position-relative">
 //                                     <input
 //                                         readOnly
 //                                         value={formattedDate}
-//                                         onClick={() => {
-//                                             setDateRange([
-//                                                 {
-//                                                     startDate: null,
-//                                                     endDate: null,
-//                                                     key: 'selection',
-//                                                 },
-//                                             ]);
-//                                             setShowDatePicker(!showDatePicker);
-//                                         }}
+//                                         onClick={() => setShowDatePicker(!showDatePicker)}
 //                                         className="border border-gray-300 rounded padding-daterange font14 cursor-pointer w-100"
 //                                     />
 //                                     {showDatePicker && (
@@ -933,21 +978,37 @@ const Reciept = () => {
 //                                             <DateRange
 //                                                 editableDateInputs={true}
 //                                                 onChange={handleDateRangeChange}
-//                                                 moveRangeOnFirstSelection={false}
-//                                                 ranges={dateRange}
+//                                                 moveRangeOnFirstSelection={false} // Prevents range movement on first click
+//                                                 ranges={dateRange} // Default to current date
 //                                                 preventSnapRefocus={true}
 //                                                 showDateDisplay={false}
-//                                                 rangeColors={['transparent']}
-//                                                 showSelectionPreview={false}
-//                                                 focusedRange={[0, 0]}
+//                                                 rangeColors={['#008479']} // Single color for selected date
+//                                                 showSelectionPreview={true} // Shows preview of selected date
+//                                                 focusedRange={[0, 0]} // Focus on the first range
 //                                                 showMonthAndYearPickers={true}
-//                                                 retainEndDateOnFirstSelection={false}
+//                                                 retainEndDateOnFirstSelection={false} // Ensures single date selection by default
+//                                                 initialFocusedRange={[0]} // Focus on the current date initially
+//                                                 date={currentDate} // Open calendar to current date
+//                                                 months={1} // Show only one month at a time
+//                                                 direction="vertical" // Ensure single month view
+//                                                 // Ensure only the current date is selected initially
+//                                                 onRangeFocusChange={(focusedRange) => {
+//                                                     if (focusedRange[0] === 0 && !dateRange[0].endDate) {
+//                                                         setDateRange([
+//                                                             {
+//                                                                 startDate: currentDate,
+//                                                                 endDate: currentDate,
+//                                                                 key: 'selection',
+//                                                             },
+//                                                         ]);
+//                                                     }
+//                                                 }}
 //                                             />
 //                                         </div>
 //                                     )}
 //                                 </div>
 //                             </div>
-//                             <div className="col-md-3 col-sm-6 col-12">
+//                             <div className="col-md-4 col-sm-6 col-12">
 //                                 <label htmlFor="classNo" className="form-label font14">Class</label>
 //                                 <select
 //                                     className="form-select bordeRadius5 font14"
@@ -963,7 +1024,7 @@ const Reciept = () => {
 //                                     ))}
 //                                 </select>
 //                             </div>
-//                             <div className="col-md-3 col-sm-6 col-12">
+//                             <div className="col-md-4 col-sm-6 col-12">
 //                                 <label htmlFor="section" className="form-label font14">Section</label>
 //                                 <select
 //                                     className="form-select bordeRadius5 font14"
@@ -987,7 +1048,7 @@ const Reciept = () => {
 //                                     )}
 //                                 </select>
 //                             </div>
-//                             <div className="col-md-3 col-sm-6 col-12">
+//                             {/* <div className="col-md-3 col-sm-6 col-12">
 //                                 <label htmlFor="section" className="form-label font14">Status</label>
 //                                 <select
 //                                     className="form-select bordeRadius5 font14"
@@ -999,7 +1060,7 @@ const Reciept = () => {
 //                                     <option value="PAID"> PAID </option>
 //                                     <option value="UNPAID"> UNPAID </option>
 //                                 </select>
-//                             </div>
+//                             </div> */}
 //                             <div className="text-center p-3 col-12">
 //                                 <button
 //                                     type="button"
@@ -1028,6 +1089,7 @@ const Reciept = () => {
 //                                                     <tr>
 //                                                         <th className="font14 textWrapClass tableHeading text-center">#</th>
 //                                                         <th className="font14 textWrapClass tableHeading">Invoice No</th>
+//                                                         <th className="font14 textWrapClass tableHeading">Payment Date</th>
 //                                                         <th className="font14 textWrapClass tableHeading">Student</th>
 //                                                         <th className="font14 textWrapClass tableHeading">Class & Section</th>
 //                                                         <th className="font14 textWrapClass tableHeading">Net Amount</th>
@@ -1042,6 +1104,7 @@ const Reciept = () => {
 //                                                         <tr key={reciept.invoiceId} className="align-top">
 //                                                             <th className="font14 pt-3 textWrapClass text-center greyText">{index + 1}.</th>
 //                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.invoiceNo}</td>
+//                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.paymentDate.slice(0, 10)}</td>
 //                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.studentName}</td>
 //                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.classNo} - {reciept?.invoice?.section}</td>
 //                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.totalAmount}</td>
@@ -1049,17 +1112,30 @@ const Reciept = () => {
 //                                                             <td className="font14 pt-3 textWrapClass greyText">{reciept?.invoice?.dueAmount}</td>
 //                                                             <td className=' pt-3 textWrapClass'><span className={`font14 ${reciept?.status === 'Paid' || reciept?.status === 'PAID' ? 'paidbutton' : 'unPaidbutton'}`}>{reciept?.status}</span></td>
 //                                                             <td className="font14 pt-3 textWrapClass text-center">
-//                                                                 <div className="dropdown dropdownbtn" ref={(el) => (dropdownRef.current[reciept.invoiceId] = el)}>
+//                                                                 <div className="dropdown dropdownbtn" ref={(el) => (dropdownRefs.current[reciept.receiptId] = el)}>
 //                                                                     <button
 //                                                                         className="btn btn-sm actionButtons dropdown-toggle"
 //                                                                         type="button"
-//                                                                         onClick={() => toggleDropdown(reciept.invoiceId)}
+//                                                                         id={`dropdownMenuButton-${reciept.receiptId}`}
+//                                                                         aria-expanded={isDropdownOpen === reciept.receiptId}
+//                                                                         onClick={() => toggleDropdown(reciept.receiptId)}
 //                                                                     >
 //                                                                         Action
 //                                                                     </button>
-//                                                                     <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === reciept.invoiceId ? 'show z-index-high' : ''}`}>
+//                                                                     <ul
+//                                                                         className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === reciept.receiptId ? 'show' : ''}`}
+//                                                                         aria-labelledby={`dropdownMenuButton-${reciept.receiptId}`}
+//                                                                     >
 //                                                                         <li>
-//                                                                             <button className="dropdown-item greyText" type="button" data-bs-toggle="modal" data-bs-target="#viewDetails">View</button>
+//                                                                             <button
+//                                                                                 className="dropdown-item greyText font14"
+//                                                                                 type="button"
+//                                                                                 data-bs-toggle="modal"
+//                                                                                 data-bs-target="#viewDetails"
+//                                                                                 onClick={() => setRecieptViewId(reciept.receiptId)}
+//                                                                             >
+//                                                                                 View
+//                                                                             </button>
 //                                                                         </li>
 //                                                                     </ul>
 //                                                                 </div>
@@ -1069,8 +1145,6 @@ const Reciept = () => {
 //                                                 </tbody>
 //                                             </table>
 //                                         </div>
-
-
 //                                         <div className="d-flex">
 //                                             <p className="font14">
 //                                                 Showing {currentPage} of {totalPages} Pages
@@ -1194,7 +1268,7 @@ const Reciept = () => {
 //                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 //                         </div>
 //                         <div className="modal-body">
-//                             <StudentFeeDetails />
+//                             <StudentFeeDetails RecieptViewId={RecieptViewId} />
 //                         </div>
 //                     </div>
 //                 </div>
@@ -1202,6 +1276,3 @@ const Reciept = () => {
 //         </Container>
 //     );
 // };
-
-export default Reciept;
-

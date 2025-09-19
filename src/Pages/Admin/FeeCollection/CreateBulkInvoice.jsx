@@ -24,7 +24,7 @@ const Container = styled.div`
 
   .form-control,
   .form-select {
-    border-radius: 5px ;
+    border-radius: 5px;
     box-shadow: none !important;
     border: 1px solid var(--fontControlBorder);
   }
@@ -116,6 +116,7 @@ const CreateBulkInvoice = () => {
     setValue,
     watch,
     reset,
+    control,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -263,25 +264,20 @@ const CreateBulkInvoice = () => {
       setLoaderState(true);
       const formData = new FormData();
 
-      // Append basic fields
       formData.append('classNo', data.classNo);
       formData.append('section', data.section);
 
-      // Process studentId as an array and extract numeric part
       if (Array.isArray(data.studentId)) {
         data.studentId.forEach((id, index) => {
-          // const numericId = Number(id.replace(/^\D+/g, '')); // Extract numbers after non-digits (e.g., "AGGSMAN-07081080" -> 7081080)
-          formData.append(`studentId[${index}]`, isNaN(id) ? id : id); // Use original id if conversion fails
+          formData.append(`studentId[${index}]`, id); // Use original id
         });
       } else {
-        const numericId = Number(data.studentId.replace(/^\D+/g, ''));
-        formData.append('studentId[0]', isNaN(numericId) ? data.studentId : numericId);
+        formData.append('studentId[0]', data.studentId);
       }
 
-      // Process feeTypeId as an array and ensure numeric values
       if (Array.isArray(data.feeTypeId)) {
         data.feeTypeId.forEach((id, index) => {
-          formData.append(`feeTypeId[${index}]`, Number(id)); // Convert to number
+          formData.append(`feeTypeId[${index}]`, Number(id));
         });
       } else {
         formData.append('feeTypeId[0]', Number(data.feeTypeId));
@@ -362,39 +358,42 @@ const CreateBulkInvoice = () => {
           <div className="col-12">
             <label className="form-label font14">Student</label>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-2 checkedinputsbg px-2 py-2 mt-1">
-              {allStudentsData.length > 0 ? (
-                allStudentsData.map((student) => (
-                  <div className="col" key={student.studentId}>
-                    <div className="form-check">
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="studentId"
-                        value={student.id}
-                        checked={watchStudentId?.includes(String(student.studentId)) || false}
-                        {...register('studentId', {
-                          required: 'At least one student is required * ',
-                        })}
-                        onChange={(e) => {
-                          const id = String(e.target.value); // Ensure string type
-                          const currentStudents = watchStudentId || [];
-                          const updatedStudents = e.target.checked
-                            ? [...currentStudents, id]
-                            : currentStudents.filter((item) => item !== id);
-                          setValue('studentId', updatedStudents, { shouldValidate: true });
-                        }}
-                      />
-                      <label className="form-check-label font14">{student.studentName}</label>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <span className="mt-0 greyText">
-                  {watchSection ? '-- No Students Found --' : '-- Select Section First --'}
-                </span>
-              )}
+              <Controller
+                name="studentId"
+                control={control}
+                rules={{ required: 'At least one student is required * ' }}
+                render={({ field }) => (
+                  allStudentsData.length > 0 ? (
+                    allStudentsData.map((student) => (
+                      <div className="col" key={student.studentId}>
+                        <div className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            value={student.studentId} // Use student.studentId consistently
+                            checked={field.value?.includes(String(student.studentId)) || false}
+                            onChange={(e) => {
+                              const isChecked = e.target.checked;
+                              const studentId = String(student.studentId);
+                              const updatedStudents = isChecked
+                                ? [...(field.value || []), studentId]
+                                : (field.value || []).filter((id) => id !== studentId);
+                              field.onChange(updatedStudents); // Update form state
+                            }}
+                          />
+                          <label className="form-check-label font14">{student.studentName}</label>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <span className="mt-0 greyText">
+                      {watchSection ? '-- No Students Found --' : '-- Select Section First --'}
+                    </span>
+                  )
+                )}
+              />
+              {errors.studentId && <span className="error-message">{errors.studentId.message}</span>}
             </div>
-            {errors.studentId && <span className="error-message">{errors.studentId.message}</span>}
           </div>
           <div className="col-12">
             <label className="form-label font14">Fee Type</label>
@@ -543,4 +542,3 @@ const CreateBulkInvoice = () => {
 };
 
 export default CreateBulkInvoice;
-

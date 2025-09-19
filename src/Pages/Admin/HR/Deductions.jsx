@@ -163,7 +163,7 @@ const Deduction = () => {
         try {
             setLoaderState(true);
             const formData = new FormData();
-            formData.append('deductionName', data.deductionName);
+            formData.append('deductionName', data.DeductionName);
             const response = await updateDeductionByIdApi(editDeductionId, formData);
             if (response?.status === 200 && response?.data?.status === 'success') {
                 toast.success(response.data.message);
