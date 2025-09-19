@@ -520,9 +520,7 @@ const Notice = () => {
     Download_Slip()
   }, [pageNo])
 
-
   const [errors, setErrors] = useState({});
-
   // ###### validation ##########
 
   const FuncValidation = () => {
@@ -700,8 +698,11 @@ const Notice = () => {
   // Notice Put api 
   const MyNoticePutApi = async (id) => {
 
-    if (FuncValidation()) {
-      setLoader(true)
+    // if (FuncValidation()) {
+     
+    // }
+
+     setLoader(true)
       try {
         const formData = new FormData()
         formData.append('noticeTitle', noticeHeading)
@@ -730,7 +731,6 @@ const Notice = () => {
         setLoader(false)
         // console.log(error)
       }
-    }
 
   }
 
@@ -835,7 +835,6 @@ const Notice = () => {
                   <th className='no-wrap' >Actions</th>
                 </tr>
               </thead>
-
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
                   noticeAllData && noticeAllData?.length > 0 ? (
@@ -971,26 +970,26 @@ const Notice = () => {
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Notice heading</label>
                       <input type="email" className="form-control form-focus   heading-14" value={noticeHeading} onChange={(e) => handleName(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Employees Work Report Policy " />
                     </div>
-                    <div className='pt-1'>
+                    {/* <div className='pt-1'>
                       {isValidNameRequired && (
                         <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
                           Notice heading is required
                         </p>
                       )}
-                    </div>
+                    </div> */}
 
                     <div className="mb-3" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Description</label>
                       <textarea class="form-control heading-14 px-4" id="exampleFormControlTextarea1" rows="5" onChange={(e) => handleDescription(e.target.value)} value={noticeDescription} placeholder='Description'>
                       </textarea>
                     </div>
-                    <div className='pt-1'>
+                    {/* <div className='pt-1'>
                       {isValidDscriptionRequired && (
                         <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
                           Description is required
                         </p>
                       )}
-                    </div>
+                    </div> */}
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyNoticePutApi(noticeIdForUpdate)}>Update</button>
                       <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>

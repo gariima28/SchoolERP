@@ -466,7 +466,7 @@ const ClassRoutine = () => {
 
   const [tableSlotGetAll, setTableSlotGetAll] = useState([])
   const [slotGetAll, setSlotGetAll] = useState([])
-  // console.log('all slots', slotGetAll)
+  console.log('all slots', slotGetAll)
 
   const [breakType, setBreakType] = useState('')
   const [classNo, setClassNo] = useState('')
@@ -947,17 +947,13 @@ const ClassRoutine = () => {
     setLoader(true)
     try {
       const response = await SlotGetAllApi();
-      console.log('Slot  get all data ', response)
+      console.log('Slot get all data----------- ', response)
       if (response?.status === 200) {
         if(response.data.status === 'success'){
-          // toast.success(response?.data?.classes?.message)
-          console.log(response?.data, 'response?.data')
           setSlotGetAll(response?.data)
           setLoader(false)
         }
-
       } else {
-        // toast.error(response?.data?.classes?.message);
       }
     } catch (error) {
       console.log(error)
@@ -1330,7 +1326,7 @@ const ClassRoutine = () => {
                             <option value="Sunday">Sunday</option>
                           </select>
                         </div>
-                        <div className="mb-1  ">
+                        <div className="mb-1 ">
                           <label for="exampleFormControlInput1" className="form-label  heading-16 ">Time Slot</label>
                           <select class="form-select  form-select-sm form-focus  label-color" value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} aria-label="Default select example">
                             <option selected>--Choose--</option>
