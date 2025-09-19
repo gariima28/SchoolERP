@@ -795,6 +795,7 @@ const Income_category = () => {
               data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight"
               to={""}
+              onClick={ClearHandle}
             >
               + Add Income Category
             </Link>
@@ -967,7 +968,7 @@ const Income_category = () => {
                       for="exampleFormControlInput1"
                       class="form-label heading-16"
                     >
-                      Type Name
+                      Add Income Category
                     </label>
                     <input
                       type="text"
@@ -1040,7 +1041,7 @@ const Income_category = () => {
               </div>
               <hr className="" style={{ marginTop: "-3px" }} />
               <div className="offcanvas-body pt-0">
-                <div class="mb-3">
+                {/* <div class="mb-3">
                   <label
                     for="exampleFormControlInput1"
                     class="form-label heading-16"
@@ -1056,7 +1057,7 @@ const Income_category = () => {
                     placeholder="Type Name"
                     disabled
                   />
-                </div>
+                </div> */}
                 <div class="mb-3">
                   <label
                     for="exampleFormControlInput1"

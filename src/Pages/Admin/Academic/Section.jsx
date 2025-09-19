@@ -438,8 +438,8 @@ const Section = () => {
   const [sectionAllDta, setSectionAllData] = useState([])
 
   const [section, setSection] = useState([])
-  const [putpackage, setPutpackage] = useState('')
-  console.log('room id ==', putpackage)
+  const [classRoomUpdate, setClassRoomUpdate] = useState('')
+  // console.log('room id ==', putpackage)
   const [classchange, setClasschange] = useState('')
 
   const [idForDelete, setIdForDelete] = useState()
@@ -467,12 +467,11 @@ const Section = () => {
     MySectionGetByIdApi()
   }, [pageNo])
 
-
   const FuncValidation = () => {
     let isValid = true;
     setLoader(false);
     sections.forEach((section, index) => {
-      if (!section || section.trim() === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(section)) {
+      if (!section || section.trim() === "" || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(section)) {
         setIsValidNameRequired(true);
         isValid = false;
       }
@@ -480,14 +479,13 @@ const Section = () => {
     if (isValid) {
       setIsValidNameRequired(false);
     }
-
     return isValid;
   };
 
   // name 
   const handleSection = (e2) => {
     setSection(e2);
-    const noRegex = /^[a-zA-Z0-9!@#$%^&*()_+=-]+$/;
+    const noRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9!@#$%^&*()_+=-]+$/;
     setIsValidNameRequired(noRegex.test(e2));
 
     if (e2 === "" || !noRegex.test(e2)) {
@@ -632,6 +630,7 @@ const Section = () => {
     setLoader(true)
     try {
       const response = await NullRoomGetApi();
+      console.log('all room in section ==', response)
       if (response?.status === 200) {
         setDataFromClassroom(response?.data?.rooms)
         setLoader(false)
@@ -686,9 +685,10 @@ const Section = () => {
     setLoader(true)
     try {
       const response = await SectionGetByIdApi(id);
+      console.log('by id response---------', response)
       setClassNoById(response.data.sections)
       setSection(response.data.sections?.sectionName)
-      setPutpackage(response.data.sections?.roomNo)
+      setClassRoomUpdate(response.data.sections?.roomId)
       setClasschange(response.data.sections?.classId)
 
       if (response?.status === 200) {
@@ -703,12 +703,11 @@ const Section = () => {
   }
   // Section Put api 
   const MySectionPutApi = async (id) => {
-    if (FuncValidation()) {
       setLoader(true)
       try {
         const formData = new FormData()
         formData.append('sectionName', section)
-        formData.append('roomNo', putpackage)
+        formData.append('roomNo', classRoomUpdate)
         formData.append('classId', classchange)
 
         const response = await SectionPutApi(id, formData);
@@ -721,7 +720,7 @@ const Section = () => {
           offcanvasInstance.hide();
           setTimeout(() => {
             setShow(true)
-            setCheckState(false)
+            // setCheckState(false)
 
           }, 0.5)
 
@@ -732,14 +731,13 @@ const Section = () => {
       } catch (error) {
         console.log(error)
       }
-    }
   }
   const handleChange = (e) => {
     const trimmedValue = e.target.value.trimStart();
     setSearchKey(trimmedValue);
   };
   const ClearHandle = () => {
-    setPutpackage('')
+    // setPutpackage('')
     setClasschange('')
     setIsValidNameRequired(false)
     setPutpackage('')
@@ -1067,23 +1065,23 @@ const Section = () => {
                     </div>
                     <div className="row">
                       <div className="col-6">
-                        <div className="mb-3 " style={{ marginTop: '' }}>
+                        <div className="mb-2 " style={{ marginTop: '' }}>
                           <label for="exampleFormControlInput1" className="form-label label-color heading-14">Sections</label>
                           <input type="text" className="form-control form-focus  label-color heading-14" value={section} onChange={(e) => handleSection(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Section" />
                         </div>
-                        <div className='pt-1'>
+                        {/* <div className='pt-1'>
                           {isValidNameRequired && (
                             <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
                               required in upppercase
                             </p>
                           )}
-                        </div>
+                        </div> */}
                       </div>
                       <div className="col-6">
 
                         <div className="mb-1  ">
                           <label for="exampleFormControlInput1" className="form-label label-color heading-16">Rooms</label>
-                          <select class="form-select form-focus label-color heading-14 " value={putpackage} onChange={(e) => setPutpackage(e.target.value)} aria-label="Default select example">
+                          <select class="form-select form-focus label-color heading-14 " value={classRoomUpdate} onChange={(e) => setClassRoomUpdate(e.target.value)} aria-label="Default select example">
                             <option value="" >--Choose--</option>
                             {
                               datafromclassroom?.map(item => (

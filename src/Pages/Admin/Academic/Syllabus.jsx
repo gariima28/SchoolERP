@@ -513,6 +513,11 @@ const Syllabus = () => {
   const [pageNo2, setPageNo2] = useState('');
   const [pageSize2, setPageSize2] = useState('');
 
+  const [coverPage, setCoverPage] = useState()
+  const [updateStatus, setUpdateStatus] = useState()
+  const [manageButton, setManageButton] = useState(false);
+  const [imageFile, setImageFile] = useState()
+
   const [PDFResponse, setPDFResponse] = useState()
   console.log('pdf data'.PDFResponse)
   const [idForPDF, setIdForPDF] = useState()
@@ -599,13 +604,13 @@ const Syllabus = () => {
 
     }
     // for image file
-    if (fileData === "" || !fileData) {
-      setIsImageValidRequired(true)
-      isValid = false
-      setLoader(false)
-    }
-    else {
-    }
+    // if (fileData === "" || !fileData) {
+    //   setIsImageValidRequired(true)
+    //   isValid = false
+    //   setLoader(false)
+    // }
+    // else {
+    // }
     return isValid;
   }
   // name 
@@ -623,7 +628,6 @@ const Syllabus = () => {
   }
   // file 
   const handleImageFile = (e2) => {
-    // console.log('my iamge ',e2)
     setFileData(e2);
 
     const imagetRegex = /^[\w\-. ]+\.(jpg|png)$/;
@@ -683,7 +687,7 @@ const Syllabus = () => {
   const MySubjectByClassIdGetApi = async () => {
     setLoader(true)
     try {
-      const response = await SubjectByClassIdInSyllabusGetAllApi(classId);
+      const response = await SubjectByClassIdInSyllabusGetAllApi(classNo);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setSubjectData(response?.data?.subjects)
@@ -798,7 +802,15 @@ const Syllabus = () => {
         setSectionNameGetById(response?.data?.syllabus?.section)
         setSubjectGetById(response?.data?.syllabus?.subject)
         setFileDatagetById(response?.data?.syllabus?.uploadSubjectPath)
+        setUpdateStatus(response?.data?.status)
+        const url = response?.data?.syllabus?.uploadSubjectPath
+        const fileName = url.split("/").pop();  
+        const trimmed = fileName.substring(fileName.indexOf("-") + 1);
+
+        setCoverPage(trimmed)
+        // setCoverPage(response?.data?.syllabus?.uploadSubjectPath)
         setLoader(false)
+
       } else {
         // toast.error(response?.data?.msg);
       }
@@ -816,7 +828,7 @@ const Syllabus = () => {
         formData.append('classNo', classNoGetById)
         formData.append('section', sectionNameGetById)
         formData.append('subject', subjectGetById)
-        formData.append('uploadSyllabus', fileData)
+        formData.append('uploadSyllabus', imageFile)
         const response = await SyllabusPutApi(id, formData);
         if (response?.status === 200) {
           toast.success(response?.data?.message);
@@ -854,6 +866,13 @@ const Syllabus = () => {
     setClassNo('')
     setIsValidNameRequired(false)
     setIsImageValidRequired(false)
+  }
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+  };
+  const buttManage = () => {
+    setManageButton(!manageButton)
   }
   return (
     <Container>
@@ -1047,7 +1066,7 @@ const Syllabus = () => {
                     <select class="form-select  form-select-sm form-focus  label-color" value={subjectName} onChange={(e) => setSubjectName(e.target.value)} aria-label="Default select example">
                       <option selected>--Choose--</option>
                       {
-                        subjectData.map(item =>
+                        subjectData?.map(item =>
                           <option value={item.subjectName}>{item.subjectName}</option>
                         )
                       }
@@ -1134,17 +1153,52 @@ const Syllabus = () => {
                     } */}
                     </select>
                   </div>
-                  <div class="mb-3">
+                  {/* <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label heading-16">Upload Syllabus</label>
                     <input type="file" class="form-control form-control-sm" value={''} onChange={(e) => handleImageFile(e.target.files[0])} id="exampleFormControlInput1" placeholder="Select File" />
+                  </div> */}
+                  <div className='row pe-1 '>
+                    <div className='col-lg-12 col-md-12 col-sm-12 pe-0'>
+                      {
+                        updateStatus === "success"
+                          ?
+                          <div class="mb-3 " style={{ display: 'flex', }}>
+                            <div className='w-100'>
+                              <label for="exampleFormControlInput1" className="form-label heading-14 label-color">Upload Image </label>
+                              {
+                                manageButton ?
+                                  <input type="file" class="form-control" id="exampleFormControlInput1" onChange={handleFileChange} placeholder="select file" accept='.jpg, .png, .jpeg' />
+                                  :
+                                  <input type="text" class="form-control" id="exampleFormControlInput1" value={coverPage} placeholder="name@example.com" />
+                              }
+                            </div>
+                            <div style={{ margin: 'auto', paddingTop: '30px', paddingLeft: '5px' }}>
+                              {
+                                manageButton ? (
+                                  <button type="button" class="btn btn-outline-success my-green heading-14 " onClick={buttManage} >View </button>
+                                )
+                                  :
+                                  (
+                                    <button type="button" class="btn btn-outline-success my-green heading-14 " onClick={buttManage}>Edit</button>
+                                  )
+                              }
+                            </div>
+                          </div>
+                          :
+                          <div className="mb-3  for-media-margin">
+                            <label for="exampleFormControlInput1" className="form-label heading-14 label-color">User Image <span style={{ color: 'red' }}>*</span></label>
+                            <input type="file" className="form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color" onChange={handleFileChange} style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput12" placeholder="Doe" />
+                          </div>
+                      }
+                    </div>
                   </div>
-                  <div>
+                  {/* <div>
                     {isImageValidRequired && (
                       <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
                         jpg and png supported
                       </p>
                     )}
-                  </div>
+                  </div> */}
 
                   <div className='my-button11'>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MySyllabusPutApi(IdForUpdate) }}>Update Syllabus</button>

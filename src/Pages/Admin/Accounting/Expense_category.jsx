@@ -945,7 +945,7 @@ const Expense_category = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyExpenseCategoryPutApi} >Update Category</button>
-                    <button type="button" className="btn btn-outline-success heading-16">Cancel</button>
+                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                   </div>
                 </div>
 
