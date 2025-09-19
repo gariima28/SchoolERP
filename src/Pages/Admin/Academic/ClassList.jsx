@@ -929,11 +929,10 @@ const ClassList = () => {
                     <div className="content mt-5">
                       <p >Successful Delete</p>
                       <hr style={{ width: '' }} />
-                      <p className='mb-5' style={{ color: '#ADADBD', fontSize: '14px' }}>Your profile has been <br /> Successfully Delete</p>
+                      <p className='mb-5' style={{ color: '#ADADBD', fontSize: '14px' }}>Your profile has been<br /> Successfully Delete</p>
                     </div>
                     <div className='button-position'>
                       <button type="button" className="btn btn-outline-primary button11 mt-4 mb" data-bs-dismiss="offcanvas" aria-label="Close" style={{ fontSize: '14px' }}>Continue</button>
-
                     </div>
 
                   </div>

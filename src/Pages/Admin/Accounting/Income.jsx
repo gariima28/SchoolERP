@@ -791,11 +791,18 @@ const Income = () => {
 
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  console.log('start date', startDate)
+  console.log('end date', endDate)
 
   const handleDateChange = (dates) => {
     setStartDate(formatDate(dates[0]));
     setEndDate(formatDate(dates[1]));
   };
+  const [dates, setDates] = useState([]);
+
+  // const handleDateChange = (selectedDates) => {
+  //   setDates(selectedDates);
+  // };
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -804,6 +811,7 @@ const Income = () => {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`; // YYYY-MM-DD
   };
+
   const ClearHandle = () => {
     setDate('')
     setAmount('')
@@ -813,7 +821,9 @@ const Income = () => {
     setForDelete(false)
     setStartDate(null)
     setEndDate(null)
-  }
+    setMyIncomeCategoryData([])
+  } 
+
   // Double Date --------------------------
 
   const handleChange = (e) => {
@@ -856,9 +866,25 @@ const Income = () => {
         <div className="main-content-conatainer pt-1 ">
           {/* ###### copy content till here for all component ######  */}
           <div className="row p-3">
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <label className="form-label label-color heading-14">
+                Date Range
+              </label>
 
-            <div className="col-lg-6 col-md-6 col-sm-12  ">
-
+              <Flatpickr
+                className="form-control form-control-sm form-focus font-color"
+         
+                value={[startDate, endDate]}
+                placeholder='Select Date'
+                options={{
+                  mode: "range",
+                  dateFormat: "Y-m-d",
+                  clickOpens: true,      
+                }}
+                onChange={handleDateChange}
+              />
+            </div>
+            {/* <div className="col-lg-6 col-md-6 col-sm-12  ">
               <div className="dropdown" style={{ marginTop: "-4px" }}>
                 <label
                   htmlFor="exampleFormControlInput1"
@@ -866,8 +892,6 @@ const Income = () => {
                 >
                   Date Range
                 </label>
-
-                {/* Show selected date range */}
                 <input
                   type="text"
                   className="form-control form-control-sm form-focus font-color"
@@ -895,8 +919,8 @@ const Income = () => {
                   />
                 </div>
               </div>
+            </div> */}
 
-            </div>
             <div className="col-lg-6 col-md-6 col-sm-12  ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-color focus heading-14">Income Category</label>

@@ -464,15 +464,19 @@ const TakeAttendance = () => {
   const [absent, setAbsent] = useState([])
   const [attendanceDataByMonth, setAttendanceDataByMonth] = useState([])
   const [role, setRole] = useState()
+
   const [month, setMonth] = useState()
+  const [month2, setMonth2] = useState()
   const [year, setYear] = useState()
+  const [roleid, setRoleId] = useState()
 
 
   const [takeAttenSearhDate, setTakeAttenSearhDate] = useState([])
   const [searchKey, setSearchKey] = useState('')
   const [rolePermisAllData, setRolePermisAllData] = useState([])
   const [date, setDate] = useState()
-  const [roleid, setRoleId] = useState()
+
+
   const [pageNo, setPageNo] = useState(1);
   const UpdateHandleBtn = (e) => {
     if (show === true) {
@@ -584,7 +588,9 @@ const TakeAttendance = () => {
           setHidedelete(true)
           setLoader(false)
           setHide(false)
-           setRoleId('')
+          setRoleId('')
+          setMonth('')
+          setYear('')
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
           offcanvasInstance.hide();
           setHide(false)
@@ -620,7 +626,9 @@ const TakeAttendance = () => {
         setHidedelete(true)
         setLoader(false)
         setShow2(false)
-
+        setRoleId('')
+        setMonth('')
+        setYear('')
         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
         offcanvasInstance.hide();
         setHide2(false)
@@ -642,7 +650,7 @@ const TakeAttendance = () => {
   const MyAttendanceGetAllApiByMonth = async () => {
     setLoader(true)
     try {
-      const response = await AttendanceGetAllBymonth(roleid, month, year, searchKey, 1, 10);
+      const response = await AttendanceGetAllBymonth(roleid, month2, year, searchKey, 1, 10);
       console.log('attendance by month data----------', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
@@ -650,10 +658,11 @@ const TakeAttendance = () => {
         setRole(response?.data?.roleName)
         setMonth(response?.data?.month)
         setYear(response?.data?.year)
-       
+
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
@@ -669,6 +678,7 @@ const TakeAttendance = () => {
   const ClearHandle = () => {
     setDate('')
     setRoleId('')
+    setYear('')
     setShow(true)
     setHide2(true)
 
@@ -676,15 +686,16 @@ const TakeAttendance = () => {
   }
   const ClearData = () => {
     setMonth('')
+    setMonth2('')
     setYear('')
     setRoleId('')
     setAttendanceDataByMonth([])
 
   }
-    // Handle search input change
+  // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
-    setPageNo(1); 
+    setPageNo(1);
   };
   return (
     <Container>
@@ -707,7 +718,7 @@ const TakeAttendance = () => {
           </div>
           {/* new csv design */}
 
-           <div className="d-flex g-1 for-media-query">
+          <div className="d-flex g-1 for-media-query">
             <ActionControls
               showAddButton={false}
               addButtonText=""
@@ -716,14 +727,14 @@ const TakeAttendance = () => {
               exportPDFText="Export PDF"
               exportPDFAction={''}
               exportPDFFileName="Daily Attendance.pdf"
-              showExportCSV={attendanceDataByMonth?.length>0}
+              showExportCSV={attendanceDataByMonth?.length > 0}
               exportCSVFileName="Daily Attendance.xlsx"
               showSearch={true}
               searchValue={searchKey}
               searchAction={MyAttendanceGetAllApiByMonth}
               onSearchChange={handleSearchChange}
             />
-             <div class="dropdown">
+            <div class="dropdown">
               <button className="btn btn-success heading-16 my-own-button me-3  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Attendance
               </button>
@@ -743,7 +754,7 @@ const TakeAttendance = () => {
             <div className="col-lg-4 col-md-4 col-sm-12  ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Month</label>
-                <select class="form-select  form-select-sm" value={month} onChange={(e) => setMonth(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm" value={month2} onChange={(e) => setMonth2(e.target.value)} aria-label="Default select example">
                   <option >--Choose--</option>
                   <option value="01">01</option>
                   <option value="02">02</option>
@@ -778,8 +789,8 @@ const TakeAttendance = () => {
             </div>
             <div className="col-lg-4 col-md-4 col-sm-12">
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color  heading-14">Role Id</label>
-                <select class="form-select form-focus form-select-sm " value={roleid} onChange={(e) => setRoleId(e.target.value)} aria-label="Default select example">
+                <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Role Name</label>
+                <select class="form-select form-focus form-select-sm" value={roleid} onChange={(e) => setRoleId(e.target.value)} aria-label="Default select example">
                   <option value="" >--Choose--</option>
                   {
                     rolePermisAllData?.map(item => (
@@ -934,7 +945,7 @@ const TakeAttendance = () => {
                 {
                   show ? (
                     <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={UpdateHandleBtn}>Show User List</button>
+                      <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={UpdateHandleBtn} disabled={!(roleid && date)}>Show User List</button>
                       <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                     </div>
                   ) : (
@@ -1007,7 +1018,7 @@ const TakeAttendance = () => {
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight123" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
               <div className="container-fluid">
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
+                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Update Attendance</h5>
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
@@ -1035,7 +1046,7 @@ const TakeAttendance = () => {
                 {
                   hide2 ? (
                     <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={UpdateHandleBtn2}>Show Student List</button>
+                      <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={UpdateHandleBtn2} disabled={!(roleid && date)}>Show Staff List</button>
                       <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                     </div>
                   ) : (

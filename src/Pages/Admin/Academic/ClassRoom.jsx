@@ -528,12 +528,15 @@ const ClassRoom = () => {
             }, 0.5)
           } else {
             toast.error(response?.data?.message);
+            setLoader(false)
           }
         } else {
           toast.error(response?.data?.message);
+          setLoader(false)
         }
       } catch (error) {
-        setloaderState(false);
+        // setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }
@@ -553,9 +556,11 @@ const ClassRoom = () => {
         setLoader(false)
       } else {
         toast.error(response?.data?.message);
+        setLoader(false)
       }
     } catch (error) {
-      setloaderState(false);
+      // setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -586,7 +591,7 @@ const ClassRoom = () => {
       }
 
     } catch (error) {
-      setloaderState(false);
+      // setloaderState(false);
       setLoader(false)
       // console.log(error)
     }
@@ -606,7 +611,8 @@ const ClassRoom = () => {
         // toast.error(response?.data?.msg);
       }
     } catch (error) {
-      setloaderState(false);
+      // setloaderState(false);
+      setLoader(false)
       // console.log(error)
     }
   }
@@ -635,10 +641,12 @@ const ClassRoom = () => {
         } else {
           toast.error(response?.data?.message);
           setShowadd(true)
+          setLoader(false)
         }
 
       } catch (error) {
-        setloaderState(false);
+        // setloaderState(false);
+        setLoader(false)
         // console.log(error)
       }
     }
@@ -894,35 +902,6 @@ const ClassRoom = () => {
           }
           {/* ############## After click ##############  */}
 
-          {/* {
-            hidedelete && (
-              <div className="container-fluid">
-                <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3'><img src="/images/Vector (13).svg" alt="" /></Link>
-                  <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Successfull Message</h5>
-                </div>
-                <hr className='' />
-                <div className="delete-section mt-5">
-                  <div className="bg-container">
-                    <div className="img-container22">
-                      <img src="/images/XMLID_1_.png" alt="" />
-                    </div>
-                    <div className="content mt-5">
-                      <p >Successful Delete</p>
-                      <hr style={{ width: '' }} />
-                      <p className='mb-5' style={{ color: '#ADADBD', fontSize: '14px' }}>Your profile has been <br /> Successfully Delete</p>
-                    </div>
-                    <div className='button-position'>
-                      <button type="button" className="btn btn-outline-primary button11 mt-4 mb" data-bs-dismiss="offcanvas" aria-label="Close" onClick={HandleForReload} style={{ fontSize: '14px' }} >Continue</button>
-
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-            )
-          } */}
         </div>
         {/* ################ offcanvas delete end #############  */}
 

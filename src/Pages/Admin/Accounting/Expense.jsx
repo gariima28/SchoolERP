@@ -804,7 +804,7 @@ const Expense = () => {
   // Double Date --------------------------
 
   //  Date range 
- const [startDate, setStartDate] = useState();
+  const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   // console.log(startDate, endDate, ' start and end datesssss')
 
@@ -835,7 +835,7 @@ const Expense = () => {
     setMyExpenseCategoryData([])
     setIsValidDateRequired(false)
     setIsValidAmountRequired(false)
-     setStartDate(null)
+    setStartDate(null)
     setEndDate(null)
     setForDelete(false)
   }
@@ -878,45 +878,60 @@ const Expense = () => {
         <div className="main-content-conatainer pt-1 ">
           {/* ###### copy content till here for all component ######  */}
           <div className="row p-3">
-            <div className='col-lg-6 col-md-6 col-sm-12'>
+            {/* <div className='col-lg-6 col-md-6 col-sm-12'>
               <div className="dropdown" style={{ marginTop: "-4px" }}>
-                             <label
-                               htmlFor="exampleFormControlInput1"
-                               className="form-label label-color heading-14"
-                             >
-                               Date Range
-                             </label>
-             
-                             {/* Show selected date range */}
-                             <input
-                               type="text"
-                               className="form-control form-control-sm form-focus font-color"
-                               id="dropdownMenuButton"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false"
-                               placeholder="Select date"
-                               readOnly
-                               value={
-                                 startDate && endDate ? `${startDate} - ${endDate}` : ""
-                               }
-                             />
-             
-                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                               <Flatpickr
-                                 className="dropdown-item"
-                                 placeholder="Date Range"
-                                 value={[startDate, endDate]}
-                                 options={{
-                                   mode: "range",
-                                   dateFormat: "Y-m-d",
-                                 }}
-                                 onChange={handleDateChange}
-                               />
-                             </div>
-                           </div>
-            </div>
+                <label
+                  htmlFor="exampleFormControlInput1"
+                  className="form-label label-color heading-14"
+                >
+                  Date Range
+                </label>
+                <input
+                  type="text"
+                  className="form-control form-control-sm form-focus font-color"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  placeholder="Select date"
+                  readOnly
+                  value={
+                    startDate && endDate ? `${startDate} - ${endDate}` : ""
+                  }
+                />
 
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <Flatpickr
+                    className="dropdown-item"
+                    placeholder="Date Range"
+                    value={[startDate, endDate]}
+                    options={{
+                      mode: "range",
+                      dateFormat: "Y-m-d",
+                    }}
+                    onChange={handleDateChange}
+                  />
+                </div>
+              </div>
+            </div> */}
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <label className="form-label label-color heading-14">
+                Date Range
+              </label>
+
+              <Flatpickr
+                className="form-control form-control-sm form-focus font-color"
+
+                value={[startDate, endDate]}
+                placeholder='Select Date'
+                options={{
+                  mode: "range",
+                  dateFormat: "Y-m-d",
+                  clickOpens: true,
+                }}
+                onChange={handleDateChange}
+              />
+            </div>
             <div className="col-lg-6 col-md-6 col-sm-12  ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-color focus heading-14">Expenses Category</label>
@@ -1188,7 +1203,7 @@ const Expense = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                       <div className="form-check mt-1">
+                      <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input"
                           onChange={() => setForDelete(!forDelete)}
@@ -1196,7 +1211,7 @@ const Expense = () => {
                           checked={forDelete}
                           value=""
                           id="flexCheckDefault"
-                          name="deleteAgreement" 
+                          name="deleteAgreement"
                         />
                         <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data

@@ -482,13 +482,13 @@ const AssignClassTeacher = () => {
   const [classId, setClassId] = useState()
   const [className, setClassName] = useState()
   const [teacher, setTeacher] = useState()
+  console.log('valueee', teacher)
   const [classdata, setClassdata] = useState([])
   const [teacherData, setTeacherData] = useState([])
   const [sectionData, setSectionData] = useState([])
   const [assignAllData, setAssignAllData] = useState([])
   const [IdForDelete, setIdForDelete] = useState()
   const [IdForUpdate, setIdForUpdate] = useState()
-
   const [searchKey, setSearchKey] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -515,6 +515,7 @@ const AssignClassTeacher = () => {
   useEffect(() => {
     Download_Slip()
   }, [])
+
   const [csvData, setCsvData] = useState([]);
 
   const Download_Slip = async () => {
@@ -641,7 +642,6 @@ const AssignClassTeacher = () => {
       console.log(error)
     }
   }
-
   // Delete api
   const MyAssignDeleteApi = async (id) => {
     setLoader(true)
@@ -678,22 +678,21 @@ const AssignClassTeacher = () => {
     setLoader(true)
     try {
       const response = await AssignClassTeacherGetByIdAllApi(id);
-      console.log('AssignAll classtecaher-get-By-Id-api', response);
+      console.log('Teacher get by id dataaaaaa------', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.msg)
         setTeacher(response?.data?.classTeacherSection?.staffName)
-        setClassId(response?.data?.classTeacherSection?.className)
-        setSection(response?.data?.classTeacherSection?.sectionId)
-        // setSection(response?.data?.classTeacherSection?.sectionId)
+        setClassId(response?.data?.classTeacherSection?.classId)
+        setSection(response?.data?.classTeacherSection?.sectionName)
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
+        setLoader(false)
       }
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
-
   // put api 
   const MyClassRoomPutApi = async (id) => {
     setLoader(true)
@@ -812,7 +811,6 @@ const AssignClassTeacher = () => {
               exportCSVText="Export CSV"
               exportCSVAction={ClassTeacherCSV}
               onSearchChange={handleSearchChange}
-
             />
           </div>
 
@@ -912,7 +910,7 @@ const AssignClassTeacher = () => {
 
                     <div className="mb-1  ">
                       <label for="exampleFormControlInput1" className="form-label heading-16">Teacher</label>
-                      <select class="form-select form-focus label-color heading-14 " value={teacher} onChange={(e) => setTeacher(e.target.value)} aria-label="Default select example">
+                      <select class="form-select form-focus label-color heading-14" value={teacher} onChange={(e) => setTeacher(e.target.value)} aria-label="Default select example">
                         <option selected>--Choose</option>
                         {
                           teacherData?.map(item => (
@@ -982,7 +980,7 @@ const AssignClassTeacher = () => {
                     <div className="mb-1  ">
                       <label for="exampleFormControlInput1" className="form-label  heading-16">Teacher</label>
                       <select class="form-select form-focus label-color heading-14 " value={teacher} onChange={(e) => setTeacher(e.target.value)} aria-label="Default select example">
-                        <option selected>--Choose</option>
+                        <option >-----{teacher}-----</option>
                         {
                           teacherData?.map(item => (
                             <option value={item.id}>{item.staffName}</option>
@@ -992,7 +990,7 @@ const AssignClassTeacher = () => {
                     </div>
                     <div className="mb-1  ">
                       <label for="exampleFormControlInput1" className="form-label  heading-16">Class </label>
-                      <select class="form-select form-focus label-color heading-14 " value={''} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example" disabled>
+                      <select class="form-select form-focus label-color heading-14 " value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example" disabled>
                         <option selected>--Choose</option>
 
                         {
@@ -1006,11 +1004,11 @@ const AssignClassTeacher = () => {
                       <label for="exampleFormControlInput1" className="form-label  heading-16">Section</label>
                       <select class="form-select form-focus label-color heading-14 " value={section} onChange={(e) => setSection(e.target.value)} aria-label="Default select example" disabled>
                         <option selected>--Choose</option>
-                        {/* {
-                            sectionData.map(item =>(
+                        {
+                            sectionData?.map(item =>(
                             <option value={item.classSecId} >{item.sectionName}</option>
                             ))
-                        } */}
+                        }
                       </select>
                     </div>
                     <div className='my-button11 '>

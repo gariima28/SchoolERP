@@ -567,12 +567,15 @@ const Event = () => {
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [roleNameStore, setRoleNameStore] = useState([]);
 
+  
   const [coverPage, setCoverPage] = useState()
-  const [coverPage2, setCoverPage2] = useState()
   const [updateStatus, setUpdateStatus] = useState()
-  const [updateStatus2, setUpdateStatus2] = useState()
   const [manageButton, setManageButton] = useState(false);
+  
+  const [coverPage2, setCoverPage2] = useState()
+  const [updateStatus2, setUpdateStatus2] = useState()
   const [manageButton2, setManageButton2] = useState(false);
+
   const [imageFile, setImageFile] = useState()
   const [imageFile2, setImageFile2] = useState()
 
@@ -588,7 +591,6 @@ const Event = () => {
     const file = event.target.files[0];
     setImageFile2(file);
   };
-
   const buttManage2 = () => {
     setManageButton2(!manageButton2)
   }
@@ -979,7 +981,6 @@ const Event = () => {
         // toast.success(response?.data?.msg);
         // setAllDataById(response?.data?.events)
         setEventName(response?.data?.events?.eventName)
-        setUpdateStatus(response?.data?.status)
         setUpdateStatus2(response?.data?.status)
         setEventDescription(response?.data?.events?.eventDescription)
         setStartDate(response?.data?.events?.startingDate)
@@ -987,9 +988,20 @@ const Event = () => {
         setEndDate(response?.data?.events?.endingDate)
         setEndTime(response?.data?.events?.endingTime)
         setEventStatusDataById(response?.data?.events?.eventStatus)
+        setUpdateStatus(response?.data?.status)
         setCoverPage(response?.data?.events?.eventImage)
         setCoverPage2(response?.data?.events?.eventFiles)
         setEventStatus(response?.data?.events?.eventStatus)
+        const url = response?.data?.events?.eventImage
+        const fileName = url.split("/").pop();  
+        const trimmed = fileName.substring(fileName.indexOf("-") + 1);
+        setCoverPage(trimmed)
+
+        const url2 = response?.data?.events?.eventFiles
+        const fileName2 = url2.split("/").pop();  
+        const trimmed2 = fileName2.substring(fileName2.indexOf("-") + 1);
+         setCoverPage2(trimmed2)
+
         // setEventStatus(response?.data?.events?.eventStatus)
         setLoader(false)
       } else {
