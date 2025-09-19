@@ -481,11 +481,20 @@ const Conta_allown = () => {
                       aria-describedby="allowanceError"
                     >
                       <option value="">--Choose--</option>
-                      {allowanceData.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.allowanceName}
-                        </option>
-                      ))}
+                      {allowanceData.length > 0
+                        ?
+                        (
+                          <>
+                            {allowanceData?.map((item) => (
+                              <option key={item.id} value={item.id}>
+                                {item.allowanceName}
+                              </option>
+                            ))}
+                          </>
+                        )
+                        :
+                        <option value="no" disabled>-- No Allowance Created Yet --</option>
+                      }
                     </select>
                   )}
                 />

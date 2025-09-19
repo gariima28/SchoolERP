@@ -198,6 +198,7 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
       formData.append("status", data?.status);
       formData.append("startDate", data?.startDate);
       formData.append("endDate", data?.endDate);
+      formData.append("description", data?.description);
       formData.append("file", data?.file[0]);
 
       var response = await EditNewAssignmentAPI(EditItemId, formData);

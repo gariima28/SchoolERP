@@ -227,6 +227,10 @@ const ExamSchedule = () => {
             const response = await getAllSubjectByClassApi(classNo);
             if (response?.status === 200 && response?.data?.status === 'success') {
                 setAllSubjectData(response.data.subjects || []);
+                // Set the subject value after subjects are fetched
+                if (updateSubjectId) {
+                    setValueUpdate('subject', updateSubjectId);
+                }
             } else {
                 toast.error(response?.data?.message || 'Failed to fetch subjects');
             }
@@ -234,7 +238,6 @@ const ExamSchedule = () => {
             toast.error('Error fetching subjects');
         } finally {
             setLoaderState(false);
-            setValueUpdate('subject', updateSubjectId);
         }
     };
 
@@ -282,7 +285,7 @@ const ExamSchedule = () => {
                     examTermId: data.examTermId || '',
                     classNo: data.classNo || '',
                     section: data.section || '',
-                    subject: data.subject || '',
+                    subject: data.subject,
                     roomNo: data.roomNumber || '',
                     date: data.date || '',
                     startingTime: data.startingTime || '',
@@ -290,24 +293,24 @@ const ExamSchedule = () => {
                     passingMarks: data.passingMarks || '',
                     totalMarks: data.totalMarks || '',
                 };
+                // Set all form values except subject (subject will be set after fetching subjects)
                 setValueUpdate('examTermId', data.examTermId);
                 setValueUpdate('classNo', data.classNo);
                 setValueUpdate('section', data.section);
                 setValueUpdate('roomNo', data.roomNumber);
-                setValueUpdate('subject', data.subject);
                 setValueUpdate('date', data.date);
                 setValueUpdate('startingTime', data.startingTime);
                 setValueUpdate('endingTime', data.endingTime);
                 setValueUpdate('passingMarks', data.passingMarks);
                 setValueUpdate('totalMarks', data.totalMarks);
                 setInitialFormValues(formValues);
-                setUpdateSubjectId(data.subject)
+                setUpdateSubjectId(data.subject); // Store subject to set later
                 // Fetch subjects and sections for the selected class
                 if (data.classNo) {
                     const selectedClass = allClassData.find(c => c.classNo === data.classNo);
                     if (selectedClass) {
                         setAllSectionData(selectedClass.section || []);
-                        getAllSubjectData(data.classNo);
+                        await getAllSubjectData(data.classNo); // Fetch subjects, subject will be set in getAllSubjectData
                     }
                 }
             } else {
@@ -641,6 +644,9 @@ const ExamSchedule = () => {
                                                         <span className="font14">Ending Time</span>
                                                     </th>
                                                     <th className="textWrapClass">
+                                                        <span className="font14">Date</span>
+                                                    </th>
+                                                    <th className="textWrapClass">
                                                         <span className="font14">Total Marks</span>
                                                     </th>
                                                     <th className="textWrapClass text-center">
@@ -661,10 +667,13 @@ const ExamSchedule = () => {
                                                             <h3>{item.roomNumber}</h3>
                                                         </td>
                                                         <td className="textWrapClass greyText">
-                                                            <h3>{item.startingTime || '-'}</h3>
+                                                            <h3>{item.startingTime.slice(0,5) || '-'}</h3>
                                                         </td>
                                                         <td className="textWrapClass greyText">
-                                                            <h3>{item.endingTime || '-'}</h3>
+                                                            <h3>{item.endingTime.slice(0,5) || '-'}</h3>
+                                                        </td>
+                                                        <td className="textWrapClass greyText">
+                                                            <h3>{item.date}</h3>
                                                         </td>
                                                         <td className="textWrapClass greyText">
                                                             <h3>{item.totalMarks}</h3>
@@ -1020,11 +1029,17 @@ const ExamSchedule = () => {
                                     {...registerUpdate('subject', { required: 'Subject is required *' })}
                                 >
                                     <option value="">-- Select --</option>
-                                    {allSubjectData.map((subject) => (
-                                        <option key={subject.subject} value={subject.subjectName}>
-                                            {subject.subjectName}
+                                    {allSubjectData.length > 0 ? (
+                                        allSubjectData.map((subject) => (
+                                            <option key={subject.subjectId} value={subject.subjectName}>
+                                                {subject.subjectName}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option value="" disabled>
+                                            {watchUpdate('classNo') ? '-- No Subjects Found --' : '-- Select Class First --'}
                                         </option>
-                                    ))}
+                                    )}
                                 </select>
                                 {errorsUpdate.subject && <p className="font12 text-danger">{errorsUpdate.subject.message}</p>}
                             </div>

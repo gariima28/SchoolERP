@@ -94,7 +94,15 @@ const MyAccount = () => {
     const token = sessionStorage.getItem('token');
     // loader State
     const [loaderState, setloaderState] = useState(false);
-    const [initialValues, setInitialValues] = useState({});
+    const [initialValues, setInitialValues] = useState({
+        adminName: '',
+        adminEmail: '',
+        adminPhone: '',
+        adminAddress: '',
+        adminGender: '',
+        adminDesignation: '',
+        adminDOB: '',
+    });
     // Data State
 
     const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm({
@@ -128,7 +136,7 @@ const MyAccount = () => {
                 setValue('adminDesignation', response?.data?.designation)
                 setValue('adminPhoto', response?.data?.image)
                 setAdminPhotoVal(response?.data?.image)
-                setloaderState(false);
+                console.log(1)
                 setInitialValues({
                     adminName: response?.data?.name,
                     adminEmail: response?.data?.email,
@@ -136,9 +144,10 @@ const MyAccount = () => {
                     adminAddress: response?.data?.address,
                     adminGender: response?.data?.gender,
                     adminDesignation: response?.data?.designation,
-                    adminDOB: response?.data?.dateOfBirth.split('T')[0],
+                    adminDOB: response?.data?.dateOfBirth === null ? '' : response?.data?.dateOfBirth.split('T')[0],
                 })
                 setValue('adminDOB', response?.data?.dateOfBirth.split('T')[0])
+                setloaderState(false);
             }
         }
         catch (error) {
@@ -227,7 +236,7 @@ const MyAccount = () => {
                                     <div className="headingBgColor cardradius2 ps-4 pe-4">
                                         <p className='p-3 text-center'>
                                             {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={adminPhotoVal} alt="" height={60} /> */}
-                                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='border rounded-5' src={adminPhotoVal} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
+                                            <img className='border rounded-5' src={adminPhotoVal} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
                                         </p>
                                         <h2 className='text-center mb-2 activeTexttt fontWeight600'>{initialValues.adminName}</h2>
                                         <div className="d-flex align-items-center justify-content-center mb-2">

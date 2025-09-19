@@ -275,7 +275,8 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           setValue('parentImage', student?.parentImage || '');
           setParentImageVal(student?.parentImage || '');
           setValue('bloodGroup', student?.bloodGroup || '');
-          setValue('gender', student?.gender || '');
+          setValue('gender', student?.studentGender || '');
+          setValue('stuStatus', student?.stuStatus || false);
           setValue('pinCode', student?.pinCode || '');
 
           // Set country, state code, and city name
@@ -301,7 +302,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             studentImage: student?.studentImage,
             parentImage: student?.parentImage,
             bloodGroup: student?.bloodGroup,
-            gender: student?.gender,
+            gender: student?.studentGender,
             country: student?.country,
             state: student?.state, // State code
             city: student?.city, // City name
@@ -347,6 +348,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       formData.append('fatherOccupation', data.fatherOccupation);
       formData.append('motherOccupation', data.motherOccupation);
       formData.append('classNo', data.classNo);
+      formData.append('stuStatus', data.stuStatus);
       formData.append('sectionName', data.sectionName);
       formData.append('studentDOB', data.studentDOB);
       formData.append('studentAddress', data.studentAddress);
@@ -399,7 +401,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       <div className="container-fluid">
         <form className="row h-100 overflow-scroll" onSubmit={handleSubmit(updateStudent)}>
           <div className="mb-3">
-            <label htmlFor="studentName" className="form-label font14">Name*</label>
+            <label htmlFor="studentName" className="form-label font14">Name <span className='text-danger'>*</span></label>
             <input
               id="studentName"
               type="text"
@@ -418,7 +420,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.studentName && <p className="font12 text-danger">{errors.studentName.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="bloodGroup" className="form-label font14">Blood Group*</label>
+            <label htmlFor="bloodGroup" className="form-label font14">Blood Group <span className='text-danger'>*</span></label>
             <select
               id="bloodGroup"
               className={`form-select font14 ${errors.bloodGroup ? 'border-danger' : ''}`}
@@ -433,7 +435,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.bloodGroup && <p className="font12 text-danger">{errors.bloodGroup.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="fatherName" className="form-label font14">Father Name*</label>
+            <label htmlFor="fatherName" className="form-label font14">Father Name <span className='text-danger'>*</span></label>
             <input
               id="fatherName"
               type="text"
@@ -452,7 +454,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.fatherName && <p className="font12 text-danger">{errors.fatherName.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="motherName" className="form-label font14">Mother Name*</label>
+            <label htmlFor="motherName" className="form-label font14">Mother Name <span className='text-danger'>*</span></label>
             <input
               id="motherName"
               type="text"
@@ -471,7 +473,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.motherName && <p className="font12 text-danger">{errors.motherName.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="studentPh" className="form-label font14">Student Contact Details*</label>
+            <label htmlFor="studentPh" className="form-label font14">Student Contact Details <span className='text-danger'>*</span></label>
             <input
               id="studentPh"
               type="tel"
@@ -491,7 +493,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.studentPh && <p className="font12 text-danger">{errors.studentPh.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="parentNo" className="form-label font14">Parent Contact Details*</label>
+            <label htmlFor="parentNo" className="form-label font14">Parent Contact Details <span className='text-danger'>*</span></label>
             <input
               id="parentNo"
               type="tel"
@@ -511,7 +513,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.parentNo && <p className="font12 text-danger">{errors.parentNo.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="studentEmail" className="form-label font14">Student Email*</label>
+            <label htmlFor="studentEmail" className="form-label font14">Student Email <span className='text-danger'>*</span></label>
             <input
               id="studentEmail"
               type="email"
@@ -528,7 +530,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.studentEmail && <p className="font12 text-danger">{errors.studentEmail.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="parentEmail" className="form-label font14">Parent Email*</label>
+            <label htmlFor="parentEmail" className="form-label font14">Parent Email <span className='text-danger'>*</span></label>
             <input
               id="parentEmail"
               type="email"
@@ -545,7 +547,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.parentEmail && <p className="font12 text-danger">{errors.parentEmail.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="fatherOccupation" className="form-label font14">Father Occupation*</label>
+            <label htmlFor="fatherOccupation" className="form-label font14">Father Occupation <span className='text-danger'>*</span></label>
             <select
               id="fatherOccupation"
               className={`form-select font14 ${errors.fatherOccupation ? 'border-danger' : ''}`}
@@ -566,7 +568,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.fatherOccupation && <p className="font12 text-danger">{errors.fatherOccupation.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="motherOccupation" className="form-label font14">Mother Occupation*</label>
+            <label htmlFor="motherOccupation" className="form-label font14">Mother Occupation <span className='text-danger'>*</span></label>
             <select
               id="motherOccupation"
               className={`form-select font14 ${errors.motherOccupation ? 'border-danger' : ''}`}
@@ -586,7 +588,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.motherOccupation && <p className="font12 text-danger">{errors.motherOccupation.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="classNo" className="form-label font14">Class*</label>
+            <label htmlFor="classNo" className="form-label font14">Class <span className='text-danger'>*</span></label>
             <select
               id="classNo"
               className={`form-select font14 ${errors.classNo ? 'border-danger' : ''}`}
@@ -620,7 +622,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.sectionName && <p className="font12 text-danger">{errors.sectionName.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="studentDOB" className="form-label font14">Birthday*</label>
+            <label htmlFor="studentDOB" className="form-label font14">Birthday <span className='text-danger'>*</span></label>
             <input
               id="studentDOB"
               type="date"
@@ -631,7 +633,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.studentDOB && <p className="font12 text-danger">{errors.studentDOB.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="gender" className="form-label font14">Gender*</label>
+            <label htmlFor="gender" className="form-label font14">Gender <span className='text-danger'>*</span></label>
             <select
               id="gender"
               className={`form-select font14 ${errors.gender ? 'border-danger' : ''}`}
@@ -644,7 +646,20 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.gender && <p className="font12 text-danger">{errors.gender.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="studentAddress" className="form-label font14">Address*</label>
+            <label htmlFor="stuStatus" className="form-label font14">Status <span className='text-danger'>*</span></label>
+            <select
+              id="stuStatus"
+              className={`form-select font14 ${errors.stuStatus ? 'border-danger' : ''}`}
+              {...register('stuStatus', { required: 'Status is required *' })}
+            >
+              <option value="" disabled>-- Select --</option>
+              <option value={true}>Active</option>
+              <option value={false}>InActive</option>
+            </select>
+            {errors.stuStatus && <p className="font12 text-danger">{errors.stuStatus.message}</p>}
+          </div>
+          <div className="mb-3">
+            <label htmlFor="studentAddress" className="form-label font14">Address <span className='text-danger'>*</span></label>
             <input
               id="studentAddress"
               type="text"
@@ -662,7 +677,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.studentAddress && <p className="font12 text-danger">{errors.studentAddress.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="emergencyNo" className="form-label font14">Emergency Contact Details*</label>
+            <label htmlFor="emergencyNo" className="form-label font14">Emergency Contact Details <span className='text-danger'>*</span></label>
             <input
               id="emergencyNo"
               type="tel"
@@ -775,7 +790,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.pinCode && <p className="font12 text-danger">{errors.pinCode.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="studentImage" className="form-label font14">Student Image*</label>
+            <label htmlFor="studentImage" className="form-label font14">Student Image <span className='text-danger'>*</span></label>
             <div className="d-flex bg-white">
               {studentImageVal && changeImageType ? (
                 <input
@@ -816,7 +831,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.studentImage && <p className="font12 text-danger">{errors.studentImage.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="parentImage" className="form-label font14">Parent Image*</label>
+            <label htmlFor="parentImage" className="form-label font14">Parent Image <span className='text-danger'>*</span></label>
             <div className="d-flex bg-white">
               {parentImageVal && changeImageTypeParent ? (
                 <input

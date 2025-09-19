@@ -155,13 +155,17 @@ const DueInvoice = () => {
     const [section, setSection] = useState('');
     const [status, setStatus] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
+
+    // Initialize dateRange with current date
+    const currentDate = new Date();
     const [dateRange, setDateRange] = useState([
         {
-            startDate: null,
-            endDate: null,
+            startDate: currentDate,
+            endDate: currentDate,
             key: 'selection',
         },
     ]);
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
     const [allClassData, setAllClassData] = useState([]);
     const [allSectionData, setAllSectionData] = useState([]);
@@ -314,19 +318,30 @@ const DueInvoice = () => {
 
     const [pickerKey, setPickerKey] = useState(0); // Added to force re-render of DateRange
 
+
     // Handler for date range change
     const handleDateRangeChange = (item) => {
         setDateRange([item.selection]);
         const { startDate, endDate } = item.selection;
-        setStartDate(startDate ? startDate.toISOString().split('T')[0] : '');
-        setEndDate(endDate ? endDate.toISOString().split('T')[0] : '');
-        console.log('DateRange updated:', item.selection); // Debug log
+
+        // Normalize dates to local timezone to avoid UTC shift
+        const normalizeDate = (date) => {
+            if (!date) return '';
+            const localDate = new Date(date);
+            return `${localDate.getFullYear()}-${String(localDate.getMonth() + 1).padStart(2, '0')}-${String(localDate.getDate()).padStart(2, '0')}`;
+        };
+
+        setStartDate(normalizeDate(startDate));
+        setEndDate(normalizeDate(endDate));
+        console.log('DateRange updated:', item.selection, 'Normalized:', normalizeDate(startDate), normalizeDate(endDate)); // Debug log
     };
 
     // Format date range for display
     const formattedDate = dateRange[0].startDate && dateRange[0].endDate
         ? `${dateRange[0].startDate.toLocaleDateString()} - ${dateRange[0].endDate.toLocaleDateString()}`
         : 'Select Date Range';
+
+
 
     // Updated cancelSearch to reset dateRange and pickerKey
     const cancelSearch = () => {
@@ -366,6 +381,25 @@ const DueInvoice = () => {
             setLoaderState(false);
         }
     };
+    const dropdownRef = useRef(null);
+
+
+    // close dropdown on outside click
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setOpenDropdownId(null);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     const handleSearchButton = () => {
         getAllDueInvoice();
@@ -425,17 +459,7 @@ const DueInvoice = () => {
                                     <input
                                         readOnly
                                         value={formattedDate}
-                                        onClick={() => {
-                                            // Reset dateRange when opening to ensure no default selection
-                                            setDateRange([
-                                                {
-                                                    startDate: null,
-                                                    endDate: null,
-                                                    key: 'selection',
-                                                },
-                                            ]);
-                                            setShowDatePicker(!showDatePicker);
-                                        }}
+                                        onClick={() => setShowDatePicker(!showDatePicker)}
                                         className="border border-gray-300 rounded padding-daterange font14 cursor-pointer w-100"
                                     />
                                     {showDatePicker && (
@@ -443,15 +467,31 @@ const DueInvoice = () => {
                                             <DateRange
                                                 editableDateInputs={true}
                                                 onChange={handleDateRangeChange}
-                                                moveRangeOnFirstSelection={false}
-                                                ranges={dateRange}
+                                                moveRangeOnFirstSelection={false} // Prevents range movement on first click
+                                                ranges={dateRange} // Default to current date
                                                 preventSnapRefocus={true}
                                                 showDateDisplay={false}
-                                                rangeColors={['transparent']}
-                                                showSelectionPreview={false}
-                                                focusedRange={[0, 0]}
+                                                rangeColors={['#008479']} // Single color for selected date
+                                                showSelectionPreview={true} // Shows preview of selected date
+                                                focusedRange={[0, 0]} // Focus on the first range
                                                 showMonthAndYearPickers={true}
-                                                retainEndDateOnFirstSelection={false}
+                                                retainEndDateOnFirstSelection={false} // Ensures single date selection by default
+                                                initialFocusedRange={[0]} // Focus on the current date initially
+                                                date={currentDate} // Open calendar to current date
+                                                months={1} // Show only one month at a time
+                                                direction="vertical" // Ensure single month view
+                                                // Ensure only the current date is selected initially
+                                                onRangeFocusChange={(focusedRange) => {
+                                                    if (focusedRange[0] === 0 && !dateRange[0].endDate) {
+                                                        setDateRange([
+                                                            {
+                                                                startDate: currentDate,
+                                                                endDate: currentDate,
+                                                                key: 'selection',
+                                                            },
+                                                        ]);
+                                                    }
+                                                }}
                                             />
                                         </div>
                                     )}

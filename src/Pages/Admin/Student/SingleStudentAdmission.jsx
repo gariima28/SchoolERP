@@ -171,6 +171,7 @@ const SingleStudentAdmission = () => {
             formData.append("state", data.state || '');
             formData.append("city", data.city || '');
             formData.append("pinCode", data.pinCode || '');
+            // formData.append("stuStatus", data.stuStatus || '');
             formData.append("emergencyNo", data.emergencyNo);
             formData.append("studentPh", data.studentPh);
             formData.append("studentImage", data.studentImage[0]);
@@ -354,6 +355,15 @@ const SingleStudentAdmission = () => {
                             </select>
                             {errors.gender && <p className="font12 text-danger">{errors.gender.message}</p>}
                         </div>
+                        {/* <div className="col-md-6 col-sm-12 col-12">
+                            <label htmlFor="stuStatus" className="form-label font14">Status <span className='text-danger'>*</span></label>
+                            <select id="stuStatus" className={`form-select font14 ${errors.stuStatus ? 'border-danger' : ''}`} {...register('stuStatus', { required: 'Status is required *' })}>
+                                <option value=''>--- Choose ---</option>
+                                <option value={true}>Active</option>
+                                <option value={false}>InActive</option>
+                            </select>
+                            {errors.stuStatus && <p className="font12 text-danger">{errors.stuStatus.message}</p>}
+                        </div> */}
                         <div className="col-md-6 col-sm-12 col-12">
                             <label htmlFor="studentAddress" className="form-label font14">Address <span className='text-danger'>*</span></label>
                             <input id="studentAddress" type="text" className={`form-control font14 ${errors.studentAddress ? 'border-danger' : ''}`} placeholder="Enter Address" {...register("studentAddress", { required: 'Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'Address must contain only letters, digits, and spaces'; } return true; } })} />
