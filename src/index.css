@@ -2247,10 +2247,6 @@ f
     color: gray;
 }
 
-
-
-
-
 .overflow-scrolling {
     overflow-x: auto !important;
 }
@@ -2261,4 +2257,17 @@ f
 
 .dropdown-menu {
     min-width: 100px !important;
+}
+
+.table-responsive-custom {
+  overflow: visible !important;
+}
+
+.dropdown {
+  position: static !important;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  z-index: 99999 !important;
 }
