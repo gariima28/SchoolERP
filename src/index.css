@@ -2246,15 +2246,12 @@ f
     font-size: 0.875rem;
     color: gray;
 }
-
 .overflow-scrolling {
     overflow-x: auto !important;
 }
-
 .action-column {
     min-width: 120px !important;
 }
-
 .dropdown-menu {
     min-width: 100px !important;
 }
@@ -2263,11 +2260,9 @@ f
 .table-responsive-custom {
   overflow: visible !important;
 }
-
 .dropdown {
   position: static !important;
 }
-
 .dropdown-menu {
   position: absolute !important;
   z-index: 99999 !important;
