@@ -396,7 +396,7 @@ const Assignment = () => {
                 // If the value is empty for the first time, call getAllSpecialFeature and set click to false
                 if (updatedValue === '' && click) {
                     getAllAssignment('search');
-                    setClick(false); // Ensure this is only triggered once
+                    setClick(false); 
                     return;
                 }
 
@@ -565,7 +565,7 @@ const Assignment = () => {
                                                                         <span className='font14 align-self-start'>{item.title}</span>
                                                                     </td>
                                                                     <td className='textWrapClass greyText'>
-                                                                        <span className='font14 align-self-start'>{item.teacherId}</span>
+                                                                        <span className='font14 align-self-start'>{item.teacherName}</span>
                                                                     </td>
                                                                     <td className='textWrapClass greyText'>
                                                                         <p className='font14 align-self-start'>Class - {item.classNo}</p>
