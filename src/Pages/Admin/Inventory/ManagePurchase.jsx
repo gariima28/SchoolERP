@@ -17,11 +17,11 @@ import {
   updateManagePurchaseByIdApi,
   deleteManagePurchaseByIdApi,
   getAllItemCategoryApi,
-  getAllManageProductApi,
   getAllSupplierApi,
-  GeyAllTeacherLightWeightGetAll,
+  GetAllTeacherLightWeightGetAll,
   DownloadManagePurchaseExcel,
   DownloadManagePurchasePDF,
+  getProductByCategoryApi,
 } from "../../../Utils/Apis";
 import * as bootstrap from "bootstrap";
 import ReactPaginate from "react-paginate";
@@ -174,6 +174,10 @@ const ManagePurchase = () => {
     mode: "onChange",
   });
 
+  // Watch categoryId for Add and Edit forms
+  const watchAddCategoryId = watch("categoryId");
+  const watchEditCategoryId = watchEdit("categoryId");
+
   // Watch form values for totalPrice calculation
   const addFormValues = watch();
   const editFormValues = watchEdit();
@@ -195,12 +199,31 @@ const ManagePurchase = () => {
     }
   }, [editFormValues.purchasePricePer, editFormValues.quantity, setValueEdit]);
 
+  // Fetch products when categoryId changes in Add form
+  useEffect(() => {
+    if (watchAddCategoryId && typeof watchAddCategoryId === "string" && watchAddCategoryId.trim() !== "") {
+      fetchProductsByCategory(watchAddCategoryId);
+      setValueAdd("itemId", ""); // Reset product selection when category changes
+    } else {
+      setProductData([]); // Clear product data if no category is selected
+    }
+  }, [watchAddCategoryId, setValueAdd]);
+
+  // Fetch products when categoryId changes in Edit form
+  useEffect(() => {
+    if (watchEditCategoryId && typeof watchEditCategoryId === "string" && watchEditCategoryId.trim() !== "") {
+      fetchProductsByCategory(watchEditCategoryId);
+      setValueEdit("itemId", ""); // Reset product selection when category changes
+    } else {
+      setProductData([]); // Clear product data if no category is selected
+    }
+  }, [watchEditCategoryId, setValueEdit]);
+
   // Fetch All Data
   useEffect(() => {
     getAllManagePurchaseData(searchInputVal);
     getAllSupplierData();
     getAllItemCategoryData();
-    getAllProductData();
     getAllUserData();
   }, [token, pageNo, pageSize]);
 
@@ -227,7 +250,7 @@ const ManagePurchase = () => {
   const getAllItemCategoryData = async () => {
     try {
       setLoaderState(true);
-      const response = await getAllItemCategoryApi('', '', '');
+      const response = await getAllItemCategoryApi("", "", "");
       if (response?.status === 200 && response?.data?.status === "success") {
         setItemCategoryData(response.data.itemCategories || []);
       } else {
@@ -244,14 +267,15 @@ const ManagePurchase = () => {
     }
   };
 
-  const getAllProductData = async () => {
+  const fetchProductsByCategory = async (categoryId) => {
     try {
       setLoaderState(true);
-      const response = await getAllManageProductApi('', '', '');
+      const response = await getProductByCategoryApi(categoryId);
       if (response?.status === 200 && response?.data?.status === "success") {
         setProductData(response.data.items || []);
       } else {
         toast.error(response?.data?.message || "Failed to fetch products");
+        setProductData([]);
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
@@ -259,6 +283,7 @@ const ManagePurchase = () => {
         navigate("/");
       }
       toast.error("Error fetching products");
+      setProductData([]);
     } finally {
       setLoaderState(false);
     }
@@ -267,7 +292,7 @@ const ManagePurchase = () => {
   const getAllUserData = async () => {
     try {
       setLoaderState(true);
-      const response = await GeyAllTeacherLightWeightGetAll();
+      const response = await GetAllTeacherLightWeightGetAll();
       if (response?.status === 200 && response?.data?.status === "success") {
         setUserData(response.data.allStaff || []);
       } else {
@@ -287,7 +312,7 @@ const ManagePurchase = () => {
   const getAllManagePurchaseData = async (search = "") => {
     try {
       setLoaderState(true);
-      const response = await getAllManagePurchaseApi(searchInputVal, pageNo, pageSize);
+      const response = await getAllManagePurchaseApi(search, pageNo, pageSize);
       if (response?.status === 200 && response?.data?.status === "success") {
         setManagePurchaseData(response.data.purchases || []);
         setTotalPages(response.data.totalPages || 1);
@@ -318,32 +343,27 @@ const ManagePurchase = () => {
       setLoaderState(true);
       setEditPurchaseId(isView ? "" : id);
       const response = await getManagePurchaseByIdApi(id);
-      console.log(response, "Helo Response")
-      if (response?.status === 200) {
-        const data = response.data;
-        console.log(data)
-        console.log('first 1')
+      if (response?.status === 200 && response?.data?.status === "success") {
+        const data = response.data.purchase;
         const formValues = {
-          supplierId: data.supplierId || "",
-          categoryId: data.categoryId || "",
-          itemId: data.itemId || "",
-          userId: data.userId || "",
+          supplierId: data.supplierId?.toString() || "",
+          categoryId: data.categoryId?.toString() || "",
+          itemId: data.itemId?.toString() || "",
+          userId: data.userId?.toString() || "",
           unit: data.unit || "",
-          purchasePricePer: data.purchasePrice || "",
-          quantity: data.quantity || "",
+          purchasePricePer: data.purchasePricePerPiece || "",
+          quantity: data.purchaseQuantity || "",
           totalPrice: data.totalPrice || "",
           purchaseDate: data.purchaseDate || "",
         };
-        console.log('first 2')
         if (isView) {
-          console.log('first 3')
           setViewPurchaseData(data);
         } else {
-          console.log('first 4')
-          setValueEdit("supplierId", data.supplierId || "");
-          setValueEdit("categoryId", data.categoryId || "");
-          setValueEdit("itemId", data.itemId || "");
-          setValueEdit("userId", data.userId || "");
+          setValueEdit("supplierId", data.supplierId?.toString() || "");
+          setValueEdit("categoryId", data.categoryId?.toString() || "");
+          await fetchProductsByCategory(data.categoryId?.toString() || "");
+          setValueEdit("itemId", data.itemId?.toString() || "");
+          setValueEdit("userId", data.userId?.toString() || "");
           setValueEdit("unit", data.unit || "");
           setValueEdit("purchasePricePer", data.purchasePricePerPiece || "");
           setValueEdit("quantity", data.purchaseQuantity || "");
@@ -352,11 +372,9 @@ const ManagePurchase = () => {
           setInitialFormValues(formValues);
         }
       } else {
-        console.log('first 5')
         toast.error(response?.data?.message || `Failed to fetch ${isView ? "view" : "edit"} purchase`);
       }
     } catch (error) {
-      console.log('first 6')
       toast.error(`Error fetching ${isView ? "view" : "edit"} purchase`);
     } finally {
       setLoaderState(false);
@@ -436,27 +454,11 @@ const ManagePurchase = () => {
         }, { once: true });
       } else {
         toast.error(response?.data?.message || "Failed to update purchase");
-        setValueEdit("supplierId", initialFormValues.supplierId);
-        setValueEdit("categoryId", initialFormValues.categoryId);
-        setValueEdit("itemId", initialFormValues.itemId);
-        setValueEdit("userId", initialFormValues.userId);
-        setValueEdit("unit", initialFormValues.unit);
-        setValueEdit("purchasePricePer", initialFormValues.purchasePricePer);
-        setValueEdit("quantity", initialFormValues.quantity);
-        setValueEdit("totalPrice", initialFormValues.totalPrice);
-        setValueEdit("purchaseDate", initialFormValues.purchaseDate);
+        Object.keys(initialFormValues).forEach((key) => setValueEdit(key, initialFormValues[key]));
       }
     } catch (error) {
       toast.error("Error updating purchase");
-      setValueEdit("supplierId", initialFormValues.supplierId);
-      setValueEdit("categoryId", initialFormValues.categoryId);
-      setValueEdit("itemId", initialFormValues.itemId);
-      setValueEdit("userId", initialFormValues.userId);
-      setValueEdit("unit", initialFormValues.unit);
-      setValueEdit("purchasePricePer", initialFormValues.purchasePricePer);
-      setValueEdit("quantity", initialFormValues.quantity);
-      setValueEdit("totalPrice", initialFormValues.totalPrice);
-      setValueEdit("purchaseDate", initialFormValues.purchaseDate);
+      Object.keys(initialFormValues).forEach((key) => setValueEdit(key, initialFormValues[key]));
     } finally {
       setLoaderState(false);
     }
@@ -578,11 +580,11 @@ const ManagePurchase = () => {
               }}
               showExportPDF={managePurchaseData.length > 0}
               exportPDFText="Export PDF"
-              exportPDFAction={DownloadManagePurchasePDF}
+              exportPDFAction={DownloadPDF}
               exportPDFFileName="Purchase.pdf"
               showExportCSV={managePurchaseData.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={DownloadManagePurchaseExcel}
+              exportCSVAction={DownloadCSV}
               exportCSVFileName="Purchase.xlsx"
               showSearch={true}
               searchValue={searchInputVal}
@@ -688,7 +690,7 @@ const ManagePurchase = () => {
               <div className="modal-header p-2 px-3">
                 <h2 className="modal-title" id="viewDetailsLabel">View Purchase</h2>
                 <div className="d-flex align-items-center">
-                  <button className="btn greyText" type="button"><Download /></button>
+                  <button className="btn greyText" type="button" onClick={handleDownloadPdf}><Download /></button>
                   <button type="button" className="btn-close greyText" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
               </div>
@@ -832,11 +834,17 @@ const ManagePurchase = () => {
                   {...registerAdd("itemId", { required: "Product Name is required *" })}
                 >
                   <option value="">--- Choose ---</option>
-                  {productData.map((product) => (
-                    <option key={product.id} value={product.id}>
-                      {product.itemName}
+                  {productData.length > 0 ? (
+                    productData.map((product) => (
+                      <option key={product.id} value={product.id}>
+                        {product.itemName}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="" disabled>
+                      {watchAddCategoryId ? "-- No Products Found --" : "-- Select Category First --"}
                     </option>
-                  ))}
+                  )}
                 </select>
                 {errorsAdd.itemId && <p className="font12 text-danger">{errorsAdd.itemId.message}</p>}
               </div>
@@ -1025,11 +1033,17 @@ const ManagePurchase = () => {
                   {...registerEdit("itemId", { required: "Product Name is required *" })}
                 >
                   <option value="">--- Choose ---</option>
-                  {productData.map((product) => (
-                    <option key={product.id} value={product.id}>
-                      {product.itemName}
+                  {productData.length > 0 ? (
+                    productData.map((product) => (
+                      <option key={product.id} value={product.id}>
+                        {product.itemName}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="" disabled>
+                      {watchEditCategoryId ? "-- No Products Found --" : "-- Select Category First --"}
                     </option>
-                  ))}
+                  )}
                 </select>
                 {errorsEdit.itemId && <p className="font12 text-danger">{errorsEdit.itemId.message}</p>}
               </div>

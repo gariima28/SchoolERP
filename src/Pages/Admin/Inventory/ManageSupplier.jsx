@@ -718,7 +718,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                    <span>{viewSupplierData.contactPersonName}</span>
+                                  <span>{viewSupplierData.contactPersonName}</span>
                                 )}
                               </span>
                             </div>
@@ -756,7 +756,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                    <span>{viewSupplierData.contactPersonEmail}</span>
+                                  <span>{viewSupplierData.contactPersonEmail}</span>
                                 )}
                               </span>
                             </div>
@@ -807,7 +807,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                    <span>{viewSupplierData.supplierAddress}</span>
+                                  <span>{viewSupplierData.supplierAddress}</span>
                                 )}
                               </span>
                             </div>
@@ -843,7 +843,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                    <span>{viewSupplierData.supplierDescription}</span>
+                                  <span>{viewSupplierData.supplierDescription}</span>
                                 )}
                               </span>
                             </div>

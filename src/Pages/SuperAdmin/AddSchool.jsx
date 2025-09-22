@@ -203,7 +203,7 @@ const AddSchool = () => {
                         </div>
                         <div className="col-md-6 mb-3">
                           <label htmlFor="schoolAddress" className="form-label font14">School Address</label>
-                          <input id="schoolAddress" type="text" className={`form-control font14 ${errors.schoolAddress ? 'border-danger' : ''}`} placeholder="School Address" {...register("schoolAddress", { required: 'School Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'School Address must contain only letters, digits, and spaces'; } return true; } })} />
+                          <input id="schoolAddress" type="text" className={`form-control font14 ${errors.schoolAddress ? 'border-danger' : ''}`} placeholder="School Address" {...register("schoolAddress", { required: 'School Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } return true; } })} />
                           {errors.schoolAddress && <p className="font12 text-danger">{errors.schoolAddress.message}</p>}
                         </div>
                         <div className="col-md-6 mb-3">
@@ -226,7 +226,7 @@ const AddSchool = () => {
                         </div>
                         <div className="col-md-6 mb-3">
                           <label htmlFor="schoolDis" className="form-label font14">School Description</label>
-                          <input id="schoolDis" type="text" className={`form-control font14 ${errors.schoolDis ? 'border-danger' : ''}`} placeholder="School Description" {...register('schoolDis', { required: 'School Description is required *', validate: value => { if (!/^[A-Za-z]/.test(value)) { return 'School Description must start with a Character'; } if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z\s,.'-]+$/.test(value)) { return 'School Description must contain only letters, and spaces'; } return true; } })} />
+                          <input id="schoolDis" type="text" className={`form-control font14 ${errors.schoolDis ? 'border-danger' : ''}`} placeholder="School Description" {...register('schoolDis', { required: 'School Description is required *', validate: value => { if (!/^[A-Za-z]/.test(value)) { return 'School Description must start with a Character'; }  return true; } })} />
                           {errors.schoolDis && <p className="font12 text-danger">{errors.schoolDis.message}</p>}
                         </div>
                         <div className="col-md-6 mb-3">
@@ -273,7 +273,7 @@ const AddSchool = () => {
                         </div>
                         <div className="col-md-6 mb-3">
                           <label htmlFor="adminAddress" className="form-label font14">Admin Address</label>
-                          <input id="adminAddress" type="text" className={`form-control font14 ${errors.adminAddress ? 'border-danger' : ''}`} placeholder="Admin Address" {...register("adminAddress", { required: 'Admin Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'Admin Address must contain only letters, numbers, and spaces'; } return true; } })} />
+                          <input id="adminAddress" type="text" className={`form-control font14 ${errors.adminAddress ? 'border-danger' : ''}`} placeholder="Admin Address" {...register("adminAddress", { required: 'Admin Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } return true; } })} />
                           {errors.adminAddress && <p className="font12 text-danger">{errors.adminAddress.message}</p>}
                         </div>
                         <div className="col-md-6 mb-3">

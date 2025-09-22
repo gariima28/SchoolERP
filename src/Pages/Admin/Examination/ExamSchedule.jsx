@@ -667,10 +667,10 @@ const ExamSchedule = () => {
                                                             <h3>{item.roomNumber}</h3>
                                                         </td>
                                                         <td className="textWrapClass greyText">
-                                                            <h3>{item.startingTime.slice(0,5) || '-'}</h3>
+                                                            <h3>{item.startingTime.slice(0, 5) || '-'}</h3>
                                                         </td>
                                                         <td className="textWrapClass greyText">
-                                                            <h3>{item.endingTime.slice(0,5) || '-'}</h3>
+                                                            <h3>{item.endingTime.slice(0, 5) || '-'}</h3>
                                                         </td>
                                                         <td className="textWrapClass greyText">
                                                             <h3>{item.date}</h3>

@@ -476,7 +476,7 @@ const ManageProduct = () => {
                   <thead>
                     <tr>
                       {tableHeadingData.map((item) => (
-                        <th key={item} className={`textWrapClass font14 text-center ${item === "Action" && "text-end"}`}>
+                        <th key={item} className={`textWrapClass font14 text-start ${item === "Action" && "text-end"}`}>
                           {item}
                         </th>
                       ))}
