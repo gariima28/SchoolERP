@@ -301,7 +301,7 @@ const MyAccount = () => {
                                     </div>
                                     <div className="col-12">
                                         <label htmlFor="validationDefault02" className="form-label font14">Address</label>
-                                        <input id="adminAddress" type="text" className={`form-control font14 ${errors.adminAddress ? 'border-danger' : ''}`} placeholder="Entes Address" {...register("adminAddress", { required: 'admin Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'Address must contain only letters, digits, and spaces'; } return true; } })} />
+                                        <input id="adminAddress" type="text" className={`form-control font14 ${errors.adminAddress ? 'border-danger' : ''}`} placeholder="Entes Address" {...register("adminAddress", { required: 'admin Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } return true; } })} />
                                         {errors.adminAddress && <p className="font12 text-danger">{errors.adminAddress.message}</p>}
                                     </div>
                                     <div className="col-12">

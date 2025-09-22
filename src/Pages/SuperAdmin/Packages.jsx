@@ -9,8 +9,6 @@ import { Icon } from '@iconify/react';
 import AddPackage from 'src/Modals/AddPackage';
 import UpdatePackage from 'src/Modals/UpdatePackage';
 import ActionControls from '../../Layouts/ActionControls';
-// 
-// 
 
 const ContainerCSS = styled.div`
   height: 92vh;
@@ -27,7 +25,6 @@ const ContainerCSS = styled.div`
   .eventablerow{
     background-color: var(--tableGreyBackgroundColor) !important;
   }
-
 
   .form-control, .form-select{
     box-shadow: none !important;
@@ -107,16 +104,14 @@ const ContainerCSS = styled.div`
   .greydiv{
     background-color: #FBFBFB;
   }
+  
   .for-margin-top{
     margin-top: -11px;
-    /* margin-left: 0.4px; */
   }
-
 
   .form-control, .form-control::placeholder, .form-select{
     font-size: var(--font-size-14) !important;
     color: var(--greyInputTextColor);
-    
   }
 
   .form-control, .form-select{
@@ -134,7 +129,18 @@ const ContainerCSS = styled.div`
     color: Black;
   }
 
-
+  .table-responsive-custom {
+    overflow: visible !important;
+  }
+  
+  .dropdown {
+    position: static !important;
+  }
+  
+  .dropdown-menu {
+    position: absolute !important;
+    z-index: 99999 !important;
+  }
 `;
 
 const Packages = () => {
@@ -166,16 +172,12 @@ const Packages = () => {
   const [editCanvasClosing, setEditCanvasClosing] = useState(false)
   const [checkedFeaId, setCheckedFeaId] = useState();
 
-
   // Pagination
-
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
-
 
   useEffect(() => {
     getAllPlans(searchKeyData);
@@ -271,16 +273,13 @@ const Packages = () => {
             setDeleteWarning(true);
             setSpecialFeatureWarning(true);
           }, 2000);
-          // toast.success(response?.data?.message)
         }
         else {
           setloaderState(false);
-          // console.log(response?.data?.message);
         }
       }
       else {
         setloaderState(false);
-        // console.log(response?.data?.message);
       }
     }
     catch (error) {
@@ -305,7 +304,6 @@ const Packages = () => {
         var response = await deletePlanApi(id);
         if (response?.status === 200) {
           if (response.data.status === 'success') {
-            // setDeleteWarning(!DeleteWarning)
             toast.success(response?.data?.message)
             setTimeout(() => (
               getAllPlans('')
@@ -329,7 +327,6 @@ const Packages = () => {
     }
   }
 
-
   const handleCancel = () => {
     SetAllActiveInActiveSpeFeature(originalFeatures);
     setUpdateSpecialFeatureWarning(true);
@@ -338,52 +335,42 @@ const Packages = () => {
     setIsCheckedFeature((prev) => prev.filter((id) => id !== checkedFeaId));
   };
 
-
   const getAllActiveInActiveSpeFeat = async () => {
     setUpdateSpecialFeatureWarning(false);
     try {
       var response = await getAllActiveInActiveSpeFeatApi(currentSchoolPlanId);
-      // console.log(response)
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
-          // console.log(response)
           SetAllActiveInActiveSpeFeature(response?.data?.features);
           setOriginalFeatures(response?.data?.features);
         }
       }
       else {
-        // console.log(response?.data?.message);
       }
     }
     catch (error) {
       setloaderState(false);
-      // console.log(error, 'catch 1')
     }
     finally {
       setloaderState(false);
     }
   }
 
-
   const getAllSpecialFeature = async (planIdd) => {
     try {
       setCurrentSchoolPlanId(planIdd);
       var response = await getAllActiveInActiveSpeFeatApi(planIdd);
-      // console.log(response)
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
-          // toast.success(response?.data?.message)
           SetAllActiveInActiveSpeFeature(response?.data?.features);
         }
       }
       else {
-        // console.log(response?.data?.message);
       }
     }
     catch (error) {
       setloaderState(false);
       setloaderState(false);
-      // console.log(error)
     }
     finally {
       setloaderState(false);
@@ -397,13 +384,10 @@ const Packages = () => {
         "addFeature": addFeature,
         "removeFeature": removeFeature
       }
-      // console.log('3rd', data)
       var response = await updateSpecialFeatureInSchoolApi(currentSchoolPlanId, data);
-      // console.log(response)
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setloaderState(false)
-          // setUpadteSpeFeature(response?.data?.addons);
           toast.success(response?.data?.message);
           setTimeout(async () => (
             await getAllPlans('')
@@ -422,9 +406,7 @@ const Packages = () => {
     catch (error) {
       setloaderState(false);
       setloaderState(false)
-      // console.log(error, 'error while adding')
     }
-
     finally {
       setloaderState(false);
     }
@@ -495,25 +477,19 @@ const Packages = () => {
     if (e.key === 'Backspace') {
       setTimeout(() => {
         const updatedValue = e.target.value.trim();
-        // console.log(updatedValue, 'updatedValue');
 
-        // If the value is empty for the first time, call getAllSpecialFeature and set click to false
         if (updatedValue === '' && click) {
           getAllPlans('search');
-          setClick(false); // Ensure this is only triggered once
+          setClick(false);
           return;
         }
 
-        // If updatedValue is not empty, reset click to true so it can trigger again in future
         if (updatedValue !== '') {
           getAllPlans(updatedValue);
           setClick(true);
         }
 
-        // Update state with the current input value
         setSearchKeyData(updatedValue);
-
-        // Fetch school data based on the updated input value
 
       }, 200);
     }
@@ -524,10 +500,6 @@ const Packages = () => {
   }
 
   const openAddPackageCanvas = () => {
-    // const offcanvasElement = document.getElementById('AddPackageCanvas');
-    // const bsOffcanvas = new Offcanvas(offcanvasElement);
-    // bsOffcanvas.show();
-
     const offcanvasElement = document.getElementById('AddPackageCanvas');
     if (offcanvasElement) {
       let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
@@ -577,10 +549,10 @@ const Packages = () => {
           </div>
 
           <div className="row ps-2 pe-2">
-            <div className=" cardradius bg-white p-3">  {/* overflow-scroll */}
+            <div className="cardradius bg-white p-3">
               {AllPlan.length > 0 ?
                 <>
-                  <div className="overflow-scroll">
+                  <div className="table-responsive-custom">
                     <table className="table align-middle table-striped">
                       <thead>
                         <tr>
@@ -611,7 +583,7 @@ const Packages = () => {
                                 <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   <span>Action</span>
                                 </button>
-                                <ul className="dropdown-menu" style={{ zIndex: '99999' }}>
+                                <ul className="dropdown-menu">
                                   <li>
                                     <button className="dropdown-item greyText font14" type="button" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop" onClick={() => setUpdatePlanId(item.planId)}>
                                       Edit Package
@@ -622,11 +594,6 @@ const Packages = () => {
                                       Link Features
                                     </button>
                                   </li>
-                                  {/* <li>
-                                  <button className="dropdown-item greyText font14" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => setDeletePlanId(item.planId)}>
-                                    Delete
-                                  </button>
-                                </li> */}
                                 </ul>
                               </div>
                             </td>
@@ -649,6 +616,7 @@ const Packages = () => {
               }
             </div>
           </div>
+
           {/* Add Package */}
           <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="AddPackageCanvas" aria-labelledby="AddPackageCanvas">
             <div className="offcanvas-header modalHighborder p-1">
@@ -730,7 +698,6 @@ const Packages = () => {
                 }
               </div>
             </div>
-
           </div>
 
           {/* Add Feature to Package */}
@@ -748,7 +715,6 @@ const Packages = () => {
               <div style={{ zIndex: -1 }}>
                 {SpecialFeatureWarning
                   ?
-
                   <>
                     {UpdateSpecialFeatureWarning ? (
                       <>
@@ -831,7 +797,6 @@ const Packages = () => {
                       </>
                     )}
                   </>
-
                   :
                   <>
                     <div>
@@ -846,9 +811,7 @@ const Packages = () => {
                       </div>
                     </div>
                   </>
-
                 }
-
               </div>
             </div>
           </div>
