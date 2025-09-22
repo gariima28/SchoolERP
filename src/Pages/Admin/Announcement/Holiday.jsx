@@ -13,6 +13,7 @@ import HashLoaderCom from 'src/Pages/HashLoaderCom';
 import { CSVLink } from 'react-csv';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { Tooltip } from 'bootstrap';
 import ActionControls from '../../../Layouts/ActionControls';
 
 // ## style css area start ####
@@ -495,10 +496,7 @@ const Holiday = () => {
   const [holidayGetAllData, setHolidayGetAllData] = useState([])
 
   const [holidayName, setHolidayName] = useState()
-
-
   const [holidayDescription, setHolidayDescription] = useState()
-
 
   const [holidayStartDate, setHolidayStartDate] = useState()
   const [holidayEndDate, setHolidayEndDate] = useState()
@@ -520,7 +518,7 @@ const Holiday = () => {
   const [regexForAll, setRegexForAll] = useState(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? \s]+$/);
 
   const handlePageClick = (event) => {
-    setPageNo(event.selected + 1); // as event start from 0 index
+    setPageNo(event.selected + 1);
   };
 
   useEffect(() => {
@@ -557,7 +555,6 @@ const Holiday = () => {
       const byteArray = new Uint8Array(byteNumbers);
       byteArrays.push(byteArray);
     }
-
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
   };
@@ -731,7 +728,6 @@ const Holiday = () => {
     }
 
   }
-
   // Holiday Get All Api   
   const MyHolidayGetAllApi = async () => {
     setLoader(true)
@@ -785,7 +781,6 @@ const Holiday = () => {
       setLoader(false)
     }
   }
-
   // Get by id 
   const MyHolidayGetByIdApi = async (id) => {
     setHolidayIdForUpdate(id)
@@ -812,7 +807,6 @@ const Holiday = () => {
       // console.log(error)
     }
   }
-
   // Holiday Put api 
   const MyHolidayPutApi = async (id) => {
     if (FuncValidation()) {
@@ -824,7 +818,6 @@ const Holiday = () => {
         formData.append('startDate', holidayStartDate);
         formData.append('endDate', holidayEndDate);
         const response = await HolidayPutApi(id, formData);
-        console.log('Holiday____put-Api', response)
         if (response?.status === 200) {
           toast.success(response?.data?.message);
           setEditshow(false)
@@ -902,6 +895,11 @@ const Holiday = () => {
   const cleardata = () => {
     setForDelete(false)
   }
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+  new Tooltip(el, {
+    delay: { show: 0, hide: 100 } // show immediately
+  });
+});
 
   return (
     <Container>
@@ -972,11 +970,11 @@ const Holiday = () => {
                         <td className=' greyText pe-0 no-wrap'>{item.holidayTitle}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.startDate}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.endDate}</td>
-                        {/* <td className=' greyText pe-0 no-wrap'>{item.description}</td> */}
                         <td
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.description.length > 17 ? "tooltip" : undefined}
                           data-bs-placement="top"
+                          data-bs-delay='{"show":0,"hide":100}'
                           title={item.description.length > 17 ? item.description : undefined}
                         >
                           {item.description?.length > 17 ? (
