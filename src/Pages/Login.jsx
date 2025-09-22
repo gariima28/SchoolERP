@@ -143,7 +143,6 @@ const Login = () => {
 
     const emailRegex = /^[A-Za-z0-9._]{3,}@[A-Za-z]{3,15}[.]{1}[A-Za-z.]{2,6}$/;
     const PasswordRegex = /^(?=.*[a-z])(?=.*[@./_])(?=.*[0-9])(?=^\S*$).{4,}$/;
-    // const PasswordRegex = /^(?=.*[A-Z])(?=.*[@./_])(?=.*[0-9])(?=^\S*$).{4,}$/;
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -164,9 +163,9 @@ const Login = () => {
         if (!value.trim()) {
             return 'Password is required *';
         }
-        // else if (!PasswordRegex.test(value)) {
-        //     return 'Invalid password format';
-        // }
+        else if (!PasswordRegex.test(value)) {
+            return 'Invalid password format';
+        }
         return '';
     };
 
@@ -189,7 +188,7 @@ const Login = () => {
         setEmailError(emailValid);
         setPassError(passwordValid);
 
-        return !emailValid && !passwordValid; // true only if both valid
+        return !emailValid && !passwordValid;
     };
 
     const SubmitLogin = async (e) => {
