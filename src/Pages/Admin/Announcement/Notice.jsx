@@ -478,9 +478,6 @@ const Notice = () => {
   const [noticeAllData, setNoticeAllData] = useState([])
   const [noticeIdForDelete, setNoticeIdForDelete] = useState()
   const [noticeIdForUpdate, setNoticeIdForUpdate] = useState()
-  const [noticeTitleById, setNoticeTitleById] = useState()
-  const [noticeDescriptionById, setNoticeDescriptionById] = useState()
-
   const [noticeHeading, setNoticeHeading] = useState()
   const [noticeDescription, setNoticeDescription] = useState()
 
@@ -615,7 +612,6 @@ const Notice = () => {
     }
 
   }
-
   // Notice Get All Api   
   const MyNoticeGetAllApi = async () => {
     setLoader(true)
@@ -640,7 +636,6 @@ const Notice = () => {
   }
 
   // Delete api
-
   const MyNoticeDeleteApi = async (id) => {
     setLoader(true)
     try {
@@ -677,8 +672,6 @@ const Notice = () => {
     setLoader(true)
     try {
       const response = await NoticeGetByIdApi(id);
-      // console.log('NOTICE data get by id', response)
-
       if (response?.status === 200) {
         // toast.success(response?.data?.msg);
         setNoticeHeading(response?.data?.notice?.noticeTitle)
@@ -699,38 +692,38 @@ const Notice = () => {
   const MyNoticePutApi = async (id) => {
 
     // if (FuncValidation()) {
-     
+
     // }
 
-     setLoader(true)
-      try {
-        const formData = new FormData()
-        formData.append('noticeTitle', noticeHeading)
-        formData.append('noticeDescription', noticeDescription)
-        const response = await NoticePutApi(id, formData);
-        // console.log('MY_Notice____put-Api', response)
-        if (response?.status === 200) {
-          toast.success(response?.data?.message);
-          setEditshow(false)
-          setEdithide(true)
-          MyNoticeGetAllApi()
-          setLoader(false)
-          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-          offcanvasInstance.hide();
-          setTimeout(() => {
-            setEditshow(true)
-          }, 0.5)
-        } else {
-          toast.error(response?.data?.message);
-          setEditshow(true)
-          setLoader(false)
-        }
-
-      } catch (error) {
-        setloaderState(false);
+    setLoader(true)
+    try {
+      const formData = new FormData()
+      formData.append('noticeTitle', noticeHeading)
+      formData.append('noticeDescription', noticeDescription)
+      const response = await NoticePutApi(id, formData);
+      // console.log('MY_Notice____put-Api', response)
+      if (response?.status === 200) {
+        toast.success(response?.data?.message);
+        setEditshow(false)
+        setEdithide(true)
+        MyNoticeGetAllApi()
         setLoader(false)
-        // console.log(error)
+        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+        offcanvasInstance.hide();
+        setTimeout(() => {
+          setEditshow(true)
+        }, 0.5)
+      } else {
+        toast.error(response?.data?.message);
+        setEditshow(true)
+        setLoader(false)
       }
+
+    } catch (error) {
+      setloaderState(false);
+      setLoader(false)
+      // console.log(error)
+    }
 
   }
 
@@ -855,7 +848,6 @@ const Notice = () => {
                               <li><button className="dropdown-item" onClick={(e) => IdTransfer(item.noticeId)}>View Notice</button></li>
                               <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" onClick={(e) => MyNoticeGetByIdApi(item.noticeId)}>Edit</Link></li>
                               <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="staticBackdrop" onClick={(e) => setNoticeIdForDelete(item.noticeId)}>Delete</Link></li>
-
                             </ul>
                           </div>
                         </td>

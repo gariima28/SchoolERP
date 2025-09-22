@@ -927,7 +927,7 @@ const Event = () => {
     setLoader(true)
     try {
       const response = await EventGetAllApi(searchKey, pageNo, pageSize);
-      console.log('Event get All Api data', response);
+      // console.log('Event get All Api data', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setEventAllData(response?.data?.events)
@@ -978,8 +978,6 @@ const Event = () => {
     try {
       const response = await EventGetByIdApi(id);
       if (response?.status === 200) {
-        // toast.success(response?.data?.msg);
-        // setAllDataById(response?.data?.events)
         setEventName(response?.data?.events?.eventName)
         setUpdateStatus2(response?.data?.status)
         setEventDescription(response?.data?.events?.eventDescription)
@@ -996,13 +994,10 @@ const Event = () => {
         const fileName = url.split("/").pop();  
         const trimmed = fileName.substring(fileName.indexOf("-") + 1);
         setCoverPage(trimmed)
-
         const url2 = response?.data?.events?.eventFiles
         const fileName2 = url2.split("/").pop();  
         const trimmed2 = fileName2.substring(fileName2.indexOf("-") + 1);
          setCoverPage2(trimmed2)
-
-        // setEventStatus(response?.data?.events?.eventStatus)
         setLoader(false)
       } else {
         // toast.error(response?.data?.msg);
@@ -1031,7 +1026,6 @@ const Event = () => {
       formData.append('eventFiles', eventFile);
 
       const response = await EventPutApi(id, formData);
-      console.log('Event-put-Api', response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setShow(false)
@@ -1130,7 +1124,6 @@ const Event = () => {
             <nav style={{ '--bs-breadcrumb-divider': "'>'" }} aria-label="breadcrumb">
               <ol className="breadcrumb ms-2">
                 <li className="breadcrumb-item active heading-14 font-color" aria-current="page">Home</li>
-                {/* <li className="breadcrumb-item active heading-14 font-color" aria-current="page">Back Office</li> */}
                 <li className="breadcrumb-item breadcrum-li heading-14" ><Link href="#">Event</Link></li>
               </ol>
             </nav>
@@ -1177,7 +1170,6 @@ const Event = () => {
                     eventAllData?.map((item, index) => (
                       <tr className='heading-14' >
                         <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        {/* <td className=' greyText pe-0 eventName}</td> */}
                         <td
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.eventName.length > 17 ? "tooltip" : undefined}
@@ -1600,7 +1592,6 @@ const Event = () => {
         {/* ################## Off Canvas Area ####################  */}
 
 
-        {/* <div className={` offcanvas-end offcanvas${offcanvasclose ? ' offcanvas-close' : ''}`} data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel"> */}
         {
           show && (
             <>
@@ -1784,10 +1775,11 @@ const Event = () => {
                     {/*Description */}
                     <div className="mb-3" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label  heading-14">Description</label>
-                      <textarea class="form-control heading-14 px-4" id="exampleFormControlTextarea1" rows="5" value={eventDescription} onChange={(e) => handleDescription(e.target.value)} placeholder='Enter Event Description'>
+                      <textarea class="form-control heading-14 px-2" id="exampleFormControlTextarea1" rows="5" value={eventDescription} onChange={(e) => handleDescription(e.target.value)} placeholder='Enter Event Description'>
                       </textarea>
                       {errors.putemail && <span style={{ color: 'red' }}>{errors.putemail}</span>}
                     </div>
+
                     <div className='pt-1'>
                       {isValidDescriptionRequired && (
                         <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
@@ -1930,13 +1922,6 @@ const Event = () => {
                           I Agree to delete the Profile Data
                         </label>
                       </div>
-                      {/* <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
-                        <label className="form-check-label agree" for="flexCheckDefault">
-                          I Agree to delete the Profile Data
-                        </label>
-                      </div> */}
-
                       <div className="mt-4">
                         <button type="button" className="btn  my-btn button00" disabled={forDelete ? false : true} onClick={handleForDelete} >Delete</button>
                         <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearHandler}>Cancel</button>
