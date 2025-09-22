@@ -547,7 +547,7 @@ const SamplePaper = () => {
                                                                         <button className="btn btn-sm actionButtons dropdown-toggle" type="button" onClick={() => toggleDropdown(index)}>
                                                                             <span>Action</span>
                                                                         </button>
-                                                                        <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === index ? 'show z-index-high' : ''}`}>
+                                                                        <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === index ? 'show ' : ''}`}>
                                                                             <li>
                                                                                 <button
                                                                                     className="dropdown-item greyText"

@@ -591,7 +591,7 @@ const Assignment = () => {
                                                                             >
                                                                                 <span>Action</span>
                                                                             </button>
-                                                                            <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === index ? 'show z-index-high' : ''}`}>
+                                                                            <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === index ? 'show ' : ''}`}>
                                                                                 <li>
                                                                                     <Link className="dropdown-item greyText" to={`/admin/assignment/openAssignment/${item.id}`}>
                                                                                         Open

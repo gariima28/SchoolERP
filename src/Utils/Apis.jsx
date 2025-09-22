@@ -2896,7 +2896,7 @@ export const getAllRecieptApi = async (startDate, endDate, classNo, section, sta
 export const getRecieptByIdApi = async (id) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/receipt/getById/${id}`);
+    var res = await axios.get(`${Domain}/invoice/getById/${id}`);
     if (res) {
       return res;
     } else {
