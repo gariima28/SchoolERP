@@ -439,7 +439,6 @@ const Section = () => {
 
   const [section, setSection] = useState([])
   const [classRoomUpdate, setClassRoomUpdate] = useState('')
-  // console.log('room id ==', putpackage)
   const [classchange, setClasschange] = useState('')
 
   const [idForDelete, setIdForDelete] = useState()
@@ -502,7 +501,6 @@ const Section = () => {
 
   const [sections, setSections] = useState(['']);
   const [rooms, setRooms] = useState([]);
-  console.log('datafromclassroom---------=====', rooms)
 
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
   const [datafromclassroom, setDataFromClassroom] = useState([]);
@@ -685,12 +683,10 @@ const Section = () => {
     setLoader(true)
     try {
       const response = await SectionGetByIdApi(id);
-      console.log('by id response---------', response)
       setClassNoById(response.data.sections)
       setSection(response.data.sections?.sectionName)
       setClassRoomUpdate(response.data.sections?.roomId)
       setClasschange(response.data.sections?.classId)
-
       if (response?.status === 200) {
         // toast.success(response?.data?.msg);
         setLoader(false)
@@ -857,7 +853,6 @@ const Section = () => {
 
         </div>
         {/* ################## Off Canvas Area ####################  */}
-        {/* <div className={` offcanvas-end offcanvas${offcanvasclose ? ' offcanvas-close' : ''}`} data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel"> */}
         {
           show12 && (
             <>
@@ -937,7 +932,6 @@ const Section = () => {
                             {index === sections.length - 1 ? (
                               <button
                                 type="button"
-                                // style={{ backgroundColor: '#008479', color: '#fff' }}
                                 className="btn btn-sm mt-2 p-0"
                                 onClick={addSectionRoomPair}
                               >
@@ -948,7 +942,6 @@ const Section = () => {
                             ) : (
                               <button
                                 type="button"
-                                // style={{ backgroundColor: 'red', color: '#fff' }}
                                 className="btn btn-sm mt-2 p-0"
                                 onClick={() => removeSectionRoomPair(index)}
                               >
@@ -962,71 +955,7 @@ const Section = () => {
                           </div>
                         </div>
                       ))}
-                    </div>
-
-                    {/* ____________ */}
-
-                    {/* <div>
-                      {loader && <p>Loading features...</p>}
-                      {formValues.map((element, index) => (
-                        <div className="form-inline" key={index}>
-                          <div className="mb-3 pt-4">
-                            <label
-                              htmlFor={`select-${index}`}
-                              className="form-label mb-1 label-text-color focus heading-14"
-                            >
-                              Special Feature <span className="label-color">(You can select multiple fields)</span>
-                            </label>
-                            <select
-                              id={`select-${index}`}
-                              className="form-select label-color form-select-sm"
-                              aria-label="Default select example"
-                              name="name"
-                              value={element.name || ""}
-                              onChange={(e) => handleChange2(index, e)}
-                            >
-                              <option value="" disabled>
-                                Select a feature
-                              </option>
-                              {featureData.map((item) => (
-                                <option key={item.planFeatureId} value={item.planFeatureId}>
-                                  {item.featureName}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-                      ))}
-
-                      {formValues.length > 1 && (
-                        <div className="my-anchor mt-2">
-                          <button
-                            type="button"
-                            className="button remove my-remove-button heading-14 btn btn-outline-success add-role"
-                            style={{ backgroundColor: 'red' }}
-                            onClick={() => removeFormFields(formValues.length - 1)}
-                          >
-                            - Remove
-                          </button>
-                        </div>
-                      )}
-
-                      <div className="button-section my-anchor mt-2">
-                        <button
-                          className="button add heading-14 btn btn-outline-success add-role"
-                          // style={{borderColor: '1px solid #aaa'}}
-                          type="button"
-                          onClick={addFormFields}
-                        >
-                          + Add More
-                        </button>
-                      </div>
-
-
-
-                    </div> */}
-
-                    {/* -----------  */}
+                    </div>                  
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MySectionPostApi()}>Add Section</button>
                       <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
@@ -1069,13 +998,7 @@ const Section = () => {
                           <label for="exampleFormControlInput1" className="form-label label-color heading-14">Sections</label>
                           <input type="text" className="form-control form-focus  label-color heading-14" value={section} onChange={(e) => handleSection(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Section" />
                         </div>
-                        {/* <div className='pt-1'>
-                          {isValidNameRequired && (
-                            <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                              required in upppercase
-                            </p>
-                          )}
-                        </div> */}
+                     
                       </div>
                       <div className="col-6">
 
@@ -1169,7 +1092,6 @@ const Section = () => {
         {/* ################ offcanvas delete start #############  */}
 
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel">
-
           {
             showdelete && (
               <div className="container-fluid">

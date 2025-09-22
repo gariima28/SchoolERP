@@ -2247,10 +2247,6 @@ f
     color: gray;
 }
 
-
-
-
-
 .overflow-scrolling {
     overflow-x: auto !important;
 }
@@ -2262,3 +2258,5 @@ f
 .dropdown-menu {
     min-width: 100px !important;
 }
+
+
