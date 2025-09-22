@@ -2260,3 +2260,15 @@ f
 }
 
 
+.table-responsive-custom {
+  overflow: visible !important;
+}
+
+.dropdown {
+  position: static !important;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  z-index: 99999 !important;
+}

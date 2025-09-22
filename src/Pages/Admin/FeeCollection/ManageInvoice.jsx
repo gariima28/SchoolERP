@@ -253,7 +253,7 @@ const ManageInvoice = () => {
     const handleSectionChange = (value) => {
         setSection(value);
     };
-    
+
     // Handler for date range change
     const handleDateRangeChange = (item) => {
         setDateRange([item.selection]);
