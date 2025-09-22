@@ -13,7 +13,7 @@ import HashLoaderCom from 'src/Pages/HashLoaderCom';
 import { CSVLink } from 'react-csv';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { Tooltip } from 'bootstrap';
+// import { Tooltip } from 'bootstrap';
 import ActionControls from '../../../Layouts/ActionControls';
 
 // ## style css area start ####
@@ -895,11 +895,11 @@ const Holiday = () => {
   const cleardata = () => {
     setForDelete(false)
   }
-document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
-  new Tooltip(el, {
-    delay: { show: 0, hide: 100 } // show immediately
-  });
-});
+// document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+//   new Tooltip(el, {
+//     delay: { show: 0, hide: 100 } // show immediately
+//   });
+// });
 
   return (
     <Container>
@@ -974,7 +974,7 @@ document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.description.length > 17 ? "tooltip" : undefined}
                           data-bs-placement="top"
-                          data-bs-delay='{"show":0,"hide":100}'
+                          // data-bs-delay='{"show":0,"hide":100}'
                           title={item.description.length > 17 ? item.description : undefined}
                         >
                           {item.description?.length > 17 ? (
