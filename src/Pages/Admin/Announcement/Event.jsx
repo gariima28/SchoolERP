@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
 // import { CAlert } from '@coreui/react';
 // import '@coreui/coreui/dist/css/coreui.min.css'
+import { Tooltip } from 'bootstrap';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { EventPostApi } from 'src/Utils/Apis'
@@ -515,8 +516,6 @@ font-size: 12px;
 
 }
 `;
-
-
 
 // ## style css area end ####  
 
@@ -1110,6 +1109,12 @@ const Event = () => {
   const clearHandler = () => {
     setForDelete(false)
   }
+
+  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+    new Tooltip(el, {
+      delay: { show: 0, hide: 100 } // show immediately
+    });
+  });
   return (
     <Container>
       {
@@ -1174,6 +1179,7 @@ const Event = () => {
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.eventName.length > 17 ? "tooltip" : undefined}
                           data-bs-placement="top"
+                          data-bs-delay='{"show":0,"hide":100}' 
                           title={item.eventName.length > 17 ? item.eventName : undefined}
                         >
                           {item.eventName?.length > 17 ? (
