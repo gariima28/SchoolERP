@@ -1418,7 +1418,7 @@ const Event = () => {
                               className="dropdown-menu"
                               aria-labelledby="eventForDropdown"
                               style={{
-                                width: '100%',
+                                width: '90%',
                                 maxHeight: '200px',
                                 overflowY: 'auto',    // add vertical scroll
                                 overflowX: 'hidden'   // prevent horizontal scroll
@@ -1446,27 +1446,7 @@ const Event = () => {
                                 </li>
                               ))}
                             </ul>
-                            {/* <ul className="dropdown-menu" aria-labelledby="eventForDropdown" style={{ width: '100%', overflowY: 'auto' }}>
-                              {allEventRole?.map(item => (
-                                <li key={item.roleId || item.classId}>
-                                  <div className="dropdown-item">
-                                    <div className="form-check">
-                                      <input
-
-                                        className="form-check-input my-form-check-input"
-                                        type="checkbox"
-                                        checked={roleNameStore.includes(item.roleName)}
-                                        onChange={() => handleRoleSelection(item.roleName)}
-                                        id={`event-role-${item.roleId || item.classId}`}
-                                      />
-                                      <label className="form-check-label" htmlFor={`event-role-${item.roleId || item.classId}`}>
-                                        {item.roleName}
-                                      </label>
-                                    </div>
-                                  </div>
-                                </li>
-                              ))}
-                            </ul> */}
+                          
                           </div>
                         </div>
                       </div>
@@ -1493,7 +1473,7 @@ const Event = () => {
                                 }).join(", ")
                                 : "--Choose--"}
                           </button>
-                          <ul className="dropdown-menu" aria-labelledby="classDropdown" style={{ width: '100%' }}>
+                          <ul className="dropdown-menu" aria-labelledby="classDropdown" style={{ width: '90%',  }}>
                             {/* "All" checkbox - doesn't add to array, just controls selection */}
                             <li key="all">
                               <div className="dropdown-item">
@@ -1688,7 +1668,7 @@ const Event = () => {
                               {roleNameStore.length > 0 ? roleNameStore.join(', ') : '--Choose--'}
                             </button>
 
-                            <ul className="dropdown-menu" aria-labelledby="eventForDropdown" style={{ width: '100%' }}>
+                            <ul className="dropdown-menu" aria-labelledby="eventForDropdown" style={{ width: '90%' }}>
                               {allEventRole?.map(item => (
                                 <li key={item.roleId || item.classId}>
                                   <div className="dropdown-item">
@@ -1733,7 +1713,7 @@ const Event = () => {
                                 }).join(", ")
                                 : "--Choose--"}
                           </button>
-                          <ul className="dropdown-menu" aria-labelledby="classDropdown" style={{ width: '100%' }}>
+                          <ul className="dropdown-menu" aria-labelledby="classDropdown" style={{ width: '90%' }}>
                             {/* "All" checkbox - doesn't add to array, just controls selection */}
                             <li key="all">
                               <div className="dropdown-item">
