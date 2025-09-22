@@ -603,8 +603,6 @@ const AssignSubjectTeacher = () => {
     const [val1, val2] = value.split(',').map(item => item.trim());
     setClassId(parseInt(val1));
     setClassNo(val2);
-    // console.log('Class ID:', val1);
-    // console.log('Class No:', val2);
   }
 
   // class Get all data from class page for class id  
@@ -612,7 +610,6 @@ const AssignSubjectTeacher = () => {
     setLoader(true)
     try {
       const response = await ClassGetApi(searchKey2, pageNo2, pageSize2);
-      // console.log('my class data', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setClassData(response?.data?.classes)
@@ -631,7 +628,6 @@ const AssignSubjectTeacher = () => {
     setLoader(true)
     try {
       const response = await GetAlSectionWithClass();
-      // console.log('my all section with class----------', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setAllSectionWithClass(response?.data?.allClasses)
@@ -670,7 +666,6 @@ const AssignSubjectTeacher = () => {
     setLoader(true)
     try {
       const response = await TeacherGetAllApi(searchKey, pageNo, pageSize);
-      // console.log('teacher data for assign', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setTeacherAllData(response?.data?.staffList)
@@ -734,7 +729,6 @@ const AssignSubjectTeacher = () => {
     setLoader(true)
     try {
       const response = await AssignGetAllApi(classId, subjectId, pageNo, pageSize);
-      // console.log('assign subject teacher get all data+++++++++++', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setAssignSubTeaAllData(response?.data?.teacher)
@@ -757,7 +751,6 @@ const AssignSubjectTeacher = () => {
       "teacherId": staffIdForDelete,
       "classSection": classSectiomData
     }
-
     setLoader(true)
     try {
       const response = await AssignDeleteDeleteApi(data);
@@ -786,7 +779,6 @@ const AssignSubjectTeacher = () => {
   const handleForDelete = () => {
     MyStaffDeleteApi(subjectIdForDelete, staffIdForDelete)
   }
-
   const ClearHandle = () => {
     setClassId('')
     setClassNo('')
@@ -794,7 +786,6 @@ const AssignSubjectTeacher = () => {
     setTeacherId('')
     setForDelete(false)
   }
-
   const ClearDataInSearch = () => {
     setClassId('');
     setClassNo('');
@@ -912,14 +903,7 @@ const AssignSubjectTeacher = () => {
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Subject</label>
-                {/* <select class="form-select  form-select-sm form-focus  label-color" onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
-                  <option selected>--Choose--</option>
-                  {
-                    subjectData?.map(item =>
-                      <option value={item.subjectId}>{item.subjectName}</option>
-                    )
-                  }
-                </select> */}
+              
                 <select
                   className="form-select form-select-sm form-focus label-color"
                   value={subjectId}
@@ -953,7 +937,6 @@ const AssignSubjectTeacher = () => {
                   <th className='no-wrap' style={{ width: '' }}>Teacher</th>
                   <th className='no-wrap' style={{ width: '' }}>Class</th>
                   <th className='no-wrap' style={{ width: '500px' }}>Section</th>
-                  {/* <th style={{ width: '' }}>Section</th> */}
                   <th >Actions</th>
                 </tr>
               </thead>
@@ -983,7 +966,6 @@ const AssignSubjectTeacher = () => {
                           </button>
                           <ul className="dropdown-menu anchor-color heading-14">
                             <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => { setSubjectIdForDelete(item.subjectId), setStaffIdForDelete(item.staffId), addClassWithSections(item.classId, item.sectionIds) }}>Remove</Link></li>
-                            {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => { setSubjectIdForDelete(item.subjectId), setStaffIdForDelete(item.staffId) , setSubjectClassForDelete(item.classId) , setSubjectSectionsForDelete(item.sectionIds) , addClassWithSections(item.classId, item.sectionIds) }}>Remove</Link></li> */}
                           </ul>
                         </div>
                       </td>
@@ -1057,8 +1039,6 @@ const AssignSubjectTeacher = () => {
                           ))
                         }
                       </thead>
-
-
                       <tbody className='heading-14 align-middle greyTextColor'>
                         {SectionWithClass?.map((classItem, index) => (
                           <tr key={index} className='heading-14'>
@@ -1076,7 +1056,6 @@ const AssignSubjectTeacher = () => {
                                 </label>
                               </div>
                             </td>
-
                             {classItem.sections?.map((sectionItem, sectionIndex) => (
                               <td key={sectionIndex} className='greyText no-wrap'>
                                 <div className="d-flex align-items-center gap-2">
@@ -1138,33 +1117,21 @@ const AssignSubjectTeacher = () => {
                   <label for="exampleFormControlInput1" className="form-label heading-16">Class</label>
                   <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => handleClass(e)} aria-label="Default select example">
                     <option selected >{''}</option>
-                    {/* {
-                          classData.map(item =>
-                            <option value={`${item.classId} , ${item.classNo}`}>{item.classNo}</option>
-                          )
-                        } */}
+                   
                   </select>
                 </div>
                 <div className="mb-1  ">
                   <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
                   <select class="form-select  form-select-sm form-focus  label-color" value={''} onChange={(e) => setSectionNameGetById(e.target.value)} aria-label="Default select example">
                     <option selected>{''}</option>
-                    {/* {
-                          sectionData.map(item =>
-                            <option value={item.sectionName}>{item.sectionName}</option>
-                          )
-                        } */}
+                   
                   </select>
                 </div>
                 <div className="mb-1  ">
                   <label for="exampleFormControlInput1" className="form-label  heading-16">Subject</label>
                   <select class="form-select  form-select-sm form-focus label-color" value={''} onChange={(e) => setSubjectGetById(e.target.value)} aria-label="Default select example">
                     <option selected>{''}</option>
-                    {/* {
-                          subjectData.map(item =>
-                            <option value={item.subjectName}>{item.subjectName}</option>
-                          )
-                        } */}
+                   
                   </select>
                 </div>
                 <div class="mb-3">
@@ -1239,13 +1206,7 @@ const AssignSubjectTeacher = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                      {/* <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input"   type="checkbox" value="" id="flexCheckDefault" />
-                        <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
-                        <label className="form-check-label agree" for="flexCheckDefault">
-                          I Agree to delete the Profile Data
-                        </label>
-                      </div> */}
+                  
                       <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input"

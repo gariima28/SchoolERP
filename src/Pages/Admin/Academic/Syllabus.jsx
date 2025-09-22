@@ -13,8 +13,6 @@ import { SyllbusGetById } from 'src/Utils/Apis'
 import { SyllabusPutApi } from 'src/Utils/Apis'
 import { SyllabusFileDownloadGetAllApi } from 'src/Utils/Apis'
 import HashLoaderCom from 'src/Pages/HashLoaderCom';
-
-import generatePDF from 'react-to-pdf';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ReactPaginate from 'react-paginate';
 
@@ -482,7 +480,6 @@ const Syllabus = () => {
 
   const [IdForDelete, setIdForDelete] = useState()
   const [IdForUpdate, setIdForUpdate] = useState()
-  console.log('id for update', IdForUpdate)
   const [showadd, setShowadd] = useState(true)
   const [hideedit, setHideedit] = useState(false)
   const [titleName, setTitleName] = useState()
@@ -519,7 +516,6 @@ const Syllabus = () => {
   const [imageFile, setImageFile] = useState()
 
   const [PDFResponse, setPDFResponse] = useState()
-  console.log('pdf data'.PDFResponse)
   const [idForPDF, setIdForPDF] = useState()
 
   useEffect(() => {
@@ -603,14 +599,6 @@ const Syllabus = () => {
       setIsValidNameRequired(false)
 
     }
-    // for image file
-    // if (fileData === "" || !fileData) {
-    //   setIsImageValidRequired(true)
-    //   isValid = false
-    //   setLoader(false)
-    // }
-    // else {
-    // }
     return isValid;
   }
   // name 
@@ -707,7 +695,6 @@ const Syllabus = () => {
 
   // Syllabus Post Api 
   const MyHolidayPostApi = async () => {
-
     if (FuncValidation()) {
       const formData = new FormData()
       formData.append('titleName', titleName);
@@ -748,7 +735,7 @@ const Syllabus = () => {
     setLoader(true)
     try {
       const response = await SyllabusGetAllApi(searchKey, classId, sectionId, pageNo, pageSize);
-      console.log('syllabus all data', response)
+      // console.log('syllabus all data', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setSyllabusAllData(response?.data?.syllabus)
@@ -760,7 +747,6 @@ const Syllabus = () => {
       console.log(error)
     }
   }
-
   // syllabus delete api 
   const MySyllabusDeleteApi = async (id) => {
     setLoader(true)
@@ -793,8 +779,6 @@ const Syllabus = () => {
     setLoader(true)
     try {
       const response = await SyllbusGetById(id);
-      console.log('Syllabus data get by id', response)
-
       if (response?.status === 200) {
         // toast.success(response?.data?.msg);
         setTitleName(response?.data?.syllabus?.titleName)
@@ -1119,7 +1103,6 @@ const Syllabus = () => {
                       </p>
                     )}
                   </div>
-
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label heading-16">Class</label>
                     <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => handleClass(e)} aria-label="Default select example">
@@ -1153,10 +1136,6 @@ const Syllabus = () => {
                     } */}
                     </select>
                   </div>
-                  {/* <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label heading-16">Upload Syllabus</label>
-                    <input type="file" class="form-control form-control-sm" value={''} onChange={(e) => handleImageFile(e.target.files[0])} id="exampleFormControlInput1" placeholder="Select File" />
-                  </div> */}
                   <div className='row pe-1 '>
                     <div className='col-lg-12 col-md-12 col-sm-12 pe-0'>
                       {
@@ -1192,13 +1171,7 @@ const Syllabus = () => {
                       }
                     </div>
                   </div>
-                  {/* <div>
-                    {isImageValidRequired && (
-                      <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                        jpg and png supported
-                      </p>
-                    )}
-                  </div> */}
+                
 
                   <div className='my-button11'>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MySyllabusPutApi(IdForUpdate) }}>Update Syllabus</button>
@@ -1260,15 +1233,12 @@ const Syllabus = () => {
                   </div>
                 </div>
               </div>
-
             </div>
           )
         }
         {/* ############## After click ##############  */}
 
-
         {/* ################ offcanvas delete end #############  */}
-
 
       </div>
     </Container>

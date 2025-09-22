@@ -482,7 +482,6 @@ const AssignClassTeacher = () => {
   const [classId, setClassId] = useState()
   const [className, setClassName] = useState()
   const [teacher, setTeacher] = useState()
-  console.log('valueee', teacher)
   const [classdata, setClassdata] = useState([])
   const [teacherData, setTeacherData] = useState([])
   const [sectionData, setSectionData] = useState([])
@@ -535,7 +534,6 @@ const AssignClassTeacher = () => {
     setLoader(true)
     try {
       const response = await GeyAllTeacherLightWeightGetAll();
-      console.log('my teacher repsonse----', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setTeacherData(response?.data?.allStaff)
@@ -564,13 +562,11 @@ const AssignClassTeacher = () => {
       console.log(error)
     }
   }
-
   // Section Get All Api from section page for id 
   const MySectionGetApi = async () => {
     setLoader(true)
     try {
       const response = await SectionRoomByIdGetApi(classId);
-      console.log('my section response----++++', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setSectionData(response?.data?.allSections)
@@ -589,7 +585,6 @@ const AssignClassTeacher = () => {
 
   // Post Api 
   const MyAssignClassTeacherDataApi = async () => {
-
     const formData = new FormData()
     formData.append('sectionId', section);
     formData.append('staffId', teacher);
@@ -620,10 +615,7 @@ const AssignClassTeacher = () => {
     } catch (error) {
       console.log(error)
     }
-
-
   }
-
   //   GetAllApi of Assign class tecaher 
   const MyAssignClassTeachgerGetApi = async () => {
     setLoader(true)
@@ -647,9 +639,6 @@ const AssignClassTeacher = () => {
     setLoader(true)
     try {
       const response = await AssignDeleteApi(id);
-      console.log('my-subs-api', response)
-      console.log('my di for delete', id)
-
       if (response?.status === 200) {
         setHidedelete(true)
         setShowdelete(false)
@@ -678,7 +667,6 @@ const AssignClassTeacher = () => {
     setLoader(true)
     try {
       const response = await AssignClassTeacherGetByIdAllApi(id);
-      console.log('Teacher get by id dataaaaaa------', response);
       if (response?.status === 200) {
         setTeacher(response?.data?.classTeacherSection?.staffName)
         setClassId(response?.data?.classTeacherSection?.classId)
@@ -697,11 +685,7 @@ const AssignClassTeacher = () => {
   const MyClassRoomPutApi = async (id) => {
     setLoader(true)
     try {
-
-      // console.log('my section id ',section)
-      // console.log('my teacher id ',teacher)
       const response = await AssignClassTeacherPutApi(section, teacher);
-      console.log('Assign-put-Api', response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setShow(false)
@@ -778,24 +762,6 @@ const AssignClassTeacher = () => {
               </ol>
             </nav>
           </div>
-          {/* <div className='d-flex g-1 for-media-query'>
-            <CSVLink className={`col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 heading-14 export1 my-own-outline-btn me-2 ${assignAllData.length <= 0 ? 'disabled' : ''}`} data={csvData} filename={"orders.csv"}>
-              <span>
-                <svg width="15" height="18" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 0V5H15L10 0ZM8.75 5V0H1.875C0.839453 0 0 0.839453 0 1.875V18.125C0 19.1602 0.839453 20 1.875 20H13.125C14.1605 20 15 19.1605 15 18.125V6.25H10.0352C9.30859 6.25 8.75 5.69141 8.75 5ZM5 10.9375C5 11.1094 4.85938 11.25 4.6875 11.25H4.375C4.02734 11.25 3.75 11.5273 3.75 11.875V13.125C3.75 13.4727 4.02734 13.75 4.375 13.75H4.6875C4.85938 13.75 5 13.8906 5 14.0625V14.6875C5 14.8594 4.85938 15 4.6875 15H4.375C3.33984 15 2.5 14.1602 2.5 13.125V11.875C2.5 10.8398 3.33984 10 4.375 10H4.6875C4.85938 10 5 10.1406 5 10.3125V10.9375ZM6.73047 15H6.25C6.0791 15 5.9375 14.8584 5.9375 14.6875V14.0625C5.9375 13.8906 6.07812 13.75 6.25 13.75H6.72852C6.96289 13.75 7.13398 13.6133 7.13398 13.4912C7.13398 13.4424 7.10469 13.3887 7.05098 13.3398L6.19629 12.6074C5.87109 12.3242 5.67969 11.9258 5.67969 11.5078C5.67969 10.6797 6.42188 10 7.33594 10H7.8125C7.9834 10 8.125 10.1416 8.125 10.3125V10.9375C8.125 11.1094 7.98438 11.25 7.8125 11.25H7.33594C7.10156 11.25 6.93047 11.3867 6.93047 11.5088C6.93047 11.5576 6.95977 11.6113 7.01348 11.6602L7.86816 12.3926C8.19531 12.6758 8.38574 13.0762 8.38574 13.491C8.38281 14.3203 7.64062 15 6.73047 15ZM11.25 11.125V10.3125C11.25 10.1406 11.3906 10 11.5625 10H12.1875C12.3594 10 12.5 10.1406 12.5 10.3125V11.123C12.5 12.5098 11.9969 13.8184 11.084 14.8C10.9688 14.9258 10.8008 15 10.625 15C10.4492 15 10.2832 14.9268 10.166 14.7998C9.25391 13.8203 8.75 12.5117 8.75 11.125V10.3125C8.75 10.1406 8.89062 10 9.0625 10H9.6875C9.85938 10 10 10.1406 10 10.3125V11.123C10 11.9191 10.2246 12.6953 10.625 13.3449C11.0273 12.6953 11.25 11.918 11.25 11.125Z" fill="#008479" />
-                </svg>
-              </span> &nbsp;
-              <span >Export CSV File</span>
-            </CSVLink>
-
-            <div className='me-2 search-responsive'>
-              <div className="input-group mb-3 ">
-                <input type="text" className="form-control form-focus font-color" style={{ height: '34px' }} placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={handleChange} value={searchKey} />
-                <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} onClick={MyAssignClassTeachgerGetApi} id="basic-addon2">Search</span>
-              </div>
-            </div>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" to={''}>+ Assign Class Teacher</Link>
-          </div> */}
           {/* new csv design */}
           <div className="d-flex g-1 for-media-query">
             <ActionControls
@@ -887,8 +853,7 @@ const AssignClassTeacher = () => {
               </div>
             </div>
           </div>
-
-
+          
         </div>
         {/* ################## Off Canvas Area ####################  */}
         {
@@ -923,7 +888,6 @@ const AssignClassTeacher = () => {
                       <label for="exampleFormControlInput1" className="form-label heading-16">Class </label>
                       <select class="form-select form-focus label-color heading-14 " value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                         <option selected>--Choose</option>
-
                         {
                           classdata?.map(item => (
                             <option value={item.classId} >{item.classNo}</option>
@@ -943,7 +907,6 @@ const AssignClassTeacher = () => {
                         }
                       </select>
                     </div>
-
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyAssignClassTeacherDataApi()} >Assign Class Teacher</button>
                       <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
@@ -1047,7 +1010,6 @@ const AssignClassTeacher = () => {
               </div>
 
               <div className='view-details-background-color p-3 mt-4'>
-
                 <div className="between-content mt- ">
                   <div className='d-flex justify-content-between  '>
                     <div >
@@ -1057,9 +1019,7 @@ const AssignClassTeacher = () => {
                       <p className='heading-14 '>4290 Gregory Lane <br />Louisville, KY 40202</p>
                     </div>
                   </div>
-
                 </div>
-
                 <hr className='mt-4' />
                 <div className='d-flex   justify-content-between mt-2'>
                   <div >
@@ -1087,7 +1047,6 @@ const AssignClassTeacher = () => {
         {/* ############## Offcanvas view profile ######### */}
         {/* ################ offcanvas delete start #############  */}
 
-
         {
           showdelete && (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
@@ -1109,7 +1068,6 @@ const AssignClassTeacher = () => {
                           <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
                         </svg>
                       </div>
-
                       <div className="sure-content mt-2">
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
@@ -1120,12 +1078,10 @@ const AssignClassTeacher = () => {
                           I Agree to delete the Profile Data
                         </label>
                       </div>
-
                       <div className="mt-4">
                         <button type="button" className="btn my-btn button00 my-button112233RedDelete" data-bs-dismiss="offcanvas" aria-label="Close" disabled={forDelete ? false : true} onClick={handleForDelete} >Delete</button>
                         <button type="button" className="btn cancel-btn ms-2 " data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                       </div>
-
                     </div>
                   </div>
                 </div>
