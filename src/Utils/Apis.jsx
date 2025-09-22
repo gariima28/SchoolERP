@@ -6580,7 +6580,7 @@ export const DailyAttendancehGetAllBymonth = async (sectionId2, month, year, sea
 // ########################## Assign Class teacher APIs start ########################### 
 
 // get all api by search class and section 
-export const GeyAllTeacherLightWeightGetAll = async () => {
+export const GetAllTeacherLightWeightGetAll = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/otherStaff/getAllStaff-light`)
@@ -10343,6 +10343,20 @@ export const getAllManageProductApi = async (searchKey, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/item/getAll?searchkey=${searchKey}&page=${pageNo}&size=${pageSize}`);
+    if (res) {
+      return res;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+export const getProductByCategoryApi = async (categoryId) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/item/getByCategory/${categoryId}`);
     if (res) {
       return res;
     } else {
