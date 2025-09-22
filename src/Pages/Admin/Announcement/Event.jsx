@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
 // import { CAlert } from '@coreui/react';
 // import '@coreui/coreui/dist/css/coreui.min.css'
-import { Tooltip } from 'bootstrap';
+// import { Tooltip } from 'bootstrap';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { EventPostApi } from 'src/Utils/Apis'
@@ -1110,11 +1110,12 @@ const Event = () => {
     setForDelete(false)
   }
 
-  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
-    new Tooltip(el, {
-      delay: { show: 0, hide: 100 } // show immediately
-    });
-  });
+  // document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+  //   new Tooltip(el, {
+  //     delay: { show: 0, hide: 100 } 
+  //   });
+  // });
+
   return (
     <Container>
       {
@@ -1148,12 +1149,10 @@ const Event = () => {
               exportCSVText="Export CSV"
               exportCSVAction={EventCSV}
               onSearchChange={handleSearchChange}
-
             />
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-22px' }}>Event Details</h5>
-
         <div className="main-content-conatainer pt-1 ">
           <div className="table-container px-3 table-responsive">
             <table className="table table-sm table-striped ">
@@ -1179,7 +1178,7 @@ const Event = () => {
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.eventName.length > 17 ? "tooltip" : undefined}
                           data-bs-placement="top"
-                          data-bs-delay='{"show":0,"hide":100}' 
+                          // data-bs-delay='{"show":0,"hide":100}' 
                           title={item.eventName.length > 17 ? item.eventName : undefined}
                         >
                           {item.eventName?.length > 17 ? (
@@ -1210,7 +1209,7 @@ const Event = () => {
                         <td
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.eventDescription.length > 17 ? "tooltip" : undefined}
-                          data-bs-placement="top"
+                          // data-bs-placement="top"
                           title={item.eventDescription.length > 17 ? item.eventDescription : undefined}
                         >
                           {item.eventDescription?.length > 17 ? (
@@ -1289,7 +1288,7 @@ const Event = () => {
             }
 
           </div>
-          <div className="d-flex" style={{ marginBottom: '10px' }}>
+          <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
             <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
             <div className="ms-auto">
               <ReactPaginate
