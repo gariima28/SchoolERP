@@ -384,40 +384,38 @@ const AllRoute = () => {
                         <div className=" cardradius bg-white p-3">
                             {RouteData.length > 0 ?
                                 <>
-                                    <div className="overflow-scrolling">
-                                        <table className="table align-middle table-striped w-100">
-                                            <thead>
-                                                <tr>
-                                                    <th className='textWrapClass'><h2>#</h2></th>
-                                                    <th className='textWrapClass'><h2>Name</h2></th>
-                                                    <th className='text-end textWrapClass'><h2>Action</h2></th> {/* Added min-width */}
+                                    <table className="table align-middle table-striped w-100">
+                                        <thead>
+                                            <tr>
+                                                <th className='textWrapClass'><h2>#</h2></th>
+                                                <th className='textWrapClass'><h2>Name</h2></th>
+                                                <th className='text-end textWrapClass'><h2>Action</h2></th> {/* Added min-width */}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {RouteData.map((item, index) => (
+                                                <tr key={item.routeId} className='my-bg-color align-middle'>
+                                                    <th className='textWrapClass greyText'><h3>{index + 1}</h3></th>
+                                                    <td className='textWrapClass greyText'><h3>{item.routeName}</h3></td>
+                                                    <td className='textWrapClass text-end' style={{ minWidth: '120px', position: 'relative' }}>
+                                                        <div className="dropdown dropdownbtn">
+                                                            <button className="btn btn-sm actionButtons dropdown-toggle" type="button" onClick={() => toggleDropdown(index)}>
+                                                                <span>Action</span>
+                                                            </button>
+                                                            <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === index ? 'show' : ''}`} style={{ position: 'absolute', right: 0 }}>
+                                                                <li>
+                                                                    <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop" onClick={() => getRouteDataById(item.routeId)}>Edit</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => setDelRouteIDD(item.routeId)}>Delete</button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                {RouteData.map((item, index) => (
-                                                    <tr key={item.routeId} className='my-bg-color align-middle'>
-                                                        <th className='textWrapClass greyText'><h3>{index + 1}</h3></th>
-                                                        <td className='textWrapClass greyText'><h3>{item.routeName}</h3></td>
-                                                        <td className='textWrapClass text-end' style={{ minWidth: '120px', position: 'relative' }}>
-                                                            <div className="dropdown dropdownbtn">
-                                                                <button className="btn btn-sm actionButtons dropdown-toggle" type="button" onClick={() => toggleDropdown(index)}>
-                                                                    <span>Action</span>
-                                                                </button>
-                                                                <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === index ? 'show' : ''}`} style={{ position: 'absolute', right: 0 }}>
-                                                                    <li>
-                                                                        <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop" onClick={() => getRouteDataById(item.routeId)}>Edit</button>
-                                                                    </li>
-                                                                    <li>
-                                                                        <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => setDelRouteIDD(item.routeId)}>Delete</button>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                     <div className="d-flex">
                                         <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
                                         <div className="ms-auto">
