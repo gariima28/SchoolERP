@@ -2227,20 +2227,17 @@ f
     gap: 16px;
     align-items: center;
 }
-
 .basicDetailsSection {
     display: flex;
     flex-direction: column;
     gap: 3px;
 }
-
 .name {
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
     color: #000000;
 }
-
 .email {
     margin: 0;
     font-size: 0.875rem;
@@ -2255,8 +2252,6 @@ f
 .dropdown-menu {
     min-width: 100px !important;
 }
-
-
 .table-responsive-custom {
   overflow: visible !important;
 }
