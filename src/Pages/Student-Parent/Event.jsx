@@ -34,6 +34,8 @@ const Container = styled.div`
         color: var(--ongoingEventBtn) !important;
         border-radius: var(--borderRadius25px);
         width: 100px;
+        border-radius: 50px;
+        font-size: 14px;
     }
 
     .ongoingEventBtn{
@@ -41,6 +43,8 @@ const Container = styled.div`
         color: var(--ongoingEventBtn) !important;
         border-radius: var(--borderRadius25px);
         width: 100px;
+        border-radius: 50px;
+        font-size: 14px;
     }
 
     .upcomingEventBtn:active, .upcomingEventBtn:hover{
@@ -48,6 +52,8 @@ const Container = styled.div`
         color: var(--upcomingEventBtn) !important;
         border-radius: var(--borderRadius25px);
         width: 100px;
+        border-radius: 50px;
+        font-size: 14px;
     }
 
     .upcomingEventBtn{
@@ -55,6 +61,8 @@ const Container = styled.div`
         color: var(--upcomingEventBtn) !important;
         border-radius: var(--borderRadius25px);
         width: 100px;
+        border-radius: 50px;
+        font-size: 14px;
     }
 
     .closedEventBtn:active, .closedEventBtn:hover{
@@ -62,6 +70,8 @@ const Container = styled.div`
         color: var(--closedEventBtn) !important;
         border-radius: var(--borderRadius25px);
         width: 100px;
+        border-radius: 50px;
+        font-size: 14px;
     }
 
     .closedEventBtn{
@@ -69,6 +79,8 @@ const Container = styled.div`
         color: var(--closedEventBtn) !important;
         border-radius: var(--borderRadius25px);
         width: 100px;
+        border-radius: 50px;
+        font-size: 14px;
     }
     
 `;
@@ -174,7 +186,7 @@ const Event = () => {
                                             <td className='textWrapClass font14 greyText'>{item.eventName}</td>
                                             <td className='textWrapClass font14 greyText'>{item.startDate} {item.startTime}</td>
                                             <td className='textWrapClass font14 greyText'>{item.endDate} {item.endTime}</td>
-                                            <td className='textWrapClass font14 greyText text-center'><button className={`btn ${item.status === "Upcoming" ? 'upcomingEventBtn' : item.status === "Ongoing" ? 'ongoingEventBtn' : item.status === "Completed" ? 'closedEventBtn' : ''}`} type='button'>{item.status}</button></td>
+                                            <td className='textWrapClass font14 greyText text-center'><button className={`btn ${item.status === "UPCOMING" ? 'upcomingEventBtn' : item.status === "ONGOING" ? 'ongoingEventBtn' : item.status === "CLOSED" ? 'closedEventBtn' : ''}`} type='button'>{item.status}</button></td>
                                         </tr>
                                     ))}
                                 </tbody>

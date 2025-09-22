@@ -76,30 +76,32 @@ const Container = styled.div`
 
 const StudentFeeDetails = ({ recieptDataAll }) => {
 
+    console.log(recieptDataAll, 'recieptDataAll')
+
     const [itemData, setItemData] = useState([
         {
             key: 'Subtotal :',
-            value: `${recieptDataAll?.invoice.totalAmount}`
+            value: `${recieptDataAll.totalAmount}`
         },
         {
             key: 'Discount :',
-            value: `${recieptDataAll?.invoice.discount}`
+            value: `${recieptDataAll.discount}`
         },
         {
             key: 'Total :',
-            value: `${recieptDataAll?.invoice.totalAmount}`
+            value: `${recieptDataAll.totalAmount}`
         },
         {
             key: 'Paid Amount :',
-            value: `${recieptDataAll?.invoice.paidAmount}`
+            value: `${recieptDataAll.paidAmount}`
         },
         {
             key: 'Due Amount :',
-            value: `${recieptDataAll?.invoice.dueAmount}`
+            value: `${recieptDataAll.dueAmount}`
         },
         {
             key: 'Paid Date :',
-            value: `${recieptDataAll?.invoice.paidDate}`
+            value: `${recieptDataAll.paidDate}`
         },
     ]);
 
@@ -110,17 +112,17 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
                 <div className="row purpleBg cardradius2">
                     <div className="col-md-2 col-4 align-self-center">
                         <div className="row">
-                            {recieptDataAll?.invoice?.studentName === null ? (
+                            {recieptDataAll?.studentName === null ? (
                                 <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
                             ) : (
-                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={recieptDataAll?.invoice?.studentName} alt="..." height={35} />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={recieptDataAll?.studentName} alt="..." height={35} />
                             )}
-                            {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={recieptDataAll?.invoice?.studentName} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /> */}
+                            {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={recieptDataAll?.studentName} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /> */}
                         </div>
                     </div>
                     <div className="col-md-10 col-8 mt-2">
                         <div className="row">
-                            <h2 className='text-black p-1 ps-md-3'>{recieptDataAll?.invoice?.studentName}</h2>
+                            <h2 className='text-black p-1 ps-md-3'>{recieptDataAll?.studentName}</h2>
                         </div>
                         <div className="row">
                             <div className="col-md-6 col-12">
@@ -129,25 +131,25 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Class: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoice?.classNo} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.classNo} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Section: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoice?.section} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.section} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Email: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoice?.email} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.email} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Phone: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoice?.phoneNumber} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.phoneNumber} />
                                             </div>
                                         </div>
                                     </form>
@@ -159,25 +161,25 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Invoice: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoice?.invoiceNo} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoiceNo} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Status: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoice?.status} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.status} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Date: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoice?.studentName} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.studentName} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Month: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoice?.studentName} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.studentName} />
                                             </div>
                                         </div>
                                     </form>
@@ -187,7 +189,7 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
                     </div>
                 </div>
                 <div className="row overflow-scroll mt-4">
-                    {recieptDataAll?.invoice.feeTypeIds.length > 0 ?
+                    {recieptDataAll?.feeDetails.length > 0 ?
                         <table className="table align-middle table-striped">
                             <thead>
                                 <tr>
@@ -200,12 +202,12 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
                             </thead>
                             <tbody>
                                 <tr></tr>
-                                {recieptDataAll?.invoice.feeTypeIds.map((invoice, index) => (
+                                {recieptDataAll?.feeDetails.map((invoice, index) => (
                                     <tr key={invoice.id} className="align-middle">
                                         <th className="font14 pt-3 textWrapClass text-center greyText">{index + 1}.</th>
                                         <td className="font14 pt-3 textWrapClass greyText">{invoice?.feeType}</td>
                                         <td className="font14 pt-3 textWrapClass greyText">{invoice?.totalAmount}</td>
-                                        <td className="font14 pt-3 textWrapClass greyText">{invoice?.discount}</td>
+                                        <td className="font14 pt-3 textWrapClass greyText">{invoice?.discountAmount}</td>
                                         <td className="font14 pt-3 textWrapClass greyText">{invoice?.dueAmount}</td>
                                     </tr>
                                 ))}
@@ -252,7 +254,7 @@ export default StudentFeeDetails
 
 
 
-{/* {recieptDataAll?.invoice.feeTypeIds.length > 0 ?
+{/* {recieptDataAll?.feeTypeIds.length > 0 ?
                         <table className="table align-middle table-striped">
                             <thead>
                                 <tr>
@@ -265,7 +267,7 @@ export default StudentFeeDetails
                             </thead>
                             <tbody>
                                 <tr></tr>
-                                {recieptDataAll?.invoice.feeTypeIds.map((invoice, index) => (
+                                {recieptDataAll?.feeTypeIds.map((invoice, index) => (
                                     <tr key={invoice.id} className="align-middle">
                                         <th className="font14 pt-3 textWrapClass text-center greyText">{index + 1}.</th>
                                         <td className="font14 pt-3 textWrapClass greyText">{invoice?.feeType}</td>

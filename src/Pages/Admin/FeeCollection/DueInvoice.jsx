@@ -600,7 +600,7 @@ const DueInvoice = () => {
                                                                     >
                                                                         Action
                                                                     </button>
-                                                                    <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === invoice.id ? "show z-index-high" : ""
+                                                                    <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === invoice.id ? "show " : ""
                                                                         }`}>
                                                                         <li>
                                                                             <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#collectFees" aria-controls="collectFees">Collect Fees</button>

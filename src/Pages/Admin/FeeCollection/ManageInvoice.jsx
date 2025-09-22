@@ -321,7 +321,7 @@ const ManageInvoice = () => {
             setLoaderState(true);
             const response = await getRecieptByIdApi(id);
             if (response?.status === 200 && response?.data?.status === 'success') {
-                setRecieptData(response?.data?.receipt);
+                setRecieptData(response?.data?.invoice);
                 // setTotalPages(response?.data?.totalPages);
                 // setCurrentPage(response?.data?.currentPage);
                 // setSearchBtn(true);
@@ -595,7 +595,7 @@ const ManageInvoice = () => {
                                                                     >
                                                                         Action
                                                                     </button>
-                                                                    <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === invoice.invoiceId ? 'show z-index-high' : ''}`}>
+                                                                    <ul className={`dropdown-menu dropdown-menu-end ${isDropdownOpen === invoice.invoiceId ? 'show ' : ''}`}>
                                                                         {invoice?.status === 'Paid' || invoice?.status === 'PAID' ? '' :
                                                                             <li>
                                                                                 <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#collectFees" aria-controls="collectFees">Collect Fees</button>
