@@ -903,7 +903,6 @@ const AssignSubjectTeacher = () => {
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Subject</label>
-              
                 <select
                   className="form-select form-select-sm form-focus label-color"
                   value={subjectId}
@@ -924,7 +923,7 @@ const AssignSubjectTeacher = () => {
           {/* ####### buttons ######  */}
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" style={{ backgroundColor: "#008479", color: '#fff' }} onClick={MyAssignGetAllApi}>Search</button>
+              <button type="button" class="btn btn-outline-success" style={{ backgroundColor: "#008479", color: '#fff' }} onClick={MyAssignGetAllApi} disabled={!(classId && subjectId)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={ClearDataInSearch}>Cancel</button>
             </div>
           </div>

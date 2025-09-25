@@ -466,7 +466,7 @@ const ClassRoutine = () => {
 
   const [tableSlotGetAll, setTableSlotGetAll] = useState([])
   const [slotGetAll, setSlotGetAll] = useState([])
-  console.log('all slots', slotGetAll)
+  // console.log('all slots', slotGetAll)
 
   const [breakType, setBreakType] = useState('')
   const [classNo, setClassNo] = useState('')
@@ -939,18 +939,16 @@ const ClassRoutine = () => {
         setLoader(false)
       }
     }
-
-
   }
   // Slot get all api 
   const MySlotGetAllApi = async () => {
     setLoader(true)
     try {
       const response = await SlotGetAllApi();
-      console.log('Slot get all data----------- ', response)
+      // console.log('Slot get all data----------- ', response)
       if (response?.status === 200) {
         if(response.data.status === 'success'){
-          setSlotGetAll(response?.data)
+          setSlotGetAll(response?.data?.period)
           setLoader(false)
         }
       } else {
@@ -1166,7 +1164,7 @@ const ClassRoutine = () => {
           </div>
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" style={{ color: "#ffffff", backgroundColor: '#008479' }} onClick={MyClassRoutineGetAllApi}>Search</button>
+              <button type="button" class="btn btn-outline-success" style={{ color: "#ffffff", backgroundColor: '#008479' }} onClick={MyClassRoutineGetAllApi} disabled={!(classId && sectionName)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={ClearDataInSearch}>Cancel</button>
             </div>
           </div>

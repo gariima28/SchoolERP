@@ -1032,7 +1032,7 @@ const OfflineExam_T = () => {
                     {/* ####### buttons ######  */}
                     <div className="row mb-3 buttons-topss">
                         <div className='my-button11 heading-16'>
-                            <button type="button" class="btn btn-outline-success my-green" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyExamGetAllApi}>Search</button>
+                            <button type="button" class="btn btn-outline-success my-green" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyExamGetAllApi} disabled={!(classId && sectionName)}>Search</button>
                             <button type="button" class="btn btn-outline-success" onClick={ClearData}>Cancel</button>
                         </div>
                     </div>
