@@ -904,7 +904,7 @@ const Leave = () => {
                     <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Leave Type</label>
                       <select class="form-select  form-select-sm form-focus label-color" value={leaveType} onChange={(e) => setLeaveType(e.target.value)} aria-label="Default select example">
-                        <option value="" >All Class</option>
+                        <option value="" >All Leave Type</option>
                         {
                           LeaveAllData?.map(item =>
                             <option value={item.leaveType}>{item.leaveType}</option>
@@ -956,8 +956,6 @@ const Leave = () => {
             </>
           )
         }
-
-
         <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop202" aria-labelledby="staticBackdropLabel">
           {
             show22 && (

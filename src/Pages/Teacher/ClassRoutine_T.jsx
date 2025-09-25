@@ -1081,7 +1081,7 @@ const ClassRoutine = () => {
           </div>
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" style={{ color: "#ffffff", backgroundColor: '#008479' }} onClick={MyClassRoutineGetAllApi}>Search</button>
+              <button type="button" class="btn btn-outline-success" style={{ color: "#ffffff", backgroundColor: '#008479' }} onClick={MyClassRoutineGetAllApi} disabled={!(classId && sectionName)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={ClearDataInSearch}>Cancel</button>
             </div>
           </div>
