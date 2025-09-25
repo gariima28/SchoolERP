@@ -950,7 +950,7 @@ const Expense = () => {
           {/* ####### buttons ######  */}
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success my-green" onClick={MyExpense2GetAllApi}>Search</button>
+              <button type="button" class="btn btn-outline-success my-green" onClick={MyExpense2GetAllApi} disabled={!(startDate && endDate && examTermId)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={ClearHandle}>Cancel</button>
             </div>
           </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-
 import { SubjectPostApi } from 'src/Utils/Apis'
 import { Download_CSV } from 'src/Utils/Apis'
 import { ClassGetApi } from 'src/Utils/Apis'
@@ -827,7 +826,7 @@ const Subject = () => {
           {/* ####### buttons ######  */}
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" style={{ color: '#fff', backgroundColor: "#008479" }} onClick={MySubjectGetApi}>Search</button>
+              <button type="button" class="btn btn-outline-success" style={{ color: '#fff', backgroundColor: "#008479" }} onClick={MySubjectGetApi} disabled={!classIdForSearch}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={ClearHandle}>Cancel</button>
             </div>
           </div>

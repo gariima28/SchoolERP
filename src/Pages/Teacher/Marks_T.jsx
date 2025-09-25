@@ -1030,7 +1030,7 @@ const Marks_T = () => {
           {/* ####### buttons ######  */}
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success my-green" onClick={MyMarksGetAll}>Search</button>
+              <button type="button" class="btn btn-outline-success my-green" onClick={MyMarksGetAll} disabled={!(sessionName && ExamTerm && classId && sectionName && subjectId)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={HandleClear}>Cancel</button>
             </div>
           </div>
@@ -1071,11 +1071,10 @@ const Marks_T = () => {
                 </tr>
               </thead>
               <tbody className="heading-14 align-middle greyTextColor">
-                {marksAllData.map((item, index) => (
+                {marksAllData?.map((item, index) => (
                   <tr className="heading-14" key={item.studentId}>
                     <td className="greyText no-wrap">{index + 1}</td>
                     <td className="greyText no-wrap">{item.studentName}</td>
-
                     <td className="greyText no-wrap">
                       <input
                         type="text"
