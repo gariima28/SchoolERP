@@ -854,9 +854,7 @@ const Sample_paper = () => {
         setLoader(true)
         try {
             const response = await TeacherSampleGetByIdApi(id);
-            console.log('Get by id data in sample paperrrrrr', response);
             if (response?.status === 200) {
-                // toast.success(response?.data?.classes?.message)
                 setTitle(response?.data?.SamplePaper?.title)
                 setClassId(response?.data?.SamplePaper?.classId)
                 setSectionId(response?.data?.SamplePaper?.sectionId)
@@ -872,9 +870,8 @@ const Sample_paper = () => {
                 setLoader(false)
             }
         } catch (error) {
-            setloaderState(false);
             setLoader(false)
-            // console.log(error)
+            
         }
     }
     //  Put api sample
@@ -916,7 +913,7 @@ const Sample_paper = () => {
             setLoader(false)
             // console.log(error)
         }
-    }
+    };
     const ClearData = () => {
         setTitle('')
         setClassId('')
@@ -927,7 +924,7 @@ const Sample_paper = () => {
         setIsValidTitleRequired(false)
         setSampleDataAll([])
         setSectionData([])
-    }
+    };
     const Handle = (e) => {
         const value = e.target.value;
         const [val1, val2] = value.split(',').map(item => item.trim());
@@ -964,7 +961,7 @@ const Sample_paper = () => {
         setClassNo('')
         setTitle('')
 
-    }
+    };
     return (
         <Container>
             {
@@ -1040,7 +1037,7 @@ const Sample_paper = () => {
                     {/* ####### buttons ######  */}
                     <div className="row mb-3 buttons-topss">
                         <div className='my-button11 heading-16'>
-                            <button type="button" class="btn btn-outline-success my-green" onClick={MySampleGetApi}>Search</button>
+                            <button type="button" class="btn btn-outline-success my-green" onClick={MySampleGetApi} disabled={!(classId && sectionId && subjectId)}>Search</button>
                             <button type="button" class="btn btn-outline-success" onClick={HandleClear}>Cancel</button>
                         </div>
                     </div>

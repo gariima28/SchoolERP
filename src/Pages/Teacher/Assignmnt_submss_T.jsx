@@ -517,11 +517,10 @@ const Assignmnt_submss = () => {
 
   const [sectionId, setSectionId] = useState('')
   const [subjectId, setSubjectId] = useState('')
-  console.log('subjectId------', subjectId)
   const [asssignmentId, setAsssignmentId] = useState('')
   const [assignmentId, setAssignmentId] = useState('')
   // console.log('subjectId', subjectId)
-  const [singleState, setSingleState] = useState('');
+  const [singleState , setSingleState] = useState('');
   const [singleState2, setSingleState2] = useState('All');
   const [updateGetAll, setUpdateGetAll] = useState(false);
 
@@ -772,7 +771,7 @@ const Assignmnt_submss = () => {
 
             <div className="row mt-1 buttons-topss">
               <div className='my-button11 heading-16'>
-                <button type="button" class="btn btn-outline-success my-green" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MySubmissionGetAllApi}>Search</button>
+                <button type="button" class="btn btn-outline-success my-green" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MySubmissionGetAllApi} disabled={!(assignmentId && subjectId && sectionId && classId)}>Search</button>
                 <button type="button" class="btn btn-outline-success" onClick={clearHandle}>Cancel</button>
               </div>
             </div>

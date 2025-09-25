@@ -804,7 +804,7 @@ const TakeAttendance = () => {
           {/* ####### buttons ######  */}
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyAttendanceGetAllApiByMonth}>Search</button>
+              <button type="button" class="btn btn-outline-success" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyAttendanceGetAllApiByMonth} disabled={!(month2 && year && roleid)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={ClearData}>Cancel</button>
             </div>
           </div>

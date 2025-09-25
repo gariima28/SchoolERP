@@ -1,6 +1,9 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
+// import { CAlert } from '@coreui/react';
+// import '@coreui/coreui/dist/css/coreui.min.css'
+// import { Tooltip } from 'bootstrap';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { EventPostApi } from 'src/Utils/Apis'
@@ -535,6 +538,7 @@ const Event = () => {
   const [endTime, setEndTime] = useState()
   const [eventStatus, setEventStatus] = useState()
   const [eventDescription, setEventDescription] = useState()
+  // console.log('description in get by id', eventDescription)
   const [eventAllData, setEventAllData] = useState([])
   const [idForDelete, setIdForDelete] = useState()
   const [searchKey, setSearchKey] = useState('')
@@ -589,6 +593,7 @@ const Event = () => {
   const buttManage2 = () => {
     setManageButton2(!manageButton2)
   }
+
   const handleRoleSelection = (roleName) => {
     setRoleNameStore(prev => {
       const allRoleNames = allEventRole.map(item => item.roleName);
@@ -617,8 +622,11 @@ const Event = () => {
     });
   };
 
+
+
   // Class functionlity with checkBox
   const [selectedClassIds, setSelectedClassIds] = useState([]);
+  // console.log('selectedClassIds in array', selectedClassIds);
 
   const handleClassSelection = (classId) => {
     setSelectedClassIds(prev => {
@@ -647,8 +655,9 @@ const Event = () => {
 
       // Check if we've selected all classes
       if (newSelection.length === allClassIds.length) {
-        return [...allClassIds]; 
+        return [...allClassIds]; // Return all without adding "All" string
       }
+
       return newSelection;
     });
   };
@@ -790,6 +799,7 @@ const Event = () => {
     setStartDate(e2);
     const dateRegex = /^[a-zA-Z0-9!@#$%^&*()_+=\- .]+$/;
     setIsValidDateRequired(dateRegex.test(e2));
+
     if (e2 === "" || !dateRegex.test(e2)) {
       setIsValidDateRequired(true)
     } else {
@@ -1352,6 +1362,10 @@ const Event = () => {
                         </p>
                       )}
                     </div>
+
+
+
+
                     <div className="mb-3" style={{ marginTop: '-4px' }}>
                       {/* Event for */}
                       <div className="mb-3" style={{ marginTop: '-4px' }}>
@@ -1360,7 +1374,15 @@ const Event = () => {
                             Event For
                           </label>
                           <div className="dropdown">
-
+                            {/* <button
+                              className="form-select form-select-sm form-focus label-color dropdown-toggle"
+                              type="button"
+                              id="eventForDropdown"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              {roleNameStore.length > 0 ? roleNameStore.join(', ') : '--Choose--'}
+                            </button> */}
                             <button
                               className="form-select form-select-sm form-focus label-color dropdown-toggle"
                               type="button"
@@ -1538,6 +1560,7 @@ const Event = () => {
         }
 
         {/* ################## Off Canvas Area ####################  */}
+
 
         {
           show && (

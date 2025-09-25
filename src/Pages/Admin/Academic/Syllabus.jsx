@@ -893,9 +893,9 @@ const Syllabus = () => {
           {/* ###### copy content till here for all component ######  */}
           <div className="row p-3">
             <div className="col-lg-6 col-md-6 col-sm-12  ">
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Class</label>
-                <select class="form-select  form-select-sm form-focus label-color" value={`${classId},${classNo}`} onChange={(e) => handleClass(e)} aria-label="Default select example">
+              <div className="mb-3">
+                <label for="exampleFormControlInput1" className="form-label mb-1 label-text-color focus heading-14">Class</label>
+                <select className="form-select  form-select-sm form-focus label-color" value={`${classId},${classNo}`} onChange={(e) => handleClass(e)} aria-label="Default select example">
                   <option value="" >--Choose--</option>
                   {
                     classData?.map(item =>
@@ -906,9 +906,9 @@ const Syllabus = () => {
               </div>
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Section</label>
-                <select class="form-select  form-select-sm form-focus   label-color" value={sectionId} onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
+              <div className="mb-3">
+                <label for="exampleFormControlInput1" className="form-label mb-1 label-text-color heading-14">Section</label>
+                <select className="form-select  form-select-sm form-focus   label-color" value={sectionId} onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
                   <option value="">--Choose--</option>
                   {
                     sectionData?.map(item =>
@@ -922,11 +922,10 @@ const Syllabus = () => {
           {/* ####### buttons ######  */}
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" style={{ color: '#fff', backgroundColor: '#008479' }} class="btn btn-outline-success" onClick={MySyllabusGetApi}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={ClearHandle}>Cancel</button>
+              <button type="button" style={{ color: '#fff', backgroundColor: '#008479' }} className="btn btn-outline-success" onClick={MySyllabusGetApi} disabled={!(classId && sectionId)}>Search</button>
+              <button type="button" className="btn btn-outline-success" onClick={ClearHandle}>Cancel</button>
             </div>
           </div>
-
           <div className="table-container px-3 table-responsive">
             <table className="table table-sm table-striped">
               <thead className=''>
@@ -940,16 +939,13 @@ const Syllabus = () => {
                   <th className='no-wrap' >Actions</th>
                 </tr>
               </thead>
-
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
                   syllabusAllData?.map((item, index) => (
                     <tr className='heading-14' >
                       <td className=' greyText no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
                       <td className=' greyText no-wrap' >{item.titleName}</td>
-
                       <td className=' greyText no-wrap' >
-
                         <button type="button " className="btn export1 btn-outline-secondary my-own-outline-btn me-2 " onClick={(e) => DownloadPDF(item.syllabusId)}>
                           <span>
                             <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -960,7 +956,6 @@ const Syllabus = () => {
                           <span>Download</span>
                         </button>
                       </td>
-
                       <td className=' greyText no-wrap' >{item.subject}</td>
                       <td className=' greyText no-wrap' >{item.classNo}</td>
                       <td className=' greyText no-wrap' >{item.section}</td>
@@ -1011,9 +1006,9 @@ const Syllabus = () => {
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="offcanvas-body pt-0">
-                  <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label heading-16">Title</label>
-                    <input type="email" class="form-control form-control-sm" value={titleName} onChange={(e) => handleTitle(e.target.value)} id="exampleFormControlInput1" placeholder="Select Title" />
+                  <div className="mb-3">
+                    <label for="exampleFormControlInput1" className="form-label heading-16">Title</label>
+                    <input type="email" className="form-control form-control-sm" value={titleName} onChange={(e) => handleTitle(e.target.value)} id="exampleFormControlInput1" placeholder="Select Title" />
                   </div>
                   <div>
                     {isValidNameRequired && (
@@ -1025,7 +1020,7 @@ const Syllabus = () => {
 
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Class</label>
-                    <select class="form-select  form-select-sm form-focus  label-color" value={`${classId},${classNo}`} onChange={(e) => handleClass(e)} aria-label="Default select example">
+                    <select className="form-select  form-select-sm form-focus  label-color" value={`${classId},${classNo}`} onChange={(e) => handleClass(e)} aria-label="Default select example">
                       <option selected>--Choose--</option>
                       {
                         classData?.map(item =>
@@ -1036,7 +1031,7 @@ const Syllabus = () => {
                   </div>
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
-                    <select class="form-select  form-select-sm form-focus   label-color" value={sectionName} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
+                    <select className="form-select  form-select-sm form-focus   label-color" value={sectionName} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
                       <option selected>--Choose--</option>
                       {
                         sectionData.map(item =>
@@ -1047,7 +1042,7 @@ const Syllabus = () => {
                   </div>
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Subject</label>
-                    <select class="form-select  form-select-sm form-focus  label-color" value={subjectName} onChange={(e) => setSubjectName(e.target.value)} aria-label="Default select example">
+                    <select className="form-select  form-select-sm form-focus  label-color" value={subjectName} onChange={(e) => setSubjectName(e.target.value)} aria-label="Default select example">
                       <option selected>--Choose--</option>
                       {
                         subjectData?.map(item =>
@@ -1056,9 +1051,9 @@ const Syllabus = () => {
                       }
                     </select>
                   </div>
-                  <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label heading-16">Upload Syllabus</label>
-                    <input type="file" class="form-control form-control-sm" id="exampleFormControlInput1" onChange={(e) => handleImageFile(e.target.files[0])} placeholder="Select Class" accept='.jpg, .png, .jpeg, .pdf' />
+                  <div className="mb-3">
+                    <label for="exampleFormControlInput1" className="form-label heading-16">Upload Syllabus</label>
+                    <input type="file" className="form-control form-control-sm" id="exampleFormControlInput1" onChange={(e) => handleImageFile(e.target.files[0])} placeholder="Select Class" accept='.jpg, .png, .jpeg, .pdf' />
                   </div>
                   <div>
                     {isImageValidRequired && (
@@ -1092,9 +1087,9 @@ const Syllabus = () => {
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="offcanvas-body pt-0">
-                  <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label heading-16">Title</label>
-                    <input type="email" class="form-control form-control-sm" id="exampleFormControlInput1" value={titleName} onChange={(e) => handleTitle(e.target.value)} placeholder="Select Class" />
+                  <div className="mb-3">
+                    <label for="exampleFormControlInput1" className="form-label heading-16">Title</label>
+                    <input type="email" className="form-control form-control-sm" id="exampleFormControlInput1" value={titleName} onChange={(e) => handleTitle(e.target.value)} placeholder="Select Class" />
                   </div>
                   <div>
                     {isValidNameRequired && (
@@ -1105,7 +1100,7 @@ const Syllabus = () => {
                   </div>
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label heading-16">Class</label>
-                    <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => handleClass(e)} aria-label="Default select example">
+                    <select className="form-select  form-select-sm form-focus label-color" onChange={(e) => handleClass(e)} aria-label="Default select example">
                       <option selected >{classNoGetById}</option>
                       {
                         classData?.map(item =>
@@ -1116,7 +1111,7 @@ const Syllabus = () => {
                   </div>
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
-                    <select class="form-select  form-select-sm form-focus  label-color" value={sectionNameGetById} onChange={(e) => setSectionNameGetById(e.target.value)} aria-label="Default select example">
+                    <select className="form-select  form-select-sm form-focus  label-color" value={sectionNameGetById} onChange={(e) => setSectionNameGetById(e.target.value)} aria-label="Default select example">
                       <option selected>{sectionNameGetById}</option>
                       {
                         sectionData.map(item =>
@@ -1127,7 +1122,7 @@ const Syllabus = () => {
                   </div>
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Subject</label>
-                    <select class="form-select  form-select-sm form-focus label-color" value={subjectGetById} onChange={(e) => setSubjectGetById(e.target.value)} aria-label="Default select example">
+                    <select className="form-select  form-select-sm form-focus label-color" value={subjectGetById} onChange={(e) => setSubjectGetById(e.target.value)} aria-label="Default select example">
                       <option selected>{subjectGetById}</option>
                       {/* {
                       subjectData.map(item =>
@@ -1141,24 +1136,24 @@ const Syllabus = () => {
                       {
                         updateStatus === "success"
                           ?
-                          <div class="mb-3 " style={{ display: 'flex', }}>
+                          <div className="mb-3 " style={{ display: 'flex', }}>
                             <div className='w-100'>
                               <label for="exampleFormControlInput1" className="form-label heading-14 label-color">Upload Image </label>
                               {
                                 manageButton ?
-                                  <input type="file" class="form-control" id="exampleFormControlInput1" onChange={handleFileChange} placeholder="select file" accept='.jpg, .png, .jpeg' />
+                                  <input type="file" className="form-control" id="exampleFormControlInput1" onChange={handleFileChange} placeholder="select file" accept='.jpg, .png, .jpeg' />
                                   :
-                                  <input type="text" class="form-control" id="exampleFormControlInput1" value={coverPage} placeholder="name@example.com" />
+                                  <input type="text" className="form-control" id="exampleFormControlInput1" value={coverPage} placeholder="name@example.com" />
                               }
                             </div>
                             <div style={{ margin: 'auto', paddingTop: '30px', paddingLeft: '5px' }}>
                               {
                                 manageButton ? (
-                                  <button type="button" class="btn btn-outline-success my-green heading-14 " onClick={buttManage} >View </button>
+                                  <button type="button" className="btn btn-outline-success my-green heading-14 " onClick={buttManage} >View </button>
                                 )
                                   :
                                   (
-                                    <button type="button" class="btn btn-outline-success my-green heading-14 " onClick={buttManage}>Edit</button>
+                                    <button type="button" className="btn btn-outline-success my-green heading-14 " onClick={buttManage}>Edit</button>
                                   )
                               }
                             </div>
