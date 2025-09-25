@@ -25,6 +25,22 @@ const StyledContainer = styled.div`
         color: var(--greyState);
     }
 
+    .formcheckBox:not(:checked){
+        background-color: #f3fffe;
+        border-color: #00847A;
+        height: 18px;
+        width: 18px;
+        border-radius: 2px !important;
+    }
+
+    .formcheckBox:checked{
+        background-color: #00847A;
+        border-color: #00847A;
+        height: 18px;
+        width: 18px;
+        border-radius: 2px !important;
+    }
+
     .formdltcheck:checked {
         background-color: #B50000;
         border-color: #B50000;
@@ -622,62 +638,46 @@ const ExamSchedule = () => {
                             </p>
                         </form>
                         <div className="row">
-                            {examScheduleData.length > 0 ? (
+                            {/* {examScheduleData.length > 0 ? ( */}
                                 <>
                                     <div className="row overflow-scroll">
                                         <table className="table align-middle table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th className="textWrapClass">
-                                                        <span className="font14">#</span>
-                                                    </th>
-                                                    <th className="textWrapClass">
-                                                        <span className="font14">Title</span>
-                                                    </th>
-                                                    <th className="textWrapClass">
-                                                        <span className="font14">Room Number</span>
-                                                    </th>
-                                                    <th className="textWrapClass">
-                                                        <span className="font14">Starting Time</span>
-                                                    </th>
-                                                    <th className="textWrapClass">
-                                                        <span className="font14">Ending Time</span>
-                                                    </th>
-                                                    <th className="textWrapClass">
-                                                        <span className="font14">Date</span>
-                                                    </th>
-                                                    <th className="textWrapClass">
-                                                        <span className="font14">Total Marks</span>
-                                                    </th>
-                                                    <th className="textWrapClass text-center">
-                                                        <span className="font14">Action</span>
-                                                    </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">#</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Exam Term</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Room Number</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Subject</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Theory Date</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Theory Start Time</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Theory End Time</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Theory Pass Marks</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Theory Total Marks</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Practical Date</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Practical Start Time</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Practical End Time</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Practical Pass Marks</span> </th>
+                                                    <th className="textWrapClass pe-4"> <span className="font14">Practical Total Marks</span> </th>
+                                                    <th className="textWrapClass text-center"> <span className="font14">Action</span> </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {examScheduleData.map((item, index) => (
                                                     <tr key={item.id} className="align-middle">
-                                                        <th className="textWrapClass greyText">
-                                                            <h3>{(pageNo - 1) * pageSize + index + 1}</h3>
-                                                        </th>
-                                                        <td className="textWrapClass greyText">
-                                                            <h3>{item.examTermName} - {item.subject}</h3>
-                                                        </td>
-                                                        <td className="textWrapClass greyText">
-                                                            <h3>{item.roomNumber}</h3>
-                                                        </td>
-                                                        <td className="textWrapClass greyText">
-                                                            <h3>{item.startingTime.slice(0, 5) || '-'}</h3>
-                                                        </td>
-                                                        <td className="textWrapClass greyText">
-                                                            <h3>{item.endingTime.slice(0, 5) || '-'}</h3>
-                                                        </td>
-                                                        <td className="textWrapClass greyText">
-                                                            <h3>{item.date}</h3>
-                                                        </td>
-                                                        <td className="textWrapClass greyText">
-                                                            <h3>{item.totalMarks}</h3>
-                                                        </td>
+                                                        <th className="textWrapClass greyText"> <h3>{(pageNo - 1) * pageSize + index + 1}</h3> </th>
+                                                        <th className="textWrapClass greyText"> <h3>{(pageNo - 1) * pageSize + index + 1}</h3> </th>
+                                                        <td className="textWrapClass greyText"> <h3>{item.examTermName} - {item.subject}</h3> </td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.examTermName} - {item.subject}</h3> </td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.roomNumber}</h3> </td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.roomNumber}</h3> </td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.startingTime.slice(0, 5) || '-'}</h3> </td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.startingTime.slice(0, 5) || '-'}</h3> </td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.endingTime.slice(0, 5) || '-'}</h3> </td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.endingTime.slice(0, 5) || '-'}</h3> </td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
+                                                        <td className="textWrapClass greyText"> <h3>{item.totalMarks}</h3> </td>
                                                         <td className="textWrapClass text-center">
                                                             <button
                                                                 className="btn ps-1 pe-1 text-black text-decoration-none"
@@ -726,11 +726,11 @@ const ExamSchedule = () => {
                                         </div>
                                     </div>
                                 </>
-                            ) : (
+                            {/* ) : (
                                 <div className="d-flex justify-content-center p-5 m-5">
                                     <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="No data" className="img-fluid" />
                                 </div>
-                            )}
+                            )} */}
                         </div>
                     </div>
                 </div>
@@ -755,7 +755,7 @@ const ExamSchedule = () => {
                         <form onSubmit={handleSubmitAdd(addNewExamSchedule)}>
                             <div className="mb-3">
                                 <label htmlFor="categoryIdAdd" className="form-label font14">
-                                    Exam Name / Term <span className="text-danger">*</span>
+                                    Exam Name <span className="text-danger">*</span>
                                 </label>
                                 <select
                                     id="categoryIdAdd"
@@ -858,7 +858,7 @@ const ExamSchedule = () => {
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="dateAdd" className="form-label font14">
-                                    Date <span className="text-danger">*</span>
+                                    Theory Date <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     id="dateAdd"
@@ -873,7 +873,7 @@ const ExamSchedule = () => {
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="startingTimeAdd" className="form-label font14">
-                                    Starting Time <span className="text-danger">*</span>
+                                    Theory Start Time <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     id="startingTimeAdd"
@@ -885,7 +885,7 @@ const ExamSchedule = () => {
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="endingTimeAdd" className="form-label font14">
-                                    Ending Time <span className="text-danger">*</span>
+                                    Theory End Time <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     id="endingTimeAdd"
@@ -896,23 +896,8 @@ const ExamSchedule = () => {
                                 {errorsAdd.endingTime && <p className="font12 text-danger">{errorsAdd.endingTime.message}</p>}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="passingMarksAdd" className="form-label font14">
-                                    Passing Marks <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    id="passingMarksAdd"
-                                    type="number"
-                                    className={`form-control font14 ${errorsAdd.passingMarks ? 'border-danger' : ''}`}
-                                    {...registerAdd('passingMarks', {
-                                        required: 'Passing Marks are required *',
-                                        min: { value: 0, message: 'Marks cannot be negative' },
-                                    })}
-                                />
-                                {errorsAdd.passingMarks && <p className="font12 text-danger">{errorsAdd.passingMarks.message}</p>}
-                            </div>
-                            <div className="mb-3">
                                 <label htmlFor="totalMarksAdd" className="form-label font14">
-                                    Total Marks <span className="text-danger">*</span>
+                                    Theory Marks <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     id="totalMarksAdd"
@@ -925,6 +910,98 @@ const ExamSchedule = () => {
                                 />
                                 {errorsAdd.totalMarks && <p className="font12 text-danger">{errorsAdd.totalMarks.message}</p>}
                             </div>
+                            <div className="mb-3">
+                                <label htmlFor="passingMarksAdd" className="form-label font14">
+                                    Theory Passing Marks <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="passingMarksAdd"
+                                    type="number"
+                                    className={`form-control font14 ${errorsAdd.passingMarks ? 'border-danger' : ''}`}
+                                    {...registerAdd('passingMarks', {
+                                        required: 'Passing Marks are required *',
+                                        min: { value: 0, message: 'Marks cannot be negative' },
+                                    })}
+                                />
+                                {errorsAdd.passingMarks && <p className="font12 text-danger">{errorsAdd.passingMarks.message}</p>}
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input formcheckBox" type="checkbox" value="" id="isPractical"/>
+                                <label class="form-check-label" for="isPractical" id='isPractical'>
+                                        Is Practical
+                                    </label>
+                            </div>
+                            <hr />
+                            <p className='greenText font16 mb-3'>Practical Marks</p>
+                            {/* <div className="mb-3">
+                                <label htmlFor="dateAdd" className="form-label font14">
+                                    Practical Date <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="dateAdd"
+                                    type="date"
+                                    className={`form-control font14 ${errorsAdd.date ? 'border-danger' : ''}`}
+                                    {...registerAdd('date', {
+                                        required: 'Date is required *',
+                                        validate: validateDate,
+                                    })}
+                                />
+                                {errorsAdd.date && <p className="font12 text-danger">{errorsAdd.date.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="startingTimeAdd" className="form-label font14">
+                                    Practical Start Time <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="startingTimeAdd"
+                                    type="time"
+                                    className={`form-control font14 ${errorsAdd.startingTime ? 'border-danger' : ''}`}
+                                    {...registerAdd('startingTime', { required: 'Starting Time is required *' })}
+                                />
+                                {errorsAdd.startingTime && <p className="font12 text-danger">{errorsAdd.startingTime.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="endingTimeAdd" className="form-label font14">
+                                    Practical End Time <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="endingTimeAdd"
+                                    type="time"
+                                    className={`form-control font14 ${errorsAdd.endingTime ? 'border-danger' : ''}`}
+                                    {...registerAdd('endingTime', { required: 'Ending Time is required *' })}
+                                />
+                                {errorsAdd.endingTime && <p className="font12 text-danger">{errorsAdd.endingTime.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="totalMarksAdd" className="form-label font14">
+                                    Practical Marks <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="totalMarksAdd"
+                                    type="number"
+                                    className={`form-control font14 ${errorsAdd.totalMarks ? 'border-danger' : ''}`}
+                                    {...registerAdd('totalMarks', {
+                                        required: 'Total Marks are required *',
+                                        min: { value: 0, message: 'Marks cannot be negative' },
+                                    })}
+                                />
+                                {errorsAdd.totalMarks && <p className="font12 text-danger">{errorsAdd.totalMarks.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="passingMarksAdd" className="form-label font14">
+                                    Practical Passing Marks <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="passingMarksAdd"
+                                    type="number"
+                                    className={`form-control font14 ${errorsAdd.passingMarks ? 'border-danger' : ''}`}
+                                    {...registerAdd('passingMarks', {
+                                        required: 'Passing Marks are required *',
+                                        min: { value: 0, message: 'Marks cannot be negative' },
+                                    })}
+                                />
+                                {errorsAdd.passingMarks && <p className="font12 text-danger">{errorsAdd.passingMarks.message}</p>}
+                            </div> */}
                             <p className="text-center p-3">
                                 <button
                                     className="btn addButtons3 font14 text-white me-2"
@@ -966,7 +1043,7 @@ const ExamSchedule = () => {
                         <form onSubmit={handleSubmitUpdate(updateExamSchedule)}>
                             <div className="mb-3">
                                 <label htmlFor="categoryIdEdit" className="form-label font14">
-                                    Exam Name / Term <span className="text-danger">*</span>
+                                    Exam Name <span className="text-danger">*</span>
                                 </label>
                                 <select
                                     id="categoryIdEdit"
@@ -1062,73 +1139,150 @@ const ExamSchedule = () => {
                                 {errorsUpdate.roomNo && <p className="font12 text-danger">{errorsUpdate.roomNo.message}</p>}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="dateEdit" className="form-label font14">
-                                    Date <span className="text-danger">*</span>
+                                <label htmlFor="dateAdd" className="form-label font14">
+                                    Theory Date <span className="text-danger">*</span>
                                 </label>
                                 <input
-                                    id="dateEdit"
+                                    id="dateAdd"
                                     type="date"
-                                    className={`form-control font14 ${errorsUpdate.date ? 'border-danger' : ''}`}
-                                    {...registerUpdate('date', {
+                                    className={`form-control font14 ${errorsAdd.date ? 'border-danger' : ''}`}
+                                    {...registerAdd('date', {
                                         required: 'Date is required *',
                                         validate: validateDate,
                                     })}
                                 />
-                                {errorsUpdate.date && <p className="font12 text-danger">{errorsUpdate.date.message}</p>}
+                                {errorsAdd.date && <p className="font12 text-danger">{errorsAdd.date.message}</p>}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="startingTimeEdit" className="form-label font14">
-                                    Starting Time <span className="text-danger">*</span>
+                                <label htmlFor="startingTimeAdd" className="form-label font14">
+                                    Theory Start Time <span className="text-danger">*</span>
                                 </label>
                                 <input
-                                    id="startingTimeEdit"
+                                    id="startingTimeAdd"
                                     type="time"
-                                    className={`form-control font14 ${errorsUpdate.startingTime ? 'border-danger' : ''}`}
-                                    {...registerUpdate('startingTime', { required: 'Starting Time is required *' })}
+                                    className={`form-control font14 ${errorsAdd.startingTime ? 'border-danger' : ''}`}
+                                    {...registerAdd('startingTime', { required: 'Starting Time is required *' })}
                                 />
-                                {errorsUpdate.startingTime && <p className="font12 text-danger">{errorsUpdate.startingTime.message}</p>}
+                                {errorsAdd.startingTime && <p className="font12 text-danger">{errorsAdd.startingTime.message}</p>}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="endingTimeEdit" className="form-label font14">
-                                    Ending Time <span className="text-danger">*</span>
+                                <label htmlFor="endingTimeAdd" className="form-label font14">
+                                    Theory End Time <span className="text-danger">*</span>
                                 </label>
                                 <input
-                                    id="endingTimeEdit"
+                                    id="endingTimeAdd"
                                     type="time"
-                                    className={`form-control font14 ${errorsUpdate.endingTime ? 'border-danger' : ''}`}
-                                    {...registerUpdate('endingTime', { required: 'Ending Time is required *' })}
+                                    className={`form-control font14 ${errorsAdd.endingTime ? 'border-danger' : ''}`}
+                                    {...registerAdd('endingTime', { required: 'Ending Time is required *' })}
                                 />
-                                {errorsUpdate.endingTime && <p className="font12 text-danger">{errorsUpdate.endingTime.message}</p>}
+                                {errorsAdd.endingTime && <p className="font12 text-danger">{errorsAdd.endingTime.message}</p>}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="passingMarksEdit" className="form-label font14">
-                                    Passing Marks <span className="text-danger">*</span>
+                                <label htmlFor="totalMarksAdd" className="form-label font14">
+                                    Theory Marks <span className="text-danger">*</span>
                                 </label>
                                 <input
-                                    id="passingMarksEdit"
+                                    id="totalMarksAdd"
                                     type="number"
-                                    className={`form-control font14 ${errorsUpdate.passingMarks ? 'border-danger' : ''}`}
-                                    {...registerUpdate('passingMarks', {
-                                        required: 'Passing Marks are required *',
-                                        min: { value: 0, message: 'Marks cannot be negative' },
-                                    })}
-                                />
-                                {errorsUpdate.passingMarks && <p className="font12 text-danger">{errorsUpdate.passingMarks.message}</p>}
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="totalMarksEdit" className="form-label font14">
-                                    Total Marks <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    id="totalMarksEdit"
-                                    type="number"
-                                    className={`form-control font14 ${errorsUpdate.totalMarks ? 'border-danger' : ''}`}
-                                    {...registerUpdate('totalMarks', {
+                                    className={`form-control font14 ${errorsAdd.totalMarks ? 'border-danger' : ''}`}
+                                    {...registerAdd('totalMarks', {
                                         required: 'Total Marks are required *',
                                         min: { value: 0, message: 'Marks cannot be negative' },
                                     })}
                                 />
-                                {errorsUpdate.totalMarks && <p className="font12 text-danger">{errorsUpdate.totalMarks.message}</p>}
+                                {errorsAdd.totalMarks && <p className="font12 text-danger">{errorsAdd.totalMarks.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="passingMarksAdd" className="form-label font14">
+                                    Theory Passing Marks <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="passingMarksAdd"
+                                    type="number"
+                                    className={`form-control font14 ${errorsAdd.passingMarks ? 'border-danger' : ''}`}
+                                    {...registerAdd('passingMarks', {
+                                        required: 'Passing Marks are required *',
+                                        min: { value: 0, message: 'Marks cannot be negative' },
+                                    })}
+                                />
+                                {errorsAdd.passingMarks && <p className="font12 text-danger">{errorsAdd.passingMarks.message}</p>}
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input formcheckBox" type="checkbox" value="" id="isPractical" />
+                                <label class="form-check-label" for="isPractical" id='isPractical'>
+                                    Is Practical
+                                </label>
+                            </div>
+                            <hr />
+                            <p className='greenText font16 mb-3'>Practical Marks</p>
+                            <div className="mb-3">
+                                <label htmlFor="dateAdd" className="form-label font14">
+                                    Practical Date <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="dateAdd"
+                                    type="date"
+                                    className={`form-control font14 ${errorsAdd.date ? 'border-danger' : ''}`}
+                                    {...registerAdd('date', {
+                                        required: 'Date is required *',
+                                        validate: validateDate,
+                                    })}
+                                />
+                                {errorsAdd.date && <p className="font12 text-danger">{errorsAdd.date.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="startingTimeAdd" className="form-label font14">
+                                    Practical Start Time <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="startingTimeAdd"
+                                    type="time"
+                                    className={`form-control font14 ${errorsAdd.startingTime ? 'border-danger' : ''}`}
+                                    {...registerAdd('startingTime', { required: 'Starting Time is required *' })}
+                                />
+                                {errorsAdd.startingTime && <p className="font12 text-danger">{errorsAdd.startingTime.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="endingTimeAdd" className="form-label font14">
+                                    Practical End Time <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="endingTimeAdd"
+                                    type="time"
+                                    className={`form-control font14 ${errorsAdd.endingTime ? 'border-danger' : ''}`}
+                                    {...registerAdd('endingTime', { required: 'Ending Time is required *' })}
+                                />
+                                {errorsAdd.endingTime && <p className="font12 text-danger">{errorsAdd.endingTime.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="totalMarksAdd" className="form-label font14">
+                                    Practical Marks <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="totalMarksAdd"
+                                    type="number"
+                                    className={`form-control font14 ${errorsAdd.totalMarks ? 'border-danger' : ''}`}
+                                    {...registerAdd('totalMarks', {
+                                        required: 'Total Marks are required *',
+                                        min: { value: 0, message: 'Marks cannot be negative' },
+                                    })}
+                                />
+                                {errorsAdd.totalMarks && <p className="font12 text-danger">{errorsAdd.totalMarks.message}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="passingMarksAdd" className="form-label font14">
+                                    Practical Passing Marks <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    id="passingMarksAdd"
+                                    type="number"
+                                    className={`form-control font14 ${errorsAdd.passingMarks ? 'border-danger' : ''}`}
+                                    {...registerAdd('passingMarks', {
+                                        required: 'Passing Marks are required *',
+                                        min: { value: 0, message: 'Marks cannot be negative' },
+                                    })}
+                                />
+                                {errorsAdd.passingMarks && <p className="font12 text-danger">{errorsAdd.passingMarks.message}</p>}
                             </div>
                             <p className="text-center p-3">
                                 <button
