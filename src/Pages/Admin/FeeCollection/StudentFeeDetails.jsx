@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -79,31 +79,38 @@ const StudentFeeDetails = ({ recieptDataAll }) => {
     console.log(recieptDataAll, 'recieptDataAll')
 
     const [itemData, setItemData] = useState([
-        {
-            key: 'Subtotal :',
-            value: `${recieptDataAll.totalAmount}`
-        },
-        {
-            key: 'Discount :',
-            value: `${recieptDataAll.discount}`
-        },
-        {
-            key: 'Total :',
-            value: `${recieptDataAll.totalAmount}`
-        },
-        {
-            key: 'Paid Amount :',
-            value: `${recieptDataAll.paidAmount}`
-        },
-        {
-            key: 'Due Amount :',
-            value: `${recieptDataAll.dueAmount}`
-        },
-        {
-            key: 'Paid Date :',
-            value: `${recieptDataAll.paidDate}`
-        },
+        { key: 'Subtotal :', value: null },
+        { key: 'Discount :', value: null },
+        { key: 'Total :', value: null },
+        { key: 'Paid Amount :', value: null },
+        { key: 'Due Amount :', value: null },
+        { key: 'Paid Date :', value: null },
     ]);
+
+    // Update itemData when recieptDataAll changes or component mounts
+    useEffect(() => {
+        // Only update if recieptDataAll is provided and has valid data
+        if (recieptDataAll && Object.keys(recieptDataAll).length > 0) {
+            setItemData([
+                { key: 'Subtotal :', value: recieptDataAll.totalAmount || null },
+                { key: 'Discount :', value: recieptDataAll.discount || null },
+                { key: 'Total :', value: recieptDataAll.totalAmount || null },
+                { key: 'Paid Amount :', value: recieptDataAll.paidAmount || null },
+                { key: 'Due Amount :', value: recieptDataAll.dueAmount || null },
+                { key: 'Paid Date :', value: recieptDataAll.paidDate || null },
+            ]);
+        } else {
+            // Set all values to null if recieptDataAll is empty or undefined
+            setItemData([
+                { key: 'Subtotal :', value: null },
+                { key: 'Discount :', value: null },
+                { key: 'Total :', value: null },
+                { key: 'Paid Amount :', value: null },
+                { key: 'Due Amount :', value: null },
+                { key: 'Paid Date :', value: null },
+            ]);
+        }
+    }, [recieptDataAll]);
 
     return (
 
