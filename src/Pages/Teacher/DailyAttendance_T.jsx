@@ -953,7 +953,7 @@ const DailyAttendance = ({ items }) => {
           {/* ####### buttons ######  */}
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" onClick={MyDailyAttendanceGetAllApiByMonth} style={{ backgroundColor: '#008479', color: '#fff ' }}>Search</button>
+              <button type="button" class="btn btn-outline-success" onClick={MyDailyAttendanceGetAllApiByMonth} style={{ backgroundColor: '#008479', color: '#fff ' }} disabled={!(month && year && classId && sectionId)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={clearDataHandle}>Cancel</button>
             </div>
           </div>
@@ -1122,7 +1122,7 @@ const DailyAttendance = ({ items }) => {
                 {
                   hide ?
                     <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success heading-16" style={{ color: ' #fff', backgroundColor: '#008479' }} onClick={() => setHide(false)}>Show Student List</button>
+                      <button type="button" className="btn btn-outline-success heading-16" style={{ color: ' #fff', backgroundColor: '#008479' }} disabled={!(date && sectionId && classId)} onClick={() => setHide(false)}>Show Student List</button>
                       <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" >Cancel</button>
                     </div>
                     :
@@ -1231,7 +1231,7 @@ const DailyAttendance = ({ items }) => {
                 {
                   hide1 ?
                     <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success heading-16" style={{ color: ' #fff', backgroundColor: '#008479' }} onClick={() => setHide1(false)}>Show Student List</button>
+                      <button type="button" className="btn btn-outline-success heading-16" style={{ color: ' #fff', backgroundColor: '#008479' }} disabled={!(date && sectionId && classId)} onClick={() => setHide1(false)}>Show Student List</button>
                       <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close"  >Cancel</button>
                     </div>
                     :

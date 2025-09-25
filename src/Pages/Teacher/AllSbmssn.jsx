@@ -533,7 +533,6 @@ const AllSbmssn = ({ data }) => {
   }
   //  Update Api submission
   const MyDepartmentPostApi = async () => {
-
     const formData = new FormData()
     formData.append('resultMarks', result);
     formData.append('description', description);
@@ -582,7 +581,7 @@ const AllSbmssn = ({ data }) => {
         <div className="main-content-conatainer pt-1 ">
           {/* ###### copy content till here for all component ######  */}
 
-          <div className={`table-container px-3 table-responsive ${submissionGetAllData.length > 0 ? 'myTableResponsive' : ''}`}  >
+          <div className={`table-container px-3 table-responsive `}  >
             <table className="table table-sm  table-striped ">
               <thead className=''>
                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
