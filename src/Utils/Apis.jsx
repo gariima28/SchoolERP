@@ -9196,16 +9196,16 @@ export const TeacherDailyAttendancehCSVBymonth = async (sectionId2, month, year)
 // ########################## Assign Class teacher APIs start ########################### 
 
 // get all api by search class and section 
-// export const GeyAllTeacherLightWeightGetAll = async(classNo, section) =>{
-//    axios.defaults.headers.common["Authorization"] = token;
-//   const res= await axios.get(`${Domain}/otherStaff/getAllStaff-light`)
-//   if(res) {
-//    return res;
-//   }
-//   else{
-//    return []
-//   }
-// }
+export const GeyAllTeacherLightWeightGetAll = async(classNo, section) =>{
+   axios.defaults.headers.common["Authorization"] = token;
+  const res= await axios.get(`${Domain}/otherStaff/getAllStaff-light`)
+  if(res) {
+   return res;
+  }
+  else{
+   return []
+  }
+}
 
 
 

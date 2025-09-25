@@ -831,7 +831,6 @@ const Income = () => {
     setSearchKey(trimmedValue);
   };
 
-
   return (
     <Container>
       {
@@ -884,42 +883,7 @@ const Income = () => {
                 onChange={handleDateChange}
               />
             </div>
-            {/* <div className="col-lg-6 col-md-6 col-sm-12  ">
-              <div className="dropdown" style={{ marginTop: "-4px" }}>
-                <label
-                  htmlFor="exampleFormControlInput1"
-                  className="form-label label-color heading-14"
-                >
-                  Date Range
-                </label>
-                <input
-                  type="text"
-                  className="form-control form-control-sm form-focus font-color"
-                  id="dropdownMenuButton"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  placeholder="Select date"
-                  readOnly
-                  value={
-                    startDate && endDate ? `${startDate} - ${endDate}` : ""
-                  }
-                />
-
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Flatpickr
-                    className="dropdown-item"
-                    placeholder="Date Range"
-                    value={[startDate, endDate]}
-                    options={{
-                      mode: "range",
-                      dateFormat: "Y-m-d",
-                    }}
-                    onChange={handleDateChange}
-                  />
-                </div>
-              </div>
-            </div> */}
+    
 
             <div className="col-lg-6 col-md-6 col-sm-12  ">
               <div class="mb-3">
@@ -939,7 +903,7 @@ const Income = () => {
           {/* ####### buttons ######  */}
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success my-green" onClick={MyIncome2GetAllApi}>Search</button>
+              <button type="button" class="btn btn-outline-success my-green" onClick={MyIncome2GetAllApi} disabled={!(startDate && endDate && examTermId)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={ClearHandle} >Cancel</button>
             </div>
           </div>

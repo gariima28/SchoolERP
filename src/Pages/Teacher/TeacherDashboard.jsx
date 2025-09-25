@@ -371,7 +371,7 @@ const DashboardPage = () => {
               </div>
               <div  className="row px-2 pt-2"> 
                 {
-                  leaveAllData && leaveAllData.length > 0 ? (
+                  leaveAllData && leaveAllData?.length > 0 ? (
                     leaveAllData?.map((item, index) => (
                       <div className="col-6 p-1 " key={item.classRouteId}>
                         <div className='d-flex timeTableCard' >
@@ -417,7 +417,7 @@ const DashboardPage = () => {
                 </div>
               </div>
               <div className="row px-2 pt-2">
-                {EventData && EventData.length > 0 ? (
+                {EventData && EventData?.length > 0 ? (
                   EventData?.map((item) => (
                     <div className="col-12 p-1" key={item.eventId}>
                       <div className="eventCards"> 
@@ -432,9 +432,10 @@ const DashboardPage = () => {
                              </p>
                              <div className='ps-3' style={{fontSize:'14px'}}>
                               <p style={{color:"#008479"}}>{item.eventDay} {item.startDate}</p>
-                              <p style={{color:'#aaa'}}>{item.eventDescription}</p>
+                              <div style={{width:'250px'}}>
+                                <p style={{color:'#aaa'}}>{item.eventDescription}</p>
+                              </div>
                              </div>
-                              {/* <p className="font14"><img src={eventImage} alt="" /></p> */}
                             </div>
                             <div className="flex-shrink" style={{backgroundColor:'#FF914C', color:'red', borderRadius:'10px', height:'fit-content', padding:'2px 12px'}}>
                               <p className="font14 text-end " style={{ color:'#fff',}}>{item.comingSoon ? "Coming Soon" : 'Upcoming'}</p>
