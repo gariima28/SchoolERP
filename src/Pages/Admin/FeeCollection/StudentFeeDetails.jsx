@@ -122,9 +122,9 @@ setItemData([
                     <div className="col-md-2 col-4 align-self-center">
                         <div className="row">
                             {recieptDataAll?.studentName === null ? (
-                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." />
                             ) : (
-                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={recieptDataAll?.studentName} alt="..." height={35} />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={recieptDataAll?.studentName} alt="..." />
                             )}
                             {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={recieptDataAll?.studentName} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /> */}
                         </div>
