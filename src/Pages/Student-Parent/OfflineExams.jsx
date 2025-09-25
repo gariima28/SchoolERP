@@ -181,57 +181,49 @@ const ExamSchedule = () => {
               </button>
             </p>
           </div>
-          {examScheduleSearch ? (
+          {/* {examScheduleSearch ? ( */}
             <div className="row">
-              {OfflineExamData.length > 0 ? (
+              {/* {OfflineExamData.length > 0 ? ( */}
                 <>
                   <div className="overflow-scroll">
                     <table className="table align-middle table-striped table-bordered">
                       <thead>
-                        <tr>
-                          <td className="textWrapClass font14">#</td>
-                          <td className="textWrapClass font14">Room Number</td>
-                          <td className="textWrapClass font14">Subject</td>
-                          <td className="textWrapClass font14">Date</td>
-                          <td className="textWrapClass font14">
-                            Starting Time
-                          </td>
-                          <td className="textWrapClass font14">Ending Time</td>
-                          <td className="textWrapClass font14">
-                            Passing Marks
-                          </td>
-                          <td className="textWrapClass font14">Total Marks</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr></tr>
-                        {OfflineExamData.map((item, index) => (
-                          <tr key={item.holidayId}>
-                            <td className="textWrapClass font14 greyText">
-                              {index + 1}
-                            </td>
-                            <td className="textWrapClass font14 greyText">
-                              {item.roomNumber}
-                            </td>
-                            <td className="textWrapClass font14 greyText">
-                              {item.subject}
-                            </td>
-                            <td className="textWrapClass font14 greyText">
-                              {item.date}
-                            </td>
-                            <td className="textWrapClass font14 greyText">
-                              {item.startingTime}
-                            </td>
-                            <td className="textWrapClass font14 greyText">
-                              {item.endingTime}
-                            </td>
-                            <td className="textWrapClass font14 greyText">
-                              {item.passingMarks}
-                            </td>
-                            <td className="textWrapClass font14 greyText">
-                              {item.totalMarks}
-                            </td>
-                          </tr>
+                    <tr>
+                      <th className="textWrapClass pe-4"> <span className="font14">#</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Exam Term</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Room Number</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Subject</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Theory Date</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Theory Start Time</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Theory End Time</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Theory Pass Marks</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Theory Total Marks</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Practical Date</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Practical Start Time</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Practical End Time</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Practical Pass Marks</span> </th>
+                      <th className="textWrapClass pe-4"> <span className="font14">Practical Total Marks</span> </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr></tr>
+                    {OfflineExamData.map((item, index) => (
+                      <tr key={item.id} className="align-middle">
+                        <th className="textWrapClass greyText"> <h3>{(pageNo - 1) * pageSize + index + 1}</h3> </th>
+                        <th className="textWrapClass greyText"> <h3>{(pageNo - 1) * pageSize + index + 1}</h3> </th>
+                        <td className="textWrapClass greyText"> <h3>{item.examTermName} - {item.subject}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.examTermName} - {item.subject}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.roomNumber}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.roomNumber}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.startingTime.slice(0, 5) || '-'}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.startingTime.slice(0, 5) || '-'}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.endingTime.slice(0, 5) || '-'}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.endingTime.slice(0, 5) || '-'}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
+                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
+                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
+                        <td className="textWrapClass greyText"> <h3>{item.totalMarks}</h3> </td>
+                      </tr>
                         ))}
                       </tbody>
                     </table>
@@ -270,7 +262,7 @@ const ExamSchedule = () => {
                     </div>
                   </div>
                 </>
-              ) : (
+              {/* ) : (
                 <>
                   <div className="d-flex justify-content-center p-5 m-5">
                     <img
@@ -280,13 +272,13 @@ const ExamSchedule = () => {
                     />
                   </div>
                 </>
-              )}
+              )} */}
             </div>
-          ) : (
+          {/* ) : (
             <div className="d-flex justify-content-center p-5 m-5">
               <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid p-5" />
             </div>
-          )}
+          )} */}
         </div>
         <Toaster />
       </div>
