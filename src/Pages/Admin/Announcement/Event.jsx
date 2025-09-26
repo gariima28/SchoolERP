@@ -899,7 +899,7 @@ const Event = () => {
     setLoader(true)
     try {
       const response = await EventGetAllApi(searchKey, pageNo, pageSize);
-      // console.log('Event get All Api data', response);
+      console.log('Event get All Api data------------', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setEventAllData(response?.data?.events)
@@ -1171,14 +1171,13 @@ const Event = () => {
                         <td className=' greyText pe-0 no-wrap'>{item.endDate} {item.endTime}</td>
                         <td
                           className='greyText pe-0 no-wrap position-relative'
-                          data-bs-toggle={item.eventDescription.length > 17 ? "tooltip" : undefined}
-                          // data-bs-placement="top"
-                          title={item.eventDescription.length > 17 ? item.eventDescription : undefined}
+                          data-bs-toggle={item.eventForRoleType.length > 17 ? "tooltip" : undefined}
+                          title={item.eventForRoleType.length > 17 ? item.eventForRoleType : undefined}
                         >
-                          {item.eventDescription?.length > 17 ? (
+                          {item.eventForRoleType?.length > 17 ? (
                             <div className="d-flex align-items-center">
                               <span className="text-truncate" style={{ maxWidth: 'calc(100% - 18px)' }}>
-                                {item.eventDescription.substring(0, 17)}
+                                {item.eventForRoleType.substring(0, 17)}
                               </span>
                               <span className="info-indicator ms-1">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -1194,10 +1193,11 @@ const Event = () => {
                               </span>
                             </div>
                           ) : (
-                            item.eventDescription
+                            item.eventForRoleType
                           )}
                         </td>
-                        <td className=' greyText pe-0 no-wrap'>{item.eventForClassIds}</td>
+                        {/* <td className=' greyText pe-0 no-wrap'>{item.eventForRoleType}</td> */}
+                        <td className=' greyText pe-0 no-wrap'>{item.eventForClassNos}</td>
 
                         <td className='greyText ps-1 no-wrap'>
                           <p className={`greyText pe-0 ${item.status === "Ongoing" ? 'my-Ongoing-status' : `${item.status === "Upcoming" ? 'my-Upcoming-status' : 'my-Closed-status'}`}`}>{item.status}</p>
