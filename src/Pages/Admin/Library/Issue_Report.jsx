@@ -407,6 +407,10 @@ font-size: 12px;
 .input-custom-bg {
   background-color: #f0f0f0 !important; 
 }
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bd-violet-bg);
+  --bs-tooltip-color: var(--bs-white);
+}
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -576,7 +580,6 @@ const Issue_Report = () => {
   const [allBookDataById, setAllBookDataById] = useState([])
   const [booById, setBooById] = useState()
   const [bookName1, setBookName1] = useState()
-  console.log('my book id for issue book', booById)
   const [edition, setEdition] = useState()
   const [language, setLanguage] = useState()
   const [price, setPrice] = useState()
@@ -584,14 +587,14 @@ const Issue_Report = () => {
   const [shelfNumber, setShelfNumber] = useState()
   const [Author2, setAuthor2] = useState()
   const [quantity, setQuantity] = useState()
-  const [mainStatus, setMainStatus] = useState()
+  const [mainStatus, setMainStatus] = useState('')
   const [mainReturnDate, setMainReturnDate] = useState()
 
-  const [Class, setClass] = useState()
+  const [Class, setClass] = useState('')
   console.log('class idddddd for issue', Class)
 
   const [classNo, setClassNo] = useState();
-  const [sectionId, setSectionId] = useState()
+  const [sectionId, setSectionId] = useState('')
   console.log('section idddddd for issue ', sectionId)
 
   const [sectionName, setSectionName] = useState()
@@ -773,6 +776,9 @@ const Issue_Report = () => {
       setLoader(false)
     }
   }
+//   const claaApi = () =>{
+//  MyBookIssueGetAllApi()
+//   }
   // post Api of issue book
   const MyIssueBookApi = async () => {
     if (FuncValidation()) {
@@ -805,19 +811,6 @@ const Issue_Report = () => {
           setSectionId('')
           setStudentMembberId('')
           setReturnDate('')
-
-          // Hide the offcanvas
-
-          // if (offcanvasRef.current) {
-          //   const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-          //   if (offcanvasInstance) {
-          //     offcanvasInstance.hide();
-          //   } else {
-          //     const newOffcanvas = new bootstrap.Offcanvas(offcanvasRef.current);
-          //     newOffcanvas.hide();
-          //   }
-          // }
-
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
           offcanvasInstance.hide();
           setTimeout(() => {
@@ -922,22 +915,18 @@ const Issue_Report = () => {
   }
   // Teacher Put api 
   const MyNoticePutApi = async (id) => {
-
     if (FuncValidation()) {
       setLoader(true)
       try {
         const formData = new FormData()
         formData.append('returnDate', returnDate)
         formData.append('status', mainStatus)
+
         const response = await BookIssueReturn(id, formData);
-        console.log('My issue and return book api Updatee', response)
         if (response?.status === 200) {
           toast.success(response?.data?.message);
           setShow12(false)
-          MyBookIssueGetAllApi()
-          // setHide12(true)
-          // MyRolPermisGetAllApi()
-          // MyRolPermisGetAllApi()
+         claaApi()
           setLoader(false)
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
           offcanvasInstance.hide();
@@ -997,8 +986,12 @@ const Issue_Report = () => {
   // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
-    setPageNo(1); 
+    setPageNo(1);
   };
+
+  // keep a reference so we can hide later
+  const tooltipInstances = [...document.querySelectorAll('[data-bs-toggle="tooltip"]')]
+    .map(el => new bootstrap.Tooltip(el));
 
   return (
     <Container>
@@ -1160,16 +1153,43 @@ const Issue_Report = () => {
                               :
                               (
                                 <div className="dropdown my-button-show d-flex justify-content-around align-items-start">
-                                  <div className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" style={{ cursor: 'pointer' }} onClick={(e) => issueRetunrGetApi(item.transactionId)}>
+                                  {/* <div className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" style={{ cursor: 'pointer' }} onClick={(e) => issueRetunrGetApi(item.transactionId)}>
                                     <button className="btn btn-secondary dropdown-togg my-button-drop heading-10" style={{ backgroundColor: '#b50000', color: '#fff', padding: '3px 10px 3px 10px', fontSize: '14px', border: 'none', cursor: 'pointer' }} type="button" >
                                       Return Book
                                     </button>
+                                  </div> */}
+
+                                  <div
+                                    className="dropdown-item"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="custom-tooltip"
+                                    data-bs-title="You can Return, Re-Issue and Lost"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={(e) => {
+                                      // hide this element's tooltip
+                                      const instance = bootstrap.Tooltip.getInstance(e.currentTarget);
+                                      instance?.hide();
+
+                                      issueRetunrGetApi(item.transactionId);
+                                    }}
+                                  >
+                                    <div
+                                      data-bs-toggle="offcanvas"
+                                      data-bs-target="#staticBackdrop1234"
+                                      aria-controls="staticBackdrop"
+                                    >
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 256 256">
+                                        <path fill="red" d="M180 104v32a4 4 0 0 1-4 4H89.66l17.17 17.17a4 4 0 0 1-5.66 5.66l-24-24a4 4 0 0 1 0-5.66l24-24a4 4 0 0 1 5.66 5.66L89.66 132H172v-28a4 4 0 0 1 8 0m48-48v144a12 12 0 0 1-12 12H40a12 12 0 0 1-12-12V56a12 12 0 0 1 12-12h176a12 12 0 0 1 12 12m-8 0a4 4 0 0 0-4-4H40a4 4 0 0 0-4 4v144a4 4 0 0 0 4 4h176a4 4 0 0 0 4-4Z" />
+                                      </svg>
+                                    </div>
                                   </div>
-                                  <div className="dropdown-item" data-bs-toggle="offcanvas" style={{ cursor: 'pointer' }} data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => issueRetunrGetApi(item.transactionId)}>
+                                
+                                  {/* <div className="dropdown-item" data-bs-toggle="offcanvas" style={{ cursor: 'pointer' }} data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => issueRetunrGetApi(item.transactionId)}>
                                     <button className="btn btn-secondary dropdown-togg my-button-drop heading-10" style={{ backgroundColor: ' #008479', color: '#fff', padding: '3px 10px 3px 10px', fontSize: '14px', border: 'none', cursor: 'pointer' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" >
                                       Re Issue Book
                                     </button>
-                                  </div>
+                                  </div> */}
                                 </div>
                               )
                           }
@@ -1318,7 +1338,7 @@ const Issue_Report = () => {
             </div>
           )
         }
-      
+
         {/* ################## Off Canvas Area ####################  */}
 
         {
@@ -1337,9 +1357,6 @@ const Issue_Report = () => {
 
                 <div class="offcanvas-body">
                   <div className="input " >
-
-
-
                     <div className="mt-1" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Book</label>
                       <input type="email" className="form-control form-focu  label-color heading-14 input-custom-bg" value={bookName1} style={{ marginTop: '-4px', backgroundColor: 'red ', opacity: 1 }} id="exampleFormControlInput1" placeholder="Enter Edition" disabled />
@@ -1400,7 +1417,7 @@ const Issue_Report = () => {
                       <label for="exampleFormControlInput1" className="form-label  heading-16">Status</label>
                       <select class="form-select form-select-sm form-focus  label-color" onChange={(e) => setMainStatus(e.target.value)} aria-label="Default select example">
                         <option selected value="">--Choose--</option>
-                        <option value='ISSUED'>Issue</option>
+                        {/* <option value='ISSUED'>Issue</option> */}
                         <option value='RETURNED'>Return</option>
                         <option value='REISSUED'>ReIssued</option>
                         <option value='LOST'>Lost</option>

@@ -539,10 +539,8 @@ const Event = () => {
   const [idForDelete, setIdForDelete] = useState()
   const [searchKey, setSearchKey] = useState('')
   const [allEventRole, setAllEventRole] = useState([])
-
   const [eventStatusDataById, setEventStatusDataById] = useState()
   const [eventIdForUpdate, setEventIdForUpdate] = useState()
-
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
   const [isValidTimeRequired, setIsValidTimeRequired] = useState(false);
   const [isValidEndTimeRequired, setIsValidEndTimeRequired] = useState(false);
@@ -560,8 +558,9 @@ const Event = () => {
   const [classId, setClassId] = useState([])
 
   const [selectedRoles, setSelectedRoles] = useState([]);
-  const [roleNameStore, setRoleNameStore] = useState([]);
 
+  const [roleNameStore, setRoleNameStore] = useState([]);
+  const [selectedClassIds, setSelectedClassIds] = useState([]);
 
   const [coverPage, setCoverPage] = useState()
   const [updateStatus, setUpdateStatus] = useState()
@@ -589,6 +588,8 @@ const Event = () => {
   const buttManage2 = () => {
     setManageButton2(!manageButton2)
   }
+
+  // select multiple roles in dropdown 
   const handleRoleSelection = (roleName) => {
     setRoleNameStore(prev => {
       const allRoleNames = allEventRole.map(item => item.roleName);
@@ -618,36 +619,26 @@ const Event = () => {
   };
 
   // Class functionlity with checkBox
-  const [selectedClassIds, setSelectedClassIds] = useState([]);
 
+  // select multiple classes in dropdown 
   const handleClassSelection = (classId) => {
     setSelectedClassIds(prev => {
       const allClassIds = classData?.map(item => item.classId) || [];
-
-      // Case 1: Clicking "All" checkbox
       if (classId === "All") {
         return prev.length === allClassIds.length ? [] : [...allClassIds];
       }
-
-      // Case 2: When all are currently selected (but "All" isn't in the array)
       const allCurrentlySelected = prev.length === allClassIds.length;
-
       if (allCurrentlySelected) {
-        // Uncheck the clicked class - keep all others selected
         return allClassIds.filter(id => id !== classId);
       }
-
-      // Case 3: Normal toggle behavior
       let newSelection;
       if (prev.includes(classId)) {
         newSelection = prev.filter(id => id !== classId);
       } else {
         newSelection = [...prev, classId];
       }
-
-      // Check if we've selected all classes
       if (newSelection.length === allClassIds.length) {
-        return [...allClassIds]; 
+        return [...allClassIds];
       }
       return newSelection;
     });
@@ -721,13 +712,13 @@ const Event = () => {
     }
     else {
     }
-    if (!eventDescription || eventDescription === "" || !/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? \s]+$/.test(eventDescription)) {
-      setIsValidDescriptionRequired(true)
-      isValid = false
-      setLoader(false)
-    }
-    else {
-    }
+    // if (!eventDescription || eventDescription === "" || !/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? \s]+$/.test(eventDescription)) {
+    //   setIsValidDescriptionRequired(true)
+    //   isValid = false
+    //   setLoader(false)
+    // }
+    // else {
+    // }
     // date
     if (!startDate || startDate === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=\- .]+$/.test(startDate)) {
       setIsValidDateRequired(true)
@@ -954,42 +945,40 @@ const Event = () => {
   }
   // Get by id 
   const MyEventGetByIdApi = async (id) => {
-    setLoader(true)
-    setEventIdForUpdate(id)
+    setLoader(true);
+    setEventIdForUpdate(id);
     try {
       const response = await EventGetByIdApi(id);
-      console.log('Event get by id Api data', response);
+      console.log('Event get by id Api data--', response);
+
       if (response?.status === 200) {
-        setEventName(response?.data?.events?.eventName)
-        setUpdateStatus2(response?.data?.status)
-        setEventDescription(response?.data?.events?.eventDescription)
-        setStartDate(response?.data?.events?.startingDate)
-        setStartTime(response?.data?.events?.startingTime)
-        setEndDate(response?.data?.events?.endingDate)
-        setEndTime(response?.data?.events?.endingTime)
-        setEventStatusDataById(response?.data?.events?.eventStatus)
-        setUpdateStatus(response?.data?.status)
-        setCoverPage(response?.data?.events?.eventImage)
-        setCoverPage2(response?.data?.events?.eventFiles)
-        setEventStatus(response?.data?.events?.eventStatus)
-        const url = response?.data?.events?.eventImage
-        const fileName = url.split("/").pop();
-        const trimmed = fileName.substring(fileName.indexOf("-") + 1);
-        setCoverPage(trimmed)
-        const url2 = response?.data?.events?.eventFiles
-        const fileName2 = url2.split("/").pop();
-        const trimmed2 = fileName2.substring(fileName2.indexOf("-") + 1);
-        setCoverPage2(trimmed2)
-        setLoader(false)
+        const ev = response.data.events;
+
+        setEventName(ev.eventName);
+        setUpdateStatus2(response.data.status);
+        setEventDescription(ev.eventDescription);
+        setStartDate(ev.startingDate);
+        setStartTime(ev.startingTime);
+        setEndDate(ev.endingDate);
+        setEndTime(ev.endingTime);
+        setEventStatusDataById(ev.eventStatus);
+        setUpdateStatus(response.data.status);
+        setCoverPage(ev.eventImage);
+        setCoverPage2(ev.eventFiles);
+        setEventStatus(ev.eventStatus);
+
+        setRoleNameStore(ev.eventForRoleType || []);
+        setSelectedClassIds(ev.eventForClassIds || []);
+
+        setLoader(false);
       } else {
-        // toast.error(response?.data?.msg);
-        setLoader(false)
+        setLoader(false);
       }
     } catch (error) {
-      console.log(error)
-      setLoader(false)
+      console.log(error);
+      setLoader(false);
     }
-  }
+  };  
   // Event Put api 
   const MyEventPutApi = async (id) => {
     setLoader(true)
@@ -1030,7 +1019,6 @@ const Event = () => {
       setLoader(false)
     }
   }
-
   const handleForDelete = () => {
     MyEventDeleteApi(idForDelete)
   }
@@ -1437,7 +1425,6 @@ const Event = () => {
                                 : "--Choose--"}
                           </button>
                           <ul className="dropdown-menu" aria-labelledby="classDropdown" style={{ width: '90%', }}>
-                            {/* "All" checkbox - doesn't add to array, just controls selection */}
                             <li key="all">
                               <div className="dropdown-item">
                                 <div className="form-check">
@@ -1611,8 +1598,9 @@ const Event = () => {
                       )}
                     </div>
 
-                    {/* Event for */}
+
                     <div className="mb-3" style={{ marginTop: '-4px' }}>
+                      {/* Event for */}
                       <div className="mb-3" style={{ marginTop: '-4px' }}>
                         <div className="mb-3">
                           <label htmlFor="eventForDropdown" className="form-label mb-1 label-text-color focus heading-14">
@@ -1626,9 +1614,12 @@ const Event = () => {
                               data-bs-toggle="dropdown"
                               aria-expanded="false"
                             >
-                              {roleNameStore.length > 0 ? roleNameStore.join(', ') : '--Choose--'}
+                              {roleNameStore.length === 0
+                                ? '--Choose--'
+                                : roleNameStore.includes('All')
+                                  ? 'All'
+                                  : roleNameStore.join(', ')}
                             </button>
-
                             <ul className="dropdown-menu" aria-labelledby="eventForDropdown" style={{ width: '90%' }}>
                               {allEventRole?.map(item => (
                                 <li key={item.roleId || item.classId}>
@@ -1661,18 +1652,16 @@ const Event = () => {
                           <button
                             className="form-select form-select-sm form-focus label-color dropdown-toggle"
                             type="button"
-                            id="classDropdown"
+                            id="eventClassDropdown"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                           >
-                            {selectedClassIds.length === classData?.length
-                              ? "All Classes"
-                              : selectedClassIds.length > 0
-                                ? selectedClassIds.map(id => {
-                                  const classItem = classData.find(item => item.classId === id);
-                                  return classItem ? classItem.classNo : "";
-                                }).join(", ")
-                                : "--Choose--"}
+
+                            {selectedClassIds.length === 0
+                              ? '--Choose--'
+                              : selectedClassIds.includes('All')
+                                ? 'All'
+                                : selectedClassIds.join(', ')}
                           </button>
                           <ul className="dropdown-menu" aria-labelledby="classDropdown" style={{ width: '90%' }}>
                             {/* "All" checkbox - doesn't add to array, just controls selection */}
@@ -1715,7 +1704,6 @@ const Event = () => {
                           </ul>
                         </div>
                       </div>
-                      {/* <small className="text-muted">* You can Select multiple classes.</small> */}
                     </div>
 
                     {/*Description */}
