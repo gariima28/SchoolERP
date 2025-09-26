@@ -399,6 +399,10 @@ font-size: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.my-form-check-input:checked{
+  background-color: #008479;
+  border-color: #008479;
+} 
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -473,10 +477,8 @@ const OfflineExam_T = () => {
     const [section, setSection] = useState('')
 
     const [classNoForApi, setClassNoForApi] = useState('')
-    console.log('classNoForApi new', classNoForApi)
     const [date, setDate] = useState()
     const [startTime, setStartTime] = useState()
-    console.log('startTime', startTime)
     const [endTime, setEndTime] = useState()
     const [marks, setMarks] = useState()
     const [passingMarks, setPassingMarks] = useState()
@@ -486,12 +488,18 @@ const OfflineExam_T = () => {
     const [subjectId, setSubjectId] = useState()
     const [classdata, setClassdata] = useState([])
     const [sectionData, setSectionData] = useState([])
-    console.log('sectionData jstttt nowww', sectionData)
     const [subjectData, setSubjectData] = useState([])
     const [examTermData, setExamTermData] = useState([])
     const [sessionAllData, setSessionAllData] = useState([])
     const [classroomdata, setClassroomdata] = useState([])
-    const [regex, setRegex] = useState('/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/')
+    const [practicalShow, setPracticalShow] = useState(false)
+
+    const [theoryMarks, setTheoryMarks] = useState('')
+    const [practicalDate, setPracticalDate] = useState('')
+    const [practicalStartTime, setPracticalStartTime] = useState('')
+    const [practicalEndTime, setPracticalEndTime] = useState('')
+    const [practicalMrks, setPracticalMrks] = useState('')
+    const [practicalPassPassingMarks, setPracticalPassPassingMarks] = useState('')
 
     const [isValidDateValiRequired, setIsValidDateValiRequired] = useState(false);
     const [isValidMarksValiRequired, setIsValidMarksValiRequired] = useState(false);
@@ -500,8 +508,7 @@ const OfflineExam_T = () => {
     const [isValidEndTimeValiRequired, setIsValidEndTimeValiRequired] = useState(false);
     const [classNo, setClassNo] = useState('')
     const [classId, setClassId] = useState('')
-    console.log('classNo new', classNo)
-    console.log('classNo id', classId)
+
 
     const [searchKey, setSearchKey] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
@@ -914,9 +921,6 @@ const OfflineExam_T = () => {
                     setTimeout(() => {
                         setShow2(true)
                     }, 0.5)
-
-           
-
                 }
             }
             else {
@@ -968,7 +972,7 @@ const OfflineExam_T = () => {
                             <ol className="breadcrumb ms-2">
                                 <li className="breadcrumb-item active heading-14 font-color" aria-current="page">Home</li>
                                 <li className="breadcrumb-item active heading-14 font-color" aria-current="page">Exam Category</li>
-                                <li className="breadcrumb-item breadcrum-li heading-14" ><Link href="#">Offline Exam</Link></li>
+                                <li className="breadcrumb-item breadcrum-li heading-14" ><Link href="#">Offline Exam </Link></li>
                             </ol>
                         </nav>
                     </div>
@@ -1044,14 +1048,19 @@ const OfflineExam_T = () => {
                             <thead className=''>
                                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
                                     <th className='no-wrap'>#</th>
-                                    <th className='no-wrap'>Exam Name</th>
+                                    <th className='no-wrap'>Exam Category</th>
                                     <th className='no-wrap'>Room Number</th>
                                     <th className='no-wrap'>Subject</th>
-                                    <th className='no-wrap'>Date</th>
-                                    <th className='no-wrap'>Starting Time</th>
-                                    <th className='no-wrap'>Ending Time</th>
-                                    <th className='no-wrap'>Passing Marks</th>
-                                    <th className='no-wrap'>Total Marks</th>
+                                    <th className='no-wrap'>Theory Date</th>
+                                    <th className='no-wrap'>Theory Starting Time</th>
+                                    <th className='no-wrap'>Theory Ending Time</th>
+                                    <th className='no-wrap'>Theory Passing Marks</th>
+                                    <th className='no-wrap'>Theory Total Marks</th>
+                                    <th className='no-wrap'>Practical Date</th>
+                                    <th className='no-wrap'>Practical Start Time</th>
+                                    <th className='no-wrap'>Practical End Time</th>
+                                    <th className='no-wrap'>Practical Pass Marks</th>
+                                    <th className='no-wrap'>Practical Total Marks</th>
                                     <th className='no-wrap'>Actions</th>
                                 </tr>
                             </thead>
@@ -1071,6 +1080,11 @@ const OfflineExam_T = () => {
                                             <td className=' greyText pe-0 no-wrap'>{item.endingTime}</td>
                                             <td className=' greyText pe-0 no-wrap' >{item.passingMarks}</td>
                                             <td className=' greyText pe-0 no-wrap' >{item.totalMarks}</td>
+                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
+                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
+                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
+                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
+                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
                                             <td className=' greyText  pe-0 no-wrap' >
                                                 <div className="dropdown my-button-show">
                                                     <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1090,16 +1104,16 @@ const OfflineExam_T = () => {
                                     ))}
                             </tbody>
                         </table>
-                        <div className="d-flex" style={{ marginBottom: '10px' }}>
-                            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-                            <div className="ms-auto">
-                                <ReactPaginate
-                                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                                    breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                                    onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                                />
-                            </div>
+                    </div>
+                    <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
+                        <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                        <div className="ms-auto">
+                            <ReactPaginate
+                                previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                                nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                                breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                                onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+                            />
                         </div>
                     </div>
                 </div>
@@ -1123,7 +1137,7 @@ const OfflineExam_T = () => {
                                     <div className="input " >
 
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Exam Name</label>
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Exam Name</label>
                                             <select class="form-select  form-select-sm form-focus  label-color" value={ExamTerm} onChange={(e) => setExamTerm(e.target.value)} aria-label="Default select example">
                                                 <option value={''}>--Chosse--</option>
                                                 {
@@ -1135,7 +1149,7 @@ const OfflineExam_T = () => {
                                         </div>
 
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class</label>
+                                            <label for="exampleFormControlInput1" className="form-label   heading-14">Class</label>
                                             <select class="form-select  form-select-sm form-focus label-color"
                                                 value={`${classId},${classNo}`}
                                                 onChange={Handle}
@@ -1150,8 +1164,8 @@ const OfflineExam_T = () => {
 
                                         </div>
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
-                                            <select class="form-select  form-select-sm form-focus " value={section} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
+                                            <label for="exampleFormControlInput1" className="form-label heading-16">Section</label>
+                                            <select class="form-select  form-select-sm form-focus label-color " value={section} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
                                                 <option selected>--Choose--</option>
                                                 {
                                                     sectionData?.map((item =>
@@ -1161,7 +1175,7 @@ const OfflineExam_T = () => {
                                             </select>
                                         </div>
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Subject</label>
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Subject</label>
                                             <select class="form-select  form-select-sm form-focus  label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
                                                 <option selected>--Chosee--</option>
                                                 {
@@ -1172,7 +1186,7 @@ const OfflineExam_T = () => {
                                             </select>
                                         </div>
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class Room</label>
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Class Room</label>
                                             <select class="form-select  form-select-sm form-focus  label-color" value={classRoomId} onChange={(e) => setClassRoomId(e.target.value)} aria-label="Default select example">
                                                 <option selected>--Choose--</option>
                                                 {
@@ -1184,8 +1198,8 @@ const OfflineExam_T = () => {
                                         </div>
 
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Date </label>
-                                            <input type="date" className="form-control form-focus   heading-14" value={date} onChange={(e) => handleDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                            <label for="exampleFormControlInput1" className="form-label  heading-14">Theory Date </label>
+                                            <input type="date" className="form-control form-focus label-color  heading-14" value={date} onChange={(e) => handleDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
                                         </div>
                                         <div className=''>
                                             {isValidDateValiRequired && (
@@ -1195,8 +1209,8 @@ const OfflineExam_T = () => {
                                             )}
                                         </div>
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Starting Time</label>
-                                            <input type="time" className="form-control form-focus   heading-14" value={startTime} onChange={(e) => handleStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                            <label for="exampleFormControlInput1" className="form-label  heading-14">Theory Start Time</label>
+                                            <input type="time" className="form-control form-focus  label-color heading-14" value={startTime} onChange={(e) => handleStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
                                         </div>
                                         <div className=''>
                                             {isValidStartTimeValiRequired && (
@@ -1206,9 +1220,9 @@ const OfflineExam_T = () => {
                                             )}
                                         </div>
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Ending Time </label>
-                                            <input type="time" className="form-control form-focus   heading-14" value={endTime} onChange={(e) => handleEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
-                                        </div>
+                                            <label for="exampleFormControlInput1" className="form-label  heading-14">Theory End Time</label>
+                                            <input type="time" className="form-control form-focus label-color  heading-14" value={endTime} onChange={(e) => handleEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                        </div> 
                                         <div className=''>
                                             {isValidEndTimeValiRequired && (
                                                 <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
@@ -1217,8 +1231,19 @@ const OfflineExam_T = () => {
                                             )}
                                         </div>
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Passing Marks </label>
-                                            <input type="email" className="form-control form-focus heading-14" value={passingMarks} onChange={(e) => handlePassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Theory Marks</label>
+                                            <input type="time" className="form-control form-focus label-color  heading-14" value={endTime} onChange={(e) => setTheoryMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                        </div>
+                                        {/* <div className=''>
+                                            {isValidEndTimeValiRequired && (
+                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                    End time is required
+                                                </p>
+                                            )}
+                                        </div> */}
+                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                            <label for="exampleFormControlInput1" className="form-label  heading-14">Theory Pass Marks </label>
+                                            <input type="email" className="form-control form-focus label-color heading-14" value={passingMarks} onChange={(e) => handlePassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
                                         </div>
                                         <div className=''>
                                             {isValidPassingMarksValiRequired && (
@@ -1227,17 +1252,48 @@ const OfflineExam_T = () => {
                                                 </p>
                                             )}
                                         </div>
-                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Total Marks </label>
-                                            <input type="email" className="form-control form-focus heading-14" value={marks} onChange={(e) => handleMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                        <hr className='mt-4' />
+
+                                        <div class="form-check">
+                                            <input class="form-check-input my-form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={(e) => setPracticalShow(!practicalShow)} />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Practical
+                                            </label>
                                         </div>
-                                        <div className=''>
-                                            {isValidMarksValiRequired && (
-                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                                    Marks is required
-                                                </p>
-                                            )}
+                                        <div className='mt-3'>
+                                            <h2 style={{ color: '#008479' }}>Practical Marks</h2>
                                         </div>
+                                        {
+                                            practicalShow && (
+                                                <>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Date </label>
+                                                        <input type="date" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Start Time </label>
+                                                        <input type="time" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical End Time </label>
+                                                        <input type="time" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Marks</label>
+                                                        <input type="text" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalMrks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Pass Marks</label>
+                                                        <input type="text" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalPassPassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                </>
+
+                                            )
+                                        }
+
+
+
+
 
                                         <div className='my-button11 '>
                                             <button type="button" className="btn btn-outline-success my-button112233" onClick={MyMarksPostApi}>Create Exam</button>
