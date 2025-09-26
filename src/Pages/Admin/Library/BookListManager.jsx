@@ -735,7 +735,7 @@ const BookListManager = () => {
     setLoader(true)
     try {
       const response = await GetBookIdApi();
-      // console.log('book id ', response)
+      console.log('book id generateeee--------', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setBookID(response?.data?.nextBookId);
@@ -769,6 +769,7 @@ const BookListManager = () => {
         if (response?.data?.status === "success") {
           toast.success(response?.data?.message);
           MyRolPermisGetAllApi()
+          MyBookIdApi()
           setShow(false)
           setHide(true)
           setLoader(false)
@@ -1057,15 +1058,6 @@ const BookListManager = () => {
                                 <path fill="red" d="M18 19a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4V4h4.5l1-1h4l1 1H19v3h-1zM6 7v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V7zm12-1V5h-4l-1-1h-3L9 5H5v1zM8 9h1v10H8zm6 0h1v10h-1z" />
                               </svg>
                             </div>
-
-                            {/* <ul className="dropdown-menu anchor-color heading-14">
-                              <li>
-                                <Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => BookManGetByIdApi(item.bookId)}>Edit</Link>
-                              </li>
-                              <li>
-                                <Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="staticBackdrop" onClick={(e) => setIdForDelete(item.bookId)}>Delete</Link>
-                              </li>
-                            </ul> */}
                           </div>
                         </td>
                       </tr>
@@ -1132,19 +1124,10 @@ const BookListManager = () => {
                         </p>
                       )}
                     </div>
-
                     <div className="mb-3" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Book Id <span style={{ color: 'red' }}>*</span></label>
                       <input type="email" className="form-control form-focus  label-color heading-14" value={bookID} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Book Id" />
                     </div>
-                    {/* <div className='pt-1'>
-                      {isValidNoOfCopyRequired && (
-                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                          Number copy is required
-                        </p>
-                      )}
-                    </div> */}
-
                     <div className="mb-3" style={{ marginTop: '-6px' }}>
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Edition <span style={{ color: 'red' }}>*</span></label>
                       <input type="text" className="form-control form-focus  label-color heading-14" value={edition} onChange={(e) => handleEdition(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Edition" />
