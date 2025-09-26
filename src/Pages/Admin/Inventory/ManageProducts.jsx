@@ -29,6 +29,23 @@ const Container = styled.div`
     overflow: visible !important;
     background-color: #00A67E !important;
   }
+
+  .formcheckBox:not(:checked){
+    background-color: #f3fffe;
+    border-color: #00847A;
+    height: 18px;
+    width: 18px;
+    border-radius: 2px !important;
+  }
+
+  .formcheckBox:checked{
+    background-color: #00847A;
+    border-color: #00847A;
+    height: 18px;
+    width: 18px;
+    border-radius: 2px !important;
+  }
+
   .form-select {
     color: var(--greyState);
     box-shadow: none;
@@ -135,6 +152,23 @@ const ManageProduct = () => {
   const [pageSize, setPageSize] = useState(10);
   const [initialFormValues, setInitialFormValues] = useState({});
   const [viewProductData, setViewProductData] = useState(null);
+  const [isManualProductCode, setIsManualProductCode] = useState(false);
+  const [submissionError, setSubmissionError] = useState('');
+
+
+  const handleCheckboxChange = (e) => {
+    setIsManualProductCode(e.target.checked);
+    setSubmissionError(''); // Clear error on checkbox change
+  };
+
+  const onSubmit = (data) => {
+    if (isManualProductCode && !data.productCode) {
+      setSubmissionError('Please either uncheck "Generate Product Code Manually" or provide a valid Product Code.');
+      return;
+    }
+    setSubmissionError('');
+    handleSubmitAdd(addNewManageProduct)(data);
+  };
 
   // Form instances
   const {
@@ -626,7 +660,7 @@ const ManageProduct = () => {
             <h2 className="offcanvas-title" id="staticBackdropLabel">Product Add</h2>
           </div>
           <div className="offcanvas-body p-3">
-            <form onSubmit={handleSubmitAdd(addNewManageProduct)}>
+            <form onSubmit={handleSubmitAdd(onSubmit)}>
               <div className="mb-3">
                 <label htmlFor="categoryAdd" className="form-label font14">
                   Category <span className="text-danger">*</span>
@@ -684,24 +718,6 @@ const ManageProduct = () => {
                 {errorsAdd.itemName && <p className="font12 text-danger">{errorsAdd.itemName.message}</p>}
               </div>
               <div className="mb-3">
-                <label htmlFor="productCodeAdd" className="form-label font14">
-                  Product Code <span className="text-danger">*</span>
-                </label>
-                <input
-                  id="productCodeAdd"
-                  type="text"
-                  className={`form-control font14 ${errorsAdd.productCode ? "border-danger" : ""}`}
-                  placeholder="Enter Product Code"
-                  {...registerAdd("productCode", {
-                    required: "Product Code is required *",
-                    validate: {
-                      validFormat: (value) => /^[A-Z0-9-]{4,}$/.test(value) || "Product Code must be alphanumeric, at least 4 characters, and may include hyphens",
-                    },
-                  })}
-                />
-                {errorsAdd.productCode && <p className="font12 text-danger">{errorsAdd.productCode.message}</p>}
-              </div>
-              <div className="mb-3">
                 <label htmlFor="descriptionAdd" className="form-label font14">
                   Description
                 </label>
@@ -714,12 +730,85 @@ const ManageProduct = () => {
                     validate: (value) =>
                       !value ||
                       ((/^[A-Z]/.test(value) || "Description must start with an uppercase letter") &&
-                        (value.length >= 4 || "Minimum Length is 4") &&
+                        (value.length >= 0 || "Minimum Length is 1") &&
                         (/^[a-zA-Z\s'-]+$/.test(value) || "Invalid Characters in Description")),
                   })}
                 />
                 {errorsAdd.description && <p className="font12 text-danger">{errorsAdd.description.message}</p>}
               </div>
+              <div className="mb-3">
+                <label htmlFor="unitAdd" className="form-label font14">
+                  Unit <span className="text-danger">*</span>
+                </label>
+                <select
+                  id="unitAdd"
+                  className={`form-select font14 ${errorsEdit.unit ? "border-danger" : ""}`}
+                  {...registerAdd("unit", { required: "Unit is required *" })}
+                >
+                  <option value="">--- Choose ---</option>
+                  <option value="PIECE">PIECE</option>
+                  <option value="KG">KG</option>
+                  <option value="LITER">LITER</option>
+                  <option value="METER">METER</option>
+                  <option value="BOX">BOX</option>
+                  <option value="PACKET">PACKET</option>
+                </select>
+                {errorsEdit.unit && <p className="font12 text-danger">{errorsEdit.unit.message}</p>}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="quantityAdd" className="form-label font14">
+                  Quantity <span className="text-danger">*</span>
+                </label>
+                <input
+                  id="quantityAdd"
+                  type="number"
+                  className={`form-control font14 ${errorsAdd.quantity ? "border-danger" : ""}`}
+                  placeholder="Enter Quantity"
+                  {...registerAdd("quantity", {
+                    // required: "Quantity is required *",
+                    min: { value: 1, message: "Quantity must be at least 1" },
+                    validate: (value) => Number.isInteger(Number(value)) || "Quantity must be an integer",
+                  })}
+                />
+                {errorsEdit.quantity && <p className="font12 text-danger">{errorsEdit.quantity.message}</p>}
+              </div>
+              <div className="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input formcheckBox"
+                  id="manualProductCode"
+                  checked={isManualProductCode}
+                  onChange={handleCheckboxChange}
+                />
+                <label className="form-check-label greenText font14" htmlFor="manualProductCode">
+                  Generate Product Code Manually
+                </label>
+              </div>
+              {isManualProductCode && (
+                <div className="mb-3">
+                  <label htmlFor="productCodeAdd" className="form-label font14">
+                    Product Code <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    id="productCodeAdd"
+                    type="text"
+                    className={`form-control font14 ${errorsAdd.productCode ? "border-danger" : ""}`}
+                    placeholder="Enter Product Code"
+                    {...registerAdd("productCode", {
+                      required: isManualProductCode ? "Product Code is required *" : false,
+                      validate: {
+                        validFormat: (value) =>
+                          !isManualProductCode ||
+                          /^[A-Z0-9-]{4,}$/.test(value) ||
+                          "Product Code must be alphanumeric, at least 4 characters, and may include hyphens",
+                      },
+                    })}
+                  />
+                  {errorsAdd.productCode && <p className="font12 text-danger">{errorsAdd.productCode.message}</p>}
+                </div>
+              )}
+              {submissionError && <p className="font12 text-danger text-center">{submissionError}</p>}
+
               <p className="text-center p-3">
                 <button className="btn addButtons2 font14 text-white me-2" type="submit" disabled={!isValidAdd}>
                   Add Product
@@ -842,6 +931,39 @@ const ManageProduct = () => {
                 />
                 {errorsEdit.description && <p className="font12 text-danger">{errorsEdit.description.message}</p>}
               </div>
+              <div className="mb-3">
+                <label htmlFor="unitAdd" className="form-label font14">
+                  Unit <span className="text-danger">*</span>
+                </label>
+                <select
+                  id="unitAdd"
+                  className={`form-select font14 ${errorsEdit.unit ? "border-danger" : ""}`}
+                  {...registerEdit("unit", { required: "Unit is required *" })}
+                >
+                  <option value="">--- Choose ---</option>
+                  <option value="PIECE">PIECE</option>
+                  <option value="KG">KG</option>
+                  <option value="LITER">LITER</option>
+                  <option value="METER">METER</option>
+                  <option value="BOX">BOX</option>
+                  <option value="PACKET">PACKET</option>
+                </select>
+                {errorsEdit.unit && <p className="font12 text-danger">{errorsEdit.unit.message}</p>}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="quantityAdd" className="form-label font14">
+                  Quantity <span className="text-danger">*</span>
+                </label>
+                <select
+                  id="quantityAdd"
+                  className={`form-select font14 ${errorsEdit.quantity ? "border-danger" : ""}`}
+                  {...registerEdit("quantity", { required: "Quantity is required *" })}
+                >
+                  <option value="">--- Choose ---</option>
+                </select>
+                {errorsEdit.quantity && <p className="font12 text-danger">{errorsEdit.quantity.message}</p>}
+              </div>
+              
               <p className="text-center p-3">
                 <button className="btn addButtons2 font14 text-white me-2" type="submit" disabled={!isValidEdit}>
                   Edit Product

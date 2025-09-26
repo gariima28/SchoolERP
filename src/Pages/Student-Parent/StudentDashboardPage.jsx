@@ -306,7 +306,8 @@ const DashboardPage = () => {
                           {/* Left Image */}
                           <div className="col-md-3">
                             <img
-                              src={item.imageUrl || "/images/svg.png"}
+                              height={10}
+                              src={item.eventImage || "/images/svg.png"}
                               alt={item.title}
                               className="img-fluid h-100 w-100 object-fit-cover font14"
                             />
@@ -330,7 +331,7 @@ const DashboardPage = () => {
 
                               {/* Description */}
                               <p className="greyText font12 small mb-2">
-                                {item.description || "-- No Description --"}
+                                {item.eventDescription || "-- No Description --"}
                               </p>
 
                               {/* Badge */}
