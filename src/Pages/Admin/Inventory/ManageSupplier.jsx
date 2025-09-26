@@ -632,13 +632,13 @@ const ManageSupplier = () => {
                   View Supplier
                 </h2>
                 <div className="d-flex align-items-center">
-                  <button
+                  {/* <button
                     className="btn greyText"
                     type="button"
                     onClick={DownloadPDF}
                   >
                     <Download />
-                  </button>
+                  </button> */}
                   <button
                     type="button"
                     className="btn-close greyText"
@@ -662,15 +662,15 @@ const ManageSupplier = () => {
                             </div>
                             <div className="col-5">
                               <span>
-                                {viewSupplierData.supplierName.length > 13 ? (
+                                {viewSupplierData?.supplierName.length > 13 ? (
                                   <>
-                                    <span className='me-2'>{viewSupplierData.supplierName.substring(0, 13) + "..."}</span>
+                                    <span className='me-2'>{viewSupplierData?.supplierName.substring(0, 13) + "..."}</span>
                                     <button
                                       className='btn p-0'
                                       type='button'
                                       data-bs-toggle="tooltip"
                                       data-bs-placement="top"
-                                      data-bs-title={viewSupplierData.supplierName}
+                                      data-bs-title={viewSupplierData?.supplierName}
                                     >
                                       <Icon
                                         className='mb-2'
@@ -682,7 +682,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                  <span>{viewSupplierData.supplierName}</span>
+                                  <span>{viewSupplierData?.supplierName}</span>
                                 )}
                               </span>
                             </div>
@@ -698,15 +698,15 @@ const ManageSupplier = () => {
                             </div>
                             <div className="col-5">
                               <span>
-                                {viewSupplierData.contactPersonName.length > 13 ? (
+                                {viewSupplierData?.contactPersonName.length > 13 ? (
                                   <>
-                                    <span className='me-2'>{viewSupplierData.contactPersonName.substring(0, 13) + "..."}</span>
+                                    <span className='me-2'>{viewSupplierData?.contactPersonName.substring(0, 13) + "..."}</span>
                                     <button
                                       className='btn p-0'
                                       type='button'
                                       data-bs-toggle="tooltip"
                                       data-bs-placement="top"
-                                      data-bs-title={viewSupplierData.contactPersonName}
+                                      data-bs-title={viewSupplierData?.contactPersonName}
                                     >
                                       <Icon
                                         className='mb-2'
@@ -718,7 +718,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                  <span>{viewSupplierData.contactPersonName}</span>
+                                  <span>{viewSupplierData?.contactPersonName}</span>
                                 )}
                               </span>
                             </div>
@@ -736,15 +736,15 @@ const ManageSupplier = () => {
                             </div>
                             <div className="col-5">
                               <span>
-                                {viewSupplierData.contactPersonEmail.length > 13 ? (
+                                {viewSupplierData?.contactPersonEmail.length > 13 ? (
                                   <>
-                                    <span className='me-2'>{viewSupplierData.contactPersonEmail.substring(0, 13) + "..."}</span>
+                                    <span className='me-2'>{viewSupplierData?.contactPersonEmail.substring(0, 13) + "..."}</span>
                                     <button
                                       className='btn p-0'
                                       type='button'
                                       data-bs-toggle="tooltip"
                                       data-bs-placement="top"
-                                      data-bs-title={viewSupplierData.contactPersonEmail}
+                                      data-bs-title={viewSupplierData?.contactPersonEmail}
                                     >
                                       <Icon
                                         className='mb-2'
@@ -756,7 +756,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                  <span>{viewSupplierData.contactPersonEmail}</span>
+                                  <span>{viewSupplierData?.contactPersonEmail}</span>
                                 )}
                               </span>
                             </div>
@@ -771,7 +771,7 @@ const ManageSupplier = () => {
                               <span>:</span>
                             </div>
                             <div className="col-5">
-                              <span>{viewSupplierData.contactPersonPhone}</span>
+                              <span>{viewSupplierData?.contactPersonPhone}</span>
                             </div>
                           </div>
                         </div>
@@ -787,15 +787,15 @@ const ManageSupplier = () => {
                             </div>
                             <div className="col-5">
                               <span>
-                                {viewSupplierData.supplierAddress.length > 13 ? (
+                                {viewSupplierData?.supplierAddress.length > 13 ? (
                                   <>
-                                    <span className='me-2'>{viewSupplierData.supplierAddress.substring(0, 13) + "..."}</span>
+                                    <span className='me-2'>{viewSupplierData?.supplierAddress.substring(0, 13) + "..."}</span>
                                     <button
                                       className='btn p-0'
                                       type='button'
                                       data-bs-toggle="tooltip"
                                       data-bs-placement="top"
-                                      data-bs-title={viewSupplierData.supplierAddress}
+                                      data-bs-title={viewSupplierData?.supplierAddress}
                                     >
                                       <Icon
                                         className='mb-2'
@@ -807,7 +807,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                  <span>{viewSupplierData.supplierAddress}</span>
+                                  <span>{viewSupplierData?.supplierAddress}</span>
                                 )}
                               </span>
                             </div>
@@ -823,15 +823,15 @@ const ManageSupplier = () => {
                             </div>
                             <div className="col-5">
                               <span>
-                                {viewSupplierData.supplierDescription.length > 13 ? (
+                                {viewSupplierData?.supplierDescription.length > 13 ? (
                                   <>
-                                    <span className='me-2'>{viewSupplierData.supplierDescription.substring(0, 13) + "..."}</span>
+                                    <span className='me-2'>{viewSupplierData?.supplierDescription.substring(0, 13) + "..."}</span>
                                     <button
                                       className='btn p-0'
                                       type='button'
                                       data-bs-toggle="tooltip"
                                       data-bs-placement="top"
-                                      data-bs-title={viewSupplierData.supplierDescription}
+                                      data-bs-title={viewSupplierData?.supplierDescription}
                                     >
                                       <Icon
                                         className='mb-2'
@@ -843,7 +843,7 @@ const ManageSupplier = () => {
                                     </button>
                                   </>
                                 ) : (
-                                  <span>{viewSupplierData.supplierDescription}</span>
+                                  <span>{viewSupplierData?.supplierDescription}</span>
                                 )}
                               </span>
                             </div>

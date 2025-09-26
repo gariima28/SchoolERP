@@ -32,6 +32,10 @@ input.form-control {
     border-radius: 10px !important;
 }
 
+.eventImgHeight{
+    height: 70% !important;
+}
+
 /* Autofill overrides with stronger specificity */
 .form-control:-webkit-autofill,
 .form-control:-webkit-autofill:hover,
@@ -1341,6 +1345,13 @@ tr {
 
 .orangeText {
     color: var(--orangeTextColor) !important;
+}
+
+.orangeBg {
+    background-color: var(--orangeTextColor) !important;
+    color: #fff !important;
+    border-radius: 20px !important;
+    padding: 0.5rem 0.7rem !important;
 }
 
 .greenText {
