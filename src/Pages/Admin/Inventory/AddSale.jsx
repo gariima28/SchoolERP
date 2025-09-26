@@ -624,7 +624,7 @@ const Sale = () => {
                                     <button
                                         className="btn cancelButtons font14"
                                         type="button"
-                                        onClick={() => reset()}
+                                        onClick={() => { reset(); navigate('/admin/inventory/sale')}}
                                     >
                                         Cancel
                                     </button>

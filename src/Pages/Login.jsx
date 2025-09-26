@@ -235,9 +235,9 @@ const Login = () => {
                         navigate('/');
                     }
                 } else {
+                    toast.error(responseData?.message || 'Login failed. Please try again.');
                     if (!toastDisplayed) {
                         setToastDisplayed(true);
-                        toast.error(responseData?.message || 'Login failed. Please try again.');
                     }
 
                 }

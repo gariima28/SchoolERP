@@ -259,7 +259,7 @@ const ItemSale = () => {
                     <thead>
                       <tr>
                         {tableHeadingData.map((item) => (
-                          <th key={item} className={`textWrapClass font14 ${item === "Action" ? 'text-end' : 'text-center'}`}>
+                          <th key={item} className={`textWrapClass font14 ${item === "Action" ? 'text-end' : 'text-start'}`}>
                             {item}
                           </th>
                         ))}

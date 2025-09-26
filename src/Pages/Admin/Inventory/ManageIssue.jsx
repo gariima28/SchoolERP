@@ -616,7 +616,7 @@ const ManageIssue = () => {
                   >
                     <option value="">--- Choose ---</option>
                     {rolesData.map((role) => (
-                      <option key={role.roleId} value={role.roleName}>
+                      <option key={role.roleId} value={role.roleId}>
                         {role.roleName}
                       </option>
                     ))}
