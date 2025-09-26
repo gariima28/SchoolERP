@@ -639,7 +639,7 @@ const ManagePurchase = () => {
                           >
                             <DriveFileRenameOutlineOutlinedIcon />
                           </span>
-                          <span
+                          {/* <span
                             className="ps-4 greyText"
                             data-bs-toggle="offcanvas"
                             data-bs-target="#Delete_staticBackdrop"
@@ -648,7 +648,7 @@ const ManagePurchase = () => {
                             onClick={() => setDelPurchaseId(item.id)}
                           >
                             <DeleteOutlinedIcon />
-                          </span>
+                          </span> */}
                         </td>
                       </tr>
                     ))}
@@ -868,12 +868,15 @@ const ManagePurchase = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="unitAdd" className="form-label font14">
-                  Unit <span className="text-danger">*</span>
+                  Unit 
+                  {/* <span className="text-danger">*</span> */}
                 </label>
                 <select
                   id="unitAdd"
                   className={`form-select font14 ${errorsAdd.unit ? "border-danger" : ""}`}
-                  {...registerAdd("unit", { required: "Unit is required *" })}
+                  {...registerAdd("unit", 
+                    // { required: "Unit is required *" }
+                  )}
                 >
                   <option value="">--- Choose ---</option>
                   <option value="PIECE">PIECE</option>
@@ -906,7 +909,8 @@ const ManagePurchase = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="quantityAdd" className="form-label font14">
-                  Quantity <span className="text-danger">*</span>
+                  Quantity 
+                  {/* <span className="text-danger">*</span> */}
                 </label>
                 <input
                   id="quantityAdd"
@@ -914,7 +918,7 @@ const ManagePurchase = () => {
                   className={`form-control font14 ${errorsAdd.quantity ? "border-danger" : ""}`}
                   placeholder="Enter Quantity"
                   {...registerAdd("quantity", {
-                    required: "Quantity is required *",
+                    // required: "Quantity is required *",
                     min: { value: 1, message: "Quantity must be at least 1" },
                     validate: (value) => Number.isInteger(Number(value)) || "Quantity must be an integer",
                   })}
@@ -1110,6 +1114,7 @@ const ManagePurchase = () => {
                 <input
                   id="quantityEdit"
                   type="number"
+                  disabled
                   className={`form-control font14 ${errorsEdit.quantity ? "border-danger" : ""}`}
                   placeholder="Enter Quantity"
                   {...registerEdit("quantity", {

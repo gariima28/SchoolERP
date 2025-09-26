@@ -11,6 +11,7 @@ import DataLoader from 'src/Layouts/Loader';
 import { useForm } from "react-hook-form";
 import { addNewWarehouseApi, getAllRolesApi, getAllWarehouseApi, getByIdWarehouseApi, getDataByRoleIdApi, updateByIdWarehouseApi, deleteByIdWarehouseApi } from "../../../Utils/Apis";
 import toast from "react-hot-toast";
+import { Icon } from "@iconify/react";
 
 const Container = styled.div`
     
@@ -171,6 +172,11 @@ const ManageWareHouse = () => {
   useEffect(() => {
     getAllWarehouseData(searchInputVal);
     getAllRoles();
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl));
+      return () => {
+        tooltipList.forEach(tooltip => tooltip.dispose());
+    };
   }, [token, pageNo, pageSize]);
 
   useEffect(() => {
@@ -228,12 +234,13 @@ const ManageWareHouse = () => {
         setValueUpdate('address', data.keeperAddress || '');
         setValueUpdate('description', data.description || '');
         setValueUpdate('warehouseKeeperName', data.warehouseKeeperName || '');
-        await getAllDataByRoleId(data.roleType);
-        setValueUpdate('warehouseKeeper', data.warehouseKeeperId?.toString() || '');
+        await getAllDataByRoleId(data.roleType, data.warehouseKeeperId);
+        setValueUpdate('warehouseKeeper', data.warehouseKeeperId);
+        console.log(data.warehouseKeeperId, 'data.warehouseKeeperId')
         setInitialFormValues({
           warehouseName: data.warehouseName,
           role: data.roleType,
-          warehouseKeeper: data.warehouseKeeperId?.toString() || '',
+          warehouseKeeper: data.warehouseKeeperId,
           email: data.keeperEmail || '',
           phoneNumber: data.keeperPhone || '',
           address: data.keeperAddress || '',
@@ -292,7 +299,7 @@ const ManageWareHouse = () => {
     }
   };
 
-  const getAllDataByRoleId = async (roleId) => {
+  const getAllDataByRoleId = async (roleId, warehouseKeeper) => {
     try {
       setLoaderState(true);
       const response = await getDataByRoleIdApi(roleId, '', '', '');
@@ -301,6 +308,7 @@ const ManageWareHouse = () => {
           setLoaderState(false);
           const staffData = response?.data?.staff || [];
           setDataByRoleId(staffData);
+          setValueUpdate('warehouseKeeper', warehouseKeeper)
           // Log to debug
           console.log('DataByRoleId:', staffData);
         } else {
@@ -513,7 +521,7 @@ const ManageWareHouse = () => {
               <div className="modal-header p-2 px-3">
                 <h2 className="modal-title" id="viewDetailsLabel">View Warehouse</h2>
                 <div className="d-flex align-items-center">
-                  <button className="btn greyText" type="button"><Download /></button>
+                  {/* <button className="btn greyText" type="button"><Download /></button> */}
                   <button type="button" className="btn-close greyText" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
               </div>
@@ -524,14 +532,64 @@ const ManageWareHouse = () => {
                       <div className="row">
                         <div className="col-5"><span>Name</span></div>
                         <div className="col-2"><span>:</span></div>
-                        <div className="col-5"><span>{viewWarehouse?.warehouseName}</span></div>
+                        <div className="col-5">
+                          <span>
+                            {viewWarehouse?.warehouseName.length > 13 ? (
+                              <>
+                                <span className='me-2'>{viewWarehouse?.warehouseName.substring(0, 13) + "..."}</span>
+                                <button
+                                  className='btn p-0'
+                                  type='button'
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  data-bs-title={viewWarehouse.warehouseName}
+                                >
+                                  <Icon
+                                    className='mb-2'
+                                    icon="ph:info-fill"
+                                    width="1.2em"
+                                    height="1.2em"
+                                    style={{ color: '#C1C1C1' }}
+                                  />
+                                </button>
+                              </>
+                            ) : (
+                              <span>{viewWarehouse?.warehouseName}</span>
+                            )}
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <div className="col-6">
                       <div className="row">
                         <div className="col-5"><span>Warehouse Keeper</span></div>
                         <div className="col-2"><span>:</span></div>
-                        <div className="col-5"><span>{viewWarehouse?.warehouseKeeperName}</span></div>
+                        <div className="col-5">
+                          <span>
+                            {viewWarehouse?.warehouseKeeperName.length > 13 ? (
+                              <>
+                                <span className='me-2'>{viewWarehouse?.warehouseKeeperName.substring(0, 13) + "..."}</span>
+                                <button
+                                  className='btn p-0'
+                                  type='button'
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  data-bs-title={viewWarehouse?.warehouseKeeperName}
+                                >
+                                  <Icon
+                                    className='mb-2'
+                                    icon="ph:info-fill"
+                                    width="1.2em"
+                                    height="1.2em"
+                                    style={{ color: '#C1C1C1' }}
+                                  />
+                                </button>
+                              </>
+                            ) : (
+                              <span>{viewWarehouse?.warehouseKeeperName}</span>
+                            )}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -540,14 +598,64 @@ const ManageWareHouse = () => {
                       <div className="row">
                         <div className="col-5"><span>Email</span></div>
                         <div className="col-2"><span>:</span></div>
-                        <div className="col-5"><span>{viewWarehouse?.keeperEmail}</span></div>
+                        <div className="col-5">
+                          <span>
+                            {viewWarehouse?.keeperEmail.length > 13 ? (
+                              <>
+                                <span className='me-2'>{viewWarehouse?.keeperEmail.substring(0, 13) + "..."}</span>
+                                <button
+                                  className='btn p-0'
+                                  type='button'
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  data-bs-title={viewWarehouse?.keeperEmail}
+                                >
+                                  <Icon
+                                    className='mb-2'
+                                    icon="ph:info-fill"
+                                    width="1.2em"
+                                    height="1.2em"
+                                    style={{ color: '#C1C1C1' }}
+                                  />
+                                </button>
+                              </>
+                            ) : (
+                              <span>{viewWarehouse?.keeperEmail}</span>
+                            )}
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <div className="col-6">
                       <div className="row">
                         <div className="col-5"><span>Phone</span></div>
                         <div className="col-2"><span>:</span></div>
-                        <div className="col-5"><span>{viewWarehouse?.keeperPhone}</span></div>
+                        <div className="col-5">
+                          <span>
+                            {viewWarehouse?.keeperPhone.length > 13 ? (
+                              <>
+                                <span className='me-2'>{viewWarehouse?.keeperPhone.substring(0, 13) + "..."}</span>
+                                <button
+                                  className='btn p-0'
+                                  type='button'
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  data-bs-title={viewWarehouse?.keeperPhone}
+                                >
+                                  <Icon
+                                    className='mb-2'
+                                    icon="ph:info-fill"
+                                    width="1.2em"
+                                    height="1.2em"
+                                    style={{ color: '#C1C1C1' }}
+                                  />
+                                </button>
+                              </>
+                            ) : (
+                                <span>{viewWarehouse?.keeperPhone}</span>
+                            )}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -556,7 +664,32 @@ const ManageWareHouse = () => {
                       <div className="row">
                         <div className="col-5"><span>Address</span></div>
                         <div className="col-2"><span>:</span></div>
-                        <div className="col-5"><span>{viewWarehouse?.keeperAddress}</span></div>
+                        <div className="col-5">
+                          <span>
+                            {viewWarehouse?.keeperAddress.length > 13 ? (
+                              <>
+                                <span className='me-2'>{viewWarehouse?.keeperAddress.substring(0, 13) + "..."}</span>
+                                <button
+                                  className='btn p-0'
+                                  type='button'
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  data-bs-title={viewWarehouse?.keeperAddress}
+                                >
+                                  <Icon
+                                    className='mb-2'
+                                    icon="ph:info-fill"
+                                    width="1.2em"
+                                    height="1.2em"
+                                    style={{ color: '#C1C1C1' }}
+                                  />
+                                </button>
+                              </>
+                            ) : (
+                                <span>{viewWarehouse?.keeperAddress}</span>
+                            )}
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <div className="col-6"></div>

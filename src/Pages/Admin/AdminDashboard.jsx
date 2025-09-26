@@ -490,25 +490,25 @@ const AdminDashboard = () => {
                           <div className={`border-bottom p-2 pt-3 overflow-hidden ${index % 2 === 0 ? 'bg-cream' : 'bg-white'}`}>
                             <div className="row g-0">
                               {/* Left Image */}
-                              <div className="col-md-3">
+                              <div className="col-md-2 d-flex justify-content-center align">
                                 <img
-                                  src={item.imageUrl || "/images/svg.png"}
+                                  src={item.eventImage || "/images/svg.png"}
                                   alt={item.title}
-                                  className="img-fluid h-100 w-100 object-fit-cover font14"
+                                  className="img-fluid font14 eventImgHeight"
                                 />
                               </div>
 
                               {/* Right Content */}
-                              <div className="col-md-9">
+                              <div className="col-md-10">
                                 <div className="card-body d-flex flex-column justify-content-center">
                                   {/* Date */}
                                   <div className="d-flex justify-content-between">
                                     <p className="greenText font14 mb-1 fw-semibold">
                                       {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
                                     </p>
-                                    <span className="greenText font14 mb-1 fw-semibold">
-                                      {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
-                                    </span>
+                                    {item.comingSoon === true && (
+                                      <span className="badge orangeBg text-dark align-self-start">Coming Soon</span>
+                                    )}
                                   </div>
 
                                   {/* Title */}
@@ -516,13 +516,8 @@ const AdminDashboard = () => {
 
                                   {/* Description */}
                                   <p className="greyText font12 small mb-2">
-                                    {item.description || "-- No Description --"}
+                                    {item.eventDescription || "-- No Description --"}
                                   </p>
-
-                                  {/* Badge */}
-                                  {item.status === "upcoming" && (
-                                    <span className="badge bg-warning text-dark align-self-start">Coming Soon</span>
-                                  )}
                                 </div>
                               </div>
                             </div>
