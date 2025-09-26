@@ -5229,7 +5229,8 @@ export const BookIssueReturn = async (id, datares) => {
 export const BookIssueGetAllApi = async (searchKey, pageNo, pageSize, Class, sectionId, startDate, endDate) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/transaction/book-transactions?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&classId=${Class ? Class : ''}&sectionId=${sectionId ? sectionId : ''}&startDate=${startDate ? startDate : ''}&endDate=${endDate ? endDate : ''}`)
+    // const res = await axios.get(`${Domain}/transaction/book-transactions?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&classId=${Class ? Class : ''}&sectionId=${sectionId ? sectionId : ''}&startDate=${startDate ? startDate : ''}&endDate=${endDate ? endDate : ''}`)
+    const res = await axios.get(`${Domain}/transaction/book-transactions?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&classId=${Class}&sectionId=${sectionId}&startDate=${startDate}&endDate=${endDate}`)
     if (res) {
       return res;
     }
