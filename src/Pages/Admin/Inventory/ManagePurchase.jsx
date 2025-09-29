@@ -150,6 +150,7 @@ const ManagePurchase = () => {
   const [pageSize, setPageSize] = useState(10);
   const [initialFormValues, setInitialFormValues] = useState({});
   const [viewPurchaseData, setViewPurchaseData] = useState(null);
+  const [pendingItemId, setPendingItemId] = useState(""); // New state to store itemId temporarily
 
   // Form instances
   const {
@@ -218,6 +219,19 @@ const ManagePurchase = () => {
       setProductData([]); // Clear product data if no category is selected
     }
   }, [watchEditCategoryId, setValueEdit]);
+
+  // Set itemId after productData is updated
+  useEffect(() => {
+    if (pendingItemId && productData.length > 0) {
+      if (productData.some(product => product.id.toString() === pendingItemId)) {
+        setValueEdit("itemId", pendingItemId);
+      } else {
+        setValueEdit("itemId", "");
+        toast.error("Selected product not found in the category");
+      }
+      setPendingItemId(""); // Clear pendingItemId after processing
+    }
+  }, [productData, pendingItemId, setValueEdit]);
 
   // Fetch All Data
   useEffect(() => {
@@ -359,16 +373,25 @@ const ManagePurchase = () => {
         if (isView) {
           setViewPurchaseData(data);
         } else {
-          setValueEdit("supplierId", data.supplierId?.toString() || "");
-          setValueEdit("categoryId", data.categoryId?.toString() || "");
-          await fetchProductsByCategory(data.categoryId?.toString() || "");
-          setValueEdit("itemId", data.itemId?.toString() || "");
-          setValueEdit("userId", data.userId?.toString() || "");
-          setValueEdit("unit", data.unit || "");
-          setValueEdit("purchasePricePer", data.purchasePricePerPiece || "");
-          setValueEdit("quantity", data.purchaseQuantity || "");
-          setValueEdit("totalPrice", data.totalPrice || "");
-          setValueEdit("purchaseDate", data.purchaseDate || "");
+          // Set all form values except itemId
+          setValueEdit("supplierId", formValues.supplierId);
+          setValueEdit("categoryId", formValues.categoryId);
+          setValueEdit("userId", formValues.userId);
+          setValueEdit("unit", formValues.unit);
+          setValueEdit("purchasePricePer", formValues.purchasePricePer);
+          setValueEdit("quantity", formValues.quantity);
+          setValueEdit("totalPrice", formValues.totalPrice);
+          setValueEdit("purchaseDate", formValues.purchaseDate);
+
+          // Store itemId and fetch products
+          setPendingItemId(formValues.itemId);
+          if (formValues.categoryId) {
+            await fetchProductsByCategory(formValues.categoryId);
+          } else {
+            setProductData([]);
+            setPendingItemId("");
+            setValueEdit("itemId", "");
+          }
           setInitialFormValues(formValues);
         }
       } else {
@@ -441,6 +464,7 @@ const ManagePurchase = () => {
         getAllManagePurchaseData(searchInputVal);
         resetEdit();
         setInitialFormValues({});
+        setProductData([]); // Clear productData
         const offcanvasElement = document.getElementById("Edit_staticBackdrop");
         const offcanvas =
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
@@ -572,6 +596,7 @@ const ManagePurchase = () => {
               addButtonText="Add Purchase"
               addButtonAction={() => {
                 resetAdd();
+                setProductData([]); // Clear productData for Add form
                 const offcanvasElement = document.getElementById("add_staticBackdrop");
                 const offcanvas =
                   bootstrap.Offcanvas.getInstance(offcanvasElement) ||
@@ -832,9 +857,12 @@ const ManagePurchase = () => {
                   id="productNameAdd"
                   className={`form-select font14 ${errorsAdd.itemId ? "border-danger" : ""}`}
                   {...registerAdd("itemId", { required: "Product Name is required *" })}
+                  disabled={loaderState}
                 >
                   <option value="">--- Choose ---</option>
-                  {productData.length > 0 ? (
+                  {loaderState ? (
+                    <option value="" disabled>Loading products...</option>
+                  ) : productData.length > 0 ? (
                     productData.map((product) => (
                       <option key={product.id} value={product.id}>
                         {product.itemName}
@@ -868,15 +896,12 @@ const ManagePurchase = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="unitAdd" className="form-label font14">
-                  Unit 
-                  {/* <span className="text-danger">*</span> */}
+                  Unit
                 </label>
                 <select
                   id="unitAdd"
                   className={`form-select font14 ${errorsAdd.unit ? "border-danger" : ""}`}
-                  {...registerAdd("unit", 
-                    // { required: "Unit is required *" }
-                  )}
+                  {...registerAdd("unit")}
                 >
                   <option value="">--- Choose ---</option>
                   <option value="PIECE">PIECE</option>
@@ -909,8 +934,7 @@ const ManagePurchase = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="quantityAdd" className="form-label font14">
-                  Quantity 
-                  {/* <span className="text-danger">*</span> */}
+                  Quantity
                 </label>
                 <input
                   id="quantityAdd"
@@ -918,7 +942,6 @@ const ManagePurchase = () => {
                   className={`form-control font14 ${errorsAdd.quantity ? "border-danger" : ""}`}
                   placeholder="Enter Quantity"
                   {...registerAdd("quantity", {
-                    // required: "Quantity is required *",
                     min: { value: 1, message: "Quantity must be at least 1" },
                     validate: (value) => Number.isInteger(Number(value)) || "Quantity must be an integer",
                   })}
@@ -970,7 +993,10 @@ const ManagePurchase = () => {
                   className="btn cancelButtons font14"
                   type="button"
                   data-bs-dismiss="offcanvas"
-                  onClick={() => resetAdd()}
+                  onClick={() => {
+                    resetAdd();
+                    setProductData([]);
+                  }}
                 >
                   Cancel
                 </button>
@@ -1035,9 +1061,12 @@ const ManagePurchase = () => {
                   id="productNameEdit"
                   className={`form-select font14 ${errorsEdit.itemId ? "border-danger" : ""}`}
                   {...registerEdit("itemId", { required: "Product Name is required *" })}
+                  disabled={loaderState}
                 >
                   <option value="">--- Choose ---</option>
-                  {productData.length > 0 ? (
+                  {loaderState ? (
+                    <option value="" disabled>Loading products...</option>
+                  ) : productData.length > 0 ? (
                     productData.map((product) => (
                       <option key={product.id} value={product.id}>
                         {product.itemName}
@@ -1170,7 +1199,11 @@ const ManagePurchase = () => {
                   className="btn cancelButtons font14"
                   type="button"
                   data-bs-dismiss="offcanvas"
-                  onClick={() => resetEdit()}
+                  onClick={() => {
+                    resetEdit();
+                    setProductData([]);
+                    setPendingItemId("");
+                  }}
                 >
                   Cancel
                 </button>
