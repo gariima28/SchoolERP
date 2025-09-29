@@ -561,6 +561,7 @@ const Event = () => {
 
   const [roleNameStore, setRoleNameStore] = useState([]);
   const [selectedClassIds, setSelectedClassIds] = useState([]);
+  const [selectedClassNos, setSelectedClassNos] = useState([]);
 
   const [coverPage, setCoverPage] = useState()
   const [updateStatus, setUpdateStatus] = useState()
@@ -969,6 +970,7 @@ const Event = () => {
 
         setRoleNameStore(ev.eventForRoleType || []);
         setSelectedClassIds(ev.eventForClassIds || []);
+        setSelectedClassNos(ev.eventForClassNos || []);
 
         setLoader(false);
       } else {
@@ -1196,8 +1198,36 @@ const Event = () => {
                             item.eventForRoleType
                           )}
                         </td>
+
+                          <td
+                          className='greyText pe-0 no-wrap position-relative'
+                          data-bs-toggle={item.eventForClassNos.length > 17 ? "tooltip" : undefined}
+                          title={item.eventForClassNos.length > 17 ? item.eventForClassNos : undefined}
+                        >
+                          {item.eventForClassNos?.length > 17 ? (
+                            <div className="d-flex align-items-center">
+                              <span className="text-truncate" style={{ maxWidth: 'calc(100% - 18px)' }}>
+                                {item.eventForClassNos.substring(0, 17)}
+                              </span>
+                              <span className="info-indicator ms-1">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                  <circle  cx="8" cy="8" r="7" fill="#aaa" stroke="#aaa" strokeWidth="0.5" />
+                                  <text x="8" y="11"
+                                    fontFamily="Arial, sans-serif"
+                                    fontSize="10"
+                                    fontWeight="bold"
+                                    fill="white"
+                                    textAnchor="middle"
+                                    dominantBaseline="middle">i</text>
+                                </svg>
+                              </span>
+                            </div>
+                          ) : (
+                            item.eventForClassNos
+                          )}
+                        </td>
                         {/* <td className=' greyText pe-0 no-wrap'>{item.eventForRoleType}</td> */}
-                        <td className=' greyText pe-0 no-wrap'>{item.eventForClassNos}</td>
+                        {/* <td className=' greyText pe-0 no-wrap'>{item.eventForClassNos}</td> */}
 
                         <td className='greyText ps-1 no-wrap'>
                           <p className={`greyText pe-0 ${item.status === "Ongoing" ? 'my-Ongoing-status' : `${item.status === "Upcoming" ? 'my-Upcoming-status' : 'my-Closed-status'}`}`}>{item.status}</p>
@@ -1659,9 +1689,9 @@ const Event = () => {
 
                             {selectedClassIds.length === 0
                               ? '--Choose--'
-                              : selectedClassIds.includes('All')
+                              : selectedClassIds.includes('')
                                 ? 'All'
-                                : selectedClassIds.join(', ')}
+                                : selectedClassNos.join(', ')}
                           </button>
                           <ul className="dropdown-menu" aria-labelledby="classDropdown" style={{ width: '90%' }}>
                             {/* "All" checkbox - doesn't add to array, just controls selection */}
