@@ -39,7 +39,7 @@ const Container = styled.div`
 
 const EditStudentDetails = ({ studentGetId, onReload }) => {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
   // Loader State
   const [loaderState, setLoaderState] = useState(false);

@@ -97,7 +97,7 @@ border-radius: 10px !important;
 
 const DashboardPage = () => {
 
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   //loader State
   const [loaderState, setloaderState] = useState(false);
 
@@ -216,9 +216,9 @@ const DashboardPage = () => {
 
       <div className="row mx-2">
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
+          <div className="row cards  h-100" style={{ borderRadius: '8px 8px 0px 0px' }}>
             <div className="col-12">
-              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+              <div className="row p-0" style={{ backgroundColor: '#008479', borderRadius: '8px 8px 0px 0px', color: '#fff' }}>
                 <div className="d-flex p-2">
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Timetable Details</p>
@@ -264,25 +264,25 @@ const DashboardPage = () => {
           </div>
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards  h-100 " style={{borderRadius:'8px 8px 0px 0px'}}>
+          <div className="row cards  h-100 " style={{ borderRadius: '8px 8px 0px 0px' }}>
             <div className="col-12">
-             <div className='row p-0' style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
-               <div className=" d-flex justify-content-between p-1" >
-                <div className="pt-2 ps-2">
-                  <p >Attendance</p>
-                </div>
-                <div className="">
-                  <div className='d-flex g-1 for-media-query'>
-                    <div className='pe-2'  >
-                    </div>
-                    <div className='pe-2'>
-                      {/* <Link className="btn my-btn12 heading-12  mt-1" data-bs-dismiss="offcanvas" onClick={() => AllDaysAttendanceHandle()} >Last 7 Days</Link> */}
-                      <Link className="btn my-btn12 heading-12  mt-1" ><p style={{color:'#fff'}}>Today</p></Link>
+              <div className='row p-0' style={{ backgroundColor: '#008479', borderRadius: '8px 8px 0px 0px', color: '#fff' }}>
+                <div className=" d-flex justify-content-between p-1" >
+                  <div className="pt-2 ps-2">
+                    <p >Attendance</p>
+                  </div>
+                  <div className="">
+                    <div className='d-flex g-1 for-media-query'>
+                      <div className='pe-2'  >
+                      </div>
+                      <div className='pe-2'>
+                        {/* <Link className="btn my-btn12 heading-12  mt-1" data-bs-dismiss="offcanvas" onClick={() => AllDaysAttendanceHandle()} >Last 7 Days</Link> */}
+                        <Link className="btn my-btn12 heading-12  mt-1" ><p style={{ color: '#fff' }}>Today</p></Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-             </div>
               <hr />
               <div className="row px-2">
                 <div className='text-center mt-4'>
@@ -309,14 +309,14 @@ const DashboardPage = () => {
       </div>
       <div className="row mx-2">
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
+          <div className="row cards  h-100" style={{ borderRadius: '8px 8px 0px 0px' }}>
             <div className="col-12">
-              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+              <div className="row p-0" style={{ backgroundColor: '#008479', borderRadius: '8px 8px 0px 0px', color: '#fff' }}>
                 <div className="d-flex p-2">
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Assignment Details</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/assignmenttea'><p style={{color:'#fff'}}>View All</p></Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/assignmenttea'><p style={{ color: '#fff' }}>View All</p></Link>
                 </div>
               </div>
               <div className="row px-2 pt-2">
@@ -359,17 +359,17 @@ const DashboardPage = () => {
           </div>
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
+          <div className="row cards  h-100" style={{ borderRadius: '8px 8px 0px 0px' }}>
             <div className="col-12">
-              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+              <div className="row p-0" style={{ backgroundColor: '#008479', borderRadius: '8px 8px 0px 0px', color: '#fff' }}>
                 <div className="d-flex p-2">
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Leave Report</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/leave'><p style={{color:"#fff"}}>View All</p></Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/leave'><p style={{ color: "#fff" }}>View All</p></Link>
                 </div>
               </div>
-              <div  className="row px-2 pt-2"> 
+              <div className="row px-2 pt-2">
                 {
                   leaveAllData && leaveAllData?.length > 0 ? (
                     leaveAllData?.map((item, index) => (
@@ -406,41 +406,41 @@ const DashboardPage = () => {
       </div>
       <div className="row mx-2" >
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
+          <div className="row cards  h-100" style={{ borderRadius: '8px 8px 0px 0px' }}>
             <div className="col-12">
-              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+              <div className="row p-0" style={{ backgroundColor: '#008479', borderRadius: '8px 8px 0px 0px', color: '#fff' }}>
                 <div className="d-flex p-2" >
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Upcoming Events</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12 '  to='/teacher/event' ><p style={{color:'#fff'}}>View All</p></Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12 ' to='/teacher/event' ><p style={{ color: '#fff' }}>View All</p></Link>
                 </div>
               </div>
               <div className="row px-2 pt-2">
                 {EventData && EventData?.length > 0 ? (
                   EventData?.map((item) => (
                     <div className="col-12 p-1" key={item.eventId}>
-                      <div className="eventCards"> 
+                      <div className="eventCards">
                         <div className="borderLeftOrange p-2">
                           <div className="d-flex p-1">
                             <div className="flex-fill imageSize d-flex ">
-                             <p>
-                              {
-                                item.eventImage ? <img src={item.eventImage} alt="Event" /> : <img src="/images/event.png" alt="Event" />
-                              }
-                              {/* <img src="/images/event.png" alt="Event" /> */}
-                             </p>
-                             <div className='ps-3' style={{fontSize:'14px'}}>
-                              <p style={{color:"#008479"}}>{item.eventDay} {item.startDate}</p>
-                              <div style={{width:'250px'}}>
-                                <p style={{color:'#aaa'}}>{item.eventDescription}</p>
+                              <p>
+                                {
+                                  item.eventImage ? <img src={item.eventImage} alt="Event" /> : <img src="/images/event.png" alt="Event" />
+                                }
+                                {/* <img src="/images/event.png" alt="Event" /> */}
+                              </p>
+                              <div className='ps-3' style={{ fontSize: '14px' }}>
+                                <p style={{ color: "#008479" }}>{item.eventDay} {item.startDate}</p>
+                                <div style={{ width: '250px' }}>
+                                  <p style={{ color: '#aaa' }}>{item.eventDescription}</p>
+                                </div>
                               </div>
-                             </div>
                             </div>
-                            <div className="flex-shrink" style={{backgroundColor:'#FF914C', color:'red', borderRadius:'10px', height:'fit-content', padding:'2px 12px'}}>
-                              <p className="font14 text-end " style={{ color:'#fff',}}>{item.comingSoon ? "Coming Soon" : 'Upcoming'}</p>
+                            <div className="flex-shrink" style={{ backgroundColor: '#FF914C', color: 'red', borderRadius: '10px', height: 'fit-content', padding: '2px 12px' }}>
+                              <p className="font14 text-end " style={{ color: '#fff', }}>{item.comingSoon ? "Coming Soon" : 'Upcoming'}</p>
                             </div>
-                           
+
                           </div>
                         </div>
                       </div>
@@ -453,19 +453,19 @@ const DashboardPage = () => {
                 )}
               </div>
 
-          
+
             </div>
           </div>
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 ps-3 pe-3 pt-3">
-          <div className="row cards  h-100" style={{borderRadius:'8px 8px 0px 0px'}}>
+          <div className="row cards  h-100" style={{ borderRadius: '8px 8px 0px 0px' }}>
             <div className="col-12">
-              <div className="row p-0" style={{backgroundColor:'#008479', borderRadius:'8px 8px 0px 0px', color:'#fff'}}>
+              <div className="row p-0" style={{ backgroundColor: '#008479', borderRadius: '8px 8px 0px 0px', color: '#fff' }}>
                 <div className="d-flex p-2">
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14'>Upcoming Holiday</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/holiday'><p style={{color:'#fff'}}>View All</p></Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 borderOrange text-black text-decoration-none font12' type="button" to='/teacher/holiday'><p style={{ color: '#fff' }}>View All</p></Link>
                 </div>
               </div>
               <div className="row px-1 pt-2">

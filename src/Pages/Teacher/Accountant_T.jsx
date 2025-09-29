@@ -378,7 +378,7 @@ font-size: 12px;
 
 const Accountant = () => {
 
-  const Id = localStorage.getItem('ID');
+  const Id = sessionStorage.getItem('ID');
 
   const [roleId, setRoleId] = useState(Id)
   const [forDelete, setForDelete] = useState(false)

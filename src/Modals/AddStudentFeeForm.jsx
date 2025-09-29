@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 
 const AddStudentFeeForm = ({ AddFeeId, modalHideTrue }) => {
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const initialValues = {
         date: '',
         paidAmount: '',

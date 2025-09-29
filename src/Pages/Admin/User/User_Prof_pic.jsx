@@ -10,7 +10,7 @@ import { Profile_picture_PutApi } from '../../../Utils/Apis'
 const User_Prof_pic = ({ data }) => {
 
     const staffId = data;
-    const MyUserID = localStorage.getItem('MyUserID');
+    const MyUserID = sessionStorage.getItem('MyUserID');
 
     const [forDelete, setForDelete] = useState(false)
     const [hide, setHide] = useState(false)

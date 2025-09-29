@@ -591,10 +591,10 @@ const AssignLeave = () => {
     setPageNo(event.selected + 1);
   };
   const [isChecked, setIsChecked] = useState(() => {
-    return !!localStorage.getItem('checkInTime');
+    return !!sessionStorage.getItem('checkInTime');
   });
   // const [checkInOut, setCheckInOut] = useState(() => {
-  //   return !!localStorage.getItem('checkInTime');
+  //   return !!sessionStorage.getItem('checkInTime');
   // });
   useEffect(() => {
     if (view && startWeekDate && endWeekDate || monthYear) {
@@ -642,7 +642,7 @@ const AssignLeave = () => {
           setCheckInOut(true);
           MyLeaveGetAllApi()
           const checkInTime = new Date().toISOString();
-          localStorage.setItem('checkInTime', checkInTime);
+          sessionStorage.setItem('checkInTime', checkInTime);
         }
       } catch (error) {
         console.log(error);
@@ -656,7 +656,7 @@ const AssignLeave = () => {
           toast.success(response?.data?.message);
           setLoader(false);
           setCheckInOut(false);
-          localStorage.removeItem('checkInTime');
+          sessionStorage.removeItem('checkInTime');
           MyLeaveGetAllApi();
         }
       } catch (error) {
@@ -722,7 +722,7 @@ const AssignLeave = () => {
 
   // Top of component
   const [checkInOut, setCheckInOut] = useState(() => {
-    return !!localStorage.getItem('checkInTime');
+    return !!sessionStorage.getItem('checkInTime');
   });
   console.log('value---', checkInOut)
 

@@ -816,7 +816,7 @@ const Accountant = () => {
     MyStaffDeleteApi(IdForDelete)
   }
   const localoStorage = (value) => {
-    localStorage.setItem('MyUserID', value)
+    sessionStorage.setItem('MyUserID', value)
   }
   const handleChange = (e) => {
     const trimmedValue = e.target.value.trimStart();

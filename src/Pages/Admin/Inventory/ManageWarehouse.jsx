@@ -110,7 +110,7 @@ const tableHeadingData = [
 ];
 
 const ManageWareHouse = () => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const navigate = useNavigate();
 
   // State Management
@@ -225,7 +225,7 @@ const ManageWareHouse = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching warehouses');

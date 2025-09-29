@@ -508,7 +508,7 @@ const Holiday = () => {
 
   const [PDFResponse, setPDFResponse] = useState()
 
-  const token = localStorage.getItem;
+  const token = sessionStorage.getItem;
 
   const [searchKey, setSearchKey] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
@@ -895,11 +895,11 @@ const Holiday = () => {
   const cleardata = () => {
     setForDelete(false)
   }
-// document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
-//   new Tooltip(el, {
-//     delay: { show: 0, hide: 100 } // show immediately
-//   });
-// });
+  // document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+  //   new Tooltip(el, {
+  //     delay: { show: 0, hide: 100 } // show immediately
+  //   });
+  // });
 
   return (
     <Container>

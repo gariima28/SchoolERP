@@ -495,7 +495,7 @@ const Issue_Report = () => {
   const [returnDate, setReturnDate] = useState('');
 
 
-  const token = localStorage.getItem;
+  const token = sessionStorage.getItem;
   // CSV 
   const [csvData, setCsvData] = useState([]);
 
@@ -776,9 +776,9 @@ const Issue_Report = () => {
       setLoader(false)
     }
   }
-//   const claaApi = () =>{
-//  MyBookIssueGetAllApi()
-//   }
+  //   const claaApi = () =>{
+  //  MyBookIssueGetAllApi()
+  //   }
   // post Api of issue book
   const MyIssueBookApi = async () => {
     if (FuncValidation()) {
@@ -926,7 +926,7 @@ const Issue_Report = () => {
         if (response?.status === 200) {
           toast.success(response?.data?.message);
           setShow12(false)
-         claaApi()
+          claaApi()
           setLoader(false)
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
           offcanvasInstance.hide();
@@ -1184,7 +1184,7 @@ const Issue_Report = () => {
                                       </svg>
                                     </div>
                                   </div>
-                                
+
                                   {/* <div className="dropdown-item" data-bs-toggle="offcanvas" style={{ cursor: 'pointer' }} data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => issueRetunrGetApi(item.transactionId)}>
                                     <button className="btn btn-secondary dropdown-togg my-button-drop heading-10" style={{ backgroundColor: ' #008479', color: '#fff', padding: '3px 10px 3px 10px', fontSize: '14px', border: 'none', cursor: 'pointer' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" >
                                       Re Issue Book

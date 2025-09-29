@@ -129,7 +129,7 @@ const tableHeadingData = [
 
 const ItemSale = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   // State Management
   const [loaderState, setLoaderState] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -173,7 +173,7 @@ const ItemSale = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching sales');
@@ -193,7 +193,7 @@ const ItemSale = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching sale details');
@@ -318,10 +318,10 @@ const ItemSale = () => {
               <div className="modal-content">
                 <div className="modal-header p-1 px-3">
                   <h2 className="modal-title" id="viewDetailsLabel">View Sale</h2>
-                  <div className="d-flex align-items-center">
-                    <button className="btn greyText" type="button">
+                  <div className="d-flex align-items-center py-2">
+                    {/* <button className="btn greyText" type="button">
                       <Download /> <span className="ms-1 greyText">Download</span>
-                    </button>
+                    </button> */}
                     <button type="button" className="btn-close greyText" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                 </div>

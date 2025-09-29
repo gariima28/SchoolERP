@@ -139,9 +139,8 @@ const base64ToBlob = (base64Data, contentType) => {
 };
 
 const Grades = () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
-
     // State Management
     const [loaderState, setLoaderState] = useState(false);
     const [allGradeData, setAllGradeData] = useState([]);
@@ -196,7 +195,7 @@ const Grades = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error fetching grades');

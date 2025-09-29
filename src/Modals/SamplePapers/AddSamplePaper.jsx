@@ -112,7 +112,7 @@ const Container = styled.div`
 `;
 
 const AddSamplePaper = ({ addedSuccess }) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [AddSamplePaper, setAddSamplePaper] = useState(true);
   const [allClassData, setAllClassData] = useState([]);
   const [allSectionData, setAllSectionData] = useState([]);
@@ -238,7 +238,7 @@ const AddSamplePaper = ({ addedSuccess }) => {
 
     setValue("sectionIds", updatedSections, { shouldValidate: true });
   };
-  
+
   const AddNewSamplePaper = async (data) => {
     console.log(isValid);
     try {
@@ -247,7 +247,7 @@ const AddSamplePaper = ({ addedSuccess }) => {
       formData.append("ClassId", data?.classId);
       data?.sectionIds?.forEach((id) => {
         formData.append("sectionIds", id);
-      });      
+      });
       formData.append("subjectId", data?.subjectId);
       formData.append("teacherId", data?.teacherId);
       formData.append("status", data?.status);
@@ -283,9 +283,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
               <input
                 id="title"
                 type="text"
-                className={`form-control font14 ${
-                  errors.title ? "border-danger" : ""
-                }`}
+                className={`form-control font14 ${errors.title ? "border-danger" : ""
+                  }`}
                 placeholder="Enter Title"
                 {...register("title", {
                   required: "Title is required *",
@@ -313,9 +312,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
               </label>
               <select
                 id="classId"
-                className={`form-select font14 ${
-                  errors.classId ? "border-danger" : ""
-                }`}
+                className={`form-select font14 ${errors.classId ? "border-danger" : ""
+                  }`}
                 {...register("classId", {
                   required: "Class selection is required *",
                 })}
@@ -391,9 +389,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
               >
                 <select
                   id="subjectId"
-                  className={`form-select font14 ${
-                    errors.subjectId ? "border-danger" : ""
-                  }`}
+                  className={`form-select font14 ${errors.subjectId ? "border-danger" : ""
+                    }`}
                   {...register("subjectId", {
                     required: "Subject selection is required *",
                   })}
@@ -428,9 +425,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
               >
                 <select
                   id="teacherId"
-                  className={`form-select font14 ${
-                    errors.teacherId ? "border-danger" : ""
-                  }`}
+                  className={`form-select font14 ${errors.teacherId ? "border-danger" : ""
+                    }`}
                   {...register("teacherId", {
                     required: "Teacher selection is required *",
                   })}
@@ -461,9 +457,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
               <input
                 id="year"
                 type="number"
-                className={`form-control font14 ${
-                  errors.year ? "border-danger" : ""
-                }`}
+                className={`form-control font14 ${errors.year ? "border-danger" : ""
+                  }`}
                 placeholder="Enter Year"
                 {...register("year", {
                   required: "Year is required *",
@@ -483,9 +478,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
               </label>
               <select
                 id="status"
-                className={`form-select font14 ${
-                  errors.status ? "border-danger" : ""
-                }`}
+                className={`form-select font14 ${errors.status ? "border-danger" : ""
+                  }`}
                 {...register("status", {
                   required: "Status selection is required *",
                 })}
@@ -505,9 +499,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
               <input
                 id="note"
                 type="text"
-                className={`form-control font14 ${
-                  errors.note ? "border-danger" : ""
-                }`}
+                className={`form-control font14 ${errors.note ? "border-danger" : ""
+                  }`}
                 placeholder="Enter Description"
                 {...register("note", {
                   validate: (value) => {
@@ -533,9 +526,8 @@ const AddSamplePaper = ({ addedSuccess }) => {
               <input
                 id="file"
                 type="file"
-                className={`form-control font14 ${
-                  errors.file ? "border-danger" : ""
-                }`}
+                className={`form-control font14 ${errors.file ? "border-danger" : ""
+                  }`}
                 placeholder="Upload"
                 accept=".pdf, .docx"
                 {...register("file", {

@@ -596,7 +596,7 @@ const Teacher = () => {
     } catch (error) {
       setLoader(false);
     }
-    finally{
+    finally {
       setLoader(false);
     }
   };
@@ -790,7 +790,7 @@ const Teacher = () => {
     } catch (error) {
       setLoader(false);
     }
-    finally{
+    finally {
       setLoader(false);
     }
   };
@@ -800,7 +800,7 @@ const Teacher = () => {
   };
 
   const localoStorage = (value) => {
-    localStorage.setItem('MyUserID', value)
+    sessionStorage.setItem('MyUserID', value)
   }
   const handleChange = (e) => {
     const trimmedValue = e.target.value.trimStart();

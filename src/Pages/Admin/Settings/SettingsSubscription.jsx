@@ -66,7 +66,7 @@ const Container = styled.div`
 
 const Subscription = () => {
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const [updateSubscription, setUpdateSubscription] = useState(false);
     const [getSubscriptionData, setgetSubscriptionData] = useState();
     const [allPlansData, setAllPlansData] = useState([]);
@@ -110,7 +110,7 @@ const Subscription = () => {
             setloaderState(false);
             // console.log(error)
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token')
+                sessionStorage.removeItem('token')
                 setTimeout(() => {
                     navigate('/')
                 }, 200);
