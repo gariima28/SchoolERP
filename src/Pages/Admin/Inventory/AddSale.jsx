@@ -88,7 +88,7 @@ const Container = styled.div`
 `;
 
 const Sale = () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
 
     // State Management
@@ -176,7 +176,7 @@ const Sale = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error fetching roles');
@@ -196,7 +196,7 @@ const Sale = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error fetching item categories');
@@ -218,7 +218,7 @@ const Sale = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem("token");
+                sessionStorage.removeItem("token");
                 navigate("/");
             }
             toast.error("Error fetching suppliers");
@@ -238,7 +238,7 @@ const Sale = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error fetching products');
@@ -258,7 +258,7 @@ const Sale = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error fetching staff data');
@@ -302,12 +302,15 @@ const Sale = () => {
             if (response?.status === 200 && response?.data?.status === 'success') {
                 toast.success(response.data.message || 'Sale added successfully');
                 reset();
+                setTimeout(() => {
+                    navigate('/admin/inventory/sale')
+                }, 700);
             } else {
                 toast.error(response?.data?.message || 'Failed to add sale');
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error adding sale');
@@ -492,18 +495,28 @@ const Sale = () => {
                                                             </label>
                                                             <input
                                                                 id={`items[${index}].quantity`}
-                                                                type="number"
+                                                                type="text"
                                                                 className={`form-control font14 ${errors.items?.[index]?.quantity ? 'border-danger' : ''}`}
                                                                 placeholder="0"
                                                                 {...register(`items[${index}].quantity`, {
                                                                     required: 'Quantity is required *',
+                                                                    pattern: {
+                                                                        value: /^[0-9]+$/, // only numbers allowed
+                                                                        message: 'Only numbers are allowed',
+                                                                    },
                                                                     min: { value: 0, message: 'Quantity must be non-negative' },
                                                                     onChange: (e) => {
                                                                         const quantity = parseFloat(e.target.value) || 0;
                                                                         const price = parseFloat(watchItems[index]?.price) || 0;
-                                                                        setValue(`items[${index}].subTotal`, (quantity * price).toFixed(2));
+                                                                        setValue(
+                                                                            `items[${index}].subTotal`,
+                                                                            (quantity * price).toFixed(2)
+                                                                        );
                                                                     },
                                                                 })}
+                                                                onInput={(e) => {
+                                                                    e.target.value = e.target.value.replace(/[^0-9]/g, ''); // remove non-digits
+                                                                }}
                                                             />
                                                             {errors.items?.[index]?.quantity && <p className="font12 text-danger">{errors.items[index].quantity.message}</p>}
                                                         </div>
@@ -624,7 +637,7 @@ const Sale = () => {
                                     <button
                                         className="btn cancelButtons font14"
                                         type="button"
-                                        onClick={() => { reset(); navigate('/admin/inventory/sale')}}
+                                        onClick={() => { reset(); navigate('/admin/inventory/sale') }}
                                     >
                                         Cancel
                                     </button>

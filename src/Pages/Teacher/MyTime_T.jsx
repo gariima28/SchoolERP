@@ -76,13 +76,13 @@ const MyTime = ({ data }) => {
 
   return (
     <>
-  {loaderState && <HashLoader />}
-  <div className="timer" style={{ fontSize: '20px', paddingTop: '3px' }}>
-    {timeDiff ?? timeDiff === 0
-      ? secondsToTimeString(timeDiff ?? 0)
-      : '00:00:00'}
-  </div>
-</>
+      {loaderState && <HashLoader />}
+      <div className="timer" style={{ fontSize: '20px', paddingTop: '3px' }}>
+        {timeDiff ?? timeDiff === 0
+          ? secondsToTimeString(timeDiff ?? 0)
+          : '00:00:00'}
+      </div>
+    </>
 
     // <>
     //   {loaderState && <HashLoader />}
@@ -127,7 +127,7 @@ export default MyTime;
 
 //   useEffect(() => {
 //     if (data) {
-//       const storedTime = localStorage.getItem('checkInTime');
+//       const storedTime = sessionStorage.getItem('checkInTime');
 //       if (storedTime) {
 //         const diffInSeconds = Math.floor((new Date() - new Date(storedTime)) / 1000);
 //         const totalSeconds = diffInSeconds + timeStringToSeconds(totalTime);

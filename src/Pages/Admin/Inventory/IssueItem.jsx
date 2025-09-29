@@ -166,7 +166,7 @@ const base64ToBlob = (base64Data, contentType) => {
 
 const IssueItem = () => {
 
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   //loader State
   const [loaderState, setloaderState] = useState(false);
   const [searchByKey, setSearchByKey] = useState('');
@@ -262,7 +262,7 @@ const IssueItem = () => {
       setloaderState(false);
       // console.log(error)
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token')
+        sessionStorage.removeItem('token')
         setTimeout(() => {
 
         }, 200);

@@ -2378,10 +2378,10 @@ export const getAllSubmissionsDataApi = async () => {
   }
 };
 
-export const submitSubmissionsByStudentApi = async (assignmentId,data) => {
+export const submitSubmissionsByStudentApi = async (assignmentId, data) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.post(`${Domain}/submission/studentSubmitAssignment/${assignmentId}`,data);
+    var res = await axios.post(`${Domain}/submission/studentSubmitAssignment/${assignmentId}`, data);
     if (res) {
       return res;
     } else {
@@ -2393,10 +2393,10 @@ export const submitSubmissionsByStudentApi = async (assignmentId,data) => {
 };
 
 
-export const submitSubmissionsByAdminApi = async (submissionId,data) => {
+export const submitSubmissionsByAdminApi = async (submissionId, data) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.put(`${Domain}/submission/adminTea/update/${submissionId}`,data);
+    var res = await axios.put(`${Domain}/submission/adminTea/update/${submissionId}`, data);
     if (res) {
       return res;
     } else {
@@ -2656,7 +2656,7 @@ export const getAllExamScheduleApi = async (searchKey, pageNo, pageSize) => {
   }
 }
 // ExamSchuledForTeacher 
-export const getAllExamScheduleApiForTeacher = async (searchKey, pageNo, pageSize,classNo, sectionName) => {
+export const getAllExamScheduleApiForTeacher = async (searchKey, pageNo, pageSize, classNo, sectionName) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     var res = await axios.get(`${Domain}/api/exam-schedule/filterByClassAndSection?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&classNo=${classNo}&section=${sectionName}`);
@@ -5768,7 +5768,7 @@ export const AssignLeaveGetAllApi = async (searchKey, pageNo, pageSize) => {
   }
 }
 // Delete api
-export const LeaveAssignDeleteApi = async (IdForDelete,selectedLeaveTypes) => {
+export const LeaveAssignDeleteApi = async (IdForDelete, selectedLeaveTypes) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res2 = await axios.delete(`${Domain}/leaveUser/delete/${IdForDelete}?selectedLeaveType=${selectedLeaveTypes}`)
@@ -5820,7 +5820,7 @@ export const AssignLeaveGetById = async (id) => {
 export const AssignLeavePutApi = async (IdForUpdate, formData) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.put(`${Domain}/leaveUser/update/${IdForUpdate}`,formData)
+    const res = await axios.put(`${Domain}/leaveUser/update/${IdForUpdate}`, formData)
     // // console.log('my-response', res)
     if (res) {
       return res;
@@ -6334,11 +6334,11 @@ export const SlotGetByIdApi = async (id) => {
   }
 }
 //  slot put id Api 
-export const SlotPutApi = async (id,formData) => {
+export const SlotPutApi = async (id, formData) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     //   const res= await axios.post(`${girjeshServer}/routine/addRoutine`,datares)
-    const res = await axios.put(`${Domain}/period/update/${id}`,formData)
+    const res = await axios.put(`${Domain}/period/update/${id}`, formData)
     if (res) {
       return res;
     }
@@ -6681,15 +6681,15 @@ export const AssignClassTeacherPutApi = async (section, teacher) => {
   }
 }
 // CSV 
-export const ClassTeacherCSV = async() =>{
-   axios.defaults.headers.common["Authorization"] = token;
-   const res2= await axios.get(`${Domain}/class/classTeacherCSV`)
-   if(res2) {
+export const ClassTeacherCSV = async () => {
+  axios.defaults.headers.common["Authorization"] = token;
+  const res2 = await axios.get(`${Domain}/class/classTeacherCSV`)
+  if (res2) {
     return res2;
-   }
-   else{
+  }
+  else {
     return []
-   }
+  }
 }
 
 // ########################## Assign Class teacher APIs end ########################### 
@@ -9030,7 +9030,7 @@ export const TeacherClassRoitinePostApi = async (datares) => {
   }
 }
 // get all api teacher--
-export const TeacherClassRoutineGetAll = async (classNo,sectionName) => {
+export const TeacherClassRoutineGetAll = async (classNo, sectionName) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/routine/getClassRoutine?classNo=${classNo}&section=${sectionName}`)
@@ -9147,7 +9147,7 @@ export const TeacherMyDailyAttendancePutApi = async (datares) => {
     return [];
   }
 }
-export const TeacherDailyAttendancehGetAllBymonth = async (sectionId2,month, year, search, pageNo, pageSize) => {
+export const TeacherDailyAttendancehGetAllBymonth = async (sectionId2, month, year, search, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/attendance/search-month?sectionId=${sectionId2}&month=${month}&year=${year}&searchKey=${search}&page=${pageNo}&size=${pageSize}`)
@@ -9197,14 +9197,14 @@ export const TeacherDailyAttendancehCSVBymonth = async (sectionId2, month, year)
 // ########################## Assign Class teacher APIs start ########################### 
 
 // get all api by search class and section 
-export const GeyAllTeacherLightWeightGetAll = async(classNo, section) =>{
-   axios.defaults.headers.common["Authorization"] = token;
-  const res= await axios.get(`${Domain}/otherStaff/getAllStaff-light`)
-  if(res) {
-   return res;
+export const GeyAllTeacherLightWeightGetAll = async (classNo, section) => {
+  axios.defaults.headers.common["Authorization"] = token;
+  const res = await axios.get(`${Domain}/otherStaff/getAllStaff-light`)
+  if (res) {
+    return res;
   }
-  else{
-   return []
+  else {
+    return []
   }
 }
 
@@ -9393,7 +9393,7 @@ export const TeacherSessionyGetAll = async (searchKey) => {
 
 // ##########################  Marks  APIs start ########################### 
 
-export const TeacherMarksGetAll = async (classNo,sectionId, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize) => {
+export const TeacherMarksGetAll = async (classNo, sectionId, subjectId, sessionName, ExamTerm, searchKey, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/marks/filter?classNo=${classNo}&classSec=${sectionId}&sessionName=${sessionName}&subject=${subjectId}&examTermId=${ExamTerm}&searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`,)
@@ -9555,7 +9555,7 @@ export const TeacherGetTeacherGetAll = async (classId, subjectId) => {
   }
 }
 //  Assignmnt get all api
-export const TeacherAssignmntGetAllApi = async (classId,sectioId,subjectId,searchKey,pageNo,pageSize) => {
+export const TeacherAssignmntGetAllApi = async (classId, sectioId, subjectId, searchKey, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/assignment/getAllAssignments?classId=${classId}&sectionId=${sectioId}&subjectId=${subjectId}&searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`)
@@ -9571,7 +9571,7 @@ export const TeacherAssignmntGetAllApi = async (classId,sectioId,subjectId,searc
   }
 }
 //  Submission get all api
-export const TeacherSubmissionGetAllApi = async (classId, sectionId,subjectId,assignmentId,searchKey,pageNo,pageSize,singleState) => {
+export const TeacherSubmissionGetAllApi = async (classId, sectionId, subjectId, assignmentId, searchKey, pageNo, pageSize, singleState) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/submission/getAllSubmissions?classId=${classId}&sectionId=${sectionId}&assignmentId=${assignmentId}&subjectId=${subjectId}&searchKey=${searchKey}&page=${pageNo}&size=${pageSize}&status=${singleState}`)
@@ -10055,7 +10055,7 @@ export const TeacherAssignmntGetByIdApi = async (id) => {
 export const AssignmntPutApi = async (id, formData) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.put(`${Domain}/assignment/update/${id}`,formData)
+    const res = await axios.put(`${Domain}/assignment/update/${id}`, formData)
     // // console.log('my-response', res)
     if (res) {
       return res;
@@ -10340,6 +10340,20 @@ export const addNewManageProductApi = async (formData) => {
   }
 };
 
+export const generateProductCodeApi = async (formData) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/item/generateProductCode`, formData);
+    if (res) {
+      return res;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
 export const getAllManageProductApi = async (searchKey, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
@@ -10492,7 +10506,7 @@ export const updateManagePurchaseByIdApi = async (examTermId, formData) => {
 // New Product Export APIs
 export const DownloadManageProductPDF = async () => {
   try {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/manageProduct/download-pdf`);
     return res || [];
@@ -10503,7 +10517,7 @@ export const DownloadManageProductPDF = async () => {
 
 export const DownloadManageProductExcel = async () => {
   try {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/manageProduct/csv`);
     return res || [];

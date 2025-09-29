@@ -126,7 +126,7 @@ const Assignment = () => {
     //loader State
     const [loaderState, setloaderState] = useState(false);
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const [SearchBtn, setSearchBtn] = useState(false);
     const [searchByKey, setSearchByKey] = useState('');
     const [isChecked, setIsChecked] = useState(false);
@@ -316,7 +316,7 @@ const Assignment = () => {
             }, 800);
             // console.log(error)
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token')
+                sessionStorage.removeItem('token')
                 setTimeout(() => {
                     navigate('/')
                 }, 200);
@@ -396,7 +396,7 @@ const Assignment = () => {
                 // If the value is empty for the first time, call getAllSpecialFeature and set click to false
                 if (updatedValue === '' && click) {
                     getAllAssignment('search');
-                    setClick(false); 
+                    setClick(false);
                     return;
                 }
 

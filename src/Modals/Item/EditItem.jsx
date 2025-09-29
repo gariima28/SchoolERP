@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 
 const EditItem = ({ EditId, closeCanvas }) => {
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     //loader State
     const [loaderState, setloaderState] = useState(false);
 

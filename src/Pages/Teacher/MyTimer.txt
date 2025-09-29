@@ -11,7 +11,7 @@ const MyTime = ({ data }) => {
 
   useEffect(() => {
     if (data) {
-      const storedTime = localStorage.getItem('checkInTime');
+      const storedTime = sessionStorage.getItem('checkInTime');
       if (storedTime) {
         const diffInSeconds = Math.floor((new Date() - new Date(storedTime)) / 1000);
         setTimeDiff(diffInSeconds);

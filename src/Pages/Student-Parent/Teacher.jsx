@@ -59,7 +59,7 @@ const Container = styled.div`
 
 const Teacher = () => {
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     //loader State
     const [loaderState, setloaderState] = useState(false);
     const searchByKey = '';

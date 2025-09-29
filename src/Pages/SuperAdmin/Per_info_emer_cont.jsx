@@ -10,7 +10,7 @@ const Per_info_emer_cont = ({ data }) => {
 
     const staffId = data.data;
 
-    const MyUserID = localStorage.getItem('MyUserID');
+    const MyUserID = sessionStorage.getItem('MyUserID');
 
     const [forDelete, setForDelete] = useState(false)
     const [hide, setHide] = useState(false)

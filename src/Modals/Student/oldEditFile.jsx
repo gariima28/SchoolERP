@@ -5,7 +5,7 @@ import DataLoader from 'src/Layouts/Loader';
 
 const EditStudentDetails = ({ studentGetId, onReload }) => {
 
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   //loader State
   const [loaderState, setloaderState] = useState(false);
   // Data State
@@ -845,7 +845,7 @@ export default EditStudentDetails
 // const EditStudentDetails = ({ studentGetId, onReload }) => {
 
 //   const navigate = useNavigate();
-//   const token = localStorage.getItem('token');
+//   const token = sessionStorage.getItem('token');
 //   // loader State
 //   const [loaderState, setloaderState] = useState(false);
 //   // Data States
@@ -1220,7 +1220,7 @@ setloaderState(false);
 
 // const EditStudentDetails = ({ studentGetId, onReload }) => {
 
-//   const token = localStorage.getItem('token');
+//   const token = sessionStorage.getItem('token');
 //   //loader State
 //   const [loaderState, setloaderState] = useState(false);
 //   // Data State

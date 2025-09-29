@@ -73,7 +73,7 @@ const Container = styled.div`
 `;
 
 const AddAssignment = ({ addedSuccess }) => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     const [allClassData, setAllClassData] = useState([]);
     const [allSectionData, setAllSectionData] = useState([]);

@@ -110,7 +110,7 @@ const tableHeadingData = [
 ];
 
 const ManageWareHouse = () => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const navigate = useNavigate();
 
   // State Management
@@ -173,9 +173,9 @@ const ManageWareHouse = () => {
     getAllWarehouseData(searchInputVal);
     getAllRoles();
     const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-      const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl));
-      return () => {
-        tooltipList.forEach(tooltip => tooltip.dispose());
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl));
+    return () => {
+      tooltipList.forEach(tooltip => tooltip.dispose());
     };
   }, [token, pageNo, pageSize]);
 
@@ -204,7 +204,7 @@ const ManageWareHouse = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching warehouses');
@@ -652,7 +652,7 @@ const ManageWareHouse = () => {
                                 </button>
                               </>
                             ) : (
-                                <span>{viewWarehouse?.keeperPhone}</span>
+                              <span>{viewWarehouse?.keeperPhone}</span>
                             )}
                           </span>
                         </div>
@@ -686,7 +686,7 @@ const ManageWareHouse = () => {
                                 </button>
                               </>
                             ) : (
-                                <span>{viewWarehouse?.keeperAddress}</span>
+                              <span>{viewWarehouse?.keeperAddress}</span>
                             )}
                           </span>
                         </div>

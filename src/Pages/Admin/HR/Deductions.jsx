@@ -18,7 +18,7 @@ import {
 } from 'src/Utils/Apis';
 
 const Deduction = () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
 
     // State Management
@@ -75,7 +75,7 @@ const Deduction = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error('Error fetching Deductions');
@@ -148,7 +148,7 @@ const Deduction = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error(`Error fetching ${isView ? 'view' : 'edit'} Deduction`);
@@ -188,7 +188,7 @@ const Deduction = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error('Error updating Deduction');
@@ -225,7 +225,7 @@ const Deduction = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error('Error deleting Deduction');
@@ -247,7 +247,7 @@ const Deduction = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error('Error downloading CSV');
@@ -279,7 +279,7 @@ const Deduction = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error downloading PDF');

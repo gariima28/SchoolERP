@@ -495,7 +495,7 @@ const Holiday = () => {
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
   const [isValidDateRequired, setIsValidDateRequired] = useState(false);
   const [isValidDescriptionRequired, setIsValidDescriptionRequired] = useState(false);
-  const token = localStorage.getItem;
+  const token = sessionStorage.getItem;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);

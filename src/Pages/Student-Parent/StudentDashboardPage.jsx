@@ -114,7 +114,7 @@ const DashboardPage = () => {
       setloaderState(false);
       console.error('Error fetching student data:', error);
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token')
+        sessionStorage.removeItem('token')
         setTimeout(() => {
           navigate('/')
         }, 200);
@@ -318,13 +318,13 @@ const DashboardPage = () => {
                             <div className="card-body d-flex flex-column justify-content-center">
                               {/* Date */}
                               <div className="d-flex justify-content-between">
-                                  <p className="greenText font14 mb-1 fw-semibold">
-                                    {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
-                                  </p>
-                                  <span className="greenText font14 mb-1 fw-semibold">
-                                    {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
-                                  </span>
-                             </div>
+                                <p className="greenText font14 mb-1 fw-semibold">
+                                  {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
+                                </p>
+                                <span className="greenText font14 mb-1 fw-semibold">
+                                  {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
+                                </span>
+                              </div>
 
                               {/* Title */}
                               <h6 className="fw-bold font14 mb-1">{item.title}</h6>

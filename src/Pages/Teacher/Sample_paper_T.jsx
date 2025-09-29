@@ -528,7 +528,7 @@ const Sample_paper = () => {
 
     const [loader, setLoader] = useState(false)
     const [forDelete, setForDelete] = useState(false)
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const [hide, setHide] = useState(false)
     const [show, setShow] = useState(true)
     const [searchKey, setSearchKey] = useState('')
@@ -871,7 +871,7 @@ const Sample_paper = () => {
             }
         } catch (error) {
             setLoader(false)
-            
+
         }
     }
     //  Put api sample
