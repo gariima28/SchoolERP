@@ -18,7 +18,7 @@ import {
 } from 'src/Utils/Apis';
 
 const Allowance = () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
 
     // State Management
@@ -75,7 +75,7 @@ const Allowance = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error('Error fetching allowances');
@@ -146,7 +146,7 @@ const Allowance = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error(`Error fetching ${isView ? 'view' : 'edit'} allowance`);
@@ -186,7 +186,7 @@ const Allowance = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error('Error updating allowance');
@@ -223,7 +223,7 @@ const Allowance = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error('Error deleting allowance');
@@ -245,7 +245,7 @@ const Allowance = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 // navigate('/');
             }
             toast.error('Error downloading CSV');
@@ -280,7 +280,7 @@ const Allowance = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusType === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error downloading PDF');

@@ -67,7 +67,7 @@ const Marks = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem("token");
+                sessionStorage.removeItem("token");
                 navigate("/");
             }
             toast.error("Error fetching exam terms");

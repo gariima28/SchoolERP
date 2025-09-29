@@ -181,7 +181,7 @@ const base64ToBlob = (base64Data, contentType) => {
 };
 
 const FeesType = () => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
   // State Management
@@ -274,7 +274,7 @@ const FeesType = () => {
       setloaderState(false);
       toast.error(error?.response?.data?.message);
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         setTimeout(() => { }, 200);
       }
     }
@@ -497,7 +497,7 @@ const FeesType = () => {
       setloaderState(false);
       // console.log(error)
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         setTimeout(() => {
           navigate("/");
         }, 200);
@@ -998,7 +998,7 @@ const FeesType = () => {
 export default FeesType;
 
 const Fees = () => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
   const [loaderState, setloaderState] = useState(false);
@@ -1043,7 +1043,7 @@ const Fees = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to load fee types");
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
     } finally {

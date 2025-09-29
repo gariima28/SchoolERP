@@ -118,7 +118,7 @@ const SamplePaper = () => {
     // Loader State
     const [loaderState, setloaderState] = useState(false);
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const [SearchBtn, setSearchBtn] = useState(false);
     const [DeleteWarning, setDeleteWarning] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
@@ -343,7 +343,7 @@ const SamplePaper = () => {
         } catch (error) {
             setloaderState(false);
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 setTimeout(() => {
                     navigate('/');
                 }, 200);

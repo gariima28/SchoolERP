@@ -128,7 +128,7 @@ const base64ToBlob = (base64Data, contentType) => {
 };
 
 const ManagePurchase = () => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
   // State Management
@@ -252,7 +252,7 @@ const ManagePurchase = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching suppliers");
@@ -272,7 +272,7 @@ const ManagePurchase = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching categories");
@@ -281,27 +281,26 @@ const ManagePurchase = () => {
     }
   };
 
-  const fetchProductsByCategory = async (categoryId) => {
+  // fetchProductsByCategory
+  const fetchProductsByCategory = async (categoryId, itemId) => {
     try {
       setLoaderState(true);
       const response = await getProductByCategoryApi(categoryId);
-      if (response?.status === 200 && response?.data?.status === "success") {
-        setProductData(response.data.items || []);
+      if (response?.status === 200 && response?.data?.status === 'success') {
+        setProductData(response.data.items);
+        setValueEdit('itemId', itemId);
       } else {
-        toast.error(response?.data?.message || "Failed to fetch products");
+        toast.error(response?.data?.message || 'Failed to fetch products');
         setProductData([]);
       }
     } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
-        navigate("/");
-      }
-      toast.error("Error fetching products");
+      toast.error('Error fetching products');
       setProductData([]);
     } finally {
       setLoaderState(false);
     }
   };
+
 
   const getAllUserData = async () => {
     try {
@@ -314,7 +313,7 @@ const ManagePurchase = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching users");
@@ -336,7 +335,7 @@ const ManagePurchase = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching purchases");
@@ -352,12 +351,13 @@ const ManagePurchase = () => {
   };
 
   // Fetch Purchase by ID for Editing or Viewing
+  // getManagePurchaseDataById
   const getManagePurchaseDataById = async (id, isView = false) => {
     try {
       setLoaderState(true);
-      setEditPurchaseId(isView ? "" : id);
+      setEditPurchaseId(isView ? id : id);
       const response = await getManagePurchaseByIdApi(id);
-      if (response?.status === 200 && response?.data?.status === "success") {
+      if (response?.status === 200 && response?.data?.status === 'success') {
         const data = response.data.purchase;
         const formValues = {
           supplierId: data.supplierId?.toString() || "",
@@ -394,15 +394,17 @@ const ManagePurchase = () => {
           }
           setInitialFormValues(formValues);
         }
+
       } else {
-        toast.error(response?.data?.message || `Failed to fetch ${isView ? "view" : "edit"} purchase`);
+        toast.error(response?.data?.message || 'Failed to fetch');
       }
     } catch (error) {
-      toast.error(`Error fetching ${isView ? "view" : "edit"} purchase`);
+      toast.error('Error fetching purchase');
     } finally {
       setLoaderState(false);
     }
   };
+
 
   // Add New Purchase
   const addNewManagePurchase = async (data) => {
@@ -531,7 +533,7 @@ const ManagePurchase = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error downloading CSV");
@@ -938,12 +940,18 @@ const ManagePurchase = () => {
                 </label>
                 <input
                   id="quantityAdd"
-                  type="number"
+                  type="text"
                   className={`form-control font14 ${errorsAdd.quantity ? "border-danger" : ""}`}
                   placeholder="Enter Quantity"
                   {...registerAdd("quantity", {
+                    // required: "Quantity is required *",
+                    pattern: {
+                      value: /^[0-9]+$/, // only digits allowed
+                      message: "Only numbers are allowed",
+                    },
                     min: { value: 1, message: "Quantity must be at least 1" },
-                    validate: (value) => Number.isInteger(Number(value)) || "Quantity must be an integer",
+                    validate: (value) =>
+                      Number.isInteger(Number(value)) || "Quantity must be an integer",
                   })}
                 />
                 {errorsAdd.quantity && <p className="font12 text-danger">{errorsAdd.quantity.message}</p>}
@@ -1059,9 +1067,9 @@ const ManagePurchase = () => {
                 </label>
                 <select
                   id="productNameEdit"
-                  className={`form-select font14 ${errorsEdit.itemId ? "border-danger" : ""}`}
-                  {...registerEdit("itemId", { required: "Product Name is required *" })}
-                  disabled={loaderState}
+                  className="form-select font14"
+                  {...registerEdit('itemId', { required: 'Product Name is required' })}
+
                 >
                   <option value="">--- Choose ---</option>
                   {loaderState ? (
@@ -1074,7 +1082,7 @@ const ManagePurchase = () => {
                     ))
                   ) : (
                     <option value="" disabled>
-                      {watchEditCategoryId ? "-- No Products Found --" : "-- Select Category First --"}
+                      {watchEditCategoryId ? '-- No Products Found --' : '-- Select Category First --'}
                     </option>
                   )}
                 </select>
@@ -1142,14 +1150,19 @@ const ManagePurchase = () => {
                 </label>
                 <input
                   id="quantityEdit"
-                  type="number"
-                  disabled
+                  type="text"
+                  // disabled
                   className={`form-control font14 ${errorsEdit.quantity ? "border-danger" : ""}`}
                   placeholder="Enter Quantity"
                   {...registerEdit("quantity", {
-                    required: "Quantity is required *",
+                    // required: "Quantity is required *",
+                    pattern: {
+                      value: /^[0-9]+$/, // only digits allowed
+                      message: "Only numbers are allowed",
+                    },
                     min: { value: 1, message: "Quantity must be at least 1" },
-                    validate: (value) => Number.isInteger(Number(value)) || "Quantity must be an integer",
+                    validate: (value) =>
+                      Number.isInteger(Number(value)) || "Quantity must be an integer",
                   })}
                 />
                 {errorsEdit.quantity && <p className="font12 text-danger">{errorsEdit.quantity.message}</p>}

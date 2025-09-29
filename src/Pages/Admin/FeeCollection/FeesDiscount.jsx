@@ -131,7 +131,7 @@ const base64ToBlob = (base64Data, contentType) => {
 };
 
 const FeesDiscount = () => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const navigate = useNavigate();
 
   // State Management
@@ -188,7 +188,7 @@ const FeesDiscount = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching fee discounts');
@@ -351,7 +351,7 @@ const FeesDiscount = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error downloading CSV');

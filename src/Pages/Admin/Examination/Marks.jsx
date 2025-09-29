@@ -34,7 +34,7 @@ const Marks = () => {
     //loader State
     const [loaderState, setloaderState] = useState(false);
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const [isSearched, setIsSearched] = useState(false);
     const [indexxx, setIndexxx] = useState('');
     const [classNo, setClassNo] = useState('');
@@ -99,7 +99,7 @@ const Marks = () => {
             setloaderState(false);
             // console.log(error)
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token')
+                sessionStorage.removeItem('token')
                 setTimeout(() => {
                     navigate('/')
                 }, 200);
@@ -126,7 +126,7 @@ const Marks = () => {
             setloaderState(false);
             // console.log('Error During Get Session', error);
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token')
+                sessionStorage.removeItem('token')
                 setTimeout(() => {
                     navigate('/')
                 }, 200);
@@ -158,7 +158,7 @@ const Marks = () => {
             setloaderState(false);
             // console.log(error)
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token')
+                sessionStorage.removeItem('token')
                 setTimeout(() => {
                     navigate('/')
                 }, 200);

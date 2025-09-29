@@ -121,7 +121,7 @@ const tableHeadingData = [
 ];
 
 const ManageIssue = () => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const navigate = useNavigate();
 
   // State Management
@@ -211,7 +211,7 @@ const ManageIssue = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching roles');
@@ -231,7 +231,7 @@ const ManageIssue = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching staff data');
@@ -251,7 +251,7 @@ const ManageIssue = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching item categories');
@@ -271,7 +271,7 @@ const ManageIssue = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching products');
@@ -291,7 +291,7 @@ const ManageIssue = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching issues');
@@ -316,7 +316,7 @@ const ManageIssue = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error fetching issue details');
@@ -324,31 +324,36 @@ const ManageIssue = () => {
       setLoaderState(false);
     }
   };
-
+  // Add Issue
   const addIssue = async (data) => {
     try {
       setLoaderState(true);
-      const formData = {
-        userId: parseInt(data.userId) || 0,
-        userType: data.userType || '',
-        categoryId: parseInt(data.categoryId) || 0,
-        itemId: parseInt(data.itemId) || 0,
-        quantity: parseInt(data.quantity) || 0,
-        issueDate: data.issueDate || '',
-        returnDate: data.returnDate || '',
-      };
+      const formData = new FormData();
+      formData.append("userId", parseInt(data.userId) || 0);
+      formData.append("userType", data.userType || '');
+      formData.append("categoryId", parseInt(data.categoryId) || 0);
+      formData.append("itemId", parseInt(data.itemId) || 0);
+      formData.append("quantity", parseInt(data.quantity) || 0);
+      formData.append("issueDate", data.issueDate || '');
+      formData.append("returnDate", data.returnDate || '');
+
       const response = await addIssueApi(formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message || 'Issue added successfully');
         resetAdd();
         getAllIssues();
         document.getElementById('Add_staticBackdrop').classList.remove('show');
+        // Remove backdrop
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
       } else {
         toast.error(response?.data?.message || 'Failed to add issue');
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error adding issue');
@@ -357,27 +362,33 @@ const ManageIssue = () => {
     }
   };
 
+  // Modify Issue
   const modifyIssue = async (data) => {
     try {
       setLoaderState(true);
-      const formData = {
-        id: parseInt(data.id) || 0,
-        quantity: parseInt(data.quantity) || 0,
-        returnDate: data.returnDate || '',
-        returnStatus: data.returnStatus || '',
-      };
+      const formData = new FormData();
+      formData.append("id", parseInt(data.id) || 0);
+      formData.append("quantity", parseInt(data.quantity) || 0);
+      formData.append("returnDate", data.returnDate || '');
+      formData.append("returnStatus", data.returnStatus || '');
+
       const response = await modifyIssueApi(data.id, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message || 'Issue updated successfully');
         resetEdit();
         getAllIssues();
         document.getElementById('Edit_staticBackdrop').classList.remove('show');
+        // Remove backdrop
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
       } else {
         toast.error(response?.data?.message || 'Failed to update issue');
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
       toast.error('Error updating issue');
@@ -689,12 +700,18 @@ const ManageIssue = () => {
                   </label>
                   <input
                     id="quantityAdd"
-                    type="number"
+                    type="text"
                     className={`form-control font14 ${errorsAdd.quantity ? 'border-danger' : ''}`}
                     placeholder="Enter Quantity"
                     {...registerAdd('quantity', {
                       required: 'Quantity is required *',
-                      min: { value: 1, message: 'Quantity must be at least 1' },
+                      pattern: {
+                        value: /^[0-9]+$/, // only digits allowed
+                        message: "Only numbers are allowed",
+                      },
+                      min: { value: 1, message: "Quantity must be at least 1" },
+                      validate: (value) =>
+                        Number.isInteger(Number(value)) || "Quantity must be an integer",
                     })}
                   />
                   {errorsAdd.quantity && <p className="font12 text-danger">{errorsAdd.quantity.message}</p>}
@@ -763,12 +780,18 @@ const ManageIssue = () => {
                   </label>
                   <input
                     id="quantityEdit"
-                    type="number"
+                    type="text"
                     className={`form-control font14 ${errorsEdit.quantity ? 'border-danger' : ''}`}
                     placeholder="Enter Quantity"
                     {...registerEdit('quantity', {
                       required: 'Quantity is required *',
-                      min: { value: 1, message: 'Quantity must be at least 1' },
+                      pattern: {
+                        value: /^[0-9]+$/, // only digits allowed
+                        message: "Only numbers are allowed",
+                      },
+                      min: { value: 1, message: "Quantity must be at least 1" },
+                      validate: (value) =>
+                        Number.isInteger(Number(value)) || "Quantity must be an integer",
                     })}
                   />
                   {errorsEdit.quantity && <p className="font12 text-danger">{errorsEdit.quantity.message}</p>}

@@ -58,7 +58,7 @@ const Container = styled.div`
 `;
 
 const EditAssignment = ({ EditItemId, editedSuccess }) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [AddSamplePaper, setAddSamplePaper] = useState(true);
 
   const [allClassData, setAllClassData] = useState([]);
@@ -179,7 +179,7 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
       } else {
         // toast.error(response?.data?.message);
       }
-    } catch (e) {}
+    } catch (e) { }
 
     finally {
       // setloaderState(false);
@@ -243,9 +243,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 <input
                   id="title"
                   type="text"
-                  className={`form-control font14 ${
-                    errors.title ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errors.title ? "border-danger" : ""
+                    }`}
                   placeholder="Enter Title"
                   {...register("title", {
                     required: "Title is required *",
@@ -273,9 +272,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 </label>
                 <select
                   id="ClassId"
-                  className={`form-select font14 ${
-                    errors.ClassId ? "border-danger" : ""
-                  }`}
+                  className={`form-select font14 ${errors.ClassId ? "border-danger" : ""
+                    }`}
                   value={formValues?.classId}
                   {...register("ClassId", {
                     required: "Class selection is required *",
@@ -299,9 +297,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 </label>
                 <select
                   id="sectionId"
-                  className={`form-select font14 ${
-                    errors.sectionId ? "border-danger" : ""
-                  }`}
+                  className={`form-select font14 ${errors.sectionId ? "border-danger" : ""
+                    }`}
                   value={formValues?.sectionId}
                   {...register("sectionId", {
                     required: "Selection selection is required *",
@@ -326,9 +323,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 </label>
                 <select
                   id="subjectId"
-                  className={`form-select font14 ${
-                    errors.subjectId ? "border-danger" : ""
-                  }`}
+                  className={`form-select font14 ${errors.subjectId ? "border-danger" : ""
+                    }`}
                   value={formValues?.subjectId}
                   {...register("subjectId", {
                     required: "Subject selection is required *",
@@ -353,9 +349,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 </label>
                 <select
                   id="teacherId"
-                  className={`form-select font14 ${
-                    errors.teacherId ? "border-danger" : ""
-                  }`}
+                  className={`form-select font14 ${errors.teacherId ? "border-danger" : ""
+                    }`}
                   value={formValues?.teacherId}
                   {...register("teacherId", {
                     required: "Teacher selection is required *",
@@ -381,9 +376,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 <input
                   id="totalMarks"
                   type="number"
-                  className={`form-control font14 ${
-                    errors.totalMarks ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errors.totalMarks ? "border-danger" : ""
+                    }`}
                   {...register("totalMarks", {
                     required: "Total Marks are required *",
                     min: { value: 0, message: "Marks cannot be negative" },
@@ -402,9 +396,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 <input
                   id="startDate"
                   type="date"
-                  className={`form-control font14 ${
-                    errors.startDate ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errors.startDate ? "border-danger" : ""
+                    }`}
                   {...register("startDate", {
                     required: "Starting Time is required *",
                   })}
@@ -422,9 +415,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 <input
                   id="endDate"
                   type="date"
-                  className={`form-control font14 ${
-                    errors.endDate ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errors.endDate ? "border-danger" : ""
+                    }`}
                   {...register("endDate", {
                     required: "Ending Time is required *",
                   })}
@@ -439,9 +431,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 </label>
                 <select
                   id="status"
-                  className={`form-select font14 ${
-                    errors.status ? "border-danger" : ""
-                  }`}
+                  className={`form-select font14 ${errors.status ? "border-danger" : ""
+                    }`}
                   {...register("status", {
                     required: "Status selection is required *",
                   })}
@@ -462,9 +453,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                 <input
                   id="description"
                   type="text"
-                  className={`form-control font14 ${
-                    errors.description ? "border-danger" : ""
-                  }`}
+                  className={`form-control font14 ${errors.description ? "border-danger" : ""
+                    }`}
                   placeholder="Enter Description"
                   {...register("description", {
                     validate: (value) => {
@@ -505,9 +495,8 @@ const EditAssignment = ({ EditItemId, editedSuccess }) => {
                     <input
                       id="file"
                       type="file"
-                      className={`form-control formimagetext font14 ${
-                        errors.file ? "border-danger" : ""
-                      }`}
+                      className={`form-control formimagetext font14 ${errors.file ? "border-danger" : ""
+                        }`}
                       accept=".pdf,.docs"
                       {...register("file", {
                         required: "Admin file is required *",

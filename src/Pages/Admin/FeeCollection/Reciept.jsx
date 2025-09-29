@@ -147,7 +147,7 @@ const Container = styled.div`
 
 const Reciept = () => {
     const navigate = useNavigate();
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const [loaderState, setLoaderState] = useState(false);
     const [searchBtn, setSearchBtn] = useState(true);
     const [startDate, setStartDate] = useState('');
@@ -247,7 +247,7 @@ const Reciept = () => {
                 setLoaderState(false);
             }, 800);
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 setTimeout(() => {
                     navigate('/');
                 }, 200);
