@@ -736,7 +736,7 @@ const Issue_Report = () => {
     setLoader(true)
     try {
       const response = await BookBtId(booById);
-      // console.log('book by id all single book data', response)
+      console.log('book by id all single book data-----------', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setAllBookDataById(response?.data?.Books)
@@ -746,7 +746,7 @@ const Issue_Report = () => {
         setPrice(response?.data?.Books?.price)
         setRackNumber(response?.data?.Books?.almirahNo)
         setShelfNumber(response?.data?.Books?.selfNo)
-        setQuantity(response?.data?.Books?.noOfCopies)
+        setQuantity(response?.data?.Books?.availableCopies)
         setLoader(false)
       } else {
         // toast.error(response?.data?.message);
@@ -921,7 +921,6 @@ const Issue_Report = () => {
         const formData = new FormData()
         formData.append('returnDate', returnDate)
         formData.append('status', mainStatus)
-
         const response = await BookIssueReturn(id, formData);
         if (response?.status === 200) {
           toast.success(response?.data?.message);
@@ -938,7 +937,6 @@ const Issue_Report = () => {
           toast.error(response?.data?.message);
           setShow12(true)
         }
-
       } catch (error) {
         console.log(error)
         setLoader(false)
