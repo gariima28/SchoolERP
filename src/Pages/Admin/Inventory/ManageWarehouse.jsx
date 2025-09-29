@@ -142,6 +142,27 @@ const ManageWareHouse = () => {
     }
   };
 
+  const openEditCanvas = async (id) => {
+    setLoaderState(true);
+    try {
+      await getWarehouseDataById(id);
+      setTimeout(() => {
+        const offcanvasElement = document.getElementById('Edit_staticBackdrop');
+        if (offcanvasElement) {
+          let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+          if (!offcanvas) {
+            offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+          }
+          offcanvas.show();
+        }
+      }, 0);
+    } catch (error) {
+      toast.error('Failed to load warehouse data');
+    } finally {
+      setLoaderState(false);
+    }
+  };
+
   // Form instances
   const {
     register: registerAdd,
@@ -227,20 +248,22 @@ const ManageWareHouse = () => {
       const response = await getByIdWarehouseApi(id);
       if (response?.status === 200 && response?.data?.status === 'success') {
         const data = response.data.warehouse;
-        setValueUpdate('warehouseName', data.warehouseName);
-        setValueUpdate('role', data.roleType);
-        setValueUpdate('email', data.keeperEmail || '');
-        setValueUpdate('phoneNumber', data.keeperPhone || '');
-        setValueUpdate('address', data.keeperAddress || '');
-        setValueUpdate('description', data.description || '');
-        setValueUpdate('warehouseKeeperName', data.warehouseKeeperName || '');
-        await getAllDataByRoleId(data.roleType, data.warehouseKeeperId);
-        setValueUpdate('warehouseKeeper', data.warehouseKeeperId);
-        console.log(data.warehouseKeeperId, 'data.warehouseKeeperId')
+        await getAllDataByRoleId(data.roleType);
+        // Use reset to populate the form after async data load
+        resetEdit({
+          warehouseName: data.warehouseName,
+          role: String(data.roleType),
+          warehouseKeeper: String(data.warehouseKeeperId),
+          warehouseKeeperName: data.warehouseKeeperName || '',
+          email: data.keeperEmail || '',
+          phoneNumber: data.keeperPhone || '',
+          address: data.keeperAddress || '',
+          description: data.description || '',
+        });
         setInitialFormValues({
           warehouseName: data.warehouseName,
-          role: data.roleType,
-          warehouseKeeper: data.warehouseKeeperId,
+          role: String(data.roleType),
+          warehouseKeeper: String(data.warehouseKeeperId),
           email: data.keeperEmail || '',
           phoneNumber: data.keeperPhone || '',
           address: data.keeperAddress || '',
@@ -299,7 +322,7 @@ const ManageWareHouse = () => {
     }
   };
 
-  const getAllDataByRoleId = async (roleId, warehouseKeeper) => {
+  const getAllDataByRoleId = async (roleId) => {
     try {
       setLoaderState(true);
       const response = await getDataByRoleIdApi(roleId, '', '', '');
@@ -308,7 +331,6 @@ const ManageWareHouse = () => {
           setLoaderState(false);
           const staffData = response?.data?.staff || [];
           setDataByRoleId(staffData);
-          setValueUpdate('warehouseKeeper', warehouseKeeper)
           // Log to debug
           console.log('DataByRoleId:', staffData);
         } else {
@@ -498,7 +520,13 @@ const ManageWareHouse = () => {
                         <td className='textWrapClass greyText font14'>{item.keeperAddress}</td>
                         <td className='text-end'>
                           <span className="ps-4 greyText" data-bs-toggle="modal" data-bs-target="#viewDetails" style={{ cursor: "pointer" }} onClick={() => getWarehouseForView(item.id)}><RemoveRedEyeOutlinedIcon /></span>
-                          <span className="ps-4 greyText" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop" style={{ cursor: "pointer" }} onClick={() => getWarehouseDataById(item.id)}><DriveFileRenameOutlineOutlinedIcon /></span>
+                          <span
+                            className="ps-4 greyText"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => openEditCanvas(item.id)}
+                          >
+                            <DriveFileRenameOutlineOutlinedIcon />
+                          </span>
                           <span className="ps-4 greyText" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" style={{ cursor: "pointer" }} onClick={() => setDelWarehouseId(item.id)}><DeleteOutlinedIcon /></span>
                         </td>
                       </tr>
@@ -743,7 +771,7 @@ const ManageWareHouse = () => {
                 >
                   <option value="">--- Choose ---</option>
                   {RolesData?.map((role) => (
-                    <option key={role.roleId} value={role.roleId}>
+                    <option key={role.roleId} value={String(role.roleId)}>
                       {role.roleName}
                     </option>
                   ))}
@@ -768,7 +796,7 @@ const ManageWareHouse = () => {
                   <option value="">--- Choose ---</option>
                   {DataByRoleId.length > 0 ? (
                     DataByRoleId.map((staff) => (
-                      <option key={staff.id} value={staff.id}>
+                      <option key={staff.id} value={String(staff.id)}>
                         {staff.staffName}
                       </option>
                     ))
@@ -929,7 +957,7 @@ const ManageWareHouse = () => {
                 >
                   <option value="">--- Choose ---</option>
                   {RolesData?.map((role) => (
-                    <option key={role.roleId} value={role.roleId}>
+                    <option key={role.roleId} value={String(role.roleId)}>
                       {role.roleName}
                     </option>
                   ))}
@@ -953,7 +981,7 @@ const ManageWareHouse = () => {
                   <option value="">--- Choose ---</option>
                   {DataByRoleId.length > 0 ? (
                     DataByRoleId.map((staff) => (
-                      <option key={staff.id} value={staff.id}>
+                      <option key={staff.id} value={String(staff.id)}>
                         {staff.staffName}
                       </option>
                     ))
