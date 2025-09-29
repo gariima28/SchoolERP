@@ -177,7 +177,7 @@ const Submission = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize] = useState(10);
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const [originalValues, setOriginalValues] = useState({});
   const [submissionData, setSubmissionData] = useState(null);
   const [isFormChanged, setIsFormChanged] = useState(false);
@@ -306,7 +306,7 @@ const Submission = () => {
       }
     } catch (err) {
       if (err?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
     } finally {
@@ -323,7 +323,7 @@ const Submission = () => {
       }
     } catch (err) {
       if (err?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
     } finally {

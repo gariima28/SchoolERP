@@ -15,7 +15,7 @@ import {
 } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
 
-// Styled components for CSS (unchanged from your provided code)
+// Styled components for CSS (unchanged)
 const StyledContainer = styled.div`
   .form-check-input:checked {
     background-color: #008479 !important;
@@ -36,7 +36,6 @@ const StyledContainer = styled.div`
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
-
   .formdltcheck:checked {
     background-color: #b50000 !important;
     border-color: #b50000 !important;
@@ -229,7 +228,6 @@ const StyledContainer = styled.div`
 
 const Conta_allown = () => {
   const { roleId, userId } = useParams();
-  // const { userId } = useContext(MyUseContext);
   const myUserID = userId ?? roleId ?? '';
 
   const [loaderState, setLoaderState] = useState(false);
@@ -248,10 +246,14 @@ const Conta_allown = () => {
     handleSubmit: handleAddSubmit,
     reset: resetAddForm,
     formState: { errors: addErrors },
+    setValue: setAddValue,
+    watch: watchAddForm,
   } = useForm({
     mode: 'onChange',
     defaultValues: {
       allowanceNameId: '',
+      allowanceType: '',
+      percentage: '',
       amount: '',
       amountOption: '',
     },
@@ -263,14 +265,48 @@ const Conta_allown = () => {
     reset: resetEditForm,
     formState: { errors: editErrors },
     setValue: setEditValue,
+    watch: watchEditForm,
   } = useForm({
     mode: 'onChange',
     defaultValues: {
       allowanceNameId: '',
+      allowanceType: '',
+      percentage: '',
       amount: '',
       amountOption: '',
     },
   });
+
+  // Watch form fields to enable/disable inputs
+  const addAllowanceType = watchAddForm('allowanceType');
+  const editAllowanceType = watchEditForm('allowanceType');
+
+  // Reset percentage and amount when allowance type changes
+  useEffect(() => {
+    if (addAllowanceType === 'PERCENTAGE') {
+      setAddValue('amount', '0');
+      setAddValue('percentage', '');
+    } else if (addAllowanceType === 'AMOUNT') {
+      setAddValue('percentage', '0');
+      setAddValue('amount', '');
+    } else {
+      setAddValue('percentage', '');
+      setAddValue('amount', '');
+    }
+  }, [addAllowanceType, setAddValue]);
+
+  useEffect(() => {
+    if (editAllowanceType === 'PERCENTAGE') {
+      setEditValue('amount', '0');
+      setEditValue('percentage', editAllowance?.percentage || '');
+    } else if (editAllowanceType === 'AMOUNT') {
+      setEditValue('percentage', '0');
+      setEditValue('amount', editAllowance?.amount || '');
+    } else {
+      setEditValue('percentage', '');
+      setEditValue('amount', '');
+    }
+  }, [editAllowanceType, setEditValue, editAllowance]);
 
   // Initialize Bootstrap offcanvas
   useEffect(() => {
@@ -291,8 +327,6 @@ const Conta_allown = () => {
     if (myUserID) {
       getAllAllowanceName();
       getAllAllowanceNameByStaffId();
-    } else {
-      // Optionally redirect: navigate('/');
     }
   }, [myUserID, pageNo]);
 
@@ -309,8 +343,7 @@ const Conta_allown = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
-        // navigate('/');
+        sessionStorage.removeItem('token');
       }
       toast.error('Error fetching allowances');
     } finally {
@@ -331,8 +364,7 @@ const Conta_allown = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem('token');
-        // navigate('/');
+        sessionStorage.removeItem('token');
       }
       toast.error('Error fetching staff allowances');
     } finally {
@@ -346,8 +378,10 @@ const Conta_allown = () => {
       setLoaderState(true);
       const formData = new FormData();
       formData.append('allowanceNameId', data.allowanceNameId);
-      formData.append('allowanceType', data.amountOption);
+      formData.append('allowanceType', data.allowanceType);
+      formData.append('percentage', data.percentage);
       formData.append('amount', data.amount);
+      formData.append('amountOption', data.amountOption);
 
       const response = await AssignAllowanceToStaff(myUserID, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
@@ -366,11 +400,12 @@ const Conta_allown = () => {
 
   // Edit allowance
   const handleEdit = (item) => {
-    console.log('Editing item:', item); // Debug log to check item structure
     setEditAllowance(item);
     setEditValue('allowanceNameId', item.allowanceNameId || '');
-    setEditValue('amount', item.amount || '');
-    setEditValue('amountOption', item.allowanceType || '');
+    setEditValue('allowanceType', item.allowanceType || '');
+    setEditValue('percentage', item.percentage || '0');
+    setEditValue('amount', item.amount || '0');
+    setEditValue('amountOption', item.amountOption || '');
     const offcanvasElement = document.getElementById('editAllowanceOffcanvas');
     if (offcanvasElement) {
       const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
@@ -388,13 +423,12 @@ const Conta_allown = () => {
       setLoaderState(true);
       const formData = new FormData();
       formData.append('allowanceNameId', data.allowanceNameId);
-      formData.append('allowanceType', data.amountOption);
+      formData.append('allowanceType', data.allowanceType);
+      formData.append('percentage', data.percentage);
       formData.append('amount', data.amount);
+      formData.append('amountOption', data.amountOption);
 
-      console.log('Updating allowance with ID:', editAllowance.staffId || editAllowance.staffId); // Debug log
-      console.log('FormData:', Object.fromEntries(formData)); // Debug log
-
-      const response = await Conatct_allowance_PutApi(editAllowance.staffId || editAllowance.staffId, formData);
+      const response = await Conatct_allowance_PutApi(editAllowance.staffId || editAllowance.id, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message);
         getAllAllowanceNameByStaffId();
@@ -409,7 +443,6 @@ const Conta_allown = () => {
         toast.error(response?.data?.message || 'Failed to update allowance');
       }
     } catch (error) {
-      console.error('Update error:', error.response?.data); // Debug log
       toast.error(error?.response?.data?.message || 'Error updating allowance');
     } finally {
       setLoaderState(false);
@@ -424,7 +457,7 @@ const Conta_allown = () => {
       if (response?.data?.status === 'success') {
         toast.success('Allowance deleted successfully');
         getAllAllowanceNameByStaffId();
-        setIsChecked(false)
+        setIsChecked(false);
         const offcanvasElement = document.getElementById('deleteFeeDiscount');
         const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
@@ -481,26 +514,96 @@ const Conta_allown = () => {
                       aria-describedby="allowanceError"
                     >
                       <option value="">--Choose--</option>
-                      {allowanceData.length > 0
-                        ?
-                        (
-                          <>
-                            {allowanceData?.map((item) => (
-                              <option key={item.id} value={item.id}>
-                                {item.allowanceName}
-                              </option>
-                            ))}
-                          </>
-                        )
-                        :
+                      {allowanceData.length > 0 ? (
+                        allowanceData.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.allowanceName}
+                          </option>
+                        ))
+                      ) : (
                         <option value="no" disabled>-- No Allowance Created Yet --</option>
-                      }
+                      )}
                     </select>
                   )}
                 />
                 {addErrors.allowanceNameId && (
                   <div id="allowanceError" className="error-message">
                     {addErrors.allowanceNameId.message}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <div className="form-group">
+                <label
+                  htmlFor="allowanceType"
+                  className="form-label heading-14 label-color"
+                  data-tooltip="Select allowance type"
+                  aria-label="Allowance Type"
+                >
+                  Allowance Type <span style={{ color: '#B50000' }}>*</span>
+                </label>
+                <Controller
+                  name="allowanceType"
+                  control={addControl}
+                  rules={{ required: 'Allowance type is required' }}
+                  render={({ field }) => (
+                    <select
+                      className={`form-select form-select-sm form-focus label-color ${addErrors.allowanceType ? 'border-danger' : ''}`}
+                      id="allowanceType"
+                      {...field}
+                      aria-describedby="allowanceTypeError"
+                    >
+                      <option value="">--Choose--</option>
+                      <option value="PERCENTAGE">Percentage</option>
+                      <option value="AMOUNT">Amount</option>
+                    </select>
+                  )}
+                />
+                {addErrors.allowanceType && (
+                  <div id="allowanceTypeError" className="error-message">
+                    {addErrors.allowanceType.message}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row px-1 row-margin">
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <div className="form-group">
+                <label
+                  htmlFor="percentage"
+                  className="form-label heading-14 label-color"
+                  data-tooltip="Enter percentage (e.g., 10.00)"
+                  aria-label="Percentage"
+                >
+                  Percentage <span style={{ color: '#B50000' }}>*</span>
+                </label>
+                <Controller
+                  name="percentage"
+                  control={addControl}
+                  rules={{
+                    required: addAllowanceType === 'PERCENTAGE' ? 'Percentage is required' : false,
+                    pattern: addAllowanceType === 'PERCENTAGE' ? {
+                      value: /^\d+(\.\d{1,2})?$/,
+                      message: 'Enter a valid percentage (e.g., 10.00)',
+                    } : undefined,
+                  }}
+                  render={({ field }) => (
+                    <input
+                      type="text"
+                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.percentage && field.value && addAllowanceType === 'PERCENTAGE' ? 'valid-indicator' : ''}`}
+                      id="percentage"
+                      placeholder="Enter percentage"
+                      disabled={addAllowanceType !== 'PERCENTAGE'}
+                      {...field}
+                      aria-describedby="percentageError"
+                    />
+                  )}
+                />
+                {addErrors.percentage && (
+                  <div id="percentageError" className="error-message">
+                    {addErrors.percentage.message}
                   </div>
                 )}
               </div>
@@ -519,18 +622,19 @@ const Conta_allown = () => {
                   name="amount"
                   control={addControl}
                   rules={{
-                    required: 'Amount is required',
-                    pattern: {
+                    required: addAllowanceType === 'AMOUNT' ? 'Amount is required' : false,
+                    pattern: addAllowanceType === 'AMOUNT' ? {
                       value: /^\d+(\.\d{1,2})?$/,
                       message: 'Enter a valid amount (e.g., 1000.00)',
-                    },
+                    } : undefined,
                   }}
                   render={({ field }) => (
                     <input
                       type="text"
-                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.amount && field.value ? 'valid-indicator' : ''}`}
+                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.amount && field.value && addAllowanceType === 'AMOUNT' ? 'valid-indicator' : ''}`}
                       id="amount"
                       placeholder="Enter amount"
+                      disabled={addAllowanceType !== 'AMOUNT'}
                       {...field}
                       aria-describedby="amountError"
                     />
@@ -638,6 +742,7 @@ const Conta_allown = () => {
               <tr>
                 <th scope="col">Allowance Name</th>
                 <th scope="col">Allowance Type</th>
+                <th scope="col">Percentage</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Action</th>
               </tr>
@@ -647,7 +752,8 @@ const Conta_allown = () => {
                 <tr key={item.id}>
                   <td>{item.allowanceName}</td>
                   <td>{item.allowanceType}</td>
-                  <td>{item.amount}</td>
+                  <td>{item.percentage || '0'}</td>
+                  <td>{item.amount || '0'}</td>
                   <td>
                     <button
                       className="action-btn edit me-2"
@@ -664,24 +770,15 @@ const Conta_allown = () => {
                       data-bs-toggle="offcanvas"
                       data-bs-target="#deleteFeeDiscount"
                       aria-controls="deleteFeeDiscount"
-                      onClick={() => setDelAllowanceId(item.allowanceId)} //delAllowanceId
+                      onClick={() => setDelAllowanceId(item.allowanceId)}
                     >
-                      {/* <Icon icon="mi:delete" width="1.5em" height="1.5em" style={{ color: '#8F8F8F' }} /> */}
                       Delete
                     </button>
-                    {/* <button
-                      className="action-btn delete"
-                      onClick={() => handleDelete(item.allowanceId)}
-                      aria-label={`Delete allowance ${item.allowanceName}`}
-                    >
-                      Delete
-                    </button> */}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-
         ) : (
           <div className="d-flex justify-content-center p-5">
             <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid' />
@@ -755,6 +852,75 @@ const Conta_allown = () => {
             </div>
             <div className="form-group mb-3">
               <label
+                htmlFor="editAllowanceType"
+                className="form-label heading-14 label-color"
+                data-tooltip="Select allowance type"
+                aria-label="Allowance Type"
+              >
+                Allowance Type <span style={{ color: '#B50000' }}>*</span>
+              </label>
+              <Controller
+                name="allowanceType"
+                control={editControl}
+                rules={{ required: 'Allowance type is required' }}
+                render={({ field }) => (
+                  <select
+                    className={`form-select form-select-sm form-focus label-color ${editErrors.allowanceType ? 'border-danger' : ''}`}
+                    id="editAllowanceType"
+                    {...field}
+                    aria-describedby="editAllowanceTypeError"
+                  >
+                    <option value="">--Choose--</option>
+                    <option value="PERCENTAGE">Percentage</option>
+                    <option value="AMOUNT">Amount</option>
+                  </select>
+                )}
+              />
+              {editErrors.allowanceType && (
+                <div id="editAllowanceTypeError" className="error-message">
+                  {editErrors.allowanceType.message}
+                </div>
+              )}
+            </div>
+            <div className="form-group mb-3">
+              <label
+                htmlFor="editPercentage"
+                className="form-label heading-14 label-color"
+                data-tooltip="Enter percentage (e.g., 10.00)"
+                aria-label="Percentage"
+              >
+                Percentage <span style={{ color: '#B50000' }}>*</span>
+              </label>
+              <Controller
+                name="percentage"
+                control={editControl}
+                rules={{
+                  required: editAllowanceType === 'PERCENTAGE' ? 'Percentage is required' : false,
+                  pattern: editAllowanceType === 'PERCENTAGE' ? {
+                    value: /^\d+(\.\d{1,2})?$/,
+                    message: 'Enter a valid percentage (e.g., 10.00)',
+                  } : undefined,
+                }}
+                render={({ field }) => (
+                  <input
+                    type="text"
+                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.percentage && field.value && editAllowanceType === 'PERCENTAGE' ? 'valid-indicator' : ''}`}
+                    id="editPercentage"
+                    placeholder="Enter percentage"
+                    disabled={editAllowanceType !== 'PERCENTAGE'}
+                    {...field}
+                    aria-describedby="editPercentageError"
+                  />
+                )}
+              />
+              {editErrors.percentage && (
+                <div id="editPercentageError" className="error-message">
+                  {editErrors.percentage.message}
+                </div>
+              )}
+            </div>
+            <div className="form-group mb-3">
+              <label
                 htmlFor="editAmount"
                 className="form-label heading-14 label-color"
                 data-tooltip="Enter amount (e.g., 1000.00)"
@@ -766,18 +932,19 @@ const Conta_allown = () => {
                 name="amount"
                 control={editControl}
                 rules={{
-                  required: 'Amount is required',
-                  pattern: {
+                  required: editAllowanceType === 'AMOUNT' ? 'Amount is required' : false,
+                  pattern: editAllowanceType === 'AMOUNT' ? {
                     value: /^\d+(\.\d{1,2})?$/,
                     message: 'Enter a valid amount (e.g., 1000.00)',
-                  },
+                  } : undefined,
                 }}
                 render={({ field }) => (
                   <input
                     type="text"
-                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.amount && field.value ? 'valid-indicator' : ''}`}
+                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.amount && field.value && editAllowanceType === 'AMOUNT' ? 'valid-indicator' : ''}`}
                     id="editAmount"
                     placeholder="Enter amount"
+                    disabled={editAllowanceType !== 'AMOUNT'}
                     {...field}
                     aria-describedby="editAmountError"
                   />
@@ -877,8 +1044,6 @@ const Conta_allown = () => {
         </div>
       </div>
 
-
-      {/* Delete Allowance */}
       <div className="offcanvas offcanvas-end p-2" tabIndex="-1" id="deleteFeeDiscount" aria-labelledby="deleteFeeDiscountLabel">
         <div className="offcanvas-header border-bottom border-2 p-2">
           <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">

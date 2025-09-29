@@ -170,7 +170,7 @@ const CreateBulkInvoice = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Failed to fetch classes');
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         setTimeout(() => {
           navigate('/');
         }, 200);
@@ -192,7 +192,7 @@ const CreateBulkInvoice = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Error fetching fee types');
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
       }
     } finally {
       setLoaderState(false);
@@ -211,7 +211,7 @@ const CreateBulkInvoice = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Error fetching fee discounts');
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
     } finally {
@@ -302,7 +302,7 @@ const CreateBulkInvoice = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Error adding invoice');
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/');
       }
     } finally {

@@ -124,7 +124,7 @@ const dummyStockData = [
 
 const ItemStock = () => {
 
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   //loader State
   const [isChecked, setIsChecked] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({});
@@ -168,7 +168,7 @@ const ItemStock = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching suppliers");

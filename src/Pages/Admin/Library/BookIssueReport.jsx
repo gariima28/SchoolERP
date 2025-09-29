@@ -515,7 +515,7 @@ color: #000 !important;
 
 const BookIssueReport = () => {
 
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
   const [forDelete, setForDelete] = useState(false)
 

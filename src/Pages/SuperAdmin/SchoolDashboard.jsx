@@ -42,7 +42,7 @@ const SchoolDashboard = ({ data }) => {
             setloaderStatee(false);
             console.error('Error fetching student data:', error);
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token')
+                sessionStorage.removeItem('token')
                 setTimeout(() => {
                     navigate('/')
                 }, 200);

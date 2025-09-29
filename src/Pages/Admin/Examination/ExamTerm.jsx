@@ -121,7 +121,7 @@ const base64ToBlob = (base64Data, contentType) => {
 };
 
 const ExamTerm = () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
 
     // State Management
@@ -178,7 +178,7 @@ const ExamTerm = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error fetching exam terms');
@@ -340,7 +340,7 @@ const ExamTerm = () => {
             }
         } catch (error) {
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 navigate('/');
             }
             toast.error('Error downloading CSV');

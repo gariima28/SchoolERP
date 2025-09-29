@@ -19,6 +19,7 @@ import {
   getAllWarehouseApi,
   DownloadManageProductExcel,
   DownloadManageProductPDF,
+  generateProductCodeApi,
 } from "../../../Utils/Apis";
 import * as bootstrap from "bootstrap";
 import ReactPaginate from "react-paginate";
@@ -132,7 +133,7 @@ const base64ToBlob = (base64Data, contentType) => {
 };
 
 const ManageProduct = () => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
   // State Management
@@ -152,24 +153,31 @@ const ManageProduct = () => {
   const [pageSize, setPageSize] = useState(10);
   const [initialFormValues, setInitialFormValues] = useState({});
   const [viewProductData, setViewProductData] = useState(null);
-  const [isManualProductCode, setIsManualProductCode] = useState(false);
-  const [submissionError, setSubmissionError] = useState('');
+  const [isGenratedProductCode, setIsGenratedProductCode] = useState(false);
+  const [isGenratedProductCodeEdit, setIsGenratedProductCodeEdit] = useState(false);
 
   const handleCheckboxChange = (e) => {
-    setIsManualProductCode(!isManualProductCode);
-    setSubmissionError(''); // Clear error on checkbox change
-    if (!e.target.checked) {
-      setValueAdd("productCode", ""); // Clear productCode when unchecked
+    if (e.target.checked) {
+      setIsGenratedProductCode(e.target.value)
+      getGeneratedProductCode()
     }
+    else {
+      setIsGenratedProductCode(false)
+      setValueAdd('productCode', '')
+    }
+
   };
 
-  const onSubmit = (data) => {
-    if (isManualProductCode && !data.productCode) {
-      setSubmissionError('Please either uncheck "Generate Product Code Manually" or provide a valid Product Code.');
-      return;
+  const handleCheckboxChangeEdit = (e) => {
+    if (e.target.checked) {
+      setIsGenratedProductCodeEdit(e.target.value)
+      getGeneratedProductCode()
     }
-    setSubmissionError('');
-    handleSubmitAdd(addNewManageProduct)(data);
+    else {
+      setIsGenratedProductCodeEdit(false)
+      setValueEdit('productCode', '')
+    }
+
   };
 
   // Form instances
@@ -218,7 +226,7 @@ const ManageProduct = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching item categories");
@@ -238,7 +246,7 @@ const ManageProduct = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching warehouses");
@@ -260,7 +268,29 @@ const ManageProduct = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
+        navigate("/");
+      }
+      toast.error("Error fetching products");
+    } finally {
+      setLoaderState(false);
+    }
+  };
+
+  const getGeneratedProductCode = async (search = "") => {
+    try {
+      setLoaderState(true);
+      const response = await generateProductCodeApi();
+      console.log(response)
+      if (response?.status === 200 && response?.data?.status === "success") {
+        console.log(response.data)
+        setValueAdd('productCode', response.data.productCode)
+      } else {
+        toast.error(response?.data?.message || "Failed to fetch products");
+      }
+    } catch (error) {
+      if (error?.response?.data?.statusType === 401) {
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching products");
@@ -278,18 +308,22 @@ const ManageProduct = () => {
   // Fetch Product by ID for Editing or Viewing
   const getManageProductDataById = async (id, isView = false) => {
     try {
+      setValueAdd('productCode', '')
+      setValueEdit('productCode', '')
       setLoaderState(true);
       setEditProductId(isView ? "" : id);
       const response = await getManageProductByIdApi(id);
       if (response?.status === 200 && response?.data?.status === "success") {
         const data = response.data.item;
+        setValueEdit('productCode', data.productCode)
         const formValues = {
           categoryId: data.categoryId || "",
           warehouseId: data.warehouseId || "",
           itemName: data.itemName || "",
           unit: data.unit || "",
-          quantity: data.quantity || "",
+          quantity: data.availableQuantity || "",
           description: data.description || "",
+          productCode: data.productCode || "",
         };
         if (isView) {
           setViewProductData(data);
@@ -298,8 +332,9 @@ const ManageProduct = () => {
           setValueEdit("warehouseId", data.warehouseId || "");
           setValueEdit("itemName", data.itemName || "");
           setValueEdit("unit", data.unit || "");
-          setValueEdit("quantity", data.quantity || "");
+          setValueEdit("quantity", data.availableQuantity || "");
           setValueEdit("description", data.description || "");
+          setValueEdit("productCode", data.productCode || "");
           setInitialFormValues(formValues);
         }
       } else {
@@ -321,10 +356,10 @@ const ManageProduct = () => {
         warehouseId: data.warehouseId || "",
         itemName: data.itemName || "",
         unit: data.unit || "",
-        quantity: parseInt(data.quantity) || 0,
+        availableQuantity: parseInt(data.quantity) || 0,
         description: data.description || "",
       };
-      if (isManualProductCode) {
+      if (isGenratedProductCode) {
         formValues.productCode = data.productCode || "";
       }
       const response = await addNewManageProductApi(formValues);
@@ -332,7 +367,7 @@ const ManageProduct = () => {
         toast.success(response.data.message);
         getAllManageProductData(searchInputVal);
         resetAdd();
-        setIsManualProductCode(false);
+        setIsGenratedProductCode(false);
         const offcanvasElement = document.getElementById("add_staticBackdrop");
         const offcanvas =
           bootstrap.Offcanvas.getInstance(offcanvasElement) ||
@@ -363,7 +398,7 @@ const ManageProduct = () => {
       formData.append("warehouseId", data.warehouseId);
       formData.append("itemName", data.itemName);
       formData.append("unit", data.unit);
-      formData.append("quantity", parseInt(data.quantity));
+      formData.append("availableQuantity", parseInt(data.quantity));
       formData.append("description", data.description || "");
       const response = await updateManageProductByIdApi(editProductId, formData);
       if (response?.status === 200 && response?.data?.status === "success") {
@@ -380,7 +415,7 @@ const ManageProduct = () => {
         setValueEdit("warehouseId", initialFormValues.warehouseId);
         setValueEdit("itemName", initialFormValues.itemName);
         setValueEdit("unit", initialFormValues.unit);
-        setValueEdit("quantity", initialFormValues.quantity);
+        setValueEdit("availableQuantity", initialFormValues.quantity);
         setValueEdit("description", initialFormValues.description);
       }
     } catch (error) {
@@ -389,7 +424,7 @@ const ManageProduct = () => {
       setValueEdit("warehouseId", initialFormValues.warehouseId);
       setValueEdit("itemName", initialFormValues.itemName);
       setValueEdit("unit", initialFormValues.unit);
-      setValueEdit("quantity", initialFormValues.quantity);
+      setValueEdit("availableQuantity", initialFormValues.quantity);
       setValueEdit("description", initialFormValues.description);
     } finally {
       setLoaderState(false);
@@ -431,7 +466,7 @@ const ManageProduct = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error downloading CSV");
@@ -496,7 +531,7 @@ const ManageProduct = () => {
               addButtonText="Add Product"
               addButtonAction={() => {
                 resetAdd();
-                setIsManualProductCode(false);
+                setIsGenratedProductCode(false);
                 const offcanvasElement = document.getElementById("add_staticBackdrop");
                 const offcanvas =
                   bootstrap.Offcanvas.getInstance(offcanvasElement) ||
@@ -542,7 +577,7 @@ const ManageProduct = () => {
                         <td className="textWrapClass greyText font14">{item.categoryName}</td>
                         <td className="textWrapClass greyText font14">{item.warehouseName}</td>
                         <td className="textWrapClass greyText font14">{item.unit || "-"}</td>
-                        <td className="textWrapClass greyText font14">{item.quantity || "-"}</td>
+                        <td className="textWrapClass greyText font14">{item.availableQuantity || "-"}</td>
                         <td className="text-end">
                           <span
                             className="ps-4 greyText"
@@ -611,10 +646,10 @@ const ManageProduct = () => {
         <div className="modal modal-lg fade" id="viewDetails" tabIndex="-1" aria-labelledby="viewDetailsLabel" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
-              <div className="modal-header p-2 px-3">
+              <div className="modal-header p-3">
                 <h2 className="modal-title" id="viewDetailsLabel">View Product</h2>
                 <div className="d-flex align-items-center">
-                  <button className="btn greyText" type="button" onClick={handleDownloadPdf}><Download /></button>
+                  {/* <button className="btn greyText" type="button" onClick={handleDownloadPdf}><Download /></button> */}
                   <button type="button" className="btn-close greyText" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
               </div>
@@ -664,7 +699,7 @@ const ManageProduct = () => {
                       <div className="row">
                         <div className="col-5"><span>Quantity</span></div>
                         <div className="col-2"><span>:</span></div>
-                        <div className="col-5"><span>{viewProductData?.quantity || "-"}</span></div>
+                        <div className="col-5"><span>{viewProductData?.availableQuantity || "-"}</span></div>
                       </div>
                     </div>
                   </div>
@@ -695,7 +730,7 @@ const ManageProduct = () => {
             <h2 className="offcanvas-title" id="staticBackdropLabel">Product Add</h2>
           </div>
           <div className="offcanvas-body p-3">
-            <form onSubmit={handleSubmitAdd(onSubmit)}>
+            <form onSubmit={handleSubmitAdd(addNewManageProduct)}>
               <div className="mb-3">
                 <label htmlFor="categoryAdd" className="form-label font14">
                   Category <span className="text-danger">*</span>
@@ -773,17 +808,22 @@ const ManageProduct = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="quantityAdd" className="form-label font14">
-                  Quantity <span className="text-danger">*</span>
+                  Available Quantity <span className="text-danger">*</span>
                 </label>
                 <input
                   id="quantityAdd"
-                  type="number"
+                  type="text"
                   className={`form-control font14 ${errorsAdd.quantity ? "border-danger" : ""}`}
                   placeholder="Enter Quantity"
                   {...registerAdd("quantity", {
                     required: "Quantity is required *",
+                    pattern: {
+                      value: /^[0-9]+$/, // only digits allowed
+                      message: "Only numbers are allowed",
+                    },
                     min: { value: 1, message: "Quantity must be at least 1" },
-                    validate: (value) => Number.isInteger(Number(value)) || "Quantity must be an integer",
+                    validate: (value) =>
+                      Number.isInteger(Number(value)) || "Quantity must be an integer",
                   })}
                 />
                 {errorsAdd.quantity && <p className="font12 text-danger">{errorsAdd.quantity.message}</p>}
@@ -792,37 +832,35 @@ const ManageProduct = () => {
                 <input
                   type="checkbox"
                   className="form-check-input formcheckBox"
-                  id="manualProductCode"
-                  checked={isManualProductCode}
+                  id="GenratedProductCode"
+                  checked={isGenratedProductCode}
                   onChange={handleCheckboxChange}
                 />
-                <label className="form-check-label greenText font14" htmlFor="manualProductCode">
-                  Generate Product Code Manually
+                <label className="form-check-label greenText font14" htmlFor="GenratedProductCode">
+                  Generate Product Code
                 </label>
               </div>
-              {isManualProductCode && (
-                <div className="mb-3">
-                  <label htmlFor="productCodeAdd" className="form-label font14">
-                    Product Code <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    id="productCodeAdd"
-                    type="text"
-                    className={`form-control font14 ${errorsAdd.productCode ? "border-danger" : ""}`}
-                    placeholder="Enter Product Code"
-                    {...registerAdd("productCode", {
-                      required: isManualProductCode ? "Product Code is required *" : false,
-                      validate: {
-                        validFormat: (value) =>
-                          !isManualProductCode ||
-                          /^[A-Z0-9-]{4,}$/.test(value) ||
-                          "Product Code must be alphanumeric, at least 4 characters, and may include hyphens",
-                      },
-                    })}
-                  />
-                  {errorsAdd.productCode && <p className="font12 text-danger">{errorsAdd.productCode.message}</p>}
-                </div>
-              )}
+              <div className="mb-3">
+                <label htmlFor="productCodeAdd" className="form-label font14">
+                  Product Code <span className="text-danger">*</span>
+                </label>
+                <input
+                  id="productCodeAdd"
+                  type="text"
+                  className={`form-control font14 ${errorsAdd.productCode ? "border-danger" : ""}`}
+                  placeholder="Enter Product Code"
+                  {...registerAdd("productCode", {
+                    required: isGenratedProductCode ? "Product Code is required *" : false,
+                    validate: {
+                      validFormat: (value) =>
+                        !isGenratedProductCode ||
+                        /^[A-Z0-9-]{4,}$/.test(value) ||
+                        "Product Code must be alphanumeric, at least 4 characters, and may include hyphens",
+                    },
+                  })}
+                />
+                {errorsAdd.productCode && <p className="font12 text-danger">{errorsAdd.productCode.message}</p>}
+              </div>
               <div className="mb-3">
                 <label htmlFor="descriptionAdd" className="form-label font14">
                   Description
@@ -842,7 +880,6 @@ const ManageProduct = () => {
                 />
                 {errorsAdd.description && <p className="font12 text-danger">{errorsAdd.description.message}</p>}
               </div>
-              {submissionError && <p className="font12 text-danger text-center">{submissionError}</p>}
               <p className="text-center p-3">
                 <button className="btn addButtons2 font14 text-white me-2" type="submit" disabled={!isValidAdd}>
                   Add Product
@@ -853,7 +890,7 @@ const ManageProduct = () => {
                   data-bs-dismiss="offcanvas"
                   onClick={() => {
                     resetAdd();
-                    setIsManualProductCode(false);
+                    setIsGenratedProductCode(false);
                   }}
                 >
                   Cancel
@@ -952,20 +989,51 @@ const ManageProduct = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="quantityEdit" className="form-label font14">
-                  Quantity <span className="text-danger">*</span>
+                  Available Quantity <span className="text-danger">*</span>
                 </label>
                 <input
                   id="quantityEdit"
-                  type="number"
+                  type="text"
                   className={`form-control font14 ${errorsEdit.quantity ? "border-danger" : ""}`}
                   placeholder="Enter Quantity"
                   {...registerEdit("quantity", {
                     required: "Quantity is required *",
+                    pattern: {
+                      value: /^[0-9]+$/, // only digits allowed
+                      message: "Only numbers are allowed",
+                    },
                     min: { value: 1, message: "Quantity must be at least 1" },
-                    validate: (value) => Number.isInteger(Number(value)) || "Quantity must be an integer",
+                    validate: (value) =>
+                      Number.isInteger(Number(value)) || "Quantity must be an integer",
                   })}
                 />
                 {errorsEdit.quantity && <p className="font12 text-danger">{errorsEdit.quantity.message}</p>}
+              </div>
+              {/* <div className="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input formcheckBox"
+                  id="GenratedProductCodeEdit"
+                  checked={isGenratedProductCodeEdit}
+                  onChange={handleCheckboxChangeEdit}
+                />
+                <label className="form-check-label greenText font14" htmlFor="GenratedProductCodeEdit">
+                  Generate Product Code
+                </label>
+              </div> */}
+              <div className="mb-3">
+                <label htmlFor="productCodeEdit" className="form-label font14">
+                  Product Code <span className="text-danger">*</span>
+                </label>
+                <input
+                  id="productCodeEdit"
+                  type="text"
+                  disabled
+                  className={`form-control font14 ${errorsEdit.productCode ? "border-danger" : ""}`}
+                  placeholder="Enter Product Code"
+                  {...registerEdit("productCode")}
+                />
+                {errorsEdit.productCode && <p className="font12 text-danger">{errorsEdit.productCode.message}</p>}
               </div>
               <div className="mb-3">
                 <label htmlFor="descriptionEdit" className="form-label font14">

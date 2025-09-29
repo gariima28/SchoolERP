@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 const EditItemStock = ({ EditId, closeCanvas }) => {
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     //loader State
     const [loaderState, setloaderState] = useState(false);
     // const [Reload, setReload] = useState(false);
@@ -352,7 +352,23 @@ const EditItemStock = ({ EditId, closeCanvas }) => {
                     </div>
                     <div className="col-12 mb-3">
                         <label htmlFor="exampleFormControlInput1" className="form-label font14">Quantity <span className='text-danger'>*</span></label>
-                        <input id="itemQuantity" type="number" className={`form-control font14 ${errors.itemQuantity ? 'border-danger' : ''}`} {...register('itemQuantity', { required: 'Quantity is required *', min: { value: 0, message: 'Quantity cannot be negative' } })} />
+                        <input
+                            id="itemQuantity"
+                            type="text"
+                            className={`form-control font14 ${errors.itemQuantity ? 'border-danger' : ''}`}
+                            {...register('itemQuantity', {
+                                required: 'Quantity is required *',
+                                pattern: {
+                                    value: /^[0-9]+$/, // only digits allowed
+                                    message: 'Only numbers are allowed',
+                                },
+                                min: {
+                                    value: 0,
+                                    message: 'Quantity cannot be negative',
+                                },
+                            })}
+                        />
+
                         {errors.itemQuantity && <p className="font12 text-danger">{errors.itemQuantity.message}</p>}
                     </div>
                     <div className="col-12 mb-3">

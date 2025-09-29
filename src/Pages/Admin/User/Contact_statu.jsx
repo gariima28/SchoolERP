@@ -10,7 +10,7 @@ const Contact_statu = ({ data }) => {
 
   const staffId = data.data;
 
-  const MyUserID = localStorage.getItem('MyUserID');
+  const MyUserID = sessionStorage.getItem('MyUserID');
 
   // console.log('child to child data in state nowwwwww', staffId)
 

@@ -530,7 +530,7 @@ const Syllabus = () => {
     MySyllabusGetApi()
   }, [])
 
-  const token = localStorage.getItem;
+  const token = sessionStorage.getItem;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
@@ -788,7 +788,7 @@ const Syllabus = () => {
         setFileDatagetById(response?.data?.syllabus?.uploadSubjectPath)
         setUpdateStatus(response?.data?.status)
         const url = response?.data?.syllabus?.uploadSubjectPath
-        const fileName = url.split("/").pop();  
+        const fileName = url.split("/").pop();
         const trimmed = fileName.substring(fileName.indexOf("-") + 1);
 
         setCoverPage(trimmed)
@@ -1166,7 +1166,7 @@ const Syllabus = () => {
                       }
                     </div>
                   </div>
-                
+
 
                   <div className='my-button11'>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MySyllabusPutApi(IdForUpdate) }}>Update Syllabus</button>

@@ -12,7 +12,7 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title,
 
 const BarChart = ({ graphKey, graphFilterShow }) => {
 
-    const role = localStorage.getItem('loggedInUserRole');
+    const role = sessionStorage.getItem('loggedInUserRole');
     const navigate = useNavigate();
     const [data, setData] = useState({
         labels: [],
@@ -112,7 +112,7 @@ const BarChart = ({ graphKey, graphFilterShow }) => {
         catch (error) {
             console.error('Error fetching student data:', error);
             if (error?.response?.data?.statusCode === 401) {
-                localStorage.removeItem('token')
+                sessionStorage.removeItem('token')
                 setTimeout(() => {
                     navigate('/')
                 }, 200);

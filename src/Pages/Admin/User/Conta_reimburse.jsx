@@ -11,7 +11,7 @@ const Conta_reimburse = ({ data }) => {
   const { roleId, userId } = useParams();
   const staffId = data.data;
 
-  const MyUserID = localStorage.getItem('MyUserID');
+  const MyUserID = sessionStorage.getItem('MyUserID');
 
   const [forDelete, setForDelete] = useState(false)
   const [hide, setHide] = useState(false)

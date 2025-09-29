@@ -95,7 +95,7 @@ const ExamSchedule = () => {
       }
     } catch (error) {
       if (error?.response?.data?.statusCode === 401) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         navigate("/");
       }
       toast.error("Error fetching exam terms");
@@ -182,12 +182,12 @@ const ExamSchedule = () => {
             </p>
           </div>
           {/* {examScheduleSearch ? ( */}
-            <div className="row">
-              {/* {OfflineExamData.length > 0 ? ( */}
-                <>
-                  <div className="overflow-scroll">
-                    <table className="table align-middle table-striped table-bordered">
-                      <thead>
+          <div className="row">
+            {/* {OfflineExamData.length > 0 ? ( */}
+            <>
+              <div className="overflow-scroll">
+                <table className="table align-middle table-striped table-bordered">
+                  <thead>
                     <tr>
                       <th className="textWrapClass pe-4"> <span className="font14">#</span> </th>
                       <th className="textWrapClass pe-4"> <span className="font14">Exam Term</span> </th>
@@ -224,45 +224,45 @@ const ExamSchedule = () => {
                         <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
                         <td className="textWrapClass greyText"> <h3>{item.totalMarks}</h3> </td>
                       </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-                  <div className="d-flex">
-                    <p className="font14">
-                      Showing {currentPage} of {totalPages} Pages
-                    </p>
-                    <div className="ms-auto">
-                      <ReactPaginate
-                        previousLabel={
-                          <Icon
-                            icon="tabler:chevrons-left"
-                            width="1.4em"
-                            height="1.4em"
-                          />
-                        }
-                        nextLabel={
-                          <Icon
-                            icon="tabler:chevrons-right"
-                            width="1.4em"
-                            height="1.4em"
-                          />
-                        }
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={totalPages}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={10}
-                        onPageChange={handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"}
+              <div className="d-flex">
+                <p className="font14">
+                  Showing {currentPage} of {totalPages} Pages
+                </p>
+                <div className="ms-auto">
+                  <ReactPaginate
+                    previousLabel={
+                      <Icon
+                        icon="tabler:chevrons-left"
+                        width="1.4em"
+                        height="1.4em"
                       />
-                    </div>
-                  </div>
-                </>
-              {/* ) : (
+                    }
+                    nextLabel={
+                      <Icon
+                        icon="tabler:chevrons-right"
+                        width="1.4em"
+                        height="1.4em"
+                      />
+                    }
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={10}
+                    onPageChange={handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}
+                  />
+                </div>
+              </div>
+            </>
+            {/* ) : (
                 <>
                   <div className="d-flex justify-content-center p-5 m-5">
                     <img
@@ -273,7 +273,7 @@ const ExamSchedule = () => {
                   </div>
                 </>
               )} */}
-            </div>
+          </div>
           {/* ) : (
             <div className="d-flex justify-content-center p-5 m-5">
               <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className="img-fluid p-5" />

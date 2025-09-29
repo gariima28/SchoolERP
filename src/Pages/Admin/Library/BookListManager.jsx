@@ -494,7 +494,7 @@ const BookListManager = () => {
   const [preview, setPreview] = useState(null);
 
 
-  const token = localStorage.getItem;
+  const token = sessionStorage.getItem;
   // CSV 
   const [csvData, setCsvData] = useState([]);
 
@@ -860,7 +860,7 @@ const BookListManager = () => {
         MyRolPermisGetAllApi()
         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
         offcanvasInstance.hide();
-        
+
         setTimeout(() => {
           setShowdelete(true)
           setForDelete(false)
@@ -944,7 +944,7 @@ const BookListManager = () => {
     setIsValidShelfNumberRequired(false);
     setForDelete(false)
 
-  } 
+  }
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     // // console.log('my imageeee---000',file)
@@ -1209,7 +1209,7 @@ const BookListManager = () => {
                       <label for="exampleFormControlInput1" className="form-label label-color heading-14">Cover Page</label>
                       <input type="file" className="form-control form-focus  label-color heading-14" onChange={(e) => setCoverPage(e.target.files[0])} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Number of Copy" />
                     </div>
-                 
+
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => SubcPutDataApi()}>Submit</button>
@@ -1412,7 +1412,7 @@ const BookListManager = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                     <div className="form-check mt-1">
+                      <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input"
                           onChange={() => setForDelete(!forDelete)}
@@ -1420,7 +1420,7 @@ const BookListManager = () => {
                           checked={forDelete}
                           value=""
                           id="flexCheckDefault"
-                          name="deleteAgreement" 
+                          name="deleteAgreement"
                         />
                         <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data

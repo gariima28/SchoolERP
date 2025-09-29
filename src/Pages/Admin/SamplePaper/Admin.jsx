@@ -441,7 +441,7 @@ font-size: 12px;
 
 const ManageFaq = () => {
 
-  const Id = localStorage.getItem('ID');
+  const Id = sessionStorage.getItem('ID');
 
   const [forDelete, setForDelete] = useState(false)
 

@@ -463,7 +463,7 @@ const Librarian = () => {
 
 
   const navigate = useNavigate();
-  const Id = localStorage.getItem('ID');
+  const Id = sessionStorage.getItem('ID');
   const { roleId, userId } = useParams();
   console.log("Extracted ID in librarian:", roleId);
 
@@ -826,7 +826,7 @@ const Librarian = () => {
     MyStaffDeleteApi(IdForDelete)
   }
   const localoStorage = (value) => {
-    localStorage.setItem('MyUserID', value)
+    sessionStorage.setItem('MyUserID', value)
   }
   const handleChange = (e) => {
     const trimmedValue = e.target.value.trimStart();
