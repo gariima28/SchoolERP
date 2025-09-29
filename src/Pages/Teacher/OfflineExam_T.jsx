@@ -403,6 +403,10 @@ font-size: 12px;
   background-color: #008479;
   border-color: #008479;
 } 
+.my-form-check-input2:checked{
+  background-color: #B50000;
+  border-color: #B50000;
+} 
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -480,8 +484,8 @@ const OfflineExam_T = () => {
     const [date, setDate] = useState()
     const [startTime, setStartTime] = useState()
     const [endTime, setEndTime] = useState()
-    const [marks, setMarks] = useState()
-    const [passingMarks, setPassingMarks] = useState()
+    const [totalMarks, setTotalMarks] = useState()
+    const [passingMarks, setPassingMarks] = useState('')
     const [classRoomId, setClassRoomId] = useState()
     const [ExamTerm, setExamTerm] = useState()
     const [sectionName, setSectionName] = useState('')
@@ -493,6 +497,7 @@ const OfflineExam_T = () => {
     const [sessionAllData, setSessionAllData] = useState([])
     const [classroomdata, setClassroomdata] = useState([])
     const [practicalShow, setPracticalShow] = useState(false)
+    console.log('value by iddd api', practicalShow)
 
     const [theoryMarks, setTheoryMarks] = useState('')
     const [practicalDate, setPracticalDate] = useState('')
@@ -506,6 +511,14 @@ const OfflineExam_T = () => {
     const [isValidPassingMarksValiRequired, setIsValidPassingMarksValiRequired] = useState(false);
     const [isValidStartTimeValiRequired, setIsValidStartTimeValiRequired] = useState(false);
     const [isValidEndTimeValiRequired, setIsValidEndTimeValiRequired] = useState(false);
+
+    const [isValidPracticalDateRequired, setIsValidPracticalDateRequired] = useState(false);
+    const [isValidPracticalStartTimeRequired, setIsValidPracticalStartTimeRequired] = useState(false);
+    const [isValidPracticalEndTimeRequired, setIsValidPracticalEndTimeRequired] = useState(false);
+    const [isValidPracticalMarksRequired, setIsValidPracticalMarksRequired] = useState(false);
+    const [isValidPracticalPassingMarksRequired, setIsValidPracticalPassingMarksRequired] = useState(false);
+
+
     const [classNo, setClassNo] = useState('')
     const [classId, setClassId] = useState('')
 
@@ -529,7 +542,6 @@ const OfflineExam_T = () => {
         MySectionGetApi()
         if (classNo) {
             MySubjectByClassIdGetApi()
-
         }
         MySubjectByClassIdGetApi()
     }, [classId, classNo])
@@ -541,7 +553,6 @@ const OfflineExam_T = () => {
         const [val1, val2] = value.split(',').map(item => item.trim());
         setClassId(parseInt(val1));
         setClassNo(val2);
-
     };
     const [errors, setErrors] = useState({});
     // ###### validation ##########
@@ -549,7 +560,7 @@ const OfflineExam_T = () => {
     const FuncValidation = () => {
         let isValid = true;
         // marks 
-        if (!marks || marks === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(marks)) {
+        if (!totalMarks || totalMarks === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(totalMarks)) {
             setIsValidMarksValiRequired(true)
             isValid = false;
             setLoader(false)
@@ -592,6 +603,95 @@ const OfflineExam_T = () => {
         }
         return isValid;
     }
+
+    const FuncValidation2 = () => {
+        let isValid = true;
+        // marks 
+        if (!totalMarks || totalMarks === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(totalMarks)) {
+            setIsValidMarksValiRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+        }
+        // passing marks 
+        if (!passingMarks || passingMarks === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(passingMarks)) {
+            setIsValidPassingMarksValiRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+        }
+        // date
+        if (!date || date === "" || !/^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/.test(date)) {
+            setIsValidDateValiRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+        }
+        // // start itme
+        // if (!startTime || startTime === "" || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(startTime)) {
+        //     setIsValidStartTimeValiRequired(true)
+        //     isValid = false;
+        //     setLoader(false)
+        // }
+        // else {
+        //     setIsValidStartTimeValiRequired(false)
+        // }
+        // // end itme
+        // if (!endTime || endTime === "" || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(endTime)) {
+        //     setIsValidEndTimeValiRequired(true)
+        //     isValid = false;
+        //     setLoader(false)
+        // }
+        // else {
+        //     setIsValidEndTimeValiRequired(false)
+        // }
+        // practical date
+        if (!practicalDate || practicalDate === "" || !/^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/.test(practicalDate)) {
+            setIsValidPracticalDateRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+        }
+        // practical start itme
+        if (!practicalStartTime || practicalStartTime === "" || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(practicalStartTime)) {
+            setIsValidPracticalStartTimeRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+            setIsValidPracticalStartTimeRequired(false)
+        }
+        // practical end itme
+        if (!practicalEndTime || practicalEndTime === "" || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(practicalEndTime)) {
+            setIsValidPracticalEndTimeRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+            setIsValidPracticalEndTimeRequired(false)
+        }
+        // practical marks 
+        if (!practicalMrks || practicalMrks === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(practicalMrks)) {
+            setIsValidPracticalMarksRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+        }
+        // practical passing marks 
+        if (!practicalMrks || practicalMrks === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/.test(practicalMrks)) {
+            setIsValidPracticalPassingMarksRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+        }
+        return isValid;
+    }
     // passing marks 
     const handlePassingMarks = (e2) => {
         setPassingMarks(e2);
@@ -605,7 +705,7 @@ const OfflineExam_T = () => {
     }
     // marks 
     const handleMarks = (e2) => {
-        setMarks(e2);
+        setTotalMarks(e2);
         const noRegex = /^[a-zA-Z0-9!@#$%^&*()_+=-]+$/;
         setIsValidMarksValiRequired(noRegex.test(e2));
         if (!e2 || e2 === "" || !noRegex.test(e2)) {
@@ -624,6 +724,18 @@ const OfflineExam_T = () => {
             setIsValidDateValiRequired(true)
         } else {
             setIsValidDateValiRequired(false)
+        }
+    }
+    // Practical date 
+    const handleDate2 = (e2) => {
+        setPracticalDate(e2);
+        const dateRegex = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+        setIsValidPracticalDateRequired(dateRegex.test(e2));
+
+        if (!e2 || e2 === "" || !dateRegex.test(e2)) {
+            setIsValidPracticalDateRequired(true)
+        } else {
+            setIsValidPracticalDateRequired(false)
         }
     }
     // start time 
@@ -652,9 +764,6 @@ const OfflineExam_T = () => {
             setIsValidEndTimeValiRequired(false)
         }
     }
-
-    // ###### validation #########
-
     // Get All Api from class list page for id 
     const UpdatClassGetApi = async () => {
         setLoader(true)
@@ -737,9 +846,7 @@ const OfflineExam_T = () => {
         setLoader(true)
         try {
             const response = await TeacherExamTermGetAll(searchKey);
-            // console.log('Exam Category-get-all-api in offline', response);
             if (response?.status === 200) {
-                // toast.success(response?.data?.message)
                 setExamTermData(response?.data?.data)
                 setLoader(false)
             } else {
@@ -766,11 +873,18 @@ const OfflineExam_T = () => {
             formData.append('section', sectionName);
             formData.append('subject', subjectId);
             formData.append('roomNo', classRoomId);
-            formData.append('totalMarks', marks);
+            formData.append('totalMarks', totalMarks);
             formData.append('date', date);
             formData.append('startingTime', startTime);
             formData.append('endingTime', endTime);
             formData.append('passingMarks', passingMarks);
+
+            formData.append('isPractical', practicalShow);
+            formData.append('practicalDate', practicalDate);
+            formData.append('practicalStartTime', practicalStartTime);
+            formData.append('practicalEndTime', practicalEndTime);
+            formData.append('practicalMarks', practicalMrks);
+            formData.append('practicalPassMarks', practicalPassPassingMarks);
             setLoader(true)
             try {
                 const response = await addNewExamScheduleApi(formData);
@@ -778,12 +892,16 @@ const OfflineExam_T = () => {
                 if (response?.status === 200) {
                     if (response?.data?.status === "success") {
                         toast.success(response?.data?.message);
-                        MyExamGetAllApi()
                         setShow(false)
-                        // setHide(true)
+                        MyExamGetAllApi()
                         setLoader(false)
                         setExamTerm('')
                         setClassId('')
+                        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+                        offcanvasInstance.hide();
+                        setTimeout(() => {
+                            setShow(true)
+                        }, 0.5)
                         setSubjectId('')
                         setClassRoomId('')
                         setDate('')
@@ -791,12 +909,11 @@ const OfflineExam_T = () => {
                         setEndTime('')
                         setMarks('')
                         setPassingMarks('')
-                        MyExamGetAllApi()
-                        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-                        offcanvasInstance.hide();
-                        setTimeout(() => {
-                            setShow(true)
-                        }, 0.5)
+                        setPracticalDate('')
+                        setPracticalStartTime('')
+                        setPracticalEndTime('')
+                        setPracticalMrks('')
+                        setPracticalPassPassingMarks('')
                     } else {
                         toast.error(response?.data?.message);
                         setShow(true)
@@ -818,9 +935,7 @@ const OfflineExam_T = () => {
         setLoader(true)
         try {
             const response = await getAllExamScheduleApiForTeacher(searchKey, pageNo, pageSize, classNo, sectionName);
-            console.log('Exam get All Api data+++++++++++', response);
             if (response?.status === 200) {
-                // toast.success(response?.data?.message)
                 setExamAllData(response?.data?.examSchedules)
                 setCurrentPage(response?.data?.currentPage);
                 setTotalPages(response?.data?.totalPages);
@@ -844,7 +959,6 @@ const OfflineExam_T = () => {
                 toast.success(response?.data?.message);
                 MyExamGetAllApi()
                 setShowdelete(false)
-
                 const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
                 offcanvasInstance.hide();
                 setTimeout(() => {
@@ -861,6 +975,7 @@ const OfflineExam_T = () => {
             // console.log(error)
         }
     }
+
     // Get by id 
     const MyAssignLeaveGetByIdApi = async (id) => {
         // console.log('my idddd newwwww', id)
@@ -869,21 +984,31 @@ const OfflineExam_T = () => {
         try {
             const response = await getExamScheduleDataByIdApi(id);
             console.log('exam get by id all data-------', response)
-
             if (response?.status === 200) {
                 // toast.success(response?.data?.msg);
+                setPracticalShow(response?.data?.examSchedule?.isPractical)
+
                 setExamTerm(response?.data?.examSchedule?.examTermId)
                 setClassId(response?.data?.examSchedule?.classId)
+                setPracticalDate(response?.data?.examSchedule?.practicalDate)
+                setPracticalStartTime(response?.data?.examSchedule?.practicalStartTime)
+                setPracticalEndTime(response?.data?.examSchedule?.practicalEndTime)
+                setPracticalMrks(response?.data?.examSchedule?.practicalMarks)
+                setPracticalPassPassingMarks(response?.data?.examSchedule?.practicalPassMarks)
+
                 setClassNo(String(response?.data?.examSchedule?.classNo))
                 setSectionName(response?.data?.examSchedule?.section)
+                setPassingMarks(response?.data?.examSchedule?.passingMarks)
                 setClassNoForApi(response?.data?.examSchedule?.classNo)
+                setTotalMarks(response?.data?.examSchedule?.totalMarks)
                 setSubjectId(response?.data?.examSchedule?.subject)
-                setClassRoomId(response?.data?.examSchedule?.roomId)
+                setClassRoomId(response?.data?.examSchedule?.roomNumber)
                 setDate(response?.data?.examSchedule?.date)
                 setStartTime(response?.data?.examSchedule?.startingTime)
                 setEndTime(response?.data?.examSchedule?.endingTime)
                 setMarks(response?.data?.examSchedule?.totalMarks)
-                setPassingMarks(response?.data?.examSchedule?.passingMarks)
+
+
                 setLoader(false)
             } else {
                 toast.error(response?.data?.msg);
@@ -896,43 +1021,54 @@ const OfflineExam_T = () => {
     }
     // Put Api 
     const MyOfflinePutApi = async () => {
-        const formData = new FormData()
-        formData.append('examTermId', ExamTerm);
-        formData.append('classNo', String(classId));
-        formData.append('subject', subjectId);
-        formData.append('roomNo', classRoomId);
-        formData.append('totalMarks', marks);
-        formData.append('date', date);
-        formData.append('startingTime', startTime);
-        formData.append('endingTime', endTime);
-        formData.append('passingMarks', passingMarks);
-        try {
-            const response = await updateExamScheduleApi(IdForUpdate, formData);
-            console.log('My_offline_Api', response, 11111)
-            if (response?.status === 200) {
+        if (FuncValidation2()) {
+            const formData = new FormData()
+            formData.append('examTermId', ExamTerm);
+            formData.append('classNo', classNo);
+            formData.append('section', sectionName);
+            formData.append('subject', subjectId);
+            formData.append('roomNo', classRoomId);
+            formData.append('totalMarks', totalMarks);
+            formData.append('date', date);
+            formData.append('startingTime', startTime);
+            formData.append('endingTime', endTime);
+            formData.append('passingMarks', passingMarks);
 
-                if (response?.data?.status === "success") {
-                    toast.success(response?.data?.message);
-                    setShow2(false)
-                    MyExamGetAllApi()
+            formData.append('isPractical', practicalShow);
+            formData.append('practicalDate', practicalDate);
+            formData.append('practicalStartTime', practicalStartTime);
+            formData.append('practicalEndTime', practicalEndTime);
+            formData.append('practicalMarks', practicalMrks);
+            formData.append('practicalPassMarks', practicalPassPassingMarks);
+            try {
+                const response = await updateExamScheduleApi(IdForUpdate, formData);
+                console.log('My_offline_Api', response)
+                if (response?.status === 200) {
 
-                    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-                    offcanvasInstance.hide();
-                    setTimeout(() => {
-                        setShow2(true)
-                    }, 0.5)
+                    if (response?.data?.status === "success") {
+                        toast.success(response?.data?.message);
+                        setShow2(false)
+                        MyExamGetAllApi()
+
+                        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+                        offcanvasInstance.hide();
+                        setTimeout(() => {
+                            setShow2(true)
+                        }, 0.5)
+                    }
                 }
-            }
-            else {
-                toast.error(response?.data?.message);
-                setEditshow(true)
+                else {
+                    toast.error(response?.data?.message);
+                    setEditshow(true)
+                    setLoader(false)
+                }
+            } catch (error) {
                 setLoader(false)
             }
-        } catch (error) {
-            setLoader(false)
-            // console.log(error)
         }
+
     }
+
     const handleChange = (e) => {
         const trimmedValue = e.target.value.trimStart();
         setSearchKey(trimmedValue);
@@ -947,8 +1083,13 @@ const OfflineExam_T = () => {
         setDate('')
         setStartTime('')
         setEndTime('')
-        setMarks('')
         setClassNoForApi('')
+        setPracticalDate('')
+        setPracticalStartTime('')
+        setPracticalEndTime('')
+        setPracticalMrks('')
+        setPracticalShow(false)
+        setPracticalPassPassingMarks('')
         setIsValidDateValiRequired(false)
         setIsValidStartTimeValiRequired(false)
         setIsValidEndTimeValiRequired(false)
@@ -958,6 +1099,7 @@ const OfflineExam_T = () => {
         // }, 0.5)
 
     }
+
     return (
         <Container>
             {
@@ -1030,8 +1172,6 @@ const OfflineExam_T = () => {
                                 </select>
                             </div>
                         </div>
-
-
                     </div>
                     {/* ####### buttons ######  */}
                     <div className="row mb-3 buttons-topss">
@@ -1043,7 +1183,6 @@ const OfflineExam_T = () => {
                     {/* ###### copy content till here for all component ######  */}
 
                     <div className="table-container px-3 table-responsive">
-
                         <table className="table table-sm table-striped">
                             <thead className=''>
                                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
@@ -1064,10 +1203,7 @@ const OfflineExam_T = () => {
                                     <th className='no-wrap'>Actions</th>
                                 </tr>
                             </thead>
-
                             <tbody className='heading-14 align-middle greyTextColor'>
-
-
                                 {
                                     examAllData?.map((item, index) => (
                                         <tr className='heading-14' key={index}>
@@ -1080,11 +1216,11 @@ const OfflineExam_T = () => {
                                             <td className=' greyText pe-0 no-wrap'>{item.endingTime}</td>
                                             <td className=' greyText pe-0 no-wrap' >{item.passingMarks}</td>
                                             <td className=' greyText pe-0 no-wrap' >{item.totalMarks}</td>
-                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
-                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
-                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
-                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
-                                            <td className=' greyText pe-0 no-wrap' >Need to add res</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalDate}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalStartTime}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalEndTime}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalPassMarks}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalMarks}</td>
                                             <td className=' greyText  pe-0 no-wrap' >
                                                 <div className="dropdown my-button-show">
                                                     <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1124,7 +1260,7 @@ const OfflineExam_T = () => {
                         <>
                             <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel" ref={offcanvasRef}>
                                 <div className="offcanvas-header">
-                                    <Link data-bs-dismiss="offcanvas" >
+                                    <Link data-bs-dismiss="offcanvas" onClick={ClearData}>
                                         <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
                                         </svg>
@@ -1165,7 +1301,7 @@ const OfflineExam_T = () => {
                                         </div>
                                         <div className="mb-1  ">
                                             <label for="exampleFormControlInput1" className="form-label heading-16">Section</label>
-                                            <select class="form-select  form-select-sm form-focus label-color " value={section} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
+                                            <select class="form-select  form-select-sm form-focus label-color " value={sectionName} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
                                                 <option selected>--Choose--</option>
                                                 {
                                                     sectionData?.map((item =>
@@ -1222,7 +1358,7 @@ const OfflineExam_T = () => {
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
                                             <label for="exampleFormControlInput1" className="form-label  heading-14">Theory End Time</label>
                                             <input type="time" className="form-control form-focus label-color  heading-14" value={endTime} onChange={(e) => handleEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
-                                        </div> 
+                                        </div>
                                         <div className=''>
                                             {isValidEndTimeValiRequired && (
                                                 <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
@@ -1231,16 +1367,16 @@ const OfflineExam_T = () => {
                                             )}
                                         </div>
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label heading-14">Theory Marks</label>
-                                            <input type="time" className="form-control form-focus label-color  heading-14" value={endTime} onChange={(e) => setTheoryMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Theory Total Marks</label>
+                                            <input type="text" className="form-control form-focus label-color  heading-14" value={totalMarks} onChange={(e) => handleMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
                                         </div>
-                                        {/* <div className=''>
-                                            {isValidEndTimeValiRequired && (
+                                        <div className=''>
+                                            {isValidMarksValiRequired && (
                                                 <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                                    End time is required
+                                                    Total marks is required
                                                 </p>
                                             )}
-                                        </div> */}
+                                        </div>
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
                                             <label for="exampleFormControlInput1" className="form-label  heading-14">Theory Pass Marks </label>
                                             <input type="email" className="form-control form-focus label-color heading-14" value={passingMarks} onChange={(e) => handlePassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
@@ -1255,7 +1391,7 @@ const OfflineExam_T = () => {
                                         <hr className='mt-4' />
 
                                         <div class="form-check">
-                                            <input class="form-check-input my-form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={(e) => setPracticalShow(!practicalShow)} />
+                                            <input class="form-check-input my-form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={practicalShow} onClick={(e) => setPracticalShow(!practicalShow)} />
                                             <label class="form-check-label" for="flexCheckDefault">
                                                 Practical
                                             </label>
@@ -1268,33 +1404,28 @@ const OfflineExam_T = () => {
                                                 <>
                                                     <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
                                                         <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Date </label>
-                                                        <input type="date" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                        <input type="date" className="form-control form-focus label-color heading-14" value={practicalDate} onChange={(e) => setPracticalDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
                                                     </div>
                                                     <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
                                                         <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Start Time </label>
-                                                        <input type="time" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                        <input type="time" className="form-control form-focus label-color heading-14" value={practicalStartTime} onChange={(e) => setPracticalStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
                                                     </div>
                                                     <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
                                                         <label for="exampleFormControlInput1" className="form-label  heading-14">Practical End Time </label>
-                                                        <input type="time" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                        <input type="time" className="form-control form-focus label-color heading-14" value={practicalEndTime} onChange={(e) => setPracticalEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
                                                     </div>
                                                     <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
                                                         <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Marks</label>
-                                                        <input type="text" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalMrks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                        <input type="text" className="form-control form-focus label-color heading-14" value={practicalMrks} onChange={(e) => setPracticalMrks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
                                                     </div>
                                                     <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
                                                         <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Pass Marks</label>
-                                                        <input type="text" className="form-control form-focus label-color heading-14" value={''} onChange={(e) => setPracticalPassPassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                        <input type="text" className="form-control form-focus label-color heading-14" value={practicalPassPassingMarks} onChange={(e) => setPracticalPassPassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
                                                     </div>
                                                 </>
 
                                             )
                                         }
-
-
-
-
-
                                         <div className='my-button11 '>
                                             <button type="button" className="btn btn-outline-success my-button112233" onClick={MyMarksPostApi}>Create Exam</button>
                                             <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
@@ -1309,149 +1440,7 @@ const OfflineExam_T = () => {
                 {/* ################## Add Off Canvas Area end ####################  */}
 
                 {/* ################## Edit Off Canvas Area end ####################  */}
-                {/* {
-                    editshow && (
-                        <>
-                            <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop101" aria-labelledby="staticBackdropLabel" ref={offcanvasRef22}>
-                                <div className="offcanvas-header">
-                                    <Link data-bs-dismiss="offcanvas" >
-                                        <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
-                                        </svg>
-                                    </Link>
-                                    <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Exam</h5>
-                                </div>
-                                <hr className='mx-3' style={{ marginTop: '-3px' }} />
 
-                                <div class="offcanvas-body pt-0">
-                                    <div className="input " >
-
-                                        <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Exam Name</label>
-                                            <select class="form-select  form-select-sm form-focus  label-color" value={ExamTerm} onChange={(e) => setExamTerm(e.target.value)} aria-label="Default select example">
-                                                <option value={''}>--Chosse--</option>
-                                                {
-                                                    examTermData?.map(item =>
-                                                        <option value={item.examTermId}>{item.examTermName}</option>
-                                                    )
-                                                }
-                                            </select>
-                                        </div>
-
-                                        <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class</label>
-                                            <select class="form-select  form-select-sm form-focus label-color"
-                                                value={`${classId},${classNo}`}
-                                                onChange={Handle}
-                                                aria-label="Default select example">
-                                                <option value="">--Choose--</option>
-                                                {
-                                                    classdata?.map((item =>
-                                                        <option key={item.classId} value={`${item.classId},${item.classNo}`}>{item.classNo}</option>
-                                                    ))
-                                                }
-                                            </select>
-
-                                        </div>
-                                        <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
-                                            <select class="form-select  form-select-sm form-focus " value={sectionName} onChange={(e) => setSection(e.target.value)} aria-label="Default select example">
-                                                <option selected>--Choose--</option>
-                                                {
-                                                    sectionData?.map((item =>
-                                                        <option value={item.sectionName}>{item.sectionName}</option>
-                                                    ))
-                                                }
-                                            </select>
-                                        </div>
-                                        <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Subject</label>
-                                            <select class="form-select  form-select-sm form-focus  label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
-                                                <option selected>--Chosee--</option>
-                                                {
-                                                    subjectData?.map(item =>
-                                                        <option value={item.subjectName}>{item.subjectName}</option>
-                                                    )
-                                                }
-                                            </select>
-                                        </div>
-                                        <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class Room</label>
-                                            <select class="form-select  form-select-sm form-focus  label-color" value={classRoomId} onChange={(e) => setClassRoomId(e.target.value)} aria-label="Default select example">
-                                                <option selected>--Choose--</option>
-                                                {
-                                                    classroomdata?.map(item =>
-                                                        <option value={item.roomId}>{item.roomNo}</option>
-                                                    )
-                                                }
-                                            </select>
-                                        </div>
-
-                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Date </label>
-                                            <input type="date" className="form-control form-focus   heading-14" value={date} onChange={(e) => handleDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
-                                        </div>
-                                        <div className=''>
-                                            {isValidDateValiRequired && (
-                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                                    Date is required
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Starting Time</label>
-                                            <input type="time" className="form-control form-focus   heading-14" value={startTime} onChange={(e) => handleStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
-                                        </div>
-                                        <div className=''>
-                                            {isValidStartTimeValiRequired && (
-                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                                    Start time is required
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Ending Time </label>
-                                            <input type="time" className="form-control form-focus   heading-14" value={endTime} onChange={(e) => handleEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
-                                        </div>
-                                        <div className=''>
-                                            {isValidEndTimeValiRequired && (
-                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                                    End time is required
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Passing Marks </label>
-                                            <input type="email" className="form-control form-focus heading-14" value={passingMarks} onChange={(e) => handlePassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
-                                        </div>
-                                        <div className=''>
-                                            {isValidPassingMarksValiRequired && (
-                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                                    Marks is required
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Total Marks </label>
-                                            <input type="email" className="form-control form-focus heading-14" value={marks} onChange={(e) => handleMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
-                                        </div>
-                                        <div className=''>
-                                            {isValidMarksValiRequired && (
-                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                                    Number is required
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className='my-button11 '>
-                                            <button type="button" className="btn btn-outline-success my-button112233" style={{ fontSize: 13 }} onClick={MyOfflinePutApi}>Update Exam</button>
-                                            <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close"  >Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    )
-                } */}
                 {
                     show2 && (
                         <>
@@ -1470,7 +1459,7 @@ const OfflineExam_T = () => {
                                     <div className="input " >
 
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Exam Name</label>
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Exam Name</label>
                                             <select class="form-select  form-select-sm form-focus  label-color" value={ExamTerm} onChange={(e) => setExamTerm(e.target.value)} aria-label="Default select example">
                                                 <option value={''}>--Chosse--</option>
                                                 {
@@ -1482,7 +1471,7 @@ const OfflineExam_T = () => {
                                         </div>
 
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class</label>
+                                            <label for="exampleFormControlInput1" className="form-label   heading-14">Class</label>
                                             <select class="form-select  form-select-sm form-focus label-color"
                                                 value={`${classId},${classNo}`}
                                                 onChange={Handle}
@@ -1497,8 +1486,8 @@ const OfflineExam_T = () => {
 
                                         </div>
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
-                                            <select class="form-select  form-select-sm form-focus " value={sectionName} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
+                                            <label for="exampleFormControlInput1" className="form-label heading-16">Section</label>
+                                            <select class="form-select  form-select-sm form-focus label-color " value={sectionName} onChange={(e) => setSectionName(e.target.value)} aria-label="Default select example">
                                                 <option selected>--Choose--</option>
                                                 {
                                                     sectionData?.map((item =>
@@ -1508,7 +1497,7 @@ const OfflineExam_T = () => {
                                             </select>
                                         </div>
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Subject</label>
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Subject</label>
                                             <select class="form-select  form-select-sm form-focus  label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
                                                 <option selected>--Chosee--</option>
                                                 {
@@ -1519,7 +1508,7 @@ const OfflineExam_T = () => {
                                             </select>
                                         </div>
                                         <div className="mb-1  ">
-                                            <label for="exampleFormControlInput1" className="form-label  label-color heading-14">Class Room</label>
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Class Room</label>
                                             <select class="form-select  form-select-sm form-focus  label-color" value={classRoomId} onChange={(e) => setClassRoomId(e.target.value)} aria-label="Default select example">
                                                 <option selected>--Choose--</option>
                                                 {
@@ -1531,8 +1520,8 @@ const OfflineExam_T = () => {
                                         </div>
 
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Date </label>
-                                            <input type="date" className="form-control form-focus   heading-14" value={date} onChange={(e) => handleDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                            <label for="exampleFormControlInput1" className="form-label  heading-14">Theory Date </label>
+                                            <input type="date" className="form-control form-focus label-color  heading-14" value={date} onChange={(e) => handleDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
                                         </div>
                                         <div className=''>
                                             {isValidDateValiRequired && (
@@ -1542,8 +1531,8 @@ const OfflineExam_T = () => {
                                             )}
                                         </div>
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Starting Time</label>
-                                            <input type="time" className="form-control form-focus   heading-14" value={startTime} onChange={(e) => handleStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                            <label for="exampleFormControlInput1" className="form-label  heading-14">Theory Start Time</label>
+                                            <input type="time" className="form-control form-focus  label-color heading-14" value={startTime} onChange={(e) => handleStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
                                         </div>
                                         <div className=''>
                                             {isValidStartTimeValiRequired && (
@@ -1553,8 +1542,8 @@ const OfflineExam_T = () => {
                                             )}
                                         </div>
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Ending Time </label>
-                                            <input type="time" className="form-control form-focus   heading-14" value={endTime} onChange={(e) => handleEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                            <label for="exampleFormControlInput1" className="form-label  heading-14">Theory End Time</label>
+                                            <input type="time" className="form-control form-focus label-color  heading-14" value={endTime} onChange={(e) => handleEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
                                         </div>
                                         <div className=''>
                                             {isValidEndTimeValiRequired && (
@@ -1564,8 +1553,13 @@ const OfflineExam_T = () => {
                                             )}
                                         </div>
                                         <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Passing Marks </label>
-                                            <input type="email" className="form-control form-focus heading-14" value={passingMarks} onChange={(e) => handlePassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                            <label for="exampleFormControlInput1" className="form-label heading-14">Theory Total Marks</label>
+                                            <input type="text" className="form-control form-focus label-color  heading-14" value={totalMarks} onChange={(e) => setTotalMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="100.00" />
+                                        </div>
+
+                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                            <label for="exampleFormControlInput1" className="form-label  heading-14">Theory Pass Marks </label>
+                                            <input type="email" className="form-control form-focus label-color heading-14" value={passingMarks} onChange={(e) => handlePassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
                                         </div>
                                         <div className=''>
                                             {isValidPassingMarksValiRequired && (
@@ -1574,18 +1568,78 @@ const OfflineExam_T = () => {
                                                 </p>
                                             )}
                                         </div>
-                                        <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
-                                            <label for="exampleFormControlInput1" className="form-label label-color heading-14">Total Marks </label>
-                                            <input type="email" className="form-control form-focus heading-14" value={marks} onChange={(e) => handleMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
-                                        </div>
-                                        <div className=''>
-                                            {isValidMarksValiRequired && (
-                                                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                                                    Marks is required
-                                                </p>
-                                            )}
-                                        </div>
+                                        <hr className='mt-4' />
 
+                                        <div class="form-check">
+                                            <input class="form-check-input my-form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={practicalShow} onClick={(e) => setPracticalShow(!practicalShow)} />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Practical
+                                            </label>
+                                        </div>
+                                        <div className='mt-3'>
+                                            <h2 style={{ color: '#008479' }}>Practical Marks</h2>
+                                        </div>
+                                        {
+                                            practicalShow && (
+                                                <>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Date </label>
+                                                        <input type="date" className="form-control form-focus label-color heading-14" value={practicalDate} onChange={(e) =>  handleDate2(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className=''>
+                                                        {isValidPracticalDateRequired && (
+                                                            <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                                Practical date is required
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Start Time </label>
+                                                        <input type="time" className="form-control form-focus label-color heading-14" value={practicalStartTime} onChange={(e) => setPracticalStartTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className=''>
+                                                        {isValidPracticalStartTimeRequired && (
+                                                            <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                                Practical start time is required
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical End Time </label>
+                                                        <input type="time" className="form-control form-focus label-color heading-14" value={practicalEndTime} onChange={(e) => setPracticalEndTime(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className=''>
+                                                        {isValidPracticalEndTimeRequired && (
+                                                            <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                                Practical end time is required
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Marks</label>
+                                                        <input type="text" className="form-control form-focus label-color heading-14" value={practicalMrks} onChange={(e) => setPracticalMrks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className=''>
+                                                        {isValidPracticalMarksRequired && (
+                                                            <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                                Practical marks is required
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
+                                                        <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Pass Marks</label>
+                                                        <input type="text" className="form-control form-focus label-color heading-14" value={practicalPassPassingMarks} onChange={(e) => setPracticalPassPassingMarks(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                    </div>
+                                                    <div className=''>
+                                                        {isValidPracticalPassingMarksRequired && (
+                                                            <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                                                                Practical passing marks is required
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </>
+                                            )
+                                        }
                                         <div className='my-button11 '>
                                             <button type="button" className="btn btn-outline-success my-button112233" onClick={MyOfflinePutApi}>Update Exam</button>
                                             <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
@@ -1618,14 +1672,21 @@ const OfflineExam_T = () => {
                                                     <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
                                                 </svg>
                                             </div>
-
                                             <div className="sure-content mt-2">
                                                 <h5 className='heading-20'>Are you sure?</h5>
                                                 <p>This Action will be permanently <br /> delete the Profile Data</p>
                                             </div>
                                             <div className="form-check mt-1">
-                                                <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
-                                                <label className="form-check-label agree" for="flexCheckDefault">
+                                                <input
+                                                    className="form-check-input my-form-check-input2"
+                                                    onChange={() => setForDelete(!forDelete)}
+                                                    type="checkbox"
+                                                    checked={forDelete}
+                                                    value=""
+                                                    id="flexCheckDefault"
+                                                    name="deleteAgreement"
+                                                />
+                                                <label className="form-check-label agree" htmlFor="flexCheckDefault">
                                                     I Agree to delete the Profile Data
                                                 </label>
                                             </div>
@@ -1634,7 +1695,6 @@ const OfflineExam_T = () => {
                                                 <button type="button" className="btn my-btn button00" disabled={forDelete ? false : true} onClick={() => MyOfflineExamDeleApi(IdForDelete)}>Delete</button>
                                                 <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

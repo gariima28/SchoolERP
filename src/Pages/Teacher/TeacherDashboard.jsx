@@ -139,7 +139,6 @@ const DashboardPage = () => {
     setTimeTableDay(value.toLowerCase());
   }
 
-
   // All dashboard data in this single api call
   const MyAttendanceShowOfTeacher = async () => {
     try {
