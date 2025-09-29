@@ -10,9 +10,6 @@ import { DepartmentPutApi } from 'src/Utils/Apis'
 import { DepartmentSearchGetAllApi } from 'src/Utils/Apis'
 import { ClassGetApi } from 'src/Utils/Apis'
 
-// import styled from 'styled-components';
-// import { Link } from 'react-router-dom';
-// import toast, { Toaster } from 'react-hot-toast';
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ReactPaginate from 'react-paginate';
@@ -442,7 +439,6 @@ font-size: 12px;
 
 const Departments = () => {
 
-
   const [loader, setLoader] = useState(false)
   const [forDelete, setForDelete] = useState(false)
 
@@ -565,7 +561,6 @@ const Departments = () => {
   }
 
   // Delete api
-
   const DeaprtmentDeleteApi = async (id) => {
     setLoader(true)
     try {
