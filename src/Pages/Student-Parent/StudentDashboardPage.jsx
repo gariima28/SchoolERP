@@ -260,7 +260,7 @@ const DashboardPage = () => {
                 </div>
               </div>
               <div className="row p-2 py-3">
-                {/* {DashData?.notices.length > 0
+                {DashData?.notices.length > 0
                   ?
                   DashData?.notices.slice(0, 2).map((item, index) => (
                     <>
@@ -274,11 +274,11 @@ const DashboardPage = () => {
                   :
 
                   <div className="col-12">
-                          <div className="d-flex justify-content-center p-5 m-5">
-                            <span className='text-danger'>No Notice Data Yet !!!</span>
-                          </div>
-                        </div>
-                } */}
+                    <div className="d-flex justify-content-center p-5 m-5">
+                      <span className='text-danger'>No Notice Data Yet !!!</span>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
           </div>
@@ -298,60 +298,54 @@ const DashboardPage = () => {
               </div>
               <div className="row">
                 {DashData?.events.length > 0
-                  ?
-                  DashData?.events.slice(0, 4).map((item, index) => (
-                    <div className="col-12 p-0" key={item.eventId}>
-                      <div className={`border-bottom p-2 pt-3 overflow-hidden ${index % 2 === 0 ? 'bg-cream' : 'bg-white'}`}>
-                        <div className="row g-0">
-                          {/* Left Image */}
-                          <div className="col-md-3">
-                            <img
-                              height={10}
-                              src={item.eventImage || "/images/svg.png"}
-                              alt={item.title}
-                              className="img-fluid h-100 w-100 object-fit-cover font14"
-                            />
-                          </div>
+                  ? (
+                    DashData?.events.slice(0, 6).map((item, index) => (
+                      <div className="col-12 p-0" key={item.eventId}>
+                        <div className={`border-bottom p-2 pt-3 overflow-hidden ${index % 2 === 0 ? 'bg-cream' : 'bg-white'}`}>
+                          <div className="row g-0">
+                            {/* Left Image */}
+                            <div className="col-md-2 d-flex justify-content-center align">
+                              <img
+                                src={item.eventImage || "/images/svg.png"}
+                                alt={item.title}
+                                className="img-fluid font14 eventImgHeight"
+                              />
+                            </div>
 
-                          {/* Right Content */}
-                          <div className="col-md-9">
-                            <div className="card-body d-flex flex-column justify-content-center">
-                              {/* Date */}
-                              <div className="d-flex justify-content-between">
-                                <p className="greenText font14 mb-1 fw-semibold">
-                                  {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
+                            {/* Right Content */}
+                            <div className="col-md-10">
+                              <div className="card-body d-flex flex-column justify-content-center">
+                                {/* Date */}
+                                <div className="d-flex justify-content-between">
+                                  <p className="greenText font14 mb-1 fw-semibold">
+                                    {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
+                                  </p>
+                                  {item.comingSoon === true && (
+                                    <span className="badge orangeBg text-dark align-self-start">Coming Soon</span>
+                                  )}
+                                </div>
+
+                                {/* Title */}
+                                <h6 className="fw-bold font14 mb-1">{item.title}</h6>
+
+                                {/* Description */}
+                                <p className="greyText font12 small mb-2">
+                                  {item.eventDescription || "-- No Description --"}
                                 </p>
-                                <span className="greenText font14 mb-1 fw-semibold">
-                                  {new Date(item.startDate).toLocaleDateString("en-US", { weekday: 'short', month: 'long', day: '2-digit', year: 'numeric' })}
-                                </span>
                               </div>
-
-                              {/* Title */}
-                              <h6 className="fw-bold font14 mb-1">{item.title}</h6>
-
-                              {/* Description */}
-                              <p className="greyText font12 small mb-2">
-                                {item.eventDescription || "-- No Description --"}
-                              </p>
-
-                              {/* Badge */}
-                              {item.status === "upcoming" && (
-                                <span className="badge bg-warning text-dark align-self-start">Coming Soon</span>
-                              )}
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    ))
+                  ) : (
 
-                  ))
-                  :
-                  <div className="col-12">
-                    <div className="d-flex justify-content-center p-5 m-5">
-                      <span className='text-danger'>No Events Data Yet !!!</span>
+                    <div className="col-12">
+                      <div className="d-flex justify-content-center p-5 m-5">
+                        <span className='text-danger'>No Event Data Yet !!!</span>
+                      </div>
                     </div>
-                  </div>
-                }
+                  )}
               </div>
             </div>
           </div>

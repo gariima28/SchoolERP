@@ -12,8 +12,8 @@ import { StaffGetById, StaffPostApi, StaffImageUpdate } from '../../../Utils/Api
 const Container = styled.div`
   .modal-image {
     width: 100%;
-    max-width: 200px;
-    height: auto;
+    max-width: 300px;
+    height: 170px;
     border-radius: 50%;
     border: 2px solid #008479;
   }
