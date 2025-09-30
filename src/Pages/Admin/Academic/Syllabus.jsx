@@ -850,6 +850,7 @@ const Syllabus = () => {
     setClassNo('')
     setIsValidNameRequired(false)
     setIsImageValidRequired(false)
+    setForDelete(false)
   }
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -1213,7 +1214,7 @@ const Syllabus = () => {
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
                       <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
+                        <input className="form-check-input my-form-check-input2" onClick={() => setForDelete(!forDelete)} checked={forDelete} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
@@ -1221,7 +1222,7 @@ const Syllabus = () => {
 
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00 my-button112233RedDelete" disabled={forDelete ? false : true} onClick={(e) => MySyllabusDeleteApi(IdForDelete)} >Delete</button>
-                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                       </div>
 
                     </div>

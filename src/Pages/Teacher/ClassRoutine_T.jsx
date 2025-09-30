@@ -781,7 +781,6 @@ const ClassRoutine = () => {
     setLoader(true)
     try {
       const response = await ClassRoutineGetByIdApi(id);
-
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
         setClassNo(response?.data?.routine?.classNo)
@@ -942,7 +941,7 @@ const ClassRoutine = () => {
     try {
       const response = await SlotGetAllApi();
       if (response?.status === 200) {
-        setSlotGetAll(response?.data)
+        // setSlotGetAll(response?.data)
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
@@ -1242,7 +1241,7 @@ const ClassRoutine = () => {
                         </div>
                         <div className="mb-1  ">
                           <label for="exampleFormControlInput1" className="form-label  heading-16 ">Time Slot</label>
-                          <select class="form-select  form-select-sm form-focus  label-color" value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} aria-label="Default select example">
+                          <select class="form-select  form-select-sm form-focus label-color" value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} aria-label="Default select example">
                             <option selected>--Choose--</option>
                             {
                               slotGetAll?.map((item =>

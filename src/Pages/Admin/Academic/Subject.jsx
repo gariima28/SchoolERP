@@ -770,6 +770,7 @@ const Subject = () => {
     setPractical(false)
     setSelectedClasses([])
     MySubjectGetApi()
+    setForDelete(false)
 
   }
 
@@ -1156,7 +1157,7 @@ const Subject = () => {
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
                       <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input12" type="checkbox" onClick={() => setForDelete(!forDelete)} value="" id="flexCheckDefault" />
+                        <input className="form-check-input my-form-check-input12" type="checkbox" onClick={() => setForDelete(!forDelete)} checked={forDelete} value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
@@ -1164,7 +1165,7 @@ const Subject = () => {
 
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00 my-button112233RedDelete" disabled={forDelete ? false : true} onClick={handleForDelete} >Delete</button>
-                        <button type="button" className="btn cancel-btn  ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn cancel-btn  ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                       </div>
 
                     </div>

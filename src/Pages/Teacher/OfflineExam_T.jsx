@@ -399,14 +399,14 @@ font-size: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.my-form-check-input:checked{
-  background-color: #008479;
-  border-color: #008479;
+/* .my-form-check-input:checked{
+  background-color: #008479 !important;
+  border-color: #008479 !important;
 } 
 .my-form-check-input2:checked{
   background-color: #B50000;
   border-color: #B50000;
-} 
+}  */
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -497,7 +497,7 @@ const OfflineExam_T = () => {
     const [sessionAllData, setSessionAllData] = useState([])
     const [classroomdata, setClassroomdata] = useState([])
     const [practicalShow, setPracticalShow] = useState(false)
-    console.log('value by iddd api', practicalShow)
+    // console.log('value by iddd api', practicalShow)
 
     const [theoryMarks, setTheoryMarks] = useState('')
     const [practicalDate, setPracticalDate] = useState('')
@@ -1007,8 +1007,6 @@ const OfflineExam_T = () => {
                 setStartTime(response?.data?.examSchedule?.startingTime)
                 setEndTime(response?.data?.examSchedule?.endingTime)
                 setMarks(response?.data?.examSchedule?.totalMarks)
-
-
                 setLoader(false)
             } else {
                 toast.error(response?.data?.msg);
@@ -1391,7 +1389,7 @@ const OfflineExam_T = () => {
                                         <hr className='mt-4' />
 
                                         <div class="form-check">
-                                            <input class="form-check-input my-form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={practicalShow} onClick={(e) => setPracticalShow(!practicalShow)} />
+                                            <input class="form-check-input my-form-check-input" type="checkbox"  id="flexCheckDefault" checked={practicalShow} onChange={(e) => setPracticalShow(!practicalShow)} />
                                             <label class="form-check-label" for="flexCheckDefault">
                                                 Practical
                                             </label>
@@ -1483,7 +1481,6 @@ const OfflineExam_T = () => {
                                                     ))
                                                 }
                                             </select>
-
                                         </div>
                                         <div className="mb-1  ">
                                             <label for="exampleFormControlInput1" className="form-label heading-16">Section</label>
@@ -1571,7 +1568,7 @@ const OfflineExam_T = () => {
                                         <hr className='mt-4' />
 
                                         <div class="form-check">
-                                            <input class="form-check-input my-form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={practicalShow} onClick={(e) => setPracticalShow(!practicalShow)} />
+                                            <input class="form-check-input my-form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={practicalShow} onChange={(e) => setPracticalShow(e.target.checked)} />
                                             <label class="form-check-label" for="flexCheckDefault">
                                                 Practical
                                             </label>

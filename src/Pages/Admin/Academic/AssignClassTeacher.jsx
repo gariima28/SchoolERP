@@ -729,6 +729,7 @@ const AssignClassTeacher = () => {
     setTeacher('')
     setClassId('')
     setSection('')
+    setForDelete(false)
   }
 
   // Reset Add form when offcanvas opens
@@ -1051,7 +1052,7 @@ const AssignClassTeacher = () => {
           showdelete && (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
               <div className="container-fluid">
-                <div className="offcanvas-header p-0 pt-3">
+                <div className="offcanvas-header p-0 pt-3" onClick={ClearHandle}>
                   <Link data-bs-dismiss="offcanvas" className='ps-3'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
@@ -1073,14 +1074,14 @@ const AssignClassTeacher = () => {
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
                       <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
+                        <input className="form-check-input my-form-check-input2" onClick={() => setForDelete(!forDelete)} checked={forDelete} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
                       </div>
                       <div className="mt-4">
                         <button type="button" className="btn my-btn button00 my-button112233RedDelete" data-bs-dismiss="offcanvas" aria-label="Close" disabled={forDelete ? false : true} onClick={handleForDelete} >Delete</button>
-                        <button type="button" className="btn cancel-btn ms-2 " data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                        <button type="button" className="btn cancel-btn ms-2 " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                       </div>
                     </div>
                   </div>

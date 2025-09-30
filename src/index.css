@@ -2287,3 +2287,13 @@ f
   position: absolute !important;
   z-index: 99999 !important;
 }
+.my-form-check-input:checked{
+  background-color: #008479 !important;
+  border-color: #008479 !important;
+  /* color: #008479 !important; */
+} 
+
+.my-form-check-input2:checked{
+  background-color: #B50000 !important;
+  border-color: #B50000 !important;
+}
