@@ -327,8 +327,8 @@ font-size: 12px;
     color: #000;
   }
   .my-form-check-input123:checked {
-    background-color: var( --greenTextColor);
-    border-color: var( --greenTextColor);
+    background-color: #008479 !important;
+    border-color: #008479 !important;
 }
 .overflow-y {
   max-height: 300px; 

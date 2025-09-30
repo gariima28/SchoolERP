@@ -1237,7 +1237,7 @@ const Holiday = () => {
                       </div>
                       <div className="form-check mt-1">
                         <input
-                          className="form-check-input my-form-check-input"
+                          className="form-check-input my-form-check-input2"
                           onChange={() => setForDelete(!forDelete)}
                           type="checkbox"
                           checked={forDelete}
