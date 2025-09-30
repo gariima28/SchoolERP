@@ -548,23 +548,18 @@ const ClassRoom = () => {
     try {
       const response = await ClassRoomGetApi(searchKey, pageNo, pageSize);
       if (response?.status === 200) {
-        // toast.success(response?.data?.message)
         setClassroomdata(response?.data?.rooms)
         setCurrentPage(response?.data?.currentPage)
         setTotalPages(response?.data?.totalPages)
-        // setDeleteroomid(response?.data?.rooms?.roomId)
         setLoader(false)
       } else {
         toast.error(response?.data?.message);
         setLoader(false)
       }
     } catch (error) {
-      // setloaderState(false);
       setLoader(false)
-      // console.log(error)
     }
   }
-
   // Delete api
   const ClassRoomDeleteApi = async (id) => {
     setLoader(true)
@@ -573,10 +568,7 @@ const ClassRoom = () => {
       if (response?.status === 200) {
         if (response?.data?.status === "success") {
           toast.success(response?.data?.message);
-          // setShowdelete(false)
-          // setHidedelete(true)
           ClassRoomGetAllApi()
-          // setForDelete(false)
           setLoader(false)
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
           offcanvasInstance.hide();
@@ -596,7 +588,6 @@ const ClassRoom = () => {
       // console.log(error)
     }
   }
-
   // Get by id 
   const MyClassRoomGetByIdApi = async (id) => {
     setLoader(true)
@@ -616,7 +607,6 @@ const ClassRoom = () => {
       // console.log(error)
     }
   }
-
   // put api 
   const MyClassRoomPutApi = async (id) => {
     if (FuncValidation()) {
@@ -652,11 +642,9 @@ const ClassRoom = () => {
     }
 
   }
-
   const handleForDelete = () => {
     ClassRoomDeleteApi(deleteroomid)
   }
-
   const HandleForReload = () => {
     ClassRoomGetAllApi()
   }
@@ -664,6 +652,7 @@ const ClassRoom = () => {
     const trimmedValue = e.target.value.trimStart();
     setSearchKey(trimmedValue);
   };
+
   const ClearData = () => {
     setAddclassroom('')
     setIsValidNameRequired(false)
@@ -692,17 +681,12 @@ const ClassRoom = () => {
             </nav>
           </div>
           <div className='d-flex g-1 for-media-query'>
-
-            {/* <div className='me-2 search-responsive'>
-            </div> */}
             <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight12" aria-controls="offcanvasRight" to={''} >+ ADD Class Room</Link>
           </div>
-
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-12px' }}>Class Room List</h5>
 
         <div className="main-content-conatainer pt-1 ">
-          {/* ###### copy content till here for all component ######  */}
 
           <div className="table-container px-3 table-responsive">
 
@@ -753,7 +737,6 @@ const ClassRoom = () => {
                       </tr>
                     )
                 }
-
               </tbody>
               <Toaster />
             </table>
@@ -769,13 +752,7 @@ const ClassRoom = () => {
               </div>
             </div>
           </div>
-
-
-
         </div>
-        {/* ################## Off Canvas Area ####################  */}
-
-        {/* ##### offcanvas added start ########  */}
         {
           show && (
             <>
@@ -809,11 +786,7 @@ const ClassRoom = () => {
             </>
           )
         }
-        {/* ################# After click ###############  */}
-
-        {/* ##### offcanvase added  end ########  */}
-
-        {/* ##### offcanvas edit start ########  */}
+   
         {
           showadd && (
             <>
@@ -855,7 +828,6 @@ const ClassRoom = () => {
         {/* ################ offcanvas delete start #############  */}
 
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight2233" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
-
           {
             showdelete && (
               <div className="container-fluid">
@@ -866,10 +838,8 @@ const ClassRoom = () => {
                 <hr className='' />
 
                 <div className="offcanvas-body">
-
                   <div className="sure-main-container mt-4">
                     <div className="sure-container">
-
                       <div>
                         <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M29.5312 0.46875C13.2656 0.46875 0 13.7344 0 30C0 46.2656 13.2656 59.5312 29.5312 59.5312C45.7969 59.5312 59.0625 46.2656 59.0625 30C59.0625 13.7344 45.7969 0.46875 29.5312 0.46875ZM29.5312 55.7812C15.3281 55.7812 3.75 44.2031 3.75 30C3.75 15.7969 15.3281 4.21875 29.5312 4.21875C43.7344 4.21875 55.3125 15.7969 55.3125 30C55.3125 44.2031 43.7344 55.7812 29.5312 55.7812Z" fill="#B50000" />
@@ -877,18 +847,16 @@ const ClassRoom = () => {
                           <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
                         </svg>
                       </div>
-
                       <div className="sure-content mt-2">
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
                       <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input " onClick={() => setForDelete(!forDelete)} checked={forDelete} type="checkbox" value="" id="flexCheckDefault" />
+                        <input className="form-check-input my-form-check-input2 " onClick={() => setForDelete(!forDelete)} checked={forDelete} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
                       </div>
-
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00" disabled={forDelete ? false : true} onClick={handleForDelete}>Delete</button>
                         <button type="button" className="btn  cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData2}>Cancel</button>
@@ -897,7 +865,6 @@ const ClassRoom = () => {
                   </div>
                 </div>
               </div>
-
             )
           }
           {/* ############## After click ##############  */}

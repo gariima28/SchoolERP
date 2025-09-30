@@ -1145,7 +1145,7 @@ const Assign_publish = (props) => {
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
                       <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
+                        <input className="form-check-input my-form-check-input2" onClick={() => setForDelete(!forDelete)} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label agree" for="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>

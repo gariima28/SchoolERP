@@ -746,6 +746,7 @@ const Income_category = () => {
   const ClearHandle = () => {
     setName('')
     setIsValidTypeRequired(false);
+    setForDelete(false)
 
   }
 
@@ -1041,23 +1042,7 @@ const Income_category = () => {
               </div>
               <hr className="" style={{ marginTop: "-3px" }} />
               <div className="offcanvas-body pt-0">
-                {/* <div class="mb-3">
-                  <label
-                    for="exampleFormControlInput1"
-                    class="form-label heading-16"
-                  >
-                    Type Name
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    id="exampleFormControlInput1"
-                    value={type}
-                    onChange={(e) => handleType(e.target.value)}
-                    placeholder="Type Name"
-                    disabled
-                  />
-                </div> */}
+             
                 <div class="mb-3">
                   <label
                     for="exampleFormControlInput1"
@@ -1124,7 +1109,7 @@ const Income_category = () => {
             ref={offcanvasRef33} >
             <div className="container-fluid">
               <div className="offcanvas-header p-0 pt-3">
-                <Link data-bs-dismiss="offcanvas" className="ps-3">
+                <Link data-bs-dismiss="offcanvas" className="ps-3" onClick={ClearHandle}>
                   <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" />
                 </Link>
                 <h5
@@ -1171,8 +1156,9 @@ const Income_category = () => {
                     </div>
                     <div className="form-check mt-1">
                       <input
-                        className="form-check-input my-form-check-input"
+                        className="form-check-input my-form-check-input2"
                         type="checkbox"
+                        checked={forDelete}
                         onClick={() => setForDelete(!forDelete)}
                         value=""
                         id="flexCheckDefault"
@@ -1188,7 +1174,7 @@ const Income_category = () => {
                     <div className="mt-4">
                       <button
                         type="button"
-                        className="btn my-btn  button00 my-button112233RedDelete"
+                        className="btn my-btn  button00 my-form-check-input2"
                         disabled={forDelete ? false : true}
                         onClick={(e) => MyIncomeCategoryDelApi(IdForDelete)}
                       >
@@ -1199,6 +1185,7 @@ const Income_category = () => {
                         className="btn cancel-btn ms-2"
                         data-bs-dismiss="offcanvas"
                         aria-label="Close"
+                        onClick={ClearHandle}
                       >
                         Cancel
                       </button>
