@@ -23,6 +23,10 @@ const Container = styled.div`
   .main-body{
     background-color: #F2F3F6; 
   }
+    .my-form-check-input2:checked {
+    background-color: #B50000 !important;
+    border-color: #B50000 !important;
+}
 .main-content-conatainer{
     background-color: #fff;
     margin: 10px;
@@ -323,10 +327,7 @@ font-size: 12px;
     background: #FFF;
     color: #000;
   }
-  .my-form-check-input123:checked {
-    background-color: var( --greenTextColor);
-    border-color: var( --greenTextColor);
-}
+
 .overflow-y {
   max-height: 300px; 
   overflow-y: auto; 
@@ -372,10 +373,10 @@ color: #000 !important;
     border-color: #cdcdcd;
     opacity: var(--bs-btn-disabled-opacity);
 }
-.my-form-check-input:checked{
+/* .my-form-check-input:checked{
   background-color: #B50000;
   border-color: #B50000;
-} 
+}  */
 .pagination {
     display: flex;
     list-style: none;
@@ -949,7 +950,7 @@ const Leave = () => {
                       </div>
                       <div className="form-check mt-1">
                         <input
-                          className="form-check-input my-form-check-input"
+                          className="form-check-input my-form-check-input2"
                           onChange={() => setForDelete(!forDelete)}
                           type="checkbox"
                           checked={forDelete}
@@ -966,12 +967,10 @@ const Leave = () => {
                         <button type="button" className="btn my-btn button00" disabled={forDelete ? false : true} onClick={handleForDelete} >Delete</button>
                         <button type="button" className="btn cancel-btn  ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                       </div>
-
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           )
         }
@@ -979,8 +978,6 @@ const Leave = () => {
 
       </div>
       {/* ################ offcanvas delete end #############  */}
-
-
 
     </Container>
   )

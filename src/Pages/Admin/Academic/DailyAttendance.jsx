@@ -1110,7 +1110,7 @@ const DailyAttendance = ({ items }) => {
                                         <p className=''>P</p>
                                         <span className='pt-1 ps-2'>
                                           <input
-                                            className="form-check-input my-form-check-input123"
+                                            className="form-check-input my-form-check-input"
 
                                             checked={item.present === true}
                                             type="radio"
@@ -1122,7 +1122,7 @@ const DailyAttendance = ({ items }) => {
                                         <p>A</p>
                                         <span className='pt-1 ps-2'>
                                           <input
-                                            className="form-check-input my-form-check-input123"
+                                            className="form-check-input my-form-check-input"
                                             checked={item.present === false}
                                             type="radio"
                                             onClick={() => handleRadioChange(index, false, item.name)}
@@ -1226,7 +1226,7 @@ const DailyAttendance = ({ items }) => {
                                         <p className=''>P</p>
                                         <span className='pt-1 ps-2'>
                                           <input
-                                            className="form-check-input my-form-check-input123"
+                                            className="form-check-input my-form-check-input"
 
                                             checked={item.present === true}
                                             type="radio"
@@ -1238,7 +1238,7 @@ const DailyAttendance = ({ items }) => {
                                         <p>A</p>
                                         <span className='pt-1 ps-2'>
                                           <input
-                                            className="form-check-input my-form-check-input123"
+                                            className="form-check-input my-form-check-input"
                                             checked={item.present === false}
                                             type="radio"
                                             onClick={() => handleRadioChange(index, false, item.name)}

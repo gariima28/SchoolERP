@@ -875,15 +875,7 @@ const AssignLeave = () => {
               <Link type="button" style={{ height: '38px', padding: '10px' }} className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop101" aria-controls="staticBackdrop" to={''}>Assign Leave</Link>
             </div>
           </div>
-          {/* <div className='d-flex g-1 for-media-query'>
-            <div className='me-2 search-responsive'>
-              <div className="input-group mb-3 ">
-                <input type="text" className="form-control form-focus font-color" style={{ height: '34px' }} placeholder="Search" aria-label="Recipient's username" onChange={handleChange} value={searchKey} aria-describedby="basic-addon2" />
-                <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} id="basic-addon2" onClick={MyAssignLeaveGetAllApi}>Search</span>
-              </div>
-            </div>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop101" aria-controls="staticBackdrop" to={''}>Assign Leave</Link>
-          </div> */}
+         
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Leave Details</h5>
 
@@ -923,7 +915,6 @@ const AssignLeave = () => {
                         <td className='greyText pe-0 no-wrap'>
                           {item?.leaveInfo?.map((leaveItem, leaveIndex) => (
                             <div key={leaveIndex}>
-                              {/* {`${leaveItem?.leaveType === typeValue ? leaveItem?.leaveCount : ''}`} */}
                               {leaveItem?.leaveCount}
                             </div>
                           ))}
@@ -1189,7 +1180,7 @@ const AssignLeave = () => {
                             </label>
 
                             <input
-                              className="form-check-input my-form-check-input"
+                              className="form-check-input my-form-check-input2"
                               type="checkbox"
                               id={`leaveType-${index}`}
                               checked={selectedLeaveTypes.includes(item.leaveType)}
@@ -1209,7 +1200,7 @@ const AssignLeave = () => {
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success " style={{ backgroundColor: 'red', color: '#fff' }} onClick={(e) => MyHolidayDeleteApi()}>Delete leave</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" style={{backgroundColor:'#fff', color:'#000'}}>Cancel</button>
                     </div>
 
                   </div>
