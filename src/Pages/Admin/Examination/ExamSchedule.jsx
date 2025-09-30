@@ -437,8 +437,8 @@ const ExamSchedule = () => {
                     setAllSubjectData([]);
                 }
 
-                console.log('Sections:', sections); // Debug sections
-                console.log('Subjects:', subjects); // Debug subjects
+                console.log('Sections:', sections);
+                console.log('Subjects:', subjects);
 
                 // Map section and subject
                 const selectedSection = sections.find(s => s.classSecId === data.section || s.sectionName === data.section);
