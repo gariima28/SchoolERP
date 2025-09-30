@@ -115,7 +115,7 @@ const Container = styled.div`
     border-color: var(--greenTextColor) !important;
     color: #fff;
     width: fit-content;
-    height: 32px;
+    height: 35px;
     align-items: center;
   }
 
@@ -124,7 +124,7 @@ const Container = styled.div`
     border-color: #034F95 !important;
     color: #fff;
     width: fit-content;
-    height: 32px;
+    height: 35px;
     align-items: center;
   }
 
@@ -133,7 +133,7 @@ const Container = styled.div`
     border-color: var(--orangeTextColor) !important;
     color: #fff;
     width: fit-content;
-    height: 32px;
+    height: 35px;
     align-items: center;
   }
 `;
