@@ -511,14 +511,12 @@ const ClassList = () => {
     }
 
   }
-
   const HandleState = () => {
     setShow12(true)
     setHide12(false)
     setShow(true)
     setHide(false)
   }
-
   // Get All Api 
   const UpdatClassGetApi = async () => {
     setLoader(true)
@@ -539,7 +537,6 @@ const ClassList = () => {
       // console.log(error)
     }
   }
-
   // Delete api
   const SubsDeleteApi = async (id) => {
     setLoader(true)
@@ -560,7 +557,6 @@ const ClassList = () => {
       // console.log(error)
     }
   }
-
   // Get by id 
   const MyClassGetByIdApi = async (id) => {
     setIdForUpdate(id)
@@ -579,7 +575,6 @@ const ClassList = () => {
       // console.log(error)
     }
   }
-
   //  Put api 
   const MyClassPutApi = async (id) => {
     if (FuncValidation()) {
@@ -657,8 +652,6 @@ const ClassList = () => {
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-22px' }}>Class List</h5>
 
         <div className="main-content-conatainer pt-1 ">
-          {/* ###### copy content till here for all component ######  */}
-
           <div className="table-container px-3 table-responsive">
 
             <table className="table table-sm table-striped">
@@ -686,7 +679,6 @@ const ClassList = () => {
                             </button>
                             <ul className="dropdown-menu anchor-color heading-14">
                               <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop12" aria-controls="staticBackdrop" onClick={(e) => MyClassGetByIdApi(item.classId)} >Edit</Link></li>
-                              {/* <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e)=>  setIdForDelete(item.classId)}>Delete</Link></li> */}
                             </ul>
                           </div>
                         </td>
@@ -726,7 +718,6 @@ const ClassList = () => {
 
         </div>
         {/* ################## Off Canvas Area ####################  */}
-        {/* <div className={` offcanvas-end offcanvas${offcanvasclose ? ' offcanvas-close' : ''}`} data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel"> */}
         {
           show12 && (
             <>
@@ -765,8 +756,6 @@ const ClassList = () => {
             </>
           )
         }
-
-
         {
           show && (
             <>
@@ -802,9 +791,6 @@ const ClassList = () => {
         }
         {/* ################# After click ###############  */}
 
-        {/* ##### offcanvase edit  end ########  */}
-
-        {/* ############## Offcanvas view profile ######### */}
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight33" aria-labelledby="offcanvasRightLabel">
           <div className="container-fluid">
             <div className="offcanvas-header p-0 pt-3">
@@ -847,7 +833,6 @@ const ClassList = () => {
                   </div>
                 </div>
                 <hr className='mt-4' />
-
                 <div className='d-flex  justify-content-between '>
                   <div >
                     <p className='heading-14 label-color'>Gender</p>
@@ -861,12 +846,8 @@ const ClassList = () => {
           </div>
 
         </div>
-        {/* ############## Offcanvas view profile ######### */}
-
-        {/* ################ offcanvas delete start #############  */}
 
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel">
-
           {
             showdelete && (
               <div className="container-fluid">
@@ -887,7 +868,6 @@ const ClassList = () => {
                           <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
                         </svg>
                       </div>
-
                       <div className="sure-content mt-2">
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
@@ -898,12 +878,10 @@ const ClassList = () => {
                           I Agree to delete the Profile Data
                         </label>
                       </div>
-
                       <div className="mt-4">
                         <button type="button" className="btn btn-outline-primary button00" onClick={(e) => SubsDeleteApi(IdForDelete)}>Delete</button>
                         <button type="button" className="btn btn-outline-primary button00 ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                       </div>
-
                     </div>
                   </div>
                 </div>

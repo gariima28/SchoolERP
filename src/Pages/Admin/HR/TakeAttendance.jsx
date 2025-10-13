@@ -469,7 +469,7 @@ const TakeAttendance = () => {
   const [month2, setMonth2] = useState()
   const [year, setYear] = useState()
   const [roleid, setRoleId] = useState()
-
+  const [roleIdForMonth, setRoleIdForMonth] = useState()
 
   const [takeAttenSearhDate, setTakeAttenSearhDate] = useState([])
   const [searchKey, setSearchKey] = useState('')
@@ -496,8 +496,9 @@ const TakeAttendance = () => {
 
   useEffect(() => {
     MyRolPermisGetAllApi()
+    if(roleid){
     MyTakeAttendanceGetApi()
-    // Download_Slip()
+    }
   }, [roleid])
 
   // CSV 
@@ -650,10 +651,8 @@ const TakeAttendance = () => {
   const MyAttendanceGetAllApiByMonth = async () => {
     setLoader(true)
     try {
-      const response = await AttendanceGetAllBymonth(roleid, month2, year, searchKey, 1, 10);
-      console.log('attendance by month data----------', response)
+      const response = await AttendanceGetAllBymonth(roleIdForMonth, month2, year, searchKey, 1, 10);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setAttendanceDataByMonth(response?.data?.attendance)
         setRole(response?.data?.roleName)
         setMonth(response?.data?.month)
@@ -790,7 +789,7 @@ const TakeAttendance = () => {
             <div className="col-lg-4 col-md-4 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Role Name</label>
-                <select class="form-select form-focus form-select-sm" value={roleid} onChange={(e) => setRoleId(e.target.value)} aria-label="Default select example">
+                <select class="form-select form-focus form-select-sm" value={roleid} onChange={(e) => setRoleIdForMonth(e.target.value)} aria-label="Default select example">
                   <option value="" >--Choose--</option>
                   {
                     rolePermisAllData?.map(item => (
@@ -804,7 +803,7 @@ const TakeAttendance = () => {
           {/* ####### buttons ######  */}
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyAttendanceGetAllApiByMonth} disabled={!(month2 && year && roleid)}>Search</button>
+              <button type="button" class="btn btn-outline-success" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyAttendanceGetAllApiByMonth} disabled={!(month2 && year && roleIdForMonth)}>Search</button>
               <button type="button" class="btn btn-outline-success" onClick={ClearData}>Cancel</button>
             </div>
           </div>
@@ -889,9 +888,7 @@ const TakeAttendance = () => {
                             </td>
                           ))
                         }
-
                       </tr>
-
                     ))
                   )
                     :
@@ -905,16 +902,11 @@ const TakeAttendance = () => {
                         </td>
                       </tr>
                     )
-
                 }
               </tbody>
-
             </table>
           </div>
-
         </div>
-        {/* ################## Off Canvas Area ####################  */}
-
         {
           hide ? (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
@@ -960,7 +952,6 @@ const TakeAttendance = () => {
                             </tr>
                           </thead>
                           <tbody className='heading-14 align-middle greyTextColor ' >
-
                             {
                               takeAttenSearhDate?.map((item, index) => (
                                 <tr className='heading-14' key={index}>
@@ -1003,7 +994,6 @@ const TakeAttendance = () => {
                     </div>
                   )
                 }
-
               </div>
             </div>
           ) : (
@@ -1011,8 +1001,6 @@ const TakeAttendance = () => {
           )
         }
 
-        {/* ##### offcanvas Update attendance start ########  */}
-        {/* ########## content area #################  */}
         {
           show2 ? (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight123" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
@@ -1042,7 +1030,6 @@ const TakeAttendance = () => {
                     </select>
                   </div>
                 </div>
-
                 {
                   hide2 ? (
                     <div className='my-button11 '>
@@ -1051,7 +1038,6 @@ const TakeAttendance = () => {
                     </div>
                   ) : (
                     <div className="container-fluid">
-
                       <div className="table-container pt-3 table-responsive overflow-y">
                         <table className="table  ">
                           <thead className=''>
@@ -1103,16 +1089,10 @@ const TakeAttendance = () => {
                     </div>
                   )
                 }
-
               </div>
             </div>
           ) : ''
         }
-        {/* ################# After click ###############  */}
-
-
-        {/* ##### offcanvase Update attendance  end ########  */}
-
       </div>
     </Container>
   )

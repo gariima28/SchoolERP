@@ -432,8 +432,6 @@ const Profile = () => {
 
                 </div>
             </div>
-
-
         </Container >
     )
 }
