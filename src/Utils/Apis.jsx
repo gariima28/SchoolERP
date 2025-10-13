@@ -1295,6 +1295,20 @@ export const getDriverDataApi = async (searchKey, pageNo, pageSize) => {
   }
 }
 
+export const getVehicleDriverApi = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/otherStaff/getAllDriver`);
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+
 export const DownloadDriverPDF = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
