@@ -4877,7 +4877,23 @@ export const NoticePutApi = async (id, datares) => {
 export const NoticeCSV = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res2 = await axios.put(`${Domain}/notice/csv`)
+    const res2 = await axios.get(`${Domain}/notice/csv`)
+    // console.log('my-response-get-by-id', res2)
+    if (res2) {
+      return res2;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+// Notice PDF 
+export const NoticePDF = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res2 = await axios.get(`${Domain}/notice/pdf`)
     // console.log('my-response-get-by-id', res2)
     if (res2) {
       return res2;
@@ -5435,6 +5451,7 @@ export const AddLibraryMemberApi = async (data) => {
     return [];
   }
 }
+// ------------------------------CSV and PDF Section 
 // Book List Manager CSV
 export const BookManCSV = async () => {
   try {
@@ -5450,6 +5467,7 @@ export const BookManCSV = async () => {
     return [];
   }
 }
+
 // Book List Manager PDF
 export const BookManPDF = async () => {
   try {
@@ -5465,6 +5483,43 @@ export const BookManPDF = async () => {
     return [];
   }
 }
+
+//  Issue And Return CSV
+export const IssueAndReturnCSV = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res2 = await axios.get(`${Domain}/transaction/csv`)
+    if (res2) {
+      return res2;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+//  Issue And Return PDF
+export const IssueAndReturnPDF = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res2 = await axios.get(`${Domain}/transaction/pdf`)
+    if (res2) {
+      return res2;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+
+// ------------------------------ CSV and PDF Section  ------------------------------
+
+
+
+
 // ########################## Book manager list API end ########################### 
 
 
@@ -6719,6 +6774,17 @@ export const ClassTeacherCSV = async () => {
     return []
   }
 }
+// PDF 
+export const ClassTeacherPDF = async () => {
+  axios.defaults.headers.common["Authorization"] = token;
+  const res2 = await axios.get(`${Domain}/class/classTeacherPDF`)
+  if (res2) {
+    return res2;
+  }
+  else {
+    return []
+  }
+}
 
 // ########################## Assign Class teacher APIs end ########################### 
 
@@ -7826,9 +7892,13 @@ export const OtherStaffCSV = async (id) => {
 }
 // Daily attendance CSV 
 export const DailyAttendanceCSV = async (sectionId, month, year) => {
+  console.log(sectionId, month, year, 'sectionId, month, year all are in apiiii')
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/attendance/getCSV?sectionId=${sectionId}&month=${month}&year=${year}`)
+    const res = await axios.get(
+      `${Domain}/attendance/getCSV?sectionId=${sectionId}&month=${parseInt(month)}&year=${parseInt(year)}`
+    );
+    // const res = await axios.get(`${Domain}/attendance/getCSV?sectionId=${sectionId}&month=${month}&year=${year}`)
     if (res) {
       return res;
     }
@@ -8574,6 +8644,42 @@ export const TeacherEventCSV = async () => {
     return [];
   }
 }
+// Event PDF 
+export const TeacherEventPDF = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res2 = await axios.get(`${Domain}/events/pdf`)
+    // // console.log('my-response-get-by-id', res2)
+
+    if (res2) {
+      return res2;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+// daily attendance CSV 
+// export const DailyAttendanceCSV = async () => {
+//   try {
+//     axios.defaults.headers.common["Authorization"] = token;
+//     const res2 = await axios.get(`${Domain}/events/csv`)
+//     // // console.log('my-response-get-by-id', res2)
+
+//     if (res2) {
+//       return res2;
+//     }
+//     else {
+//       return []
+//     }
+//   } catch (error) {
+//     return [];
+//   }
+// }
+
+
 // Event Delete Api 
 export const TeacherEventDeleteApi = async (id) => {
   try {

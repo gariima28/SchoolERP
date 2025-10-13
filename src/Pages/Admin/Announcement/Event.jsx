@@ -9,6 +9,7 @@ import { EventDeleteApi } from 'src/Utils/Apis'
 import { EventGetByIdApi } from 'src/Utils/Apis'
 import { EventPutApi } from 'src/Utils/Apis'
 import { EventCSV } from 'src/Utils/Apis'
+import { TeacherEventPDF } from 'src/Utils/Apis'
 import { ClassGetApi } from 'src/Utils/Apis'
 import { AllRolesGetAllApiInEvent } from 'src/Utils/Apis'
 import HashLoaderCom from 'src/Pages/HashLoaderCom';
@@ -1109,7 +1110,7 @@ const Event = () => {
               searchAction={handleSearchButton}
               showExportPDF={eventAllData?.length > 0}
               exportPDFText="Export PDF"
-              exportPDFAction={''}
+              exportPDFAction={TeacherEventPDF}
               showExportCSV={eventAllData?.length > 0}
               exportCSVText="Export CSV"
               exportCSVAction={EventCSV}
