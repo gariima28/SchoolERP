@@ -6,8 +6,8 @@ import { BookManagerGetAllApi } from '../../../Utils/Apis'
 import { BookManagerDeleteApi } from '../../../Utils/Apis'
 import { BookmanGetById } from '../../../Utils/Apis'
 import { BookManPutApi } from '../../../Utils/Apis'
-import { BookManCSV } from '../../../Utils/Apis'
-import { BookManPDF } from '../../../Utils/Apis'
+import { IssueAndReturnCSV } from '../../../Utils/Apis'
+import { IssueAndReturnPDF } from '../../../Utils/Apis'
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { ClassGetApi } from '../../../Utils/Apis'
 import { SectionRoomByIdGetApi } from '../../../Utils/Apis'
@@ -500,18 +500,18 @@ const Issue_Report = () => {
   // CSV 
   const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await BookManCSV();
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-        // setTableData(rows.slice(1));
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const Download_Slip = async () => {
+  //   try {
+  //     const response = await BookManCSV();
+  //     if (response?.status === 200) {
+  //       const rows = response?.data?.split('\n').map(row => row.split(','));
+  //       setCsvData(rows);
+  //       // setTableData(rows.slice(1));
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   // CSV 
   // PDF 
   const base64ToBlob = (base64Data, contentType) => {
@@ -532,24 +532,24 @@ const Issue_Report = () => {
     return blob;
   };
 
-  useEffect(() => {
-    DownloadPDF();
-  }, [token])
+  // useEffect(() => {
+  //   DownloadPDF();
+  // }, [token])
 
   // PDF Download Response
-  const DownloadPDF = async () => {
-    try {
-      const response = await BookManPDF();
-      if (response?.status === 200) {
-        if (response?.data?.status === 'success') {
-          setPDFResponse(response?.data);
-        }
-      }
-    } catch (err) {
-      console.log(err);
-      setLoader(false)
-    }
-  };
+  // const DownloadPDF = async () => {
+  //   try {
+  //     const response = await BookManPDF();
+  //     if (response?.status === 200) {
+  //       if (response?.data?.status === 'success') {
+  //         setPDFResponse(response?.data);
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setLoader(false)
+  //   }
+  // };
   // Handle PDF Download in Device
   const handleDownloadPdf = () => {
     const { pdf } = PDFResponse;
@@ -610,7 +610,7 @@ const Issue_Report = () => {
 
   useEffect(() => {
     // MyRolPermisGetAllApi()
-    Download_Slip()
+    // Download_Slip()
     UpdatClassGetApi()
     MySectionGetApi()
     MyGetAllBookApi()
@@ -1022,9 +1022,10 @@ const Issue_Report = () => {
               addButtonAction={''}
               showExportPDF={true}
               exportPDFText="Export PDF"
-              exportPDFAction={''}
+              exportPDFAction={IssueAndReturnPDF}
               exportPDFFileName="Daily Attendance.pdf"
               showExportCSV={true}
+              exportCSVAction={IssueAndReturnCSV}
               exportCSVFileName="Daily Attendance.xlsx"
               showSearch={true}
               searchValue={searchKey}

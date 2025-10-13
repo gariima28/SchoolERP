@@ -10,6 +10,7 @@ import { AssignClassTeacherGetAllApi } from 'src/Utils/Apis'
 // import { ClassTeacherCSV } from 'src/Utils/Apis'
 import { AssignDeleteApi } from 'src/Utils/Apis'
 import { ClassTeacherCSV } from 'src/Utils/Apis'
+import { ClassTeacherPDF } from 'src/Utils/Apis'
 import { AssignClassTeacherGetByIdAllApi } from 'src/Utils/Apis'
 import { AssignClassTeacherPutApi } from 'src/Utils/Apis'
 import HashLoader from 'src/Pages/HashLoaderCom';
@@ -511,23 +512,12 @@ const AssignClassTeacher = () => {
     MyAssignClassTeachgerGetApi()
   }, [classId, section, pageNo])
 
-  useEffect(() => {
-    Download_Slip()
-  }, [])
+  // useEffect(() => {
+  //   Download_Slip()
+  // }, [])
 
   const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await ClassTeacherCSV();
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   //  Teacher Get All Api 
   const MyTeacherGetApi = async () => {
@@ -773,7 +763,7 @@ const AssignClassTeacher = () => {
               searchAction={handleSearchButton}
               showExportPDF={assignAllData?.length > 0}
               exportPDFText="Export PDF"
-              exportPDFAction={''}
+              exportPDFAction={ClassTeacherPDF}
               showExportCSV={assignAllData?.length > 0}
               exportCSVText="Export CSV"
               exportCSVAction={ClassTeacherCSV}

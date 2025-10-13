@@ -9,6 +9,7 @@ import { NoticeDeleteApi } from '../../../Utils/Apis'
 import { NoticeGetByIdApi } from '../../../Utils/Apis'
 import { NoticePutApi } from '../../../Utils/Apis'
 import { NoticeCSV } from '../../../Utils/Apis'
+import { NoticePDF } from '../../../Utils/Apis'
 import HashLoaderCom from 'src/Pages/HashLoaderCom';
 import { CSVLink } from 'react-csv';
 import ReactPaginate from 'react-paginate';
@@ -497,24 +498,9 @@ const Notice = () => {
 
   const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await NoticeCSV();
-      if (response?.status === 200) {
-        // const rows = response?.data?.split('\n').map(row => row.split(','));
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-
-        setCsvData(rows);
-        // setTableData(rows.slice(1));
-      }
-    } catch (err) {
-      // console.log(err);
-    }
-  };
-
   useEffect(() => {
     MyNoticeGetAllApi()
-    Download_Slip()
+    // Download_Slip()
   }, [pageNo])
 
   const [errors, setErrors] = useState({});
@@ -803,12 +789,11 @@ const Notice = () => {
               searchAction={handleSearchButton}
               showExportPDF={noticeAllData?.length > 0}
               exportPDFText="Export PDF"
-              exportPDFAction={''}
+              exportPDFAction={NoticePDF}
               showExportCSV={noticeAllData?.length > 0}
               exportCSVText="Export Notice CSV"
               exportCSVAction={NoticeCSV}
               onSearchChange={handleSearchChange}
-
             />
           </div>
         </div>
