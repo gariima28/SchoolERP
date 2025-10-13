@@ -378,10 +378,14 @@ const Conta_allown = () => {
       setLoaderState(true);
       const formData = new FormData();
       formData.append('allowanceNameId', data.allowanceNameId);
-      formData.append('allowanceType', data.allowanceType);
-      formData.append('percentage', data.percentage);
-      formData.append('amount', data.amount);
-      formData.append('amountOption', data.amountOption);
+      formData.append('allowanceValueType', data.allowanceType);
+      if (data.allowanceType === 'PERCENTAGE') {
+        formData.append('amount', data.percentage);
+      }
+      else {
+        formData.append('amount', data.amount);
+      }
+      formData.append('allowanceType', data.amountOption);
 
       const response = await AssignAllowanceToStaff(myUserID, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
@@ -400,18 +404,24 @@ const Conta_allown = () => {
 
   // Edit allowance
   const handleEdit = (item) => {
+    console.log("Editing allowance:", item);
     setEditAllowance(item);
-    setEditValue('allowanceNameId', item.allowanceNameId || '');
-    setEditValue('allowanceType', item.allowanceType || '');
-    setEditValue('percentage', item.percentage || '0');
-    setEditValue('amount', item.amount || '0');
-    setEditValue('amountOption', item.amountOption || '');
+
+    setEditValue('allowanceNameId', item.allowanceNameId || '', { shouldValidate: true });
+    setEditValue('allowanceType', item.amount ? 'AMOUNT' : 'PERCENTAGE', { shouldValidate: true });
+    setEditValue('percentage', item.amount || '', { shouldValidate: true });
+    setEditValue('amount', item.amount || '', { shouldValidate: true });
+    setEditValue('amountOption', item.allowanceType || '', { shouldValidate: true });
+
     const offcanvasElement = document.getElementById('editAllowanceOffcanvas');
     if (offcanvasElement) {
       const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
       offcanvas.show();
     }
   };
+
+
+
 
   // Update allowance
   const handleUpdateAllowance = async (data) => {
@@ -423,10 +433,14 @@ const Conta_allown = () => {
       setLoaderState(true);
       const formData = new FormData();
       formData.append('allowanceNameId', data.allowanceNameId);
-      formData.append('allowanceType', data.allowanceType);
-      formData.append('percentage', data.percentage);
-      formData.append('amount', data.amount);
-      formData.append('amountOption', data.amountOption);
+      formData.append('allowanceValueType', data.allowanceType);
+      if (data.allowanceType === 'PERCENTAGE'){
+        formData.append('amount', data.percentage);
+      }
+      else{
+        formData.append('amount', data.amount);
+      }
+      formData.append('allowanceType', data.amountOption);
 
       const response = await Conatct_allowance_PutApi(editAllowance.staffId || editAllowance.id, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
@@ -649,9 +663,9 @@ const Conta_allown = () => {
             </div>
           </div>
           <div className="row px-1 row-margin">
-            <div className="col-lg-8 col-md-6 col-sm-12">
+            <div className="col-lg-12 col-md-6 col-sm-12">
               <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-12">
+                <div className="col-lg-3 col-md-6 col-sm-12">
                   <div className="form-check">
                     <Controller
                       name="amountOption"
@@ -674,7 +688,7 @@ const Conta_allown = () => {
                     </label>
                   </div>
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-12">
+                <div className="col-lg-3 col-md-6 col-sm-12">
                   <div className="form-check">
                     <Controller
                       name="amountOption"
@@ -694,6 +708,52 @@ const Conta_allown = () => {
                     />
                     <label className="form-check-label font14" htmlFor="nextMonthApply">
                       Next Month Apply
+                    </label>
+                  </div>
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-12">
+                  <div className="form-check">
+                    <Controller
+                      name="amountOption"
+                      control={addControl}
+                      rules={{ required: 'Please select an allowance type' }}
+                      render={({ field }) => (
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="applyOption"
+                          id="alreadyApplied"
+                          value="ALREADY_APPLIED"
+                          checked={field.value === 'ALREADY_APPLIED'}
+                          onChange={() => field.onChange('ALREADY_APPLIED')}
+                        />
+                      )}
+                    />
+                    <label className="form-check-label font14" htmlFor="alreadyApplied">
+                      Already Applied
+                    </label>
+                  </div>
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-12">
+                  <div className="form-check">
+                    <Controller
+                      name="amountOption"
+                      control={addControl}
+                      rules={{ required: 'Please select an allowance type' }}
+                      render={({ field }) => (
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="applyOption"
+                          id="annual"
+                          value="ANNUAL"
+                          checked={field.value === 'ANNUAL'}
+                          onChange={() => field.onChange('ANNUAL')}
+                        />
+                      )}
+                    />
+                    <label className="form-check-label font14" htmlFor="annual">
+                      Annual
                     </label>
                   </div>
                 </div>
@@ -958,7 +1018,7 @@ const Conta_allown = () => {
             </div>
             <div className="form-group mb-3">
               <div className="row">
-                <div className="col-6">
+                <div className="col-md-6 col-12">
                   <div className="form-check">
                     <Controller
                       name="amountOption"
@@ -981,7 +1041,7 @@ const Conta_allown = () => {
                     </label>
                   </div>
                 </div>
-                <div className="col-6">
+                <div className="col-md-6 col-12">
                   <div className="form-check">
                     <Controller
                       name="amountOption"
@@ -1001,6 +1061,52 @@ const Conta_allown = () => {
                     />
                     <label className="form-check-label font14" htmlFor="editNextMonthApply">
                       Next Month Apply
+                    </label>
+                  </div>
+                </div>
+                <div className="col-md-6 col-12">
+                  <div className="form-check">
+                    <Controller
+                      name="amountOption"
+                      control={addControl}
+                      rules={{ required: 'Please select an allowance type' }}
+                      render={({ field }) => (
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="editApplyOption"
+                          id="editAlreadyApplied"
+                          value="ALREADY_APPLIED"
+                          checked={field.value === 'ALREADY_APPLIED'}
+                          onChange={() => field.onChange('ALREADY_APPLIED')}
+                        />
+                      )}
+                    />
+                    <label className="form-check-label font14" htmlFor="editAlreadyApplied">
+                      Already Applied
+                    </label>
+                  </div>
+                </div>
+                <div className="col-md-6 col-12">
+                  <div className="form-check">
+                    <Controller
+                      name="amountOption"
+                      control={addControl}
+                      rules={{ required: 'Please select an allowance type' }}
+                      render={({ field }) => (
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="editApplyOption"
+                          id="editAnnual"
+                          value="ANNUAL"
+                          checked={field.value === 'ANNUAL'}
+                          onChange={() => field.onChange('ANNUAL')}
+                        />
+                      )}
+                    />
+                    <label className="form-check-label font14" htmlFor="editAnnual">
+                      Annual
                     </label>
                   </div>
                 </div>

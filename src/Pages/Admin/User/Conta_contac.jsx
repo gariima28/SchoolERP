@@ -257,7 +257,7 @@ const Conta_contac = ({ data }) => {
       const formData = new FormData();
       formData.append('contactDate', contractStart);
       formData.append('basicSalary', basicSalary);
-      formData.append('hourlyRate', hourlyRate);
+      formData.append('perDayRate', hourlyRate);
       formData.append('contractEnd', contractEnd);
       formData.append('paySlipType', payslip);
       formData.append('shift', officeShift);
@@ -470,6 +470,7 @@ const Conta_contac = ({ data }) => {
                   className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!isValidContractStartRequired && contractStart ? 'valid-indicator' : ''}`}
                   id="contractStart"
                   value={contractStart}
+                  min={new Date()}
                   onChange={(e) => handleStartDate(e.target.value)}
                   tabIndex="1"
                   aria-describedby="contractStartError"
