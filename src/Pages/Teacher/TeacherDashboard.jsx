@@ -111,7 +111,6 @@ const DashboardPage = () => {
   const [leaveAllData, setLeaveAllData] = useState([]);
   const [availableLeave, setAvailableLeave] = useState([]);
   const [leaveAllDataTransfer, setLeaveAllDataTransfer] = useState([]);
-  // console.log('leave data in dashboard page', leaveAllDataTransfer)
 
   const [showTime, setShowTime] = useState()
   const [showLateByHours, setShowLateByHours] = useState()
@@ -143,7 +142,6 @@ const DashboardPage = () => {
   const MyAttendanceShowOfTeacher = async () => {
     try {
       setloaderState(true);
-      // const response = await TeachergetAllDashboardAttendanceDataApi();
       const response = await teacherGetAllDashDataApi();
       console.log('All data from dashboard api =============', response)
       if (response?.status === 200) {
@@ -423,11 +421,10 @@ const DashboardPage = () => {
                         <div className="borderLeftOrange p-2">
                           <div className="d-flex p-1">
                             <div className="flex-fill imageSize d-flex ">
-                              <p>
+                              <p style={{ width: '120px', height: '120px', borderRadius: '8px', overflow: 'hidden' }}>
                                 {
                                   item.eventImage ? <img src={item.eventImage} alt="Event" /> : <img src="/images/event.png" alt="Event" />
                                 }
-                                {/* <img src="/images/event.png" alt="Event" /> */}
                               </p>
                               <div className='ps-3' style={{ fontSize: '14px' }}>
                                 <p style={{ color: "#008479" }}>{item.eventDay} {item.startDate}</p>

@@ -465,6 +465,7 @@ font-size: 12px;
 `;
 
 const Issue_Report = () => {
+  
   const [loader, setLoader] = useState(false)
   const [forDelete, setForDelete] = useState(false)
 
@@ -835,7 +836,7 @@ const Issue_Report = () => {
     setLoader(true)
     try {
       const response = await BookIssueGetAllApi(searchKey, pageNo, pageSize, Class, sectionId, startDate, endDate);
-      console.log('book issue all data', response)
+      console.log('book issue all data----', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setBookIssueAllData(response?.data?.bookTransaction)
@@ -1053,7 +1054,7 @@ const Issue_Report = () => {
                     mode: 'range',
                     dateFormat: 'Y-n-j',
                   }}
-                  onClick={() => handleButtonClick("custom")}
+                  // onClick={() => handleButtonClick("custom")}
                   onChange={handleDateChange}
                   render={({ defaultValue, ...props }, ref) => (
                     <div className="input-group d-flex mt-2">
@@ -1069,7 +1070,6 @@ const Issue_Report = () => {
               </div>
             </div>
             <div className="ps-0 col-lg-4 col-md-6 col-sm-12">
-
               <div className="mb-1  ">
                 <label for="exampleFormControlInput1" className="form-label  heading-16">Class</label>
                 <select class="form-select form-select-sm form-focus  label-color" value={`${Class}, ${classNo}`} onChange={handle} aria-label="Default select example">
@@ -1083,7 +1083,6 @@ const Issue_Report = () => {
               </div>
             </div>
             <div className="ps-0 col-lg-4 col-md-6 col-sm-12">
-
               <div className="mb-1  ">
                 <label for="exampleFormControlInput1" className="form-label  heading-16">Section</label>
                 <select class="form-select  form-select-sm form-focus  label-color" value={`${sectionId}, ${sectionName}`} onChange={(e) => SectionHandle(e)} aria-label="Default select example">
@@ -1093,15 +1092,13 @@ const Issue_Report = () => {
                       <option value={`${item.sectionId}, ${item.sectionName}`}>{item.sectionName}</option>
                     ))
                   }
-
                 </select>
               </div>
-
             </div>
           </div>
           <div className='my-button11 mb-3'>
             <button type="button" className="btn btn-outline-success my-button112233" onClick={MyBookIssueGetAllApi} disabled={!(startDate && classNo && sectionName)}>Search</button>
-            <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearData}>Cancel</button>
+            <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" disabled={!(startDate && classNo && sectionName)} onClick={clearData}>Cancel</button>
           </div>
 
           {/* ###### copy content till here for all component ######  */}
@@ -1132,13 +1129,15 @@ const Issue_Report = () => {
                         <td className=' greyText pe-0 no-wrap'>{item.studentName}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.bookName}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.bookId}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.bookCover ? item.bookCover : 'N-I-R'}</td>
+                        <td className=' greyText pe-0 no-wrap'>
+                          <img style={{ width: '60px', height: '50px' }} src={item.coverPage} alt="Book Image" />
+                        </td>
                         <td className=' greyText pe-0 no-wrap'>{item.classNo}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.classSection}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.issueId ? item.issueId : 'N-I-R'}</td>
+                        <td className=' greyText pe-0 no-wrap'>{item.transactionId ? item.transactionId : 'N-I-R'}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.returnDelay}</td>
                         <td className=' greyText pe-0 no-wrap'>{item.returnDate}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.status ? item.status : 'N-I-R'}</td>
+                        <td className=' greyText pe-0 no-wrap'>{item.bookStatus ? item.bookStatus : 'N-I-R'}</td>
                         <td className=' greyText  pe-0 no-wrap' >
                           {
                             item.bookStatus === "RETURNED" || item.bookStatus === "LOST" ? (
@@ -1151,12 +1150,6 @@ const Issue_Report = () => {
                               :
                               (
                                 <div className="dropdown my-button-show d-flex justify-content-around align-items-start">
-                                  {/* <div className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" style={{ cursor: 'pointer' }} onClick={(e) => issueRetunrGetApi(item.transactionId)}>
-                                    <button className="btn btn-secondary dropdown-togg my-button-drop heading-10" style={{ backgroundColor: '#b50000', color: '#fff', padding: '3px 10px 3px 10px', fontSize: '14px', border: 'none', cursor: 'pointer' }} type="button" >
-                                      Return Book
-                                    </button>
-                                  </div> */}
-
                                   <div
                                     className="dropdown-item"
                                     data-bs-toggle="tooltip"
