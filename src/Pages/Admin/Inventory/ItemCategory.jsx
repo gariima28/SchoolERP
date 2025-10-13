@@ -98,21 +98,6 @@ const Container = styled.div`
 
 const tableHeadingData = ["#", "Category Name", "Description", "Action"];
 
-const base64ToBlob = (base64Data, contentType) => {
-  const byteCharacters = atob(base64Data);
-  const byteArrays = [];
-  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-    const slice = byteCharacters.slice(offset, offset + 512);
-    const byteNumbers = new Array(slice.length);
-    for (let i = 0; i < slice.length; i++) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    byteArrays.push(byteArray);
-  }
-  return new Blob(byteArrays, { type: contentType });
-};
-
 const ItemCategory = () => {
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
@@ -120,8 +105,6 @@ const ItemCategory = () => {
   // State Management
   const [loaderState, setLoaderState] = useState(false);
   const [itemCategoryData, setItemCategoryData] = useState([]);
-  const [csvData, setCsvData] = useState([]);
-  const [pdfResponse, setPDFResponse] = useState(null);
   const [searchInputVal, setSearchInputVal] = useState("");
   const [editCategoryId, setEditCategoryId] = useState("");
   const [delCategoryId, setDelCategoryId] = useState("");
@@ -349,12 +332,14 @@ const ItemCategory = () => {
               showAddButton={true}
               addButtonText="Add Category"
               addButtonAction={handleAddOffcanvasOpen}
-              showExportPDF={itemCategoryData.length > 0}
+              // showExportPDF={itemCategoryData.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
-              exportPDFAction={''}
-              showExportCSV={itemCategoryData.length > 0}
+              exportPDFAction={DownloadItemCategoryPDF}
+              // showExportCSV={itemCategoryData.length > 0}
+              showExportCSV={false}
               exportCSVText="Export CSV"
-              exportCSVAction={''}
+              exportCSVAction={DownloadItemCategoryExcel}
               showSearch={true}
               searchValue={searchInputVal}
               searchAction={getAllItemCategoryData}

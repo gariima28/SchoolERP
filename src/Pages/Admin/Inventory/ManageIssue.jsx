@@ -179,7 +179,6 @@ const ManageIssue = () => {
     getAllRoles();
     getAllItemCategoryData();
     getAllIssues();
-
   }, []);
 
   // Fetch staff by role
@@ -286,6 +285,10 @@ const ManageIssue = () => {
       const response = await getAllIssuesApi();
       if (response?.status === 200 && response?.data?.status === 'success') {
         setIssuesData(response.data.issues || []);
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
       } else {
         toast.error(response?.data?.message || 'Failed to fetch issues');
       }
@@ -374,15 +377,14 @@ const ManageIssue = () => {
 
       const response = await modifyIssueApi(data.id, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
-        toast.success(response.data.message || 'Issue updated successfully');
-        resetEdit();
-        getAllIssues();
         document.getElementById('Edit_staticBackdrop').classList.remove('show');
-        // Remove backdrop
         const backdrop = document.querySelector('.offcanvas-backdrop');
         if (backdrop) {
           backdrop.remove();
         }
+        toast.success(response.data.message || 'Issue updated successfully');
+        resetEdit();
+        getAllIssues();
       } else {
         toast.error(response?.data?.message || 'Failed to update issue');
       }
@@ -519,10 +521,10 @@ const ManageIssue = () => {
               <div className="modal-content">
                 <div className="modal-header p-2 px-3">
                   <h2 className="modal-title" id="viewDetailsLabel">View Issue</h2>
-                  <div className="d-flex align-items-center">
-                    <button className="btn greyText" type="button">
+                  <div className="d-flex align-items-center py-2">
+                    {/* <button className="btn greyText" type="button">
                       <Download />
-                    </button>
+                    </button> */}
                     <button type="button" className="btn-close greyText" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                 </div>

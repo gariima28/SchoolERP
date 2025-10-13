@@ -10,7 +10,6 @@ import DataLoader from 'src/Layouts/Loader';
 import ProgressBar from "@ramonak/react-progress-bar";
 import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
-import { CSVLink } from 'react-csv';
 import ActionControls from '../../../Layouts/ActionControls';
 
 
@@ -102,25 +101,6 @@ const Container = styled.div`
 
 `;
 
-const base64ToBlob = (base64Data, contentType) => {
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-        const slice = byteCharacters.slice(offset, offset + 512);
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-    }
-
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-};
-
-
 const Assignment = () => {
 
     //loader State
@@ -142,9 +122,6 @@ const Assignment = () => {
     const [allAssignmentData, setAllAssignmentData] = useState([]);
     const [closeAddModal, setCloseAddModal] = useState(false);
     const [closeEditModal, setCloseEditModal] = useState(false);
-    // CSV State
-    const [csvData, setCSVData] = useState([])
-    const [PDFResponse, setPDFResponse] = useState()
     const [allowCsvPdf, setAllowCsvPdf] = useState(false)
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -157,10 +134,6 @@ const Assignment = () => {
         getAllClassData();
         if (pageNo || allowCsvPdf) {
             getAllAssignment(searchByKey);
-        }
-        if (token) {
-            DownloadCSV();
-            DownloadPDF();
         }
         if (closeAddModal) {
             const offcanvasElement = document.getElementById('add_staticBackdrop');
@@ -208,50 +181,6 @@ const Assignment = () => {
 
     const handlePageClick = (event) => {
         setPageNo(event.selected + 1);
-    };
-
-    // CSV Download
-    const DownloadCSV = async () => {
-        try {
-            const response = await DownloadAssignmentExcel();
-            if (response?.status === 200) {
-                const rows = response?.data?.split('\n').map(row => row.split(','));
-                setCSVData(rows);
-                // setTableData(rows.slice(1));
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-        finally {
-            // setloaderState(false);
-        }
-    };
-
-    // PDF Download Response
-    const DownloadPDF = async () => {
-        try {
-            const response = await DownloadAssignmentPDF();
-            if (response?.status === 200) {
-                if (response?.data?.status === 'success') {
-                    setPDFResponse(response?.data);
-                }
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-        finally {
-            // setloaderState(false);
-        }
-    };
-
-    // Handle PDF Download in Device
-    const handleDownloadPdf = () => {
-        const { pdf } = PDFResponse;
-        const blob = base64ToBlob(pdf, 'application/pdf');
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'Assignment Record.pdf';
-        link.click();
     };
 
     const getAllAssignment = async (searchKey) => {

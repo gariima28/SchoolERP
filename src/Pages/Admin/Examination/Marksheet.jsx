@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { getAllClassApi, getAllMarksheetDataAPI, getExamTermDataApi } from '../../../Utils/Apis';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { getAllClassApi, getAllMarksheetDataAPI, getExamTermDataApi, viewMarksheetApi } from '../../../Utils/Apis';
 import toast from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react';
 import DataLoader from 'src/Layouts/Loader';
 
 const Container = styled.div`
-
-    .modalHighborder{
+    .modalHighborder {
         border-bottom: 2px solid var(--modalBorderColor);
     }
 
-    .formdltcheck:checked{
+    .formdltcheck:checked {
         background-color: #B50000;
         border-color: #B50000;
     }
 
-    .modalLightBorder{
+    .modalLightBorder {
         border-bottom: 1px solid var(--modalBorderColor);
     }
 
-    .correvtSVG{
+    .correvtSVG {
         position: relative;
-        width: fit-content ;
+        width: fit-content;
         margin-left: 43% !important;
         margin-bottom: -16% !important;
         background-color: #2BB673;
@@ -32,46 +31,46 @@ const Container = styled.div`
         align-items: center;
     }
 
-    .deleteSVG{
+    .deleteSVG {
         position: relative;
-        width: fit-content ;
+        width: fit-content;
         margin-left: 43% !important;
         margin-bottom: -18% !important;
         background-color: #fff;
     }
     
-    .mainBreadCrum{
+    .mainBreadCrum {
         --bs-breadcrumb-divider: '>' !important;
     }
 
-    .bredcrumText{
+    .bredcrumText {
         color: var(--breadCrumTextColor);
     }
 
-    .bredcrumActiveText{
+    .bredcrumActiveText {
         color: var(--breadCrumActiveTextColor);
     }
 
-    .ExportBtns{
+    .ExportBtns {
         border-radius: 3px;
         border: 1.5px solid var(--fontControlBorder);
     }
 
-    .form-check-input{
+    .form-check-input {
         border-radius: 5px !important;
         box-shadow: none !important;
         border: 1px solid var(--fontControlBorder);
     }
 
-    .greenBgModal{
+    .greenBgModal {
         background-color: var(--breadCrumActiveTextColor);
     }
 
-    .greenText{
+    .greenText {
         color: var(--breadCrumActiveTextColor);
     }
 
-    .orangeText{
+    .orangeText {
         color: var(--OrangeBtnColor);
     }
 
@@ -79,36 +78,34 @@ const Container = styled.div`
         display: none;
     }
 
-    .infoIcon{
+    .infoIcon {
         cursor: pointer;
     }
     
-    .form-control::placeholder, .form-control, .form-select{
+    .form-control::placeholder, .form-control, .form-select {
         color: var(--greyState)
     }
 
-    .form-control, .form-select{
-        border-radius: 5px ;
+    .form-control, .form-select {
+        border-radius: 5px;
         box-shadow: none !important;
         border: 1px solid var(--fontControlBorder);
     }
 
-    .contbtn{
+    .contbtn {
         margin-left: 41% !important;
         margin-top: -20% !important;
     }
 
-    .greydiv{
+    .greydiv {
         background-color: #FBFBFB;
     }
-
 `;
 
 const Marksheet = () => {
     const [loaderState, setloaderState] = useState(false);
     const token = sessionStorage.getItem('token');
     const [MarksheetData, setMarksheetData] = useState([]);
-    // console.log(MarksheetData)
     const [isSearched, setIsSearched] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -119,15 +116,16 @@ const Marksheet = () => {
     const [examTermSelect, setExamTermSelect] = useState('');
     const [allClassData, setAllClassData] = useState([]);
     const [allSectionData, setAllSectionData] = useState([]);
-    const [allSubjectData, setAllSubjectData] = useState([]);
     const [ExamTermData, setExamTermData] = useState([]);
-    const [viewMarksheetType, setViewMarksheetType] = useState('percentGrade');
+    const [selectedStudentMarksheetData, setSelectedStudentMarksheetData] = useState(null);
+    const [selectedStudentId, setSelectedStudentId] = useState();
+    const modalRef = useRef(null);
 
     useEffect(() => {
         getAllClassData();
         getAllExamTermData();
         if (classNo) {
-            handleClassChange(classNo)
+            handleClassChange(classNo);
         }
     }, [token, pageNo, classNo]);
 
@@ -136,85 +134,87 @@ const Marksheet = () => {
     };
 
     const getAllClassData = async () => {
-        setloaderState(true)
+        setloaderState(true);
         try {
-            var response = await getAllClassApi();
+            const response = await getAllClassApi();
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
-                    setloaderState(false)
+                    setloaderState(false);
                     setAllClassData(response?.data?.classes);
                 }
+            } else {
+                setloaderState(false);
             }
-            else {
-                setloaderState(false)
-                // console.log(response?.data?.message);
-            }
-        }
-        catch (error) {
+        } catch (error) {
             setloaderState(false);
-            setloaderState(false);
-            // console.log(error)
             if (error?.response?.data?.statusCode === 401) {
-                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('token');
                 setTimeout(() => {
-                    navigate('/')
+                    navigate('/');
                 }, 200);
             }
-
-        }
-        finally {
+        } finally {
             setloaderState(false);
         }
-    }
+    };
+
+    const handleViewClick = async (studentId) => {
+        setSelectedStudentId(studentId);
+        try {
+            setloaderState(true);
+            const response = await viewMarksheetApi(sectionId, classNo, examTermSelect, studentId);
+            if (response?.status === 200 && response?.data?.status === 'success') {
+                setSelectedStudentMarksheetData(response.data);
+            } else {
+                toast.error(response?.data?.message || 'Failed to fetch student data');
+            }
+        } catch (error) {
+            toast.error('Failed to fetch student data');
+            console.error('Error fetching student marksheet:', error);
+        } finally {
+            setloaderState(false);
+        }
+    };
+
+    const handleCloseModal = () => {
+        setSelectedStudentMarksheetData(null);
+    };
 
     const getAllExamTermData = async () => {
-        setloaderState(true)
+        setloaderState(true);
         try {
             const response = await getExamTermDataApi('', pageNo, pageSize);
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
-                    setloaderState(false)
+                    setloaderState(false);
                     setExamTermData(response?.data?.data);
-                    // toast.success(response.data.message);
+                } else {
+                    setloaderState(false);
                 }
-                else {
-                    setloaderState(false)
-                    // console.log(response?.data?.message);
-                }
+            } else {
+                setloaderState(false);
             }
-            else {
-                setloaderState(false)
-                // console.log(response?.data?.message);
-            }
-        }
-        catch (error) {
+        } catch (error) {
             setloaderState(false);
-            setloaderState(false);
-            // console.log(error)
             if (error?.response?.data?.statusCode === 401) {
-                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('token');
                 setTimeout(() => {
-                    navigate('/')
+                    navigate('/');
                 }, 200);
             }
-
-        }
-        finally {
+        } finally {
             setloaderState(false);
         }
-    }
+    };
 
     const handleClassChange = (val) => {
         const classNoVal = val;
         setClassId(classNoVal);
         const selectedClass = allClassData.find(c => c.classNo === classNoVal);
-
         if (selectedClass) {
             setAllSectionData(selectedClass.section || []);
-            // setAllSubjectData(selectedClass.subjects || []);
         } else {
             setAllSectionData([]);
-            // setAllSubjectData([]);
         }
     };
 
@@ -222,36 +222,30 @@ const Marksheet = () => {
         try {
             setIsSearched(true);
             setloaderState(true);
-            const searchKey = ''
+            const searchKey = '';
             const response = await getAllMarksheetDataAPI(sectionId, classNo, examTermSelect, searchKey, pageNo, pageSize);
-            // console.log(response, 'marksheet data here')
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
                     setloaderState(false);
                     setMarksheetData(response?.data?.marksheets);
-                    // setAllSubjectData(response?.data?.subjectList);
-                    setTotalPages(response?.data?.totalPages)
-                    setCurrentPage(response?.data?.currentPage)
-                    // toast.success(response?.data?.message);
-                }
-                else {
+                    toast.success(response?.data?.message);
+                    setTotalPages(response?.data?.totalPages);
+                    setCurrentPage(response?.data?.currentPage);
+                } else {
                     setloaderState(false);
                     setIsSearched(false);
                     toast.error(response?.data?.message);
                 }
-            }
-            else {
+            } else {
                 setloaderState(false);
                 setIsSearched(false);
                 toast.error(response?.data?.message);
             }
         } catch (error) {
             setloaderState(false);
-            setloaderState(false);
             setIsSearched(false);
             console.error('Error During Get Marksheet', error);
-        }
-        finally {
+        } finally {
             setloaderState(false);
         }
     };
@@ -358,70 +352,76 @@ const Marksheet = () => {
                                     </div>
                                 ) : (
                                     <>
-                                        {/* <div className='d-flex col-3'>
-                                            <select className="form-select borderRadius5 font14 " aria-label="Default select example" onChange={(e) => setViewMarksheetType(e.target.value)}>
-                                                <option value='' disabled> -- Select View Mode -- </option>
-                                                <option value='percent'>Percent</option>
-                                                <option value='grade'>Grade</option>
-                                                <option value='percentGrade' selected>Percent-Grade</option>
-                                            </select>
-                                        </div> */}
-                                        <div className="overflow-scroll cardradius bg-white p-3">
-                                            <table className="table align-middle table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th className='font14 textWrapClass'>#</th>
-                                                        <th className='font14 textWrapClass'>Student Name</th>
-                                                        <th className='font14 textWrapClass'>Total</th>
-                                                        <th className='font14 textWrapClass'>%</th>
-                                                        <th className='font14 textWrapClass'>Grade</th>
-                                                        <th className='font14 text-end'>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {/* Marksheet data */}
-                                                    {MarksheetData.map((item, index) => (
-                                                        <tr key={item.studentId} className='my-bg-color align-middle'>
-                                                            <th className='textWrapClass greyText font14'>{index + 1}</th>
-                                                            <td className='textWrapClass greyText font14'>{item.studentName}</td>
-                                                            <td className='textWrapClass greyText font14'>{item.totalMaxMarks}</td>
-                                                            <td className='textWrapClass greyText font14'>{item.percentage}</td>
-                                                            <td className='textWrapClass greyText font14'>{item.grade}</td>
-                                                            <td className='text-end'>
-                                                                <div className="dropdown dropdownbtn">
-                                                                    <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                        <span>Action</span>
-                                                                    </button>
-                                                                    <ul className="dropdown-menu">
-                                                                        <li>
-                                                                            <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop">
-                                                                                View
+                                        {MarksheetData.length > 0 ? (
+                                            <>
+                                                <div className="overflow-scroll cardradius bg-white p-3">
+                                                    <table className="table align-middle table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th className='font14 textWrapClass'>#</th>
+                                                                <th className='font14 textWrapClass'>Student Name</th>
+                                                                <th className='font14 textWrapClass'>Total</th>
+                                                                <th className='font14 textWrapClass'>%</th>
+                                                                <th className='font14 textWrapClass'>Grade</th>
+                                                                <th className='font14 text-end'>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {MarksheetData.map((item, index) => (
+                                                                <tr key={item.studentId} className='my-bg-color align-middle'>
+                                                                    <th className='textWrapClass greyText font14'>{index + 1}</th>
+                                                                    <td className='textWrapClass greyText font14'>{item.studentName}</td>
+                                                                    <td className='textWrapClass greyText font14'>{item.totalMaxMarks}</td>
+                                                                    <td className='textWrapClass greyText font14'>{item.percentage}</td>
+                                                                    <td className='textWrapClass greyText font14'>{item.grade}</td>
+                                                                    <td className='text-end'>
+                                                                        <div className="dropdown dropdownbtn">
+                                                                            <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <span>Action</span>
                                                                             </button>
-                                                                        </li>
-                                                                        <li>
-                                                                            <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop">
-                                                                                Download
-                                                                            </button>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div className="d-flex">
-                                            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-                                            <div className="ms-auto">
-                                                <ReactPaginate
-                                                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                                                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                                                    breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                                                    onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                                                />
+                                                                            <ul className="dropdown-menu">
+                                                                                <li>
+                                                                                    <button
+                                                                                        className="dropdown-item greyText"
+                                                                                        type="button"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#SeeMarksheetModal"
+                                                                                        onClick={() => handleViewClick(item.studentId)}
+                                                                                    >
+                                                                                        View
+                                                                                    </button>
+
+                                                                                </li>
+                                                                                <li>
+                                                                                    <button className="dropdown-item greyText" type="button" onClick={() => toast.error('API Not Provided Yet')}>
+                                                                                        Download
+                                                                                    </button>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div className="d-flex">
+                                                    <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                                                    <div className="ms-auto">
+                                                        <ReactPaginate
+                                                            previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                                                            nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                                                            breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                                                            onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div className="d-flex justify-content-center p-5 m-5">
+                                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="No data" className="img-fluid" />
                                             </div>
-                                        </div>
+                                        )}
                                     </>
                                 )}
                             </div>
@@ -429,8 +429,191 @@ const Marksheet = () => {
                     </div>
                 </div>
             </div>
+
+            <div className="modal modal-lg" id="SeeMarksheetModal" tabIndex="-1" aria-labelledby="SeeMarksheetLabel" aria-hidden="true" ref={modalRef}>
+                <div className="modal-dialog ">
+                    <div className="modal-content">
+                        {/* <div className="modal-header">
+                                <p className="modal-title mb-0" id="SeeMarksheetLabel">Student Details</p>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={handleCloseModal}
+                                    aria-label="Close"
+                                ></button>
+                            </div> */}
+                        <div className="modal-body">
+                            {loaderState ? (
+                                <div className="text-center p-5">Loading...</div>
+                            ) : (selectedStudentMarksheetData ? (
+                                <div>
+                                    <h6 className='text-center'>{selectedStudentMarksheetData?.data?.schoolName || <span className='greyText font16'>-- No School Name Available --</span>}</h6>
+                                    <div className="d-flex align-items-start mt-3">
+                                        <div className="col-2 text-center">
+                                            <img src='/images/marksheetlogo.webp' alt="School Logo" height={100} />
+                                        </div>
+                                        <div className="col-8 text-center">
+                                            <h6 className='text-center'>Affiliated To : CBSE Board / Affiliation No: 2512A4S200</h6>
+                                            <h6 className='text-center'>Ph +91 8808498469, Email: info@yourschoolname.com,</h6>
+                                            <p>Visit us: <a href="mailto:hshs">www.yourschoolwebsite.com</a></p>
+                                            <div className="mt-3">
+                                                <p>Academic Report</p>
+                                                <p>Academic Session: 2019-2020</p>
+                                                <p>Class: {selectedStudentMarksheetData?.data.student?.classNo || 4}</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-2 text-center">
+                                                {/* <img src={selectedStudentMarksheetData?.data.student.studentImage} alt="" /> */}
+                                            <img src='/images/marksheetStudentImage.png' alt="Student Image" height={100} />
+                                        </div>
+                                    </div>
+                                    <div className="row mt-4">
+                                        <div className="col-6">
+                                            <div className="row">
+                                                <div className="col-6">
+                                                    <p className='font14 greyText'><strong>Name of Student</strong></p>
+                                                    <p className='font14 greyText'><strong>Mother's Name</strong></p>
+                                                    <p className='font14 greyText'><strong>Father's Name</strong></p>
+                                                    <p className='font14 greyText'><strong>Address</strong></p>
+                                                </div>
+                                                <div className="col-6">
+                                                    <p className='font14 fontWeight900'> : {selectedStudentMarksheetData?.data.student.studentName}</p>
+                                                    <p className='font14 fontWeight900'> : {selectedStudentMarksheetData?.data.student.motherName}</p>
+                                                    <p className='font14 fontWeight900'> : {selectedStudentMarksheetData?.data.student.fatherName}</p>
+                                                    <p className='font14 fontWeight900'> : {selectedStudentMarksheetData?.data.student.address}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="row">
+                                                <div className="col-6">
+                                                    <p className='font14 greyText'><strong>Roll Number</strong></p>
+                                                    <p className='font14 greyText'><strong>Admission Date</strong></p>
+                                                    <p className='font14 greyText'><strong>Date of Birth</strong></p>
+                                                </div>
+                                                <div className="col-6">
+                                                    <p className='font14 fontWeight900'> : {selectedStudentMarksheetData?.data.student.rollNumber}</p>
+                                                    <p className='font14 fontWeight900'> : {new Date(selectedStudentMarksheetData?.data.student.admissionDate).toLocaleDateString()}</p>
+                                                    <p className='font14 fontWeight900'> : {new Date(selectedStudentMarksheetData?.data.student.dateOfBirth).toLocaleDateString()}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <table className="table table-bordered mt-4">
+                                        <thead>
+                                            <tr>
+                                                <th className='font14 bg-blue'>Subject</th>
+                                                <th className='font14 bg-blue'>Theory Marks</th>
+                                                <th className='font14 bg-blue'>Practical Marks</th>
+                                                <th className='font14 bg-blue'>Total Marks</th>
+                                                <th className='font14 bg-blue'>Percentage</th>
+                                                <th className='font14 bg-blue'>Grade</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {selectedStudentMarksheetData?.data.subjectMarks.map((subject, index) => (
+                                                <tr key={index}>
+                                                    <td className='font14'>{subject.subject}</td>
+                                                    <td className='font14'>{subject.theoryMarks}</td>
+                                                    <td className='font14'>{subject.practicalMarks}</td>
+                                                    <td className='font14'>{subject.obtainMarks}</td>
+                                                    <td className='font14'>{subject.percentage}</td>
+                                                    <td className='font14'>{subject.grade}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    <table className="table table-bordered mt-4">
+                                        <thead>
+                                            <tr>
+                                                <th className='font14 bg-blue'>CO-SCHOLASTIC: (3 POINT GRADING SCALE A,B,C)</th>
+                                                <th className='font14 bg-blue'>Term-I</th>
+                                                <th className='font14 bg-blue'>Term-II</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td className='font14'>UNIFORM</td>
+                                                <td className='font14'>A+</td>
+                                                <td className='font14'></td>
+                                            </tr>
+                                            <tr>
+                                                <td className='font14'>ACTIVITIES</td>
+                                                <td className='font14'>A+</td>
+                                                <td className='font14'></td>
+                                            </tr>
+                                            <tr>
+                                                <td className='font14'>DIGITAL CLASS</td>
+                                                <td className='font14'>A</td>
+                                                <td className='font14'></td>
+                                            </tr>
+                                            <tr>
+                                                <td className='font14'>WRITTENSKILLS</td>
+                                                <td className='font14'>B</td>
+                                                <td className='font14'></td>
+                                            </tr>
+                                            <tr>
+                                                <td className='font14'>SPEAKING SKILLS</td>
+                                                <td className='font14'>C</td>
+                                                <td className='font14'></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div className="d-flex text-center mt-4">
+                                        <div className="col-4"><i className='font12'>Sign. of Class Teacher</i></div>
+                                        <div className="col-4"><i className='font12'>Sign. Of Principal</i></div>
+                                        <div className="col-4"><i className='font12'>Sign. of Manager</i></div>
+                                    </div>
+                                    <hr className='mt-1 mb-1' />
+                                    <p className="text-center font14">Instructions</p>
+                                    <div className='mt-4 mb-3'><strong className='font14'>Grading scale for scholastic areas:</strong> <span className='greyText font14'>Grades are awarded on a 8-point grading scale as follows-</span></div>
+                                    <table className="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th className='font14 text-center'>Marks Range in (%)</th>
+                                                <th className='font14 text-center'>91-100</th>
+                                                <th className='font14 text-center'>81-90</th>
+                                                <th className='font14 text-center'>71-80</th>
+                                                <th className='font14 text-center'>61-70</th>
+                                                <th className='font14 text-center'>51-60</th>
+                                                <th className='font14 text-center'>41-50</th>
+                                                <th className='font14 text-center'>32-40</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td className='font14 text-center'>A+</td>
+                                                <td className='font14 text-center'>A</td>
+                                                <td className='font14 text-center'>B+</td>
+                                                <td className='font14 text-center'>B</td>
+                                                <td className='font14 text-center'>C+</td>
+                                                <td className='font14 text-center'>C</td>
+                                                <td className='font14 text-center'>D</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <p className="text-center">No data available</p>
+                            ))}
+                        </div>
+                        <div className="text-center mb-4">
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-outline-secondary"
+                                onClick={handleCloseModal}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </Container>
-    )
-}
+    );
+};
 
 export default Marksheet;
