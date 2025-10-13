@@ -5421,7 +5421,7 @@ export const AddLibraryMemberApi = async (data) => {
     return [];
   }
 }
-// Book Manager CSV
+// Book List Manager CSV
 export const BookManCSV = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
@@ -5436,7 +5436,7 @@ export const BookManCSV = async () => {
     return [];
   }
 }
-// Book Manager PDF
+// Book List Manager PDF
 export const BookManPDF = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
