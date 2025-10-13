@@ -123,27 +123,43 @@ const ActionControls = ({
     const handleExportPDF = async () => {
         try {
             const response = await exportPDFAction();
+            console.log(response);
+
             if (response?.status === 200 && response?.data?.status === 'success') {
-                const { pdfUrl } = response.data;
-                if (pdfUrl) {
+                const base64PDF = response.data.pdf; // the PDF data (Base64 string)
+                const fileName = 'Data.pdf'; // or use a dynamic name if you have one
+
+                if (base64PDF) {
+                    // Convert Base64 → Blob
+                    const byteCharacters = atob(base64PDF);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+                    // Create a temporary download link
                     const link = document.createElement('a');
-                    link.href = pdfUrl;
-                    link.download = exportPDFFileName; // Use provided filename
+                    link.href = URL.createObjectURL(blob);
+                    link.download = fileName;
                     document.body.appendChild(link);
                     link.click();
+
+                    // Cleanup
                     document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+
                     toast.success(response?.data?.message || 'PDF downloaded successfully');
                 } else {
-                    toast.error('No PDF URL provided in the response');
+                    toast.error('No PDF data provided in the response');
                 }
             } else {
                 toast.error(response?.data?.message || 'Failed to fetch PDF');
             }
         } catch (error) {
+            console.error(error);
             toast.error(error?.response?.data?.message || 'Error downloading PDF');
-        }
-        finally {
-            // setloaderState(false);
         }
     };
 
@@ -247,6 +263,7 @@ const ActionControls = ({
                         title={secondAddButtonText}
                     >
                         <span>+</span>
+                        <span className='d-md-none d-inline ms-1'>Add</span>
                         <span className="d-none d-md-inline ms-1">{secondAddButtonText}</span>
                     </button>
                 )}
@@ -259,7 +276,8 @@ const ActionControls = ({
                         onClick={addButtonAction}
                         title={addButtonText}
                     >
-                        <span>+ Add</span>
+                        <span>+</span>
+                        <span className='d-md-none d-inline ms-1'>Add</span>
                         <span className="d-none d-md-inline ms-1">{addButtonText}</span>
                     </button>
                 )}

@@ -134,7 +134,6 @@ const AssignStudent = () => {
                 setAssignStudentData(response?.data?.vehicles);
                 setTotalPages(response.data.totalPages);
                 setCurrentPage(response.data.currentPage);
-                toast.success(response.data.message);
             } else {
                 toast.error(response?.data?.message || 'Failed to fetch data');
             }

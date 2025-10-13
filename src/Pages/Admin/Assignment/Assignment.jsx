@@ -383,6 +383,7 @@ const Assignment = () => {
         setClassId('')
         setSectionId('')
         setSubjectId('')
+        setAllAssignmentData([])
     }
 
     const [click, setClick] = useState(true);
@@ -483,7 +484,7 @@ const Assignment = () => {
                                 searchAction={handleSearchButton}
                                 showExportPDF={allAssignmentData.length > 0}
                                 exportPDFText="Export PDF"
-                                exportPDFAction={handleDownloadPdf}
+                                exportPDFAction={DownloadAssignmentPDF}
                                 exportPDFFileName="Assignment.pdf"
                                 showExportCSV={allAssignmentData.length > 0}
                                 exportCSVText="Export CSV"
