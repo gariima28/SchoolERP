@@ -498,21 +498,19 @@ const BookListManager = () => {
   // CSV 
   const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await BookManCSV();
-      if (response?.status === 200) {
-        // const rows = response?.data?.split('\n').map(row => row.split(','));
-        const rows = typeof response?.data === 'string'
-          ? response.data.split('\n').map(row => row.split(','))
-          : [];
-        setCsvData(rows);
-        // setTableData(rows.slice(1));
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const Download_Slip = async () => {
+  //   try {
+  //     const response = await BookManCSV();
+  //     if (response?.status === 200) {
+  //       const rows = typeof response?.data === 'string'
+  //         ? response.data.split('\n').map(row => row.split(','))
+  //         : [];
+  //       setCsvData(rows);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   // CSV 
   // PDF 
   const base64ToBlob = (base64Data, contentType) => {
@@ -573,7 +571,7 @@ const BookListManager = () => {
 
   useEffect(() => {
     MyRolPermisGetAllApi()
-    Download_Slip()
+    // Download_Slip()
     MyBookIdApi()
   }, [pageNo])
 
@@ -990,10 +988,11 @@ const BookListManager = () => {
               addButtonAction={''}
               showExportPDF={true}
               exportPDFText="Export PDF"
-              exportPDFAction={''}
+              exportPDFAction={BookManPDF}
               exportPDFFileName="Daily Attendance.pdf"
               showExportCSV={true}
-              exportCSVFileName="Daily Attendance.xlsx"
+              exportCSVAction={BookManCSV}
+              exportCSVFileName="BookList.csv"
               showSearch={true}
               searchValue={searchKey}
               searchAction={MyRolPermisGetAllApi}
