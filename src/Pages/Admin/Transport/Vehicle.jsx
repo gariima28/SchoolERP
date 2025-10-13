@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components'
-import { DownloadVehicleExcel, DownloadVehiclePDF, deleteVehicleApi, getAllRouteApi, getVehicleDriverApi, getVehicleDataApi, getVehicleDataByIdApi, updateVehicleDataApi } from 'src/Utils/Apis';
+import { DownloadVehicleExcel, deleteVehicleApi, getAllRouteApi, getVehicleDriverApi, getVehicleDataApi, getVehicleDataByIdApi, updateVehicleDataApi } from 'src/Utils/Apis';
 import toast from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import ReactPaginate from 'react-paginate';
 import { useForm } from 'react-hook-form';
 import ActionControls from '../../../Layouts/ActionControls';
+import { DownloadVehiclePdf } from '../../../Utils/Apis';
 
 const Container = styled.div`
 
@@ -123,33 +124,12 @@ const Container = styled.div`
 
 `;
 
-const base64ToBlob = (base64Data, contentType) => {
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-        const slice = byteCharacters.slice(offset, offset + 512);
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-    }
-
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-};
-
 const Vehicle = () => {
 
     const navigate = useNavigate()
     const token = sessionStorage.getItem('token');
     // loader State
     const [loaderState, setloaderState] = useState(false);
-    // CSV State
-    const [csvData, setCSVData] = useState([])
-    const [PDFResponse, setPDFResponse] = useState()
     // Data States
     const [vehicleData, setVehicleData] = useState([]);
     const [allRouteData, setAllRouteData] = useState([]);
@@ -188,48 +168,7 @@ const Vehicle = () => {
         getAllVehicleData();
         getAllDriverData();
         getAllRouteData();
-        DownloadCSV();
-        DownloadPDF();
     }, [token, pageNo]);
-
-    // PDF Download Response
-    const DownloadPDF = async () => {
-        try {
-            const response = await DownloadVehiclePDF();
-            if (response?.status === 200) {
-                if (response?.data?.status === 'success') {
-                    setPDFResponse(response?.data);
-                }
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-    };
-
-    // Handle PDF Download in Device
-    const handleDownloadPdf = () => {
-        const { pdf } = PDFResponse;
-        const blob = base64ToBlob(pdf, 'application/pdf');
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'Vehicle.pdf';
-        link.click();
-    };
-
-    // CSV Download
-    const DownloadCSV = async () => {
-        try {
-            const response = await DownloadVehicleExcel();
-            if (response?.status === 200) {
-                const rows = response?.data?.split('\n').map(row => row.split(','));
-                setCSVData(rows);
-                // setTableData(rows.slice(1));
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-    };
-
 
     const handlePageClick = (event) => {
         setPageNo(event.selected + 1); // as event start from 0 index
@@ -516,11 +455,11 @@ const Vehicle = () => {
                                 addButtonAction={handleAddButton}
                                 showExportPDF={false}
                                 exportPDFText="Export PDF"
-                                exportPDFAction={''}
+                                exportPDFAction={DownloadVehiclePdf}
                                 exportPDFFileName="Vehicles.pdf"
                                 showExportCSV={false}
                                 exportCSVText="Export CSV"
-                                exportCSVAction={''}
+                                exportCSVAction={DownloadVehicleExcel}
                                 exportCSVFileName="Vehicles.xlsx"
                                 showSearch={true}
                                 searchValue={searchByKey}

@@ -119,21 +119,6 @@ const Container = styled.div`
   }
 `;
 
-const base64ToBlob = (base64Data, contentType) => {
-  const byteCharacters = atob(base64Data);
-  const byteArrays = [];
-  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-    const slice = byteCharacters.slice(offset, offset + 512);
-    const byteNumbers = new Array(slice.length);
-    for (let i = 0; i < slice.length; i++) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    byteArrays.push(byteArray);
-  }
-  return new Blob(byteArrays, { type: contentType });
-};
-
 const tableHeadingData = [
   "#",
   "Supplier Name",
@@ -390,52 +375,6 @@ const ManageSupplier = () => {
     }
   };
 
-  // Download CSV
-  const DownloadCSV = async () => {
-    try {
-      const response = await DownloadSupplierExcel();
-      if (response?.status === 200) {
-        const rows = response?.data?.split("\n").map((row) => row.split(","));
-        setCsvData(rows);
-      } else {
-        toast.error("Failed to download CSV");
-      }
-    } catch (error) {
-      if (error?.response?.data?.statusType === 401) {
-        sessionStorage.removeItem("token");
-        navigate("/");
-      }
-      toast.error("Error downloading CSV");
-    }
-  };
-
-  // Download PDF
-  const DownloadPDF = async () => {
-    try {
-      const response = await DownloadSupplierPDF();
-      if (response?.status === 200 && response?.data?.status === "success") {
-        setPDFResponse(response.data);
-      } else {
-        toast.error("Failed to download PDF");
-      }
-    } catch (error) {
-      toast.error("Error downloading PDF");
-    }
-  };
-
-  // Handle PDF Download
-  const handleDownloadPdf = () => {
-    if (pdfResponse?.pdf) {
-      const blob = base64ToBlob(pdfResponse.pdf, "application/pdf");
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "Supplier Data.pdf";
-      link.click();
-    } else {
-      toast.error("No PDF data available");
-    }
-  };
-
   // Handle Pagination
   const handlePageClick = (data) => {
     const selectedPage = data.selected + 1;
@@ -493,11 +432,13 @@ const ManageSupplier = () => {
               showAddButton={true}
               addButtonText="Add Supplier"
               addButtonAction={handleAddOffcanvasOpen}
-              showExportPDF={supplierData.length > 0}
+              // showExportPDF={supplierData.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={DownloadSupplierPDF}
               exportPDFFileName="Supplier.pdf"
-              showExportCSV={supplierData.length > 0}
+              // showExportCSV={supplierData.length > 0}
+              showExportCSV={false}
               exportCSVText="Export CSV"
               exportCSVAction={DownloadSupplierExcel}
               exportCSVFileName="Supplier.xlsx"

@@ -36,6 +36,10 @@ input.form-control {
     height: 80px !important;
 }
 
+.input-group-text{
+    background-color: #fff !important;
+}
+
 .custompadding{
     padding: 6px;
     border-radius: 5px !important;
@@ -88,6 +92,10 @@ input.form-control {
 
 .overflow-scroll {
     overflow-x: auto;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
 }
 
 :root {
@@ -2043,8 +2051,12 @@ f
     font-weight: var(--fontWeigth700);
 }
 
+.bg-blue{
+    background-color: #D9E2F3 !important;
+}
+
 .fontWeight900 {
-    font-weight: var(--fontWeigth900);
+    font-weight: var(--fontWeigth900) !important;
 }
 
 .greyTextt {
