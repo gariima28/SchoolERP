@@ -446,7 +446,6 @@ const ClassRoom = () => {
   const [showadd, setShowadd] = useState(true)
   const [hideedit, setHideedit] = useState(false)
   const [addclassroom, setAddclassroom] = useState()
-  // console.log('room no is', addclassroom)
   const [classroomdata, setClassroomdata] = useState([])
   const [classroomNoById, setClassroomNoById] = useState([])
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
@@ -817,15 +816,8 @@ const ClassRoom = () => {
                 </div>
               </div>
             </>
-
-
           )
         }
-        {/* ################# After click ###############  */}
-
-        {/* ##### offcanvase edit end ########  */}
-
-        {/* ################ offcanvas delete start #############  */}
 
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight2233" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
           {
@@ -867,10 +859,8 @@ const ClassRoom = () => {
               </div>
             )
           }
-          {/* ############## After click ##############  */}
 
         </div>
-        {/* ################ offcanvas delete end #############  */}
 
       </div>
     </Container>

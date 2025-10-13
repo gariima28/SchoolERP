@@ -2,12 +2,10 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-// import StateTable_1 from './StateTable_1';
 import { TeacherLeaveTeacherAllApi } from 'src/Utils/Apis'
 import { TeacherLeaveTeacherPostApi } from 'src/Utils/Apis'
 import { TeacherLeaveTeacherGetAllApi } from 'src/Utils/Apis'
 import { TeachergetAllLeaveOfTeacherDataApi } from 'src/Utils/Apis'
-
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ReactPaginate from 'react-paginate';
@@ -398,7 +396,15 @@ color: #000 !important;
 }
 .font-background33{
     width: 88px;
-    background-color: #F9AB43;
+    background-color: #B50000;
+    color: #fff;
+    padding: 2px;
+    text-align: center;
+    border-radius: 5px;
+}
+.font-background22{
+    width: 88px;
+    background-color: #f5e42a;
     color: #fff;
     padding: 2px;
     text-align: center;
@@ -525,7 +531,6 @@ const Leave = () => {
   const [show22, setShow22] = useState(true)
   const [showdelete, setShowdelete] = useState(true)
   const [hidedelete, setHidedelete] = useState(false)
-  const [document, setDocument] = useState()
   const [LeaveData, setLeaveData] = useState([])
   const [LeaveGetAllData, setLeaveGetAlData] = useState([])
   const [LeaveAllData, setLeaveAllData] = useState([])
@@ -704,7 +709,7 @@ const Leave = () => {
     setLoader(true)
     try {
       const response = await TeacherLeaveTeacherGetAllApi(searchKey, pageNo, pageSize);
-      console.log('Teacher Leave get All Api dataaaaaaaaa', response);
+      console.log('Teacher Leave get All Api dataaaaaaaaa----', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setLeaveGetAlData(response?.data?.leave)
@@ -821,7 +826,17 @@ const Leave = () => {
                         <td className=' no-wrap greyText'>{item.reason}</td>
                         <td className=' no-wrap greyText'>
                           <div className=''>
-                            <p className={`font-background  ${item.approved === true ? 'font-background ' : 'font-background22'}`}>{item.approved === true ? 'Approved' : 'Pending'}</p>
+                            <p
+                              className={`font-background ${item.status === "APPROVED"
+                                  ? "font-background"
+                                  : item.status === "PENDING"
+                                    ? "font-background22"
+                                    : "font-background33"
+                                }`}
+                            >
+                              {item.status}
+                            </p>
+                            {/* <p className={`font-background  ${item.approved === true ? 'font-background ' : 'font-background22'}`}>{item.approved === true ? 'Approved' : 'Pending'}</p> */}
                           </div>
                         </td>
                       </tr>
