@@ -518,7 +518,7 @@ const OtherStaff = () => {
       // console.log('my others staff', response)
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
-        setOtherStaffAllData(response?.data?.AllRoles)
+        setOtherStaffAllData(response?.data?.staffList)
         setCurrentPage(response?.data?.currentPage)
         setTotalPages(response?.data?.totalPages)
         setLoader(false)

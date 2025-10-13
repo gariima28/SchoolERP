@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { AddNewVehicleApi, getAllRouteApi, getDriverDataApi } from 'src/Utils/Apis';
+import { AddNewVehicleApi, getAllRouteApi, getVehicleDriverApi } from 'src/Utils/Apis';
 import toast from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import { useForm } from 'react-hook-form';
@@ -106,7 +106,7 @@ const AddVehicle = () => {
     const getAllDriverData = async () => {
         setloaderState(true)
         try {
-            var response = await getDriverDataApi('', '', '');
+            var response = await getVehicleDriverApi();
             // console.log(response)
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
@@ -239,7 +239,7 @@ const AddVehicle = () => {
                                             ?
                                             <>
                                                 {driverData.map((driver) => (
-                                                    <option key={driver.driverId} value={driver.driverId}>{driver.driverName}</option>
+                                                    <option key={driver.id} value={driver.id}>{driver.staffName}</option>
                                                 ))}
                                             </>
                                             :

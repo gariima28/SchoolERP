@@ -212,9 +212,9 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                     >
                                         <div className="col-md-3 align-self-center">
                                             {data?.image === null ? (
-                                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." height={35} />
+                                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1 roundeImage" src="/images/userProfile.png" alt="..." height={35} />
                                             ) : (
-                                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={data?.image} alt="..." height={35} />
+                                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1 roundeImage" src={data?.image} alt="..." height={35} />
                                             )}
                                         </div>
                                         <div className="col-md-9 display-nonee text-start3">

@@ -6,7 +6,7 @@ import { MyUseContext } from '../ContextApi/UseContext';
 import { useForm, Controller } from 'react-hook-form';
 import * as bootstrap from 'bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
-import { StaffGetById, StaffPostApi, StaffImageUpdate } from '../../../Utils/Apis';
+import { StaffGetById, StaffPostApi, StaffImageUpdate, RolePermissionGetApi } from '../../../Utils/Apis';
 
 // Styled components (same as before - unchanged)
 const Container = styled.div`
@@ -138,7 +138,7 @@ const Container = styled.div`
     color: #008479;
   }
   .nav-tabs-container {
-    margin-top: 24px;
+    margin-top: 14px;
     border-top: 1px solid #d7e7e5;
     padding-top: 16px;
   }
@@ -280,6 +280,8 @@ const UserSidebar = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
+  const [myroleName, setMyroleName] = useState('');
+
   const { control, handleSubmit, setValue, formState: { errors } } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -290,6 +292,7 @@ const UserSidebar = () => {
   // Initialize Bootstrap modal
   useEffect(() => {
     if (myUserID) {
+      MyRolPermisGetAllApi()
       GetProfileImageById();
     } else {
       setStaffImage('/SampleProfile.png');
@@ -355,6 +358,25 @@ const UserSidebar = () => {
     }
   };
 
+  const MyRolPermisGetAllApi = async () => {
+    try {
+      const response = await RolePermissionGetApi();
+      console.log(response, 'response')
+      if (response?.status === 200) {
+        const roles = response?.data?.roles || [];
+        const matchedRole = roles.find((role) => role.roleId === Number(roleIdFromParams));
+        console.log(matchedRole)
+        setMyroleName(matchedRole.roleName)
+      }
+      else {
+        // setRoleId('');
+        setMyroleName('');
+      }
+    } catch (error) {
+      // toast.error('Failed to fetch roles');
+    }
+  };
+
   const UpdateProfileImage = async (data) => {
     if (!data.image) {
       toast.error('Please select an image');
@@ -389,21 +411,21 @@ const UserSidebar = () => {
       toast.error('Please select an image');
       return;
     }
-    
+
     // Create image URL for preview
     const imageUrl = URL.createObjectURL(data.image);
-    
+
     // Store image data in context so User_basic_infomation component can access it
     setProfileImageForBasicInfo({
       file: data.image,
       preview: imageUrl
     });
-    
+
     // Update sidebar image preview
     setStaffImage(imageUrl);
-    
+
     toast.success('Image selected successfully');
-    
+
     // Close modal
     const modalElement = document.getElementById('imageModal');
     if (modalElement) {
@@ -488,7 +510,7 @@ const UserSidebar = () => {
         </div>
         <div className="profile-info">
           <p className="role heading-18 font-rsponsive">
-            {transferData?.userRole || userMyRole}
+            {myroleName}
           </p>
         </div>
         <div className="nav-tabs-container">

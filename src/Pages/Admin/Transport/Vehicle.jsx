@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components'
-import { DownloadVehicleExcel, DownloadVehiclePDF, deleteVehicleApi, getAllRouteApi, getDriverDataApi, getVehicleDataApi, getVehicleDataByIdApi, updateVehicleDataApi } from 'src/Utils/Apis';
+import { DownloadVehicleExcel, DownloadVehiclePDF, deleteVehicleApi, getAllRouteApi, getVehicleDriverApi, getVehicleDataApi, getVehicleDataByIdApi, updateVehicleDataApi } from 'src/Utils/Apis';
 import toast from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import ReactPaginate from 'react-paginate';
@@ -162,6 +162,7 @@ const Vehicle = () => {
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     // Id States
+    const [driverById, setDriverById] = useState();
     const [vehicleId, setVehicleId] = useState('');
     const [delVehicleId, setDelVehicleId] = useState('');
 
@@ -286,7 +287,7 @@ const Vehicle = () => {
     const getAllDriverData = async () => {
         setloaderState(true);
         try {
-            const response = await getDriverDataApi('', '', '');
+            const response = await getVehicleDriverApi();
             if (response?.status === 200 && response?.data?.status === 'success') {
                 setloaderState(false);
                 setDriverData(response?.data?.drivers);
@@ -363,7 +364,7 @@ const Vehicle = () => {
                 setValue('vehicleNo', vehicle?.vehicleNumber);
                 setValue('vehicleModel', vehicle?.vehicleModel);
                 setValue('chassisNo', vehicle?.chassisNumber);
-                setValue('driverId', vehicle?.driver?.driverId);
+                setValue('driverId', vehicle?.driverId);
                 setValue('totalSeat', vehicle?.seatCapacity);
                 setValue('routeId', vehicle?.routeClass?.routeId);
                 setValue('vehicleStatus', vehicle?.vehicleStatus);
@@ -461,11 +462,13 @@ const Vehicle = () => {
         setIsDropdownOpen(isDropdownOpen === index ? null : index);
     };
 
-    const handleEditClick = (vehicleId, e) => {
+    const handleEditClick = (vehicleId, e, driverId) => {
         e.preventDefault();
         e.stopPropagation();
         setIsDropdownOpen(null); // Close dropdown after action
         getVehicleDataById(vehicleId);
+        setDriverById(driverId);
+        getAllDriverData()
     };
 
     const handleDeleteClick = (vehicleId, e) => {
@@ -551,8 +554,8 @@ const Vehicle = () => {
                                                         <th className='textWrapClass font14 greyText'>{index + 1}</th>
                                                         <td className='textWrapClass font14 greyText'>{item.vehicleModel}</td>
                                                         <td className='textWrapClass font14 greyText'>{item.vehicleNumber}</td>
-                                                        <td className='textWrapClass font14 greyText'>{item.driver?.driverName}</td>
-                                                        <td className='textWrapClass font14 greyText'>{item.driver?.phoneNumber}</td>
+                                                        <td className='textWrapClass font14 greyText'>{item.driverName}</td>
+                                                        <td className='textWrapClass font14 greyText'>{item.driverPhone}</td>
                                                         <td className='textWrapClass font14 greyText'>{item.seatCapacity}</td>
                                                         <td className='textWrapClass font14 greyText'>{item.routeClass.routeName}</td>
                                                         <td className={`textWrapClass font14 ${item.vehicleStatus ? 'activeText' : 'deactiveText'}`}>{item.vehicleStatus ? 'Active' : 'InActive'}</td>
@@ -576,7 +579,7 @@ const Vehicle = () => {
                                                                             data-bs-toggle="offcanvas"
                                                                             data-bs-target="#Edit_staticBackdrop"
                                                                             aria-controls="Edit_staticBackdrop"
-                                                                            onClick={(e) => handleEditClick(item.vehicleId, e)}
+                                                                            onClick={(e) => handleEditClick(item.vehicleId, e, item.driverId)}
                                                                         >
                                                                             Edit
                                                                         </button>
@@ -657,19 +660,19 @@ const Vehicle = () => {
                                 <div className="mb-3">
                                     <label htmlFor="vehicleNo" className="form-label font14">Vehicle Number <span className='text-danger'>*</span></label>
                                     <input id="vehicleNo" type="text" className={`form-control font14 ${errors.vehicleNo ? 'border-danger' : ''}`} placeholder="Enter Vehicle Number" {...register('vehicleNo', {
-                                        required: 'Vehicle Number is required *', pattern: { value: /^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/, message: 'Vehicle Number must follow the format (e.g., AB12CD3456)' }
+                                        required: 'Vehicle Number is required *'
                                         // validate: value => { if (!/^[A-Z0-9]+$/.test(value)) { return 'Vehicle Number can only contain uppercase letters and digits, no special characters or lowercase letters'; } return true; }
                                     })} />
                                     {errors.vehicleNo && <p className="font12 text-danger">{errors.vehicleNo.message}</p>}
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="vehicleModel" className="form-label font14">Vehicle Type <span className='text-danger'>*</span></label>
-                                    <input id="vehicleModel" type="text" className={`form-control font14 ${errors.vehicleModel ? 'border-danger' : ''}`} placeholder="Enter Vehicle Type" {...register('vehicleModel', { required: 'Vehicle Type is required *', validate: value => { if (!/^[A-Za-zA-Z0-9-\s]*$/.test(value)) { return 'Vehicle Type must start with an uppercase letter and can only contain letters, digits, and hyphens (-)'; } return true; } })} />
+                                    <input id="vehicleModel" type="text" className={`form-control font14 ${errors.vehicleModel ? 'border-danger' : ''}`} placeholder="Enter Vehicle Type" {...register('vehicleModel', { required: 'Vehicle Type is required *' })} />
                                     {errors.vehicleModel && <p className="font12 text-danger">{errors.vehicleModel.message}</p>}
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="chassisNo" className="form-label font14">Chassis Number <span className='text-danger'>*</span></label>
-                                    <input id="chassisNo" type="text" className={`form-control font14 ${errors.chassisNo ? 'border-danger' : ''}`} placeholder="Enter Chassis Number" {...register('chassisNo', { required: 'Chassis Number is required *', min: { value: 10, message: 'Chassis Number must be of size 10' }, validate: value => { if (!/^[A-Z0-9]+$/.test(value)) { return 'Chassis Number can only contain uppercase letters and digits'; } return true; } })} />
+                                    <input id="chassisNo" type="text" className={`form-control font14 ${errors.chassisNo ? 'border-danger' : ''}`} placeholder="Enter Chassis Number" {...register('chassisNo', { required: 'Chassis Number is required *' })} />
                                     {errors.chassisNo && <p className="font12 text-danger">{errors.chassisNo.message}</p>}
                                 </div>
                                 <div className="mb-3">
@@ -677,7 +680,7 @@ const Vehicle = () => {
                                     <select id="driverId" className={`form-select font14 ${errors.driverId ? 'border-danger' : ''}`} {...register('driverId', { required: 'Driver selection is required *' })}>
                                         <option value="">Select Driver</option>
                                         {driverData.map((driver) => (
-                                            <option key={driver.driverId} value={driver.driverId}>{driver.driverName}</option>
+                                            <option key={driver.id} value={driver.id}>{driver.staffName}</option>
                                         ))}
                                     </select>
                                     {errors.driverId && <p className="font12 text-danger">{errors.driverId.message}</p>}
