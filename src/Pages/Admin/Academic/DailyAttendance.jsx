@@ -505,18 +505,13 @@ const DailyAttendance = ({ items }) => {
 
   const [sectionName, setSectionName] = useState()
   const [search, setSearch] = useState('')
-
-  const [check, setCheck] = useState(false)
-
   const [date, setDate] = useState()
   const [name, setName] = useState()
-  const [radioChecked, setRadioChecked] = useState()
   const [classData, setClassData] = useState([])
   const [sectionData, setSectionData] = useState([])
   const [dailyAttenSearDateData, setDailyAttenSearDateData] = useState([])
   const [dailyDataByMonth, setDailyDataByMonth] = useState([])
   const [myTrueFalse, setMyTrueFalse] = useState(true)
-
   const [csvData, setCsvData] = useState([]);
 
   const Download_Slip = async () => {
@@ -564,9 +559,7 @@ const DailyAttendance = ({ items }) => {
   const UpdatClassGetApi = async () => {
     try {
       const response = await ClassGetApi(searchKey, pageNo, pageSize);
-      // console.log('class-get-all-api in Syllabus', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setClassData(response?.data?.classes)
       } else {
         toast.error(response?.data?.classes?.message);
@@ -579,9 +572,7 @@ const DailyAttendance = ({ items }) => {
   const MySyllabusSectionGetApi = async () => {
     try {
       const response = await SyllabusSectionGetAllApi(classId);
-      // console.log('Section-get-all-api in Syllabus', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setSectionData(response?.data?.allSections)
       } else {
         toast.error(response?.data?.classes?.message);
@@ -596,9 +587,7 @@ const DailyAttendance = ({ items }) => {
   const MyDailyAttendanceGetApi = async () => {
     try {
       const response = await DailyAttendancehGetAll(sectionId, date);
-      // console.log('my Daily attendance in search-date ', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setDailyAttenSearDateData(response?.data?.studentList)
       } else {
         toast.error(response?.data?.classes?.message);
@@ -614,9 +603,7 @@ const DailyAttendance = ({ items }) => {
     setLoader(true)
     try {
       const response = await DailyAttendancehGetAllBymonth(sectionId, month, year, search, pageNo, pageSize);
-      // console.log('my Daily attendance data by month ', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setDailyDataByMonth(response?.data?.attendance)
         setCurrentPage(response?.data?.currentPage)
         setTotalPages(response?.data?.totalPages)
@@ -658,7 +645,6 @@ const DailyAttendance = ({ items }) => {
 
   const offcanvasRef = useRef(null);
   const offcanvasRef22 = useRef(null);
-
 
   // Daily attendance Post Api 
   const MyDailyAttendancePostApi = async () => {
@@ -743,14 +729,11 @@ const DailyAttendance = ({ items }) => {
     const updatedData = dailyAttenSearDateData.map((item, i) =>
       i === index ? { ...item, present: value } : item
     );
-
     setDailyAttenSearDateData(updatedData);
     setAttendance(value)
-
     if (value === true) {
       let presentValue = name;
       setPresent([...present, presentValue])
-
     } else {
       let absentValue = name;
       setAbsent([...absent, absentValue])
@@ -779,7 +762,7 @@ const DailyAttendance = ({ items }) => {
   // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
-    setPageNo(1); // Reset to first page on search change
+    setPageNo(1); 
   };
 
   return (
@@ -908,7 +891,6 @@ const DailyAttendance = ({ items }) => {
           </div>
 
           <div className="row mt-4 mb-4 bg-color-pink p-3 m-3 responsive-direction">
-
             <div className="col-2 p-0 ps-5 rsnsve-pd d-flex padding-lef ">
               <span className='heading-16 greyText padding-left'>Class - </span> &nbsp; &nbsp;
               <div >{classNumber}</div>
@@ -929,7 +911,6 @@ const DailyAttendance = ({ items }) => {
               <span className='heading-16 greyText  padding-left'>Time  - </span> &nbsp; &nbsp;
               <div>{time ? time.slice(0, 8) : ''}</div>
             </div>
-
           </div>
 
           <div className="table-container px-3 table-responsive">
@@ -963,12 +944,12 @@ const DailyAttendance = ({ items }) => {
                   <th className='table-row-bg-color'>23</th>
                   <th className='table-row-bg-color'>24</th>
                   <th className='table-row-bg-color'>25</th>
-                  {/* <th className='table-row-bg-color'>26</th>
+                  <th className='table-row-bg-color'>26</th>
                   <th className='table-row-bg-color'>27</th>
                   <th className='table-row-bg-color'>28</th>
                   <th className='table-row-bg-color'>29</th>
                   <th className='table-row-bg-color'>30</th>
-                  <th className='table-row-bg-color'>31</th> */}
+                  <th className='table-row-bg-color'>31</th>
                   {/* {dates.map(date => (
                     <th key={date.toISOString()}>{date.toDateString()}</th>
                   ))} */}
@@ -1016,7 +997,6 @@ const DailyAttendance = ({ items }) => {
 
               </tbody>
             </table>
-
           </div>
           <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
             <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
@@ -1030,12 +1010,6 @@ const DailyAttendance = ({ items }) => {
             </div>
           </div>
         </div>
-
-
-        {/* ################## Off Canvas Area ####################  */}
-
-        {/* ##### offcanvas Take attendance start ########  */}
-        {/* ########## content area #################  */}
         {
           show && (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
@@ -1148,13 +1122,6 @@ const DailyAttendance = ({ items }) => {
             </div>
           )
         }
-        {/* ################# After click ###############  */}
-
-        {/* ##### offcanvase Take attendance  end ########  */}
-
-
-        {/* ##### offcanvas Update attendance start ########  */}
-        {/* ########## content area #################  */}
         {
           show && (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight123" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
@@ -1262,9 +1229,6 @@ const DailyAttendance = ({ items }) => {
             </div>
           )
         }
-        {/* ################# After click ###############  */}
-
-        {/* ##### offcanvase Update attendance  end ########  */}
       </div>
     </Container>
   )

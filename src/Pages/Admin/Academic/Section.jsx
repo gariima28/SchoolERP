@@ -545,59 +545,59 @@ const Section = () => {
   // Post Api with Get all Api of class, and Get all api of room
   const MySectionPostApi = async () => {
     setLoader(true)
-    if (FuncValidation()) {
-      const formData = new FormData()
-      formData.append('roomId', rooms);
-      formData.append('classId', classchange);
-      formData.append('sectionNames', sections);
-      try {
-        const response = await SectionPostApi(formData);
-        if (response?.status === 200) {
-          if (response?.data?.status === "success") {
-            toast.success(response?.data?.message);
-            setShow12(false)
-            setHide12(true)
-            setLoader(false)
-            MySectionGetApi()
-            setSection('')
-            setPutpackage('')
-            setClasschange('')
-            UpdatNullRoomGetApi()
-            setSections([''])
-            setRooms([''])
-            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-            offcanvasInstance.hide();
-            setTimeout(() => {
-              setShow12(true)
-            }, 0.5)
-          } else {
-            toast.error(response?.data?.message);
-            setLoader(false)
-            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-            offcanvasInstance.hide();
-            setTimeout(() => {
-              setShow12(true)
-              setSection('')
-              setPutpackage('')
-              setClasschange('')
-            }, 0.5)
-          }
+    // if (FuncValidation()) {
+
+    // }
+    const formData = new FormData()
+    formData.append('roomId', rooms);
+    formData.append('classId', classchange);
+    formData.append('sectionNames', sections);
+    try {
+      const response = await SectionPostApi(formData);
+      if (response?.status === 200) {
+        if (response?.data?.status === "success") {
+          toast.success(response?.data?.message);
+          setShow12(false)
+          setLoader(false)
+          MySectionGetApi()
+          setSection('')
+          setClasschange('')
+          UpdatNullRoomGetApi()
+          setSections([''])
+          setRooms([''])
+    
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+          offcanvasInstance.hide();
+          setTimeout(() => {
+            setShow12(true)
+          }, 0.5)
         } else {
           toast.error(response?.data?.message);
           setLoader(false)
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+          offcanvasInstance.hide();
+          setTimeout(() => {
+            setShow12(true)
+            setSection('')
+            setPutpackage('')
+            setClasschange('')
+          }, 0.5)
         }
-      } catch (error) {
-        console.log(error)
-        setShow12(false)
-        MySectionGetApi()
-        setSections('')
-        setPutpackage('')
-        setClasschange('')
-        UpdatNullRoomGetApi()
-        setSections([''])
-        setRooms([''])
-        setRooms('')
+      } else {
+        toast.error(response?.data?.message);
+        setLoader(false)
       }
+    } catch (error) {
+      console.log(error)
+      setShow12(false)
+      MySectionGetApi()
+      setSections('')
+      setPutpackage('')
+      setClasschange('')
+      UpdatNullRoomGetApi()
+      setSections([''])
+      setRooms([''])
+      setRooms('')
     }
   }
   const HandleState = () => {
@@ -611,9 +611,7 @@ const Section = () => {
     setLoader(true)
     try {
       const response = await ClassGetApi(searchKey2, pageNo2, pageSize2);
-      // console.log('all classess in section',response)
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.msg)
         setClassdata(response?.data?.classes)
         setLoader(false)
       } else {
@@ -628,7 +626,7 @@ const Section = () => {
     setLoader(true)
     try {
       const response = await NullRoomGetApi();
-      console.log('all room in section ==', response)
+      // console.log('all room in section ==', response)
       if (response?.status === 200) {
         setDataFromClassroom(response?.data?.rooms)
         setLoader(false)
@@ -699,34 +697,34 @@ const Section = () => {
   }
   // Section Put api 
   const MySectionPutApi = async (id) => {
-      setLoader(true)
-      try {
-        const formData = new FormData()
-        formData.append('sectionName', section)
-        formData.append('roomNo', classRoomUpdate)
-        formData.append('classId', classchange)
+    setLoader(true)
+    try {
+      const formData = new FormData()
+      formData.append('sectionName', section)
+      formData.append('roomNo', classRoomUpdate)
+      formData.append('classId', classchange)
 
-        const response = await SectionPutApi(id, formData);
-        if (response?.status === 200) {
-          toast.success(response?.data?.message);
+      const response = await SectionPutApi(id, formData);
+      if (response?.status === 200) {
+        toast.success(response?.data?.message);
+        setShow(true)
+        MySectionGetApi()
+        setLoader(false)
+        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+        offcanvasInstance.hide();
+        setTimeout(() => {
           setShow(true)
-          MySectionGetApi()
-          setLoader(false)
-          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-          offcanvasInstance.hide();
-          setTimeout(() => {
-            setShow(true)
-            // setCheckState(false)
+          // setCheckState(false)
 
-          }, 0.5)
+        }, 0.5)
 
-        } else {
-          toast.error(response?.data?.message);
-        }
-
-      } catch (error) {
-        console.log(error)
+      } else {
+        toast.error(response?.data?.message);
       }
+
+    } catch (error) {
+      console.log(error)
+    }
   }
   const handleChange = (e) => {
     const trimmedValue = e.target.value.trimStart();
@@ -736,7 +734,7 @@ const Section = () => {
     // setPutpackage('')
     setClasschange('')
     setIsValidNameRequired(false)
-    setPutpackage('')
+    // setPutpackage('')
     setClasschange('')
     UpdatNullRoomGetApi()
     setSections([''])
@@ -955,7 +953,7 @@ const Section = () => {
                           </div>
                         </div>
                       ))}
-                    </div>                  
+                    </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MySectionPostApi()}>Add Section</button>
                       <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
@@ -998,7 +996,7 @@ const Section = () => {
                           <label for="exampleFormControlInput1" className="form-label label-color heading-14">Sections</label>
                           <input type="text" className="form-control form-focus  label-color heading-14" value={section} onChange={(e) => handleSection(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Enter Section" />
                         </div>
-                     
+
                       </div>
                       <div className="col-6">
 
