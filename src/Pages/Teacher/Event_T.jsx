@@ -14,6 +14,7 @@ import HashLoaderCom from 'src/Pages/HashLoaderCom';
 import { CSVLink } from 'react-csv';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import ActionControls from '../../Layouts/ActionControls';
 
 // ## style css area start ####  
 
@@ -829,6 +830,21 @@ const Event = () => {
     content: '',
     position: { x: 0, y: 0 }
   });
+
+    // Handle search input change
+  const handleSearchChange = (value) => {
+    setsearchKey(value);
+    debouncedSearch(value);
+  };
+    // Handle Search Button Click
+    const handleSearchButton = () => {
+      if (searchKey.trim() === '') {
+        toast.error('Search key is empty');
+        return;
+      }
+      setPageNo(1);
+      MyClassRoutineGetAllApi(searchKey);
+    };
   return (
     <Container>
       {
@@ -847,8 +863,24 @@ const Event = () => {
               </ol>
             </nav>
           </div>
+            <div className="d-flex g-1 for-media-query">
+            <ActionControls
+              showAddButton={false}
+              addButtonText={`Add Event`}
+              // addButtonAction={handleAddOffcanvasOpen}
+              showSearch={true}
+              searchAction={handleSearchButton}
+              showExportPDF={false}
+              exportPDFText="Export PDF"
+              // exportPDFAction={TeacherEventCSV}
+              showExportCSV={eventAllData?.length > 0}
+              exportCSVText="Export CSV"
+              exportCSVAction={TeacherEventCSV}
+              onSearchChange={handleSearchChange}
+            />
+          </div>
 
-          <div className='d-flex g-1 for-media-query'>
+          {/* <div className='d-flex g-1 for-media-query'>
             <CSVLink className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 heading-14 export1 my-own-outline-btn me-2' data={csvData} filename={"orders.csv"}>
               <span>
                 <svg width="15" height="18" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -863,8 +895,7 @@ const Event = () => {
                 <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} onClick={MyEventGetAllApi} id="basic-addon2" >Search</span>
               </div>
             </div>
-            {/* <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">+ Add Event</Link> */}
-          </div>
+          </div> */}
 
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-response' style={{ marginTop: '-22px' }}>Event Details</h5>
