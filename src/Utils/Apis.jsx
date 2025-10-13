@@ -2043,6 +2043,20 @@ export const getAllMarksheetDataAPI = async (sectionId, classId, examTermId, sea
   }
 }
 
+export const viewMarksheetApi = async (sectionId, classId, examTermId, studentId) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/marks/student-marksheet-with-profile?classSec=${sectionId}&classNo=${classId}&examTermId=${examTermId}&studentId=${studentId}`);
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+
 
 // ******************************************************************************************************
 // Promotion  //
@@ -3266,7 +3280,7 @@ export const deleteFeeTypeByIdApi = async (id) => {
 export const DownloadFeeTypeExcel = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/feeType/csv`);
+    var res = await axios.get(`${Domain}/feeType/CSV`);
     if (res) {
       return res;
     } else {
@@ -3280,7 +3294,7 @@ export const DownloadFeeTypeExcel = async () => {
 export const DownloadFeeTypePDF = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/feeType/pdf`);
+    var res = await axios.get(`${Domain}/feeType/PDF`);
     if (res) {
       return res;
     } else {
@@ -3641,7 +3655,7 @@ export const deleteFeeDiscountByIdApi = async (id) => {
 export const DownloadFeeDiscountExcel = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/discount/csv`);
+    var res = await axios.get(`${Domain}/discount/CSV`);
     if (res) {
       return res;
     } else {
@@ -3655,7 +3669,7 @@ export const DownloadFeeDiscountExcel = async () => {
 export const DownloadFeeDiscountPDF = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/discount/pdf`);
+    var res = await axios.get(`${Domain}/discount/PDF`);
     if (res) {
       return res;
     } else {

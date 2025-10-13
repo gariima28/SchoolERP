@@ -24,8 +24,6 @@ const Deduction = () => {
     // State Management
     const [loaderState, setLoaderState] = useState(false);
     const [DeductionData, setDeductionData] = useState([]);
-    const [csvData, setCsvData] = useState([]);
-    const [pdfResponse, setPDFResponse] = useState(null);
     const [searchInputVal, setSearchInputVal] = useState('');
     const [editDeductionId, setEditDeductionId] = useState('');
     const [delDeductionId, setDelDeductionId] = useState('');
@@ -231,80 +229,6 @@ const Deduction = () => {
             toast.error('Error deleting Deduction');
         } finally {
             setLoaderState(false);
-        }
-    };
-
-    // Download CSV
-    const DownloadCSV = async () => {
-        try {
-            const response = await DownloadDeductionExcel();
-            if (response?.status === 200) {
-                const rows = response?.data?.split('\n').map((row) => row.split(','));
-                setCsvData(rows);
-                handleDownloadCsv();
-            } else {
-                toast.error('Failed to download CSV');
-            }
-        } catch (error) {
-            if (error?.response?.data?.statusType === 401) {
-                sessionStorage.removeItem('token');
-                // navigate('/');
-            }
-            toast.error('Error downloading CSV');
-        }
-    };
-
-    const handleDownloadCsv = () => {
-        if (csvData.length > 0) {
-            const csvContent = csvData.map(row => row.join(',')).join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'DeductionData.csv';
-            link.click();
-        } else {
-            toast.error('No CSV data available');
-        }
-    };
-
-    // Download PDF
-    const DownloadPDF = async () => {
-        try {
-            const response = await DownloadDeductionPDF();
-            if (response?.status === 200 && response?.data?.status === 'success') {
-                setPDFResponse(response.data);
-                handleDownloadPdf();
-            } else {
-                toast.error('Failed to download PDF');
-            }
-        } catch (error) {
-            if (error?.response?.data?.statusType === 401) {
-                sessionStorage.removeItem('token');
-                navigate('/');
-            }
-            toast.error('Error downloading PDF');
-        }
-    };
-
-    const base64ToBlob = (base64, mimeType) => {
-        const byteCharacters = atob(base64);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        return new Blob([byteArray], { type: mimeType });
-    };
-
-    const handleDownloadPdf = () => {
-        if (pdfResponse?.pdf) {
-            const blob = base64ToBlob(pdfResponse.pdf, 'application/pdf');
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'Deduction Data.pdf';
-            link.click();
-        } else {
-            toast.error('No PDF data available');
         }
     };
 
