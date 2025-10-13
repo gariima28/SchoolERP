@@ -7,11 +7,14 @@ import toast, { Toaster } from 'react-hot-toast';
 import { TeacherClassGetApi } from 'src/Utils/Apis'
 import { TeacherSyllabusSectionGetAllApi } from 'src/Utils/Apis'
 import { TeacherDailyAttendancehGetAll } from 'src/Utils/Apis'
+import { TeacherDailyAttendancehCSVBymonth } from 'src/Utils/Apis'
 import { TeacherDailyAttendancePostApi } from 'src/Utils/Apis'
 import { TeacherMyDailyAttendancePutApi } from 'src/Utils/Apis'
 import { TeacherDailyAttendancehGetAllBymonth } from 'src/Utils/Apis'
-import { TeacherDailyAttendancehCSVBymonth } from 'src/Utils/Apis'
+// import { TeacherDailyAttendancehCSVBymonth } from 'src/Utils/Apis'
 // import { CSVLink } from 'react-csv';
+import ActionControls from '../../Layouts/ActionControls';
+
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ReactPaginate from 'react-paginate';
@@ -149,7 +152,7 @@ font-size: 12px;
   color: #8F8F8F;
 }
 .my-own-button{
-  height: 33px;
+  height: 37px;
   background-color: var(  --greenTextColor);
   line-height: 18px;
 }
@@ -534,9 +537,12 @@ const DailyAttendance = ({ items }) => {
   const [absent, setAbsent] = useState([])
   const [classId, setClassId] = useState()
   const [sectionId, setSectionId] = useState()
+  console.log(sectionId, 'sectionId----')
   const [sectionId2, setSectionId2] = useState()
   const [month, setMonth] = useState()
+  console.log(month, 'month----')
   const [year, setYear] = useState()
+  console.log(year, 'year----'  )
   const [sectionName, setSectionName] = useState()
   const [search, setSearch] = useState('')
   const [showMonth, setShowMonth] = useState()
@@ -584,28 +590,14 @@ const DailyAttendance = ({ items }) => {
   }, [classId, sectionId])
 
   useEffect(() => {
-    Download_Slip()
-  }, [sectionId2])
-
-  useEffect(() => {
-    MyDailyAttendanceGetApi()
+    MyDailyAttendanceGetApi();
+   
   }, [date])
 
   // CSV 
   const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await TeacherDailyAttendancehCSVBymonth(sectionId2, month, year);
-      // console.log("csv responsee attendance", response)
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-      }
-    } catch (err) {
-      // console.log(err);
-    }
-  };
+
 
   // class Get all data from class page for class id  
   const UpdatClassGetApi = async () => {
@@ -834,6 +826,11 @@ const DailyAttendance = ({ items }) => {
     setShowLastUpdate('')
     setShowTime('')
   }
+  const handleSearchChange = (value) => {
+    setSearch(value);
+    setPageNo(1);
+  };
+
   return (
     <Container>
       {
@@ -842,7 +839,6 @@ const DailyAttendance = ({ items }) => {
         )
       }
       <div className="container-fluid main-body p-3">
-
         <div className='d-flex justify-content-between for-dislay-direction'>
           <div className="breadCrum ms-2">
             <nav style={{ '--bs-breadcrumb-divider': "'>'" }} aria-label="breadcrumb">
@@ -853,39 +849,41 @@ const DailyAttendance = ({ items }) => {
               </ol>
             </nav>
           </div>
-          <div className='d-flex g-1 for-media-query'>
-            <CSVLink className={`col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 heading-14 export1 my-own-outline-btn me-2 ${dailyDataByMonth.length <= 0 ? 'disabled' : ''}`} data={csvData} filename={"orders.csv"}>
-              <span>
-                <svg width="15" height="18" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 0V5H15L10 0ZM8.75 5V0H1.875C0.839453 0 0 0.839453 0 1.875V18.125C0 19.1602 0.839453 20 1.875 20H13.125C14.1605 20 15 19.1605 15 18.125V6.25H10.0352C9.30859 6.25 8.75 5.69141 8.75 5ZM5 10.9375C5 11.1094 4.85938 11.25 4.6875 11.25H4.375C4.02734 11.25 3.75 11.5273 3.75 11.875V13.125C3.75 13.4727 4.02734 13.75 4.375 13.75H4.6875C4.85938 13.75 5 13.8906 5 14.0625V14.6875C5 14.8594 4.85938 15 4.6875 15H4.375C3.33984 15 2.5 14.1602 2.5 13.125V11.875C2.5 10.8398 3.33984 10 4.375 10H4.6875C4.85938 10 5 10.1406 5 10.3125V10.9375ZM6.73047 15H6.25C6.0791 15 5.9375 14.8584 5.9375 14.6875V14.0625C5.9375 13.8906 6.07812 13.75 6.25 13.75H6.72852C6.96289 13.75 7.13398 13.6133 7.13398 13.4912C7.13398 13.4424 7.10469 13.3887 7.05098 13.3398L6.19629 12.6074C5.87109 12.3242 5.67969 11.9258 5.67969 11.5078C5.67969 10.6797 6.42188 10 7.33594 10H7.8125C7.9834 10 8.125 10.1416 8.125 10.3125V10.9375C8.125 11.1094 7.98438 11.25 7.8125 11.25H7.33594C7.10156 11.25 6.93047 11.3867 6.93047 11.5088C6.93047 11.5576 6.95977 11.6113 7.01348 11.6602L7.86816 12.3926C8.19531 12.6758 8.38574 13.0762 8.38574 13.491C8.38281 14.3203 7.64062 15 6.73047 15ZM11.25 11.125V10.3125C11.25 10.1406 11.3906 10 11.5625 10H12.1875C12.3594 10 12.5 10.1406 12.5 10.3125V11.123C12.5 12.5098 11.9969 13.8184 11.084 14.8C10.9688 14.9258 10.8008 15 10.625 15C10.4492 15 10.2832 14.9268 10.166 14.7998C9.25391 13.8203 8.75 12.5117 8.75 11.125V10.3125C8.75 10.1406 8.89062 10 9.0625 10H9.6875C9.85938 10 10 10.1406 10 10.3125V11.123C10 11.9191 10.2246 12.6953 10.625 13.3449C11.0273 12.6953 11.25 11.918 11.25 11.125Z" fill="#008479" />
-                </svg>
-              </span> &nbsp;
-              <span >Export CSV File</span>
-            </CSVLink>
-
-            <div className='me-2 search-responsive'>
-              <div className="input-group mb-3 ">
-                <input type="text" className="form-control form-focus font-color" style={{ height: '34px' }} placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={handleChange} value={search} />
-                <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} id="basic-addon2" onClick={MyDailyAttendanceGetAllApiByMonth}>Search</span>
-              </div>
-            </div>
-            
-            <div class="dropdown">
-              <button className="btn btn-success heading-16 my-own-button me-3  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Attendnace
+          <div className="d-flex g-1 for-media-query">
+            <ActionControls
+              showAddButton={false}
+              addButtonText=""
+              addButtonAction={''}
+              // searchAction={handleSearchButton}
+              showExportPDF={false}
+              exportPDFText="Export PDF"
+              exportPDFAction={''}
+              exportPDFFileName="Daily Attendance.pdf"
+              showExportCSV={true}
+              exportCSVText="Export CSV"
+              // exportCSVAction={TeacherDailyAttendancehCSVBymonth(sectionId2, month, year)}
+              exportCSVAction={() => TeacherDailyAttendancehCSVBymonth(sectionId2, month, year)}
+              exportCSVFileName="Daily Attendance.xlsx"
+              showSearch={true}
+              searchValue={search}
+              searchAction={MyDailyAttendanceGetAllApiByMonth}
+              onSearchChange={handleSearchChange}
+            />
+            <div class="dropdown" >
+              <button className="btn btn-success heading-16 my-own-button me-3  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                Attendance
               </button>
               <ul class="dropdown-menu">
-                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to="#" onClick={clearData}>Take Attendance </Link></li>
-                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight123" aria-controls="offcanvasRight" to="#" onClick={clearData}>Update Attendance</Link></li>
+                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to="#" onClick={clearDataHandle} >Take Attendance</Link></li>
+                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight123" aria-controls="offcanvasRight" to="#">Update Attendance</Link></li>
               </ul>
             </div>
-            
           </div>
+        
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Attendance</h5>
 
         <div className="main-content-conatainer pt-1 ">
-          {/* ###### copy content till here for all component ######  */}
           <div className="row p-3">
             <div className="col-lg-3 col-md-6 col-sm-12  ">
               <div class="mb-3">
@@ -950,7 +948,6 @@ const DailyAttendance = ({ items }) => {
               </div>
             </div>
           </div>
-          {/* ####### buttons ######  */}
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" onClick={MyDailyAttendanceGetAllApiByMonth} style={{ backgroundColor: '#008479', color: '#fff ' }} disabled={!(month && year && classId && sectionId)}>Search</button>
@@ -1127,7 +1124,6 @@ const DailyAttendance = ({ items }) => {
                     </div>
                     :
                     <>
-
                       <div className='heading-14 d-flex  ps-1 pt-2 orangeText'>
                         <p>P - Present</p>
                         <p className='ps-4'>A - Absent</p>
