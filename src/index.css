@@ -2342,6 +2342,16 @@ f
 .action-column {
     min-width: 120px !important;
 }
+
+.roundeImage{
+    height: 45px;
+    width: 45px;
+}
+
+.height150{
+    height: 150px;
+    border-radius: 20px;
+}
 .dropdown-menu {
     min-width: 100px !important;
 }

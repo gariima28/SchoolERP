@@ -488,6 +488,8 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                 className="logoImage"
                 src="/images/edu2all-logo.png"
                 alt="ERP Logo"
+                onClick={()=> navigate('/')}
+                style={{cursor: 'pointer'}}
               />
             ) : (
               <div className="scrizaImageContainer">
@@ -495,6 +497,8 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                   className="scrizaImage"
                   src="/images/edu2allSmall.svg"
                   alt="ERP Logo"
+                  onClick={()=> navigate('/')}
+                  style={{cursor: 'pointer'}}
                 />
               </div>
             )}

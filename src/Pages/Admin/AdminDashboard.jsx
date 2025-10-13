@@ -182,7 +182,7 @@ const AdminDashboard = () => {
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
-                            <Link to="/admin/admission/allStudent">
+                            <Link to={DashData?.countsUrl?.studentUrl}>
                               <img
                                 src="/images/Vector.svg"
                                 alt=""
@@ -225,7 +225,7 @@ const AdminDashboard = () => {
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
-                            <Link to="/admin/transport/vehicle">
+                            <Link to={DashData?.countsUrl?.vehicles}>
                               <img
                                 src="/images/Vector.svg"
                                 alt=""
@@ -268,7 +268,7 @@ const AdminDashboard = () => {
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
-                            <Link to="/admin/users/drivers/24">
+                            <Link to={DashData?.countsUrl?.driverUrl}>
                               <img
                                 src="/images/Vector.svg"
                                 alt=""
@@ -311,7 +311,7 @@ const AdminDashboard = () => {
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
-                            <Link to="/admin/users/other_staff">
+                            <Link to={DashData?.countsUrl?.staffUrl}>
                               <img
                                 src="/images/Vector.svg"
                                 alt=""
