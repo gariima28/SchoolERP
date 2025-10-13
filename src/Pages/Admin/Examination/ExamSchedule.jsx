@@ -9,7 +9,6 @@ import * as bootstrap from 'bootstrap';
 import DataLoader from 'src/Layouts/Loader';
 import ActionControls from '../../../Layouts/ActionControls';
 import {
-    getAllExamScheduleApi,
     getExamScheduleDataByIdApi,
     updateExamScheduleApi,
     deleteExamScheduleApi,
@@ -360,24 +359,6 @@ const ExamSchedule = () => {
         }
     };
 
-    const getAllSubjectData = async (classNo) => {
-        try {
-            setLoaderState(true);
-            const response = await getAllSubjectByClassApi(classNo);
-            if (response?.status === 200 && response?.data?.status === 'success') {
-                setAllSubjectData(response.data.subjects || []);
-            } else {
-                console.error('Failed to fetch subjects:', response?.data?.message);
-                toast.error(response?.data?.message || 'Failed to fetch subjects');
-            }
-        } catch (error) {
-            console.error('Error fetching subjects:', error);
-            toast.error('Error fetching subjects');
-        } finally {
-            setLoaderState(false);
-        }
-    };
-
     const getAllRoomData = async () => {
         try {
             setLoaderState(true);
@@ -429,10 +410,12 @@ const ExamSchedule = () => {
                 let sections = [];
                 let subjects = [];
                 if (data?.classNo) {
-                    const { sections: fetchedSections, subjects: fetchedSubjects } = await handleClassChange(data.classNo);
-                    sections = fetchedSections;
-                    subjects = fetchedSubjects;
+                    console.log('Fetching sections and subjects for class:', data.classNo);
+                    const result = await handleClassChangeById(data.classNo); // Await the result
+                    sections = result.sections;
+                    subjects = result.subjects;
                 } else {
+                    console.log('No classNo found, resetting sections and subjects');
                     setAllSectionData([]);
                     setAllSubjectData([]);
                 }
@@ -440,11 +423,12 @@ const ExamSchedule = () => {
                 console.log('Sections:', sections);
                 console.log('Subjects:', subjects);
 
-                // Map section and subject
+                // Map section and subject more robustly
                 const selectedSection = sections.find(s => s.classSecId === data.section || s.sectionName === data.section);
                 const selectedSubject = subjects.find(s => s.subjectId === data.subject || s.subjectName === data.subject);
 
-                console.log('Selected:', { selectedSection, selectedSubject }); // Debug selected values
+                console.log('Selected Section:', selectedSection);
+                console.log('Selected Subject:', selectedSubject);
 
                 const formValues = {
                     examTermId: data.examTermId || '',
@@ -465,7 +449,7 @@ const ExamSchedule = () => {
                     isPractical: !!data.practicalDate,
                 };
 
-                console.log('Form Values:', formValues); // Debug form values
+                console.log('Form Values:', formValues);
 
                 // Set form values
                 Object.keys(formValues).forEach(key => setValueUpdate(key, formValues[key]));
@@ -656,6 +640,29 @@ const ExamSchedule = () => {
         }
         setValueAdd('classNo', classNo);
         setValueUpdate('classNo', classNo);
+    };
+
+    const handleClassChangeById = async (classNo) => {
+        const selectedClass = allClassData.find(c => c.classNo === classNo);
+        if (selectedClass) {
+            const sections = selectedClass.section || [];
+            const subjects = selectedClass.subjects || [];
+            await Promise.all([
+                setAllSectionData(sections),
+                setAllSubjectData(subjects)
+            ]);
+            setValueAdd('classNo', classNo);
+            setValueUpdate('classNo', classNo);
+            return { sections, subjects }; // Return the updated data
+        } else {
+            await Promise.all([
+                setAllSectionData([]),
+                setAllSubjectData([])
+            ]);
+            setValueAdd('classNo', '');
+            setValueUpdate('classNo', '');
+            return { sections: [], subjects: [] };
+        }
     };
 
 const validateDate = (value) => {

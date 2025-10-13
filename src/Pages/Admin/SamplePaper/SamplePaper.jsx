@@ -96,24 +96,6 @@ const Container = styled.div`
     }
 `;
 
-const base64ToBlob = (base64Data, contentType) => {
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-        const slice = byteCharacters.slice(offset, offset + 512);
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-    }
-
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-};
-
 const SamplePaper = () => {
     // Loader State
     const [loaderState, setloaderState] = useState(false);
@@ -153,10 +135,6 @@ const SamplePaper = () => {
             getAllSamplePaper(searchByKey);
         }
         getAllClassData();
-        if (token) {
-            DownloadCSV();
-            DownloadPDF();
-        }
         if (closeAddModal) {
             const offcanvasElement = document.getElementById('add_staticBackdrop');
             if (offcanvasElement) {
@@ -210,43 +188,6 @@ const SamplePaper = () => {
 
     const handlePageClick = (event) => {
         setPageNo(event.selected + 1);
-    };
-
-    // CSV Download
-    const DownloadCSV = async () => {
-        try {
-            const response = await DownloadSamplePaperExcel();
-            if (response?.status === 200) {
-                const rows = response?.data?.split('\n').map(row => row.split(','));
-                setCSVData(rows);
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-    };
-
-    // PDF Download Response
-    const DownloadPDF = async () => {
-        try {
-            const response = await DownloadSamplePaperPDF();
-            if (response?.status === 200) {
-                if (response?.data?.status === 'success') {
-                    setPDFResponse(response?.data);
-                }
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-    };
-
-    // Handle PDF Download in Device
-    const handleDownloadPdf = () => {
-        const { pdf } = PDFResponse;
-        const blob = base64ToBlob(pdf, 'application/pdf');
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'Sample Papers.pdf';
-        link.click();
     };
 
     const getAllSamplePaper = async (searchKey) => {

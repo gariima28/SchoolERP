@@ -16,7 +16,6 @@ import {
     PdfGradeApi,
     CsvGradeApi,
 } from '../../../Utils/Apis';
-// import { DownloadGradeExcel, DownloadGradePDF } from '../api/exportApi'; // Assumed export APIs
 
 const StyledContainer = styled.div`
     .form-control::placeholder, .form-control, .form-select {
@@ -123,21 +122,6 @@ const StyledContainer = styled.div`
     }
 `;
 
-const base64ToBlob = (base64Data, contentType) => {
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-        const slice = byteCharacters.slice(offset, offset + 512);
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-    }
-    return new Blob(byteArrays, { type: contentType });
-};
-
 const Grades = () => {
     const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
@@ -152,8 +136,6 @@ const Grades = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    const [csvData, setCsvData] = useState([]);
-    const [pdfResponse, setPDFResponse] = useState(null);
     const [initialFormValues, setInitialFormValues] = useState({});
 
     // Form instances

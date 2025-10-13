@@ -7,7 +7,6 @@ import { DownloadAssignStudentsPdf, getAssignStudentDataApi, unAssignStudentApi 
 import toast, { Toaster } from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import ReactPaginate from 'react-paginate';
-import { CSVLink } from 'react-csv';
 import ActionControls from '../../../Layouts/ActionControls';
 import { DownloadAssignStudentsCsv } from '../../../Utils/Apis';
 
@@ -81,28 +80,10 @@ const Container = styled.div`
   }
 `;
 
-const base64ToBlob = (base64Data, contentType) => {
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-        const slice = byteCharacters.slice(offset, offset + 512);
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-    }
-
-    return new Blob(byteArrays, { type: contentType });
-};
-
 const AssignStudent = () => {
     const token = sessionStorage.getItem('token');
     const [loaderState, setLoaderState] = useState(false);
     const [assignStudentState, setAssignStudentState] = useState(false);
-    const [csvData, setCSVData] = useState([]);
     const [assignStudentData, setAssignStudentData] = useState([]);
     const [assignStudentTableData, setAssignStudentTableData] = useState([]);
     const [searchByKey, setSearchByKey] = useState('');

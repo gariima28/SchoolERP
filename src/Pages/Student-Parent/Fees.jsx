@@ -262,45 +262,6 @@ const Fees = () => {
         }
     }
 
-    // CSV Download
-    const DownloadCSV = async () => {
-        try {
-            const response = await DownloadStudentFeeDataCSVById(id);
-            if (response?.status === 200) {
-                const rows = response?.data?.split('\n').map(row => row.split(','));
-                setCSVData(rows);
-                // setTableData(rows.slice(1));
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-    };
-
-    // PDF Download Response
-    const DownloadPDF = async () => {
-        try {
-            const response = await DownloadStudentFeeDataPDFById(id);
-            if (response?.status === 200) {
-                if (response?.data?.status === 'success') {
-                    setPDFResponse(response?.data);
-                }
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-    };
-
-    // Handle PDF Download in Device
-    const handleDownloadPdf = () => {
-        const { pdf } = PDFResponse;
-        const blob = base64ToBlob(pdf, 'application/pdf');
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'Student Fee Data.pdf';
-        link.click();
-    };
-
-
     return (
 
         <Container>
@@ -323,7 +284,7 @@ const Fees = () => {
                     </div>
                     <div className="col-xxl-3 col-xl-4 col-lg-4 col-sm-5">
                         <div className="row">
-                            <div className="col-lg-6 col-sm-6 col-4 text-sm-end text-start ps-0 align-self-center">
+                            {/* <div className="col-lg-6 col-sm-6 col-4 text-sm-end text-start ps-0 align-self-center">
                                 <CSVLink className="btn ps-2 pe-2 ExportBtns bg-white" type="submit" data={csvData} filename={"Student Fee Data.csv"}>
                                     <span className='font14 textVerticalCenter'>
                                         <Icon icon="fa-solid:file-csv" width="1.4em" height="1.4em" style={{ color: "#008479" }} />
@@ -338,7 +299,7 @@ const Fees = () => {
                                         <span className='ms-1'>Export to PDF</span>
                                     </span>
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="row gap-sm-0 gap-3">
 

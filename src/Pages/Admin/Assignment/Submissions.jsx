@@ -13,7 +13,6 @@ import {
   getDownloadAssignmentDataApi
 } from 'src/Utils/Apis';
 import DataLoader from 'src/Layouts/Loader';
-import ProgressBar from '@ramonak/react-progress-bar';
 import toast from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import ActionControls from '../../../Layouts/ActionControls';
@@ -138,19 +137,6 @@ const Container = styled.div`
   }
 `;
 
-const base64ToBlob = (base64Data, contentType) => {
-  const byteCharacters = atob(base64Data);
-  const byteArrays = [];
-
-  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-    const slice = byteCharacters.slice(offset, offset + 512);
-    const byteNumbers = Array.from(slice, (char) => char.charCodeAt(0));
-    const byteArray = new Uint8Array(byteNumbers);
-    byteArrays.push(byteArray);
-  }
-
-  return new Blob(byteArrays, { type: contentType });
-};
 
 const Submission = () => {
   const navigate = useNavigate();
@@ -209,12 +195,6 @@ const Submission = () => {
     if (pageNo || allowCsvPdf) {
       getAllSubmission(searchByKey);
     }
-
-    if (token) {
-      DownloadCSV();
-      DownloadPDF();
-    }
-
     if (closeAddModal) {
       const el = document.getElementById('add_staticBackdrop');
       if (el) bootstrap.Offcanvas.getOrCreateInstance(el).hide();
@@ -233,44 +213,6 @@ const Submission = () => {
   }, [token, pageNo, closeAddModal, closeEditModal, allowCsvPdf, searchByKey]);
 
   const handlePageClick = (event) => setPageNo(event.selected + 1);
-
-  const DownloadCSV = async () => {
-    try {
-      const response = await DownloadSubmissionExcel();
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map((r) => r.split(','));
-        setCSVData(rows);
-      }
-    } catch (err) {
-      console.error('CSV Download Error', err);
-    }
-    finally {
-      // setloaderState(false);
-    }
-  };
-
-  const DownloadPDF = async () => {
-    try {
-      const response = await DownloadSubmissionPDF();
-      if (response?.status === 200 && response?.data?.status === 'success') {
-        setPDFResponse(response?.data);
-      }
-    } catch (err) {
-      console.error('PDF Download Error', err);
-    }
-    finally {
-      // setloaderState(false);
-    }
-  };
-
-  const handleDownloadPdf = () => {
-    if (!PDFResponse?.pdf) return;
-    const blob = base64ToBlob(PDFResponse.pdf, 'application/pdf');
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'Submission Record.pdf';
-    link.click();
-  };
 
   const getAllSubmission = async (searchKey = '') => {
     try {
@@ -487,11 +429,11 @@ const Submission = () => {
                 searchAction={handleSearchButton}
                 showExportPDF={(allSubmissionData || []).length > 0}
                 exportPDFText="Export PDF"
-                exportPDFAction={""}
+                exportPDFAction={DownloadSubmissionPDF}
                 exportPDFFileName="Receipts.pdf"
                 showExportCSV={(allSubmissionData || []).length > 0}
                 exportCSVText="Export CSV"
-                exportCSVAction={""}
+                exportCSVAction={DownloadSubmissionExcel}
                 exportCSVFileName="Submission.xlsx"
               />
             </div>
