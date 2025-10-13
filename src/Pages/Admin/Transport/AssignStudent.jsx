@@ -103,7 +103,6 @@ const AssignStudent = () => {
     const [loaderState, setLoaderState] = useState(false);
     const [assignStudentState, setAssignStudentState] = useState(false);
     const [csvData, setCSVData] = useState([]);
-    const [pdfResponse, setPDFResponse] = useState();
     const [assignStudentData, setAssignStudentData] = useState([]);
     const [assignStudentTableData, setAssignStudentTableData] = useState([]);
     const [searchByKey, setSearchByKey] = useState('');
@@ -114,8 +113,6 @@ const AssignStudent = () => {
 
     useEffect(() => {
         getAllAssignStudentData();
-        downloadCSV();
-        downloadPDF();
     }, [token, currentPage, pageNo]);
 
     useEffect(() => {
@@ -124,38 +121,6 @@ const AssignStudent = () => {
             getAllAssignStudentData();
         }
     }, [assignStudentState]);
-
-    const downloadCSV = async () => {
-        try {
-            const response = await DownloadAssignStudentsCsv();
-            if (response?.status === 200) {
-                const rows = response?.data?.split('\n').map((row) => row.split(','));
-                setCSVData(rows);
-            }
-        } catch (err) {
-            console.error('Error downloading CSV:', err);
-        }
-    };
-
-    const downloadPDF = async () => {
-        try {
-            const response = await DownloadAssignStudentsPdf();
-            if (response?.status === 200 && response?.data?.status === 'success') {
-                setPDFResponse(response?.data);
-            }
-        } catch (err) {
-            console.error('Error downloading PDF:', err);
-        }
-    };
-
-    const handleDownloadPdf = () => {
-        const { pdf } = pdfResponse;
-        const blob = base64ToBlob(pdf, 'application/pdf');
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'Students Vehicle Data.pdf';
-        link.click();
-    };
 
     const handlePageClick = (event) => {
         setPageNo(event.selected + 1);
@@ -275,11 +240,11 @@ const AssignStudent = () => {
                             addButtonAction={handleAddOffcanvasOpen}
                             showExportPDF={assignStudentData.length > 0}
                             exportPDFText="Export PDF"
-                            exportPDFAction={handleDownloadPdf}
+                            exportPDFAction={DownloadAssignStudentsPdf}
                             exportPDFFileName="Assigned Students.pdf"
                             showExportCSV={assignStudentData.length > 0}
                             exportCSVText="Export CSV"
-                            exportCSVAction={downloadCSV}
+                            exportCSVAction={DownloadAssignStudentsCsv}
                             exportCSVFileName="Assigned Students.xlsx"
                             showSearch={true}
                             searchValue={searchByKey}

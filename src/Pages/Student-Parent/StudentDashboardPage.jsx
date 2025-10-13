@@ -301,10 +301,10 @@ const DashboardPage = () => {
                   ? (
                     DashData?.events.slice(0, 6).map((item, index) => (
                       <div className="col-12 p-0" key={item.eventId}>
-                        <div className={`border-bottom p-2 pt-3 overflow-hidden ${index % 2 === 0 ? 'bg-cream' : 'bg-white'}`}>
+                        <div className={`border-bottom p-2 pt-3 pb-3 overflow-hidden ${index % 2 === 0 ? 'bg-cream' : 'bg-white'}`}>
                           <div className="row g-0">
                             {/* Left Image */}
-                            <div className="col-md-2 d-flex justify-content-center align">
+                            <div className="col-md-2 d-flex justify-content-center alignHeight">
                               <img
                                 src={item.eventImage || "/images/svg.png"}
                                 alt={item.title}
