@@ -33,7 +33,12 @@ input.form-control {
 }
 
 .eventImgHeight{
-    height: 70% !important;
+    height: 80px !important;
+}
+
+.custompadding{
+    padding: 6px;
+    border-radius: 5px !important;
 }
 
 /* Autofill overrides with stronger specificity */
@@ -2346,6 +2351,10 @@ f
 .roundeImage{
     height: 45px;
     width: 45px;
+}
+
+.alignHeight{
+    height: fit-content !important;
 }
 
 .height150{

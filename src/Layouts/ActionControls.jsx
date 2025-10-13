@@ -158,7 +158,9 @@ const ActionControls = ({
                         onClick={handleExportPDF}
                         title={exportPDFText}
                     >
-                        <i className="bi bi-filetype-pdf"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="19" viewBox="0 0 384 512">
+                            <path fill="#dc3545" d="M181.9 256.1c-5-16-4.9-46.9-2-46.9c8.4 0 7.6 36.9 2 46.9m-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7c18.3-7 39-17.2 62.9-21.9c-12.7-9.6-24.9-23.4-34.5-40.8M86.1 428.1c0 .8 13.2-5.4 34.9-40.2c-6.7 6.3-29.1 24.5-34.9 40.2M248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24m-8 171.8c-20-12.2-33.3-29-42.7-53.8c4.5-18.5 11.6-46.6 6.2-64.2c-4.7-29.4-42.4-26.5-47.8-6.8c-5 18.3-.4 44.1 8.1 77c-11.6 27.6-28.7 64.6-40.8 85.8c-.1 0-.1.1-.2.1c-27.1 13.9-73.6 44.5-54.5 68c5.6 6.9 16 10 21.5 10c17.9 0 35.7-18 61.1-61.8c25.8-8.5 54.1-19.1 79-23.2c21.7 11.8 47.1 19.5 64 19.5c29.2 0 31.2-32 19.7-43.4c-13.9-13.6-54.3-9.7-73.6-7.2M377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9m-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9c37.1 15.8 42.8 9 42.8 9" stroke-width="13" stroke="" />
+                        </svg>
                         <span className="d-none d-md-inline">{exportPDFText}</span>
                     </button>
                 )}
@@ -171,7 +173,9 @@ const ActionControls = ({
                         onClick={handleExportCSV}
                         title={exportCSVText}
                     >
-                        <i className="bi bi-filetype-csv"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="19" viewBox="0 0 24 24">
+                            <path fill="#198754" fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2zm1.018 8.828a2.34 2.34 0 0 0-2.373 2.13v.008a2.32 2.32 0 0 0 2.06 2.497l.535.059a1 1 0 0 0 .136.006a.272.272 0 0 1 .263.367l-.008.02l-.018.044l-.078.02a2 2 0 0 1-.297.021h-1.13a1 1 0 1 0 0 2h1.13c.417 0 .892-.05 1.324-.279c.47-.248.78-.648.953-1.134a2.272 2.272 0 0 0-2.115-3.06l-.478-.052a.32.32 0 0 1-.285-.341a.34.34 0 0 1 .344-.306l.94.02a1 1 0 1 0 .043-2l-.943-.02zm7.933 1.482a1 1 0 1 0-1.902-.62l-.57 1.747l-.522-1.726a1 1 0 0 0-1.914.578l1.443 4.773a1 1 0 0 0 1.908.021zm-13.762.88a.65.65 0 0 1 .458-.19h1.018a1 1 0 1 0 0-2H6.647A2.647 2.647 0 0 0 4 13.647v1.706A2.647 2.647 0 0 0 6.647 18h1.018a1 1 0 1 0 0-2H6.647A.647.647 0 0 1 6 15.353v-1.706c0-.172.068-.336.19-.457Z" clip-rule="evenodd" stroke-width="0.2" stroke="" />
+                        </svg>
                         <span className="d-none d-md-inline">{exportCSVText}</span>
                     </button>
                 )}
@@ -202,7 +206,9 @@ const ActionControls = ({
                                 onClick={handleSearchToggle}
                                 title="Search"
                             >
-                                <i className="bi bi-search"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="#fff" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14" stroke-width="0.2" stroke="" />
+                                </svg>
                             </button>
                             {isSearchOpen && (
                                 <div
@@ -248,12 +254,12 @@ const ActionControls = ({
                 {/* First Add Button */}
                 {showAddButton && (
                     <button
-                        className="btn btn-primary d-flex align-items-center p-2"
+                        className="btn btn-primary d-flex align-items-center custompadding"
                         style={{ backgroundColor: '#008479', borderColor: '#008479' }}
                         onClick={addButtonAction}
                         title={addButtonText}
                     >
-                        <span>+</span>
+                        <span>+ Add</span>
                         <span className="d-none d-md-inline ms-1">{addButtonText}</span>
                     </button>
                 )}
