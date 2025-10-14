@@ -7892,13 +7892,9 @@ export const OtherStaffCSV = async (id) => {
 }
 // Daily attendance CSV 
 export const DailyAttendanceCSV = async (sectionId, month, year) => {
-  console.log(sectionId, month, year, 'sectionId, month, year all are in apiiii')
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(
-      `${Domain}/attendance/getCSV?sectionId=${sectionId}&month=${parseInt(month)}&year=${parseInt(year)}`
-    );
-    // const res = await axios.get(`${Domain}/attendance/getCSV?sectionId=${sectionId}&month=${month}&year=${year}`)
+    const res = await axios.get(`${Domain}/attendance/getCSV?sectionId=${sectionId}&month=${month}&year=${year}`)
     if (res) {
       return res;
     }
