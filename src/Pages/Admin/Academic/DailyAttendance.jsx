@@ -381,6 +381,59 @@ font-size: 12px;
   opacity: 0.5;
   cursor: not-allowed;
 }
+.stu-present{
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-absent{
+  background-color: #F44336;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-weekend{
+  background-color: #9E9E9E;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 28px;
+}
+.stu-leave{
+  background-color: #FFC107;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-holiday{
+  background-color: #2196F3;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.show-attendance{
+  background-color: #FFF9F6;
+  border: 1px dashed #EECEBE;
+  padding: 10px;
+}
+.fontSize{
+  font-size: 16px !important;
+}
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -437,7 +490,11 @@ font-size: 12px;
         flex-direction: column;
         margin-bottom: 5px;
     }
-
+}
+@media only screen and (max-width: 768px) {
+    .mrgn-btm-respnsve{
+        margin-top: 5px !important;
+    }
 }
 @media only screen and (max-width: 1000px) {
     .responsive-direction{
@@ -514,17 +571,6 @@ const DailyAttendance = ({ items }) => {
   const [myTrueFalse, setMyTrueFalse] = useState(true)
   const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await DailyAttendanceCSV(sectionId, month, year);
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const sectionHandle = (e) => {
     setSectionId2(parseInt(e))
   }
@@ -538,7 +584,6 @@ const DailyAttendance = ({ items }) => {
       MySyllabusSectionGetApi()
     }
     MyDailyAttendanceGetApi()
-    Download_Slip()
   }, [classId, sectionId])
 
   useEffect(() => {
@@ -603,6 +648,7 @@ const DailyAttendance = ({ items }) => {
     setLoader(true)
     try {
       const response = await DailyAttendancehGetAllBymonth(sectionId, month, year, search, pageNo, pageSize);
+      console.log('MY_Attendance____get-Api-by-month', response)
       if (response?.status === 200) {
         setDailyDataByMonth(response?.data?.attendance)
         setCurrentPage(response?.data?.currentPage)
@@ -762,7 +808,7 @@ const DailyAttendance = ({ items }) => {
   // Handle search input change
   const handleSearchChange = (value) => {
     setSearchKey(value);
-    setPageNo(1); 
+    setPageNo(1);
   };
 
   return (
@@ -796,7 +842,8 @@ const DailyAttendance = ({ items }) => {
               exportPDFFileName="Daily Attendance.pdf"
               showExportCSV={dailyDataByMonth?.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={DailyAttendanceCSV()}
+              // exportCSVAction={DailyAttendanceCSV()}
+              exportCSVAction={() => DailyAttendanceCSV(sectionId, month, year)}
               exportCSVFileName="Daily Attendance.xlsx"
               showSearch={true}
               searchValue={searchKey}
@@ -912,7 +959,21 @@ const DailyAttendance = ({ items }) => {
               <div>{time ? time.slice(0, 8) : ''}</div>
             </div>
           </div>
-
+          {
+            dailyDataByMonth && dailyDataByMonth.length > 0 && (
+              <div className="container ">
+                <div className="row m-1 mb-4 show-attendance">
+                  <div className="col-md-1 "></div>
+                  <div className="col-md-2 d-flex "><p className='stu-present'>P</p><span className='fontSize ms-2'>Present</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent'>A</p><span className='fontSize ms-2'>Absent</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave'>L</p><span className='fontSize ms-2'>Leave</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday'>H</p><span className='fontSize ms-2'>Holiday</span></div>
+                  <div className="col-md-1 "></div>
+                </div>
+              </div>
+            )
+          }
           <div className="table-container px-3 table-responsive">
             <table className="table table-sm ">
               <thead className=''>
@@ -957,43 +1018,48 @@ const DailyAttendance = ({ items }) => {
               </thead>
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
-                  dailyDataByMonth && dailyDataByMonth?.length > 0 ? (
-                    dailyDataByMonth?.map((item, index) => (
-                      <tr className='heading-14 ' >
-                        <td className=' greyText '>{index + 1}</td>
-                        <td className=' greyText '>{item.name.split('-')[1]}</td>
-                        {
-                          item?.attendance.map((item, index) => (
-                            <td className='greyText' >
-                              {
-                                item.status === "present" ?
-                                  <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.2949 0L6.12781 9.17061L2.70158 5.74438L0 8.44948L6.12429 14.5738L6.91577 13.7858L18 2.70158L15.2949 0Z" fill="#41AD49" />
-                                  </svg>
-                                  :
-                                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.39055 0.226368L0.226368 1.39055C-0.0754561 1.69237 -0.0754561 2.20978 0.226368 2.55473L4.1932 6.52156L0.226368 10.4884C-0.0754561 10.7902 -0.0754561 11.3076 0.226368 11.6526L1.34743 12.7736C1.64925 13.0755 2.16667 13.0755 2.51161 12.7736L6.47844 8.8068L10.4453 12.7736C10.7471 13.0755 11.2645 13.0755 11.6095 12.7736L12.7305 11.6526C13.0323 11.3507 13.0323 10.8333 12.7305 10.4884L8.76368 6.47844L12.7305 2.51161C13.0323 2.20978 13.0323 1.69237 12.7305 1.34743L11.6095 0.226368C11.3076 -0.0754561 10.7902 -0.0754561 10.4453 0.226368L6.47844 4.1932L2.51161 0.226368C2.20978 -0.0754561 1.69237 -0.0754561 1.39055 0.226368Z" fill="#B50000" />
-                                  </svg>
-                              }
-                            </td>
-                          ))
-                        }
+                  dailyDataByMonth && dailyDataByMonth.length > 0 ? (
+                    dailyDataByMonth.map((item, index) => (
+                      <tr className="heading-14" key={index}>
+                        <td className="greyText">{index + 1}</td>
+                        <td className="greyText">{item.name.split('-')[1]}</td>
+                        {item?.attendance.map((att, i) => (
+                          <td className="greyText" key={i}>
+                            {att.status === "present" ? (
+                              <p className="stu-present">P</p>
+                            ) : att.status === "absent" ? (
+                              <p className="stu-absent">A</p>
+                            ) : att.status === "weekend" ? (
+                              <p className="stu-weekend">W</p>
+                            ) : att.status === "leave" ? (
+                              <p className="stu-leave">L</p>
+                            ) : (
+                              <p className="stu-holiday">H</p>
+                            )}
+                          </td>
+                        ))}
                       </tr>
-
                     ))
+                  ) : (
+                    <tr>
+                      <td colSpan="100%" style={{ minHeight: '100%' }}>
+                        <div className="text-center">
+                          <img
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "/images/fallback.png";
+                            }}
+                            src="/images/search.svg"
+                            alt=""
+                            className="img-fluid p-5"
+                          />
+                          <h2><b>No Data Found</b></h2>
+                        </div>
+                      </td>
+                    </tr>
                   )
-                    :
-                    (
-                      <tr>
-                        <td colSpan="100%" style={{ minHeight: '100%' }}>
-                          <div className="text-center">
-                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
-                            <h2><b>No Data Found</b></h2>
-                          </div>
-                        </td>
-                      </tr>
-                    )
                 }
+
 
               </tbody>
             </table>
@@ -1237,3 +1303,45 @@ const DailyAttendance = ({ items }) => {
 export default DailyAttendance;
 // hira lal bara seni 
 // 9927031200 prashant ji
+
+
+
+
+// {
+//                 dailyDataByMonth && dailyDataByMonth?.length > 0 ? (
+//                   dailyDataByMonth?.map((item, index) => (
+//                     <tr className='heading-14 ' >
+//                       <td className=' greyText '>{index + 1}</td>
+//                       <td className=' greyText '>{item.name.split('-')[1]}</td>
+//                       {
+//                         item?.attendance.map((item, index) => (
+//                           <td className='greyText' >
+//                             {
+//                               item.status === "present" ?
+//                                 <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                                   <path d="M15.2949 0L6.12781 9.17061L2.70158 5.74438L0 8.44948L6.12429 14.5738L6.91577 13.7858L18 2.70158L15.2949 0Z" fill="#41AD49" />
+//                                 </svg>
+//                                 :
+//                                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                                   <path d="M1.39055 0.226368L0.226368 1.39055C-0.0754561 1.69237 -0.0754561 2.20978 0.226368 2.55473L4.1932 6.52156L0.226368 10.4884C-0.0754561 10.7902 -0.0754561 11.3076 0.226368 11.6526L1.34743 12.7736C1.64925 13.0755 2.16667 13.0755 2.51161 12.7736L6.47844 8.8068L10.4453 12.7736C10.7471 13.0755 11.2645 13.0755 11.6095 12.7736L12.7305 11.6526C13.0323 11.3507 13.0323 10.8333 12.7305 10.4884L8.76368 6.47844L12.7305 2.51161C13.0323 2.20978 13.0323 1.69237 12.7305 1.34743L11.6095 0.226368C11.3076 -0.0754561 10.7902 -0.0754561 10.4453 0.226368L6.47844 4.1932L2.51161 0.226368C2.20978 -0.0754561 1.69237 -0.0754561 1.39055 0.226368Z" fill="#B50000" />
+//                                 </svg>
+//                             }
+//                           </td>
+//                         ))
+//                       }
+//                     </tr>
+
+//                   ))
+//                 )
+//                   :
+//                   (
+//                     <tr>
+//                       <td colSpan="100%" style={{ minHeight: '100%' }}>
+//                         <div className="text-center">
+//                           <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
+//                           <h2><b>No Data Found</b></h2>
+//                         </div>
+//                       </td>
+//                     </tr>
+//                   )
+//               }

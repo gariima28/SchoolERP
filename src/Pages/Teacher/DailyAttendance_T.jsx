@@ -859,7 +859,7 @@ const DailyAttendance = ({ items }) => {
               exportPDFText="Export PDF"
               exportPDFAction={''}
               exportPDFFileName="Daily Attendance.pdf"
-              showExportCSV={true}
+              showExportCSV={dailyDataByMonth.length > 0}
               exportCSVText="Export CSV"
               // exportCSVAction={TeacherDailyAttendancehCSVBymonth(sectionId2, month, year)}
               exportCSVAction={() => TeacherDailyAttendancehCSVBymonth(sectionId2, month, year)}
@@ -1139,7 +1139,7 @@ const DailyAttendance = ({ items }) => {
                               <th className='table-row-bg-color greyTextColor'>Status</th>
                             </tr>
                           </thead>
-                          <tbody className='heading-14 align-middle greyTextColor ' >
+                          <tbody className='heading-14 align-middle greyTextColor'>
                             {
                               dailyAttenSearDateData?.map((item, index) => (
                                 <tr className='heading-14' key={index}>
