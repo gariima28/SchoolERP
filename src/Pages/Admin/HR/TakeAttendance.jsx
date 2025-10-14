@@ -343,6 +343,59 @@ font-size: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.stu-present{
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-absent{
+  background-color: #F44336;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-weekend{
+  background-color: #9E9E9E;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 28px;
+}
+.stu-leave{
+  background-color: #FFC107;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-holiday{
+  background-color: #2196F3;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.show-attendance{
+  background-color: #FFF9F6;
+  border: 1px dashed #EECEBE;
+  padding: 10px;
+}
+.fontSize{
+  font-size: 16px !important;
+}
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -377,7 +430,11 @@ font-size: 12px;
     margin-top: 12px !important;
   }
 }
-
+@media only screen and (max-width: 768px) {
+    .mrgn-btm-respnsve{
+        margin-top: 5px !important;
+    }
+}
 @media only screen and (max-width: 1000px) {
     .responsive-direction{
         display: flex;
@@ -496,8 +553,8 @@ const TakeAttendance = () => {
 
   useEffect(() => {
     MyRolPermisGetAllApi()
-    if(roleid){
-    MyTakeAttendanceGetApi()
+    if (roleid) {
+      MyTakeAttendanceGetApi()
     }
   }, [roleid])
 
@@ -652,6 +709,7 @@ const TakeAttendance = () => {
     setLoader(true)
     try {
       const response = await AttendanceGetAllBymonth(roleIdForMonth, month2, year, searchKey, 1, 10);
+      console.log('get by month data-----', response)
       if (response?.status === 200) {
         setAttendanceDataByMonth(response?.data?.attendance)
         setRole(response?.data?.roleName)
@@ -824,7 +882,21 @@ const TakeAttendance = () => {
               <span>-  {year ? year : 'N-I-R'}</span>
             </div>
           </div>
-
+          {
+            attendanceDataByMonth && attendanceDataByMonth.length > 0 && (
+              <div className="container ">
+                <div className="row m-1 mb-4 show-attendance">
+                  <div className="col-md-1 "></div>
+                  <div className="col-md-2 d-flex "><p className='stu-present'>P</p><span className='fontSize ms-2'>Present</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent'>A</p><span className='fontSize ms-2'>Absent</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave'>L</p><span className='fontSize ms-2'>Leave</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday'>H</p><span className='fontSize ms-2'>Holiday</span></div>
+                  <div className="col-md-1 "></div>
+                </div>
+              </div>
+            )
+          }
 
           <div className="table-container px-3 table-responsive">
             <table className="table table-sm ">
@@ -865,30 +937,50 @@ const TakeAttendance = () => {
                   <th className='table-row-bg-color no-wrap'>31</th>
                 </tr>
               </thead>
+
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
                   attendanceDataByMonth && attendanceDataByMonth?.length > 0 ? (
                     attendanceDataByMonth?.map((item, index) => (
-                      <tr className='heading-14 ' >
-                        <td className=' greyText no-wrap'>{index + 1}</td>
-                        <td className=' greyText no-wrap'>{item.staffName}</td>
-                        {
-                          item?.attendance?.map((item, index) => (
-                            <td className='greyText no-wrap' >
-                              {
-                                item.status === "present" ?
-                                  <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.2949 0L6.12781 9.17061L2.70158 5.74438L0 8.44948L6.12429 14.5738L6.91577 13.7858L18 2.70158L15.2949 0Z" fill="#41AD49" />
-                                  </svg>
-                                  :
-                                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.39055 0.226368L0.226368 1.39055C-0.0754561 1.69237 -0.0754561 2.20978 0.226368 2.55473L4.1932 6.52156L0.226368 10.4884C-0.0754561 10.7902 -0.0754561 11.3076 0.226368 11.6526L1.34743 12.7736C1.64925 13.0755 2.16667 13.0755 2.51161 12.7736L6.47844 8.8068L10.4453 12.7736C10.7471 13.0755 11.2645 13.0755 11.6095 12.7736L12.7305 11.6526C13.0323 11.3507 13.0323 10.8333 12.7305 10.4884L8.76368 6.47844L12.7305 2.51161C13.0323 2.20978 13.0323 1.69237 12.7305 1.34743L11.6095 0.226368C11.3076 -0.0754561 10.7902 -0.0754561 10.4453 0.226368L6.47844 4.1932L2.51161 0.226368C2.20978 -0.0754561 1.69237 -0.0754561 1.39055 0.226368Z" fill="#B50000" />
-                                  </svg>
-                              }
-                            </td>
-                          ))
-                        }
+                      <tr className="heading-14" key={index}>
+                        <td className="greyText">{index + 1}</td>
+                        <td className="greyText">{item.staffName}</td>
+                        {item?.attendance.map((att, i) => (
+                          <td className="greyText" key={i}>
+                            {att.status === "present" ? (
+                              <p className="stu-present">P</p>
+                            ) : att.status === "absent" ? (
+                              <p className="stu-absent">A</p>
+                            ) : att.status === "weekend" ? (
+                              <p className="stu-weekend">W</p>
+                            ) : att.status === "leave" ? (
+                              <p className="stu-leave">L</p>
+                            ) : (
+                              <p className="stu-holiday">H</p>
+                            )}
+                          </td>
+                        ))}
                       </tr>
+                      // <tr className='heading-14 ' >
+                      //   <td className=' greyText no-wrap'>{index + 1}</td>
+                      //   <td className=' greyText no-wrap'>{item.staffName}</td>
+                      //   {
+                      //     item?.attendance?.map((item, index) => (
+                      //       <td className='greyText no-wrap' >
+                      //         {
+                      //           item.status === "present" ?
+                      //             <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      //               <path d="M15.2949 0L6.12781 9.17061L2.70158 5.74438L0 8.44948L6.12429 14.5738L6.91577 13.7858L18 2.70158L15.2949 0Z" fill="#41AD49" />
+                      //             </svg>
+                      //             :
+                      //             <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      //               <path d="M1.39055 0.226368L0.226368 1.39055C-0.0754561 1.69237 -0.0754561 2.20978 0.226368 2.55473L4.1932 6.52156L0.226368 10.4884C-0.0754561 10.7902 -0.0754561 11.3076 0.226368 11.6526L1.34743 12.7736C1.64925 13.0755 2.16667 13.0755 2.51161 12.7736L6.47844 8.8068L10.4453 12.7736C10.7471 13.0755 11.2645 13.0755 11.6095 12.7736L12.7305 11.6526C13.0323 11.3507 13.0323 10.8333 12.7305 10.4884L8.76368 6.47844L12.7305 2.51161C13.0323 2.20978 13.0323 1.69237 12.7305 1.34743L11.6095 0.226368C11.3076 -0.0754561 10.7902 -0.0754561 10.4453 0.226368L6.47844 4.1932L2.51161 0.226368C2.20978 -0.0754561 1.69237 -0.0754561 1.39055 0.226368Z" fill="#B50000" />
+                      //             </svg>
+                      //         }
+                      //       </td>
+                      //     ))
+                      //   }
+                      // </tr>
                     ))
                   )
                     :
@@ -906,6 +998,7 @@ const TakeAttendance = () => {
               </tbody>
             </table>
           </div>
+
         </div>
         {
           hide ? (
