@@ -217,7 +217,7 @@ const Login = () => {
                     const loginTimestamp = Date.now();
                     sessionStorage.setItem('loginTimestamp', loginTimestamp);
 
-                    if (responseData.isNewLogin) {
+                      if (responseData.isNewLogin) {
                         sessionStorage.setItem('forgetToken', responseData.token);
                         navigate('/verifyOtp');
                     } else {
@@ -229,7 +229,6 @@ const Login = () => {
                         if (responseData.role === 'ADMIN' && responseData.subscription === 'setPrefix') {
                             sessionStorage.setItem('subscription', responseData.subscription);
                         }
-
                         sessionStorage.setItem('token', responseData.token);
                         window.location.reload()
                         navigate('/');
@@ -239,7 +238,6 @@ const Login = () => {
                     if (!toastDisplayed) {
                         setToastDisplayed(true);
                     }
-
                 }
             } else {
                 if (!toastDisplayed) {
