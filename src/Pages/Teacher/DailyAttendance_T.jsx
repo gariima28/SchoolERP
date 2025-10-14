@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { CSVLink } from 'react-csv';
 
 import toast, { Toaster } from 'react-hot-toast';
 import { TeacherClassGetApi } from 'src/Utils/Apis'
@@ -11,8 +10,7 @@ import { TeacherDailyAttendancehCSVBymonth } from 'src/Utils/Apis'
 import { TeacherDailyAttendancePostApi } from 'src/Utils/Apis'
 import { TeacherMyDailyAttendancePutApi } from 'src/Utils/Apis'
 import { TeacherDailyAttendancehGetAllBymonth } from 'src/Utils/Apis'
-// import { TeacherDailyAttendancehCSVBymonth } from 'src/Utils/Apis'
-// import { CSVLink } from 'react-csv';
+
 import ActionControls from '../../Layouts/ActionControls';
 
 import HashLoader from 'src/Pages/HashLoaderCom';
@@ -384,6 +382,59 @@ font-size: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.stu-present{
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-absent{
+  background-color: #F44336;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-weekend{
+  background-color: #9E9E9E;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 28px;
+}
+.stu-leave{
+  background-color: #FFC107;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.stu-holiday{
+  background-color: #2196F3;
+  color: #fff;
+  padding: 1px 8px 1px 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 25px;
+}
+.show-attendance{
+  background-color: #FFF9F6;
+  border: 1px dashed #EECEBE;
+  padding: 10px;
+}
+.fontSize{
+  font-size: 16px !important;
+}
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -435,6 +486,11 @@ font-size: 12px;
   .responsive-direction{
     width: 80%; 
   }
+}
+@media only screen and (max-width: 768px) {
+    .mrgn-btm-respnsve{
+        margin-top: 5px !important;
+    }
 }
 @media only screen and (max-width: 1000px) {
     .responsive-direction{
@@ -524,7 +580,7 @@ font-size: 12px;
 // ## style css area end ####  
 
 const DailyAttendance = ({ items }) => {
-
+  
   const [hide, setHide] = useState(true)
   const [hide1, setHide1] = useState(true)
   const [loader, setLoader] = useState(false)
@@ -537,12 +593,9 @@ const DailyAttendance = ({ items }) => {
   const [absent, setAbsent] = useState([])
   const [classId, setClassId] = useState()
   const [sectionId, setSectionId] = useState()
-  console.log(sectionId, 'sectionId----')
   const [sectionId2, setSectionId2] = useState()
   const [month, setMonth] = useState()
-  console.log(month, 'month----')
   const [year, setYear] = useState()
-  console.log(year, 'year----'  )
   const [sectionName, setSectionName] = useState()
   const [search, setSearch] = useState('')
   const [showMonth, setShowMonth] = useState()
@@ -591,7 +644,7 @@ const DailyAttendance = ({ items }) => {
 
   useEffect(() => {
     MyDailyAttendanceGetApi();
-   
+
   }, [date])
 
   // CSV 
@@ -603,9 +656,7 @@ const DailyAttendance = ({ items }) => {
   const UpdatClassGetApi = async () => {
     try {
       const response = await TeacherClassGetApi();
-      console.log('class-get-all-api in daily attendance teacher', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setClassData(response?.data?.data)
       } else {
         toast.error(response?.data?.classes?.message);
@@ -665,7 +716,6 @@ const DailyAttendance = ({ items }) => {
     try {
       const response = await TeacherDailyAttendancehGetAllBymonth(sectionId2, month, year, search, 1, 10, pageNo, pageSize);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setDailyDataByMonth(response?.data?.attendance)
         setShowMonth(response?.data?.requestInfo?.monthYear)
         setShowLastUpdate(response?.data?.requestInfo?.lastUpdated)
@@ -673,7 +723,6 @@ const DailyAttendance = ({ items }) => {
         setCurrentPage(response?.data?.currentPage)
         setTotalPages(response?.data?.totalPages)
         setLoader(false)
-
       } else {
         toast.error(response?.data?.classes?.message);
         setLoader(false)
@@ -879,7 +928,7 @@ const DailyAttendance = ({ items }) => {
               </ul>
             </div>
           </div>
-        
+
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Attendance</h5>
 
@@ -927,8 +976,8 @@ const DailyAttendance = ({ items }) => {
                 <select class="form-select form-focus  form-select-sm " value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                   <option value=''>--Choose--</option>
                   {
-                    classData?.map((item) => (
-                      <option value={item.classId}>{item.classNo}</option>
+                    classData?.map((item,index) => (
+                      <option value={item.classId} key={index}>{item.classNo}</option>
                     ))
                   }
                 </select>
@@ -977,7 +1026,21 @@ const DailyAttendance = ({ items }) => {
               :  {showTime ? showTime.slice(0, 8) : ''}
             </div>
           </div>
-
+          {
+            dailyDataByMonth && dailyDataByMonth?.length > 0 && (
+              <div className="container ">
+                <div className="row m-1 mb-4 show-attendance">
+                  <div className="col-md-1 "></div>
+                  <div className="col-md-2 d-flex "><p className='stu-present'>P</p><span className='fontSize ms-2'>Present</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent'>A</p><span className='fontSize ms-2'>Absent</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave'>L</p><span className='fontSize ms-2'>Leave</span></div>
+                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday'>H</p><span className='fontSize ms-2'>Holiday</span></div>
+                  <div className="col-md-1 "></div>
+                </div>
+              </div>
+            )
+          }
           <div className="table-container px-3 table-responsive">
             <table className="table table-sm table-striped">
               <thead className=''>
@@ -1022,6 +1085,52 @@ const DailyAttendance = ({ items }) => {
               </thead>
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
+                  dailyDataByMonth && dailyDataByMonth?.length > 0 ? (
+                    dailyDataByMonth?.map((item, index) => (
+                      <tr className="heading-14" key={index}>
+                        <td className="greyText">{index + 1}</td>
+                        <td className="greyText">{item.name.split('-')[1]}</td>
+                        {item?.attendance.map((att, i) => (
+                          <td className="greyText" key={i}>
+                            {att.status === "present" ? (
+                              <p className="stu-present">P</p>
+                            ) : att.status === "absent" ? (
+                              <p className="stu-absent">A</p>
+                            ) : att.status === "weekend" ? (
+                              <p className="stu-weekend">W</p>
+                            ) : att.status === "leave" ? (
+                              <p className="stu-leave">L</p>
+                            ) : (
+                              <p className="stu-holiday">H</p>
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="100%" style={{ minHeight: '100%' }}>
+                        <div className="text-center">
+                          <img
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "/images/fallback.png";
+                            }}
+                            src="/images/search.svg"
+                            alt=""
+                            className="img-fluid p-5"
+                          />
+                          <h2><b>No Data Found</b></h2>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                }
+
+
+              </tbody>
+              {/* <tbody className='heading-14 align-middle greyTextColor'>
+                {
                   dailyDataByMonth && dailyDataByMonth.length > 0 ? (
                     dailyDataByMonth?.map((item, index) => (
                       <tr className='heading-14 ' >
@@ -1060,7 +1169,7 @@ const DailyAttendance = ({ items }) => {
                     )
                 }
 
-              </tbody>
+              </tbody> */}
             </table>
 
           </div>
@@ -1098,8 +1207,8 @@ const DailyAttendance = ({ items }) => {
                   <select class="form-select form-focus input-bg label-color" value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                     <option value=''>--Choose--</option>
                     {
-                      classData?.map((item) => (
-                        <option value={item.classId}>{item.classNo}</option>
+                      classData?.map((item,index) => (
+                        <option value={item.classId} key={index}>{item.classNo}</option>
                       ))
                     }
                   </select>
@@ -1207,8 +1316,8 @@ const DailyAttendance = ({ items }) => {
                   <select class="form-select form-focus input-bg label-color" value={checkState ? '' : classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                     <option value=''>--Choose--</option>
                     {
-                      classData?.map((item) => (
-                        <option value={item.classId}>{item.classNo}</option>
+                      classData?.map((item,index) => (
+                        <option value={item.classId} key={index}>{item.classNo}</option>
                       ))
                     }
                   </select>

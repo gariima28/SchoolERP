@@ -960,7 +960,7 @@ const DailyAttendance = ({ items }) => {
             </div>
           </div>
           {
-            dailyDataByMonth && dailyDataByMonth.length > 0 && (
+            dailyDataByMonth && dailyDataByMonth?.length > 0 && (
               <div className="container ">
                 <div className="row m-1 mb-4 show-attendance">
                   <div className="col-md-1 "></div>
@@ -1018,8 +1018,8 @@ const DailyAttendance = ({ items }) => {
               </thead>
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
-                  dailyDataByMonth && dailyDataByMonth.length > 0 ? (
-                    dailyDataByMonth.map((item, index) => (
+                  dailyDataByMonth && dailyDataByMonth?.length > 0 ? (
+                    dailyDataByMonth?.map((item, index) => (
                       <tr className="heading-14" key={index}>
                         <td className="greyText">{index + 1}</td>
                         <td className="greyText">{item.name.split('-')[1]}</td>
