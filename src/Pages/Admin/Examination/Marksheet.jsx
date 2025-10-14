@@ -447,19 +447,19 @@ const Marksheet = () => {
                                 <div className="text-center p-5">Loading...</div>
                             ) : (selectedStudentMarksheetData ? (
                                 <div>
-                                    <h6 className='text-center'>{selectedStudentMarksheetData?.data?.schoolName || <span className='greyText font16'>-- No School Name Available --</span>}</h6>
+                                    <h6 className='text-center font4'>{selectedStudentMarksheetData?.data?.student.schoolName || <span className='greyText font14'>-- School Name Not Available --</span>}</h6>
                                     <div className="d-flex align-items-start mt-3">
                                         <div className="col-2 text-center">
                                             <img src='/images/marksheetlogo.webp' alt="School Logo" height={100} />
                                         </div>
                                         <div className="col-8 text-center">
-                                            <h6 className='text-center'>Affiliated To : CBSE Board / Affiliation No: 2512A4S200</h6>
-                                            <h6 className='text-center'>Ph +91 8808498469, Email: info@yourschoolname.com,</h6>
-                                            <p>Visit us: <a href="mailto:hshs">www.yourschoolwebsite.com</a></p>
+                                                <h6 className='text-center'>Affiliated To : {selectedStudentMarksheetData?.data?.student.boardName || <span className='greyText font14'>-- Board Name Not Available --</span>}</h6>
+                                                <h6 className='text-center'>Ph {selectedStudentMarksheetData?.data?.student.schoolphone || <span className='greyText font14'>-- School Contact Not Available --</span>}, Email: {selectedStudentMarksheetData?.data?.student.schoolemail || <span className='greyText font14'>-- School Mail Not Available --</span>},</h6>
+                                                <p>Visit us: <a className="text-decoration-none" href="mailto:hshs">{selectedStudentMarksheetData?.data?.student.websiteLink || <span className='greyText font14 '> --School Website Not Available --</span>}</a></p>
                                             <div className="mt-3">
                                                 <p>Academic Report</p>
-                                                <p>Academic Session: 2019-2020</p>
-                                                <p>Class: {selectedStudentMarksheetData?.data.student?.classNo || 4}</p>
+                                                    <p>Academic Session: {selectedStudentMarksheetData?.data.student?.session || <span className='greyText'>-- Not avaialble --</span>}</p>
+                                                <p>Class: {selectedStudentMarksheetData?.data.student?.classNo || <span className='greyText'>-- Not avaialble --</span>}</p>
                                             </div>
                                         </div>
                                         <div className="col-2 text-center">
@@ -528,35 +528,35 @@ const Marksheet = () => {
                                         <thead>
                                             <tr>
                                                 <th className='font14 bg-blue'>CO-SCHOLASTIC: (3 POINT GRADING SCALE A,B,C)</th>
-                                                <th className='font14 bg-blue'>Term-I</th>
-                                                <th className='font14 bg-blue'>Term-II</th>
+                                                <th className='font14 text-center bg-blue'>Term-I</th>
+                                                <th className='font14 text-center bg-blue'>Term-II</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td className='font14'>UNIFORM</td>
-                                                <td className='font14'>A+</td>
-                                                <td className='font14'></td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.uniform || <span className="greyText font14"> --</span>}</td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.uniform || <span className="greyText font14"> --</span>}</td>
                                             </tr>
                                             <tr>
                                                 <td className='font14'>ACTIVITIES</td>
-                                                <td className='font14'>A+</td>
-                                                <td className='font14'></td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.activities || <span className="greyText font14"> --</span>}</td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.activities || <span className="greyText font14"> --</span>}</td>
                                             </tr>
                                             <tr>
                                                 <td className='font14'>DIGITAL CLASS</td>
-                                                <td className='font14'>A</td>
-                                                <td className='font14'></td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.digitalclass || <span className="greyText font14"> --</span>}</td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.digitalclass || <span className="greyText font14"> --</span>}</td>
                                             </tr>
                                             <tr>
                                                 <td className='font14'>WRITTENSKILLS</td>
-                                                <td className='font14'>B</td>
-                                                <td className='font14'></td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.writtenskills || <span className="greyText font14"> --</span>}</td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.writtenskills || <span className="greyText font14"> --</span>}</td>
                                             </tr>
                                             <tr>
                                                 <td className='font14'>SPEAKING SKILLS</td>
-                                                <td className='font14'>C</td>
-                                                <td className='font14'></td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.speakingskills || <span className="greyText font14"> --</span>}</td>
+                                                <td className='text-center font14'>{selectedStudentMarksheetData?.data?.student?.speakingskills || <span className="greyText font14"> --</span>}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -572,26 +572,27 @@ const Marksheet = () => {
                                     <table className="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th className='font14 text-center'>Marks Range in (%)</th>
-                                                <th className='font14 text-center'>91-100</th>
-                                                <th className='font14 text-center'>81-90</th>
-                                                <th className='font14 text-center'>71-80</th>
-                                                <th className='font14 text-center'>61-70</th>
-                                                <th className='font14 text-center'>51-60</th>
-                                                <th className='font14 text-center'>41-50</th>
-                                                <th className='font14 text-center'>32-40</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td className='font14 text-center'>A+</td>
-                                                <td className='font14 text-center'>A</td>
-                                                <td className='font14 text-center'>B+</td>
-                                                <td className='font14 text-center'>B</td>
-                                                <td className='font14 text-center'>C+</td>
-                                                <td className='font14 text-center'>C</td>
-                                                <td className='font14 text-center'>D</td>
-                                            </tr>
+                                                    <th className='font14 text-center'>Marks Range in (%)</th>
+                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td className='font14 text-center'>Grade</td>
+                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -599,7 +600,7 @@ const Marksheet = () => {
                                 <p className="text-center">No data available</p>
                             ))}
                         </div>
-                        <div className="text-center mb-4">
+                        {/* <div className="text-center mb-4">
                             <button
                                 type="button"
                                 className="btn btn-sm btn-outline-secondary"
@@ -607,7 +608,7 @@ const Marksheet = () => {
                             >
                                 Close
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
