@@ -124,7 +124,7 @@ const Marksheet = () => {
     const [allClassData, setAllClassData] = useState([]);
     const [allSectionData, setAllSectionData] = useState([]);
     const [ExamTermData, setExamTermData] = useState([]);
-    const [selectedStudentMarksheetData, setSelectedStudentMarksheetData] = useState(null);
+    const [selectedStudentMarksheetData, setSelectedStudentMarksheetData] = useState();
     const [selectedStudentId, setSelectedStudentId] = useState();
     const modalRef = useRef(null);
 
@@ -258,28 +258,34 @@ const Marksheet = () => {
     };
 
     const handleDownloadPDF = () => {
+        setloaderState(true);
         const modalContent = modalRef.current.querySelector('.modal-content');
         if (!modalContent) {
             toast.error('Modal content not found');
             return;
         }
-
+        
         // Ensure the modal content is visible for capturing
         modalContent.style.display = 'block';
         modalContent.style.position = 'absolute';
         modalContent.style.top = '0';
         modalContent.style.left = '0';
-
+        
         html2canvas(modalContent, { scale: 2 }).then((canvas) => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('SeeMarksheetModal'));
+                    modal.hide();
+            setloaderState(false);
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
             const imgProps = pdf.getImageProperties(imgData);
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
+            
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
             pdf.save(`${selectedStudentMarksheetData?.data?.student?.studentName || 'Marksheet'}.pdf`);
-
+            // handleCloseModal();
+            // setSelectedStudentMarksheetData(null);
+            
             // Restore modal styles
             modalContent.style.display = '';
             modalContent.style.position = '';
@@ -289,6 +295,7 @@ const Marksheet = () => {
             console.error('Error generating PDF:', error);
             toast.error('Failed to generate PDF');
         });
+        
     };
 
     return (
@@ -490,9 +497,7 @@ const Marksheet = () => {
                             ></button>
                         </div> */}
                         <div className="modal-body">
-                            {loaderState ? (
-                                <div className="text-center p-5">Loading...</div>
-                            ) : (selectedStudentMarksheetData ? (
+                            {selectedStudentMarksheetData ? (
                                 <div>
                                     <h6 className='text-center font4'>{selectedStudentMarksheetData?.data?.student.schoolName || <span className='greyText font14'>-- School Name Not Available --</span>}</h6>
                                     <div className="d-flex align-items-start mt-3">
@@ -644,7 +649,7 @@ const Marksheet = () => {
                                 </div>
                             ) : (
                                 <p className="text-center">No data available</p>
-                            ))}
+                            )}
                         </div>
                         <div className="modal-footer">
                             <button
