@@ -580,7 +580,7 @@ font-size: 12px;
 // ## style css area end ####  
 
 const DailyAttendance = ({ items }) => {
-  
+
   const [hide, setHide] = useState(true)
   const [hide1, setHide1] = useState(true)
   const [loader, setLoader] = useState(false)
@@ -692,7 +692,6 @@ const DailyAttendance = ({ items }) => {
       const response = await TeacherDailyAttendancehGetAll(sectionId, date);
       if (response?.status === 200) {
         setDailyAttenSearDateData(response?.data?.studentList)
-        // // console.log(response?.data?.studentList, 'msg student list')
       } else {
         toast.error(response?.data?.classes?.message);
         setLoader(false)
@@ -810,7 +809,6 @@ const DailyAttendance = ({ items }) => {
     setLoader(true)
     try {
       const response = await TeacherMyDailyAttendancePutApi(data);
-      // console.log('MY_Attendance____put-Api', response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setHidedelete(true)
@@ -1126,52 +1124,8 @@ const DailyAttendance = ({ items }) => {
                     </tr>
                   )
                 }
-
-
               </tbody>
-              {/* <tbody className='heading-14 align-middle greyTextColor'>
-                {
-                  dailyDataByMonth && dailyDataByMonth.length > 0 ? (
-                    dailyDataByMonth?.map((item, index) => (
-                      <tr className='heading-14 ' >
-                        <td className=' greyText no-wrap'>{index + 1}</td>
-                        <td className=' greyText no-wrap'>{item.name.split('-')[1]}</td>
-                        {
-                          item?.attendance?.map((item, index) => (
-                            <td className='greyText no-wrap' >
-                              {
-                                item.status === "present" ?
-                                  <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.2949 0L6.12781 9.17061L2.70158 5.74438L0 8.44948L6.12429 14.5738L6.91577 13.7858L18 2.70158L15.2949 0Z" fill="#41AD49" />
-                                  </svg>
-                                  :
-                                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.39055 0.226368L0.226368 1.39055C-0.0754561 1.69237 -0.0754561 2.20978 0.226368 2.55473L4.1932 6.52156L0.226368 10.4884C-0.0754561 10.7902 -0.0754561 11.3076 0.226368 11.6526L1.34743 12.7736C1.64925 13.0755 2.16667 13.0755 2.51161 12.7736L6.47844 8.8068L10.4453 12.7736C10.7471 13.0755 11.2645 13.0755 11.6095 12.7736L12.7305 11.6526C13.0323 11.3507 13.0323 10.8333 12.7305 10.4884L8.76368 6.47844L12.7305 2.51161C13.0323 2.20978 13.0323 1.69237 12.7305 1.34743L11.6095 0.226368C11.3076 -0.0754561 10.7902 -0.0754561 10.4453 0.226368L6.47844 4.1932L2.51161 0.226368C2.20978 -0.0754561 1.69237 -0.0754561 1.39055 0.226368Z" fill="#B50000" />
-                                  </svg>
-                              }
-                            </td>
-                          ))
-                        }
-                      </tr>
-                    ))
-                  )
-                    :
-                    (
-                      <tr>
-                        <td colSpan="100%" className='no-wrap' style={{ minHeight: '100%' }}>
-                          <div className="text-center">
-                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="No Data" className="img-fluid" />
-                            <h2><b>No Data Found</b></h2>
-                          </div>
-                        </td>
-                      </tr>
-
-                    )
-                }
-
-              </tbody> */}
             </table>
-
           </div>
           <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
             <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
@@ -1217,7 +1171,6 @@ const DailyAttendance = ({ items }) => {
                   <label for="exampleFormControlInput1" className="form-label label-color ">Section</label>
                   <select class="form-select form-focus input-bg label-color" value={sectionId} onChange={(e) => setSectionId(e.target.value)} aria-label="Default select example">
                     <option value=''>--Choose--</option>
-
                     {
                       sectionData.map((item) => (
                         <option value={item.sectionId}>{item.sectionName}</option>
@@ -1295,7 +1248,6 @@ const DailyAttendance = ({ items }) => {
             </div>
           )
         }
-
         {
           show && (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight123" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
@@ -1341,12 +1293,10 @@ const DailyAttendance = ({ items }) => {
                     </div>
                     :
                     <>
-
                       <div className='heading-14 d-flex  ps-1 pt-2 orangeText'>
                         <p>P - Present</p>
                         <p className='ps-4'>A - Absent</p>
                       </div>
-
                       {/* ####### table ########### */}
                       <div className="table-container pt-3 table-responsive overflow-y">
                         <table className="table  ">
@@ -1403,10 +1353,6 @@ const DailyAttendance = ({ items }) => {
           )
         }
       </div>
-
-
-
-
     </Container>
   )
 }

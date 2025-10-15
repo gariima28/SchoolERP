@@ -569,7 +569,6 @@ const DailyAttendance = ({ items }) => {
   const [dailyAttenSearDateData, setDailyAttenSearDateData] = useState([])
   const [dailyDataByMonth, setDailyDataByMonth] = useState([])
   const [myTrueFalse, setMyTrueFalse] = useState(true)
-  const [csvData, setCsvData] = useState([]);
 
   const sectionHandle = (e) => {
     setSectionId2(parseInt(e))
@@ -648,7 +647,6 @@ const DailyAttendance = ({ items }) => {
     setLoader(true)
     try {
       const response = await DailyAttendancehGetAllBymonth(sectionId, month, year, search, pageNo, pageSize);
-      console.log('MY_Attendance____get-Api-by-month', response)
       if (response?.status === 200) {
         setDailyDataByMonth(response?.data?.attendance)
         setCurrentPage(response?.data?.currentPage)
@@ -733,7 +731,6 @@ const DailyAttendance = ({ items }) => {
       setLoader(false)
     }
   }
-
   // Daily attendance Put api 
   const MyNewDailyAttendancePutApi = async () => {
     const data = {
@@ -746,7 +743,6 @@ const DailyAttendance = ({ items }) => {
     setLoader(true)
     try {
       const response = await MyDailyAttendancePutApi(data);
-      console.log('MY_Attendance____put-Api', response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setLoader(false)
@@ -790,7 +786,6 @@ const DailyAttendance = ({ items }) => {
     const trimmedValue = e.target.value.trimStart();
     setSearchKey(trimmedValue);
   };
-
   const clearDataHandle = () => {
     setClassId('')
     setSectionId('')
@@ -936,7 +931,6 @@ const DailyAttendance = ({ items }) => {
               <button type="button" class={`btn `} style={{ cursor: 'pointer' }} onClick={clearDataHandle} disabled={!(classId && sectionId && month && year) ? true : false} >Cancel</button>
             </div>
           </div>
-
           <div className="row mt-4 mb-4 bg-color-pink p-3 m-3 responsive-direction">
             <div className="col-2 p-0 ps-5 rsnsve-pd d-flex padding-lef ">
               <span className='heading-16 greyText padding-left'>Class - </span> &nbsp; &nbsp;
@@ -1097,7 +1091,6 @@ const DailyAttendance = ({ items }) => {
                   <label for="exampleFormControlInput1" className="form-label label-color ">Class</label>
                   <select class="form-select form-focus input-bg label-color" value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                     <option value=''>--Choose--</option>
-
                     {
                       classData?.map((item) => (
                         <option value={item.classId}>{item.classNo}</option>
@@ -1151,7 +1144,6 @@ const DailyAttendance = ({ items }) => {
                                         <span className='pt-1 ps-2'>
                                           <input
                                             className="form-check-input my-form-check-input"
-
                                             checked={item.present === true}
                                             type="radio"
                                             onClick={() => handleRadioChange(index, true, item.name)}
@@ -1179,11 +1171,9 @@ const DailyAttendance = ({ items }) => {
                           <button type="button" className="btn  heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyDailyAttendancePostApi}>Submit</button>
                           <button type="button" className="btn " data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                         </div>
-
                       </>
                     )
                 }
-
               </div>
             </div>
           )
@@ -1198,7 +1188,6 @@ const DailyAttendance = ({ items }) => {
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="inputs">
-
                   <div className="mb-3">
                     <label for="exampleFormControlInput1" className="form-label label-color ">Date</label>
                     <input type="date" className="form-control form-focus input-bg label-color" value={date} onChange={(e) => setDate(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="John Doe" />
@@ -1208,7 +1197,6 @@ const DailyAttendance = ({ items }) => {
                   <label for="exampleFormControlInput1" className="form-label label-color ">Class</label>
                   <select class="form-select form-focus input-bg label-color" value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                     <option value=''>--Choose--</option>
-
                     {
                       classData?.map((item) => (
                         <option value={item.classId}>{item.classNo}</option>
@@ -1221,7 +1209,7 @@ const DailyAttendance = ({ items }) => {
                   <select class="form-select form-focus input-bg label-color" value={`${sectionId},${sectionName}`} onChange={(e) => SectionHandle(e.target.value)} aria-label="Default select example">
                     <option value=''>--Choose--</option>
                     {
-                      sectionData.map((item) => (
+                      sectionData?.map((item) => (
                         <option value={`${item.sectionId},${item.sectionName}`}>{item.sectionName}</option>
                       ))
                     }
@@ -1229,10 +1217,12 @@ const DailyAttendance = ({ items }) => {
                 </div>
                 {
                   myTrueFalse ?
-                    (<div className='my-button11 '>
+                    (
+                    <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => { UpdateHandleBtn() }}>Show Student List</button>
                       <button type="button" className="btn  " data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearDataHandle}>Cancel</button>
-                    </div>) :
+                    </div>
+                    ) :
                     (
                       <>
                         <div className='heading-14 d-flex  ps-1 pt-2 orangeText'>
@@ -1260,7 +1250,6 @@ const DailyAttendance = ({ items }) => {
                                         <span className='pt-1 ps-2'>
                                           <input
                                             className="form-check-input my-form-check-input"
-
                                             checked={item.present === true}
                                             type="radio"
                                             onClick={() => handleRadioChange(index, true, item.name)}
@@ -1305,43 +1294,3 @@ export default DailyAttendance;
 // 9927031200 prashant ji
 
 
-
-
-// {
-//                 dailyDataByMonth && dailyDataByMonth?.length > 0 ? (
-//                   dailyDataByMonth?.map((item, index) => (
-//                     <tr className='heading-14 ' >
-//                       <td className=' greyText '>{index + 1}</td>
-//                       <td className=' greyText '>{item.name.split('-')[1]}</td>
-//                       {
-//                         item?.attendance.map((item, index) => (
-//                           <td className='greyText' >
-//                             {
-//                               item.status === "present" ?
-//                                 <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                                   <path d="M15.2949 0L6.12781 9.17061L2.70158 5.74438L0 8.44948L6.12429 14.5738L6.91577 13.7858L18 2.70158L15.2949 0Z" fill="#41AD49" />
-//                                 </svg>
-//                                 :
-//                                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                                   <path d="M1.39055 0.226368L0.226368 1.39055C-0.0754561 1.69237 -0.0754561 2.20978 0.226368 2.55473L4.1932 6.52156L0.226368 10.4884C-0.0754561 10.7902 -0.0754561 11.3076 0.226368 11.6526L1.34743 12.7736C1.64925 13.0755 2.16667 13.0755 2.51161 12.7736L6.47844 8.8068L10.4453 12.7736C10.7471 13.0755 11.2645 13.0755 11.6095 12.7736L12.7305 11.6526C13.0323 11.3507 13.0323 10.8333 12.7305 10.4884L8.76368 6.47844L12.7305 2.51161C13.0323 2.20978 13.0323 1.69237 12.7305 1.34743L11.6095 0.226368C11.3076 -0.0754561 10.7902 -0.0754561 10.4453 0.226368L6.47844 4.1932L2.51161 0.226368C2.20978 -0.0754561 1.69237 -0.0754561 1.39055 0.226368Z" fill="#B50000" />
-//                                 </svg>
-//                             }
-//                           </td>
-//                         ))
-//                       }
-//                     </tr>
-
-//                   ))
-//                 )
-//                   :
-//                   (
-//                     <tr>
-//                       <td colSpan="100%" style={{ minHeight: '100%' }}>
-//                         <div className="text-center">
-//                           <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
-//                           <h2><b>No Data Found</b></h2>
-//                         </div>
-//                       </td>
-//                     </tr>
-//                   )
-//               }
