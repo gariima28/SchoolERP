@@ -453,11 +453,11 @@ const Vehicle = () => {
                                 showAddButton={true}
                                 addButtonText="Add Vehicle"
                                 addButtonAction={handleAddButton}
-                                showExportPDF={false}
+                                showExportPDF={vehicleData.length>0}
                                 exportPDFText="Export PDF"
                                 exportPDFAction={DownloadVehiclePdf}
                                 exportPDFFileName="Vehicles.pdf"
-                                showExportCSV={false}
+                                showExportCSV={vehicleData.length>0}
                                 exportCSVText="Export CSV"
                                 exportCSVAction={DownloadVehicleExcel}
                                 exportCSVFileName="Vehicles.xlsx"

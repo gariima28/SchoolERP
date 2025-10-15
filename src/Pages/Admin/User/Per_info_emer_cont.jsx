@@ -532,7 +532,7 @@ const Per_info_emer_cont = () => {
             <div className="my-button11 heading-14">
               <button
                 type="button"
-                className="btn btn-outline-success my-green heading-12"
+                className="btn btn-outline-success my-green font14"
                 onClick={ContactDataApi}
                 disabled={loader}
                 tabIndex="6"
@@ -542,7 +542,7 @@ const Per_info_emer_cont = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-outline-success heading-12 ms-2"
+                className="btn btn-outline-success font14 ms-2"
                 onClick={clearData}
                 tabIndex="7"
                 aria-label="Cancel"
@@ -551,78 +551,88 @@ const Per_info_emer_cont = () => {
               </button>
             </div>
           </div>
-        </div>
+          <p className="heading-16 mt-4" style={{ color: '#1a3c34', fontWeight: '700' }}>
+            Emergency Contact Details
+          </p>
         <div className="table-container">
-
-          <div className="table-responsive">
-            <table className="table table-sm table-striped text-center">
-              <thead>
-                <tr className="heading-16 text-color-000">
-                  <th style={{ width: '100px' }}>Sr no.</th>
-                  <th style={{ width: '300px' }}>Name</th>
-                  <th style={{ width: '200px' }}>Contact Number</th>
-                  <th style={{ width: '200px' }}>Relationship</th>
-                  <th style={{ width: '200px' }}>Action</th>
-                </tr>
-              </thead>
-              <tbody className="heading-14 align-middle greyTextColor">
-                {emergencyContacts.length > 0 ? (
-                  emergencyContacts.map((contact, index) => (
-                    <tr key={contact.emergencyId}>
-                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      <td>{contact.fullName}</td>
-                      <td>{contact.phoneNumber}</td>
-                      <td>{contact.relationship}</td>
-                      <td>
-                        <button
-                          className=" btn action-btn edit me-2"
-                          onClick={() => handleEdit(contact.emergencyId)}
-                          data-bs-toggle="offcanvas"
-                          data-bs-target="#editEmergencyContact"
-                          tabIndex={7 + index * 2}
-                          aria-label={`Edit contact ${contact.emergencyId}`}
-                        >
-                          {/* <Icon icon="tabler:edit" width="1.4em" height="1.4em" /> */}Edit
-                        </button>
-                        <button
-                          className=" btn action-btn delete text-white"
-                          onClick={() => handleDelete(contact.emergencyId)}
-                          data-bs-toggle="offcanvas"
-                          data-bs-target="#deleteEmergencyContact"
-                          tabIndex={8 + index * 2}
-                          aria-label={`Delete contact ${contact.emergencyId}`}
-                        >
-                          {/* <Icon icon="tabler:trash" width="1.4em" height="1.4em" /> */} Delete
-                        </button>
-                      </td>
+          {emergencyContacts.length > 0 ?
+            <>
+              <div className="table-responsive">
+                <table className="table table-sm table-striped text-center">
+                  <thead>
+                    <tr className="heading-16 text-color-000">
+                      <th style={{ width: '100px' }}>Sr no.</th>
+                      <th style={{ width: '300px' }}>Name</th>
+                      <th style={{ width: '200px' }}>Contact Number</th>
+                      <th style={{ width: '200px' }}>Relationship</th>
+                      <th style={{ width: '200px' }}>Action</th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5">No emergency contacts found</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-          <div className="d-flex" style={{ marginBottom: '10px' }}>
-            <p className="font14">Showing {currentPage} of {totalPages} Pages</p>
-            <div className="ms-auto">
-              <ReactPaginate
-                previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                pageCount={totalPages}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={10}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                subContainerClassName={'pages pagination'}
-                activeClassName={'active'}
-              />
+                  </thead>
+                  <tbody className="heading-14 align-middle greyTextColor">
+                    {emergencyContacts.length > 0 ? (
+                      emergencyContacts.map((contact, index) => (
+                        <tr key={contact.emergencyId}>
+                          <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                          <td>{contact.fullName}</td>
+                          <td>{contact.phoneNumber}</td>
+                          <td>{contact.relationship}</td>
+                          <td>
+                            <button
+                              className=" btn action-btn edit me-2"
+                              onClick={() => handleEdit(contact.emergencyId)}
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#editEmergencyContact"
+                              tabIndex={7 + index * 2}
+                              aria-label={`Edit contact ${contact.emergencyId}`}
+                            >
+                              {/* <Icon icon="tabler:edit" width="1.4em" height="1.4em" /> */}Edit
+                            </button>
+                            <button
+                              className=" btn action-btn delete text-white"
+                              onClick={() => handleDelete(contact.emergencyId)}
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#deleteEmergencyContact"
+                              tabIndex={8 + index * 2}
+                              aria-label={`Delete contact ${contact.emergencyId}`}
+                            >
+                              {/* <Icon icon="tabler:trash" width="1.4em" height="1.4em" /> */} Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5">No emergency contacts found</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div className="d-flex" style={{ marginBottom: '10px' }}>
+                <p className="font14">Showing {currentPage} of {totalPages} Pages</p>
+                <div className="ms-auto">
+                  <ReactPaginate
+                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                    breakLabel={'...'}
+                    breakClassName={'break-me'}
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={10}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    subContainerClassName={'pages pagination'}
+                    activeClassName={'active'}
+                  />
+                </div>
+              </div>
+            </>
+            :
+
+            <div className="d-flex justify-content-center">
+              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
             </div>
-          </div>
+          }
 
           {/* Edit Offcanvas */}
           <div
@@ -729,14 +739,14 @@ const Per_info_emer_cont = () => {
                 <div className="text-center p-3">
                   <button
                     type="submit"
-                    className="btn btn-outline-success my-green heading-12 me-2"
+                    className="btn btn-outline-success my-green font14 me-2"
                     disabled={!isValidEdit || loader}
                   >
                     Update Contact {loader && <span className="loader"></span>}
                   </button>
                   <button
                     type="button"
-                    className="btn btn-outline-success heading-12"
+                    className="btn btn-outline-success font14"
                     data-bs-dismiss="offcanvas"
                     onClick={() => {
                       resetEdit();
@@ -796,14 +806,14 @@ const Per_info_emer_cont = () => {
                 </p>
                 <p className="text-center p-3">
                   <button
-                    className="btn btn-outline-success my-green heading-12"
+                    className="btn btn-outline-success my-green font14"
                     disabled={!isDeleteConfirmed || loader}
                     onClick={deleteContact}
                   >
                     Delete {loader && <span className="loader"></span>}
                   </button>
                   <button
-                    className="btn cancelButtons heading-12 ms-2"
+                    className="btn cancelButtons font14 ms-2"
                     data-bs-dismiss="offcanvas"
                     onClick={() => {
                       setIsDeleteConfirmed(false);
@@ -816,6 +826,7 @@ const Per_info_emer_cont = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </Container>
