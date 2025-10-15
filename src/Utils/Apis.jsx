@@ -7244,10 +7244,10 @@ export const ExpensePutApi = async (id, formData) => {
 // ########################## Payroll APIs start ########################### 
 
 //  Post 
-export const PayrollPostApi = async (formData) => {
+export const PayrollPostApi = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.post(`${Domain}/payroll/create`, formData)
+    const res = await axios.post(`${Domain}/payroll/create`)
     // // console.log('my-response', res)
     if (res) {
       return res;
@@ -7259,11 +7259,27 @@ export const PayrollPostApi = async (formData) => {
     return [];
   }
 }
-// get all 
+// get all payroll
 export const PayrollGetAllApi = async (month, year) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.get(`${Domain}/payroll/view?month=${month}&year=${year}`)
+    const res = await axios.get(`${Domain}/payroll/getAll?month=${month}&year=${year}`)
+    // // console.log('my-response', res)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+// delete payroll 
+export const PayrollDeleteApi = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.delete(`${Domain}/payroll/delete`)
     // // console.log('my-response', res)
     if (res) {
       return res;

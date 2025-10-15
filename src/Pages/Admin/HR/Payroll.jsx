@@ -5,9 +5,12 @@ import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 import { ClassGetApi } from '../../../Utils/Apis'
 import HashLoader from 'src/Pages/HashLoaderCom';
+import { PayrollPostApi } from '../../../Utils/Apis'
 import { PayrollGetAllApi } from '../../../Utils/Apis'
+import { PayrollDeleteApi } from '../../../Utils/Apis'
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import ActionControls from '../../../Layouts/ActionControls';
 
 // ## style css area start ####  
 
@@ -394,6 +397,15 @@ color: #000 !important;
     color: #fff;
     font-weight: bold;
   }
+  .staff-image-adjust img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+    border: 1px solid #b9b8b8;
+
+  }
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -469,6 +481,7 @@ const Payroll = () => {
 
   const [classData, setClassData] = useState([])
   const [payrollData, setPayrollData] = useState([])
+  console.log('payrollData -0-0', payrollData);
   const [subjectData, setSubjectData] = useState([])
   const [teacherData, setTeacherData] = useState([])
   const [classRoutineData, setClassRoutineData] = useState([])
@@ -485,19 +498,38 @@ const Payroll = () => {
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-
+MyPayrollGetAllApi()
   }, [])
 
+  // Post Api 
+  const MyPayrollPostAllApi = async () => {
+    setLoader(true)
+    try {
+      const response = await PayrollPostApi();
+      console.log('payroll post api response', response);
+      if (response?.status === 200) {
+        toast.success(response?.data?.message)
+        setLoader(false)
+        MyPayrollGetAllApi()
+      } else {
+        toast.error(response?.data?.classes?.message);
+        setLoader(false)
+      }
+    } catch (error) {
+      setLoader(false)
+
+    }
+  }
   // Get All api 
   const MyPayrollGetAllApi = async () => {
     setLoader(true)
     try {
       const response = await PayrollGetAllApi(month, year, searchKey, pageNo, pageSize);
+      console.log('Payroll get all api', response);
 
-      // console.log('Payroll get all api', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.classes?.message)
-        setPayrollData(response?.data?.payroll)
+        setPayrollData(response?.data?.payrolls)
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
@@ -507,6 +539,27 @@ const Payroll = () => {
       // console.log(error)
     }
   }
+  // Delete api
+  const MyPayrollDeleteApi = async () => {
+    setLoader(true)
+    try {
+      const response = await PayrollDeleteApi();
+      if (response?.status === 200) {
+        toast.success(response?.data?.message)
+        // setPayrollData(response?.data?.payroll)
+        setLoader(false)
+      } else {
+        // toast.error(response?.data?.classes?.message);
+        setLoader(false)
+      }
+    } catch (error) {
+      setLoader(false)
+
+    }
+  }
+
+
+
   const handleChange = (e) => {
     const trimmedValue = e.target.value.trimStart();
     setSearchKey(trimmedValue);
@@ -514,6 +567,11 @@ const Payroll = () => {
 
   const handlePageClick = (event) => {
     setPageNo(event.selected + 1);
+  };
+  // Handle search input change
+  const handleSearchChange = (value) => {
+    setSearchKey(value);
+    setPageNo(1);
   };
 
   return (
@@ -535,34 +593,28 @@ const Payroll = () => {
               </ol>
             </nav>
           </div>
-          <div className='d-flex g-1 for-media-query'>
-            <button type="button " className="btn export1 btn-outline-secondary my-own-outline-btn me-2 ">
-              <span>
-                <svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 0V5H15L10 0ZM8.75 5V0H1.875C0.839453 0 0 0.839453 0 1.875V18.125C0 19.1602 0.839453 20 1.875 20H13.125C14.1605 20 15 19.1605 15 18.125V6.25H10.0352C9.30859 6.25 8.75 5.69141 8.75 5ZM5 10.9375C5 11.1094 4.85938 11.25 4.6875 11.25H4.375C4.02734 11.25 3.75 11.5273 3.75 11.875V13.125C3.75 13.4727 4.02734 13.75 4.375 13.75H4.6875C4.85938 13.75 5 13.8906 5 14.0625V14.6875C5 14.8594 4.85938 15 4.6875 15H4.375C3.33984 15 2.5 14.1602 2.5 13.125V11.875C2.5 10.8398 3.33984 10 4.375 10H4.6875C4.85938 10 5 10.1406 5 10.3125V10.9375ZM6.73047 15H6.25C6.0791 15 5.9375 14.8584 5.9375 14.6875V14.0625C5.9375 13.8906 6.07812 13.75 6.25 13.75H6.72852C6.96289 13.75 7.13398 13.6133 7.13398 13.4912C7.13398 13.4424 7.10469 13.3887 7.05098 13.3398L6.19629 12.6074C5.87109 12.3242 5.67969 11.9258 5.67969 11.5078C5.67969 10.6797 6.42188 10 7.33594 10H7.8125C7.9834 10 8.125 10.1416 8.125 10.3125V10.9375C8.125 11.1094 7.98438 11.25 7.8125 11.25H7.33594C7.10156 11.25 6.93047 11.3867 6.93047 11.5088C6.93047 11.5576 6.95977 11.6113 7.01348 11.6602L7.86816 12.3926C8.19531 12.6758 8.38574 13.0762 8.38574 13.491C8.38281 14.3203 7.64062 15 6.73047 15ZM11.25 11.125V10.3125C11.25 10.1406 11.3906 10 11.5625 10H12.1875C12.3594 10 12.5 10.1406 12.5 10.3125V11.123C12.5 12.5098 11.9969 13.8184 11.084 14.8C10.9688 14.9258 10.8008 15 10.625 15C10.4492 15 10.2832 14.9268 10.166 14.7998C9.25391 13.8203 8.75 12.5117 8.75 11.125V10.3125C8.75 10.1406 8.89062 10 9.0625 10H9.6875C9.85938 10 10 10.1406 10 10.3125V11.123C10 11.9191 10.2246 12.6953 10.625 13.3449C11.0273 12.6953 11.25 11.918 11.25 11.125Z" fill="#008479" />
-                </svg>
-              </span> &nbsp;
-              <span>Export to CSV</span>
-            </button>
-            <button type="button" className="btn export2 btn-outline-secondary my-own-outline-btn me-2 ">
-              <span>
-                <svg width="14" height="18" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4.37317 11.25C4.02799 11.25 3.74817 11.5299 3.74817 11.875V14.375C3.74817 14.7201 4.02799 15 4.37317 15C4.71834 15 4.99817 14.7201 4.99817 14.375V14.167H5.41467C6.22018 14.167 6.87317 13.514 6.87317 12.7085C6.87317 11.903 6.22018 11.25 5.41467 11.25H4.37317ZM5.41467 12.917H4.99817V12.5H5.41467C5.52982 12.5 5.62317 12.5934 5.62317 12.7085C5.62317 12.8236 5.52982 12.917 5.41467 12.917Z" fill="#008479" />
-                  <path d="M11.249 11.8743C11.2495 11.5294 11.5292 11.25 11.874 11.25H13.1219C13.4672 11.25 13.7469 11.5299 13.7469 11.875C13.7469 12.2201 13.4672 12.5 13.1219 12.5H12.4983L12.4978 12.9181H13.1219C13.4672 12.9181 13.7469 13.1979 13.7469 13.5431C13.7469 13.8883 13.4672 14.1681 13.1219 14.1681H12.4985L12.499 14.3734C12.4999 14.7186 12.2208 14.9991 11.8757 15C11.5304 15.0009 11.2499 14.7217 11.249 14.3766L11.2469 13.5424L11.249 11.8743Z" fill="#008479" />
-                  <path d="M8.12134 11.25C7.77615 11.25 7.49634 11.5299 7.49634 11.875V14.375C7.49634 14.7201 7.77615 15 8.12134 15H8.74814C9.78366 15 10.6232 14.1605 10.6232 13.125C10.6232 12.0895 9.78366 11.25 8.74814 11.25H8.12134ZM8.74634 13.75V12.5H8.74814C9.09329 12.5 9.37316 12.7799 9.37316 13.125C9.37316 13.4701 9.09329 13.75 8.74814 13.75H8.74634Z" fill="#008479" />
-                  <path d="M8.74817 5.625V0H3.12317C2.08764 0 1.24817 0.839463 1.24817 1.875V8.85215C0.520887 9.11006 0 9.80411 0 10.6198V15.6237C0 16.4395 0.520887 17.1335 1.24817 17.3915V18.125C1.24817 19.1605 2.08764 20 3.12317 20H14.3732C15.4087 20 16.2482 19.1605 16.2482 18.125V17.3916C16.9757 17.1337 17.4967 16.4396 17.4967 15.6237V10.6198C17.4967 9.80399 16.9757 9.10986 16.2482 8.85204V7.5H10.6232C9.58768 7.5 8.74817 6.66054 8.74817 5.625ZM1.875 9.99481H15.6217C15.9668 9.99481 16.2467 10.2746 16.2467 10.6198V15.6237C16.2467 15.969 15.9668 16.2487 15.6217 16.2487H1.87501C1.52982 16.2487 1.25 15.969 1.25 15.6237V10.6198C1.25 10.2746 1.52982 9.99481 1.875 9.99481Z" fill="#008479" />
-                  <path d="M9.99817 5.625V0.3125L15.9357 6.25H10.6232C10.278 6.25 9.99817 5.97017 9.99817 5.625Z" fill="#008479" />
-                </svg>
-              </span> &nbsp;
-              <span>Export to PDF</span>
-            </button>
-            <div className='me-2 search-responsive'>
-              <div className="input-group mb-3 ">
-                <input type="text" className="form-control form-focus font-color" style={{ height: '34px' }} placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={handleChange} value={searchKey} />
-                <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} id="basic-addon2" onClick={MyPayrollGetAllApi}>Search</span>
-              </div>
+          <div className="d-flex g-1 for-media-query">
+            <ActionControls
+              showAddButton={false}
+              addButtonText=""
+              addButtonAction={''}
+              showExportPDF={false}
+              exportPDFText="Export PDF"
+              exportPDFAction={''}
+              exportPDFFileName="Daily Attendance.pdf"
+              showExportCSV={false}
+              exportCSVFileName="Daily Attendance.xlsx"
+              showSearch={true}
+              searchValue={searchKey}
+              searchAction={''}
+              onSearchChange={handleSearchChange}
+            />
+            <div >
+              <Link style={{ height: '38px', padding: '10px' }} type="button" className="btn btn-success heading-16 my-own-button me-1 " onClick={() => MyPayrollPostAllApi()}>Create PaySlip</Link>
             </div>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3 " to={'/admin/hr/payrollcreate'}>+ Create Payslip</Link>
+            <div >
+              <Link style={{ height: '38px', padding: '10px', backgroundColor: 'red', color: '#fff', border: '1px solid red' }} type="button" className="btn btn-success heading-16 my-own-button me-3 " onClick={() => MyPayrollDeleteApi()}>Delete PaySlip</Link>
+            </div>
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-22px' }}>Payroll Details</h5>
@@ -605,63 +657,88 @@ const Payroll = () => {
                 </select>
               </div>
             </div>
-
           </div>
-          {/* ####### buttons ######  */}
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" onClick={MyPayrollGetAllApi}>Search</button>
+              <button type="button" class="btn btn-outline-success" onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }}>Search</button>
               <button type="button" class="btn btn-outline-success">Cancel</button>
             </div>
           </div>
           {/* table  */}
           <div className="table-container px-3 table-responsive">
-
             <table className="table table-sm ">
               <thead className=''>
-                <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
+                <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500', whiteSpace: 'nowrap', gap: '5px' }}>
+                  <th className='table-row-bg-color greyText'></th>
                   <th className='table-row-bg-color greyText'>#</th>
-                  <th className='table-row-bg-color greyText'>User</th>
-                  <th className='table-row-bg-color greyText'>Role</th>
-                  <th className='table-row-bg-color greyText'>Summary</th>
-                  <th className='table-row-bg-color greyText'>Amount</th>
-                  <th className='table-row-bg-color greyText'>Date</th>
+                  <th className='table-row-bg-color greyText'>Name</th>
                   <th className='table-row-bg-color greyText'>Status</th>
-                  <th className='table-row-bg-color greyText'>Actions</th>
+                  <th className='table-row-bg-color greyText'>Basic Salary</th>
+                  <th className='table-row-bg-color greyText'>Allowed Paid Leaves</th>
+                  <th className='table-row-bg-color greyText'>Un Paid Leaves</th>
+                  <th className='table-row-bg-color greyText'>Paid Leaves</th>
+                  <th className='table-row-bg-color greyText'>Taken Leaves</th>
+                  <th className='table-row-bg-color greyText'>Leave Deduction</th>
+                  <th className='table-row-bg-color greyText'>Allowances</th>
+                  <th className='table-row-bg-color greyText'>Deductions</th>
+                  <th className='table-row-bg-color greyText'>Total Days Salary</th>
+                  <th className='table-row-bg-color greyText'>Net Salary</th>
+                  <th className='table-row-bg-color greyText'>Generate Invoice</th>
                 </tr>
               </thead>
-
+              {/* payrollData */}
+              {/* <tbody className='heading-14 align-middle greyTextColor'>
+                <tr className='heading-14' >
+                  <td className=' greyText'>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="checkDefault" />
+                    </div>
+                  </td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                  <td className=' greyText'>Data</td>
+                </tr>
+              </tbody> */}
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
-                  payrollData && payrollData.length > 0 ? (
+                  payrollData && payrollData?.length > 0 ? (
                     payrollData?.map((item, index) => (
                       <tr className='heading-14' >
-                        <td className=' greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td className=' greyText'>{item.userName}</td>
-                        <td className=' greyText'>{item.roleId}</td>
-                        <td className=' greyText'>N-I-R</td>
-                        <td className=' greyText'>{item.basicPay}</td>
-                        <td className=' greyText'>{item.monthYear}</td>
                         <td className=' greyText'>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="checkDefault" />
+                          </div>
+                        </td>
+                        <td className=' greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                        <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} alt="Staff Image" /></span><span className='mt-1'>{item.staffName}</span></td>
+                         <td className=' greyText'>
                           <div className=''>
                             <p className={`${item.paid === true ? 'font-background' : 'font-background22'}`}>{item.paid === true ? 'Paid' : 'Unpaid'}</p>
                           </div>
                         </td>
-                        <td className=' greyText'>
-                          <div className="dropdown my-button-show">
-                            <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Action  &nbsp;
-                              <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                                <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
-                              </svg>
-                            </button>
-                            <ul className="dropdown-menu anchor-color heading-14">
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit</Link></li>
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight33" aria-controls="offcanvasRight">View Profile</Link></li>
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight">Delete</Link></li>
-                            </ul>
-                          </div>
-                        </td>
+                        <td className=' greyText'>{item.basicPay}</td>
+                        <td className=' greyText'>{item.allowedPaidLeaves}</td>
+                        <td className=' greyText'>{item.unpaidLeaves}</td>
+                        <td className=' greyText'>{item.paidLeaves ? paidLeaves : 'N-I-R'}</td>
+                        <td className=' greyText'>{item.takenLeaves}</td>
+                        <td className=' greyText'>{item.leaveDeduction}</td>
+                        <td className=' greyText'>{item.allowanceTotal}</td>
+                        <td className=' greyText'>{item.deductionsTotal}</td>
+                        <td className=' greyText'>{item.totalWorkingDays}</td>
+                        <td className=' greyText'>{item.netSalary}</td>
+                        <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R' }</td>
+
                       </tr>
                     ))
                   )
@@ -681,37 +758,37 @@ const Payroll = () => {
                 }
               </tbody>
             </table>
-            <div className="d-flex" style={{ marginBottom: "10px" }}>
-              <p className="font14">
-                Showing {currentPage} of {totalPages} Pages
-              </p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={
-                    <Icon
-                      icon="tabler:chevrons-left"
-                      width="1.4em"
-                      height="1.4em"
-                    />
-                  }
-                  nextLabel={
-                    <Icon
-                      icon="tabler:chevrons-right"
-                      width="1.4em"
-                      height="1.4em"
-                    />
-                  }
-                  breakLabel={"..."}
-                  breakClassName={"break-me"}
-                  pageCount={totalPages}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={10}
-                  onPageChange={handlePageClick}
-                  containerClassName={"pagination"}
-                  subContainerClassName={"pages pagination"}
-                  activeClassName={"active"}
-                />
-              </div>
+          </div>
+          <div className="d-flex p-2" style={{ marginBottom: "10px" }}>
+            <p className="font14">
+              Showing {currentPage} of {totalPages} Pages
+            </p>
+            <div className="ms-auto">
+              <ReactPaginate
+                previousLabel={
+                  <Icon
+                    icon="tabler:chevrons-left"
+                    width="1.4em"
+                    height="1.4em"
+                  />
+                }
+                nextLabel={
+                  <Icon
+                    icon="tabler:chevrons-right"
+                    width="1.4em"
+                    height="1.4em"
+                  />
+                }
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={totalPages}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={10}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+              />
             </div>
           </div>
 
@@ -720,7 +797,7 @@ const Payroll = () => {
         {/* ################## Off Canvas Area ####################  */}
 
         {/* ##### offcanvas added start ########  */}
-        <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        {/* <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
           {
             show && (
               <div className="container-fluid">
@@ -766,7 +843,6 @@ const Payroll = () => {
               </div>
             )
           }
-          {/* ################# After click ###############  */}
           {
             hide && (
               <div className="container-fluid">
@@ -794,9 +870,8 @@ const Payroll = () => {
               </div>
             )
           }
-          {/* ##### offcanvase added  end ########  */}
 
-        </div>
+        </div> */}
 
 
 
