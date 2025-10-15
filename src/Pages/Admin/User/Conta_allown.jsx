@@ -253,7 +253,7 @@ const Conta_allown = () => {
     defaultValues: {
       allowanceNameId: '',
       allowanceType: '',
-      percentage: '',
+      percent: '',
       amount: '',
       amountOption: '',
     },
@@ -271,7 +271,7 @@ const Conta_allown = () => {
     defaultValues: {
       allowanceNameId: '',
       allowanceType: '',
-      percentage: '',
+      percent: '',
       amount: '',
       amountOption: '',
     },
@@ -281,29 +281,29 @@ const Conta_allown = () => {
   const addAllowanceType = watchAddForm('allowanceType');
   const editAllowanceType = watchEditForm('allowanceType');
 
-  // Reset percentage and amount when allowance type changes
+  // Reset percent and amount when allowance type changes
   useEffect(() => {
-    if (addAllowanceType === 'PERCENTAGE') {
+    if (addAllowanceType === 'PERCENT') {
       setAddValue('amount', '0');
-      setAddValue('percentage', '');
-    } else if (addAllowanceType === 'AMOUNT') {
-      setAddValue('percentage', '0');
+      setAddValue('percent', '');
+    } else if (addAllowanceType === 'FLAT') {
+      setAddValue('percent', '0');
       setAddValue('amount', '');
     } else {
-      setAddValue('percentage', '');
+      setAddValue('percent', '');
       setAddValue('amount', '');
     }
   }, [addAllowanceType, setAddValue]);
 
   useEffect(() => {
-    if (editAllowanceType === 'PERCENTAGE') {
+    if (editAllowanceType === 'PERCENT') {
       setEditValue('amount', '0');
-      setEditValue('percentage', editAllowance?.percentage || '');
-    } else if (editAllowanceType === 'AMOUNT') {
-      setEditValue('percentage', '0');
+      setEditValue('percent', editAllowance?.percent || '');
+    } else if (editAllowanceType === 'FLAT') {
+      setEditValue('percent', '0');
       setEditValue('amount', editAllowance?.amount || '');
     } else {
-      setEditValue('percentage', '');
+      setEditValue('percent', '');
       setEditValue('amount', '');
     }
   }, [editAllowanceType, setEditValue, editAllowance]);
@@ -379,8 +379,8 @@ const Conta_allown = () => {
       const formData = new FormData();
       formData.append('allowanceNameId', data.allowanceNameId);
       formData.append('allowanceValueType', data.allowanceType);
-      if (data.allowanceType === 'PERCENTAGE') {
-        formData.append('amount', data.percentage);
+      if (data.allowanceType === 'PERCENT') {
+        formData.append('amount', data.percent);
       }
       else {
         formData.append('amount', data.amount);
@@ -408,8 +408,8 @@ const Conta_allown = () => {
     setEditAllowance(item);
 
     setEditValue('allowanceNameId', item.allowanceNameId || '', { shouldValidate: true });
-    setEditValue('allowanceType', item.amount ? 'AMOUNT' : 'PERCENTAGE', { shouldValidate: true });
-    setEditValue('percentage', item.amount || '', { shouldValidate: true });
+    setEditValue('allowanceType', item.amount ? 'FLAT' : 'PERCENT', { shouldValidate: true });
+    setEditValue('percent', item.amount || '', { shouldValidate: true });
     setEditValue('amount', item.amount || '', { shouldValidate: true });
     setEditValue('amountOption', item.allowanceType || '', { shouldValidate: true });
 
@@ -434,8 +434,8 @@ const Conta_allown = () => {
       const formData = new FormData();
       formData.append('allowanceNameId', data.allowanceNameId);
       formData.append('allowanceValueType', data.allowanceType);
-      if (data.allowanceType === 'PERCENTAGE'){
-        formData.append('amount', data.percentage);
+      if (data.allowanceType === 'PERCENT'){
+        formData.append('amount', data.percent);
       }
       else{
         formData.append('amount', data.amount);
@@ -569,7 +569,7 @@ const Conta_allown = () => {
                       aria-describedby="allowanceTypeError"
                     >
                       <option value="">--Choose--</option>
-                      <option value="PERCENTAGE">Percentage</option>
+                      <option value="PERCENT">Percent</option>
                       <option value="FLAT">Flat</option>
                     </select>
                   )}
@@ -586,38 +586,38 @@ const Conta_allown = () => {
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
                 <label
-                  htmlFor="percentage"
+                  htmlFor="percent"
                   className="form-label heading-14 label-color"
-                  data-tooltip="Enter percentage (e.g., 10.00)"
-                  aria-label="Percentage"
+                  data-tooltip="Enter percent (e.g., 10.00)"
+                  aria-label="Percent"
                 >
-                  Percentage <span style={{ color: '#B50000' }}>*</span>
+                  Percent <span style={{ color: '#B50000' }}>*</span>
                 </label>
                 <Controller
-                  name="percentage"
+                  name="percent"
                   control={addControl}
                   rules={{
-                    required: addAllowanceType === 'PERCENTAGE' ? 'Percentage is required' : false,
-                    pattern: addAllowanceType === 'PERCENTAGE' ? {
+                    required: addAllowanceType === 'PERCENT' ? 'Percent is required' : false,
+                    pattern: addAllowanceType === 'PERCENT' ? {
                       value: /^\d+(\.\d{1,2})?$/,
-                      message: 'Enter a valid percentage (e.g., 10.00)',
+                      message: 'Enter a valid percent (e.g., 10.00)',
                     } : undefined,
                   }}
                   render={({ field }) => (
                     <input
                       type="text"
-                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.percentage && field.value && addAllowanceType === 'PERCENTAGE' ? 'valid-indicator' : ''}`}
-                      id="percentage"
-                      placeholder="Enter percentage"
-                      disabled={addAllowanceType !== 'PERCENTAGE'}
+                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.percent && field.value && addAllowanceType === 'PERCENT' ? 'valid-indicator' : ''}`}
+                      id="percent"
+                      placeholder="Enter percent"
+                      disabled={addAllowanceType !== 'PERCENT'}
                       {...field}
-                      aria-describedby="percentageError"
+                      aria-describedby="percentError"
                     />
                   )}
                 />
-                {addErrors.percentage && (
-                  <div id="percentageError" className="error-message">
-                    {addErrors.percentage.message}
+                {addErrors.percent && (
+                  <div id="percentError" className="error-message">
+                    {addErrors.percent.message}
                   </div>
                 )}
               </div>
@@ -630,14 +630,14 @@ const Conta_allown = () => {
                   data-tooltip="Enter amount (e.g., 1000.00)"
                   aria-label="Amount"
                 >
-                  Amount <span style={{ color: '#B50000' }}>*</span>
+                  Flat Amount <span style={{ color: '#B50000' }}>*</span>
                 </label>
                 <Controller
                   name="amount"
                   control={addControl}
                   rules={{
-                    required: addAllowanceType === 'AMOUNT' ? 'Amount is required' : false,
-                    pattern: addAllowanceType === 'AMOUNT' ? {
+                    required: addAllowanceType === 'FLAT' ? 'Flat amount is required' : false,
+                    pattern: addAllowanceType === 'FLAT' ? {
                       value: /^\d+(\.\d{1,2})?$/,
                       message: 'Enter a valid amount (e.g., 1000.00)',
                     } : undefined,
@@ -645,10 +645,10 @@ const Conta_allown = () => {
                   render={({ field }) => (
                     <input
                       type="text"
-                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.amount && field.value && addAllowanceType === 'AMOUNT' ? 'valid-indicator' : ''}`}
+                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.amount && field.value && addAllowanceType === 'FLAT' ? 'valid-indicator' : ''}`}
                       id="amount"
                       placeholder="Enter amount"
-                      disabled={addAllowanceType !== 'AMOUNT'}
+                      disabled={addAllowanceType !== 'FLAT'}
                       {...field}
                       aria-describedby="amountError"
                     />
@@ -802,7 +802,7 @@ const Conta_allown = () => {
               <tr>
                 <th scope="col">Allowance Name</th>
                 <th scope="col">Allowance Type</th>
-                <th scope="col">Percentage</th>
+                <th scope="col">Percent</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Action</th>
               </tr>
@@ -812,7 +812,7 @@ const Conta_allown = () => {
                 <tr key={item.id}>
                   <td>{item.allowanceName}</td>
                   <td>{item.allowanceType}</td>
-                  <td>{item.percentage || '0'}</td>
+                  <td>{item.percent || '0'}</td>
                   <td>{item.amount || '0'}</td>
                   <td>
                     <button
@@ -931,7 +931,7 @@ const Conta_allown = () => {
                     aria-describedby="editAllowanceTypeError"
                   >
                     <option value="">--Choose--</option>
-                    <option value="PERCENTAGE">Percentage</option>
+                    <option value="PERCENT">Percent</option>
                     <option value="FLAT">Flat</option>
                   </select>
                 )}
@@ -944,38 +944,38 @@ const Conta_allown = () => {
             </div>
             <div className="form-group mb-3">
               <label
-                htmlFor="editPercentage"
+                htmlFor="editPercent"
                 className="form-label heading-14 label-color"
-                data-tooltip="Enter percentage (e.g., 10.00)"
-                aria-label="Percentage"
+                data-tooltip="Enter percent (e.g., 10.00)"
+                aria-label="Percent"
               >
-                Percentage <span style={{ color: '#B50000' }}>*</span>
+                Percent <span style={{ color: '#B50000' }}>*</span>
               </label>
               <Controller
-                name="percentage"
+                name="percent"
                 control={editControl}
                 rules={{
-                  required: editAllowanceType === 'PERCENTAGE' ? 'Percentage is required' : false,
-                  pattern: editAllowanceType === 'PERCENTAGE' ? {
+                  required: editAllowanceType === 'PERCENT' ? 'Percent is required' : false,
+                  pattern: editAllowanceType === 'PERCENT' ? {
                     value: /^\d+(\.\d{1,2})?$/,
-                    message: 'Enter a valid percentage (e.g., 10.00)',
+                    message: 'Enter a valid percent (e.g., 10.00)',
                   } : undefined,
                 }}
                 render={({ field }) => (
                   <input
                     type="text"
-                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.percentage && field.value && editAllowanceType === 'PERCENTAGE' ? 'valid-indicator' : ''}`}
-                    id="editPercentage"
-                    placeholder="Enter percentage"
-                    disabled={editAllowanceType !== 'PERCENTAGE'}
+                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.percent && field.value && editAllowanceType === 'PERCENT' ? 'valid-indicator' : ''}`}
+                    id="editPercent"
+                    placeholder="Enter percent"
+                    disabled={editAllowanceType !== 'PERCENT'}
                     {...field}
-                    aria-describedby="editPercentageError"
+                    aria-describedby="editPercentError"
                   />
                 )}
               />
-              {editErrors.percentage && (
-                <div id="editPercentageError" className="error-message">
-                  {editErrors.percentage.message}
+              {editErrors.percent && (
+                <div id="editPercentError" className="error-message">
+                  {editErrors.percent.message}
                 </div>
               )}
             </div>
@@ -986,14 +986,14 @@ const Conta_allown = () => {
                 data-tooltip="Enter amount (e.g., 1000.00)"
                 aria-label="Amount"
               >
-                Amount <span style={{ color: '#B50000' }}>*</span>
+                Flat Amount <span style={{ color: '#B50000' }}>*</span>
               </label>
               <Controller
                 name="amount"
                 control={editControl}
                 rules={{
-                  required: editAllowanceType === 'AMOUNT' ? 'Amount is required' : false,
-                  pattern: editAllowanceType === 'AMOUNT' ? {
+                  required: editAllowanceType === 'FLAT' ? 'Flat amount is required' : false,
+                  pattern: editAllowanceType === 'FLAT' ? {
                     value: /^\d+(\.\d{1,2})?$/,
                     message: 'Enter a valid amount (e.g., 1000.00)',
                   } : undefined,
@@ -1001,10 +1001,10 @@ const Conta_allown = () => {
                 render={({ field }) => (
                   <input
                     type="text"
-                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.amount && field.value && editAllowanceType === 'AMOUNT' ? 'valid-indicator' : ''}`}
+                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.amount && field.value && editAllowanceType === 'FLAT' ? 'valid-indicator' : ''}`}
                     id="editAmount"
                     placeholder="Enter amount"
-                    disabled={editAllowanceType !== 'AMOUNT'}
+                    disabled={editAllowanceType !== 'FLAT'}
                     {...field}
                     aria-describedby="editAmountError"
                   />
