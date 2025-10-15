@@ -541,77 +541,85 @@ const User_Documnt = () => {
               </button>
             </div>
           </div>
-        </div>
-        <div className="form-container">
           <h2 className="heading-16 mb-3" style={{ color: '#1a3c34', fontWeight: '700' }}>
             Document Details
           </h2>
           <div className="table-container table-responsive">
-            <table className="table table-sm table-striped text-center">
-              <thead>
-                <tr className="heading-16 text-color-000" style={{ fontWeight: '600' }}>
-                  <th style={{ width: '100px' }}>Sr no.</th>
-                  <th style={{ width: '600px' }}>Document Name</th>
-                  <th style={{ width: '100px' }}>Action</th>
-                </tr>
-              </thead>
-              <tbody className="heading-14 align-middle greyTextColor">
-                {documents.length > 0 ? (
-                  documents.map((doc, index) => (
-                    <tr key={doc.id || index} className="heading-14">
-                      <td>{(pageNo - 1) * pageSize + index + 1}</td>
-                      <td>{doc.docName || 'N/A'}</td>
-                      <td>
-                        <div className="d-flex">
-                          <button
-                            className="btn action-btn edit me-2"
-                            onClick={() => handleEdit(doc.id)}
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#editDocument"
-                            tabIndex={6 + index * 2}
-                            aria-label={`Edit document ${doc.docName}`}
-                          >
-                            {/* <Icon icon="tabler:edit" width="1.4em" height="1.4em" /> */}Edit
-                          </button>
-                          <button
-                            className="btn action-btn delete"
-                            onClick={() => handleDelete(doc.id)}
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#deleteDocument"
-                            tabIndex={7 + index * 2}
-                            aria-label={`Delete document ${doc.docName}`}
-                          >
-                            {/* <Icon icon="tabler:trash" width="1.4em" height="1.4em" /> */}Delete
-                          </button>
-                        </div>
-                      </td>
+            {documents.length > 0 ?
+              <>
+                <table className="table table-sm table-striped text-center">
+                  <thead>
+                    <tr className="heading-16 text-color-000" style={{ fontWeight: '600' }}>
+                      <th style={{ width: '100px' }}>Sr no.</th>
+                      <th style={{ width: '600px' }}>Document Name</th>
+                      <th style={{ width: '100px' }}>Action</th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="4">No documents found</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-            <div className="d-flex" style={{ marginBottom: '10px' }}>
-              <p className="font14">Showing {pageNo} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel="..."
-                  breakClassName="break-me"
-                  pageCount={totalPages}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={10}
-                  onPageChange={handlePageClick}
-                  containerClassName="pagination"
-                  subContainerClassName="pages pagination"
-                  activeClassName="active"
-                />
+                  </thead>
+                  <tbody className="heading-14 align-middle greyTextColor">
+                    {documents.length > 0 ? (
+                      documents.map((doc, index) => (
+                        <tr key={doc.id || index} className="heading-14">
+                          <td>{(pageNo - 1) * pageSize + index + 1}</td>
+                          <td>{doc.docName || 'N/A'}</td>
+                          <td>
+                            <div className="d-flex">
+                              <button
+                                className="btn action-btn edit me-2"
+                                onClick={() => handleEdit(doc.id)}
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#editDocument"
+                                tabIndex={6 + index * 2}
+                                aria-label={`Edit document ${doc.docName}`}
+                              >
+                                {/* <Icon icon="tabler:edit" width="1.4em" height="1.4em" /> */}Edit
+                              </button>
+                              <button
+                                className="btn action-btn delete"
+                                onClick={() => handleDelete(doc.id)}
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#deleteDocument"
+                                tabIndex={7 + index * 2}
+                                aria-label={`Delete document ${doc.docName}`}
+                              >
+                                {/* <Icon icon="tabler:trash" width="1.4em" height="1.4em" /> */}Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="4">No documents found</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+                <div className="d-flex" style={{ marginBottom: '10px' }}>
+                  <p className="font14">Showing {pageNo} of {totalPages} Pages</p>
+                  <div className="ms-auto">
+                    <ReactPaginate
+                      previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                      nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                      breakLabel="..."
+                      breakClassName="break-me"
+                      pageCount={totalPages}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={10}
+                      onPageChange={handlePageClick}
+                      containerClassName="pagination"
+                      subContainerClassName="pages pagination"
+                      activeClassName="active"
+                    />
+                  </div>
+                </div>
+              </>
+              :
+
+              <div className="d-flex justify-content-center">
+                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
               </div>
-            </div>
+            }
+
           </div>
 
           {/* Edit Offcanvas */}

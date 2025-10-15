@@ -57,6 +57,20 @@ export const getOTPByMailApi = async (mail) => {
 }
 
 
+export const changePasswordAPI = async (formdata) => {
+  try {
+    var res = await axios.post(`${Domain}/login/changeMyPassword`, formdata);
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+
+
 export const verifyOTPApi = async (OTP) => {
   try {
     // axios.defaults.headers.common["Authorization"] = forgetTooken;
