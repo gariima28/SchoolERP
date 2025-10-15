@@ -1464,9 +1464,9 @@ tr {
 /* *********************          Text Font Size     ********************* */
 
 
-input,
-select,
-textarea {
+input .form-control,
+select .form-select,
+textarea .form-control{
   background-color: #ffffff !important;
   color: #888 !important;
 }
