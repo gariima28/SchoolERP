@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 // import StateTable_1 from './StateTable_1';
-import { TeacherPayGetAllApi } from 'src/Utils/Apis'
-import { TeacherPayGetByIdAllApi } from 'src/Utils/Apis'
+import { PayrollGetAllApi } from 'src/Utils/Apis'
+
 
 import HashLoader from 'src/Pages/HashLoaderCom';
 import ReactPaginate from 'react-paginate';
@@ -533,6 +533,15 @@ background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%);;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+  .staff-image-adjust img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+    border: 1px solid #b9b8b8;
+
+  }
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -603,37 +612,34 @@ const Payroll = () => {
   const [PayrolData, setPayrolData] = useState([])
   const [PayrolDataGetById, setPayrolDataGetById] = useState()
   const [payrollStaffData, setPayrollStaffData] = useState()
-  // // console.log('my staff data in payrol get by id',payrollStaffData)
-  const [addShow, setAddShow] = useState(true)
-
   const [IdFor, setIdFor] = useState()
   const [IdForUpdate, setIdForUpdate] = useState()
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [month, setMonth] = useState('')
+  const [year, setYear] = useState('')
+  const [payrollData, setPayrollData] = useState([])
 
   const handlePageClick = (event) => {
     setPageNo(event.selected + 1);
   };
   useEffect(() => {
-    MyPayrollGetApi()
+    MyPayrollGetAllApi()
   }, [pageNo])
 
-  // Get All Payroll
-  const MyPayrollGetApi = async () => {
+  // Get All api 
+  const MyPayrollGetAllApi = async () => {
     setLoader(true)
     try {
-      const response = await TeacherPayGetAllApi(pageNo, pageSize);
-      // console.log('Get-get-all-api in Payrol', response);
+      const response = await PayrollGetAllApi(month, year, searchKey, pageNo, pageSize);
+      console.log('payroll get api response in teacher panel', response);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
-        setPayrolData(response?.data?.payroll)
-        setCurrentPage(response?.data?.currentPage)
-        setTotalPages(response?.data?.totalPages)
+        setPayrollData(response?.data?.payrolls)
         setLoader(false)
       } else {
-        toast.error(response?.data?.classes?.message);
+        // toast.error(response?.data?.classes?.message);
       }
     } catch (error) {
       setloaderState(false);
@@ -641,26 +647,11 @@ const Payroll = () => {
     }
   }
 
-  // gate all by id 
-  const MyPayrollGetByIdApi = async (id) => {
-    setLoader(true)
-    try {
-      const response = await TeacherPayGetByIdAllApi(id);
-      // console.log('Get id for view in Payrol', response);
-      if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
-        setPayrolDataGetById(response?.data?.payroll)
-        setPayrollStaffData(response?.data?.staff)
-        setLoader(false)
-      } else {
-        toast.error(response?.data?.classes?.message);
-      }
-    } catch (error) {
-      setloaderState(false);
-      // console.log(error)
-    }
+  const handleClear = () => {
+    setMonth('')
+    setYear('')
+    setPayrollData([])
   }
-
 
   const offcanvasRef = useRef(null);
 
@@ -672,7 +663,6 @@ const Payroll = () => {
         )
       }
       <div className="container-fluid main-body p-3">
-
         <div className='d-flex justify-content-between for-dislay-direction'>
           <div className="breadCrum ms-2">
             <nav style={{ '--bs-breadcrumb-divider': "'>'" }} aria-label="breadcrumb">
@@ -686,63 +676,152 @@ const Payroll = () => {
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-15px' }}>Payroll Details</h5>
 
-        <div className="main-content-conatainer pt-1 ">
-          <div className="table-container px-3 table-responsive ">
-            <table className="table table-sm table-striped">
+       <div className="main-content-conatainer pt-1">
+          {/* ###### copy content till here for all component ######  */}
+          <div className="row p-3">
+            <div className="col-lg-6 col-md-6 col-sm-12  ">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Month</label>
+                <select class="form-select  form-select-sm" value={month} onChange={(e) => setMonth(e.target.value)} aria-label="Default select example">
+                  <option >--Choose--</option>
+                  <option value='01'>January</option>
+                  <option value='02'>February</option>
+                  <option value='03'>March</option>
+                  <option value='04'>April</option>
+                  <option value='05'>May</option>
+                  <option value='06'>June</option>
+                  <option value='07'>July</option>
+                  <option value='08'>August</option>
+                  <option value='09'>September</option>
+                  <option value='10'>October</option>
+                  <option value='11'>November</option>
+                  <option value='12'>December</option>
+                </select>
+              </div>
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Year</label>
+                <select class="form-select  form-select-sm" value={year} onChange={(e) => setYear(e.target.value)} aria-label="Default select example">
+                  <option >--Choose--</option>
+                  <option value='2024'>2024</option>
+                  <option value='2025'>2025</option>
+                  <option value='2026'>2026</option>
+                  <option value='2027'>2027</option>
+                  <option value='2028'>2028</option>
+                  <option value='2029'>2029</option>
+                  <option value='2030'>2030</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3 buttons-topss">
+            <div className='my-button11 heading-16'>
+              <button type="button" class="btn btn-outline-success" onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }}>Search</button>
+              <button type="button" class="btn btn-outline-success" onClick={() => handleClear()}>Cancel</button>
+            </div>
+          </div>
+          {/* table  */}
+          <div className="table-container px-3 table-responsive">
+            <table className="table table-sm ">
               <thead className=''>
-                <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                  <th className='no-wrap'>#</th>
-                  <th className='no-wrap'>Month</th>
-                  <th className='no-wrap'>Summary</th>
-                  <th className='no-wrap'>Gross Salary</th>
-                  <th className='no-wrap'>Taxes</th>
-                  <th className='no-wrap'>Net Salary</th>
-                  <th className='no-wrap'>Status</th>
-                  <th className='no-wrap'>Actions</th>
+                <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500', whiteSpace: 'nowrap', gap: '5px' }}>
+                  {/* <th className='table-row-bg-color greyText'></th> */}
+                  <th className='table-row-bg-color greyText'>#</th>
+                  <th className='table-row-bg-color greyText'>Name</th>
+                  <th className='table-row-bg-color greyText'>Status</th>
+                  <th className='table-row-bg-color greyText'>Basic Salary</th>
+                  <th className='table-row-bg-color greyText'>Allowed Paid Leaves</th>
+                  <th className='table-row-bg-color greyText'>Un Paid Leaves</th>
+                  <th className='table-row-bg-color greyText'>Paid Leaves</th>
+                  <th className='table-row-bg-color greyText'>Taken Leaves</th>
+                  <th className='table-row-bg-color greyText'>Leave Deduction</th>
+                  <th className='table-row-bg-color greyText'>Allowances</th>
+                  <th className='table-row-bg-color greyText'>Deductions</th>
+                  <th className='table-row-bg-color greyText'>Total Days Salary</th>
+                  <th className='table-row-bg-color greyText'>Net Salary</th>
+                  <th className='table-row-bg-color greyText'>Generate Invoice</th>
                 </tr>
               </thead>
 
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
-                  PayrolData?.map((item, index) => (
-                    <tr className='heading-14' >
-                      <td className=' no-wrap greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                      <td className=' no-wrap greyText'>N-I-R</td>
-                      <td className=' no-wrap greyText'>N-I-R</td>
+                  payrollData && payrollData?.length > 0 ? (
+                    payrollData?.map((item, index) => (
+                      <tr className='heading-14' >
+                        <td className=' greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                        <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} alt="Staff Image" /></span><span className='mt-1'>{item.staffName}</span></td>
+                        <td className=' greyText'>
+                          <div className=''>
+                            <p className={`${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
+                          </div>
+                        </td>
+                        <td className=' greyText'>{item.basicPay}</td>
+                        <td className=' greyText'>{item.allowedPaidLeaves}</td>
+                        <td className=' greyText'>{item.unpaidLeaves}</td>
+                        <td className=' greyText'>{item.paidLeaves ? paidLeaves : 'N-I-R'}</td>
+                        <td className=' greyText'>{item.takenLeaves}</td>
+                        <td className=' greyText'>{item.leaveDeduction}</td>
+                        <td className=' greyText'>{item.allowanceTotal}</td>
+                        <td className=' greyText'>{item.deductionsTotal}</td>
+                        <td className=' greyText'>{item.totalWorkingDays}</td>
+                        <td className=' greyText'>{item.netSalary}</td>
+                        <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R'}</td>
 
-                      <td className=' no-wrap greyText'>{item.basicPay}</td>
-                      <td className=' no-wrap greyText'>N-I-R</td>
-                      <td className=' no-wrap greyText'>N-I-R</td>
-                      <td className=' no-wrap greyText'>
-                        <div className=''>
-                          <p className={`font-background  `}>{item.paid === true ? 'Paid' : 'Unpaid'}</p>
-                        </div>
-                      </td>
-                      <td className=' greyText'>
-                        <div className="dropdown my-button-show" >
-                          <p data-bs-target="#exampleModal" data-bs-toggle="modal">
-                            <svg onClick={(e) => MyPayrollGetByIdApi(item.id)} width="26" height="16" viewBox="0 0 26 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M13 5.68674C14.2441 5.68674 15.2578 6.7239 15.2578 7.9944C15.2578 9.2649 14.243 10.2689 13 10.2689C11.757 10.2689 10.7747 9.2649 10.7747 7.9944C10.7747 6.7239 11.757 5.68674 13 5.68674ZM13 0C20.3964 0 25.7298 7.09103 25.7298 7.09103C26.0901 7.55984 26.0901 8.39578 25.7298 8.86352C25.7298 8.86352 20.3954 15.9545 13 15.9545C5.60464 15.9545 0.270179 8.86352 0.270179 8.86352C-0.0900596 8.39471 -0.0900596 7.55877 0.270179 7.09103C0.270179 7.09103 5.60464 0 13 0ZM13 13.7143C16.0767 13.7143 18.5963 11.1391 18.5963 7.9944C18.5963 4.84973 16.0767 2.27448 13 2.27448C9.92331 2.27448 7.40374 4.84973 7.40374 7.9944C7.40374 11.1391 9.92331 13.7143 13 13.7143Z" fill="#ADADBD" />
-                            </svg>
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                      </tr>
+                    ))
+                  )
+                    :
+                    (
+                      <tr>
+                        <td colSpan="12" className="text-center">
+                          <div className="d-flex justify-content-center align-items-center m-5 ">
+                            <div className="text-center">
+                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
+                              <h2><b>No Data Found</b></h2>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                }
               </tbody>
             </table>
-            <div className="d-flex" style={{ marginBottom: '10px' }}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
-              </div>
+          </div>
+          <div className="d-flex p-2" style={{ marginBottom: "10px" }}>
+            <p className="font14">
+              Showing {currentPage} of {totalPages} Pages
+            </p>
+            <div className="ms-auto">
+              <ReactPaginate
+                previousLabel={
+                  <Icon
+                    icon="tabler:chevrons-left"
+                    width="1.4em"
+                    height="1.4em"
+                  />
+                }
+                nextLabel={
+                  <Icon
+                    icon="tabler:chevrons-right"
+                    width="1.4em"
+                    height="1.4em"
+                  />
+                }
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={totalPages}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={10}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+              />
             </div>
           </div>
+
+
         </div>
 
         {/* ################## Off Canvas Area ####################  */}

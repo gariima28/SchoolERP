@@ -1414,11 +1414,9 @@ const Issue_Report = () => {
                         <option value='REISSUED'>ReIssued</option>
                         <option value='LOST'>Lost</option>
                       </select>
-
                     </div>
-
                     <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyNoticePutApi(idForUpdate)}>Issue Book</button>
+                      <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyNoticePutApi(idForUpdate)}>Done</button>
                       <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                     </div>
                   </div>
