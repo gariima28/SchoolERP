@@ -8,6 +8,7 @@ import HashLoader from 'src/Pages/HashLoaderCom';
 import { PayrollPostApi } from '../../../Utils/Apis'
 import { PayrollGetAllApi } from '../../../Utils/Apis'
 import { PayrollDeleteApi } from '../../../Utils/Apis'
+import { PayrollPaidUnPaidPostApi } from '../../../Utils/Apis'
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ActionControls from '../../../Layouts/ActionControls';
@@ -481,14 +482,14 @@ const Payroll = () => {
 
   const [classData, setClassData] = useState([])
   const [payrollData, setPayrollData] = useState([])
-  console.log('payrollData -0-0', payrollData);
   const [subjectData, setSubjectData] = useState([])
   const [teacherData, setTeacherData] = useState([])
   const [classRoutineData, setClassRoutineData] = useState([])
+  const [payrollId, setPayrollId] = useState([])
   const [breakType, setBreakType] = useState('')
   const [classNo, setClassNo] = useState('')
-  const [month, setMonth] = useState()
-  const [year, setYear] = useState()
+  const [month, setMonth] = useState('')
+  const [year, setYear] = useState('')
   const [sectionName, setSectionName] = useState('')
   const [tabclick, setTabclick] = useState('tab3')
 
@@ -498,8 +499,20 @@ const Payroll = () => {
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-MyPayrollGetAllApi()
+    MyPayrollGetAllApi()
   }, [])
+
+  const handleCheckboxChange = (id) => {
+    setPayrollId((prev) => {
+      if (prev.includes(id)) {
+        // If ID already exists → remove it
+        return prev.filter((item) => item !== id);
+      } else {
+        // If ID doesn’t exist → add it
+        return [...prev, id];
+      }
+    });
+  };
 
   // Post Api 
   const MyPayrollPostAllApi = async () => {
@@ -520,15 +533,34 @@ MyPayrollGetAllApi()
 
     }
   }
+
+  // Post paid unPaid Api 
+  const MyPayrollPostPaidUnPaidApi = async () => {
+    const paidUnPaid = {
+      payrollIds: payrollId
+    }
+    setLoader(true)
+    try {
+      const response = await PayrollPaidUnPaidPostApi(paidUnPaid);
+      if (response?.status === 200) {
+        toast.success(response?.data?.message)
+        setLoader(false)
+        MyPayrollGetAllApi()
+        setPayrollId([])
+      } else {
+        toast.error(response?.data?.classes?.message);
+        setLoader(false)
+      }
+    } catch (error) {
+      setLoader(false)
+    }
+  }
   // Get All api 
   const MyPayrollGetAllApi = async () => {
     setLoader(true)
     try {
       const response = await PayrollGetAllApi(month, year, searchKey, pageNo, pageSize);
-      console.log('Payroll get all api', response);
-
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setPayrollData(response?.data?.payrolls)
         setLoader(false)
       } else {
@@ -546,6 +578,7 @@ MyPayrollGetAllApi()
       const response = await PayrollDeleteApi();
       if (response?.status === 200) {
         toast.success(response?.data?.message)
+        MyPayrollGetAllApi()
         // setPayrollData(response?.data?.payroll)
         setLoader(false)
       } else {
@@ -557,8 +590,6 @@ MyPayrollGetAllApi()
 
     }
   }
-
-
 
   const handleChange = (e) => {
     const trimmedValue = e.target.value.trimStart();
@@ -573,6 +604,12 @@ MyPayrollGetAllApi()
     setSearchKey(value);
     setPageNo(1);
   };
+
+  const handleClear = () => {
+    setMonth('')
+    setYear('')
+    setPayrollData([])
+  }
 
   return (
     <Container>
@@ -615,6 +652,9 @@ MyPayrollGetAllApi()
             <div >
               <Link style={{ height: '38px', padding: '10px', backgroundColor: 'red', color: '#fff', border: '1px solid red' }} type="button" className="btn btn-success heading-16 my-own-button me-3 " onClick={() => MyPayrollDeleteApi()}>Delete PaySlip</Link>
             </div>
+            <div >
+              <Link style={{ height: '38px', padding: '10px', backgroundColor: '#008479', color: '#fff', border: '1px solid #008479' }} type="button" className="btn btn-success heading-16 my-own-button me-3 " onClick={() => MyPayrollPostPaidUnPaidApi()}>Submit</Link>
+            </div>
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-22px' }}>Payroll Details</h5>
@@ -625,20 +665,20 @@ MyPayrollGetAllApi()
             <div className="col-lg-6 col-md-6 col-sm-12  ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color focus heading-14">Month</label>
-                <select class="form-select  form-select-sm" onChange={(e) => setMonth(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm" value={month} onChange={(e) => setMonth(e.target.value)} aria-label="Default select example">
                   <option >--Choose--</option>
-                  <option value='jabuary'>January</option>
-                  <option value='february'>February</option>
-                  <option value='march'>March</option>
-                  <option value='april'>April</option>
-                  <option value='may'>May</option>
-                  <option value='june'>June</option>
-                  <option value='july'>July</option>
-                  <option value='august'>August</option>
-                  <option value='september'>September</option>
-                  <option value='october'>October</option>
-                  <option value='november'>November</option>
-                  <option value='december'>December</option>
+                  <option value='01'>January</option>
+                  <option value='02'>February</option>
+                  <option value='03'>March</option>
+                  <option value='04'>April</option>
+                  <option value='05'>May</option>
+                  <option value='06'>June</option>
+                  <option value='07'>July</option>
+                  <option value='08'>August</option>
+                  <option value='09'>September</option>
+                  <option value='10'>October</option>
+                  <option value='11'>November</option>
+                  <option value='12'>December</option>
 
                 </select>
               </div>
@@ -646,13 +686,15 @@ MyPayrollGetAllApi()
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label mb-1 label-text-color heading-14">Year</label>
-                <select class="form-select  form-select-sm" onChange={(e) => setYear(e.target.value)} aria-label="Default select example">
+                <select class="form-select  form-select-sm" value={year} onChange={(e) => setYear(e.target.value)} aria-label="Default select example">
                   <option >--Choose--</option>
                   <option value='2024'>2024</option>
                   <option value='2025'>2025</option>
                   <option value='2026'>2026</option>
                   <option value='2027'>2027</option>
                   <option value='2028'>2028</option>
+                  <option value='2029'>2029</option>
+                  <option value='2030'>2030</option>
 
                 </select>
               </div>
@@ -661,7 +703,7 @@ MyPayrollGetAllApi()
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }}>Search</button>
-              <button type="button" class="btn btn-outline-success">Cancel</button>
+              <button type="button" class="btn btn-outline-success" onClick={() => handleClear()}>Cancel</button>
             </div>
           </div>
           {/* table  */}
@@ -686,30 +728,7 @@ MyPayrollGetAllApi()
                   <th className='table-row-bg-color greyText'>Generate Invoice</th>
                 </tr>
               </thead>
-              {/* payrollData */}
-              {/* <tbody className='heading-14 align-middle greyTextColor'>
-                <tr className='heading-14' >
-                  <td className=' greyText'>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="checkDefault" />
-                    </div>
-                  </td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                  <td className=' greyText'>Data</td>
-                </tr>
-              </tbody> */}
+
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
                   payrollData && payrollData?.length > 0 ? (
@@ -717,14 +736,21 @@ MyPayrollGetAllApi()
                       <tr className='heading-14' >
                         <td className=' greyText'>
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkDefault" />
+                            {/* <input class="form-check-input" type="checkbox" value="" id="checkDefault" onChange={() => setPayrollId(item.id) }/> */}
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id={`check-${item.id}`}
+                              checked={payrollId.includes(item.id)} 
+                              onChange={() => handleCheckboxChange(item.id)}
+                            />
                           </div>
                         </td>
                         <td className=' greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
                         <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} alt="Staff Image" /></span><span className='mt-1'>{item.staffName}</span></td>
-                         <td className=' greyText'>
+                        <td className=' greyText'>
                           <div className=''>
-                            <p className={`${item.paid === true ? 'font-background' : 'font-background22'}`}>{item.paid === true ? 'Paid' : 'Unpaid'}</p>
+                            <p className={`${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
                           </div>
                         </td>
                         <td className=' greyText'>{item.basicPay}</td>
@@ -737,7 +763,7 @@ MyPayrollGetAllApi()
                         <td className=' greyText'>{item.deductionsTotal}</td>
                         <td className=' greyText'>{item.totalWorkingDays}</td>
                         <td className=' greyText'>{item.netSalary}</td>
-                        <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R' }</td>
+                        <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R'}</td>
 
                       </tr>
                     ))
@@ -794,87 +820,6 @@ MyPayrollGetAllApi()
 
 
         </div>
-        {/* ################## Off Canvas Area ####################  */}
-
-        {/* ##### offcanvas added start ########  */}
-        {/* <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-          {
-            show && (
-              <div className="container-fluid">
-                <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
-                  <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Create Leave</h5>
-                </div>
-                <hr className='' style={{ marginTop: '-3px' }} />
-                <div className="mb-1  ">
-                  <label for="exampleFormControlInput1" className="form-label  heading-16">Roll</label>
-                  <select class="form-select  form-select-sm form-focus  label-color" aria-label="Default select example">
-                    <option selected>Select Roll</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div>
-                <div className="mb-1  ">
-                  <label for="exampleFormControlInput1" className="form-label  heading-16">User Name</label>
-                  <select class="form-select  form-select-sm form-focus  label-color" aria-label="Default select example">
-                    <option selected>User Name</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label heading-16">Start Date</label>
-                  <input type="date" class="form-control form-control-sm" id="exampleFormControlInput1" placeholder="Select Class" />
-                </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label heading-16">End Date</label>
-                  <input type="date" class="form-control " id="exampleFormControlInput1" placeholder="Select Class" />
-                </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlTextarea1" class="form-label heading-16">Reason</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
-                <div className='my-button11 '>
-                  <button type="button" className="btn btn-outline-success heading-16" onClick={(e) => { UpdateHandleBtn() }}>Submit</button>
-                  <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
-                </div>
-              </div>
-            )
-          }
-          {
-            hide && (
-              <div className="container-fluid">
-                <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/Vector (13).svg" alt="" /></Link>
-                  <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Successfully Message</h5>
-                </div>
-                <hr className='' style={{ marginTop: '-3px' }} />
-                <div className="delete-section  mt-5">
-                  <div className="bg-container">
-                    <div className="img-container">
-                      <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/XMLID_1_.png" alt="" />
-                    </div>
-                    <div className="content mt-5">
-                      <p >Successful Added</p>
-                      <hr style={{ width: '' }} />
-                      <p className='mb-5' style={{ color: '#ADADBD', fontSize: '14px' }}>Your Changes has been <br /> Successfully Saved</p>
-                    </div>
-                    <div className='button-position'>
-                      <button type="button" data-bs-dismiss="offcanvas" className="btn btn-outline-primary button11 mt-4 mb" style={{ fontSize: '14px' }}>Continue</button>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            )
-          }
-
-        </div> */}
-
-
-
 
       </div>
     </Container>
