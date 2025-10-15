@@ -264,28 +264,28 @@ const Marksheet = () => {
             toast.error('Modal content not found');
             return;
         }
-        
+
         // Ensure the modal content is visible for capturing
         modalContent.style.display = 'block';
         modalContent.style.position = 'absolute';
         modalContent.style.top = '0';
         modalContent.style.left = '0';
-        
+
         html2canvas(modalContent, { scale: 2 }).then((canvas) => {
             const modal = bootstrap.Modal.getInstance(document.getElementById('SeeMarksheetModal'));
-                    modal.hide();
+            modal.hide();
             setloaderState(false);
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
             const imgProps = pdf.getImageProperties(imgData);
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            
+
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
             pdf.save(`${selectedStudentMarksheetData?.data?.student?.studentName || 'Marksheet'}.pdf`);
             // handleCloseModal();
             // setSelectedStudentMarksheetData(null);
-            
+
             // Restore modal styles
             modalContent.style.display = '';
             modalContent.style.position = '';
@@ -295,7 +295,7 @@ const Marksheet = () => {
             console.error('Error generating PDF:', error);
             toast.error('Failed to generate PDF');
         });
-        
+
     };
 
     return (
