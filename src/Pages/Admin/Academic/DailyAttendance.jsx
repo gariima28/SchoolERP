@@ -795,6 +795,10 @@ const DailyAttendance = ({ items }) => {
     setDate('')
     setMyTrueFalse(true)
     setDailyDataByMonth([])
+    setClassNumber('')
+    setShowMonth('')
+    setLastUpdate('')
+    setTime('')
   }
 
   const handleSearchButton = () => {
@@ -932,19 +936,19 @@ const DailyAttendance = ({ items }) => {
             </div>
           </div>
           <div className="row mt-4 mb-4 bg-color-pink p-3 m-3 responsive-direction">
-            <div className="col-2 p-0 ps-5 rsnsve-pd d-flex padding-lef ">
+            <div className="col-2 p-0 ps-4 rsnsve-pd d-flex padding-lef ">
               <span className='heading-16 greyText padding-left'>Class - </span> &nbsp; &nbsp;
               <div >{classNumber}</div>
             </div>
-            <div className="col-2 p-0 ps-4 d-flex rsnsve-pd">
+            <div className="col-2 p-0 ps-3 d-flex rsnsve-pd">
               <span className='heading-16 greyText padding-left'>Section - </span> &nbsp; &nbsp;
               <div>{sectionName}</div>
             </div>
-            <div className="col-2 p-0 d-flex rsnsve-pd">
+            <div className="col-3 p-0 d-flex rsnsve-pd">
               <span className='heading-16 greyText padding-left'>Month -</span> &nbsp; &nbsp;
               <div>{showMonth}</div>
             </div>
-            <div className="col-4 p-0 d-flex  rsnsve-pd">
+            <div className="col-3 p-0 d-flex  rsnsve-pd">
               <span className='heading-16 greyText padding-left'>Last Update at  - </span> &nbsp; &nbsp;
               <div >{lastUpdate ? lastUpdate : ''}</div>
             </div>
@@ -1113,10 +1117,12 @@ const DailyAttendance = ({ items }) => {
 
                 {
                   myTrueFalse ?
-                    (<div className='my-button11 '>
+                    (
+                    <div className='my-button11 '>
                       <button type="button" className="btn  heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => { UpdateHandleBtn() }}>Show Student List</button>
                       <button type="button" className="btn" style={{ fontSize: '14px' }} data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearDataHandle} >Cancel</button>
-                    </div>) :
+                    </div>
+                    ) :
                     (
                       <>
                         <div className='heading-14 d-flex  ps-1 pt-2 orangeText'>
@@ -1236,7 +1242,7 @@ const DailyAttendance = ({ items }) => {
                                 <th className='table-row-bg-color greyTextColor'>#</th>
                                 <th className='table-row-bg-color greyTextColor'> Student Name</th>
                                 <th className='table-row-bg-color greyTextColor'>Status</th>
-                              </tr>
+                              </tr>8077945599
                             </thead>
                             <tbody className='heading-14 align-middle greyTextColor ' >
                               {
