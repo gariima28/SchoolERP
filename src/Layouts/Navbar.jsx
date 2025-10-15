@@ -250,33 +250,26 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                         )}
                                         <li>
                                             <Link
-                                                className={`dropdown-item d-flex text-decoration-none text-black p-0 mt-2 ${role === 'SUPERADMIN' ? 'cursorrrr' : ''}`}
-                                                to={
-                                                    role === 'SUPERADMIN' ? '' :
-                                                        role === 'ADMIN' ? '/admin/settings/myAccount' :
-                                                            role === 'USER' ? '/teacher/profile' :
-                                                                role === 'STUDENT' ? '/student/profile' :
-                                                                    role === 'PARENT' ? '/parent/profile' : ''
-                                                }
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                    <g fill="none" fill-rule="evenodd">
-                                                        <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
-                                                        <path fill="#008479" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2M8.5 9.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0m9.758 7.484A7.99 7.99 0 0 1 12 20a7.99 7.99 0 0 1-6.258-3.016C7.363 15.821 9.575 15 12 15s4.637.821 6.258 1.984" stroke-width="0.2" stroke="#008479" />
-                                                    </g>
-                                                </svg>
-                                                <span className='ms-3 font14'>Profile Details</span>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <button className="dropdown-item p-0 my-2" onClick={() => setShowPasswordModal(true)}>
+                                            <Link className="dropdown-item p-0 my-2" to="/parent/profile">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
                                                     <path fill="#008479" d="M21 2a8.998 8.998 0 0 0-8.612 11.612L2 24v6h6l10.388-10.388A9 9 0 1 0 21 2m0 16a7 7 0 0 1-2.032-.302l-1.147-.348l-.847.847l-3.181 3.181L12.414 20L11 21.414l1.379 1.379l-1.586 1.586L9.414 23L8 24.414l1.379 1.379L7.172 28H4v-3.172l9.802-9.802l.848-.847l-.348-1.147A7 7 0 1 1 21 18" stroke-width="1" stroke="#008479" />
                                                     <circle cx="22" cy="10" r="2" fill="#008479" stroke-width="1" stroke="#008479" />
                                                 </svg>
-                                                <span className='ms-3 font14'>Change Password</span>
-                                            </button>
+                                                <span className='ms-3 font14'>
+                                                    Change Password
+                                                </span>
+                                            </Link>
                                         </li>
+                                        {/* <li>
+                                            <Link className="dropdown-item" to="/parent/profile">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                    <path fill="#008479" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2a9.99 9.99 0 0 1 8 4h-2.71a8 8 0 1 0 .001 12h2.71A9.99 9.99 0 0 1 12 22m7-6v-3h-8v-2h8V8l5 4z" stroke-width="0.2" stroke="#008479" />
+                                                </svg>
+                                                <span className='ms-3 font14'>
+                                                    Logout
+                                                </span>
+                                            </Link>
+                                        </li> */}
                                     </ul>
                                 </div>
                             </div>

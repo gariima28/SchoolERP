@@ -7273,6 +7273,22 @@ export const PayrollPostApi = async () => {
     return [];
   }
 }
+//  Paid unpaid submit 
+export const PayrollPaidUnPaidPostApi = async (paidUnPaid) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.post(`${Domain}/payroll/markPaid`,paidUnPaid)
+    // // console.log('my-response', res)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
 // get all payroll
 export const PayrollGetAllApi = async (month, year) => {
   try {
