@@ -287,6 +287,10 @@ tr {
     font-size: var(--font-size-20);
 }
 
+table td, table th{
+    white-space: nowrap;
+}
+
 .font4 {
     font-size: 1.8rem;
 }
