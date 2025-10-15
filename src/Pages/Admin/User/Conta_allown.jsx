@@ -570,7 +570,7 @@ const Conta_allown = () => {
                     >
                       <option value="">--Choose--</option>
                       <option value="PERCENTAGE">Percentage</option>
-                      <option value="AMOUNT">Amount</option>
+                      <option value="FLAT">Flat</option>
                     </select>
                   )}
                 />
@@ -932,7 +932,7 @@ const Conta_allown = () => {
                   >
                     <option value="">--Choose--</option>
                     <option value="PERCENTAGE">Percentage</option>
-                    <option value="AMOUNT">Amount</option>
+                    <option value="FLAT">Flat</option>
                   </select>
                 )}
               />

@@ -5,6 +5,8 @@ import toast from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react';
 import DataLoader from 'src/Layouts/Loader';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const Container = styled.div`
     .modalHighborder {
@@ -99,6 +101,11 @@ const Container = styled.div`
 
     .greydiv {
         background-color: #FBFBFB;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: 1000px; /* Adjust as needed for PDF */
     }
 `;
 
@@ -250,6 +257,40 @@ const Marksheet = () => {
         }
     };
 
+    const handleDownloadPDF = () => {
+        const modalContent = modalRef.current.querySelector('.modal-content');
+        if (!modalContent) {
+            toast.error('Modal content not found');
+            return;
+        }
+
+        // Ensure the modal content is visible for capturing
+        modalContent.style.display = 'block';
+        modalContent.style.position = 'absolute';
+        modalContent.style.top = '0';
+        modalContent.style.left = '0';
+
+        html2canvas(modalContent, { scale: 2 }).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`${selectedStudentMarksheetData?.data?.student?.studentName || 'Marksheet'}.pdf`);
+
+            // Restore modal styles
+            modalContent.style.display = '';
+            modalContent.style.position = '';
+            modalContent.style.top = '';
+            modalContent.style.left = '';
+        }).catch((error) => {
+            console.error('Error generating PDF:', error);
+            toast.error('Failed to generate PDF');
+        });
+    };
+
     return (
         <Container>
             {loaderState && (<DataLoader />)}
@@ -390,13 +431,18 @@ const Marksheet = () => {
                                                                                     >
                                                                                         View
                                                                                     </button>
-
                                                                                 </li>
-                                                                                <li>
-                                                                                    <button className="dropdown-item greyText" type="button" onClick={() => toast.error('API Not Provided Yet')}>
+                                                                                {/* <li>
+                                                                                    <button
+                                                                                        className="dropdown-item greyText"
+                                                                                        type="button"
+                                                                                        onClick={() => handleViewClick(item.studentId)}
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#SeeMarksheetModal"
+                                                                                    >
                                                                                         Download
                                                                                     </button>
-                                                                                </li>
+                                                                                </li> */}
                                                                             </ul>
                                                                         </div>
                                                                     </td>
@@ -431,17 +477,18 @@ const Marksheet = () => {
             </div>
 
             <div className="modal modal-lg" id="SeeMarksheetModal" tabIndex="-1" aria-labelledby="SeeMarksheetLabel" aria-hidden="true" ref={modalRef}>
-                <div className="modal-dialog ">
+                <div className="modal-dialog">
                     <div className="modal-content">
                         {/* <div className="modal-header">
-                                <p className="modal-title mb-0" id="SeeMarksheetLabel">Student Details</p>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={handleCloseModal}
-                                    aria-label="Close"
-                                ></button>
-                            </div> */}
+                            <h5 className="modal-title" id="SeeMarksheetLabel">Student Marksheet</h5>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                onClick={handleCloseModal}
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div> */}
                         <div className="modal-body">
                             {loaderState ? (
                                 <div className="text-center p-5">Loading...</div>
@@ -453,17 +500,16 @@ const Marksheet = () => {
                                             <img src='/images/marksheetlogo.webp' alt="School Logo" height={100} />
                                         </div>
                                         <div className="col-8 text-center">
-                                                <h6 className='text-center'>Affiliated To : {selectedStudentMarksheetData?.data?.student.boardName || <span className='greyText font14'>-- Board Name Not Available --</span>}</h6>
-                                                <h6 className='text-center'>Ph {selectedStudentMarksheetData?.data?.student.schoolphone || <span className='greyText font14'>-- School Contact Not Available --</span>}, Email: {selectedStudentMarksheetData?.data?.student.schoolemail || <span className='greyText font14'>-- School Mail Not Available --</span>},</h6>
-                                                <p>Visit us: <a className="text-decoration-none" href="mailto:hshs">{selectedStudentMarksheetData?.data?.student.websiteLink || <span className='greyText font14 '> --School Website Not Available --</span>}</a></p>
+                                            <h6 className='text-center'>Affiliated To : {selectedStudentMarksheetData?.data?.student.boardName || <span className='greyText font14'>-- Board Name Not Available --</span>}</h6>
+                                            <h6 className='text-center'>Ph {selectedStudentMarksheetData?.data?.student.schoolphone || <span className='greyText font14'>-- School Contact Not Available --</span>}, Email: {selectedStudentMarksheetData?.data?.student.schoolemail || <span className='greyText font14'>-- School Mail Not Available --</span>},</h6>
+                                            <p>Visit us: <a className="text-decoration-none" href="mailto:hshs">{selectedStudentMarksheetData?.data?.student.websiteLink || <span className='greyText font14'> --School Website Not Available --</span>}</a></p>
                                             <div className="mt-3">
                                                 <p>Academic Report</p>
-                                                    <p>Academic Session: {selectedStudentMarksheetData?.data.student?.session || <span className='greyText'>-- Not avaialble --</span>}</p>
-                                                <p>Class: {selectedStudentMarksheetData?.data.student?.classNo || <span className='greyText'>-- Not avaialble --</span>}</p>
+                                                <p>Academic Session: {selectedStudentMarksheetData?.data.student?.session || <span className='greyText'>-- Not available --</span>}</p>
+                                                <p>Class: {selectedStudentMarksheetData?.data.student?.classNo || <span className='greyText'>-- Not available --</span>}</p>
                                             </div>
                                         </div>
                                         <div className="col-2 text-center">
-                                                {/* <img src={selectedStudentMarksheetData?.data.student.studentImage} alt="" /> */}
                                             <img src='/images/marksheetStudentImage.png' alt="Student Image" height={100} />
                                         </div>
                                     </div>
@@ -563,7 +609,7 @@ const Marksheet = () => {
 
                                     <div className="d-flex text-center mt-4">
                                         <div className="col-4"><i className='font12'>Sign. of Class Teacher</i></div>
-                                        <div className="col-4"><i className='font12'>Sign. Of Principal</i></div>
+                                        <div className="col-4"><i className='font12'>Sign. of Principal</i></div>
                                         <div className="col-4"><i className='font12'>Sign. of Manager</i></div>
                                     </div>
                                     <hr className='mt-1 mb-1' />
@@ -572,27 +618,27 @@ const Marksheet = () => {
                                     <table className="table table-bordered">
                                         <thead>
                                             <tr>
-                                                    <th className='font14 text-center'>Marks Range in (%)</th>
-                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
-                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
-                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
-                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
-                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
-                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
-                                                    <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td className='font14 text-center'>Grade</td>
-                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
-                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
-                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
-                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
-                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
-                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
-                                                    <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
-                                                </tr>
+                                                <th className='font14 text-center'>Marks Range in (%)</th>
+                                                <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                                <th className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeKey || <span className="greyText font14"> --</span>}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td className='font14 text-center'>Grade</td>
+                                                <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                                <td className='font14 text-center'>{selectedStudentMarksheetData?.data?.student?.gradeValue || <span className="greyText font14"> --</span>}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -600,19 +646,26 @@ const Marksheet = () => {
                                 <p className="text-center">No data available</p>
                             ))}
                         </div>
-                        {/* <div className="text-center mb-4">
+                        <div className="modal-footer">
                             <button
                                 type="button"
-                                className="btn btn-sm btn-outline-secondary"
+                                className="btn btn-sm addButtons text-white font14"
+                                onClick={handleDownloadPDF}
+                            >
+                                Download PDF
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-sm cancelButtons"
                                 onClick={handleCloseModal}
+                                data-bs-dismiss="modal"
                             >
                                 Close
                             </button>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </div>
-
         </Container>
     );
 };
