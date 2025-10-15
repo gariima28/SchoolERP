@@ -669,7 +669,6 @@ const Leave = () => {
         "endDate": toDate,
         "leaveType": leaveType
       }
-
       setLoader(true)
       try {
         const response = await TeacherLeaveTeacherPostApi(formData);
@@ -709,7 +708,7 @@ const Leave = () => {
     setLoader(true)
     try {
       const response = await TeacherLeaveTeacherGetAllApi(searchKey, pageNo, pageSize);
-      console.log('Teacher Leave get All Api dataaaaaaaaa----', response);
+      console.log('Teacher Leave get All Api dataaaaaaaaa----00000', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.msg)
         setLeaveGetAlData(response?.data?.leave)
@@ -821,7 +820,7 @@ const Leave = () => {
                         <td className=' no-wrap greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
                         <td className=' no-wrap greyText'>{item.leaveType}</td>
                         <td className=' no-wrap greyText'>{item.endDate}</td>
-                        <td className=' no-wrap greyText'>N-I-R</td>
+                        <td className=' no-wrap greyText'>{item.days ? item.days : 'N-I-R'}</td>
                         <td className=' no-wrap greyText'>{item.startDate}</td>
                         <td className=' no-wrap greyText'>{item.reason}</td>
                         <td className=' no-wrap greyText'>
