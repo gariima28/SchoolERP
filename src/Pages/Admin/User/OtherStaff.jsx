@@ -478,22 +478,22 @@ const OtherStaff = () => {
   const offcanvasRef = useRef(null);
   const offcanvasRef22 = useRef(null);
 
-  const [csvData, setCsvData] = useState([]);
+  // const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await OtherStaffCSV(1);
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-      }
-    } catch (err) {
-      // console.log(err);
-    }
-    finally {
-      setLoader(false);
-    }
-  };
+  // const Download_Slip = async () => {
+  //   try {
+  //     const response = await OtherStaffCSV(1);
+  //     if (response?.status === 200) {
+  //       const rows = response?.data?.split('\n').map(row => row.split(','));
+  //       setCsvData(rows);
+  //     }
+  //   } catch (err) {
+  //     // console.log(err);
+  //   }
+  //   finally {
+  //     setLoader(false);
+  //   }
+  // };
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -507,7 +507,7 @@ const OtherStaff = () => {
   useEffect(() => {
     MyTeacherGetAllApi()
     MyRolPermisGetAllApi()
-    Download_Slip()
+    // Download_Slip()
   }, [pageNo])
 
   // OtherStaff Get All Api   
