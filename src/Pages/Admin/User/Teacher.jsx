@@ -491,22 +491,22 @@ const Teacher = () => {
 
   // ############### CSV 
 
-  const [csvData, setCsvData] = useState([]);
+  // const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await OtherStaffCSV(68);
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-      }
-    } catch (err) {
-      // console.log(err);
-    }
-    finally {
-      setLoader(false);
-    }
-  };
+  // const Download_Slip = async () => {
+  //   try {
+  //     const response = await OtherStaffCSV(68);
+  //     if (response?.status === 200) {
+  //       const rows = response?.data?.split('\n').map(row => row.split(','));
+  //       setCsvData(rows);
+  //     }
+  //   } catch (err) {
+  //     // console.log(err);
+  //   }
+  //   finally {
+  //     setLoader(false);
+  //   }
+  // };
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -522,7 +522,7 @@ const Teacher = () => {
     MyStaffGetById();
     MyRolPermisGetAllApi();
     getRollForAdminDashboard();
-    Download_Slip()
+    // Download_Slip()
   }, [pageNo]);
 
   // Teacher  Get All Api
