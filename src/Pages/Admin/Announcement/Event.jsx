@@ -679,27 +679,34 @@ const Event = () => {
 
   useEffect(() => {
     MyEventGetAllApi()
-    Download_Slip()
+<<<<<<<<< Temporary merge branch 1
+    // Download_Slip()
+=========
+>>>>>>>>> Temporary merge branch 2
     MyRolesInEventAllApi()
   }, [pageNo])
 
 
   const [regex, setRegex] = useState('/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/');
-  // const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await EventCSV();
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-        // setTableData(rows.slice(1));
-      }
-    } catch (err) {
-      console.log(err);
-      setLoader(false)
-    }
-  };
+  const [csvData, setCsvData] = useState([]);
+
+<<<<<<<<< Temporary merge branch 1
+  // const Download_Slip = async () => {
+  //   try {
+  //     const response = await EventCSV();
+  //     if (response?.status === 200) {
+  //       const rows = response?.data?.split('\n').map(row => row.split(','));
+  //       setCsvData(rows);
+  //       // setTableData(rows.slice(1));
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setLoader(false)
+  //   }
+  // };
+=========
+>>>>>>>>> Temporary merge branch 2
 
   const [errors, setErrors] = useState({});
   // ###### validation ##########
