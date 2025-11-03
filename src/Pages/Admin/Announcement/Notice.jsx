@@ -787,7 +787,7 @@ const Notice = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={noticeAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={NoticePDF}
               showExportCSV={noticeAllData?.length > 0}

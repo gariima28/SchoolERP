@@ -464,7 +464,7 @@ const Driver = () => {
                                 searchValue={searchByKey}
                                 searchAction={getAllDriverData}
                                 onSearchChange={handleSearchButton}
-                                showExportPDF={driverData?.length > 0}
+                                showExportPDF={false}
                                 exportPDFText="Export PDF"
                                 exportPDFAction={''}
                                 showExportCSV={driverData?.length > 0}

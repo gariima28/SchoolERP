@@ -905,7 +905,7 @@ const Holiday = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={holidayGetAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={HolidayPDF}
               showExportCSV={holidayGetAllData?.length > 0}

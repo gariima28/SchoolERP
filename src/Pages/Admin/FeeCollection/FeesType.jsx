@@ -531,7 +531,7 @@ const FeesType = () => {
               showSecondAddButton={true} // Enable second button
               secondAddButtonText="Add Fees" // Custom text
               secondAddButtonAction={handleSecondAddAction} // Custom action
-              showExportPDF={feeTypeData.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={DownloadFeeTypePDF}
               exportPDFFileName="Fee Type.pdf"

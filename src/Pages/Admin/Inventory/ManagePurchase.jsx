@@ -542,7 +542,7 @@ const ManagePurchase = () => {
                   new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.show();
               }}
-              // showExportPDF={managePurchaseData.length > 0}
+              // showExportPDF={false}
               showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={DownloadManagePurchasePDF}

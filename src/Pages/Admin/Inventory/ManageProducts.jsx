@@ -476,7 +476,7 @@ const ManageProduct = () => {
                   new bootstrap.Offcanvas(offcanvasElement);
                 offcanvas.show();
               }}
-              // showExportPDF={manageProductData.length > 0}
+              // showExportPDF={false}
               showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={DownloadManageProductPDF}

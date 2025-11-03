@@ -332,7 +332,7 @@ const ItemCategory = () => {
               showAddButton={true}
               addButtonText="Add Category"
               addButtonAction={handleAddOffcanvasOpen}
-              // showExportPDF={itemCategoryData.length > 0}
+              // showExportPDF={false}
               showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={DownloadItemCategoryPDF}
