@@ -808,8 +808,9 @@ const Teacher = () => {
   };
 
 
-  const handleSearchButton = () => {
-    getAllSchoolData(searchKey)
+  const handleSearchButton = (value) => {
+    setSearchKey(value);
+    setPageNo(1);
   }
 
   const handleAddButton = () => {
@@ -861,13 +862,15 @@ const Teacher = () => {
               addButtonText={`Add ${userName}`}
               addButtonAction={handleAddButton}
               showSearch={true}
-              searchAction={handleSearchButton}
+              searchValue={searchKey}
+              searchAction={MyTeacherGetAllApi}
+              onSearchChange={handleSearchButton}
               showExportPDF={TeacherAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={TeacherAllData?.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={''}
+              exportCSVAction={() => OtherStaffCSV(roleId)}
             />
           </div>
         </div>
