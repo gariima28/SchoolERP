@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components'
-import { DownloadDriverExcel, DownloadDriverPDF, deleteDriverApi, getDriverDataApi, getDriverDataByIdApi, updateDriverDataApi } from 'src/Utils/Apis';
+import { OtherStaffCSV, getDriverDataByIdApi, updateDriverDataApi } from 'src/Utils/Apis';
 import toast from 'react-hot-toast';
 import DataLoader from 'src/Layouts/Loader';
 import ReactPaginate from 'react-paginate';
@@ -135,7 +135,7 @@ const Container = styled.div`
 
 const Driver = () => {
     const navigate = useNavigate()
-      const { roleId, userId } = useParams();
+    const { roleId } = useParams();
     // token
     const token = sessionStorage.getItem('token');
     // loader State
@@ -392,8 +392,9 @@ const Driver = () => {
         }
     };
 
-    const handleSearchButton = () => {
-        getAllDriverData(searchByKey)
+    const handleSearchButton = (value) => {
+        setSearchByKey(value);
+        setPageNo(1);
     }
 
     const handleAddButton = () => {
@@ -460,13 +461,15 @@ const Driver = () => {
                                 addButtonText={`Add Driver`}
                                 addButtonAction={handleAddButton}
                                 showSearch={true}
-                                searchAction={handleSearchButton}
+                                searchValue={searchByKey}
+                                searchAction={getAllDriverData}
+                                onSearchChange={handleSearchButton}
                                 showExportPDF={driverData?.length > 0}
                                 exportPDFText="Export PDF"
                                 exportPDFAction={''}
                                 showExportCSV={driverData?.length > 0}
                                 exportCSVText="Export CSV"
-                                exportCSVAction={''}
+                                exportCSVAction={() => OtherStaffCSV(roleId)}
                             />
                         </div>
                     </div>
@@ -503,7 +506,7 @@ const Driver = () => {
                                                                 </button>
                                                                 <ul className="dropdown-menu">
                                                                     <li>
-                                                                         <Link
+                                                                        <Link
                                                                             className="dropdown-item greyText"
                                                                             to={`/admin/users/teacher/${roleId}/update/mainuserform/${item.id}/userbasicinformation`}
                                                                         >

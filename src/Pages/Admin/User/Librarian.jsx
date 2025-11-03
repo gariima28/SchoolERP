@@ -833,8 +833,9 @@ const Librarian = () => {
     setSearchKey(trimmedValue);
   };
 
-  const handleSearchButton = () => {
-    getAllSchoolData(searchKeyData)
+  const handleSearchButton = (value) => {
+    setSearchKey(value);
+    setPageNo(1);
   }
 
   const handleAddButton = () => {
@@ -876,13 +877,15 @@ const Librarian = () => {
               addButtonText={`Add ${userName}`}
               addButtonAction={handleAddButton}
               showSearch={true}
-              searchAction={handleSearchButton}
+              searchValue={searchKey}
+              searchAction={MyTeacherGetAllApi}
+              onSearchChange={handleSearchButton}
               showExportPDF={LibrarianAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={LibrarianAllData?.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={''}
+              exportCSVAction={() => OtherStaffCSV(roleId)}
             />
           </div>
 

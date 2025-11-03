@@ -14,6 +14,7 @@ import {
   DeleteItemAssignAllowanceToStaff,
 } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
+import AllowanceModal from './AllowanceModal';
 
 // Styled components for CSS (unchanged)
 const StyledContainer = styled.div`
@@ -296,6 +297,18 @@ const Conta_allown = () => {
   }, [addAllowanceType, setAddValue]);
 
   useEffect(() => {
+    const handleAllowanceAdded = () => {
+      getAllAllowanceName(); // Refresh dropdown
+    };
+
+    window.addEventListener('allowanceAdded', handleAllowanceAdded);
+
+    return () => {
+      window.removeEventListener('allowanceAdded', handleAllowanceAdded);
+    };
+  }, [pageNo, pageSize]);
+
+  useEffect(() => {
     if (editAllowanceType === 'PERCENT') {
       setEditValue('amount', '0');
       setEditValue('percent', editAllowance?.percent || '');
@@ -490,7 +503,7 @@ const Conta_allown = () => {
       setLoaderState(false);
     }
   };
-
+  const [showAddModal, setShowAddModal] = useState(false);
   return (
     <StyledContainer className="container-fluid">
       {loaderState && <DataLoader />}
@@ -540,6 +553,13 @@ const Conta_allown = () => {
                     </select>
                   )}
                 />
+                <button
+                  type="button"
+                  className="blueText font12 mt-2 text-decoration-underline cursorPointer border-0 bg-transparent p-0"
+                  onClick={() => setShowAddModal(true)}
+                >
+                  + Add Allowance
+                </button>
                 {addErrors.allowanceNameId && (
                   <div id="allowanceError" className="error-message">
                     {addErrors.allowanceNameId.message}
@@ -853,7 +873,7 @@ const Conta_allown = () => {
         aria-labelledby="editAllowanceOffcanvasLabel"
       >
         <div className="offcanvas-header border-bottom">
-          <h5 className="offcanvas-title" id="editAllowanceOffcanvasLabel">
+          <h5 className="offcanvas-title font14" id="editAllowanceOffcanvasLabel">
             Edit Allowance
           </h5>
           <button
@@ -1204,6 +1224,34 @@ const Conta_allown = () => {
           </div>
         </div>
       </div>
+
+      {/* Remove this entire <div class="modal fade" ...> */}
+      {/* Replace with this */}
+
+      {showAddModal && (
+        <div
+          className="modal show d-block"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          tabIndex="-1"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title font16 fw-bold">Add Allowance</h1>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowAddModal(false)}
+                  aria-label="Close"
+                />
+              </div>
+              <div className="modal-body">
+                <AllowanceModal onSuccess={() => setShowAddModal(false)} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <Toaster />
     </StyledContainer>
   );
