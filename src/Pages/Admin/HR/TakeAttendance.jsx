@@ -780,7 +780,7 @@ const TakeAttendance = () => {
               showAddButton={false}
               addButtonText=""
               addButtonAction={''}
-              showExportPDF={attendanceDataByMonth?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               exportPDFFileName="Daily Attendance.pdf"

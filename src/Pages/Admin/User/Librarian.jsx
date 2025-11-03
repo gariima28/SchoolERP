@@ -880,7 +880,7 @@ const Librarian = () => {
               searchValue={searchKey}
               searchAction={MyTeacherGetAllApi}
               onSearchChange={handleSearchButton}
-              showExportPDF={LibrarianAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={LibrarianAllData?.length > 0}

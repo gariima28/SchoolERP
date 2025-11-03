@@ -761,7 +761,7 @@ const AssignClassTeacher = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={assignAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={ClassTeacherPDF}
               showExportCSV={assignAllData?.length > 0}
