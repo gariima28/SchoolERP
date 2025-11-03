@@ -806,7 +806,6 @@ const Event = () => {
   const handleEndTime = (e2) => {
     setEndTime(e2);
     const timeRegex = /^(?:[01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-    // const timeRegex = /^[0-2][0-3]:[0-5][0-9]$/;
     setIsValidEndTimeRequired(timeRegex.test(e2));
     if (e2 === "" || !timeRegex.test(e2)) {
       setIsValidEndTimeRequired(true)
