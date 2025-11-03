@@ -797,9 +797,9 @@ const OtherStaff = () => {
     setSearchKey(trimmedValue);
   };
 
-
-  const handleSearchButton = () => {
-    getAllSchoolData(searchKey)
+  const handleSearchButton = (value) => {
+    setSearchKey(value);
+    setPageNo(1);
   }
 
   const handleAddButton = () => {
@@ -841,13 +841,15 @@ const OtherStaff = () => {
               addButtonText="Other Staff"
               addButtonAction={handleAddButton}
               showSearch={true}
-              searchAction={handleSearchButton}
+              searchValue={searchKey}
+              searchAction={MyTeacherGetAllApi}
+              onSearchChange={handleSearchButton}
               showExportPDF={otherStaffAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={otherStaffAllData?.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={''}
+              exportCSVAction={() => OtherStaffCSV(roleId)}
             />
             {/* <CSVLink className={`col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font16 heading-14 export1 my-own-outline-btn me-2 ${AccountAllData.length <= 0 ? 'disabled' : ''}`} data={csvData} filename={"orders.csv"}>
 <span>

@@ -55,7 +55,7 @@ const Container = styled.div`
   .profile-card {
     background: linear-gradient(135deg, #e5f3f2 0%, #f8fafc 100%);
     border-radius: 12px;
-    padding: 24px;
+    padding: 12px;
     min-height: 450px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
@@ -142,6 +142,14 @@ const Container = styled.div`
     border-top: 1px solid #d7e7e5;
     padding-top: 16px;
   }
+
+@media only screen and (max-width: 1260px) {
+  .nav-tabs-container {
+    margin-top: 0px !important;
+    border-top: none !important;
+    padding-top: 0px !important;
+  }
+}
   .nav-link {
     color: #000;
     text-decoration: none;
@@ -486,79 +494,85 @@ const UserSidebar = () => {
 
   return (
     <Container>
-      <div className="profile-card">
-        <div className="mainContainer">
-          <img
-            src={staffImage || '/SampleProfile.png'}
-            alt="Profile"
-            onClick={handleImageClick}
-            aria-label="Click to expand and edit profile image"
-          />
-          <label className="camera-icon-container">
-            <svg
-              className="camera-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              onClick={handleImageClick}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-              <circle cx="12" cy="10" r="1" fill="currentColor" />
-            </svg>
-          </label>
-        </div>
-        <div className="profile-info">
-          <p className="role heading-18 font-rsponsive">
-            {myroleName}
-          </p>
-        </div>
-        <div className="nav-tabs-container">
-          <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <NavLink
-              className={({ isActive }) =>
-                `nav-link d-flex align-items-center ${isBasicInfoDisabled ? 'my-nav-link' : ''} ${isActive ? 'active' : ''}`
-              }
-              to={getNavLinkPath('userbasicinformation')}
-              isActive={(match, location) => isNavLinkActive(match, location, 'userbasicinformation')}
-              end
-            >
-              <span className="flex-grow-1 heading-16">Basic Information</span>
-              <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
-            </NavLink>
-            <NavLink
-              className={({ isActive }) =>
-                `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
-              }
-              to={isTabsDisabled ? '#' : getNavLinkPath('usercontact')}
-              isActive={(match, location) => isNavLinkActive(match, location, 'usercontact')}
-              end
-            >
-              <span className="flex-grow-1 heading-16">Contract</span>
-              <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
-            </NavLink>
-            <NavLink
-              className={({ isActive }) =>
-                `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
-              }
-              to={isTabsDisabled ? '#' : getNavLinkPath('userperinfo')}
-              isActive={(match, location) => isNavLinkActive(match, location, 'userperinfo')}
-              end
-            >
-              <span className="flex-grow-1 heading-16">Personal Information</span>
-              <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
-            </NavLink>
-            <NavLink
-              className={({ isActive }) =>
-                `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
-              }
-              to={isTabsDisabled ? '#' : getNavLinkPath('userdocuments')}
-              isActive={(match, location) => isNavLinkActive(match, location, 'userdocuments')}
-              end
-            >
-              <span className="flex-grow-1 heading-16">Documents</span>
-              <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
-            </NavLink>
+      <div className="container-fluid profile-card">
+        <div className="row">
+          <div className="col-xl-12 col-md-3 col-3">
+            <div className="mainContainer">
+              <img
+                src={staffImage || '/SampleProfile.png'}
+                alt="Profile"
+                onClick={handleImageClick}
+                aria-label="Click to expand and edit profile image"
+              />
+              <label className="camera-icon-container">
+                <svg
+                  className="camera-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  onClick={handleImageClick}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <circle cx="12" cy="10" r="1" fill="currentColor" />
+                </svg>
+              </label>
+            </div>
+            <div className="profile-info">
+              <p className="role heading-18 font-rsponsive">
+                {myroleName}
+              </p>
+            </div>
+          </div>
+          <div className="col-xl-12 col-md-9 col-9">
+            <div className="nav-tabs-container">
+              <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link d-flex align-items-center ${isBasicInfoDisabled ? 'my-nav-link' : ''} ${isActive ? 'active' : ''}`
+                  }
+                  to={getNavLinkPath('userbasicinformation')}
+                  isActive={(match, location) => isNavLinkActive(match, location, 'userbasicinformation')}
+                  end
+                >
+                  <span className="flex-grow-1 heading-16">Basic Information</span>
+                  <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
+                  }
+                  to={isTabsDisabled ? '#' : getNavLinkPath('usercontact')}
+                  isActive={(match, location) => isNavLinkActive(match, location, 'usercontact')}
+                  end
+                >
+                  <span className="flex-grow-1 heading-16">Contract</span>
+                  <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
+                  }
+                  to={isTabsDisabled ? '#' : getNavLinkPath('userperinfo')}
+                  isActive={(match, location) => isNavLinkActive(match, location, 'userperinfo')}
+                  end
+                >
+                  <span className="flex-grow-1 heading-16">Personal Information</span>
+                  <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
+                  }
+                  to={isTabsDisabled ? '#' : getNavLinkPath('userdocuments')}
+                  isActive={(match, location) => isNavLinkActive(match, location, 'userdocuments')}
+                  end
+                >
+                  <span className="flex-grow-1 heading-16">Documents</span>
+                  <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
+                </NavLink>
+              </div>
+            </div>
           </div>
         </div>
       </div>
