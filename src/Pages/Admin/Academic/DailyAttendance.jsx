@@ -830,7 +830,7 @@ const DailyAttendance = ({ items }) => {
             </nav>
           </div>
           <div className="d-flex g-1 for-media-query">
-            <ActionControls
+            <Acti onControls
               showAddButton={false}
               addButtonText=""
               addButtonAction={''}

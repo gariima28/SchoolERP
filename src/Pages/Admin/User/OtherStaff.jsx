@@ -478,22 +478,22 @@ const OtherStaff = () => {
   const offcanvasRef = useRef(null);
   const offcanvasRef22 = useRef(null);
 
-  const [csvData, setCsvData] = useState([]);
+  // const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await OtherStaffCSV(1);
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-      }
-    } catch (err) {
-      // console.log(err);
-    }
-    finally {
-      setLoader(false);
-    }
-  };
+  // const Download_Slip = async () => {
+  //   try {
+  //     const response = await OtherStaffCSV(1);
+  //     if (response?.status === 200) {
+  //       const rows = response?.data?.split('\n').map(row => row.split(','));
+  //       setCsvData(rows);
+  //     }
+  //   } catch (err) {
+  //     // console.log(err);
+  //   }
+  //   finally {
+  //     setLoader(false);
+  //   }
+  // };
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -507,7 +507,7 @@ const OtherStaff = () => {
   useEffect(() => {
     MyTeacherGetAllApi()
     MyRolPermisGetAllApi()
-    Download_Slip()
+    // Download_Slip()
   }, [pageNo])
 
   // OtherStaff Get All Api   
@@ -797,9 +797,9 @@ const OtherStaff = () => {
     setSearchKey(trimmedValue);
   };
 
-
-  const handleSearchButton = () => {
-    getAllSchoolData(searchKey)
+  const handleSearchButton = (value) => {
+    setSearchKey(value);
+    setPageNo(1);
   }
 
   const handleAddButton = () => {
@@ -841,13 +841,15 @@ const OtherStaff = () => {
               addButtonText="Other Staff"
               addButtonAction={handleAddButton}
               showSearch={true}
-              searchAction={handleSearchButton}
+              searchValue={searchKey}
+              searchAction={MyTeacherGetAllApi}
+              onSearchChange={handleSearchButton}
               showExportPDF={otherStaffAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={otherStaffAllData?.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={''}
+              exportCSVAction={() => OtherStaffCSV(roleId)}
             />
             {/* <CSVLink className={`col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font16 heading-14 export1 my-own-outline-btn me-2 ${AccountAllData.length <= 0 ? 'disabled' : ''}`} data={csvData} filename={"orders.csv"}>
 <span>

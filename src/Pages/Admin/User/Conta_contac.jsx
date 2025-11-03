@@ -60,7 +60,7 @@ const Conta_contac = ({ data }) => {
         toast.error(response?.data?.message);
       }
     } catch (error) {
-      setloaderState(false);
+      setLoader(false);
       // console.log(error)
     }
   }

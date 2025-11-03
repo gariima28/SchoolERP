@@ -491,22 +491,22 @@ const Teacher = () => {
 
   // ############### CSV 
 
-  const [csvData, setCsvData] = useState([]);
+  // const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await OtherStaffCSV(68);
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-      }
-    } catch (err) {
-      // console.log(err);
-    }
-    finally {
-      setLoader(false);
-    }
-  };
+  // const Download_Slip = async () => {
+  //   try {
+  //     const response = await OtherStaffCSV(68);
+  //     if (response?.status === 200) {
+  //       const rows = response?.data?.split('\n').map(row => row.split(','));
+  //       setCsvData(rows);
+  //     }
+  //   } catch (err) {
+  //     // console.log(err);
+  //   }
+  //   finally {
+  //     setLoader(false);
+  //   }
+  // };
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -522,7 +522,7 @@ const Teacher = () => {
     MyStaffGetById();
     MyRolPermisGetAllApi();
     getRollForAdminDashboard();
-    Download_Slip()
+    // Download_Slip()
   }, [pageNo]);
 
   // Teacher  Get All Api
@@ -808,8 +808,9 @@ const Teacher = () => {
   };
 
 
-  const handleSearchButton = () => {
-    getAllSchoolData(searchKey)
+  const handleSearchButton = (value) => {
+    setSearchKey(value);
+    setPageNo(1);
   }
 
   const handleAddButton = () => {
@@ -861,13 +862,15 @@ const Teacher = () => {
               addButtonText={`Add ${userName}`}
               addButtonAction={handleAddButton}
               showSearch={true}
-              searchAction={handleSearchButton}
+              searchValue={searchKey}
+              searchAction={MyTeacherGetAllApi}
+              onSearchChange={handleSearchButton}
               showExportPDF={TeacherAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={TeacherAllData?.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={''}
+              exportCSVAction={() => OtherStaffCSV(roleId)}
             />
           </div>
         </div>

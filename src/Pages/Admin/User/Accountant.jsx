@@ -481,22 +481,22 @@ const Accountant = () => {
   const [isValidAddressRequired, setIsValidAddressRequired] = useState(false);
   const [isValidContactRequired, setIsValidContactRequired] = useState(false);
   const [isValidBasicSalaryRequired, setIsValidBasicSalaryRequired] = useState(false);
-  const [csvData, setCsvData] = useState([]);
+  // const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await OtherStaffCSV(1);
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-      }
-    } catch (err) {
-      // console.log(err);
-    }
-    finally {
-      setLoader(false);
-    }
-  };
+  // const Download_Slip = async () => {
+  //   try {
+  //     const response = await OtherStaffCSV(1);
+  //     if (response?.status === 200) {
+  //       const rows = response?.data?.split('\n').map(row => row.split(','));
+  //       setCsvData(rows);
+  //     }
+  //   } catch (err) {
+  //     // console.log(err);
+  //   }
+  //   finally {
+  //     setLoader(false);
+  //   }
+  // };
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -511,7 +511,7 @@ const Accountant = () => {
   useEffect(() => {
     MyStaffGetById()
     MyRolPermisGetAllApi()
-    Download_Slip()
+    // Download_Slip()
     getRollForAdminDashboard();
   }, [pageNo])
   // Accountant get all api
@@ -823,9 +823,9 @@ const Accountant = () => {
     setSearchKkey(trimmedValue);
   };
 
-
-  const handleSearchButton = () => {
-    getAllSchoolData(searchKey)
+  const handleSearchButton = (value) => {
+    setSearchKkey(value);
+    setPageNo(1);
   }
 
   const handleAddButton = () => {
@@ -868,13 +868,15 @@ const Accountant = () => {
               addButtonText={`Add ${userName}`}
               addButtonAction={handleAddButton}
               showSearch={true}
-              searchAction={handleSearchButton}
+              searchValue={searchKey}
+              searchAction={MyTeacherGetAllApi}
+              onSearchChange={handleSearchButton}
               showExportPDF={AccountAllData?.length > 0}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={AccountAllData?.length > 0}
               exportCSVText="Export CSV"
-              exportCSVAction={''}
+              exportCSVAction={() => OtherStaffCSV(roleId)}
             />
             {/* <CSVLink className={`col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font16 heading-14 export1 my-own-outline-btn me-2 ${AccountAllData.length <= 0 ? 'disabled' : ''}`} data={csvData} filename={"orders.csv"}>
 

@@ -679,13 +679,27 @@ const Event = () => {
 
   useEffect(() => {
     MyEventGetAllApi()
+    Download_Slip()
     MyRolesInEventAllApi()
   }, [pageNo])
 
 
   const [regex, setRegex] = useState('/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/');
-  const [csvData, setCsvData] = useState([]);
+  // const [csvData, setCsvData] = useState([]);
 
+  const Download_Slip = async () => {
+    try {
+      const response = await EventCSV();
+      if (response?.status === 200) {
+        const rows = response?.data?.split('\n').map(row => row.split(','));
+        setCsvData(rows);
+        // setTableData(rows.slice(1));
+      }
+    } catch (err) {
+      console.log(err);
+      setLoader(false)
+    }
+  };
 
   const [errors, setErrors] = useState({});
   // ###### validation ##########
