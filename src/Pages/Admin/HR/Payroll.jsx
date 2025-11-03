@@ -747,7 +747,7 @@ const Payroll = () => {
                           </div>
                         </td>
                         <td className=' greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} alt="Staff Image" /></span><span className='mt-1'>{item.staffName}</span></td>
+                        <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage}  /></span><span className='mt-1'>{item.staffName}</span></td>
                         <td className=' greyText'>
                           <div className=''>
                             <p className={`${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
@@ -756,7 +756,7 @@ const Payroll = () => {
                         <td className=' greyText'>{item.basicPay}</td>
                         <td className=' greyText'>{item.allowedPaidLeaves}</td>
                         <td className=' greyText'>{item.unpaidLeaves}</td>
-                        <td className=' greyText'>{item.paidLeaves ? paidLeaves : 'N-I-R'}</td>
+                        <td className=' greyText'>{item.paidLeaves }</td>
                         <td className=' greyText'>{item.takenLeaves}</td>
                         <td className=' greyText'>{item.leaveDeduction}</td>
                         <td className=' greyText'>{item.allowanceTotal}</td>
