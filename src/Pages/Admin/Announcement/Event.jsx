@@ -684,6 +684,7 @@ const Event = () => {
 
 
   const [regex, setRegex] = useState('/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/');
+
   const [csvData, setCsvData] = useState([]);
 
 
