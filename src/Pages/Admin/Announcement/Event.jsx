@@ -679,7 +679,6 @@ const Event = () => {
 
   useEffect(() => {
     MyEventGetAllApi()
-    Download_Slip()
     MyRolesInEventAllApi()
   }, [pageNo])
 
@@ -687,19 +686,6 @@ const Event = () => {
   const [regex, setRegex] = useState('/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/');
   const [csvData, setCsvData] = useState([]);
 
-  const Download_Slip = async () => {
-    try {
-      const response = await EventCSV();
-      if (response?.status === 200) {
-        const rows = response?.data?.split('\n').map(row => row.split(','));
-        setCsvData(rows);
-        // setTableData(rows.slice(1));
-      }
-    } catch (err) {
-      console.log(err);
-      setLoader(false)
-    }
-  };
 
   const [errors, setErrors] = useState({});
   // ###### validation ##########
@@ -714,13 +700,6 @@ const Event = () => {
     }
     else {
     }
-    // if (!eventDescription || eventDescription === "" || !/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? \s]+$/.test(eventDescription)) {
-    //   setIsValidDescriptionRequired(true)
-    //   isValid = false
-    //   setLoader(false)
-    // }
-    // else {
-    // }
     // date
     if (!startDate || startDate === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=\- .]+$/.test(startDate)) {
       setIsValidDateRequired(true)
@@ -827,7 +806,6 @@ const Event = () => {
     setLoader(true)
     try {
       const response = await AllRolesGetAllApiInEvent();
-      console.log('All roles in event', response);
       if (response?.status === 200) {
         setAllEventRole(response?.data?.role)
         setLoader(false)
@@ -901,7 +879,6 @@ const Event = () => {
     setLoader(true)
     try {
       const response = await EventGetAllApi(searchKey, pageNo, pageSize);
-      console.log('Event get All Api data------------', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setEventAllData(response?.data?.events)
@@ -922,7 +899,6 @@ const Event = () => {
     setLoader(true)
     try {
       const response = await EventDeleteApi(id);
-      // console.log('my-subs-api',response)
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         MyEventGetAllApi()
@@ -951,8 +927,6 @@ const Event = () => {
     setEventIdForUpdate(id);
     try {
       const response = await EventGetByIdApi(id);
-      console.log('Event get by id Api data--', response);
-
       if (response?.status === 200) {
         const ev = response.data.events;
 
@@ -1108,7 +1082,7 @@ const Event = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={eventAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={TeacherEventPDF}
               showExportCSV={eventAllData?.length > 0}

@@ -756,7 +756,7 @@ const Payroll = () => {
                         <td className=' greyText'>{item.basicPay}</td>
                         <td className=' greyText'>{item.allowedPaidLeaves}</td>
                         <td className=' greyText'>{item.unpaidLeaves}</td>
-                        <td className=' greyText'>{item.paidLeaves ? paidLeaves : 'N-I-R'}</td>
+                        <td className=' greyText'>{item.paidLeaves}</td>
                         <td className=' greyText'>{item.takenLeaves}</td>
                         <td className=' greyText'>{item.leaveDeduction}</td>
                         <td className=' greyText'>{item.allowanceTotal}</td>
@@ -764,7 +764,6 @@ const Payroll = () => {
                         <td className=' greyText'>{item.totalWorkingDays}</td>
                         <td className=' greyText'>{item.netSalary}</td>
                         <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R'}</td>
-
                       </tr>
                     ))
                   )

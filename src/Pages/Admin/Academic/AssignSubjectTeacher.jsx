@@ -490,17 +490,13 @@ const AssignSubjectTeacher = () => {
   }
 
   const [classId, setClassId] = useState()
-  // console.log('class id ', classId)
   const [classNo, setClassNo] = useState()
-  // console.log('my class id ', classId)
   const [showadd, setShowadd] = useState(true)
   const [hideedit, setHideedit] = useState(false)
   const [titleName, setTitleName] = useState()
   const [titleNamegetById, setTitleNamegetById] = useState()
   const [subjectId, setSubjectId] = useState()
   const [teacherId, setTeacherId] = useState()
-  // console.log('my subject id is', subjectId)
-
   const [classData, setClassData] = useState([])
   const [subjectData, setSubjectData] = useState([])
   const [teacherAllData, setTeacherAllData] = useState([])
@@ -509,7 +505,6 @@ const AssignSubjectTeacher = () => {
 
   const [selectedClassSections, setSelectedClassSections] = useState([]);
   const [transformedSections, setTransformedSections] = useState([]);
-  // console.log("Assign subject teacher post", transformedSections);
 
   useEffect(() => {
     const transformed = selectedClassSections.reduce((acc, curr) => {
@@ -540,10 +535,8 @@ const AssignSubjectTeacher = () => {
       const isChecked = isClassChecked(classItem);
 
       if (isChecked) {
-        // Uncheck all sections of this class
         return prev.filter(s => s.classId !== classItem.classId);
       } else {
-        // Check all sections of this class
         const newSelections = classItem.sections.map(section => ({
           classId: classItem.classId,
           sectionId: section.classSecId
@@ -557,7 +550,6 @@ const AssignSubjectTeacher = () => {
   const toggleSection = (classId, sectionId) => {
     setSelectedClassSections(prev => {
       const exists = prev.some(s => s.classId === classId && s.sectionId === sectionId);
-
       if (exists) {
         return prev.filter(s => !(s.classId === classId && s.sectionId === sectionId));
       } else {
@@ -565,9 +557,6 @@ const AssignSubjectTeacher = () => {
       }
     });
   };
-
-
-
 
   useEffect(() => {
     MyGetAllSectionWithClass()
@@ -584,12 +573,10 @@ const AssignSubjectTeacher = () => {
   }, [])
 
   const [searchKey, setSearchKey] = useState('')
-
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
   const [searchKey2, setSearchKey2] = useState('')
   const [pageNo2, setPageNo2] = useState('');
   const [pageSize2, setPageSize2] = useState('');
@@ -606,12 +593,11 @@ const AssignSubjectTeacher = () => {
   }
 
   // class Get all data from class page for class id  
-  const UpdatClassGetApi = async () => {
+  const UpdatClassGetApi = async () => { 
     setLoader(true)
     try {
       const response = await ClassGetApi(searchKey2, pageNo2, pageSize2);
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setClassData(response?.data?.classes)
         setLoader(false)
       } else {
@@ -649,7 +635,6 @@ const AssignSubjectTeacher = () => {
       const response = await GetAllAssignSubjectTeahcer();
       console.log(' subject in assign subject techer', response)
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setSubjectData(response?.data?.subjects)
         setLoader(false)
       } else {
@@ -667,7 +652,6 @@ const AssignSubjectTeacher = () => {
     try {
       const response = await TeacherGetAllApi(searchKey, pageNo, pageSize);
       if (response?.status === 200) {
-        // toast.success(response?.data?.message)
         setTeacherAllData(response?.data?.staffList)
         setLoader(false)
       } else {
@@ -730,7 +714,6 @@ const AssignSubjectTeacher = () => {
     try {
       const response = await AssignGetAllApi(classId, subjectId, pageNo, pageSize);
       if (response?.status === 200) {
-        // toast.success(response?.data?.msg)
         setAssignSubTeaAllData(response?.data?.teacher)
         setCurrentPage(response?.data?.currentPage)
         setTotalPages(response?.data?.totalPages)
@@ -930,6 +913,7 @@ const AssignSubjectTeacher = () => {
 
           <div className="table-container px-3 table-responsive">
             <table className="table table-sm table-striped">
+
               <thead className=''>
                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
                   <th className=' no-wrap' style={{ width: '' }}>#</th>
@@ -954,7 +938,6 @@ const AssignSubjectTeacher = () => {
                           ))
                         }
                       </td>
-
                       <td className=' greyText no-wrap ' >
                         <div className="dropdown my-button-show">
                           <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1002,7 +985,6 @@ const AssignSubjectTeacher = () => {
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="offcanvas-body pt-0">
                
-
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Subject Name</label>
                     <select class="form-select  form-select-sm form-focus  label-color" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} aria-label="Default select example">
@@ -1092,11 +1074,6 @@ const AssignSubjectTeacher = () => {
             </>
           )
         }
-        {/* ################# After click ###############  */}
-
-        {/* ##### offcanvase added  end ########  */}
-
-        {/* ##### offcanvas edit start ########  */}
         <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel">
           {
             showadd && (
@@ -1167,18 +1144,12 @@ const AssignSubjectTeacher = () => {
                     <div className='button-position'>
                       <button type="button" data-bs-dismiss="offcanvas" className="btn btn-outline-primary button11 mt-4 mb" style={{ fontSize: '14px' }}>Continue</button>
                     </div>
-
                   </div>
                 </div>
               </div>
             )
           }
-          {/* ##### offcanvase edit end ########  */}
         </div>
-
-        {/* ################ offcanvas delete start #############  */}
-
-
         {
           showdelete && (
             <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight22" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
@@ -1193,6 +1164,7 @@ const AssignSubjectTeacher = () => {
 
                   <div className="sure-main-container mt-4">
                     <div className="sure-container">
+
                       <div>
                         <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M29.5312 0.46875C13.2656 0.46875 0 13.7344 0 30C0 46.2656 13.2656 59.5312 29.5312 59.5312C45.7969 59.5312 59.0625 46.2656 59.0625 30C59.0625 13.7344 45.7969 0.46875 29.5312 0.46875ZM29.5312 55.7812C15.3281 55.7812 3.75 44.2031 3.75 30C3.75 15.7969 15.3281 4.21875 29.5312 4.21875C43.7344 4.21875 55.3125 15.7969 55.3125 30C55.3125 44.2031 43.7344 55.7812 29.5312 55.7812Z" fill="#B50000" />
@@ -1205,7 +1177,6 @@ const AssignSubjectTeacher = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                  
                       <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input2"
@@ -1214,23 +1185,20 @@ const AssignSubjectTeacher = () => {
                           checked={forDelete}
                           value=""
                           id="flexCheckDefault"
-                          name="deleteAgreement" // Added name attribute
+                          name="deleteAgreement" 
                         />
                         <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data
                         </label>
                       </div>
-
                       <div className="mt-4">
                         <button type="button" className="btn my-btn  button00 my-button112233RedDelete" disabled={forDelete ? false : true} onClick={handleForDelete}>Delete</button>
                         <button type="button" className="btn cancel-btn  ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                       </div>
-
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           )
         }

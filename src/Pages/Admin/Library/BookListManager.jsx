@@ -986,7 +986,7 @@ const BookListManager = () => {
               showAddButton={false}
               addButtonText=""
               addButtonAction={''}
-              showExportPDF={true}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={BookManPDF}
               exportPDFFileName="Daily Attendance.pdf"

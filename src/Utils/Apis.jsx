@@ -7262,7 +7262,6 @@ export const PayrollPostApi = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.post(`${Domain}/payroll/create`)
-    // // console.log('my-response', res)
     if (res) {
       return res;
     }
@@ -7278,7 +7277,6 @@ export const PayrollPaidUnPaidPostApi = async (paidUnPaid) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.post(`${Domain}/payroll/markPaid`,paidUnPaid)
-    // // console.log('my-response', res)
     if (res) {
       return res;
     }

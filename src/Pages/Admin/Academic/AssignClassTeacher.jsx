@@ -512,12 +512,7 @@ const AssignClassTeacher = () => {
     MyAssignClassTeachgerGetApi()
   }, [classId, section, pageNo])
 
-  // useEffect(() => {
-  //   Download_Slip()
-  // }, [])
-
   const [csvData, setCsvData] = useState([]);
-
 
   //  Teacher Get All Api 
   const MyTeacherGetApi = async () => {
@@ -525,7 +520,6 @@ const AssignClassTeacher = () => {
     try {
       const response = await GeyAllTeacherLightWeightGetAll();
       if (response?.status === 200) {
-        // toast.success(response?.data?.classes?.message)
         setTeacherData(response?.data?.allStaff)
         setLoader(false)
       } else {
@@ -761,7 +755,7 @@ const AssignClassTeacher = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={assignAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={ClassTeacherPDF}
               showExportCSV={assignAllData?.length > 0}

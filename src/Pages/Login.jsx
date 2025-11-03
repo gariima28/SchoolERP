@@ -184,10 +184,8 @@ const Login = () => {
     const validateFields = () => {
         const emailValid = validateEmail(email);
         const passwordValid = validatePassword(pass);
-
         setEmailError(emailValid);
         setPassError(passwordValid);
-
         return !emailValid && !passwordValid;
     };
 

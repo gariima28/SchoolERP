@@ -870,11 +870,6 @@ const Holiday = () => {
   const cleardata = () => {
     setForDelete(false)
   }
-  // document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
-  //   new Tooltip(el, {
-  //     delay: { show: 0, hide: 100 } // show immediately
-  //   });
-  // });
 
   return (
     <Container>
@@ -905,7 +900,7 @@ const Holiday = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={holidayGetAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={HolidayPDF}
               showExportCSV={holidayGetAllData?.length > 0}
