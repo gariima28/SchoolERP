@@ -1108,7 +1108,7 @@ const Event = () => {
               addButtonAction={handleAddOffcanvasOpen}
               showSearch={true}
               searchAction={handleSearchButton}
-              showExportPDF={eventAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={TeacherEventPDF}
               showExportCSV={eventAllData?.length > 0}

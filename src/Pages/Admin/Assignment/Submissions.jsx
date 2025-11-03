@@ -427,7 +427,7 @@ const Submission = () => {
                 addButtonAction={openAddCanvas}
                 showSearch={true}
                 searchAction={handleSearchButton}
-                showExportPDF={(allSubmissionData || []).length > 0}
+                showExportPDF={false}
                 exportPDFText="Export PDF"
                 exportPDFAction={DownloadSubmissionPDF}
                 exportPDFFileName="Receipts.pdf"

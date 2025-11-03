@@ -218,7 +218,7 @@ const AssignStudent = () => {
                             showAddButton={true}
                             addButtonText="Assign Students"
                             addButtonAction={handleAddOffcanvasOpen}
-                            showExportPDF={assignStudentData.length > 0}
+                            showExportPDF={false}
                             exportPDFText="Export PDF"
                             exportPDFAction={DownloadAssignStudentsPdf}
                             exportPDFFileName="Assigned Students.pdf"

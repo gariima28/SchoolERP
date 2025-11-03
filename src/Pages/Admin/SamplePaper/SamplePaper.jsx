@@ -384,7 +384,7 @@ const SamplePaper = () => {
                                 addButtonAction={openAddCanvas}
                                 showSearch={true}
                                 searchAction={handleSearchButton}
-                                showExportPDF={allSamplePaperData.length > 0}
+                                showExportPDF={false}
                                 exportPDFText="Export PDF"
                                 exportPDFAction={DownloadSamplePaperPDF}
                                 exportPDFFileName="Sample Paper.pdf"

@@ -411,7 +411,7 @@ const Assignment = () => {
                                 addButtonAction={openAddCanvas}
                                 showSearch={true}
                                 searchAction={handleSearchButton}
-                                showExportPDF={allAssignmentData.length > 0}
+                                showExportPDF={false}
                                 exportPDFText="Export PDF"
                                 exportPDFAction={DownloadAssignmentPDF}
                                 exportPDFFileName="Assignment.pdf"

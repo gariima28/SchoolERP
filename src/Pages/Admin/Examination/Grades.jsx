@@ -368,7 +368,7 @@ const Grades = () => {
                             showAddButton={true}
                             addButtonText="Add Grade"
                             addButtonAction={handleAddOffcanvasOpen}
-                            showExportPDF={allGradeData.length > 0}
+                            showExportPDF={false}
                             exportPDFText="Export PDF"
                             exportPDFAction={PdfGradeApi}
                             exportPDFFileName="Grades.pdf"

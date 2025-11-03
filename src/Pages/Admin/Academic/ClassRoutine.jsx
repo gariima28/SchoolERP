@@ -1112,7 +1112,7 @@ const ClassRoutine = () => {
               showSecondAddButton={true}
               secondAddButtonText="Add Time Slot"
               secondAddButtonAction={handleSecondAddAction}
-              showExportPDF={classRoutineData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               exportPDFFileName="Fee Type.pdf"

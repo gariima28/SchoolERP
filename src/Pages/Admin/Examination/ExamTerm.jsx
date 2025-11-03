@@ -360,7 +360,7 @@ const ExamTerm = () => {
                             showAddButton={true}
                             addButtonText="Add Exam Term"
                             addButtonAction={handleAddOffcanvasOpen}
-                            showExportPDF={examTermData.length > 0}
+                            showExportPDF={false}
                             exportPDFText="Export PDF"
                             exportPDFAction={''}
                             showExportCSV={examTermData.length > 0}
