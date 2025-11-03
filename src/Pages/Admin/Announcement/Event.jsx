@@ -685,21 +685,7 @@ const Event = () => {
 
 
   const [regex, setRegex] = useState('/^[a-zA-Z0-9!@#$%^&*()_+=-]+$/');
-  // const [csvData, setCsvData] = useState([]);
 
-  // const Download_Slip = async () => {
-  //   try {
-  //     const response = await EventCSV();
-  //     if (response?.status === 200) {
-  //       const rows = response?.data?.split('\n').map(row => row.split(','));
-  //       setCsvData(rows);
-  //       // setTableData(rows.slice(1));
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //     setLoader(false)
-  //   }
-  // };
 
   const [errors, setErrors] = useState({});
   // ###### validation ##########
@@ -714,13 +700,7 @@ const Event = () => {
     }
     else {
     }
-    // if (!eventDescription || eventDescription === "" || !/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? \s]+$/.test(eventDescription)) {
-    //   setIsValidDescriptionRequired(true)
-    //   isValid = false
-    //   setLoader(false)
-    // }
-    // else {
-    // }
+
     // date
     if (!startDate || startDate === "" || !/^[a-zA-Z0-9!@#$%^&*()_+=\- .]+$/.test(startDate)) {
       setIsValidDateRequired(true)
@@ -1227,8 +1207,6 @@ const Event = () => {
                             item.eventForClassNos
                           )}
                         </td>
-                        {/* <td className=' greyText pe-0 no-wrap'>{item.eventForRoleType}</td> */}
-                        {/* <td className=' greyText pe-0 no-wrap'>{item.eventForClassNos}</td> */}
 
                         <td className='greyText ps-1 no-wrap'>
                           <p className={`greyText pe-0 ${item.status === "Ongoing" ? 'my-Ongoing-status' : `${item.status === "Upcoming" ? 'my-Upcoming-status' : 'my-Closed-status'}`}`}>{item.status}</p>
