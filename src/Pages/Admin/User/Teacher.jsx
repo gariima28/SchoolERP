@@ -865,7 +865,7 @@ const Teacher = () => {
               searchValue={searchKey}
               searchAction={MyTeacherGetAllApi}
               onSearchChange={handleSearchButton}
-              showExportPDF={TeacherAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={TeacherAllData?.length > 0}

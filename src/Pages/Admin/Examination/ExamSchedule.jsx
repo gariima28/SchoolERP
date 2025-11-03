@@ -738,7 +738,7 @@ return (
                         showAddButton={true}
                         addButtonText="Add Exam Schedule"
                         addButtonAction={handleAddOffcanvasOpen}
-                        showExportPDF={examScheduleData.length > 0}
+                        showExportPDF={false}
                         exportPDFText="Export PDF"
                         exportPDFAction={''}
                         exportPDFFileName="Exam Schedule.pdf"

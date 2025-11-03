@@ -871,7 +871,7 @@ const Accountant = () => {
               searchValue={searchKey}
               searchAction={MyTeacherGetAllApi}
               onSearchChange={handleSearchButton}
-              showExportPDF={AccountAllData?.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={AccountAllData?.length > 0}

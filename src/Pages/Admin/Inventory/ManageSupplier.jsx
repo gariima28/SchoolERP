@@ -432,7 +432,7 @@ const ManageSupplier = () => {
               showAddButton={true}
               addButtonText="Add Supplier"
               addButtonAction={handleAddOffcanvasOpen}
-              // showExportPDF={supplierData.length > 0}
+              // showExportPDF={false}
               showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={DownloadSupplierPDF}

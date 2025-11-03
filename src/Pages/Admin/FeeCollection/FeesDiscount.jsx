@@ -373,7 +373,7 @@ const FeesDiscount = () => {
               showAddButton={true}
               addButtonText="Add Discount"
               addButtonAction={handleAddOffcanvasOpen}
-              showExportPDF={feeDiscountData.length > 0}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={DownloadFeeDiscountPDF}
               exportPDFFileName="Fee Discounts.pdf"
