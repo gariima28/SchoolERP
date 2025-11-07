@@ -422,36 +422,16 @@ const Marksheet = () => {
                                                                     <td className='textWrapClass greyText font14'>{item.totalMaxMarks}</td>
                                                                     <td className='textWrapClass greyText font14'>{item.percentage}</td>
                                                                     <td className='textWrapClass greyText font14'>{item.grade}</td>
-                                                                    <td className='text-end'>
-                                                                        <div className="dropdown dropdownbtn">
-                                                                            <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                <span>Action</span>
-                                                                            </button>
-                                                                            <ul className="dropdown-menu">
-                                                                                <li>
-                                                                                    <button
-                                                                                        className="dropdown-item greyText"
-                                                                                        type="button"
-                                                                                        data-bs-toggle="modal"
-                                                                                        data-bs-target="#SeeMarksheetModal"
-                                                                                        onClick={() => handleViewClick(item.studentId)}
-                                                                                    >
-                                                                                        View
-                                                                                    </button>
-                                                                                </li>
-                                                                                {/* <li>
-                                                                                    <button
-                                                                                        className="dropdown-item greyText"
-                                                                                        type="button"
-                                                                                        onClick={() => handleViewClick(item.studentId)}
-                                                                                        data-bs-toggle="modal"
-                                                                                        data-bs-target="#SeeMarksheetModal"
-                                                                                    >
-                                                                                        Download
-                                                                                    </button>
-                                                                                </li> */}
-                                                                            </ul>
-                                                                        </div>
+                                                                    <td className='d-flex justify-content-end'>
+                                                                        <button
+                                                                            className="dropdown-item actionButtons text-center"
+                                                                            type="button"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#SeeMarksheetModal"
+                                                                            onClick={() => handleViewClick(item.studentId)}
+                                                                        >
+                                                                            View
+                                                                        </button>
                                                                     </td>
                                                                 </tr>
                                                             ))}
