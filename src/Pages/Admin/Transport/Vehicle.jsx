@@ -71,7 +71,7 @@ const Container = styled.div`
         height: 73px;
         align-items: center;
     }
-
+    
     .deleteSVG{
         position: relative;
         width: fit-content ;
@@ -111,7 +111,6 @@ const Container = styled.div`
     .greydiv{
         background-color: #FBFBFB;
     }
-
 
     .form-control::placeholder, .form-control, .form-select{
         color: var(--greyState)
@@ -307,7 +306,6 @@ const Vehicle = () => {
                 setValue('totalSeat', vehicle?.seatCapacity);
                 setValue('routeId', vehicle?.routeClass?.routeId);
                 setValue('vehicleStatus', vehicle?.vehicleStatus);
-
                 setInitialValues({
                     vehicleNo: vehicle?.vehicleNumber,
                     vehicleModel: vehicle?.vehicleModel,
