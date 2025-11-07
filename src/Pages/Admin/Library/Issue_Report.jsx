@@ -1020,7 +1020,7 @@ const Issue_Report = () => {
               showAddButton={false}
               addButtonText=""
               addButtonAction={''}
-              showExportPDF={true}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={IssueAndReturnPDF}
               exportPDFFileName="Daily Attendance.pdf"

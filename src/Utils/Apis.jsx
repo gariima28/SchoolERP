@@ -7305,6 +7305,22 @@ export const PayrollGetAllApi = async (month, year) => {
     return [];
   }
 }
+// get all payroll by id
+export const PayrollGetAllBtIdApi = async (id) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/payroll/getById/${id}`)
+    // // console.log('my-response', res)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
 // delete payroll 
 export const PayrollDeleteApi = async () => {
   try {
