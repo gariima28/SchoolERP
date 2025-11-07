@@ -178,8 +178,13 @@ const Conta_contac = ({ data }) => {
     if (FuncValidation()) {
       const formData = new FormData();
       formData.append('contactDate', contractStart);
-      formData.append('basicSalary', basicSalary);
-      formData.append('hourlyRate', hourlyRate);
+      if (payslip === 'CONTRACTUAL') {
+        formData.append('basicSalary', 0);
+        formData.append('perDayRate', hourlyRate);
+      } else {
+        formData.append('basicSalary', basicSalary);
+        formData.append('perDayRate', 0);
+      }
       formData.append('contractEnd', contractEnd);
       formData.append('paySlipType', payslip);
       formData.append('shift', officeShift);
@@ -216,7 +221,7 @@ const Conta_contac = ({ data }) => {
         setContractStart(response?.data?.contact?.contractStart || '');
         setContractEnd(response?.data?.contact?.contractEnd || '');
         setBasicSalary(response?.data?.contact?.basicSalary || '');
-        setHourlyRate(response?.data?.contact?.hourlyRate || '');
+        setHourlyRate(response?.data?.contact?.perDayRate || '');
         setPayslip(response?.data?.contact?.paySlip || '');
         setOfficeShift(response?.data?.contact?.shift || '');
         setDepartment(response?.data?.contact?.department || '');
@@ -256,8 +261,13 @@ const Conta_contac = ({ data }) => {
     if (FuncValidation()) {
       const formData = new FormData();
       formData.append('contactDate', contractStart);
-      formData.append('basicSalary', basicSalary);
+      if (payslip === 'CONTRACTUAL'){
+      formData.append('basicSalary', 0);
       formData.append('perDayRate', hourlyRate);
+      } else {
+      formData.append('basicSalary', basicSalary);
+      formData.append('perDayRate', 0);
+      }
       formData.append('contractEnd', contractEnd);
       formData.append('paySlipType', payslip);
       formData.append('shift', officeShift);
