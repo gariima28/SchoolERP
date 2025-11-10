@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
-import { ClassGetApi } from '../../../Utils/Apis'
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { PayrollPostApi } from '../../../Utils/Apis'
 import { PayrollGetAllApi } from '../../../Utils/Apis'
@@ -19,6 +17,7 @@ import DownloadArrow from '../../../../public/images/upperArrow.svg'
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
+
 // ## style css area start ####  
 
 const Container = styled.div`
@@ -438,6 +437,15 @@ color: #000 !important;
     border: 1px solid #F2F3F6;
     background-color:' #D7E7E5' !important;
   }
+  .imageAlign img{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #b9b8b8;
+    object-position: center;
+
+  }
 
 /* ############# offcanvas ############## */
 
@@ -501,29 +509,11 @@ color: #000 !important;
 const Payroll = () => {
 
   const [loader, setLoader] = useState(false)
-
-  const [show, setShow] = useState(true)
-  const [hide, setHide] = useState(false)
-
-  const [showadd, setShowadd] = useState(true)
-  const [hideedit, setHideedit] = useState(false)
-
-  const [stateChange, setStateChange] = useState(false)
-  const [defaultState, setDefaultState] = useState(true)
   const [searchKey, setSearchKey] = useState('')
-
-  const [classData, setClassData] = useState([])
   const [payrollData, setPayrollData] = useState([])
-  const [subjectData, setSubjectData] = useState([])
-  const [teacherData, setTeacherData] = useState([])
-  const [classRoutineData, setClassRoutineData] = useState([])
   const [payrollId, setPayrollId] = useState([])
-  const [breakType, setBreakType] = useState('')
-  const [classNo, setClassNo] = useState('')
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
-  const [sectionName, setSectionName] = useState('')
-  const [tabclick, setTabclick] = useState('tab3')
 
   const [payrollDataByIdAllowance, setPayrollDataByIdAllowance] = useState([])
   const [payrollDataByIdDeduction, setPayrollDataByIdDeduction] = useState([])
@@ -580,20 +570,14 @@ const Payroll = () => {
       pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
     }
-
     pdf.save(`Payslip_${payrollDataByIdStaffName || "Employee"}.pdf`);
   };
-
-
-
 
   const handleCheckboxChange = (id) => {
     setPayrollId((prev) => {
       if (prev.includes(id)) {
-        // If ID already exists → remove it
         return prev.filter((item) => item !== id);
       } else {
-        // If ID doesn’t exist → add it
         return [...prev, id];
       }
     });
@@ -601,6 +585,8 @@ const Payroll = () => {
 
   // Post Api 
   const MyPayrollPostAllApi = async () => {
+
+    console.log('post api called here.......')
     setLoader(true)
     try {
       const response = await PayrollPostApi();
@@ -643,7 +629,7 @@ const Payroll = () => {
     setLoader(true)
     try {
       const response = await PayrollGetAllApi(month, year, searchKey, pageNo, pageSize);
-      console.log('payroll get all api response--', response)
+      // console.log('payroll get all api response--', response)
       if (response?.status === 200) {
         setPayrollData(response?.data?.payrolls)
         setLoader(false)
@@ -697,6 +683,7 @@ const Payroll = () => {
       if (response?.status === 200) {
         toast.success(response?.data?.message)
         MyPayrollGetAllApi()
+        
         // setPayrollData(response?.data?.payroll)
         setLoader(false)
       } else {
@@ -964,7 +951,7 @@ const Payroll = () => {
                 <div className="row myBorder">
                   <div className="col-lg-8 p-3 pb-0">
                     <div className='d-flex'>
-                      <div>
+                      <div className='imageAlign'>
                         <img src={payrollDataByIdSchoolImage ? payrollDataByIdSchoolImage : SchoolLogoGetApi} alt="" />
                       </div>
                       <div className='p-2 mt-1 '>
@@ -1082,7 +1069,7 @@ const Payroll = () => {
                 <div className="row m-1">
                   <div className="col-lg-6 ps-0">
                     <div className='my-2' style={{ fontSize: '22px' }}>
-                      <p ><b>Allowance Summery</b></p>
+                      <p ><b>Allowance Summary</b></p>
                     </div>
                     <div>
                       <div className="table-container  table-responsive">
@@ -1126,7 +1113,7 @@ const Payroll = () => {
                   </div>
                   <div className="col-lg-6 ps-0 pe-0">
                     <div className='my-2' style={{ fontSize: '22px' }}>
-                      <p ><b>Deduction Summery</b></p>
+                      <p ><b>Deduction Summary</b></p>
                     </div>
                     <div>
                       <div className="table-container  table-responsive">
