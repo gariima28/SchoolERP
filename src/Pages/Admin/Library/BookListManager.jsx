@@ -108,10 +108,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -1199,7 +1196,7 @@ const BookListManager = () => {
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => SubcPutDataApi()}>Submit</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -1358,7 +1355,7 @@ const BookListManager = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyNoticePutApi(idForUpdate)}>Update Book</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                     </div>
                   </div>
                 </div>

@@ -542,7 +542,7 @@ const Per_info_emer_cont = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-outline-success font14 ms-2"
+                className="btn cancelButtons text-black font14 ms-2"
                 onClick={clearData}
                 tabIndex="7"
                 aria-label="Cancel"
@@ -813,7 +813,7 @@ const Per_info_emer_cont = () => {
                     Delete {loader && <span className="loader"></span>}
                   </button>
                   <button
-                    className="btn cancelButtons font14 ms-2"
+                      className="btn cancelButtons text-black font14 ms-2"
                     data-bs-dismiss="offcanvas"
                     onClick={() => {
                       setIsDeleteConfirmed(false);

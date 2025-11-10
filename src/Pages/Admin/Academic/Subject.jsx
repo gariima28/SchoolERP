@@ -110,10 +110,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 
 .my-button22{
     display: flex;
@@ -828,7 +825,7 @@ const Subject = () => {
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" style={{ color: '#fff', backgroundColor: "#008479" }} onClick={MySubjectGetApi} disabled={!classIdForSearch}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={ClearHandle}>Cancel</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={ClearHandle}>Cancel</button>
             </div>
           </div>
 
@@ -1010,7 +1007,7 @@ const Subject = () => {
 
                   <div className='my-button11 '>
                     <button type="button" style={{ backgroundColor: '#008479', color: '#fff' }} className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MyHolidayPostApi() }}>Add Subject</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                   </div>
 
                 </div>
@@ -1115,7 +1112,7 @@ const Subject = () => {
 
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MySubjectPutApi(IdForUpdate) }} style={{ backgroundColor: '#008479', color: '#fff' }}>Update subject</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                   </div>
                 </div>
 

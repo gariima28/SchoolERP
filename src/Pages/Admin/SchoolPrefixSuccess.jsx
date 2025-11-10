@@ -46,10 +46,10 @@ const SchoolPrefixSuccess = () => {
     const navigate = useNavigate();
 
     const onContinue = () => {
+        navigate('/')
         sessionStorage.removeItem('token')
         sessionStorage.removeItem('subscription')
         window.location.reload()
-        navigate('/')
     }
 
 

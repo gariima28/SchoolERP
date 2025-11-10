@@ -115,10 +115,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -535,7 +532,7 @@ const Event = () => {
   const [endDate, setEndDate] = useState()
   const [endTime, setEndTime] = useState()
   const [eventStatus, setEventStatus] = useState()
-  const [eventDescription, setEventDescription] = useState()
+  const [eventDescription, setEventDescription] = useState('')
   const [eventAllData, setEventAllData] = useState([])
   const [idForDelete, setIdForDelete] = useState()
   const [searchKey, setSearchKey] = useState('')
@@ -838,6 +835,7 @@ const Event = () => {
       formData.append('startTime', startTime);
       formData.append('endDate', endDate);
       formData.append('endTime', endTime);
+      // formData.append('eventDescription', eventDescription === '' ? '' : eventDescription);
       formData.append('eventDescription', eventDescription);
       formData.append('eventForRoleTypeNames', roleNameStore);
       formData.append('eventForClassIds', selectedClassIds);
@@ -961,7 +959,7 @@ const Event = () => {
       console.log(error);
       setLoader(false);
     }
-  };  
+  };
   // Event Put api 
   const MyEventPutApi = async (id) => {
     setLoader(true)
@@ -1180,7 +1178,7 @@ const Event = () => {
                           )}
                         </td>
 
-                          <td
+                        <td
                           className='greyText pe-0 no-wrap position-relative'
                           data-bs-toggle={item.eventForClassNos.length > 17 ? "tooltip" : undefined}
                           title={item.eventForClassNos.length > 17 ? item.eventForClassNos : undefined}
@@ -1192,7 +1190,7 @@ const Event = () => {
                               </span>
                               <span className="info-indicator ms-1">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                  <circle  cx="8" cy="8" r="7" fill="#aaa" stroke="#aaa" strokeWidth="0.5" />
+                                  <circle cx="8" cy="8" r="7" fill="#aaa" stroke="#aaa" strokeWidth="0.5" />
                                   <text x="8" y="11"
                                     fontFamily="Arial, sans-serif"
                                     fontSize="10"
@@ -1523,7 +1521,7 @@ const Event = () => {
                     </div>
                     <div className='my-button11'>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyEventPostApi()}>Add Events</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearAndCancelHandle}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearAndCancelHandle}>Cancel</button>
                       <Toaster />
                     </div>
                   </div>
@@ -1813,7 +1811,7 @@ const Event = () => {
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyEventPutApi(eventIdForUpdate)}>Update</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                       {/* <Toaster /> */}
                     </div>
                   </div>

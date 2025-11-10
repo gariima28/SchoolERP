@@ -109,10 +109,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -878,7 +875,7 @@ const Accountant = () => {
               exportCSVText="Export CSV"
               exportCSVAction={() => OtherStaffCSV(roleId)}
             />
-            {/* <CSVLink className={`col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font16 heading-14 export1 my-own-outline-btn me-2 ${AccountAllData.length <= 0 ? 'disabled' : ''}`} data={csvData} filename={"orders.csv"}>
+            {/* <CSVLink className={`col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font16 heading-14 export1 my-own-outline-btn me-2 ${AccountAllData.length <= 0 ? 'disabled' : ''}`} data={csvData} filename={"Accountant.csv"}>
 
               <span>
                 <svg width="15" height="18" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1090,7 +1087,7 @@ const Accountant = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success" onClick={(e) => { MyNoticePutApi(IdForUpdate) }}>Update</button>
-                    <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                   </div>
                 </div>
               </div>
