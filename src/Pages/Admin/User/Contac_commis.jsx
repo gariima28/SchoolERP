@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm, Controller } from 'react-hook-form';
+
 import * as bootstrap from 'bootstrap';
 import styled from 'styled-components';
 import DataLoader from 'src/Layouts/Loader';
@@ -250,14 +251,37 @@ const Conta_deduction = () => {
     handleSubmit: handleAddSubmit,
     reset: resetAddForm,
     formState: { errors: addErrors },
+    setValue: setAddValue,
+    watch: watchAddForm,
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      deductionNameId: '',
+      allowanceNameId: '',
+      allowanceType: '',
+      percent: '',
       amount: '',
-      deductionOption: '',
+      amountOption: '',
     },
   });
+
+  const {
+    control: editControl,
+    handleSubmit: handleEditSubmit,
+    reset: resetEditForm,
+    formState: { errors: editErrors },
+    setValue: setEditValue,
+    watch: watchEditForm,
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      allowanceNameId: '',
+      allowanceType: '',
+      percent: '',
+      amount: '',
+      amountOption: '',
+    },
+  });
+
 
   useEffect(() => {
     const handleDeductionAdded = () => {
@@ -271,20 +295,12 @@ const Conta_deduction = () => {
     };
   }, [pageNo, pageSize]);
 
-  const {
-    control: editControl,
-    handleSubmit: handleEditSubmit,
-    reset: resetEditForm,
-    formState: { errors: editErrors },
-    setValue: setEditValue,
-  } = useForm({
-    mode: 'onChange',
-    defaultValues: {
-      deductionNameId: '',
-      amount: '',
-      deductionOption: '',
-    },
-  });
+
+  // const addDeductionType = watchAddForm('allowanceType');
+  // const editDeductionType = watchEditForm('allowanceType');
+  // Form hooks for Add and Edit forms
+
+
 
   // Initialize Bootstrap offcanvas
   useEffect(() => {
@@ -299,6 +315,10 @@ const Conta_deduction = () => {
       });
     }
   }, []);
+
+  // Watch form fields to enable/disable inputs
+  const addDeductionType = watchAddForm('deductionType');
+  const editDeductionType = watchEditForm('deductionType');
 
   // Fetch data on mount
   useEffect(() => {
@@ -365,7 +385,14 @@ const Conta_deduction = () => {
       formData.append('deductionNameId', data.deductionNameId);
       formData.append('deductionOption', data.deductionOption);
       formData.append('deductionValueType', data.deductionType);
-      formData.append('amount', data.amount);
+      // formData.append('amount', data.amount);
+
+       if (data.deductionType === 'PERCENT') {
+        formData.append('amount', data.percent);
+      }
+      else {
+        formData.append('amount', data.amount);
+      }
 
       console.log('Adding deduction with FormData:', Object.fromEntries(formData)); // Debug log
 
@@ -478,7 +505,7 @@ const Conta_deduction = () => {
         </p>
         <form onSubmit={handleAddSubmit(handleAddDeduction)}>
           <div className="row px-1 row-margin">
-            <div className="col-lg-4 col-md-4 col-sm-12">
+            <div className="col-lg-6 col-md-4 col-sm-12">
               <div className="form-group">
                 <label
                   htmlFor="deduction"
@@ -537,7 +564,7 @@ const Conta_deduction = () => {
                 )}
               </div>
             </div>
-            <div className="col-lg-4 col-md-4 col-sm-12">
+            <div className="col-lg-6 col-md-4 col-sm-12">
               <div className="form-group">
                 <label
                   htmlFor="deductionType"
@@ -571,7 +598,7 @@ const Conta_deduction = () => {
                 )}
               </div>
             </div>
-            <div className="col-lg-4 col-md-4 col-sm-12">
+            {/* <div className="col-lg-4 col-md-4 col-sm-12">
               <div className="form-group">
                 <label
                   htmlFor="amount"
@@ -608,8 +635,94 @@ const Conta_deduction = () => {
                   </div>
                 )}
               </div>
+            </div> */}
+          </div>
+
+
+          {/* new  */}
+          <div className="row px-1 row-margin">
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <div className="form-group">
+                <label
+                  htmlFor="percent"
+                  className="form-label heading-14 label-color"
+                  data-tooltip="Enter percent (e.g., 10.00)"
+                  aria-label="Percent"
+                >
+                  Percent <span style={{ color: '#B50000' }}>*</span>
+                </label>
+                <Controller
+                  name="percent"
+                  control={addControl}
+                  rules={{
+                    required: addDeductionType === 'PERCENT' ? 'Percent is required' : false,
+                    pattern: addDeductionType === 'PERCENT' ? {
+                      value: /^\d+(\.\d{1,2})?$/,
+                      message: 'Enter a valid percent (e.g., 10.00)',
+                    } : undefined,
+                  }}
+                  render={({ field }) => (
+                    <input
+                      type="text"
+                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.percent && field.value && addDeductionType === 'PERCENT' ? 'valid-indicator' : ''}`}
+                      id="percent"
+                      placeholder="Enter percent"
+                      disabled={addDeductionType !== 'PERCENT'}
+                      {...field}
+                      aria-describedby="percentError"
+                    />
+                  )}
+                />
+                {addErrors.percent && (
+                  <div id="percentError" className="error-message">
+                    {addErrors.percent.message}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <div className="form-group">
+                <label
+                  htmlFor="amount"
+                  className="form-label heading-14 label-color"
+                  data-tooltip="Enter amount (e.g., 1000.00)"
+                  aria-label="Amount"
+                >
+                  Flat Amount <span style={{ color: '#B50000' }}>*</span>
+                </label>
+                <Controller
+                  name="amount"
+                  control={addControl}
+                  rules={{
+                    required: addDeductionType === 'FLAT' ? 'Flat amount is required' : false,
+                    pattern: addDeductionType === 'FLAT' ? {
+                      value: /^\d+(\.\d{1,2})?$/,
+                      message: 'Enter a valid amount (e.g., 1000.00)',
+                    } : undefined,
+                  }}
+                  render={({ field }) => (
+                    <input
+                      type="text"
+                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.amount && field.value && addDeductionType === 'FLAT' ? 'valid-indicator' : ''}`}
+                      id="amount"
+                      placeholder="Enter amount"
+                      disabled={addDeductionType !== 'FLAT'}
+                      {...field}
+                      aria-describedby="amountError"
+                    />
+                  )}
+                />
+                {addErrors.amount && (
+                  <div id="amountError" className="error-message">
+                    {addErrors.amount.message}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+          {/* new  */}
+
+
           <div className="row px-1 row-margin">
             <div className="col-lg-8 col-md-6 col-sm-12">
               <div className="row">
@@ -892,6 +1005,8 @@ const Conta_deduction = () => {
                 </div>
               )}
             </div>
+
+
             <div className="form-group mb-3">
               <div className="row">
                 <div className="col-6">
@@ -1066,3 +1181,17 @@ const Conta_deduction = () => {
 };
 
 export default Conta_deduction;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

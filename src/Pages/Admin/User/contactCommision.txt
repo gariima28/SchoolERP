@@ -6,17 +6,17 @@ import * as bootstrap from 'bootstrap';
 import styled from 'styled-components';
 import DataLoader from 'src/Layouts/Loader';
 import {
-  Conatct_allowance_getById,
-  Conatct_allowance_PutApi,
-  getAllHRAllowanceName,
-  AssignAllowanceToStaff,
-  getAllHRAllowanceByStaffID,
-  DeleteItemAssignAllowanceToStaff,
+  Conatct_Deduction_getById,
+  Conatct_Deduction_PutApi,
+  getAllHRDeductionName,
+  AssignDeductionToStaff,
+  getAllHRDeductionByStaffID,
+  DeleteItemAssignDeductionToStaff,
 } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
-import AllowanceModal from './AllowanceModal';
+import Deduction from './DeductionsModal';
 
-// Styled components for CSS (unchanged)
+// Styled components (consolidated from inline styles)
 const StyledContainer = styled.div`
   .form-check-input:checked {
     background-color: #008479 !important;
@@ -36,10 +36,6 @@ const StyledContainer = styled.div`
   @keyframes slideIn {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
-  }
-  .formdltcheck:checked {
-    background-color: #b50000 !important;
-    border-color: #b50000 !important;
   }
   .form-control, .form-select {
     border-radius: 8px;
@@ -192,6 +188,11 @@ const StyledContainer = styled.div`
     background: #e6f4f1;
     transition: background 0.3s ease;
   }
+
+  .formdltcheck:checked {
+    background-color: #b50000 !important;
+    border-color: #b50000 !important;
+  }
   .action-btn {
     padding: 6px 12px;
     font-size: 12px;
@@ -216,6 +217,8 @@ const StyledContainer = styled.div`
     border-radius: 0 16px 16px 0;
   }
   .offcanvas-header {
+    /* background: linear-gradient(135deg, #008479 0%, #006b63 100%);
+    color: #fff; */
     padding: 16px;
   }
   .offcanvas-title {
@@ -227,16 +230,16 @@ const StyledContainer = styled.div`
   }
 `;
 
-const Conta_allown = () => {
+const Conta_deduction = () => {
   const { roleId, userId } = useParams();
-  const myUserID = userId ?? roleId ?? '';
+  // const { userId } = useContext(MyUseContext);
 
   const [loaderState, setLoaderState] = useState(false);
-  const [allowanceData, setAllowanceData] = useState([]);
-  const [delAllowanceId, setDelAllowanceId] = useState();
+  const [deductionData, setDeductionData] = useState([]);
+  const [delDeductionId, setDelDeductionId] = useState();
   const [isChecked, setIsChecked] = useState(false);
-  const [staffAllowanceData, setStaffAllowanceData] = useState([]);
-  const [editAllowance, setEditAllowance] = useState(null);
+  const [staffDeductionData, setStaffDeductionData] = useState([]);
+  const [editDeduction, setEditDeduction] = useState(null);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
@@ -247,88 +250,53 @@ const Conta_allown = () => {
     handleSubmit: handleAddSubmit,
     reset: resetAddForm,
     formState: { errors: addErrors },
-    setValue: setAddValue,
-    watch: watchAddForm,
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      allowanceNameId: '',
-      allowanceType: '',
-      percent: '',
+      deductionNameId: '',
       amount: '',
-      amountOption: '',
+      deductionOption: '',
     },
   });
 
+  useEffect(() => {
+    const handleDeductionAdded = () => {
+      getAllDeductionName(); // Refresh dropdown
+    };
+
+    window.addEventListener('deductionAdded', handleDeductionAdded);
+
+    return () => {
+      window.removeEventListener('deductionAdded', handleDeductionAdded);
+    };
+  }, [pageNo, pageSize]);
+
+
+  // const addAllowanceType = watchAddForm('allowanceType');
+  // const editAllowanceType = watchEditForm('allowanceType');
   const {
     control: editControl,
     handleSubmit: handleEditSubmit,
     reset: resetEditForm,
     formState: { errors: editErrors },
     setValue: setEditValue,
-    watch: watchEditForm,
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      allowanceNameId: '',
-      allowanceType: '',
-      percent: '',
+      deductionNameId: '',
       amount: '',
-      amountOption: '',
+      deductionOption: '',
     },
   });
 
-  // Watch form fields to enable/disable inputs
-  const addAllowanceType = watchAddForm('allowanceType');
-  const editAllowanceType = watchEditForm('allowanceType');
-
-  // Reset percent and amount when allowance type changes
-  useEffect(() => {
-    if (addAllowanceType === 'PERCENT') {
-      setAddValue('amount', '0');
-      setAddValue('percent', '');
-    } else if (addAllowanceType === 'FLAT') {
-      setAddValue('percent', '0');
-      setAddValue('amount', '');
-    } else {
-      setAddValue('percent', '');
-      setAddValue('amount', '');
-    }
-  }, [addAllowanceType, setAddValue]);
-
-  useEffect(() => {
-    const handleAllowanceAdded = () => {
-      getAllAllowanceName(); // Refresh dropdown
-    };
-
-    window.addEventListener('allowanceAdded', handleAllowanceAdded);
-
-    return () => {
-      window.removeEventListener('allowanceAdded', handleAllowanceAdded);
-    };
-  }, [pageNo, pageSize]);
-
-  useEffect(() => {
-    if (editAllowanceType === 'PERCENT') {
-      setEditValue('amount', '0');
-      setEditValue('percent', editAllowance?.percent || '');
-    } else if (editAllowanceType === 'FLAT') {
-      setEditValue('percent', '0');
-      setEditValue('amount', editAllowance?.amount || '');
-    } else {
-      setEditValue('percent', '');
-      setEditValue('amount', '');
-    }
-  }, [editAllowanceType, setEditValue, editAllowance]);
-
   // Initialize Bootstrap offcanvas
   useEffect(() => {
-    const offcanvasElement = document.getElementById('editAllowanceOffcanvas');
+    const offcanvasElement = document.getElementById('editDeductionOffcanvas');
     if (offcanvasElement) {
       const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
       offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
         resetEditForm();
-        setEditAllowance(null);
+        setEditDeduction(null);
         const backdrop = document.querySelector('.offcanvas-backdrop');
         if (backdrop) backdrop.remove();
       });
@@ -337,154 +305,154 @@ const Conta_allown = () => {
 
   // Fetch data on mount
   useEffect(() => {
-    if (myUserID) {
-      getAllAllowanceName();
-      getAllAllowanceNameByStaffId();
+    if (userId) {
+      getAllDeductionName();
+      getAllDeductionNameByStaffId();
+    } else {
+      toast.error('User ID not found');
+      // Optionally redirect: navigate('/');
     }
-  }, [myUserID, pageNo]);
+  }, [userId, pageNo]);
 
-  // Fetch all allowance names for dropdown
-  const getAllAllowanceName = async () => {
+  // Fetch all deduction names for dropdown
+  const getAllDeductionName = async () => {
     try {
       setLoaderState(true);
-      const response = await getAllHRAllowanceName('', pageNo, pageSize);
+      const response = await getAllHRDeductionName('', pageNo, pageSize);
       if (response?.status === 200 && response?.data?.status === 'success') {
-        setAllowanceData(response.data.allowanceNames || []);
-        setTotalPages(response.data.totalPages || 1);
+        setDeductionData(response.data.deductionNames || []);
+        // setTotalPages(response.data.totalPages || 1);
       } else {
-        toast.error(response?.data?.message || 'Failed to fetch allowances');
+        toast.error(response?.data?.message || 'Failed to fetch deductions');
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
         sessionStorage.removeItem('token');
+        // navigate('/');
       }
-      toast.error('Error fetching allowances');
+      toast.error('Error fetching deductions');
     } finally {
       setLoaderState(false);
     }
   };
 
-  // Fetch staff-specific allowances
-  const getAllAllowanceNameByStaffId = async () => {
+  // Fetch staff-specific deductions
+  const getAllDeductionNameByStaffId = async () => {
     try {
       setLoaderState(true);
-      const response = await getAllHRAllowanceByStaffID(myUserID);
+      const response = await getAllHRDeductionByStaffID(userId);
+      console.log(response)
       if (response?.status === 200 && response?.data?.status === 'success') {
-        setStaffAllowanceData(response.data.allowance || []);
+        setStaffDeductionData(response.data.statutory || []);
         setTotalPages(response.data.totalPages || 1);
+        console.log(response.data.statutory, 'deductiondata')
       } else {
-        toast.error(response?.data?.message || 'Failed to fetch staff allowances');
+        // toast.error(response?.data?.message || 'Failed to fetch staff deductions');
       }
     } catch (error) {
       if (error?.response?.data?.statusType === 401) {
         sessionStorage.removeItem('token');
+        // navigate('/');
       }
-      toast.error('Error fetching staff allowances');
+      toast.error('Error fetching staff deductions');
     } finally {
       setLoaderState(false);
     }
   };
 
-  // Add new allowance
-  const handleAddAllowance = async (data) => {
+  // Add new deduction
+  const handleAddDeduction = async (data) => {
     try {
       setLoaderState(true);
       const formData = new FormData();
-      formData.append('allowanceNameId', data.allowanceNameId);
-      formData.append('allowanceValueType', data.allowanceType);
-      if (data.allowanceType === 'PERCENT') {
-        formData.append('amount', data.percent);
-      }
-      else {
-        formData.append('amount', data.amount);
-      }
-      formData.append('allowanceType', data.amountOption);
+      formData.append('deductionNameId', data.deductionNameId);
+      formData.append('deductionOption', data.deductionOption);
+      formData.append('deductionValueType', data.deductionType);
+      formData.append('amount', data.amount);
 
-      const response = await AssignAllowanceToStaff(myUserID, formData);
+      console.log('Adding deduction with FormData:', Object.fromEntries(formData)); // Debug log
+
+      const response = await AssignDeductionToStaff(userId, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message);
         resetAddForm();
-        getAllAllowanceNameByStaffId();
+        getAllDeductionNameByStaffId();
       } else {
-        toast.error(response?.data?.message || 'Failed to add allowance');
+        toast.error(response?.data?.message || 'Failed to add deduction');
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Error adding allowance');
+      toast.error(error?.response?.data?.message || 'Error adding deduction');
     } finally {
       setLoaderState(false);
     }
   };
 
-  // Edit allowance
+  // Edit deduction
   const handleEdit = (item) => {
-    console.log("Editing allowance:", item);
-    setEditAllowance(item);
-
-    setEditValue('allowanceNameId', item.allowanceNameId || '', { shouldValidate: true });
-    setEditValue('allowanceType', item.amount ? 'FLAT' : 'PERCENT', { shouldValidate: true });
-    setEditValue('percent', item.amount || '', { shouldValidate: true });
-    setEditValue('amount', item.amount || '', { shouldValidate: true });
-    setEditValue('amountOption', item.allowanceType || '', { shouldValidate: true });
-
-    const offcanvasElement = document.getElementById('editAllowanceOffcanvas');
+    console.log('Editing item:', item); // Debug log
+    setEditDeduction(item);
+    setEditValue('deductionNameId', item.deductionNameId || item.statutoryDeductionId || '');
+    setEditValue('amount', item.amount || '');
+    setEditValue('deductionOption', item.deductionOption || '');
+    const offcanvasElement = document.getElementById('editDeductionOffcanvas');
     if (offcanvasElement) {
       const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
       offcanvas.show();
     }
   };
 
-
-
-
-  // Update allowance
-  const handleUpdateAllowance = async (data) => {
-    if (!editAllowance) {
-      toast.error('No allowance selected for update');
+  // Update deduction
+  const handleUpdateDeduction = async (data) => {
+    if (!editDeduction) {
+      toast.error('No deduction selected for update');
       return;
     }
     try {
       setLoaderState(true);
       const formData = new FormData();
-      formData.append('allowanceNameId', data.allowanceNameId);
-      formData.append('allowanceValueType', data.allowanceType);
-      if (data.allowanceType === 'PERCENT'){
-        formData.append('amount', data.percent);
-      }
-      else{
-        formData.append('amount', data.amount);
-      }
-      formData.append('allowanceType', data.amountOption);
+      formData.append('deductionNameId', data.deductionNameId);
+      formData.append('deductionOption', data.deductionOption);
+      formData.append('deductionValueType', data.deductionType);
+      formData.append('amount', data.amount);
 
-      const response = await Conatct_allowance_PutApi(editAllowance.staffId || editAllowance.id, formData);
+      console.log('Updating deduction with ID:', editDeduction.statutoryDeductionId || editDeduction.id); // Debug log
+      console.log('FormData:', Object.fromEntries(formData)); // Debug log
+
+      const response = await Conatct_Deduction_PutApi(userId, formData);
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message);
-        getAllAllowanceNameByStaffId();
-        const offcanvasElement = document.getElementById('editAllowanceOffcanvas');
+        getAllDeductionNameByStaffId();
+        const offcanvasElement = document.getElementById('editDeductionOffcanvas');
         if (offcanvasElement) {
           const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
           offcanvas.hide();
         }
-        resetEditForm();
-        setEditAllowance(null);
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrop = document.querySelector('.offcanvas-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }, { once: true });
       } else {
-        toast.error(response?.data?.message || 'Failed to update allowance');
+        toast.error(response?.data?.message || 'Failed to update deduction');
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Error updating allowance');
+      console.error('Update error:', error.response?.data); // Debug log
+      toast.error(error?.response?.data?.message || 'Error updating deduction');
     } finally {
       setLoaderState(false);
     }
   };
 
-  // Delete allowance
+  // Delete deduction
   const handleDelete = async (ids) => {
     try {
       setLoaderState(true);
-      const response = await DeleteItemAssignAllowanceToStaff(myUserID, ids);
+      const response = await DeleteItemAssignDeductionToStaff(userId, ids);
       if (response?.data?.status === 'success') {
-        toast.success('Allowance deleted successfully');
-        getAllAllowanceNameByStaffId();
-        setIsChecked(false);
+        toast.success('Deduction deleted successfully');
+        getAllDeductionNameByStaffId();
+        setIsChecked(false)
         const offcanvasElement = document.getElementById('deleteFeeDiscount');
         const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.hide();
@@ -495,63 +463,66 @@ const Conta_allown = () => {
           }
         }, { once: true });
       } else {
-        toast.error(response?.data?.message || 'Failed to delete allowance');
+        toast.error(response?.data?.message || 'Failed to delete deduction');
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Error deleting allowance');
+      toast.error(error?.response?.data?.message || 'Error deleting deduction');
     } finally {
       setLoaderState(false);
     }
   };
   const [showAddModal, setShowAddModal] = useState(false);
-
-
   return (
     <StyledContainer className="container-fluid">
       {loaderState && <DataLoader />}
       <div className="form-container">
         <p className="heading-16 mb-3" style={{ color: '#1a3c34', fontWeight: '700' }}>
-          Add Allowance
+          Add Deduction
         </p>
-        <form onSubmit={handleAddSubmit(handleAddAllowance)}>
+        <form onSubmit={handleAddSubmit(handleAddDeduction)}>
           <div className="row px-1 row-margin">
-            <div className="col-lg-6 col-md-6 col-sm-12">
+            <div className="col-lg-4 col-md-4 col-sm-12">
               <div className="form-group">
                 <label
-                  htmlFor="allowance"
-                  className="form-label heading-14 label-color"
-                  data-tooltip="Select allowance name"
-                  aria-label="Allowance Name"
+                  htmlFor="deduction"
+                  className="form-label font14 label-color"
+                  data-tooltip="Select deduction name"
+                  aria-label="Deduction Name"
                 >
-                  Allowance Name <span style={{ color: '#B50000' }}>*</span>
+                  Deduction Name <span style={{ color: '#B50000' }}>*</span>
                 </label>
                 <Controller
-                  name="allowanceNameId"
+                  name="deductionNameId"
                   control={addControl}
                   rules={{
-                    required: 'Allowance name is required',
+                    required: 'Deduction name is required',
                     pattern: {
                       value: /^[0-9]+$/,
-                      message: 'Please select a valid allowance',
+                      message: 'Please select a valid deduction',
                     },
                   }}
                   render={({ field }) => (
                     <select
-                      className={`form-select form-select-sm form-focus label-color ${addErrors.allowanceNameId ? 'border-danger' : ''}`}
-                      id="allowance"
+                      className={`form-select form-select-sm form-focus label-color ${addErrors.deductionNameId ? 'border-danger' : ''}`}
+                      id="deduction"
                       {...field}
-                      aria-describedby="allowanceError"
+                      aria-describedby="deductionError"
                     >
                       <option value="">--Choose--</option>
-                      {allowanceData.length > 0 ? (
-                        allowanceData.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.allowanceName}
-                          </option>
-                        ))
-                      ) : (
-                        <option value="no" disabled>-- No Allowance Created Yet --</option>
-                      )}
+                      {deductionData.length > 0
+                        ?
+                        (
+                          <>
+                            {deductionData?.map((item) => (
+                              <option key={item.id} value={item.id}>
+                                {item.deductionName}
+                              </option>
+                            ))}
+                          </>
+                        )
+                        :
+                        <option value="no" disabled>-- No Deduction Created Yet --</option>
+                      }
                     </select>
                   )}
                 />
@@ -560,35 +531,35 @@ const Conta_allown = () => {
                   className="blueText font12 mt-2 text-decoration-underline cursorPointer border-0 bg-transparent p-0"
                   onClick={() => setShowAddModal(true)}
                 >
-                  + Add Allowance
+                  + Add Deduction
                 </button>
-                {addErrors.allowanceNameId && (
-                  <div id="allowanceError" className="error-message">
-                    {addErrors.allowanceNameId.message}
+                {addErrors.deductionNameId && (
+                  <div id="deductionError" className="error-message">
+                    {addErrors.deductionNameId.message}
                   </div>
                 )}
               </div>
             </div>
-            <div className="col-lg-6 col-md-6 col-sm-12">
+            <div className="col-lg-4 col-md-4 col-sm-12">
               <div className="form-group">
                 <label
-                  htmlFor="allowanceType"
+                  htmlFor="deductionType"
                   className="form-label heading-14 label-color"
-                  data-tooltip="Select allowance type"
-                  aria-label="Allowance Type"
+                  data-tooltip="Select deduction type"
+                  aria-label="Deduction Type"
                 >
-                  Allowance Type <span style={{ color: '#B50000' }}>*</span>
+                  Deduction Type <span style={{ color: '#B50000' }}>*</span>
                 </label>
                 <Controller
-                  name="allowanceType"
+                  name="deductionType"
                   control={addControl}
-                  rules={{ required: 'Allowance type is required' }}
+                  rules={{ required: 'Deduction type is required' }}
                   render={({ field }) => (
                     <select
-                      className={`form-select form-select-sm form-focus label-color ${addErrors.allowanceType ? 'border-danger' : ''}`}
-                      id="allowanceType"
+                      className={`form-select form-select-sm form-focus label-color ${addErrors.deductionType ? 'border-danger' : ''}`}
+                      id="deductionType"
                       {...field}
-                      aria-describedby="allowanceTypeError"
+                      aria-describedby="deductionTypeError"
                     >
                       <option value="">--Choose--</option>
                       <option value="PERCENT">Percent</option>
@@ -596,83 +567,39 @@ const Conta_allown = () => {
                     </select>
                   )}
                 />
-                {addErrors.allowanceType && (
-                  <div id="allowanceTypeError" className="error-message">
-                    {addErrors.allowanceType.message}
+                {addErrors.deductionType && (
+                  <div id="deductionTypeError" className="error-message">
+                    {addErrors.deductionType.message}
                   </div>
                 )}
               </div>
             </div>
-          </div>
-
-
-          <div className="row px-1 row-margin">
-            <div className="col-lg-6 col-md-6 col-sm-12">
-              <div className="form-group">
-                <label
-                  htmlFor="percent"
-                  className="form-label heading-14 label-color"
-                  data-tooltip="Enter percent (e.g., 10.00)"
-                  aria-label="Percent"
-                >
-                  Percent <span style={{ color: '#B50000' }}>*</span>
-                </label>
-                <Controller
-                  name="percent"
-                  control={addControl}
-                  rules={{
-                    required: addAllowanceType === 'PERCENT' ? 'Percent is required' : false,
-                    pattern: addAllowanceType === 'PERCENT' ? {
-                      value: /^\d+(\.\d{1,2})?$/,
-                      message: 'Enter a valid percent (e.g., 10.00)',
-                    } : undefined,
-                  }}
-                  render={({ field }) => (
-                    <input
-                      type="text"
-                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.percent && field.value && addAllowanceType === 'PERCENT' ? 'valid-indicator' : ''}`}
-                      id="percent"
-                      placeholder="Enter percent"
-                      disabled={addAllowanceType !== 'PERCENT'}
-                      {...field}
-                      aria-describedby="percentError"
-                    />
-                  )}
-                />
-                {addErrors.percent && (
-                  <div id="percentError" className="error-message">
-                    {addErrors.percent.message}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12">
+            <div className="col-lg-4 col-md-4 col-sm-12">
               <div className="form-group">
                 <label
                   htmlFor="amount"
-                  className="form-label heading-14 label-color"
+                  className="form-label font14 label-color"
                   data-tooltip="Enter amount (e.g., 1000.00)"
                   aria-label="Amount"
                 >
-                  Flat Amount <span style={{ color: '#B50000' }}>*</span>
+                  Amount <span style={{ color: '#B50000' }}>*</span>
                 </label>
                 <Controller
                   name="amount"
                   control={addControl}
                   rules={{
-                    required: addAllowanceType === 'FLAT' ? 'Flat amount is required' : false,
-                    pattern: addAllowanceType === 'FLAT' ? {
+                    required: 'Amount is required',
+                    pattern: {
                       value: /^\d+(\.\d{1,2})?$/,
                       message: 'Enter a valid amount (e.g., 1000.00)',
-                    } : undefined,
+                    },
                   }}
                   render={({ field }) => (
                     <input
                       type="text"
-                      className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!addErrors.amount && field.value && addAllowanceType === 'FLAT' ? 'valid-indicator' : ''}`}
+                      className={`form-control form-control-sm font14 grey-input-text-color input-border-color ${!addErrors.amount && field.value ? 'valid-indicator' : ''}`}
                       id="amount"
                       placeholder="Enter amount"
-                      disabled={addAllowanceType !== 'FLAT'}
                       {...field}
                       aria-describedby="amountError"
                     />
@@ -686,17 +613,20 @@ const Conta_allown = () => {
               </div>
             </div>
           </div>
+        
+
+
 
 
           <div className="row px-1 row-margin">
-            <div className="col-lg-12 col-md-6 col-sm-12">
+            <div className="col-lg-8 col-md-6 col-sm-12">
               <div className="row">
-                <div className="col-lg-3 col-md-6 col-sm-12">
+                <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="form-check">
                     <Controller
-                      name="amountOption"
+                      name="deductionOption"
                       control={addControl}
-                      rules={{ required: 'Please select an allowance type' }}
+                      rules={{ required: 'Please select a deduction type' }}
                       render={({ field }) => (
                         <input
                           className="form-check-input"
@@ -714,12 +644,12 @@ const Conta_allown = () => {
                     </label>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-12">
+                <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="form-check">
                     <Controller
-                      name="amountOption"
+                      name="deductionOption"
                       control={addControl}
-                      rules={{ required: 'Please select an allowance type' }}
+                      rules={{ required: 'Please select a deduction type' }}
                       render={({ field }) => (
                         <input
                           className="form-check-input"
@@ -737,67 +667,21 @@ const Conta_allown = () => {
                     </label>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-12">
-                  <div className="form-check">
-                    <Controller
-                      name="amountOption"
-                      control={addControl}
-                      rules={{ required: 'Please select an allowance type' }}
-                      render={({ field }) => (
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="applyOption"
-                          id="alreadyApplied"
-                          value="ALREADY_APPLIED"
-                          checked={field.value === 'ALREADY_APPLIED'}
-                          onChange={() => field.onChange('ALREADY_APPLIED')}
-                        />
-                      )}
-                    />
-                    <label className="form-check-label font14" htmlFor="alreadyApplied">
-                      Already Applied
-                    </label>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-12">
-                  <div className="form-check">
-                    <Controller
-                      name="amountOption"
-                      control={addControl}
-                      rules={{ required: 'Please select an allowance type' }}
-                      render={({ field }) => (
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="applyOption"
-                          id="annual"
-                          value="ANNUAL"
-                          checked={field.value === 'ANNUAL'}
-                          onChange={() => field.onChange('ANNUAL')}
-                        />
-                      )}
-                    />
-                    <label className="form-check-label font14" htmlFor="annual">
-                      Annual
-                    </label>
-                  </div>
-                </div>
-                {addErrors.amountOption && (
+                {addErrors.deductionOption && (
                   <div className="error-message">
-                    {addErrors.amountOption.message}
+                    {addErrors.deductionOption.message}
                   </div>
                 )}
               </div>
             </div>
           </div>
           <div className="row buttons-tops text-center">
-            <div className="my-button11 heading-14">
+            <div className="my-button11 font14">
               <button
                 type="submit"
                 className="btn btn-outline-success my-green font14 me-1"
                 disabled={loaderState}
-                aria-label="Add Allowance"
+                aria-label="Add Deduction"
               >
                 {loaderState ? (
                   <>
@@ -805,7 +689,7 @@ const Conta_allown = () => {
                     <span className="loader"></span>
                   </>
                 ) : (
-                  'Add Allowance'
+                  'Add Deduction'
                 )}
               </button>
               <button
@@ -822,31 +706,30 @@ const Conta_allown = () => {
       </div>
 
       <div className="table-container mt-4">
-        {staffAllowanceData.length > 0 ? (
-          <table className="table" aria-label="Allowance List">
+        {staffDeductionData.length > 0 ? (
+          <table className="table" aria-label="Deduction List">
             <thead>
               <tr>
-                <th scope="col">Allowance Name</th>
-                <th scope="col">Allowance Type</th>
-                <th scope="col">Percent</th>
+                <th scope="col">Deduction Name</th>
+                <th scope="col">Deduction Type</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {staffAllowanceData.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.allowanceName}</td>
-                  <td>{item.allowanceType}</td>
-                  <td>{item.percent || '0'}</td>
-                  <td>{item.amount || '0'}</td>
+              {staffDeductionData.map((item, index) => (
+                <tr key={item.statutoryDeductionId || item.id}>
+                  <td>{item.title || 'N/A'}</td>
+                  <td>{item.deductionOption}</td>
+                  <td>{item.amount}</td>
                   <td>
                     <button
                       className="action-btn edit me-2"
                       data-bs-toggle="offcanvas"
-                      data-bs-target="#editAllowanceOffcanvas"
-                      aria-controls="editAllowanceOffcanvas"
+                      data-bs-target="#editDeductionOffcanvas"
+                      aria-controls="editDeductionOffcanvas"
                       onClick={() => handleEdit(item)}
+                      tabIndex={7 + index * 2}
                     >
                       Edit
                     </button>
@@ -856,10 +739,19 @@ const Conta_allown = () => {
                       data-bs-toggle="offcanvas"
                       data-bs-target="#deleteFeeDiscount"
                       aria-controls="deleteFeeDiscount"
-                      onClick={() => setDelAllowanceId(item.allowanceId)}
+                      onClick={() => setDelDeductionId(item.statutoryDeductionId)} //delDeductionId
                     >
+                      {/* <Icon icon="mi:delete" width="1.5em" height="1.5em" style={{ color: '#8F8F8F' }} /> */}
                       Delete
                     </button>
+                    {/* <button
+                      className="action-btn delete"
+                      onClick={() => handleDelete(item.statutoryDeductionId || item.id)}
+                      aria-label={`Delete deduction ${item.deductionName || 'N/A'}`}
+                      tabIndex={8 + index * 2}
+                    >
+                      Delete
+                    </button> */}
                   </td>
                 </tr>
               ))}
@@ -875,12 +767,12 @@ const Conta_allown = () => {
       <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"
-        id="editAllowanceOffcanvas"
-        aria-labelledby="editAllowanceOffcanvasLabel"
+        id="editDeductionOffcanvas"
+        aria-labelledby="editDeductionOffcanvasLabel"
       >
         <div className="offcanvas-header border-bottom">
-          <h5 className="offcanvas-title font14" id="editAllowanceOffcanvasLabel">
-            Edit Allowance
+          <h5 className="offcanvas-title font14" id="editDeductionOffcanvasLabel">
+            Edit Deduction
           </h5>
           <button
             type="button"
@@ -888,73 +780,77 @@ const Conta_allown = () => {
             data-bs-dismiss="offcanvas"
             onClick={() => {
               resetEditForm();
-              setEditAllowance(null);
+              setEditDeduction(null);
             }}
             aria-label="Close"
           ></button>
         </div>
         <div className="offcanvas-body">
-          <form onSubmit={handleEditSubmit(handleUpdateAllowance)}>
+          <form onSubmit={handleEditSubmit(handleUpdateDeduction)}>
             <div className="form-group mb-3">
               <label
-                htmlFor="editAllowance"
-                className="form-label heading-14 label-color"
-                data-tooltip="Select allowance name"
-                aria-label="Allowance Name"
+                htmlFor="editDeduction"
+                className="form-label font14 label-color"
+                data-tooltip="Select deduction name"
+                aria-label="Deduction Name"
               >
-                Allowance Name <span style={{ color: '#B50000' }}>*</span>
+                Deduction Name <span style={{ color: '#B50000' }}>*</span>
               </label>
               <Controller
-                name="allowanceNameId"
+                name="deductionNameId"
                 control={editControl}
                 rules={{
-                  required: 'Allowance name is required',
+                  required: 'Deduction name is required',
                   pattern: {
                     value: /^[0-9]+$/,
-                    message: 'Please select a valid allowance',
+                    message: 'Please select a valid deduction',
                   },
                 }}
                 render={({ field }) => (
                   <select
-                    className={`form-select form-select-sm form-focus label-color ${editErrors.allowanceNameId ? 'border-danger' : ''}`}
-                    id="editAllowance"
+                    className={`form-select form-select-sm form-focus label-color ${editErrors.deductionNameId ? 'border-danger' : ''}`}
+                    id="editDeduction"
                     {...field}
-                    aria-describedby="editAllowanceError"
+                    aria-describedby="editDeductionError"
                   >
                     <option value="">--Choose--</option>
-                    {allowanceData.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.allowanceName}
-                      </option>
-                    ))}
+                    {deductionData.length > 0 ? (
+                      deductionData.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.deductionName}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>No deductions found</option>
+                    )}
                   </select>
                 )}
               />
-              {editErrors.allowanceNameId && (
-                <div id="editAllowanceError" className="error-message">
-                  {editErrors.allowanceNameId.message}
+              {editErrors.deductionNameId && (
+                <div id="editDeductionError" className="error-message">
+                  {editErrors.deductionNameId.message}
                 </div>
               )}
             </div>
             <div className="form-group mb-3">
               <label
-                htmlFor="editAllowanceType"
+                htmlFor="editDeductionType"
                 className="form-label heading-14 label-color"
-                data-tooltip="Select allowance type"
-                aria-label="Allowance Type"
+                data-tooltip="Select deduction type"
+                aria-label="Deduction Type"
               >
-                Allowance Type <span style={{ color: '#B50000' }}>*</span>
+                Deduction Type <span style={{ color: '#B50000' }}>*</span>
               </label>
               <Controller
-                name="allowanceType"
+                name="deductionType"
                 control={editControl}
-                rules={{ required: 'Allowance type is required' }}
+                rules={{ required: 'Deduction type is required' }}
                 render={({ field }) => (
                   <select
-                    className={`form-select form-select-sm form-focus label-color ${editErrors.allowanceType ? 'border-danger' : ''}`}
-                    id="editAllowanceType"
+                    className={`form-select form-select-sm form-focus label-color ${editErrors.deductionType ? 'border-danger' : ''}`}
+                    id="editDeductionType"
                     {...field}
-                    aria-describedby="editAllowanceTypeError"
+                    aria-describedby="editDeductionTypeError"
                   >
                     <option value="">--Choose--</option>
                     <option value="PERCENT">Percent</option>
@@ -962,75 +858,37 @@ const Conta_allown = () => {
                   </select>
                 )}
               />
-              {editErrors.allowanceType && (
-                <div id="editAllowanceTypeError" className="error-message">
-                  {editErrors.allowanceType.message}
-                </div>
-              )}
-            </div>
-            <div className="form-group mb-3">
-              <label
-                htmlFor="editPercent"
-                className="form-label heading-14 label-color"
-                data-tooltip="Enter percent (e.g., 10.00)"
-                aria-label="Percent"
-              >
-                Percent <span style={{ color: '#B50000' }}>*</span>
-              </label>
-              <Controller
-                name="percent"
-                control={editControl}
-                rules={{
-                  required: editAllowanceType === 'PERCENT' ? 'Percent is required' : false,
-                  pattern: editAllowanceType === 'PERCENT' ? {
-                    value: /^\d+(\.\d{1,2})?$/,
-                    message: 'Enter a valid percent (e.g., 10.00)',
-                  } : undefined,
-                }}
-                render={({ field }) => (
-                  <input
-                    type="text"
-                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.percent && field.value && editAllowanceType === 'PERCENT' ? 'valid-indicator' : ''}`}
-                    id="editPercent"
-                    placeholder="Enter percent"
-                    disabled={editAllowanceType !== 'PERCENT'}
-                    {...field}
-                    aria-describedby="editPercentError"
-                  />
-                )}
-              />
-              {editErrors.percent && (
-                <div id="editPercentError" className="error-message">
-                  {editErrors.percent.message}
+              {editErrors.deductionType && (
+                <div id="editDeductionTypeError" className="error-message">
+                  {editErrors.deductionType.message}
                 </div>
               )}
             </div>
             <div className="form-group mb-3">
               <label
                 htmlFor="editAmount"
-                className="form-label heading-14 label-color"
+                className="form-label font14 label-color"
                 data-tooltip="Enter amount (e.g., 1000.00)"
                 aria-label="Amount"
               >
-                Flat Amount <span style={{ color: '#B50000' }}>*</span>
+                Amount <span style={{ color: '#B50000' }}>*</span>
               </label>
               <Controller
                 name="amount"
                 control={editControl}
                 rules={{
-                  required: editAllowanceType === 'FLAT' ? 'Flat amount is required' : false,
-                  pattern: editAllowanceType === 'FLAT' ? {
+                  required: 'Amount is required',
+                  pattern: {
                     value: /^\d+(\.\d{1,2})?$/,
                     message: 'Enter a valid amount (e.g., 1000.00)',
-                  } : undefined,
+                  },
                 }}
                 render={({ field }) => (
                   <input
                     type="text"
-                    className={`form-control form-control-sm heading-14 grey-input-text-color input-border-color ${!editErrors.amount && field.value && editAllowanceType === 'FLAT' ? 'valid-indicator' : ''}`}
+                    className={`form-control form-control-sm font14 grey-input-text-color input-border-color ${!editErrors.amount && field.value ? 'valid-indicator' : ''}`}
                     id="editAmount"
                     placeholder="Enter amount"
-                    disabled={editAllowanceType !== 'FLAT'}
                     {...field}
                     aria-describedby="editAmountError"
                   />
@@ -1044,12 +902,12 @@ const Conta_allown = () => {
             </div>
             <div className="form-group mb-3">
               <div className="row">
-                <div className="col-md-6 col-12">
+                <div className="col-6">
                   <div className="form-check">
                     <Controller
-                      name="amountOption"
+                      name="deductionOption"
                       control={editControl}
-                      rules={{ required: 'Please select an allowance type' }}
+                      rules={{ required: 'Please select a deduction type' }}
                       render={({ field }) => (
                         <input
                           className="form-check-input"
@@ -1067,12 +925,12 @@ const Conta_allown = () => {
                     </label>
                   </div>
                 </div>
-                <div className="col-md-6 col-12">
+                <div className="col-6">
                   <div className="form-check">
                     <Controller
-                      name="amountOption"
+                      name="deductionOption"
                       control={editControl}
-                      rules={{ required: 'Please select an allowance type' }}
+                      rules={{ required: 'Please select a deduction type' }}
                       render={({ field }) => (
                         <input
                           className="form-check-input"
@@ -1090,55 +948,9 @@ const Conta_allown = () => {
                     </label>
                   </div>
                 </div>
-                <div className="col-md-6 col-12">
-                  <div className="form-check">
-                    <Controller
-                      name="amountOption"
-                      control={addControl}
-                      rules={{ required: 'Please select an allowance type' }}
-                      render={({ field }) => (
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="editApplyOption"
-                          id="editAlreadyApplied"
-                          value="ALREADY_APPLIED"
-                          checked={field.value === 'ALREADY_APPLIED'}
-                          onChange={() => field.onChange('ALREADY_APPLIED')}
-                        />
-                      )}
-                    />
-                    <label className="form-check-label font14" htmlFor="editAlreadyApplied">
-                      Already Applied
-                    </label>
-                  </div>
-                </div>
-                <div className="col-md-6 col-12">
-                  <div className="form-check">
-                    <Controller
-                      name="amountOption"
-                      control={addControl}
-                      rules={{ required: 'Please select an allowance type' }}
-                      render={({ field }) => (
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="editApplyOption"
-                          id="editAnnual"
-                          value="ANNUAL"
-                          checked={field.value === 'ANNUAL'}
-                          onChange={() => field.onChange('ANNUAL')}
-                        />
-                      )}
-                    />
-                    <label className="form-check-label font14" htmlFor="editAnnual">
-                      Annual
-                    </label>
-                  </div>
-                </div>
-                {editErrors.amountOption && (
+                {editErrors.deductionOption && (
                   <div className="error-message">
-                    {editErrors.amountOption.message}
+                    {editErrors.deductionOption.message}
                   </div>
                 )}
               </div>
@@ -1148,7 +960,7 @@ const Conta_allown = () => {
                 type="submit"
                 className="btn btn-outline-success my-green font14 me-1"
                 disabled={loaderState}
-                aria-label="Update Allowance"
+                aria-label="Update Deduction"
               >
                 {loaderState ? (
                   <>
@@ -1156,7 +968,7 @@ const Conta_allown = () => {
                     <span className="loader"></span>
                   </>
                 ) : (
-                  'Update Allowance'
+                  'Update Deduction'
                 )}
               </button>
               <button
@@ -1165,7 +977,7 @@ const Conta_allown = () => {
                 data-bs-dismiss="offcanvas"
                 onClick={() => {
                   resetEditForm();
-                  setEditAllowance(null);
+                  setEditDeduction(null);
                 }}
                 aria-label="Cancel"
               >
@@ -1176,6 +988,7 @@ const Conta_allown = () => {
         </div>
       </div>
 
+      {/* Delete Deduction */}
       <div className="offcanvas offcanvas-end p-2" tabIndex="-1" id="deleteFeeDiscount" aria-labelledby="deleteFeeDiscountLabel">
         <div className="offcanvas-header border-bottom border-2 p-2">
           <Link type="button" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -1188,7 +1001,7 @@ const Conta_allown = () => {
             </svg>
           </Link>
           <h2 className="offcanvas-title" id="deleteFeeDiscountLabel">
-            Delete Allowance
+            Delete Deduction
           </h2>
         </div>
         <div className="offcanvas-body p-3">
@@ -1198,7 +1011,7 @@ const Conta_allown = () => {
             </p>
             <p className="text-center warningHeading">Are you Sure?</p>
             <p className="text-center greyText warningText pt-2">
-              This Action will permanently delete<br />the Allowance
+              This Action will permanently delete<br />the Deduction
             </p>
             <p className="text-center warningText p-2">
               <input
@@ -1214,7 +1027,7 @@ const Conta_allown = () => {
               <button
                 className="btn deleteButtons text-white"
                 disabled={!isChecked}
-                onClick={() => handleDelete(delAllowanceId)}
+                onClick={() => handleDelete(delDeductionId)}
               >
                 Delete
               </button>
@@ -1231,9 +1044,6 @@ const Conta_allown = () => {
         </div>
       </div>
 
-      {/* Remove this entire <div class="modal fade" ...> */}
-      {/* Replace with this */}
-
       {showAddModal && (
         <div
           className="modal show d-block"
@@ -1243,7 +1053,7 @@ const Conta_allown = () => {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h1 className="modal-title font16 fw-bold">Add Allowance</h1>
+                <h1 className="modal-title font16 fw-bold">Add Deduction</h1>
                 <button
                   type="button"
                   className="btn-close"
@@ -1252,7 +1062,7 @@ const Conta_allown = () => {
                 />
               </div>
               <div className="modal-body">
-                <AllowanceModal onSuccess={() => setShowAddModal(false)} />
+                <Deduction onSuccess={() => setShowAddModal(false)} />
               </div>
             </div>
           </div>
@@ -1263,4 +1073,10 @@ const Conta_allown = () => {
   );
 };
 
-export default Conta_allown;
+export default Conta_deduction;
+
+
+
+
+
+
