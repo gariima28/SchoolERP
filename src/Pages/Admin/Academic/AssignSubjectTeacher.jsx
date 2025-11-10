@@ -106,10 +106,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -924,68 +921,78 @@ const AssignSubjectTeacher = () => {
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" style={{ backgroundColor: "#008479", color: '#fff' }} onClick={MyAssignGetAllApi} disabled={!(classId && subjectId)}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={ClearDataInSearch}>Cancel</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={ClearDataInSearch}>Cancel</button>
             </div>
           </div>
 
-          <div className="table-container px-3 table-responsive">
-            <table className="table table-sm table-striped">
-              <thead className=''>
-                <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                  <th className=' no-wrap' style={{ width: '' }}>#</th>
-                  <th className='no-wrap' style={{ width: '' }}>Teacher</th>
-                  <th className='no-wrap' style={{ width: '' }}>Class</th>
-                  <th className='no-wrap' style={{ width: '500px' }}>Section</th>
-                  <th >Actions</th>
-                </tr>
-              </thead>
-
-              <tbody className='heading-14 align-middle greyTextColor'>
-                {
-                  assignSubTeaAllData?.map((item, index) => (
-                    <tr className='heading-14' >
-                      <td className=' greyText no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                      <td className=' greyText no-wrap'>{item.staffName}</td>
-                      <td className=' greyText no-wrap  '>{item.classNo}</td>
-                      <td className=' greyText no-wrap  '>
-                        {
-                          item?.sectionNames?.map((item, index) => (
-                            <td className=' greyText no-wrap ' key={index}>{item}</td>
-                          ))
-                        }
-                      </td>
-
-                      <td className=' greyText no-wrap ' >
-                        <div className="dropdown my-button-show">
-                          <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Action  &nbsp;
-                            <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                              <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
-                            </svg>
-                          </button>
-                          <ul className="dropdown-menu anchor-color heading-14">
-                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => { setSubjectIdForDelete(item.subjectId), setStaffIdForDelete(item.staffId), addClassWithSections(item.classId, item.sectionIds) }}>Remove</Link></li>
-                          </ul>
-                        </div>
-                      </td>
+          {
+            assignSubTeaAllData.length > 0 ?
+              <div className="table-container px-3 table-responsive">
+                <table className="table table-sm table-striped">
+                  <thead className=''>
+                    <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
+                      <th className=' no-wrap' style={{ width: '' }}>#</th>
+                      <th className='no-wrap' style={{ width: '' }}>Teacher</th>
+                      <th className='no-wrap' style={{ width: '' }}>Class</th>
+                      <th className='no-wrap' style={{ width: '500px' }}>Section</th>
+                      <th >Actions</th>
                     </tr>
-                  ))
-                }
-              </tbody>
-              {/* <Toaster /> */}
-            </table>
-            <div className="d-flex" style={{ marginBottom: '10px' }}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
+                  </thead>
+
+                  <tbody className='heading-14 align-middle greyTextColor'>
+                    {
+                      assignSubTeaAllData?.map((item, index) => (
+                        <tr className='heading-14' >
+                          <td className=' greyText no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                          <td className=' greyText no-wrap'>{item.staffName}</td>
+                          <td className=' greyText no-wrap  '>{item.classNo}</td>
+                          <td className=' greyText no-wrap  '>
+                            {
+                              item?.sectionNames?.map((item, index) => (
+                                <td className=' greyText no-wrap ' key={index}>{item}</td>
+                              ))
+                            }
+                          </td>
+
+                          <td className=' greyText no-wrap ' >
+                            <div className="dropdown my-button-show">
+                              <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Action  &nbsp;
+                                <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
+                                  <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
+                                </svg>
+                              </button>
+                              <ul className="dropdown-menu anchor-color heading-14">
+                                <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => { setSubjectIdForDelete(item.subjectId), setStaffIdForDelete(item.staffId), addClassWithSections(item.classId, item.sectionIds) }}>Remove</Link></li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                  {/* <Toaster /> */}
+                </table>
+                <div className="d-flex" style={{ marginBottom: '10px' }}>
+                  <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                  <div className="ms-auto">
+                    <ReactPaginate
+                      previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                      nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                      breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                      onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+              :
+              <>
+                <div className="d-flex justify-content-center m-5">
+                  <img src="/images/search.svg" alt="" />
+                </div>
+              </>
+          }
+
         </div>
         {/* ################## Off Canvas Area ####################  */}
 
@@ -1001,7 +1008,7 @@ const AssignSubjectTeacher = () => {
                 </div>
                 <hr className='' style={{ marginTop: '-3px' }} />
                 <div className="offcanvas-body pt-0">
-               
+
 
                   <div className="mb-1  ">
                     <label for="exampleFormControlInput1" className="form-label  heading-16">Subject Name</label>
@@ -1084,7 +1091,7 @@ const AssignSubjectTeacher = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MyAssignPostApi() }} style={{ backgroundColor: '#008479', color: '#fff' }}>Add</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                   </div>
                 </div>
 
@@ -1116,21 +1123,21 @@ const AssignSubjectTeacher = () => {
                   <label for="exampleFormControlInput1" className="form-label heading-16">Class</label>
                   <select class="form-select  form-select-sm form-focus label-color" onChange={(e) => handleClass(e)} aria-label="Default select example">
                     <option selected >{''}</option>
-                   
+
                   </select>
                 </div>
                 <div className="mb-1  ">
                   <label for="exampleFormControlInput1" className="form-label   heading-16">Section</label>
                   <select class="form-select  form-select-sm form-focus  label-color" value={''} onChange={(e) => setSectionNameGetById(e.target.value)} aria-label="Default select example">
                     <option selected>{''}</option>
-                   
+
                   </select>
                 </div>
                 <div className="mb-1  ">
                   <label for="exampleFormControlInput1" className="form-label  heading-16">Subject</label>
                   <select class="form-select  form-select-sm form-focus label-color" value={''} onChange={(e) => setSubjectGetById(e.target.value)} aria-label="Default select example">
                     <option selected>{''}</option>
-                   
+
                   </select>
                 </div>
                 <div class="mb-3">
@@ -1140,7 +1147,7 @@ const AssignSubjectTeacher = () => {
 
                 <div className='my-button11'>
                   <button type="button" className="btn btn-outline-success heading-16" onClick={(e) => { MySyllabusPutApi(IdForUpdate) }}>Update Syllabus</button>
-                  <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                  <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                 </div>
               </div>
             )
@@ -1205,7 +1212,7 @@ const AssignSubjectTeacher = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                  
+
                       <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input2"

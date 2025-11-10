@@ -1004,7 +1004,7 @@ const Income_category = () => {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-outline-success heading-16"
+                      className="btn cancelButtons text-black heading-16"
                       data-bs-dismiss="offcanvas" aria-label="Close"
                       onClick={ClearHandle}
                     >
@@ -1085,7 +1085,7 @@ const Income_category = () => {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-outline-success heading-16"
+                    className="btn cancelButtons text-black heading-16"
                     data-bs-dismiss="offcanvas" aria-label="Close"
                   >
                     Cancel

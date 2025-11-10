@@ -97,10 +97,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -479,7 +476,7 @@ const UserList = () => {
           <div className="row pb-4">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success">Search</button>
-              <button type="button" class="btn btn-outline-success">Cancel</button>
+              <button type="button" class="btn cancelButtons text-black">Cancel</button>
             </div>
           </div>
           {/* ###### copy content till here for all component ######  */}
@@ -707,7 +704,7 @@ const UserList = () => {
                 </div>
                 <div className='my-button11 '>
                   <button type="button" className="btn btn-outline-success" onClick={(e) => { UpdateHandleBtn() }}>Update</button>
-                  <button type="button" className="btn btn-outline-success">Cancel</button>
+                  <button type="button" className="btn cancelButtons text-black">Cancel</button>
                 </div>
               </div>
             )

@@ -107,10 +107,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -703,7 +700,7 @@ const Payroll = () => {
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={() => handleClear()}>Cancel</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={() => handleClear()}>Cancel</button>
             </div>
           </div>
           {/* table  */}
@@ -741,13 +738,13 @@ const Payroll = () => {
                               className="form-check-input"
                               type="checkbox"
                               id={`check-${item.id}`}
-                              checked={payrollId.includes(item.id)} 
+                              checked={payrollId.includes(item.id)}
                               onChange={() => handleCheckboxChange(item.id)}
                             />
                           </div>
                         </td>
                         <td className=' greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage}  /></span><span className='mt-1'>{item.staffName}</span></td>
+                        <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} /></span><span className='mt-1'>{item.staffName}</span></td>
                         <td className=' greyText'>
                           <div className=''>
                             <p className={`${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
@@ -756,7 +753,7 @@ const Payroll = () => {
                         <td className=' greyText'>{item.basicPay}</td>
                         <td className=' greyText'>{item.allowedPaidLeaves}</td>
                         <td className=' greyText'>{item.unpaidLeaves}</td>
-                        <td className=' greyText'>{item.paidLeaves }</td>
+                        <td className=' greyText'>{item.paidLeaves}</td>
                         <td className=' greyText'>{item.takenLeaves}</td>
                         <td className=' greyText'>{item.leaveDeduction}</td>
                         <td className=' greyText'>{item.allowanceTotal}</td>

@@ -106,10 +106,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -862,7 +859,7 @@ const TakeAttendance = () => {
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyAttendanceGetAllApiByMonth} disabled={!(month2 && year && roleIdForMonth)}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={ClearData}>Cancel</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={ClearData}>Cancel</button>
             </div>
           </div>
 
@@ -1031,7 +1028,7 @@ const TakeAttendance = () => {
                   show ? (
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={UpdateHandleBtn} disabled={!(roleid && date)}>Show User List</button>
-                      <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                     </div>
                   ) : (
                     <div className="container-fluid">
@@ -1082,7 +1079,7 @@ const TakeAttendance = () => {
                       </div>
                       <div className='my-button11 '>
                         <button type="button" className="btn btn-outline-success heading-16" style={{ color: '#fff', backgroundColor: '#008479' }} onClick={MyTakeAttendancePostApi}>Submit</button>
-                        <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
+                        <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
                       </div>
                     </div>
                   )
@@ -1127,7 +1124,7 @@ const TakeAttendance = () => {
                   hide2 ? (
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={UpdateHandleBtn2} disabled={!(roleid && date)}>Show Staff List</button>
-                      <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                     </div>
                   ) : (
                     <div className="container-fluid">
@@ -1177,7 +1174,7 @@ const TakeAttendance = () => {
                       </div>
                       <div className='my-button11 '>
                         <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyNewDailyAttendancePutApi}>Update</button>
-                        <button type="button" className="btn btn-outline-success " onClick={ClearHandle}>Cancel</button>
+                        <button type="button" className="btn cancelButtons text-black " onClick={ClearHandle}>Cancel</button>
                       </div>
                     </div>
                   )

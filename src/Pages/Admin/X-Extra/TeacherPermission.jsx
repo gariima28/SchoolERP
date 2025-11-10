@@ -107,117 +107,117 @@ const Container = styled.div`
 const TeacherPermission = () => {
     return (
         <Container>
-          <div className="container-fluid main-body p-3">
-         <div className='d-flex justify-content-between for-dislay-direction'>
-         <div className="breadCrum ms-2">
-         <nav style={{ '--bs-breadcrumb-divider': "'>'" }}aria-label="breadcrumb">
-             <ol class="breadcrumb ps-2">
-                 <li class="breadcrumb-item active font-color heading-14" aria-current="page">Home</li>
-                 <li class="breadcrumb-item active font-color heading-14" aria-current="page">Users</li>
-                 <li class="breadcrumb-item breadcrum-li heading-14" ><Link href="#">Teacher Permission</Link></li>
-             </ol>
-         </nav>
-         </div>
-      
-         </div>
-         <h5 className='ms-2 margin-minus22 heading-16 ps-2'>Teacher Permission</h5>
-     
-         <div className="main-content-conatainer22 pt-4 ">
+            <div className="container-fluid main-body p-3">
+                <div className='d-flex justify-content-between for-dislay-direction'>
+                    <div className="breadCrum ms-2">
+                        <nav style={{ '--bs-breadcrumb-divider': "'>'" }} aria-label="breadcrumb">
+                            <ol class="breadcrumb ps-2">
+                                <li class="breadcrumb-item active font-color heading-14" aria-current="page">Home</li>
+                                <li class="breadcrumb-item active font-color heading-14" aria-current="page">Users</li>
+                                <li class="breadcrumb-item breadcrum-li heading-14" ><Link href="#">Teacher Permission</Link></li>
+                            </ol>
+                        </nav>
+                    </div>
 
-            <div className='background-color m-4'>
-             <div className="row heading-14 p-3 pt-3" style={{marginTop:'-15px'}}>
-                <div className="col-lg-6 col-md-6 col-sm-12 ">
-                    <label for="exampleFormControlInput1 " class="form-label heading-14 text-color-000 mb-0">Class*</label>
-                    <div className="dropdown my-dropdown-menu mt-1">
-                        <Link className="btn btn-secondary heading-14   my-dropdown-menu" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div className='d-flex justify-content-between'>
-                                <div>
-                                Select Class 
-                                </div>
-                                <div>
-                                <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                                    <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black"/>
-                                </svg>
+                </div>
+                <h5 className='ms-2 margin-minus22 heading-16 ps-2'>Teacher Permission</h5>
+
+                <div className="main-content-conatainer22 pt-4 ">
+
+                    <div className='background-color m-4'>
+                        <div className="row heading-14 p-3 pt-3" style={{ marginTop: '-15px' }}>
+                            <div className="col-lg-6 col-md-6 col-sm-12 ">
+                                <label for="exampleFormControlInput1 " class="form-label heading-14 text-color-000 mb-0">Class*</label>
+                                <div className="dropdown my-dropdown-menu mt-1">
+                                    <Link className="btn btn-secondary heading-14   my-dropdown-menu" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div className='d-flex justify-content-between'>
+                                            <div>
+                                                Select Class
+                                            </div>
+                                            <div>
+                                                <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
+                                                    <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                    <ul className="dropdown-menu heading-14 my-ul-menu">
+                                        <li><a className="dropdown-item" href="#">1</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">2</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">3</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">4</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">5</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">6</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">7</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">8</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">9</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">10</a></li>
+                                    </ul>
                                 </div>
                             </div>
-                        </Link>
-                        <ul className="dropdown-menu heading-14 my-ul-menu">
-                            <li><a className="dropdown-item" href="#">1</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">2</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">3</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">4</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">5</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">6</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">7</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">8</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">9</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">10</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 ">
-                    <label for="exampleFormControlInput1 " class="form-label heading-14 text-color-000 mb-0">Section*</label>
-                    <div className="dropdown my-dropdown-menu mt-1">
-                         <Link className="btn btn-secondary heading-14   my-dropdown-menu" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div className='d-flex justify-content-between'>
-                                <div>
-                                Select Section
-                                </div>
-                                <div>
-                                <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                                    <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black"/>
-                                </svg>
+                            <div className="col-lg-6 col-md-6 col-sm-12 ">
+                                <label for="exampleFormControlInput1 " class="form-label heading-14 text-color-000 mb-0">Section*</label>
+                                <div className="dropdown my-dropdown-menu mt-1">
+                                    <Link className="btn btn-secondary heading-14   my-dropdown-menu" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div className='d-flex justify-content-between'>
+                                            <div>
+                                                Select Section
+                                            </div>
+                                            <div>
+                                                <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
+                                                    <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                    <ul className="dropdown-menu heading-14 my-ul-menu">
+                                        <li><a className="dropdown-item" href="#">1</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">2</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">3</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">4</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">5</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">6</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">7</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">8</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">9</a></li>
+                                        <hr className='m-0  mx-3' />
+                                        <li><a className="dropdown-item" href="#">10</a></li>
+                                    </ul>
                                 </div>
                             </div>
-                        </Link>
-                        <ul className="dropdown-menu heading-14 my-ul-menu">
-                            <li><a className="dropdown-item" href="#">1</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">2</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">3</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">4</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">5</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">6</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">7</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">8</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">9</a></li>
-                            <hr className='m-0  mx-3'/>
-                            <li><a className="dropdown-item" href="#">10</a></li>
-                        </ul>
-                    </div>
-                </div>
-             </div>
-              {/* ####### buttons ######  */}
-              <div className="row mt-3 pb-5">
-                <div className='my-button11 heading-16'>
-                    <button type="button" class="btn btn-outline-success">Search</button>
-                    <button type="button" class="btn btn-outline-success">Cancel</button>
-                </div>
-             </div>
-     
-             </div>
+                        </div>
+                        {/* ####### buttons ######  */}
+                        <div className="row mt-3 pb-5">
+                            <div className='my-button11 heading-16'>
+                                <button type="button" class="btn btn-outline-success">Search</button>
+                                <button type="button" class="btn cancelButtons text-black">Cancel</button>
+                            </div>
+                        </div>
 
-               
-          </div>
-         </div>
+                    </div>
+
+
+                </div>
+            </div>
         </Container>
-       )
+    )
 }
 
 export default TeacherPermission

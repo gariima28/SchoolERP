@@ -103,10 +103,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -643,7 +640,7 @@ const RolePermission = () => {
                   <div className="my-anchor mt-2">
                     <button
                       type="button"
-                      className="button remove my-remove-button heading-14 btn btn-outline-success add-role"
+                      className="button remove my-remove-button heading-14 btn cancelButtons text-black add-role"
                       style={{ backgroundColor: 'red' }}
                       onClick={() => removeFormFields(formValues.length - 1)}
                     >
@@ -654,7 +651,7 @@ const RolePermission = () => {
 
                 <div className="button-section my-anchor mt-2">
                   <button
-                    className="button add heading-14 btn btn-outline-success add-role"
+                    className="button add heading-14 btn cancelButtons text-black add-role"
                     // style={{borderColor: '1px solid #aaa'}}
                     type="button"
                     onClick={addFormFields}
@@ -711,7 +708,7 @@ const RolePermission = () => {
             <div className="row mb-3 buttons-topss">
               <div className='my-button11 heading-16'>
                 <button type="button" className="btn btn-outline-success add-role" onClick={SubcPutDataApi}>Add Role & Permission</button>
-                <button type="button" className="btn btn-outline-success" onClick={ClearHandle}>Cancel</button>
+                <button type="button" className="btn cancelButtons text-black" onClick={ClearHandle}>Cancel</button>
                 {/* <Toaster />  */}
               </div>
             </div>
@@ -740,7 +737,7 @@ const RolePermission = () => {
                 </div>
                 <div className='my-button11 '>
                   <button type="button" className="btn btn-outline-success heading-16 " onClick={(e) => { UpdateHandleBtn() }}>Add Role</button>
-                  <button type="button" className="btn btn-outline-success heading-16 ">Cancel</button>
+                  <button type="button" className="btn cancelButtons text-black heading-16 ">Cancel</button>
                 </div>
 
               </div>

@@ -110,10 +110,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -924,75 +921,82 @@ const Syllabus = () => {
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" style={{ color: '#fff', backgroundColor: '#008479' }} className="btn btn-outline-success" onClick={MySyllabusGetApi} disabled={!(classId && sectionId)}>Search</button>
-              <button type="button" className="btn btn-outline-success" onClick={ClearHandle}>Cancel</button>
+              <button type="button" className="btn cancelButtons text-black" onClick={ClearHandle}>Cancel</button>
             </div>
           </div>
-          <div className="table-container px-3 table-responsive">
-            <table className="table table-sm table-striped">
-              <thead className=''>
-                <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                  <th className='no-wrap' style={{ width: '100px' }}>#</th>
-                  <th className='no-wrap' style={{ width: '250px' }}>Title</th>
-                  <th className='no-wrap' style={{ width: '250px' }}>Syllabus</th>
-                  <th className='no-wrap' style={{ width: '380px' }}>Subject</th>
-                  <th className='no-wrap' style={{ width: '380px' }}>Class</th>
-                  <th className='no-wrap' style={{ width: '380px' }}>Section</th>
-                  <th className='no-wrap' >Actions</th>
-                </tr>
-              </thead>
-              <tbody className='heading-14 align-middle greyTextColor'>
-                {
-                  syllabusAllData?.map((item, index) => (
-                    <tr className='heading-14' >
-                      <td className=' greyText no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                      <td className=' greyText no-wrap' >{item.titleName}</td>
-                      <td className=' greyText no-wrap' >
-                        <button type="button " className="btn export1 btn-outline-secondary my-own-outline-btn me-2 " onClick={(e) => DownloadPDF(item.syllabusId)}>
-                          <span>
-                            <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M13 16H1C0.734784 16 0.48043 15.8946 0.292893 15.7071C0.105357 15.5196 0 15.2652 0 15C0 14.7348 0.105357 14.4804 0.292893 14.2929C0.48043 14.1054 0.734784 14 1 14H13C13.2652 14 13.5196 14.1054 13.7071 14.2929C13.8946 14.4804 14 14.7348 14 15C14 15.2652 13.8946 15.5196 13.7071 15.7071C13.5196 15.8946 13.2652 16 13 16Z" fill="#008479" />
-                              <path d="M10.9201 7.62C10.8451 7.43738 10.7177 7.28105 10.554 7.17072C10.3903 7.06039 10.1976 7.00099 10.0001 7H8.00014V1C8.00014 0.734784 7.89478 0.48043 7.70725 0.292893C7.51971 0.105357 7.26536 0 7.00014 0C6.73492 0 6.48057 0.105357 6.29303 0.292893C6.1055 0.48043 6.00014 0.734784 6.00014 1V7H4.00014C3.80271 7.00099 3.61 7.06039 3.44628 7.17072C3.28256 7.28105 3.15516 7.43738 3.08014 7.62C3.00356 7.80211 2.98264 8.00282 3.02001 8.19681C3.05739 8.3908 3.15138 8.56938 3.29014 8.71L6.29014 11.71C6.38524 11.801 6.49739 11.8724 6.62014 11.92C6.73984 11.9729 6.86927 12.0002 7.00014 12.0002C7.13101 12.0002 7.26044 11.9729 7.38014 11.92C7.50289 11.8724 7.61504 11.801 7.71014 11.71L10.7101 8.71C10.8489 8.56938 10.9429 8.3908 10.9803 8.19681C11.0176 8.00282 10.9967 7.80211 10.9201 7.62Z" fill="#008479" />
-                            </svg>
-                          </span> &nbsp;
-                          <span>Download</span>
-                        </button>
-                      </td>
-                      <td className=' greyText no-wrap' >{item.subject}</td>
-                      <td className=' greyText no-wrap' >{item.classNo}</td>
-                      <td className=' greyText no-wrap' >{item.section}</td>
-                      <td className=' greyText no-wrap' >
-                        <div className="dropdown my-button-show">
-                          <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Action  &nbsp;
-                            <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                              <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
-                            </svg>
+          {syllabusAllData.length > 0 ?
+            <div className="table-container px-3 table-responsive">
+              <table className="table table-sm table-striped">
+                <thead className=''>
+                  <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
+                    <th className='no-wrap' style={{ width: '100px' }}>#</th>
+                    <th className='no-wrap' style={{ width: '250px' }}>Title</th>
+                    <th className='no-wrap' style={{ width: '250px' }}>Syllabus</th>
+                    <th className='no-wrap' style={{ width: '380px' }}>Subject</th>
+                    <th className='no-wrap' style={{ width: '380px' }}>Class</th>
+                    <th className='no-wrap' style={{ width: '380px' }}>Section</th>
+                    <th className='no-wrap' >Actions</th>
+                  </tr>
+                </thead>
+                <tbody className='heading-14 align-middle greyTextColor'>
+                  {
+                    syllabusAllData?.map((item, index) => (
+                      <tr className='heading-14' >
+                        <td className=' greyText no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                        <td className=' greyText no-wrap' >{item.titleName}</td>
+                        <td className=' greyText no-wrap' >
+                          <button type="button " className="btn export1 btn-outline-secondary my-own-outline-btn me-2 " onClick={(e) => DownloadPDF(item.syllabusId)}>
+                            <span>
+                              <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13 16H1C0.734784 16 0.48043 15.8946 0.292893 15.7071C0.105357 15.5196 0 15.2652 0 15C0 14.7348 0.105357 14.4804 0.292893 14.2929C0.48043 14.1054 0.734784 14 1 14H13C13.2652 14 13.5196 14.1054 13.7071 14.2929C13.8946 14.4804 14 14.7348 14 15C14 15.2652 13.8946 15.5196 13.7071 15.7071C13.5196 15.8946 13.2652 16 13 16Z" fill="#008479" />
+                                <path d="M10.9201 7.62C10.8451 7.43738 10.7177 7.28105 10.554 7.17072C10.3903 7.06039 10.1976 7.00099 10.0001 7H8.00014V1C8.00014 0.734784 7.89478 0.48043 7.70725 0.292893C7.51971 0.105357 7.26536 0 7.00014 0C6.73492 0 6.48057 0.105357 6.29303 0.292893C6.1055 0.48043 6.00014 0.734784 6.00014 1V7H4.00014C3.80271 7.00099 3.61 7.06039 3.44628 7.17072C3.28256 7.28105 3.15516 7.43738 3.08014 7.62C3.00356 7.80211 2.98264 8.00282 3.02001 8.19681C3.05739 8.3908 3.15138 8.56938 3.29014 8.71L6.29014 11.71C6.38524 11.801 6.49739 11.8724 6.62014 11.92C6.73984 11.9729 6.86927 12.0002 7.00014 12.0002C7.13101 12.0002 7.26044 11.9729 7.38014 11.92C7.50289 11.8724 7.61504 11.801 7.71014 11.71L10.7101 8.71C10.8489 8.56938 10.9429 8.3908 10.9803 8.19681C11.0176 8.00282 10.9967 7.80211 10.9201 7.62Z" fill="#008479" />
+                              </svg>
+                            </span> &nbsp;
+                            <span>Download</span>
                           </button>
-                          <ul className="dropdown-menu anchor-color heading-14">
-                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight1234" onClick={(e) => SyllabusGetByIdApi(item.syllabusId)}>Edit</Link></li>
-                            <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => setIdForDelete(item.syllabusId)}>Delete</Link></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-              <Toaster />
-            </table>
-            <div className="d-flex" style={{ marginBottom: '10px' }}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
+                        </td>
+                        <td className=' greyText no-wrap' >{item.subject}</td>
+                        <td className=' greyText no-wrap' >{item.classNo}</td>
+                        <td className=' greyText no-wrap' >{item.section}</td>
+                        <td className=' greyText no-wrap' >
+                          <div className="dropdown my-button-show">
+                            <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Action  &nbsp;
+                              <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
+                                <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
+                              </svg>
+                            </button>
+                            <ul className="dropdown-menu anchor-color heading-14">
+                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight1234" onClick={(e) => SyllabusGetByIdApi(item.syllabusId)}>Edit</Link></li>
+                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => setIdForDelete(item.syllabusId)}>Delete</Link></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+                <Toaster />
+              </table>
+              <div className="d-flex" style={{ marginBottom: '10px' }}>
+                <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                <div className="ms-auto">
+                  <ReactPaginate
+                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                    breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                    onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-
+            :
+            <>
+              <div className="d-flex justify-content-center m-5">
+                <img src="/images/search.svg" alt="" />
+              </div>
+            </>
+          }
         </div>
         {/* ################## Off Canvas Area ####################  */}
 
@@ -1065,7 +1069,7 @@ const Syllabus = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MyHolidayPostApi() }} style={{ backgroundColor: '#008479', color: '#fff' }}>Add Syllabus</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                   </div>
                 </div>
 
@@ -1171,7 +1175,7 @@ const Syllabus = () => {
 
                   <div className='my-button11'>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MySyllabusPutApi(IdForUpdate) }}>Update Syllabus</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                   </div>
                 </div>
 

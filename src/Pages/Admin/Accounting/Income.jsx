@@ -108,10 +108,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -822,7 +819,7 @@ const Income = () => {
     setStartDate(null)
     setEndDate(null)
     setMyIncomeCategoryData([])
-  } 
+  }
 
   // Double Date --------------------------
 
@@ -872,18 +869,18 @@ const Income = () => {
 
               <Flatpickr
                 className="form-control form-control-sm form-focus font-color"
-         
+
                 value={[startDate, endDate]}
                 placeholder='Select Date'
                 options={{
                   mode: "range",
                   dateFormat: "Y-m-d",
-                  clickOpens: true,      
+                  clickOpens: true,
                 }}
                 onChange={handleDateChange}
               />
             </div>
-    
+
 
             <div className="col-lg-6 col-md-6 col-sm-12  ">
               <div class="mb-3">
@@ -904,7 +901,7 @@ const Income = () => {
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success my-green" onClick={MyIncome2GetAllApi} disabled={!(startDate && endDate && examTermId)}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={ClearHandle} >Cancel</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={ClearHandle} >Cancel</button>
             </div>
           </div>
 
@@ -1012,7 +1009,7 @@ const Income = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyIncomePostApi} >Add Income</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                   </div>
                 </div>
 
@@ -1072,7 +1069,7 @@ const Income = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyIncomeCategoryPutApi} >Update Income</button>
-                    <button type="button" className="btn btn-outline-success heading-16">Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16">Cancel</button>
                   </div>
                 </div>
 

@@ -830,7 +830,7 @@ const DailyAttendance = ({ items }) => {
             </nav>
           </div>
           <div className="d-flex g-1 for-media-query">
-            <Acti onControls
+            <ActionControls
               showAddButton={false}
               addButtonText=""
               addButtonAction={''}
@@ -932,147 +932,157 @@ const DailyAttendance = ({ items }) => {
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" style={{ backgroundColor: '#008479', color: '#fff ', cursor: 'pointer' }} onClick={MyDailyAttendanceGetAllApiByMonth} disabled={!(classId && sectionId && month && year) ? true : false} >Search</button>
-              <button type="button" class={`btn `} style={{ cursor: 'pointer' }} onClick={clearDataHandle} disabled={!(classId && sectionId && month && year) ? true : false} >Cancel</button>
+              <button type="button" class={`btn cancelButtons text-black`} style={{ cursor: 'pointer' }} onClick={clearDataHandle} disabled={!(classId && sectionId && month && year) ? true : false} >Cancel</button>
             </div>
           </div>
-          <div className="row mt-4 mb-4 bg-color-pink p-3 m-3 responsive-direction">
-            <div className="col-2 p-0 ps-4 rsnsve-pd d-flex padding-lef ">
-              <span className='heading-16 greyText padding-left'>Class - </span> &nbsp; &nbsp;
-              <div >{classNumber}</div>
-            </div>
-            <div className="col-2 p-0 ps-3 d-flex rsnsve-pd">
-              <span className='heading-16 greyText padding-left'>Section - </span> &nbsp; &nbsp;
-              <div>{sectionName}</div>
-            </div>
-            <div className="col-3 p-0 d-flex rsnsve-pd">
-              <span className='heading-16 greyText padding-left'>Month -</span> &nbsp; &nbsp;
-              <div>{showMonth}</div>
-            </div>
-            <div className="col-3 p-0 d-flex  rsnsve-pd">
-              <span className='heading-16 greyText padding-left'>Last Update at  - </span> &nbsp; &nbsp;
-              <div >{lastUpdate ? lastUpdate : ''}</div>
-            </div>
-            <div className="col-2 p-0 d-flex rsnsve-pd">
-              <span className='heading-16 greyText  padding-left'>Time  - </span> &nbsp; &nbsp;
-              <div>{time ? time.slice(0, 8) : ''}</div>
-            </div>
-          </div>
-          {
-            dailyDataByMonth && dailyDataByMonth?.length > 0 && (
-              <div className="container ">
-                <div className="row m-1 mb-4 show-attendance">
-                  <div className="col-md-1 "></div>
-                  <div className="col-md-2 d-flex "><p className='stu-present'>P</p><span className='fontSize ms-2'>Present</span></div>
-                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent'>A</p><span className='fontSize ms-2'>Absent</span></div>
-                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
-                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave'>L</p><span className='fontSize ms-2'>Leave</span></div>
-                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday'>H</p><span className='fontSize ms-2'>Holiday</span></div>
-                  <div className="col-md-1 "></div>
+          {dailyDataByMonth.length > 0 ?
+            <>
+              <div className="row mt-4 mb-4 bg-color-pink p-3 m-3 responsive-direction">
+                <div className="col-2 p-0 ps-4 rsnsve-pd d-flex padding-lef ">
+                  <span className='heading-16 greyText padding-left'>Class - </span> &nbsp; &nbsp;
+                  <div >{classNumber}</div>
+                </div>
+                <div className="col-2 p-0 ps-3 d-flex rsnsve-pd">
+                  <span className='heading-16 greyText padding-left'>Section - </span> &nbsp; &nbsp;
+                  <div>{sectionName}</div>
+                </div>
+                <div className="col-3 p-0 d-flex rsnsve-pd">
+                  <span className='heading-16 greyText padding-left'>Month -</span> &nbsp; &nbsp;
+                  <div>{showMonth}</div>
+                </div>
+                <div className="col-3 p-0 d-flex  rsnsve-pd">
+                  <span className='heading-16 greyText padding-left'>Last Update at  - </span> &nbsp; &nbsp;
+                  <div >{lastUpdate ? lastUpdate : ''}</div>
+                </div>
+                <div className="col-2 p-0 d-flex rsnsve-pd">
+                  <span className='heading-16 greyText  padding-left'>Time  - </span> &nbsp; &nbsp;
+                  <div>{time ? time.slice(0, 8) : ''}</div>
                 </div>
               </div>
-            )
-          }
-          <div className="table-container px-3 table-responsive">
-            <table className="table table-sm ">
-              <thead className=''>
-                <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                  <th className='table-row-bg-color'>#</th>
-                  <th className='table-row-bg-color'> Student Name</th>
-                  <th className='table-row-bg-color'>1</th>
-                  <th className='table-row-bg-color'>2</th>
-                  <th className='table-row-bg-color'>3</th>
-                  <th className='table-row-bg-color'>4</th>
-                  <th className='table-row-bg-color'>5</th>
-                  <th className='table-row-bg-color'>6</th>
-                  <th className='table-row-bg-color'>7</th>
-                  <th className='table-row-bg-color'>8</th>
-                  <th className='table-row-bg-color'>9</th>
-                  <th className='table-row-bg-color'>10</th>
-                  <th className='table-row-bg-color'>11</th>
-                  <th className='table-row-bg-color'>12</th>
-                  <th className='table-row-bg-color'>13</th>
-                  <th className='table-row-bg-color'>14</th>
-                  <th className='table-row-bg-color'>15</th>
-                  <th className='table-row-bg-color'>16</th>
-                  <th className='table-row-bg-color'>17</th>
-                  <th className='table-row-bg-color'>18</th>
-                  <th className='table-row-bg-color'>19</th>
-                  <th className='table-row-bg-color'>20</th>
-                  <th className='table-row-bg-color'>21</th>
-                  <th className='table-row-bg-color'>22</th>
-                  <th className='table-row-bg-color'>23</th>
-                  <th className='table-row-bg-color'>24</th>
-                  <th className='table-row-bg-color'>25</th>
-                  <th className='table-row-bg-color'>26</th>
-                  <th className='table-row-bg-color'>27</th>
-                  <th className='table-row-bg-color'>28</th>
-                  <th className='table-row-bg-color'>29</th>
-                  <th className='table-row-bg-color'>30</th>
-                  <th className='table-row-bg-color'>31</th>
-                  {/* {dates.map(date => (
+              {
+                dailyDataByMonth && dailyDataByMonth?.length > 0 && (
+                  <div className="container ">
+                    <div className="row m-1 mb-4 show-attendance">
+                      <div className="col-md-1 "></div>
+                      <div className="col-md-2 d-flex "><p className='stu-present'>P</p><span className='fontSize ms-2'>Present</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent'>A</p><span className='fontSize ms-2'>Absent</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave'>L</p><span className='fontSize ms-2'>Leave</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday'>H</p><span className='fontSize ms-2'>Holiday</span></div>
+                      <div className="col-md-1 "></div>
+                    </div>
+                  </div>
+                )
+              }
+              <div className="table-container px-3 table-responsive">
+                <table className="table table-sm ">
+                  <thead className=''>
+                    <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
+                      <th className='table-row-bg-color'>#</th>
+                      <th className='table-row-bg-color'> Student Name</th>
+                      <th className='table-row-bg-color'>1</th>
+                      <th className='table-row-bg-color'>2</th>
+                      <th className='table-row-bg-color'>3</th>
+                      <th className='table-row-bg-color'>4</th>
+                      <th className='table-row-bg-color'>5</th>
+                      <th className='table-row-bg-color'>6</th>
+                      <th className='table-row-bg-color'>7</th>
+                      <th className='table-row-bg-color'>8</th>
+                      <th className='table-row-bg-color'>9</th>
+                      <th className='table-row-bg-color'>10</th>
+                      <th className='table-row-bg-color'>11</th>
+                      <th className='table-row-bg-color'>12</th>
+                      <th className='table-row-bg-color'>13</th>
+                      <th className='table-row-bg-color'>14</th>
+                      <th className='table-row-bg-color'>15</th>
+                      <th className='table-row-bg-color'>16</th>
+                      <th className='table-row-bg-color'>17</th>
+                      <th className='table-row-bg-color'>18</th>
+                      <th className='table-row-bg-color'>19</th>
+                      <th className='table-row-bg-color'>20</th>
+                      <th className='table-row-bg-color'>21</th>
+                      <th className='table-row-bg-color'>22</th>
+                      <th className='table-row-bg-color'>23</th>
+                      <th className='table-row-bg-color'>24</th>
+                      <th className='table-row-bg-color'>25</th>
+                      <th className='table-row-bg-color'>26</th>
+                      <th className='table-row-bg-color'>27</th>
+                      <th className='table-row-bg-color'>28</th>
+                      <th className='table-row-bg-color'>29</th>
+                      <th className='table-row-bg-color'>30</th>
+                      <th className='table-row-bg-color'>31</th>
+                      {/* {dates.map(date => (
                     <th key={date.toISOString()}>{date.toDateString()}</th>
                   ))} */}
-                </tr>
-              </thead>
-              <tbody className='heading-14 align-middle greyTextColor'>
-                {
-                  dailyDataByMonth && dailyDataByMonth?.length > 0 ? (
-                    dailyDataByMonth?.map((item, index) => (
-                      <tr className="heading-14" key={index}>
-                        <td className="greyText">{index + 1}</td>
-                        <td className="greyText">{item.name.split('-')[1]}</td>
-                        {item?.attendance.map((att, i) => (
-                          <td className="greyText" key={i}>
-                            {att.status === "present" ? (
-                              <p className="stu-present">P</p>
-                            ) : att.status === "absent" ? (
-                              <p className="stu-absent">A</p>
-                            ) : att.status === "weekend" ? (
-                              <p className="stu-weekend">W</p>
-                            ) : att.status === "leave" ? (
-                              <p className="stu-leave">L</p>
-                            ) : (
-                              <p className="stu-holiday">H</p>
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="100%" style={{ minHeight: '100%' }}>
-                        <div className="text-center">
-                          <img
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = "/images/fallback.png";
-                            }}
-                            src="/images/search.svg"
-                            alt=""
-                            className="img-fluid p-5"
-                          />
-                          <h2><b>No Data Found</b></h2>
-                        </div>
-                      </td>
                     </tr>
-                  )
-                }
+                  </thead>
+                  <tbody className='heading-14 align-middle greyTextColor'>
+                    {
+                      dailyDataByMonth && dailyDataByMonth?.length > 0 ? (
+                        dailyDataByMonth?.map((item, index) => (
+                          <tr className="heading-14" key={index}>
+                            <td className="greyText">{index + 1}</td>
+                            <td className="greyText">{item.name.split('-')[1]}</td>
+                            {item?.attendance.map((att, i) => (
+                              <td className="greyText" key={i}>
+                                {att.status === "present" ? (
+                                  <p className="stu-present">P</p>
+                                ) : att.status === "absent" ? (
+                                  <p className="stu-absent">A</p>
+                                ) : att.status === "weekend" ? (
+                                  <p className="stu-weekend">W</p>
+                                ) : att.status === "leave" ? (
+                                  <p className="stu-leave">L</p>
+                                ) : (
+                                  <p className="stu-holiday">H</p>
+                                )}
+                              </td>
+                            ))}
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="100%" style={{ minHeight: '100%' }}>
+                            <div className="text-center">
+                              <img
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = "/images/fallback.png";
+                                }}
+                                src="/images/search.svg"
+                                alt=""
+                                className="img-fluid p-5"
+                              />
+                              <h2><b>No Data Found</b></h2>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    }
 
 
-              </tbody>
-            </table>
-          </div>
-          <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
-            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-            <div className="ms-auto">
-              <ReactPaginate
-                previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-              />
-            </div>
-          </div>
+                  </tbody>
+                </table>
+              </div>
+              <div className="d-flex p-3" style={{ marginBottom: '10px' }}>
+                <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                <div className="ms-auto">
+                  <ReactPaginate
+                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                    breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                    onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+                  />
+                </div>
+              </div>
+            </>
+            :
+            <>
+              <div className="d-flex justify-content-center m-5">
+                <img src="/images/search.svg" alt="" />
+              </div>
+            </>
+          }
         </div>
         {
           show && (
@@ -1118,10 +1128,10 @@ const DailyAttendance = ({ items }) => {
                 {
                   myTrueFalse ?
                     (
-                    <div className='my-button11 '>
-                      <button type="button" className="btn  heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => { UpdateHandleBtn() }}>Show Student List</button>
-                      <button type="button" className="btn" style={{ fontSize: '14px' }} data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearDataHandle} >Cancel</button>
-                    </div>
+                      <div className='my-button11 '>
+                        <button type="button" className="btn  heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => { UpdateHandleBtn() }}>Show Student List</button>
+                        <button type="button" className="btn" style={{ fontSize: '14px' }} data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearDataHandle} >Cancel</button>
+                      </div>
                     ) :
                     (
                       <>
@@ -1224,10 +1234,10 @@ const DailyAttendance = ({ items }) => {
                 {
                   myTrueFalse ?
                     (
-                    <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => { UpdateHandleBtn() }}>Show Student List</button>
-                      <button type="button" className="btn  " data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearDataHandle}>Cancel</button>
-                    </div>
+                      <div className='my-button11 '>
+                        <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => { UpdateHandleBtn() }}>Show Student List</button>
+                        <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearDataHandle}>Cancel</button>
+                      </div>
                     ) :
                     (
                       <>

@@ -117,10 +117,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -465,7 +462,7 @@ font-size: 12px;
 `;
 
 const Issue_Report = () => {
-  
+
   const [loader, setLoader] = useState(false)
   const [forDelete, setForDelete] = useState(false)
 
@@ -1099,7 +1096,7 @@ const Issue_Report = () => {
           </div>
           <div className='my-button11 mb-3'>
             <button type="button" className="btn btn-outline-success my-button112233" onClick={MyBookIssueGetAllApi} disabled={!(startDate && classNo && sectionName)}>Search</button>
-            <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" disabled={!(startDate && classNo && sectionName)} onClick={clearData}>Cancel</button>
+            <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" disabled={!(startDate && classNo && sectionName)} onClick={clearData}>Cancel</button>
           </div>
 
           {/* ###### copy content till here for all component ######  */}
@@ -1323,7 +1320,7 @@ const Issue_Report = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success my-button112233" onClick={MyIssueBookApi}>Submit</button>
-                    <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearData}>Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearData}>Cancel</button>
                   </div>
                 </div>
               </div>
@@ -1417,7 +1414,7 @@ const Issue_Report = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyNoticePutApi(idForUpdate)}>Done</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                     </div>
                   </div>
                 </div>

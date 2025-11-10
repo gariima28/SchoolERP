@@ -110,10 +110,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -1038,7 +1035,7 @@ const Sample_paper = () => {
                     <div className="row mb-3 buttons-topss">
                         <div className='my-button11 heading-16'>
                             <button type="button" class="btn btn-outline-success my-green" onClick={MySampleGetApi} disabled={!(classId && sectionId && subjectId)}>Search</button>
-                            <button type="button" class="btn btn-outline-success" onClick={HandleClear}>Cancel</button>
+                            <button type="button" class="btn cancelButtons text-black" onClick={HandleClear}>Cancel</button>
                         </div>
                     </div>
 
@@ -1243,7 +1240,7 @@ const Sample_paper = () => {
                                     </div>
                                     <div className='my-button11 '>
                                         <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={SampleDataApi} style={{ backgroundColor: '#008479', color: '#fff' }} >Add Smaple</button>
-                                        <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
+                                        <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -1359,7 +1356,7 @@ const Sample_paper = () => {
                                     </div>
                                     <div className='my-button11 '>
                                         <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MySamplePutApi}>Update Smaple</button>
-                                        <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                                        <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                                     </div>
                                 </div>
 
