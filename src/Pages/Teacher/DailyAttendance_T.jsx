@@ -111,10 +111,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -974,7 +971,7 @@ const DailyAttendance = ({ items }) => {
                 <select class="form-select form-focus  form-select-sm " value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                   <option value=''>--Choose--</option>
                   {
-                    classData?.map((item,index) => (
+                    classData?.map((item, index) => (
                       <option value={item.classId} key={index}>{item.classNo}</option>
                     ))
                   }
@@ -998,7 +995,7 @@ const DailyAttendance = ({ items }) => {
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" onClick={MyDailyAttendanceGetAllApiByMonth} style={{ backgroundColor: '#008479', color: '#fff ' }} disabled={!(month && year && classId && sectionId)}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={clearDataHandle}>Cancel</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={clearDataHandle}>Cancel</button>
             </div>
           </div>
 
@@ -1161,7 +1158,7 @@ const DailyAttendance = ({ items }) => {
                   <select class="form-select form-focus input-bg label-color" value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                     <option value=''>--Choose--</option>
                     {
-                      classData?.map((item,index) => (
+                      classData?.map((item, index) => (
                         <option value={item.classId} key={index}>{item.classNo}</option>
                       ))
                     }
@@ -1182,7 +1179,7 @@ const DailyAttendance = ({ items }) => {
                   hide ?
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success heading-16" style={{ color: ' #fff', backgroundColor: '#008479' }} disabled={!(date && sectionId && classId)} onClick={() => setHide(false)}>Show Student List</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" >Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" >Cancel</button>
                     </div>
                     :
                     <>
@@ -1240,7 +1237,7 @@ const DailyAttendance = ({ items }) => {
 
                       <div className='my-button11 '>
                         <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: "#fff" }} onClick={MyDailyAttendancePostApi}>Submit</button>
-                        <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearData}>Cancel</button>
+                        <button type="button" className="btn cancelButtons text-black " data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearData}>Cancel</button>
                       </div>
                     </>
                 }
@@ -1268,7 +1265,7 @@ const DailyAttendance = ({ items }) => {
                   <select class="form-select form-focus input-bg label-color" value={checkState ? '' : classId} onChange={(e) => setClassId(e.target.value)} aria-label="Default select example">
                     <option value=''>--Choose--</option>
                     {
-                      classData?.map((item,index) => (
+                      classData?.map((item, index) => (
                         <option value={item.classId} key={index}>{item.classNo}</option>
                       ))
                     }
@@ -1289,7 +1286,7 @@ const DailyAttendance = ({ items }) => {
                   hide1 ?
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success heading-16" style={{ color: ' #fff', backgroundColor: '#008479' }} disabled={!(date && sectionId && classId)} onClick={() => setHide1(false)}>Show Student List</button>
-                      <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close"  >Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black " data-bs-dismiss="offcanvas" aria-label="Close"  >Cancel</button>
                     </div>
                     :
                     <>
@@ -1343,8 +1340,8 @@ const DailyAttendance = ({ items }) => {
                         </table>
                       </div>
                       <div className='my-button11 '>
-                        <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyNewDailyAttendancePutApi}>Update</button>
-                        <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearData}>Cancel</button>
+                        <button type="button" className="btn  heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyNewDailyAttendancePutApi}>Update</button>
+                        <button type="button" className="btn cancelButtons text-black " data-bs-dismiss="offcanvas" aria-label="Close" onClick={clearData}>Cancel</button>
                       </div>
                     </>
                 }

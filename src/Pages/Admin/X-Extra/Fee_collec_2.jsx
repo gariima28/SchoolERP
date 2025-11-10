@@ -49,10 +49,10 @@ const Fee_collec_2 = () => {
                 <div className="row mb-3 mb-2  text-center">
                     <div className='my-button11 '>
                         <button type="button" class="btn btn-outline-success my-button112233 me-1" >Search</button>
-                        <button type="button" class="btn btn-outline-success my-button11223344">Cancel</button>
+                        <button type="button" class="btn cancelButtons text-black my-button11223344">Cancel</button>
                     </div>
                 </div>
-             <h2 className='p-2 mb-4' style={{color:"red"}}>Table area by class and section check figma......and it will resolve with api response.</h2>
+                <h2 className='p-2 mb-4' style={{ color: "red" }}>Table area by class and section check figma......and it will resolve with api response.</h2>
                 <div className="content-div">
                     <div className="row ">
                         <div className="col-10">
@@ -148,7 +148,7 @@ const Fee_collec_2 = () => {
                 <div className="row mb-3 mt-4  text-center">
                     <div className='my-button11 '>
                         <button type="button" class="btn btn-outline-success my-button112233 me-1" >Search</button>
-                        <button type="button" class="btn btn-outline-success my-button11223344">Cancel</button>
+                        <button type="button" class="btn cancelButtons text-black my-button11223344">Cancel</button>
                     </div>
                 </div>
             </div>

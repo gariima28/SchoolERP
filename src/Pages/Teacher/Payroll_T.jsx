@@ -106,10 +106,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -676,7 +673,7 @@ const Payroll = () => {
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-15px' }}>Payroll Details</h5>
 
-       <div className="main-content-conatainer pt-1">
+        <div className="main-content-conatainer pt-1">
           {/* ###### copy content till here for all component ######  */}
           <div className="row p-3">
             <div className="col-lg-6 col-md-6 col-sm-12  ">
@@ -717,8 +714,8 @@ const Payroll = () => {
           </div>
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={() => handleClear()}>Cancel</button>
+              <button type="button" class="btn " onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }}>Search</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={() => handleClear()}>Cancel</button>
             </div>
           </div>
           {/* table  */}
@@ -851,7 +848,7 @@ const Payroll = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyHolidayPostApi()}>Submit</button>
-                      <button type="button" className="btn btn-outline-success">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black">Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -917,7 +914,7 @@ const Payroll = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyLeavePutApi(IdForUpdate)}>Update</button>
-                      <button type="button" className="btn btn-outline-success">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black">Cancel</button>
                       {/* <Toaster /> */}
                     </div>
                   </div>
@@ -1147,7 +1144,7 @@ const Payroll = () => {
                   <div className="row mb-3 buttons-topss mt-1">
                     <div className='my-button11 heading-16 py-2'>
                       <button type="button" class="btn btn-outline-success my-green">Print</button>
-                      <button type="button" class="btn btn-outline-success " data-bs-dismiss="modal" >Close</button>
+                      <button type="button" class="btn cancelButtons text-black " data-bs-dismiss="modal" >Close</button>
                     </div>
                   </div>
                 </div>

@@ -178,7 +178,7 @@ const AdminDashboard = () => {
                         <div className="d-flex">
                           <div className="w-100">
                             <h1 className="orangeText">
-                              {DashData?.counts?.students}
+                              {DashData?.counts?.students || 0}
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
@@ -221,7 +221,7 @@ const AdminDashboard = () => {
                         <div className="d-flex">
                           <div className="w-100">
                             <h1 className="orangeText">
-                              {DashData?.counts?.vehicles}
+                              {DashData?.counts?.vehicles || 0}
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
@@ -264,7 +264,7 @@ const AdminDashboard = () => {
                         <div className="d-flex">
                           <div className="w-100">
                             <h1 className="orangeText">
-                              {DashData?.counts?.drivers}
+                              {DashData?.counts?.drivers || 0}
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
@@ -307,7 +307,7 @@ const AdminDashboard = () => {
                         <div className="d-flex">
                           <div className="w-100">
                             <h1 className="orangeText">
-                              {DashData?.counts?.staff}
+                              {DashData?.counts?.staff || 0}
                             </h1>
                           </div>
                           <div className="flex-shrink-1 p-1">
@@ -398,7 +398,7 @@ const AdminDashboard = () => {
                       </Link>
                     </div>
                   </div>
-                  <div className="py-2">
+                  <div className="row py-2">
                     {DashData?.holidays.length > 0 ? (
                       DashData?.holidays.slice(0, 9).map((item, index) => (
                         <div className="col-4 p-1" key={index}>
@@ -485,7 +485,7 @@ const AdminDashboard = () => {
                   </div>
                   <div className="row">
                     {DashData?.events.length > 0 ? (
-                      DashData?.events.slice(0, 6).map((item, index) => (
+                      DashData?.events.slice(0, 3).map((item, index) => (
                         <div className="col-12 p-0" key={item.eventId}>
                           <div className={`border-bottom p-2 pt-3 pb-3 overflow-hidden ${index % 2 === 0 ? 'bg-cream' : 'bg-white'}`}>
                             <div className="row g-0">

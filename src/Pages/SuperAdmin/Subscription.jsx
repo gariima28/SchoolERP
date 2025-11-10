@@ -841,8 +841,8 @@ const Subscription = () => {
                       </select>
                     </div>
                     <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success" value={`${offcanvasclose === true ? 'data-bs-dismiss="offcanvas" aria-label="Close"' : ''}`} style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => SubcPutDataApi(putstate)}>Update</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" value={`${offcanvasclose === true ? 'data-bs-dismiss="offcanvas" aria-label="Close"' : ''}`} style={{ backgroundColor: '#008479', color: '#fff' }} onClick={(e) => SubcPutDataApi(putstate)}>Update</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                       {/* <Toaster /> */}
                     </div>
                   </div>

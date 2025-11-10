@@ -396,7 +396,7 @@ const Per_info_bank = () => {
               </button>
               <button
                 type="button"
-                className="btn cancelButtons heading-12 ms-2"
+                className="btn cancelButtons text-black heading-12 ms-2"
                 onClick={clearData}
                 tabIndex="6"
                 aria-label="Cancel"

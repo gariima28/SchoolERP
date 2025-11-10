@@ -113,10 +113,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -831,20 +828,20 @@ const Event = () => {
     position: { x: 0, y: 0 }
   });
 
-    // Handle search input change
+  // Handle search input change
   const handleSearchChange = (value) => {
     setsearchKey(value);
     debouncedSearch(value);
   };
-    // Handle Search Button Click
-    const handleSearchButton = () => {
-      if (searchKey.trim() === '') {
-        toast.error('Search key is empty');
-        return;
-      }
-      setPageNo(1);
-      MyClassRoutineGetAllApi(searchKey);
-    };
+  // Handle Search Button Click
+  const handleSearchButton = () => {
+    if (searchKey.trim() === '') {
+      toast.error('Search key is empty');
+      return;
+    }
+    setPageNo(1);
+    MyClassRoutineGetAllApi(searchKey);
+  };
   return (
     <Container>
       {
@@ -863,7 +860,7 @@ const Event = () => {
               </ol>
             </nav>
           </div>
-            <div className="d-flex g-1 for-media-query">
+          <div className="d-flex g-1 for-media-query">
             <ActionControls
               showAddButton={false}
               addButtonText={`Add Event`}
@@ -1059,7 +1056,7 @@ const Event = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyEventPostApi()}>Add Events</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                       <Toaster />
                     </div>
                   </div>
@@ -1150,8 +1147,8 @@ const Event = () => {
                     </div>
 
                     <div className='my-button11 '>
-                      <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyEventPutApi(eventIdForUpdate)}>Update</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn  my-button112233" onClick={(e) => MyEventPutApi(eventIdForUpdate)}>Update</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                     </div>
                   </div>
                 </div>

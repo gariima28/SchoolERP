@@ -156,7 +156,7 @@ const Fee_collec_1 = () => {
                 <div className="row mb-3 mt-4  text-center">
                     <div className='my-button11 '>
                         <button type="button" class="btn btn-outline-success my-button112233 me-1" >Search</button>
-                        <button type="button" class="btn btn-outline-success my-button11223344">Cancel</button>
+                        <button type="button" class="btn cancelButtons text-black my-button11223344">Cancel</button>
                     </div>
                 </div>
             </div>

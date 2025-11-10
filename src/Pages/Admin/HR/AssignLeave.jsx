@@ -112,10 +112,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -875,7 +872,7 @@ const AssignLeave = () => {
               <Link type="button" style={{ height: '38px', padding: '10px' }} className="btn btn-success heading-16 my-own-button me-3 " data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop101" aria-controls="staticBackdrop" to={''}>Assign Leave</Link>
             </div>
           </div>
-         
+
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Leave Details</h5>
 
@@ -1067,7 +1064,7 @@ const AssignLeave = () => {
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyAssignLeavePostApi()}>Submit</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -1112,7 +1109,7 @@ const AssignLeave = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyAssignLeavePutApi(IdForUpdate)}>Update leave</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -1200,7 +1197,7 @@ const AssignLeave = () => {
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success " style={{ backgroundColor: 'red', color: '#fff' }} onClick={(e) => MyHolidayDeleteApi()}>Delete leave</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" style={{backgroundColor:'#fff', color:'#000'}}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" style={{ backgroundColor: '#fff', color: '#000' }}>Cancel</button>
                     </div>
 
                   </div>

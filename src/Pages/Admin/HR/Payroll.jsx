@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from 'react'
+
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
+import { ClassGetApi } from '../../../Utils/Apis'
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { PayrollPostApi } from '../../../Utils/Apis'
 import { PayrollGetAllApi } from '../../../Utils/Apis'
-import { PayrollGetAllBtIdApi } from '../../../Utils/Apis'
 import { PayrollDeleteApi } from '../../../Utils/Apis'
 import { PayrollPaidUnPaidPostApi } from '../../../Utils/Apis'
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ActionControls from '../../../Layouts/ActionControls';
-import SchoolLogoGetApi from '../../../../public/images/schoolLogo.svg'
-import DownloadArrow from '../../../../public/images/upperArrow.svg'
-
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import { useRef } from "react";
 
 // ## style css area start ####  
 
@@ -112,10 +107,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -410,43 +402,8 @@ color: #000 !important;
     margin-right: 8px;
     object-fit: cover;
     border: 1px solid #b9b8b8;
-  }
-  .contentWithLogo{
-    font-size: 14px;
-  }
-  .contentWithLogo22{
-    font-size: 18px !important;
-  }
-  .font14{
-    font-size: 14px ;
-  }
-  .font13{
-    font-size: 13px ;
-  }
-  .paid{
-    background-color: #008479;
-    padding: 2px 10px 2px 10px;
-    color: #fff;
-    border-radius: 33px;
-    width: fit-content;
-  }
-  .dataTable{
-    border: 1px solid #F2F3F6;
-  }
-  #rowBorder{
-    border: 1px solid #F2F3F6;
-    background-color:' #D7E7E5' !important;
-  }
-  .imageAlign img{
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #b9b8b8;
-    object-position: center;
 
   }
-
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -509,75 +466,46 @@ color: #000 !important;
 const Payroll = () => {
 
   const [loader, setLoader] = useState(false)
+
+  const [show, setShow] = useState(true)
+  const [hide, setHide] = useState(false)
+
+  const [showadd, setShowadd] = useState(true)
+  const [hideedit, setHideedit] = useState(false)
+
+  const [stateChange, setStateChange] = useState(false)
+  const [defaultState, setDefaultState] = useState(true)
   const [searchKey, setSearchKey] = useState('')
+
+  const [classData, setClassData] = useState([])
   const [payrollData, setPayrollData] = useState([])
+  const [subjectData, setSubjectData] = useState([])
+  const [teacherData, setTeacherData] = useState([])
+  const [classRoutineData, setClassRoutineData] = useState([])
   const [payrollId, setPayrollId] = useState([])
+  const [breakType, setBreakType] = useState('')
+  const [classNo, setClassNo] = useState('')
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
-
-  const [payrollDataByIdAllowance, setPayrollDataByIdAllowance] = useState([])
-  const [payrollDataByIdDeduction, setPayrollDataByIdDeduction] = useState([])
-  const [payrollDataByIdPaySlip, setPayrollDataByIdPaySlip] = useState()
-  const [payrollDataByIdStaffName, setPayrollDataByIdStaffName] = useState()
-  const [payrollDataByIdAddress, setPayrollDataByIdAddress] = useState()
-  const [payrollDataByIdBankAccount, setPayrollDataByIdBankAccount] = useState()
-  const [payrollDataByIdStatus, setPayrollDataByIdStatus] = useState()
-  const [payrollDataByIdAllwPaidLev, setPayrollDataByIdAllwPaidLev] = useState()
-  const [payrollDataByIdUnPaidLev, setPayrollDataByIdUnPaidLev] = useState()
-  const [payrollDataByIdPaidLev, setPayrollDataByIdPaidLev] = useState()
-  const [payrollDataByIdTakenLeave, setPayrollDataByIdTakenLeave] = useState()
-  const [payrollDataByIdLevDeduction, setPayrollDataByIdLevDeduction] = useState()
-  const [payrollDataByIdTotalDaysSalary, setPayrollDataByIdTotalDaysSalary] = useState()
-  const [payrollDataByIdBasicSalary, setPayrollDataByIdBasicSalary] = useState()
-  const [payrollDataByIdTotalAllowance, setPayrollDataByIdTotalAllowance] = useState()
-  const [payrollDataByIdTotalDeduction, setPayrollDataByIdTotalDeduction] = useState()
-  const [payrollDataByIdNetSalary, setPayrollDataByIdNetSalary] = useState()
-  const [payrollDataByIdSchoolName, setPayrollDataByIdSchoolName] = useState()
-  const [payrollDataByIdSchoolAddress, setPayrollDataByIdSchoolAddress] = useState()
-  const [payrollDataByIdSchoolImage, setPayrollDataByIdSchoolImage] = useState()
+  const [sectionName, setSectionName] = useState('')
+  const [tabclick, setTabclick] = useState('tab3')
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-
-  const pdfRef = useRef();
-
   useEffect(() => {
     MyPayrollGetAllApi()
   }, [])
 
-  const handleDownloadPDF = async () => {
-    const element = pdfRef.current;
-    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-
-    // Calculate width and height for proper fit
-    const imgWidth = 210;
-    const pageHeight = 295;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-    pdf.save(`Payslip_${payrollDataByIdStaffName || "Employee"}.pdf`);
-  };
-
   const handleCheckboxChange = (id) => {
     setPayrollId((prev) => {
       if (prev.includes(id)) {
+        // If ID already exists → remove it
         return prev.filter((item) => item !== id);
       } else {
+        // If ID doesn’t exist → add it
         return [...prev, id];
       }
     });
@@ -585,11 +513,10 @@ const Payroll = () => {
 
   // Post Api 
   const MyPayrollPostAllApi = async () => {
-
-    console.log('post api called here.......')
     setLoader(true)
     try {
       const response = await PayrollPostApi();
+      console.log('payroll post api response', response);
       if (response?.status === 200) {
         toast.success(response?.data?.message)
         setLoader(false)
@@ -600,6 +527,7 @@ const Payroll = () => {
       }
     } catch (error) {
       setLoader(false)
+
     }
   }
 
@@ -629,50 +557,15 @@ const Payroll = () => {
     setLoader(true)
     try {
       const response = await PayrollGetAllApi(month, year, searchKey, pageNo, pageSize);
-      // console.log('payroll get all api response--', response)
       if (response?.status === 200) {
         setPayrollData(response?.data?.payrolls)
-        setLoader(false)
-      } else {
-      }
-    } catch (error) {
-      setloaderState(false);
-      // console.log(error)
-    }
-  }
-  // Get All by id api  
-  const MyPayrollGetAllByIdApi = async (id) => {
-    setLoader(true)
-    try {
-      const response = await PayrollGetAllBtIdApi(id);
-      console.log('payroll get by id api response--', response)
-      if (response?.status === 200) {
-        setPayrollDataByIdAllowance(response?.data?.payroll?.allowances)
-        setPayrollDataByIdPaySlip(response?.data?.payroll?.paySlipInvoiceNo)
-        setPayrollDataByIdDeduction(response?.data?.payroll?.deductions)
-        setPayrollDataByIdStaffName(response?.data?.payroll?.staffName)
-        setPayrollDataByIdAddress(response?.data?.payroll?.staffAddress)
-        setPayrollDataByIdBankAccount(response?.data?.payroll?.accountNumber)
-        setPayrollDataByIdStatus(response?.data?.payroll?.payrollStatus)
-        setPayrollDataByIdAllwPaidLev(response?.data?.payroll?.allowedPaidLeaves)
-        setPayrollDataByIdUnPaidLev(response?.data?.payroll?.unpaidLeaves)
-        setPayrollDataByIdPaidLev(response?.data?.payroll?.paidLeaves)
-        setPayrollDataByIdTakenLeave(response?.data?.payroll?.takenLeaves)
-        setPayrollDataByIdLevDeduction(response?.data?.payroll?.leaveDeduction)
-        setPayrollDataByIdTotalDaysSalary(response?.data?.payroll?.totalWorkingDays)
-        setPayrollDataByIdBasicSalary(response?.data?.payroll?.basicPay)
-        setPayrollDataByIdTotalAllowance(response?.data?.payroll?.allowanceTotal)
-        setPayrollDataByIdTotalDeduction(response?.data?.payroll?.deductionsTotal)
-        setPayrollDataByIdNetSalary(response?.data?.payroll?.netSalary)
-        setPayrollDataByIdSchoolName(response?.data?.payroll?.schoolName)
-        setPayrollDataByIdSchoolAddress(response?.data?.payroll?.staffAddress)
-        setPayrollDataByIdSchoolImage(response?.data?.payroll?.schoolPhoto)
         setLoader(false)
       } else {
         // toast.error(response?.data?.classes?.message);
       }
     } catch (error) {
-      setLoader(false)
+      setloaderState(false);
+      // console.log(error)
     }
   }
   // Delete api
@@ -683,7 +576,6 @@ const Payroll = () => {
       if (response?.status === 200) {
         toast.success(response?.data?.message)
         MyPayrollGetAllApi()
-        
         // setPayrollData(response?.data?.payroll)
         setLoader(false)
       } else {
@@ -713,7 +605,7 @@ const Payroll = () => {
   const handleClear = () => {
     setMonth('')
     setYear('')
-    // setPayrollData([])
+    setPayrollData([])
   }
 
   return (
@@ -743,9 +635,9 @@ const Payroll = () => {
               showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={''}
-              exportPDFFileName="Daily Payroll.pdf"
+              exportPDFFileName="Daily Attendance.pdf"
               showExportCSV={false}
-              exportCSVFileName="Daily Payroll.xlsx"
+              exportCSVFileName="Daily Attendance.xlsx"
               showSearch={true}
               searchValue={searchKey}
               searchAction={''}
@@ -784,6 +676,7 @@ const Payroll = () => {
                   <option value='10'>October</option>
                   <option value='11'>November</option>
                   <option value='12'>December</option>
+
                 </select>
               </div>
             </div>
@@ -799,14 +692,15 @@ const Payroll = () => {
                   <option value='2028'>2028</option>
                   <option value='2029'>2029</option>
                   <option value='2030'>2030</option>
+
                 </select>
               </div>
             </div>
           </div>
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn btn-outline-success" onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }} disabled={!(month || year) ? true : false}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={() => handleClear()} disabled={!(month || year) ? true : false}>Cancel</button>
+              <button type="button" class="btn btn-outline-success" onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }}>Search</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={() => handleClear()}>Cancel</button>
             </div>
           </div>
           {/* table  */}
@@ -831,6 +725,7 @@ const Payroll = () => {
                   <th className='table-row-bg-color greyText'>Generate Invoice</th>
                 </tr>
               </thead>
+
               <tbody className='heading-14 align-middle greyTextColor'>
                 {
                   payrollData && payrollData?.length > 0 ? (
@@ -865,11 +760,7 @@ const Payroll = () => {
                         <td className=' greyText'>{item.deductionsTotal}</td>
                         <td className=' greyText'>{item.totalWorkingDays}</td>
                         <td className=' greyText'>{item.netSalary}</td>
-                        <td className=' greyText'>
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal123" style={{ backgroundColor: '#008479', border: '1px solid #008479', padding: '2px 4px', fontSize: '14px' }} onClick={() => MyPayrollGetAllByIdApi(item.id)}>
-                            Download
-                          </button>
-                        </td>
+                        <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R'}</td>
 
                       </tr>
                     ))
@@ -923,286 +814,10 @@ const Payroll = () => {
               />
             </div>
           </div>
+
+
         </div>
 
-        {/* Modal  */}
-        <div
-          className="modal fade"
-          id="exampleModal123"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: "1000px" }}>
-            <div className="modal-content" ref={pdfRef}>
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel" style={{ color: "#008479" }}>
-                  Payslip Details
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-
-              <div className="conatiner-fluid p-3">
-                <div className="row myBorder">
-                  <div className="col-lg-8 p-3 pb-0">
-                    <div className='d-flex'>
-                      <div className='imageAlign'>
-                        <img src={payrollDataByIdSchoolImage ? payrollDataByIdSchoolImage : SchoolLogoGetApi} alt="" />
-                      </div>
-                      <div className='p-2 mt-1 '>
-                        <h2 className='contentWithLogo22'>{payrollDataByIdSchoolName ? payrollDataByIdSchoolName : 'School Name'}</h2>
-                        <p className='pt-1 contentWithLogo'>{payrollDataByIdSchoolAddress ? payrollDataByIdSchoolAddress : 'School Address'}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 p-3 pb-0">
-                    <div className="d-flex justify-content-end mt-3">
-                      <button
-                        className="btn"
-                        style={{ backgroundColor: "#F16145", color: "#fff" }}
-                        onClick={handleDownloadPDF}
-                      >
-                        <img style={{ width: "15px" }} src={DownloadArrow} alt="" /> &nbsp;
-                        Download
-                      </button>
-                    </div>
-                  </div>
-                 
-                </div>
-                <hr className='mx-1' style={{ color: '#aaa', }} />
-                <div className="row m-1 pt-0">
-                  <div className="col-lg-6 p-3 pt-0">
-                    <div className="row  pb-0">
-                      <div className="col-lg-6 p-3 pt-0 pb-0">
-                        <div className='pt-1 d-flex justify-content-between font14'>
-                          <p style={{ color: '#8F8F8F' }}>Payslip No</p>
-                          <p>:</p>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 p-3 pt-0 pb-0">
-                        <div className='pt-1 fs-2'>
-                          <h2>{payrollDataByIdPaySlip}</h2>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row  pb-0">
-                      <div className="col-lg-6 p-3 pt-0 pb-0">
-                        <div className='pt-1 d-flex justify-content-between font14'>
-                          <p style={{ color: '#8F8F8F' }}>Employee Name</p>
-                          <p>:</p>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 p-3 pt-0 pb-0">
-                        <div className='pt-1 fs-2'>
-                          <h2><b>{payrollDataByIdStaffName}</b></h2>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row pt-0 pb-0">
-                      <div className="col-lg-6 p-3 pt-0 pb-0">
-                        <div className='pt-1 d-flex justify-content-between font14'>
-                          <p style={{ color: '#8F8F8F' }}>Address</p>
-                          <p>:</p>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 p-3 pt-0 pb-0">
-                        <div className='pt-1 font14' style={{ color: '#2C2C2C' }} >
-                          <p>{payrollDataByIdAddress}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row  pb-0">
-                      <div className="col-lg-6 p-3 pt-0 pb-0">
-                        <div className='pt-1 d-flex justify-content-between font14'>
-                          <p style={{ color: '#8F8F8F' }}>Bank Account</p>
-                          <p>:</p>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 p-3 pt-0 pb-0 ">
-                        <div className='pt-1 font14'>
-                          <p>{payrollDataByIdBankAccount}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row  pb-0">
-                      <div className="col-lg-6 p-3 pt-0 pb-0">
-                        <div className='pt-1 d-flex justify-content-between font14'>
-                          <p style={{ color: '#8F8F8F' }}>Status</p>
-                          <p>:</p>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 p-3 pt-0 pb-0 ">
-                        <div className='pt-1 font14'>
-                          <p className='paid'>{payrollDataByIdStatus}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6  dataTable ">
-                    <div className="row  p-2 " id='' style={{ backgroundColor: '#D7E7E5' }}>
-                      <div className="col-lg-4 font14 ">Allowed Paid Leave</div>
-                      <div className="col-lg-4 font14 ">Un Paid Leave</div>
-                      <div className="col-lg-4 font14 ">Paid Leave</div>
-                    </div>
-                    <div className="row mt-2 p-1 " id=''>
-                      <div className="col-lg-4 font14 ">{payrollDataByIdAllwPaidLev}</div>
-                      <div className="col-lg-4 font14 ">{payrollDataByIdUnPaidLev}</div>
-                      <div className="col-lg-4 font14 ">{payrollDataByIdPaidLev}</div>
-                    </div>
-                    <div className="row mt-2 p-2 " style={{ backgroundColor: '#D7E7E5' }}>
-                      <div className="col-lg-4 font14 ">Taken Leave</div>
-                      <div className="col-lg-4 font14 ">Leave Deduction</div>
-                      <div className="col-lg-4 font14 ">Total Days Salary</div>
-                    </div>
-                    <div className="row mt-2 p-1 " id=''>
-                      <div className="col-lg-4 font14 ">{payrollDataByIdTakenLeave}</div>
-                      <div className="col-lg-4 font14 ">{payrollDataByIdLevDeduction}</div>
-                      <div className="col-lg-4 font14 ">{payrollDataByIdTotalDaysSalary}</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="row m-1">
-                  <div className="col-lg-6 ps-0">
-                    <div className='my-2' style={{ fontSize: '22px' }}>
-                      <p ><b>Allowance Summary</b></p>
-                    </div>
-                    <div>
-                      <div className="table-container  table-responsive">
-                        <table className="table table-sm " style={{ border: '1px solid #F2F3F6' }}>
-                          <thead className=''>
-                            <tr className='heading-16 text-color-000 ' >
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>#</th>
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>Allowance Details</th>
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody className='heading-14 align-middle greyTextColor'>
-                            {
-                              payrollDataByIdAllowance && payrollDataByIdAllowance.length > 0 ? (
-                                payrollDataByIdAllowance?.map((item, index) => (
-                                  <tr className='heading-14' >
-                                    <td className=' greyText'>{index + 1}</td>
-                                    <td className=' greyText'>{item?.allowanceName}</td>
-                                    <td className=' greyText'>{item?.allowanceAmount}</td>
-                                  </tr>
-                                ))
-                              )
-                                :
-                                (
-                                  <tr>
-                                    <td colSpan="6" className="text-center">
-                                      <div className="d-flex justify-content-center align-items-center m-5 ">
-                                        <div className="text-center" style={{ height: 'auto' }}>
-                                          <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
-                                          <h2><b>No Data Found</b></h2>
-                                        </div>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                )
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 ps-0 pe-0">
-                    <div className='my-2' style={{ fontSize: '22px' }}>
-                      <p ><b>Deduction Summary</b></p>
-                    </div>
-                    <div>
-                      <div className="table-container  table-responsive">
-                        <table className="table table-sm " style={{ border: '1px solid #F2F3F6' }}>
-                          <thead className=''>
-                            <tr className='heading-16 text-color-000 ' >
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>#</th>
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>Deduction Details</th>
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody className='heading-14 align-middle greyTextColor'>
-                            {
-                              payrollDataByIdDeduction && payrollDataByIdDeduction.length > 0 ? (
-                                payrollDataByIdDeduction?.map((item, index) => (
-                                  <tr className='heading-14' >
-                                    <td className=' greyText'>{index + 1}</td>
-                                    <td className=' greyText'>{item?.deductionName}</td>
-                                    <td className=' greyText'>{item?.deductionAmount}</td>
-                                  </tr>
-                                ))
-                              )
-                                :
-                                (
-                                  <tr>
-                                    <td colSpan="6" className="text-center">
-                                      <div className="d-flex justify-content-center align-items-center m-5 ">
-                                        <div className="text-center">
-                                          <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
-                                          <h2><b>No Data Found</b></h2>
-                                        </div>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                )
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="row m-1">
-                  <div className=" ps-0 pe-0">
-                    <div className='my-2' style={{ fontSize: '22px' }}>
-                      <p ><b>Payslip Summery </b></p>
-                    </div>
-                    <div>
-                      <div className="table-container  table-responsive">
-                        <table className="table table-sm " style={{ border: '1px solid #F2F3F6' }}>
-                          <thead className=''>
-                            <tr className='heading-16 text-color-000 ' >
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>#</th>
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>Payslip Details</th>
-                              <th className='' style={{ backgroundColor: '#E1EDEC' }}>Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody className='heading-14 align-middle greyTextColor'>
-                            <tr className='heading-14' >
-                              <td className=' greyText'>1</td>
-                              <td className=' greyText'>Basic Salary</td>
-                              <td className=' greyText'>{payrollDataByIdBasicSalary}</td>
-                            </tr>
-                            <tr className='heading-14' >
-                              <td className=' greyText'>2</td>
-                              <td className=' greyText'>Total Allowances</td>
-                              <td className=' greyText'>{payrollDataByIdTotalAllowance}</td>
-                            </tr>
-                            <tr className='heading-14' >
-                              <td className=' greyText'>3</td>
-                              <td className=' greyText'>Total Deductions </td>
-                              <td className=' greyText'>{payrollDataByIdTotalDeduction}</td>
-                            </tr>
-                            <tr className='heading-14' >
-                              <td className=' greyText'></td>
-                              <td className='  bold' style={{ fontWeight: '400', fontSize: '16px' }}>Net Salary </td>
-                              <td className=' '>{payrollDataByIdNetSalary}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </Container>
   )
