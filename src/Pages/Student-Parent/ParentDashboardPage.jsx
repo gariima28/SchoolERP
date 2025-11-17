@@ -337,7 +337,7 @@ const DashboardPage = () => {
                             </div>
 
                             {/* Right Content */}
-                            <div className="col-md-10">
+                            <div className="col-md-10 ps-3">
                               <div className="card-body d-flex flex-column justify-content-center">
                                 {/* Date */}
                                 <div className="d-flex justify-content-between">

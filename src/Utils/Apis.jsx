@@ -1750,10 +1750,10 @@ export const getTeacherBySubjectApi = async (id1, id2) => {
 
 
 
-export const getAllSessionDataAPI = async () => {
+export const getAllSessionDataAPI = async (pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/session/getAllSessionBySchId`);
+    var res = await axios.get(`${Domain}/session/getAllSessionBySchId?page=${pageNo}&size=${pageSize}`);
 
     if (res) {
       return res;

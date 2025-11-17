@@ -145,19 +145,19 @@ const SessionManager = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(10);
 
     const [activeSessionItem, setActiveSessionItem] = useState('');
     const [searchKeyData, setSearchKeyData] = useState('');
 
     useEffect(() => {
         getAllSession()
-    }, [token, pageNo])
+    }, [pageNo])
 
 
-    const handlePageClick = (event) => {
-        setPageNo(event.selected + 1); // as event start from 0 index
-    };
+  const handlePageClick = (event) => {
+    setPageNo(event.selected + 1); // as event start from 0 index
+  };
 
     const handleStartDateChange = (e) => {
         const selectedDate = new Date(e.target.value);
@@ -207,6 +207,8 @@ const SessionManager = () => {
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
                     setSessionData(response?.data?.sessions);
+                    setTotalPages(response?.data?.totalPages);
+                    setCurrentPage(response?.data?.currentPage);
                     setActiveSessionItem(response?.data?.activeSession);
                     setActiveSession(response?.data?.activeSession?.currentYear)
                     setActiveSessionId(response?.data?.activeSession?.sessionId)

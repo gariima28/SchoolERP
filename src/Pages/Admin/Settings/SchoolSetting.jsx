@@ -279,12 +279,12 @@ const SchoolSetting = () => {
                                     </div>
                                     <div className="col-md-6 col-sm-12 mb-3">
                                         <label htmlFor="exampleFormControlInput1" className="form-label font14">Address</label>
-                                        <input id="schoolAddress" onChange={checkForChanges} type="text" className={`form-control font14 ${errors.schoolAddress ? 'border-danger' : ''}`} placeholder="Entes Address" {...register("schoolAddress", { required: 'School Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'Address must contain only letters, digits, and spaces'; } return true; } })} />
+                                        <textarea id="schoolAddress" onChange={checkForChanges} type="text" className={`form-control font14 ${errors.schoolAddress ? 'border-danger' : ''}`} placeholder="Entes Address" {...register("schoolAddress", { required: 'School Address is required *', validate: value => { if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'Address must contain only letters, digits, and spaces'; } return true; } })} />
                                         {errors.schoolAddress && <p className="font12 text-danger">{errors.schoolAddress.message}</p>}
                                     </div>
                                     <div className="col-md-6 col-sm-12 mb-3">
                                         <label htmlFor="exampleFormControlInput1" className="form-label font14">School Information</label>
-                                        <input id="schoolInfo" onChange={checkForChanges} type="text" className={`form-control font14 ${errors.schoolInfo ? 'border-danger' : ''}`} placeholder="Entes School Info" {...register("schoolInfo", { validate: value => { if (!value) return true; if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'School Info must contain only letters, digits, and spaces'; } return true; } })} />
+                                        <textarea id="schoolInfo" onChange={checkForChanges} type="text" className={`form-control font14 ${errors.schoolInfo ? 'border-danger' : ''}`} placeholder="Entes School Info" {...register("schoolInfo", { validate: value => { if (!value) return true; if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'School Info must contain only letters, digits, and spaces'; } return true; } })} />
                                         {errors.schoolInfo && <p className="font12 text-danger">{errors.schoolInfo.message}</p>}
                                     </div>
                                     <div className="col-md-6 col-sm-12 mb-3">

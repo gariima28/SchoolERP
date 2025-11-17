@@ -1207,7 +1207,9 @@ const Event = () => {
                         </td>
 
                         <td className='greyText ps-1 no-wrap'>
-                          <p className={`greyText pe-0 ${item.status === "Ongoing" ? 'my-Ongoing-status' : `${item.status === "Upcoming" ? 'my-Upcoming-status' : 'my-Closed-status'}`}`}>{item.status}</p>
+                          <span className={`status-badge ${item.status.toLowerCase()}`}>
+                            {item.status}
+                          </span>
                         </td>
                         <td className=' greyText  pe-0 no-wrap' >
                           <div className="dropdown my-button-show" >

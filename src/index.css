@@ -2474,3 +2474,20 @@ f
   background-color: #B50000 !important;
   border-color: #B50000 !important;
 }
+
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: inline-block;
+  min-width: 85px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.ongoing { background: #E6FFE2; color: #00A67E; border: 1.5px solid #00A67E; }
+.upcoming { background: #E6F0FF; color: #4F3EE0; border: 1.5px solid #4F3EE0; }
+.closed { background: #FFE6E6; color: #B50000; border: 1.5px solid #B50000; }
