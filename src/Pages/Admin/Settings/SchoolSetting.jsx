@@ -324,7 +324,7 @@ const SchoolSetting = () => {
                                                 <input id="schoolLogo" onChange={checkForChanges} type="file" className={`form-control formimagetext font14 ${errors.schoolLogo ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('schoolLogo', { required: 'Student Image is required *', validate: value => { if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800)) { return 'File size must be between 10 KB to 200 KB'; } return true; } })} />
                                             }
                                             <div className='formcontrolButtonborder p-1 ps-3 pe-3 text-center'>
-                                                <span className="text-white font14 align-self-center" onClick={() => { if (schoolLogoVal === '' || schoolLogoVal === null) { setChangeImageType(!changeImageType) } }}>
+                                                <span className="text-white font14 align-self-center" onClick={() => { setChangeImageType(!changeImageType) }}>
                                                     {schoolLogoVal !== null && changeImageType ? 'Edit' : 'View'}
                                                 </span>
                                             </div>
