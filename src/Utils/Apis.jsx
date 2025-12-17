@@ -3,7 +3,7 @@ const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
 // const Domain = 'http://192.168.21.232:5000';
-const Domain = 'https://test.edu2all.in/sch';
+const Domain = 'https://auth.edu2all.in/sch';
 
 // ******************************************************************************************************
 // Login  //
@@ -2112,10 +2112,10 @@ export const getSearhSamplePaperDataApi = async (id1, id2, id3, searchKey, pageN
   }
 }
 
-export const getDownloadSamplePaperDataApi = async (id, BlobData) => {
+export const getDownloadSamplePaperDataApi = async (id) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/samplePaper/download-sample/${id}`, BlobData);
+    var res = await axios.get(`${Domain}/samplePaper/download-sample/${id}`);
     if (res) {
       return res;
     } else {
@@ -7277,7 +7277,7 @@ export const PayrollPostApi = async () => {
 export const PayrollPaidUnPaidPostApi = async (paidUnPaid) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    const res = await axios.post(`${Domain}/payroll/markPaid`,paidUnPaid)
+    const res = await axios.post(`${Domain}/payroll/markPaid`, paidUnPaid)
     // // console.log('my-response', res)
     if (res) {
       return res;

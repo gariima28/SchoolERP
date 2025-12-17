@@ -703,118 +703,127 @@ const Payroll = () => {
               <button type="button" class="btn cancelButtons text-black" onClick={() => handleClear()}>Cancel</button>
             </div>
           </div>
-          {/* table  */}
-          <div className="table-container px-3 table-responsive">
-            <table className="table table-sm ">
-              <thead className=''>
-                <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500', whiteSpace: 'nowrap', gap: '5px' }}>
-                  <th className='table-row-bg-color greyText'></th>
-                  <th className='table-row-bg-color greyText'>#</th>
-                  <th className='table-row-bg-color greyText'>Name</th>
-                  <th className='table-row-bg-color greyText'>Status</th>
-                  <th className='table-row-bg-color greyText'>Basic Salary</th>
-                  <th className='table-row-bg-color greyText'>Allowed Paid Leaves</th>
-                  <th className='table-row-bg-color greyText'>Un Paid Leaves</th>
-                  <th className='table-row-bg-color greyText'>Paid Leaves</th>
-                  <th className='table-row-bg-color greyText'>Taken Leaves</th>
-                  <th className='table-row-bg-color greyText'>Leave Deduction</th>
-                  <th className='table-row-bg-color greyText'>Allowances</th>
-                  <th className='table-row-bg-color greyText'>Deductions</th>
-                  <th className='table-row-bg-color greyText'>Total Days Salary</th>
-                  <th className='table-row-bg-color greyText'>Net Salary</th>
-                  <th className='table-row-bg-color greyText'>Generate Invoice</th>
-                </tr>
-              </thead>
+          {payrollData.length > 0 ?
+            <>
+              {/* table  */}
+              <div className="table-container px-3 table-responsive">
+                <table className="table table-sm ">
+                  <thead className=''>
+                    <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500', whiteSpace: 'nowrap', gap: '5px' }}>
+                      <th className='table-row-bg-color greyText'></th>
+                      <th className='table-row-bg-color greyText'>#</th>
+                      <th className='table-row-bg-color greyText'>Name</th>
+                      <th className='table-row-bg-color greyText'>Status</th>
+                      <th className='table-row-bg-color greyText'>Basic Salary</th>
+                      <th className='table-row-bg-color greyText'>Allowed Paid Leaves</th>
+                      <th className='table-row-bg-color greyText'>Un Paid Leaves</th>
+                      <th className='table-row-bg-color greyText'>Paid Leaves</th>
+                      <th className='table-row-bg-color greyText'>Taken Leaves</th>
+                      <th className='table-row-bg-color greyText'>Leave Deduction</th>
+                      <th className='table-row-bg-color greyText'>Allowances</th>
+                      <th className='table-row-bg-color greyText'>Deductions</th>
+                      <th className='table-row-bg-color greyText'>Total Days Salary</th>
+                      <th className='table-row-bg-color greyText'>Net Salary</th>
+                      <th className='table-row-bg-color greyText'>Generate Invoice</th>
+                    </tr>
+                  </thead>
 
-              <tbody className='heading-14 align-middle greyTextColor'>
-                {
-                  payrollData && payrollData?.length > 0 ? (
-                    payrollData?.map((item, index) => (
-                      <tr className='heading-14' >
-                        <td className=' greyText'>
-                          <div class="form-check">
-                            {/* <input class="form-check-input" type="checkbox" value="" id="checkDefault" onChange={() => setPayrollId(item.id) }/> */}
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id={`check-${item.id}`}
-                              checked={payrollId.includes(item.id)}
-                              onChange={() => handleCheckboxChange(item.id)}
-                            />
-                          </div>
-                        </td>
-                        <td className=' greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} /></span><span className='mt-1'>{item.staffName}</span></td>
-                        <td className=' greyText'>
-                          <div className=''>
-                            <p className={`${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
-                          </div>
-                        </td>
-                        <td className=' greyText'>{item.basicPay}</td>
-                        <td className=' greyText'>{item.allowedPaidLeaves}</td>
-                        <td className=' greyText'>{item.unpaidLeaves}</td>
-                        <td className=' greyText'>{item.paidLeaves}</td>
-                        <td className=' greyText'>{item.takenLeaves}</td>
-                        <td className=' greyText'>{item.leaveDeduction}</td>
-                        <td className=' greyText'>{item.allowanceTotal}</td>
-                        <td className=' greyText'>{item.deductionsTotal}</td>
-                        <td className=' greyText'>{item.totalWorkingDays}</td>
-                        <td className=' greyText'>{item.netSalary}</td>
-                        <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R'}</td>
+                  <tbody className='heading-14 align-middle greyTextColor'>
+                    {
+                      payrollData && payrollData?.length > 0 ? (
+                        payrollData?.map((item, index) => (
+                          <tr className='heading-14' >
+                            <td className=' greyText'>
+                              <div class="form-check">
+                                {/* <input class="form-check-input" type="checkbox" value="" id="checkDefault" onChange={() => setPayrollId(item.id) }/> */}
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id={`check-${item.id}`}
+                                  checked={payrollId.includes(item.id)}
+                                  onChange={() => handleCheckboxChange(item.id)}
+                                />
+                              </div>
+                            </td>
+                            <td className=' greyText'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                            <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} /></span><span className='mt-1'>{item.staffName}</span></td>
+                            <td className=' greyText'>
+                              <div className=''>
+                                <p className={`${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
+                              </div>
+                            </td>
+                            <td className=' greyText'>{item.basicPay}</td>
+                            <td className=' greyText'>{item.allowedPaidLeaves}</td>
+                            <td className=' greyText'>{item.unpaidLeaves}</td>
+                            <td className=' greyText'>{item.paidLeaves}</td>
+                            <td className=' greyText'>{item.takenLeaves}</td>
+                            <td className=' greyText'>{item.leaveDeduction}</td>
+                            <td className=' greyText'>{item.allowanceTotal}</td>
+                            <td className=' greyText'>{item.deductionsTotal}</td>
+                            <td className=' greyText'>{item.totalWorkingDays}</td>
+                            <td className=' greyText'>{item.netSalary}</td>
+                            <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R'}</td>
 
-                      </tr>
-                    ))
-                  )
-                    :
-                    (
-                      <tr>
-                        <td colSpan="12" className="text-center">
-                          <div className="d-flex justify-content-center align-items-center m-5 ">
-                            <div className="text-center">
-                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
-                              <h2><b>No Data Found</b></h2>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                }
-              </tbody>
-            </table>
-          </div>
-          <div className="d-flex p-2" style={{ marginBottom: "10px" }}>
-            <p className="font14">
-              Showing {currentPage} of {totalPages} Pages
-            </p>
-            <div className="ms-auto">
-              <ReactPaginate
-                previousLabel={
-                  <Icon
-                    icon="tabler:chevrons-left"
-                    width="1.4em"
-                    height="1.4em"
+                          </tr>
+                        ))
+                      )
+                        :
+                        (
+                          <tr>
+                            <td colSpan="12" className="text-center">
+                              <div className="d-flex justify-content-center align-items-center m-5 ">
+                                <div className="text-center">
+                                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
+                                  <h2><b>No Data Found</b></h2>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                    }
+                  </tbody>
+                </table>
+              </div>
+              <div className="d-flex p-2" style={{ marginBottom: "10px" }}>
+                <p className="font14">
+                  Showing {currentPage} of {totalPages} Pages
+                </p>
+                <div className="ms-auto">
+                  <ReactPaginate
+                    previousLabel={
+                      <Icon
+                        icon="tabler:chevrons-left"
+                        width="1.4em"
+                        height="1.4em"
+                      />
+                    }
+                    nextLabel={
+                      <Icon
+                        icon="tabler:chevrons-right"
+                        width="1.4em"
+                        height="1.4em"
+                      />
+                    }
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={10}
+                    onPageChange={handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}
                   />
-                }
-                nextLabel={
-                  <Icon
-                    icon="tabler:chevrons-right"
-                    width="1.4em"
-                    height="1.4em"
-                  />
-                }
-                breakLabel={"..."}
-                breakClassName={"break-me"}
-                pageCount={totalPages}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={10}
-                onPageChange={handlePageClick}
-                containerClassName={"pagination"}
-                subContainerClassName={"pages pagination"}
-                activeClassName={"active"}
-              />
-            </div>
-          </div>
-
+                </div>
+              </div>
+            </>
+            :
+            <>
+              <div className="d-flex justify-content-center m-5">
+                <img src="/images/search.svg" alt="" />
+              </div>
+            </>
+          }
 
         </div>
 

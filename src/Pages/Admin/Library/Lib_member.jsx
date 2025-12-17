@@ -517,70 +517,79 @@ const Lib_member = ({ data }) => {
         {/* ###### copy content till here for all component ######  */}
 
         <div className="table-container  table-responsive">
+          {AllMember.length > 0 ?
+            <>
+              <table className="table table-sm table-striped text-center ">
+                <thead className=''>
+                  <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
+                    <th className='no-wrap'>#</th>
+                    <th className='no-wrap'>Name</th>
+                    <th className='no-wrap'>Student ID</th>
+                    <th className='no-wrap'>Library ID</th>
+                    <th className='no-wrap'>Class</th>
+                    <th className='no-wrap'>Section</th>
+                    <th className='no-wrap'>Roll Number</th>
+                    <th className='no-wrap'>Action</th>
+                  </tr>
+                </thead>  <tbody className='heading-14 align-middle greyTextColor'>
+                  {
+                    AllMember && AllMember?.length > 0 ? (
+                      AllMember?.map((item, index) => (
+                        <tr className='heading-14' >
+                          <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.studentName}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.studentId}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.libraryId ? item.libraryId : 'N-I-R'}</td>
+                          <td className=' greyText pe-0 no-wrap my-anchor-view'>{item.classNo}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.classSection}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.rollNumber ? item.rollNumber : 'N-I-R'}</td>
+                          <td className=' greyText  pe-0 no-wrap' >
+                            <div className="dropdown my-button-show" >
+                              <button className="btn btn-secondary dropdown-togg my-button-drop heading-10" style={{ backgroundColor: '#b50000', color: '#fff', padding: '3px 10px 3px 10px', fontSize: '14px', border: 'none' }} type="button" aria-expanded="false" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => setRemoveID(item.studentId)}>
+                                Remove Member
+                              </button>
+                            </div>
 
-          <table className="table table-sm table-striped text-center ">
-            <thead className=''>
-              <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                <th className='no-wrap'>#</th>
-                <th className='no-wrap'>Name</th>
-                <th className='no-wrap'>Student ID</th>
-                <th className='no-wrap'>Library ID</th>
-                <th className='no-wrap'>Class</th>
-                <th className='no-wrap'>Section</th>
-                <th className='no-wrap'>Roll Number</th>
-                <th className='no-wrap'>Action</th>
-              </tr>
-            </thead>  <tbody className='heading-14 align-middle greyTextColor'>
-              {
-                AllMember && AllMember?.length > 0 ? (
-                  AllMember?.map((item, index) => (
-                    <tr className='heading-14' >
-                      <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                      <td className=' greyText pe-0 no-wrap'>{item.studentName}</td>
-                      <td className=' greyText pe-0 no-wrap'>{item.studentId}</td>
-                      <td className=' greyText pe-0 no-wrap'>{item.libraryId ? item.libraryId : 'N-I-R'}</td>
-                      <td className=' greyText pe-0 no-wrap my-anchor-view'>{item.classNo}</td>
-                      <td className=' greyText pe-0 no-wrap'>{item.classSection}</td>
-                      <td className=' greyText pe-0 no-wrap'>{item.rollNumber ? item.rollNumber : 'N-I-R'}</td>
-                      <td className=' greyText  pe-0 no-wrap' >
-                        <div className="dropdown my-button-show" >
-                          <button className="btn btn-secondary dropdown-togg my-button-drop heading-10" style={{ backgroundColor: '#b50000', color: '#fff', padding: '3px 10px 3px 10px', fontSize: '14px', border: 'none' }} type="button" aria-expanded="false" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => setRemoveID(item.studentId)}>
-                            Remove Member
-                          </button>
-                        </div>
+                          </td>
+                        </tr>
+                      ))
+                    )
+                      :
+                      (
+                        <tr>
+                          <td colSpan="12" className="text-center">
+                            <div className="d-flex justify-content-center align-items-center m-5 ">
+                              <div className="text-center">
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                <h2><b>No Data Found</b></h2>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                  }
 
-                      </td>
-                    </tr>
-                  ))
-                )
-                  :
-                  (
-                    <tr>
-                      <td colSpan="12" className="text-center">
-                        <div className="d-flex justify-content-center align-items-center m-5 ">
-                          <div className="text-center">
-                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
-                            <h2><b>No Data Found</b></h2>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-              }
-
-            </tbody>
-          </table>
-          <div className="d-flex" style={{ marginBottom: '10px' }}>
-            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-            <div className="ms-auto">
-              <ReactPaginate
-                previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-              />
-            </div>
-          </div>
+                </tbody>
+              </table>
+              <div className="d-flex" style={{ marginBottom: '10px' }}>
+                <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                <div className="ms-auto">
+                  <ReactPaginate
+                    previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                    nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                    breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                    onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+                  />
+                </div>
+              </div>
+            </>
+            :
+            <>
+              <div className="d-flex justify-content-center m-5">
+                <img src="/images/search.svg" alt="" />
+              </div>
+            </>
+          }
         </div>
         {/* modal */}
         <div class="modal " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden={pop ? false : true}>

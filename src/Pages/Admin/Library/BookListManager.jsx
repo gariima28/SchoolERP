@@ -995,86 +995,95 @@ const BookListManager = () => {
           {/* ###### copy content till here for all component ######  */}
 
           <div className="table-container px-3 table-responsive">
+            {BookManagerData.length > 0 ?
+              <>
+                <table className="table table-sm table-striped text-center ">
+                  <thead className=''>
+                    <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
+                      <th className='no-wrap'>#</th>
+                      <th className='no-wrap'>Title</th>
+                      <th className='no-wrap'>Book Id</th>
+                      <th className='no-wrap'>Author</th>
+                      <th className='no-wrap'>Book Cover</th>
+                      <th className='no-wrap'>Price</th>
+                      <th className='no-wrap'>Quantity</th>
+                      <th className='no-wrap'>Action</th>
+                    </tr>
+                  </thead>
 
-            <table className="table table-sm table-striped text-center ">
-              <thead className=''>
-                <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                  <th className='no-wrap'>#</th>
-                  <th className='no-wrap'>Title</th>
-                  <th className='no-wrap'>Book Id</th>
-                  <th className='no-wrap'>Author</th>
-                  <th className='no-wrap'>Book Cover</th>
-                  <th className='no-wrap'>Price</th>
-                  <th className='no-wrap'>Quantity</th>
-                  <th className='no-wrap'>Action</th>
-                </tr>
-              </thead>
+                  <tbody className='heading-14 align-middle greyTextColor'>
+                    {
+                      BookManagerData && BookManagerData?.length > 0 ? (
+                        BookManagerData?.map((item, index) => (
+                          <tr className='heading-14' >
+                            <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                            <td className=' greyText pe-0 no-wrap'>{item.bookName}</td>
+                            <td className=' greyText pe-0 no-wrap'>{item.bookId}</td>
+                            <td className=' greyText pe-0 no-wrap'>{item.authorName}</td>
+                            <td className=' greyText pe-0 no-wrap'>
+                              <div>
+                                <img style={{ width: '60px', height: '50px' }} src={item.coverPage} alt="Book Image" />
+                              </div>
+                            </td>
+                            <td className=' greyText pe-0 no-wrap my-anchor-view'>{item.price}</td>
+                            <td className=' greyText pe-0 no-wrap'>{item.noOfCopies}</td>
+                            <td className=' greyText  pe-0 no-wrap' >
+                              <div className="dropdown my-button-show d-flex justify-content-around align-items-start">
+                                <div className="dropdown-item" data-bs-toggle="offcanvas" style={{ cursor: 'pointer' }} data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => BookManGetByIdApi(item.bookId)}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="#008479" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                      <path d="M19.09 14.441v4.44a2.37 2.37 0 0 1-2.369 2.369H5.12a2.37 2.37 0 0 1-2.369-2.383V7.279a2.356 2.356 0 0 1 2.37-2.37H9.56" />
+                                      <path d="M6.835 15.803v-2.165c.002-.357.144-.7.395-.953l9.532-9.532a1.36 1.36 0 0 1 1.934 0l2.151 2.151a1.36 1.36 0 0 1 0 1.934l-9.532 9.532a1.36 1.36 0 0 1-.953.395H8.197a1.36 1.36 0 0 1-1.362-1.362M19.09 8.995l-4.085-4.086" />
+                                    </g>
+                                  </svg>
+                                </div>
+                                <div className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" style={{ cursor: 'pointer' }} aria-controls="staticBackdrop" onClick={(e) => setIdForDelete(item.bookId)}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="red" d="M18 19a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4V4h4.5l1-1h4l1 1H19v3h-1zM6 7v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V7zm12-1V5h-4l-1-1h-3L9 5H5v1zM8 9h1v10H8zm6 0h1v10h-1z" />
+                                  </svg>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      )
+                        :
+                        (
+                          <tr>
+                            <td colSpan="12" className="text-center">
+                              <div className="d-flex justify-content-center align-items-center m-5 ">
+                                <div className="text-center">
+                                  <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                  <h2><b>No Data Found</b></h2>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                    }
 
-              <tbody className='heading-14 align-middle greyTextColor'>
-                {
-                  BookManagerData && BookManagerData?.length > 0 ? (
-                    BookManagerData?.map((item, index) => (
-                      <tr className='heading-14' >
-                        <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.bookName}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.bookId}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.authorName}</td>
-                        <td className=' greyText pe-0 no-wrap'>
-                          <div>
-                            <img style={{ width: '60px', height: '50px' }} src={item.coverPage} alt="Book Image" />
-                          </div>
-                        </td>
-                        <td className=' greyText pe-0 no-wrap my-anchor-view'>{item.price}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.noOfCopies}</td>
-                        <td className=' greyText  pe-0 no-wrap' >
-                          <div className="dropdown my-button-show d-flex justify-content-around align-items-start">
-                            <div className="dropdown-item" data-bs-toggle="offcanvas" style={{ cursor: 'pointer' }} data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => BookManGetByIdApi(item.bookId)}>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <g fill="none" stroke="#008479" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-                                  <path d="M19.09 14.441v4.44a2.37 2.37 0 0 1-2.369 2.369H5.12a2.37 2.37 0 0 1-2.369-2.383V7.279a2.356 2.356 0 0 1 2.37-2.37H9.56" />
-                                  <path d="M6.835 15.803v-2.165c.002-.357.144-.7.395-.953l9.532-9.532a1.36 1.36 0 0 1 1.934 0l2.151 2.151a1.36 1.36 0 0 1 0 1.934l-9.532 9.532a1.36 1.36 0 0 1-.953.395H8.197a1.36 1.36 0 0 1-1.362-1.362M19.09 8.995l-4.085-4.086" />
-                                </g>
-                              </svg>
-                            </div>
-                            <div className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" style={{ cursor: 'pointer' }} aria-controls="staticBackdrop" onClick={(e) => setIdForDelete(item.bookId)}>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path fill="red" d="M18 19a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4V4h4.5l1-1h4l1 1H19v3h-1zM6 7v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V7zm12-1V5h-4l-1-1h-3L9 5H5v1zM8 9h1v10H8zm6 0h1v10h-1z" />
-                              </svg>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )
-                    :
-                    (
-                      <tr>
-                        <td colSpan="12" className="text-center">
-                          <div className="d-flex justify-content-center align-items-center m-5 ">
-                            <div className="text-center">
-                              <img src="/images/search.svg" alt="" className='img-fluid p-5' />
-                              <h2><b>No Data Found</b></h2>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                }
-
-              </tbody>
-              <Toaster />
-            </table>
-            <div className="d-flex" style={{ marginBottom: '10px' }}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
-              </div>
-            </div>
+                  </tbody>
+                  <Toaster />
+                </table>
+                <div className="d-flex" style={{ marginBottom: '10px' }}>
+                  <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                  <div className="ms-auto">
+                    <ReactPaginate
+                      previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                      nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                      breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                      onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+                    />
+                  </div>
+                </div>
+              </>
+              :
+              <>
+                <div className="d-flex justify-content-center m-5">
+                  <img src="/images/search.svg" alt="" />
+                </div>
+              </>
+            }
           </div>
 
         </div>

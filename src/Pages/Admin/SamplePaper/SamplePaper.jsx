@@ -236,32 +236,44 @@ const SamplePaper = () => {
     const downloadSamplePaper = async (id) => {
         try {
             setloaderState(true);
-            const data = {
-                "responseType": "blob"
-            };
-            const response = await getDownloadSamplePaperDataApi(id, data);
-            if (response?.status === 200) {
-                const pdfData = response?.data;
-                downloadFileFunction(pdfData, 'SamplPaper.pdf');
-                toast.success('SamplPaper Downloaded Successfully');
-                setTimeout(() => {
-                    setloaderState(false);
-                }, 300);
+
+            // Remove responseType: "blob" — we expect JSON with base64
+            const response = await getDownloadSamplePaperDataApi(id); // no extra data param needed
+
+            if (response?.status === 200 && response?.data?.status === "success") {
+                const base64String = response.data.pdf;
+
+                // Convert Base64 to binary
+                const binaryString = window.atob(base64String);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+
+                // Create proper PDF Blob
+                const blob = new Blob([bytes], { type: 'application/pdf' });
+
+                // Trigger download
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'SamplePaper.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                toast.success('Sample Paper Downloaded Successfully');
             } else {
-                setTimeout(() => {
-                    setloaderState(false);
-                }, 300);
-                toast.error('Failed to download the SamplPaper.');
+                toast.error('Failed to download the Sample Paper.');
             }
         } catch (error) {
-            setloaderState(false);
+            console.error('Download error:', error);
+            toast.error('An error occurred while downloading the Sample Paper.');
+        } finally {
             setTimeout(() => {
                 setloaderState(false);
             }, 300);
-            toast.error('An error occurred while downloading the SamplPaper-', error);
-        }
-        finally {
-            setloaderState(false);
         }
     };
 

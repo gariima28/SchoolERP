@@ -1101,6 +1101,8 @@ const Issue_Report = () => {
 
           {/* ###### copy content till here for all component ######  */}
           <div className="table-container px-3 table-responsive">
+            {bookIssueAllData.length > 0 ?
+              <>
             <table className="table table-sm table-striped text-center ">
               <thead className=''>
                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
@@ -1215,6 +1217,14 @@ const Issue_Report = () => {
                 />
               </div>
             </div>
+          </>
+          :
+          <>
+            <div className="d-flex justify-content-center m-5">
+              <img src="/images/search.svg" alt="" />
+            </div>
+          </>
+          }
           </div>
         </div>
         {/* ################## Off Canvas Area ####################  */}

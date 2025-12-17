@@ -877,115 +877,124 @@ const AssignLeave = () => {
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Leave Details</h5>
 
         <div className="main-content-conatainer pt-1 ">
-          <div className="table-container px-3 table-responsive">
+          {AssignAllData.length > 0 ?
+            <>
+              <div className="table-container px-3 table-responsive">
 
-            <table className="table table-sm table-striped">
-              <thead className=''>
-                <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500' }}>
-                  <th className=' pe-0 no-wrap' style={{ width: '100px' }} >#</th>
-                  <th className='no-wrap' style={{ width: '100px' }}>User Name</th>
-                  <th className='no-wrap' style={{ width: '100px' }}>Role</th>
-                  <th className='no-wrap' style={{ width: '100px' }}>Leave Type</th>
-                  <th className='no-wrap' style={{ width: '100px' }}>Leave Count</th>
-                  <th style={{ width: '100px' }}>Actions</th>
-                </tr>
-              </thead>
+                <table className="table table-sm table-striped">
+                  <thead className=''>
+                    <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500' }}>
+                      <th className=' pe-0 no-wrap' style={{ width: '100px' }} >#</th>
+                      <th className='no-wrap' style={{ width: '100px' }}>User Name</th>
+                      <th className='no-wrap' style={{ width: '100px' }}>Role</th>
+                      <th className='no-wrap' style={{ width: '100px' }}>Leave Type</th>
+                      <th className='no-wrap' style={{ width: '100px' }}>Leave Count</th>
+                      <th style={{ width: '100px' }}>Actions</th>
+                    </tr>
+                  </thead>
 
-              <tbody className='heading-14 align-middle greyTextColor greyText'>
-                {
-                  AssignAllData && AssignAllData.length > 0 ? (
-                    AssignAllData?.map((item, index) => (
-                      <tr
-                        key={item.id}
-                        className={`heading-14 ${selectedIndex === index ? 'active-row' : ''}`}
-                        onClick={() => handleRowClick(index)} >
-                        <td className='greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td className='greyText pe-0 no-wrap'>{item.userName}</td>
-                        <td className='greyText pe-0 no-wrap'>{item.roleName}</td>
-                        <td className='greyText pe-0 no-wrap'>
-                          {item?.leaveInfo?.map((leaveItem, leaveIndex) => (
-                            <div>
-                              {leaveItem.leaveType}
-                            </div>
-                          ))}
-                        </td>
-                        <td className='greyText pe-0 no-wrap'>
-                          {item?.leaveInfo?.map((leaveItem, leaveIndex) => (
-                            <div key={leaveIndex}>
-                              {leaveItem?.leaveCount}
-                            </div>
-                          ))}
-                        </td>
-                        <td className='greyText pe-0 no-wrap'>
-                          <div className="dropdown my-button-show">
-                            <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Action  &nbsp;
-                              <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                                <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
-                              </svg>
-                            </button>
-                            <ul className="dropdown-menu anchor-color heading-14">
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop202" aria-controls="offcanvasRight1234" onClick={(e) => MyAssignLeaveGetByIdApi(item.userId)}>Edit</Link></li>
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => MyAssignLeaveGetByIdApi(item.userId)}>Delete</Link></li>
-                            </ul>
-                          </div>
-                        </td>
+                  <tbody className='heading-14 align-middle greyTextColor greyText'>
+                    {
+                      AssignAllData && AssignAllData.length > 0 ? (
+                        AssignAllData?.map((item, index) => (
+                          <tr
+                            key={item.id}
+                            className={`heading-14 ${selectedIndex === index ? 'active-row' : ''}`}
+                            onClick={() => handleRowClick(index)} >
+                            <td className='greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                            <td className='greyText pe-0 no-wrap'>{item.userName}</td>
+                            <td className='greyText pe-0 no-wrap'>{item.roleName}</td>
+                            <td className='greyText pe-0 no-wrap'>
+                              {item?.leaveInfo?.map((leaveItem, leaveIndex) => (
+                                <div>
+                                  {leaveItem.leaveType}
+                                </div>
+                              ))}
+                            </td>
+                            <td className='greyText pe-0 no-wrap'>
+                              {item?.leaveInfo?.map((leaveItem, leaveIndex) => (
+                                <div key={leaveIndex}>
+                                  {leaveItem?.leaveCount}
+                                </div>
+                              ))}
+                            </td>
+                            <td className='greyText pe-0 no-wrap'>
+                              <div className="dropdown my-button-show">
+                                <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Action  &nbsp;
+                                  <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
+                                    <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
+                                  </svg>
+                                </button>
+                                <ul className="dropdown-menu anchor-color heading-14">
+                                  <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop202" aria-controls="offcanvasRight1234" onClick={(e) => MyAssignLeaveGetByIdApi(item.userId)}>Edit</Link></li>
+                                  <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => MyAssignLeaveGetByIdApi(item.userId)}>Delete</Link></li>
+                                </ul>
+                              </div>
+                            </td>
 
-                      </tr>
-                    ))
-                  )
-                    :
-                    (
-                      <tr>
-                        <td colSpan="6" className="text-center">
-                          <div className="d-flex justify-content-center align-items-center m-5 ">
-                            <div className="text-center">
-                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
-                              <h2><b>No Data Found</b></h2>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                }
+                          </tr>
+                        ))
+                      )
+                        :
+                        (
+                          <tr>
+                            <td colSpan="6" className="text-center">
+                              <div className="d-flex justify-content-center align-items-center m-5 ">
+                                <div className="text-center">
+                                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
+                                  <h2><b>No Data Found</b></h2>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                    }
 
-              </tbody>
-              <Toaster />
-            </table>
-            <div className="d-flex" style={{ marginBottom: "10px" }}>
-              <p className="font14">
-                Showing {currentPage} of {totalPages} Pages
-              </p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={
-                    <Icon
-                      icon="tabler:chevrons-left"
-                      width="1.4em"
-                      height="1.4em"
+                  </tbody>
+                  <Toaster />
+                </table>
+                <div className="d-flex" style={{ marginBottom: "10px" }}>
+                  <p className="font14">
+                    Showing {currentPage} of {totalPages} Pages
+                  </p>
+                  <div className="ms-auto">
+                    <ReactPaginate
+                      previousLabel={
+                        <Icon
+                          icon="tabler:chevrons-left"
+                          width="1.4em"
+                          height="1.4em"
+                        />
+                      }
+                      nextLabel={
+                        <Icon
+                          icon="tabler:chevrons-right"
+                          width="1.4em"
+                          height="1.4em"
+                        />
+                      }
+                      breakLabel={"..."}
+                      breakClassName={"break-me"}
+                      pageCount={totalPages}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={10}
+                      onPageChange={handlePageClick}
+                      containerClassName={"pagination"}
+                      subContainerClassName={"pages pagination"}
+                      activeClassName={"active"}
                     />
-                  }
-                  nextLabel={
-                    <Icon
-                      icon="tabler:chevrons-right"
-                      width="1.4em"
-                      height="1.4em"
-                    />
-                  }
-                  breakLabel={"..."}
-                  breakClassName={"break-me"}
-                  pageCount={totalPages}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={10}
-                  onPageChange={handlePageClick}
-                  containerClassName={"pagination"}
-                  subContainerClassName={"pages pagination"}
-                  activeClassName={"active"}
-                />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
+            </>
+            :
+            <>
+              <div className="d-flex justify-content-center m-5">
+                <img src="/images/search.svg" alt="" />
+              </div>
+            </>
+          }
 
         </div>
         {/* ################## Off Canvas Area ####################  */}
