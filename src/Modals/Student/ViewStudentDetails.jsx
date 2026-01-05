@@ -7,9 +7,12 @@ const ViewStudentDetails = ({ studentGetId }) => {
   const [refreshPage, setRefreshPage] = useState(false);
 
   useEffect(() => {
+    if (!studentGetId || String(studentGetId).trim() === '') {
+      return; 
+    }
     getStudentDataById();
-  }, [studentGetId])
 
+  }, [studentGetId]); 
 
   // **************************************   Edit Page And Validation   *************************************************
 

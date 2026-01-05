@@ -336,9 +336,27 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     }
   };
 
+
   useEffect(() => {
+    if (!studentGetId || studentGetId.toString().trim() === '') {
+      setLoaderState(false);
+      return;
+    }
+
     setLoaderState(true);
-    Promise.all([getAllClassData(), getStudentDataById()]);
+
+    Promise.all([
+      getAllClassData(),
+      getStudentDataById()
+    ])
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        // optional: error toast
+      })
+      .finally(() => {
+        setLoaderState(false);
+      });
+
   }, [token, studentGetId]);
 
   const watchClassNo = watch('classNo');

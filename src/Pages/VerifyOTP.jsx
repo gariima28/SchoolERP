@@ -246,7 +246,7 @@ const VerifyOTP = () => {
                                             </div>
                                         </div>
                                         <div className="d-grid gap-2 col-12 mx-auto">
-                                            <Link type="submit" className="btn btnsubmitOwn text-white" onClick={verifyOTP}>Verify OTP</Link>
+                                            <button type="submit" className="btn btnsubmitOwn text-white" onClick={verifyOTP}>Verify OTP</button>
                                         </div>
                                         <div className="d-grid gap-2 col-12 mx-auto">
                                             <Link type="submit" className="m-2 text-center text-black text-decoration-none" to='/' onClick={() => sessionStorage.removeItem('ERPForgetToken')}>
