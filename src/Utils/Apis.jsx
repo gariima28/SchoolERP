@@ -3,7 +3,9 @@ const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
 // const Domain = 'http://192.168.21.232:5000';
+// const Domain = 'https://auth.edu2all.in/sch';
 const Domain = 'https://test.edu2all.in/sch';
+
 
 // ******************************************************************************************************
 // Login  //
@@ -72,6 +74,7 @@ export const changePasswordAPI = async (formdata) => {
 
 
 export const verifyOTPApi = async (OTP) => {
+  console.log('forgetTooken', forgetTooken);
   try {
     // axios.defaults.headers.common["Authorization"] = forgetTooken;
     var res = await axios.post(`${Domain}/login/verify-otp?OTP=${OTP}`

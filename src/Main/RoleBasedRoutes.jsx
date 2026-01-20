@@ -256,6 +256,7 @@ export const RoleBasedRoutes = {
     { path: '/admin/users/accountant/:roleId', element: <Accountant /> },
     { path: '/admin/users/librarian/:roleId', element: <Librarian /> },
     { path: '/admin/users/otherStaff/:roleId', element: <OtherStaff /> },
+    { path: "/admin/users/takeattendance", element: <TakeAttendance /> },
     { path: '/admin/users/drivers/:roleId', element: <Driver /> },
     { path: '/admin/users/driver/addDriver', element: <AddDriver /> },
 
@@ -317,7 +318,6 @@ export const RoleBasedRoutes = {
 
     { path: "/admin/hr/userrole", element: <UserRole /> },
     { path: "/admin/hr/userlist", element: <UserList /> },
-    { path: "/admin/hr/takeattendance", element: <TakeAttendance /> },
     { path: "/admin/hr/leaveType", element: <LeaveType /> },
     { path: "/admin/hr/assignleave", element: <AssignLeave /> },
     { path: "/admin/hr/leavestatus", element: <LeaveStatus /> },
