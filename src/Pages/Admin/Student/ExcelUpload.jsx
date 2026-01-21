@@ -1,38 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { CSVLink } from 'react-csv';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { AddStudentByCSVApi, DownloadStudentExcelForm, getAllClassApi } from '../../../Utils/Apis';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
-    .form-control::placeholder, .form-control, .form-select{
-        color: var(--greyState);
-        box-shadow: none !important;
-    }
+  .form-control::placeholder,
+  .form-control,
+  .form-select {
+    color: var(--greyState);
+    box-shadow: none !important;
+  }
 
-    .form-control, .form-select{
-        border-radius: 5px ;
-        box-shadow: none !important;
-        border: 1px solid var(--fontControlBorder);
-    }
+  .form-control,
+  .form-select {
+    border-radius: 5px;
+    border: 1px solid var(--fontControlBorder);
+  }
 
-    .AddBtnn, .AddBtnn:visited, .AddBtnn:active{
-        width: fit-content;
-        border: 1px solid var(--breadCrumActiveTextColor);
-        background-color: var(--breadCrumActiveTextColor)
-    }
+  .AddBtnn {
+    width: fit-content;
+    border: 1px solid var(--breadCrumActiveTextColor);
+    background-color: var(--breadCrumActiveTextColor);
+  }
 
-    .EyeViewBtnn, .EyeViewBtnn:active{
-        width: fit-content;
-        border: 1px solid var(--breadCrumActiveTextColor);
-        background-color: var(--OrangeBtnColor)
-    }
-
-    
+  .EyeViewBtnn {
+    width: fit-content;
+    border: 1px solid var(--breadCrumActiveTextColor);
+    background-color: var(--OrangeBtnColor);
+  }
 `;
-
 
 const ExcelUpload = () => {
 
@@ -91,35 +89,33 @@ const ExcelUpload = () => {
             setloaderState(false);
         }
     }
+  };
 
-    const Download_Slip = async () => {
-        try {
-            const response = await DownloadStudentExcelForm();
-            if (response?.status === 200) {
-                const rows = response?.data?.split('\n').map(row => row.split(','));
-                setCsvData(rows);
-                // setTableData(rows.slice(1));
-            }
-        } catch (err) {
-            // console.log(err);
-        }
-    };
+  const handleClassChange = (classNoVal) => {
+    setValue('classNo', classNoVal);
+    const selectedClass = allClassData.find((c) => c.classNo === classNoVal);
+    setAllSectionData(selectedClass?.section || []);
+  };
 
-    const AddStudentByCSV = async (data) => {
-        try {
-            const formData = new FormData();
-            formData.append('csvFile', data.csvFile[0]);
+  // ✅ CORRECT EXCEL DOWNLOAD (Direct URL)
+  const Download_Slip = async () => {
+    try {
+      const response = await DownloadStudentExcelForm();
 
-            const response = await AddStudentByCSVApi(data.classNo, data.sectionName, formData);
-            // console.log(response, 'response');
-            if (response?.status === 200) {
-                toast.success(response?.data?.message)
-                navigate('/admin/admission/allStudents')
-            }
-        }
-        catch (err) {
-            // console.log(err);
-        }
+      if (response?.status === 200 && response?.data?.csvUrl) {
+        const fileUrl = response.data.csvUrl;
+
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.setAttribute('download', 'Student_List.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        toast.error('Excel file URL not found');
+      }
+    } catch (err) {
+      toast.error('Excel download failed');
     }
 
     return (

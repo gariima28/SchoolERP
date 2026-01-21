@@ -256,6 +256,7 @@ export const RoleBasedRoutes = {
     { path: '/admin/users/accountant/:roleId', element: <Accountant /> },
     { path: '/admin/users/librarian/:roleId', element: <Librarian /> },
     { path: '/admin/users/otherStaff/:roleId', element: <OtherStaff /> },
+    { path: "/admin/users/takeattendance", element: <TakeAttendance /> },
     { path: '/admin/users/drivers/:roleId', element: <Driver /> },
     { path: '/admin/users/driver/addDriver', element: <AddDriver /> },
 

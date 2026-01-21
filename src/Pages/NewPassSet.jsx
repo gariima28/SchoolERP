@@ -169,7 +169,7 @@ const NewPassSet = () => {
     //                        Validation of all inputs
     // *********************************************************************************
 
-    const PasswordRegex = /^(?!.*#)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@./_])\S{8,}$/;
+    const PasswordRegex = /^(?!.*#)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9#])[^\n#]{8,}$/;
 
     const validatePassword = (value) => {
         if (!value.trim()) {

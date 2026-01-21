@@ -375,6 +375,7 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                             required: 'New password is required',
                                             minLength: {
                                                 value: 8,
+                                                pattern: /^(?!.*#)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9#])[^\n#]{8,}$/,
                                                 message: 'Password must be at least 8 characters'
                                             }
                                         })}

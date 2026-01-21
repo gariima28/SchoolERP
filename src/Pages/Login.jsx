@@ -132,7 +132,6 @@ const Container = styled.div`
 `;
 
 const Login = () => {
-
     const navigate = useNavigate('')
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
@@ -142,7 +141,7 @@ const Login = () => {
     const [isRemeberChecked, setIsRemeberChecked] = useState(false);
 
     const emailRegex = /^[A-Za-z0-9._]{3,}@[A-Za-z]{3,15}[.]{1}[A-Za-z.]{2,6}$/;
-    const PasswordRegex = /^(?=.*[a-z])(?=.*[@./_])(?=.*[0-9])(?=^\S*$).{4,}$/;
+    const PasswordRegex = /^(?!.*#)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9#])[^\n#]{8,}$/;
 
     const [showPassword, setShowPassword] = useState(false);
 

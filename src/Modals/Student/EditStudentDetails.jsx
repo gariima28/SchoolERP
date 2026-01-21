@@ -336,9 +336,16 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     }
   };
 
+
   useEffect(() => {
+    if (!studentGetId || studentGetId.toString().trim() === '') {
+      setLoaderState(false);
+      return;
+    }
+
     setLoaderState(true);
     Promise.all([getAllClassData(), getStudentDataById()]);
+
   }, [token, studentGetId]);
 
   const watchClassNo = watch('classNo');
