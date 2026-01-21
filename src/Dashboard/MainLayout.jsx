@@ -34,7 +34,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     let timer = 0
-    if (!tourData) {
+    if (tourData) {
       timer = setTimeout(() => {
         introJs()
           .setOptions({
@@ -53,7 +53,6 @@ const Dashboard = () => {
       introJs().exit();
     };
   }, [tourData]);
-
 
   return (
     <>
