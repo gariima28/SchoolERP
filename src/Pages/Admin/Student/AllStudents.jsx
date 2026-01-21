@@ -97,7 +97,6 @@ const Container = styled.div`
 
 `;
 
-
 const AllStudents = () => {
 
   const token = sessionStorage.getItem('token');
@@ -339,7 +338,7 @@ const AllStudents = () => {
         </div>
         <div className="row pb-3">
           <div className=" cardradius bg-white p-3">
-            {studentData.length > 0 ?
+            {studentData?.length > 0 ?
               <>
                 <div className="overflow-scroll">
                   <table className="table align-middle table-striped">

@@ -724,8 +724,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   value={emptyValue === "success" ? '' : maritalStatus}
                   onChange={(e) => setMaritalstatus(e.target.value)}
                   tabIndex="8"
-                  aria-describedby="maritalStatusError"
-                >
+                  aria-describedby="maritalStatusError">
                   <option value="">--Choose--</option>
                   <option value="married">Married</option>
                   <option value="Unmarried">Unmarried</option>
@@ -738,8 +737,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   htmlFor="roleName"
                   className="form-label heading-14 label-color"
                   data-tooltip="Select user role"
-                  aria-label="Role Name"
-                >
+                  aria-label="Role Name">
                   Role Name <span style={{ color: '#dc3545' }}>*</span>
                 </label>
                 <select
@@ -748,7 +746,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
                   disabled={dropdownDisabled || updateStatus === "success"}
                   value={roleId}
                   onChange={RoleIdName}
-                  tabIndex="9"
+                  tabIndex="9" 
                   aria-describedby="roleNameError"
                 >
                   <option value="">--Choose--</option>

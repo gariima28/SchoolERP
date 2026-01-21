@@ -236,7 +236,7 @@ const MyAccount = () => {
                                     <div className="headingBgColor cardradius2 ps-4 pe-4">
                                         <p className='p-3 text-center'>
                                             {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={adminPhotoVal} alt="" height={60} /> */}
-                                            <img className='border height150' src={adminPhotoVal} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
+                                            <img className='border height150' src={adminPhotoVal} alt="Not found !!" height={100} onError={(e) => e.target.src = adminGender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} />
                                         </p>
                                         <h2 className='text-center mb-2 activeTexttt fontWeight600'>{initialValues.adminName}</h2>
                                         <div className="d-flex align-items-center justify-content-center mb-2">

@@ -318,6 +318,7 @@ export const RoleBasedRoutes = {
 
     { path: "/admin/hr/userrole", element: <UserRole /> },
     { path: "/admin/hr/userlist", element: <UserList /> },
+    { path: "/admin/users/takeattendance", element: <TakeAttendance /> },
     { path: "/admin/hr/leaveType", element: <LeaveType /> },
     { path: "/admin/hr/assignleave", element: <AssignLeave /> },
     { path: "/admin/hr/leavestatus", element: <LeaveStatus /> },

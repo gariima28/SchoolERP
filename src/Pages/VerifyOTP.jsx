@@ -196,7 +196,7 @@ const VerifyOTP = () => {
                         setTimeout(() => {
                             navigate('/setNewPass');
                         }, 3000)
-                    }
+                    }     
                     else {
                         toast.error(response?.data?.message)
                     }

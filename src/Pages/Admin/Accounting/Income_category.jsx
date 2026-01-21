@@ -1020,6 +1020,7 @@ const Income_category = () => {
         {/* ##### offcanvase added  end ########  */}
 
         {/* ##### offcanvas edit start ########  */}
+        
         {showadd && (
           <>
             <div
@@ -1081,7 +1082,7 @@ const Income_category = () => {
                     style={{ backgroundColor: '#008479', color: '#fff' }}
                     onClick={MyIncomeCategoryPutApi}
                   >
-                    Update Syllabus
+                    Update Category
                   </button>
                   <button
                     type="button"

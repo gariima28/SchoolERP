@@ -344,18 +344,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     }
 
     setLoaderState(true);
-
-    Promise.all([
-      getAllClassData(),
-      getStudentDataById()
-    ])
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        // optional: error toast
-      })
-      .finally(() => {
-        setLoaderState(false);
-      });
+    Promise.all([getAllClassData(), getStudentDataById()]);
 
   }, [token, studentGetId]);
 

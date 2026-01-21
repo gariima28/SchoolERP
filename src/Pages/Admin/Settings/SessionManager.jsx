@@ -70,6 +70,9 @@ const Container = styled.div`
     .orangeText{
         color: var(--activeOrangeBorder);
     }
+    .redText{
+        color: red;
+    }
     
     .form-control::placeholder, .form-control, .form-select{
         color: var(--greyState)
@@ -513,49 +516,7 @@ const SessionManager = () => {
                 </div>
                 <div className="row px-3 pt-3">
                     <div className="cardradius bg-white p-3">
-                        {/* <p className='activeSession font18 p-2 ps-3 fontWeight500'>Active session - <small className='font18 orangeText fontWeight500'>{activeSessionData}</small></p> */}
-                        {/* <form action="" className="row">
-                            <div className="mb-3 mt-3">
-                                <label htmlFor="validationDefault02" className="form-label font14">Session*</label>
-                                <select className={`form-select font14 ${sessionError ? 'border-1 border-danger' : ''} `} value={sessionId} aria-label="Default select example" onChange={(e) => setSessionId(e.target.value)} disabled={!sessionData.length > 0}>
-                                    <option >--- Choose ---</option>
-                                    {sessionData?.map(option => (
-                                        <option key={option.sessionId} value={option.sessionId}>
-                                            {option.sessionName}
-                                        </option>
-                                    ))}
-                                </select>
-                                <span className='text-danger'>{sessionError}</span>
-                            </div>
-                            <p className='text-center m-3'><button className='btn addButtons text-white' type='button' disabled={sessionId === activeSessionId ? true : false} onClick={activeSession}> Active</button></p>
-                        </form> */}
-
-                        {/* <h2 className='orangeText mb-3'>Active Session</h2>
-                        <div className="overflow-scroll mb-3">
-                            <table className="table align-middle table-striped">
-                                <thead>
-                                    <tr>
-                                        <th className='textWrapClass'><h2>#</h2></th>
-                                        <th className='textWrapClass'><h2>Session</h2></th>
-                                        <th className='textWrapClass'><h2>Status</h2></th>
-                                        <th className='textWrapClass text-start'><h2>Action</h2></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr key={activeSessionItem.sessionId} className='my-bg-color align-middle'>
-                                        <th className='textWrapClass font14 greyText'>1</th>
-                                        <td className='textWrapClass font14 greyText'>{activeSessionItem.sessionName}</td>
-                                        <td className='textWrapClass font14 orangeText'>{activeSessionItem.status ? <h3>Active</h3> : <h3>InActive</h3>}</td>
-                                        <td className='textWrapClass text-start'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                                <path fill="#262626" d="M10.001 7.8a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 10 7.8zm-7 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 3 7.8zm14 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 17 7.8z" stroke-width="0.2" stroke="#262626" />
-                                            </svg>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <h2 className='orangeText mb-3'>Other Session</h2> */}
+                   
                         {sessionData.length > 0 ?
                             <>
                                 <div className="overflow-scroll">
@@ -573,7 +534,7 @@ const SessionManager = () => {
                                                 <tr key={item.sessionId} className='my-bg-color align-middle'>
                                                     <th className='textWrapClass greyText'><h3>{index + 1}</h3></th>
                                                     <td className='textWrapClass greyText'><h3>{item.sessionName}</h3></td>
-                                                    <td className='textWrapClass orangeText'>{item.status ? <h3>Active</h3> : <h3>Deactivate</h3>}</td>
+                                                    <td className='textWrapClass '>{item.status ? <h3 className='greenText'>Active</h3> : <h3 className='redText'>Inactive</h3>}</td>
                                                     <td>
                                                         <span
                                                             className="cursor-pointer"

@@ -828,6 +828,7 @@ const BookListManager = () => {
       setLoader(false)
     }
   }
+  
   // Delete api
   const BookManDeleteApi = async (id) => {
     setLoader(true)

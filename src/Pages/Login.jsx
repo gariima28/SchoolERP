@@ -208,15 +208,23 @@ const Login = () => {
             };
 
             const response = await loginApi(data);
-
             if (response?.status === 200) {
                 const responseData = response.data;
+
+                const tourData = responseData.isNewLogin
+                // sessionStorage.setItem('booleanForTour',tourData)
+                sessionStorage.setItem(
+                    'booleanForTour',
+                    JSON.stringify(tourData)
+                );
+                
+                console.log('valid type', typeof(tourData))
 
                 if (responseData.status === 'success') {
                     const loginTimestamp = Date.now();
                     sessionStorage.setItem('loginTimestamp', loginTimestamp);
 
-                      if (responseData.isNewLogin) {
+                    if (responseData.isNewLogin) {
                         sessionStorage.setItem('forgetToken', responseData.token);
                         navigate('/verifyOtp');
                     } else {
@@ -280,7 +288,7 @@ const Login = () => {
                     <div className="col-lg-6 col-md-12 col-sm-12">
                         <div className="row me-xl-5 ms-xl-5 ps-xl-5 pe-xl-5 ps-lg-5 pe-lg-5 p-sm-5 m-sm-5 p-3 m-3">
                             <p className='text-center'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
-                            <form className='pt-xl-3 pe-xl-5 ps-xl-5 pt-lg-2 pe-lg-2 ps-lg-2'>
+                            <form className='pt-xl-3 pe-xl-5 ps-xl-5 pt-lg-2 pe-lg-2 ps-lg-2' onSubmit={SubmitLogin}>
                                 <div className="mb-3">
                                     <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
                                     <div className="input-group">
@@ -313,16 +321,12 @@ const Login = () => {
                                             placeholder="6+ Strong Character"
                                             onChange={handlePassword}
                                         />
-
                                         <div className={`formcontrolinputpasseye p-1 ps-2 pe-2  ${passError ? 'border_danger_eye' : ''} `}><span className="align-self-center" onClick={toggleShowPassword}> {showPassword ? <Icon icon="clarity:eye-show-line" width="2em" height="2em" style={{ color: '#008479' }} /> : <Icon icon="clarity:eye-hide-line" width="2em" height="2em" style={{ color: '#d9d7d7' }} />} </span></div>
                                     </div>
                                     <div>
                                         <span className='text-danger font12'>{passError}</span>
                                     </div>
                                 </div>
-
-
-
                                 <div className="mb-4 mt-4 form-check d-flex">
                                     <div className="col-6">
                                         {/* <input type="checkbox" className="form-check-input" id="exampleCheck1" onChange={() => setIsRemeberChecked(!isRemeberChecked)} />
@@ -335,6 +339,8 @@ const Login = () => {
                                 <div className="d-grid gap-2 col-12 mx-auto">
                                     <Link type="submit" className="btn btnsubmitOwn text-white" onClick={(e) => SubmitLogin(e)}>Submit</Link>
                                 </div>
+                                {/* // just add this below button for submit with enter key */}
+                                <button type="submit" style={{ display: "none" }}></button> 
                             </form>
                         </div>
                     </div>
