@@ -1,0 +1,13 @@
+/* Default Intro.js z-index (when iframe is NOT open) */
+.introjs-overlay,
+.introjs-tooltip,
+.introjs-helperLayer {
+  z-index: 10000;
+}
+
+/* 🔽 Lower priority when iframe is open */
+.intro-lowered .introjs-overlay,
+.intro-lowered .introjs-tooltip,
+.intro-lowered .introjs-helperLayer {
+  z-index: 1000 !important;
+}

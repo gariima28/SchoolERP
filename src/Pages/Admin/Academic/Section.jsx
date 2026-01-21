@@ -112,10 +112,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -565,7 +562,7 @@ const Section = () => {
           UpdatNullRoomGetApi()
           setSections([''])
           setRooms([''])
-    
+
           const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
           offcanvasInstance.hide();
           setTimeout(() => {
@@ -956,7 +953,7 @@ const Section = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MySectionPostApi()}>Add Section</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
                       <Toaster />
                     </div>
                   </div>
@@ -1017,7 +1014,7 @@ const Section = () => {
 
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MySectionPutApi(idForPut)}>Update Section</button>
-                      <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                       <Toaster />
                     </div>
                   </div>

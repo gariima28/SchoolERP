@@ -240,7 +240,7 @@ const Per_info_emer_cont = ({ data }) => {
                                     <button type="button" class="btn btn-outline-success my-green heading-12" onClick={ContactDataApi}>Add Contact</button>
 
                             }
-                            <button type="button" class="btn btn-outline-success heading-12 ms-1    ">Cancel</button>
+                            <button type="button" class="btn cancelButtons text-black heading-12 ms-1    ">Cancel</button>
                         </div>
                     </div>
                 </div>

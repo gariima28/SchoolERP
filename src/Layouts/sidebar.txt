@@ -4,9 +4,8 @@ import { getSidebarDataApi, logoutApi } from "src/Utils/Apis";
 import DataLoader from 'src/Layouts/Loader';
 import ArrowDropUpOutlinedIcon from "@mui/icons-material/ArrowDropUpOutlined";
 import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
+
 import styled from "styled-components";
-import introJs from "intro.js";
-import "intro.js/introjs.css";
 // Styled component for the sidebar
 const Container = styled.div`
   height: 100%;
@@ -299,58 +298,9 @@ const Container = styled.div`
     margin-left: 41% !important;
     margin-top: -20% !important;
   }
-   /* Add this for iframe positioning */
-  .video-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10050 !important; /* Higher than intro.js overlay */
-  }
-
-  .video-container {
-    position: relative;
-    width: 80%;
-    max-width: 900px;
-    z-index: 10051 !important; /* Higher than the overlay */
-  }
-
-  .video-close-btn {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    background: #000;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    cursor: pointer;
-    font-size: 18px;
-    z-index: 10052 !important; /* Highest priority */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .video-iframe-wrapper {
-    position: relative;
-    z-index: 10051 !important;
-  }
-
-  .video-iframe-wrapper iframe {
-    position: relative;
-    z-index: 10051 !important;
-  }
 `;
 
-const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
-  // console.log('boolean value in sidebar', tourData)
+const Sidebar = ({ openSidebar, setOpenSidebar }) => {
 
   const [expandedMenu, setExpandedMenu] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -364,8 +314,8 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
   const logoutTimerRef = useRef(null);
   const [LogoutSuccess, setLogoutSuccess] = useState(true);
   const [loaderState, setLoaderState] = useState(false);
-
   const [showVideo, setShowVideo] = useState(false);
+
   useEffect(() => {
     const storedExpandedMenu = sessionStorage.getItem("expandedMenu");
     if (storedExpandedMenu) {
@@ -388,7 +338,6 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
-
   }, []);
 
   useEffect(() => {
@@ -516,27 +465,24 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
     });
   };
 
-
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const btn = document.getElementById("play-guide-btn");
-      if (btn) {
-        btn.onclick = () => {
-          setShowVideo(true)
-          // setMyWalk(false)
-          funcZindex(true)
-          console.log('checkkkk me')
+  const observer = new MutationObserver(() => {
+    const btn = document.getElementById("play-guide-btn");
+    if (btn) {
+      btn.onclick = () => {
+        setShowVideo(true);
+      };
+    }
+  });
 
-        };
-      }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-    return () => observer.disconnect();
-  }, [funcZindex]);
+  observer.observe(document.body, { childList: true, subtree: true });
 
-  const sideBarData = {
-    title: "Your Management Toolkit",
-    intro: `
+  return () => observer.disconnect();
+}, []);
+
+const sideBarData = {
+  title: "Your Management Toolkit",
+  intro: `
     This is your main control panel. Navigate through distinct modules like 
     <b>Student Info</b>, <b>Fees Collection</b>, and <b>Examinations</b> here. 
     Click any category to expand its options.
@@ -560,10 +506,10 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 1200 1200">
         <path fill="#ffffff" d="M600 1200C268.65 1200 0 931.35 0 600S268.65 0 600 0s600 268.65 600 600s-268.65 600-600 600M450 300.45v599.1L900 600z" />
       </svg>
-      Play Guide 
+      Play Guide
     </button>
   `
-  };
+};
 
 
 
@@ -573,7 +519,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
       {loaderState && <DataLoader />}
       {showVideo && (
         <div
-          className=""
+        className=""
           style={{
             position: "fixed",
             top: 0,
@@ -585,10 +531,11 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
             justifyContent: "center",
             alignItems: "center",
             zIndex: 9999,
-          }}>
-
+          }}
+        >
           <div style={{ position: "relative", width: "80%", maxWidth: "900px" }}>
 
+            {/* Close Button */}
             <button
               onClick={() => setShowVideo(false)}
               style={{
@@ -603,20 +550,28 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
                 height: "35px",
                 cursor: "pointer",
                 fontSize: "18px",
-                zIndex: 10001,
-              }} >
+                zIndex: 10000,
+              }}
+            >
               ✕
             </button>
 
-            <div className="ratio ratio-16x9 " >
-              <iframe style={{ zIndex: 10000, }} src="https://www.youtube.com/embed/iEasMXu72No" title="YouTube video" allowFullScreen ></iframe>
+            {/* Video */}
+            <div className="ratio ratio-16x9 video-overlay">
+              <iframe
+                src="https://www.youtube.com/embed/iEasMXu72No"
+                title="YouTube video"
+                allowFullScreen
+              ></iframe>
             </div>
 
           </div>
         </div>
       )}
+
       <div data-title={`${sideBarData.title}`} data-intro={`${sideBarData.intro}`} className="card-demo" data-step="1" >
         <div className="card shadow--md ">
+
           {(!isMobile || (isMobile && openSidebar)) && (
             <div
               className="drawerSidebar"

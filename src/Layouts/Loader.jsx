@@ -14,7 +14,7 @@ const DataLoaderContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-z-index: 9999999999;
+  z-index: 10;
 `;
 
 const DataLoader = () => {
@@ -23,9 +23,7 @@ const DataLoader = () => {
             <p className='font20 mb-4' style={{ color: "#029084" }}>
                 Please be patient, data is loading...
             </p>
-            {/* <BallTriangle height={100} width={100} radius={5} color="red" ariaLabel="ball-triangle-loading" wrapperStyle={{}} wrapperClass="" visible={true} /> */}
             <Circles height="100" width="100" color="#008479" ariaLabel="circles-loading" wrapperStyle={{}} wrapperClass="" visible={true} />
-            {/* <ThreeCircles visible={true} height="100" width="100" color="#008479" ariaLabel="three-circles-loading" wrapperStyle={{}} wrapperClass="" /> */}
         </DataLoaderContainer>
     );
 };

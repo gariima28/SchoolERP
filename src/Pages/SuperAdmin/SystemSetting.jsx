@@ -264,7 +264,7 @@ const SystemSettin = () => {
                     <div className="row">
                         <div className='my-button11 '>
                             <button type="button" class="btn btn-outline-success">Submit</button>
-                            <button type="button" class="btn btn-outline-success">Cancel</button>
+                            <button type="button" class="btn cancelButtons text-black">Cancel</button>
                         </div>
                     </div>
 

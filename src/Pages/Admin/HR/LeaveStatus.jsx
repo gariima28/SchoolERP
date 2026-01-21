@@ -104,10 +104,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -591,100 +588,109 @@ const LeaveStatus = () => {
 
         <div className="main-content-conatainer pt-1 ">
 
-          <div className="table-container px-3 table-responsive">
+          {LeaveData.length > 0 ?
+          <>
+            <div className="table-container px-3 table-responsive">
 
-            <table className="table table-sm table-striped">
-              <thead className=''>
-                <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500' }}>
-                  <th className=' pe-0' >#</th>
-                  <th className='no-wrap' >Username</th>
-                  <th className='no-wrap'>Teacher ID</th>
-                  <th className='no-wrap'>Leave Type</th>
-                  <th className='no-wrap'>Start Date</th>
-                  <th className='no-wrap'>End Date</th>
-                  <th className='no-wrap'>Reason</th>
-                  <th className='no-wrap'>Status</th>
-                  <th className='no-wrap'>Actions</th>
-                </tr>
-              </thead>
-              <tbody className='heading-14 align-middle greyTextColor greyText'>
-                {
-                  LeaveData && LeaveData.length > 0 ? (
-                    LeaveData?.map((item, index) => (
-                      <tr className='heading-14' >
-                        <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.userName}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.staffUserId}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.leaveType}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.startDate}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.endDate}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.reason}</td>
-                        <td className='greyText pe-0 no-wrap' >
-                          <p className={`greyText pe-0 ${item.status === "APPROVED" ? 'approveStatus' : `${item.status === 'DECLINED' ? 'declineStatus' : 'pendingStatus'}`}`}>{`${item.status === "APPROVED" ? 'Approved' : `${item.status === "DECLINED" ? 'Declined' : 'Pending'}`}`}</p>
-                        </td>
-                        <td className=' greyText  pe-0 d-flex no-wrap' >
-                          <div className='Approve'>
-                            <button type="button" className='' my-class heading-14 onClick={(e) => MyLeaveStatusPostApi(item.id, "APPROVED")} disabled={item.status === "APPROVED" || item.status === "DECLINED"}>Approve</button>
-                          </div>
-                          <div className='Approve22 ms-2'>
-                            <button type="button" className='my-class heading-14' onClick={(e) => MyLeaveStatusPostApi(item.id, "DECLINED")} disabled={item.status === "APPROVED" || item.status === "DECLINED"}>Decline</button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )
-                    :
-                    (
-                      <tr>
-                        <td colSpan="12" className="text-center">
-                          <div className="d-flex justify-content-center align-items-center m-5 ">
-                            <div className="text-center">
-                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
-                              <h2><b>No Data Found</b></h2>
+              <table className="table table-sm table-striped">
+                <thead className=''>
+                  <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500' }}>
+                    <th className=' pe-0' >#</th>
+                    <th className='no-wrap' >Username</th>
+                    <th className='no-wrap'>Teacher ID</th>
+                    <th className='no-wrap'>Leave Type</th>
+                    <th className='no-wrap'>Start Date</th>
+                    <th className='no-wrap'>End Date</th>
+                    <th className='no-wrap'>Reason</th>
+                    <th className='no-wrap'>Status</th>
+                    <th className='no-wrap'>Actions</th>
+                  </tr>
+                </thead>
+                <tbody className='heading-14 align-middle greyTextColor greyText'>
+                  {
+                    LeaveData && LeaveData.length > 0 ? (
+                      LeaveData?.map((item, index) => (
+                        <tr className='heading-14' >
+                          <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.userName}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.staffUserId}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.leaveType}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.startDate}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.endDate}</td>
+                          <td className=' greyText pe-0 no-wrap'>{item.reason}</td>
+                          <td className='greyText pe-0 no-wrap' >
+                            <p className={`greyText pe-0 ${item.status === "APPROVED" ? 'approveStatus' : `${item.status === 'DECLINED' ? 'declineStatus' : 'pendingStatus'}`}`}>{`${item.status === "APPROVED" ? 'Approved' : `${item.status === "DECLINED" ? 'Declined' : 'Pending'}`}`}</p>
+                          </td>
+                          <td className=' greyText  pe-0 d-flex no-wrap' >
+                            <div className='Approve'>
+                              <button type="button" className='' my-class heading-14 onClick={(e) => MyLeaveStatusPostApi(item.id, "APPROVED")} disabled={item.status === "APPROVED" || item.status === "DECLINED"}>Approve</button>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
+                            <div className='Approve22 ms-2'>
+                              <button type="button" className='my-class heading-14' onClick={(e) => MyLeaveStatusPostApi(item.id, "DECLINED")} disabled={item.status === "APPROVED" || item.status === "DECLINED"}>Decline</button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
                     )
-                }
+                      :
+                      (
+                        <tr>
+                          <td colSpan="12" className="text-center">
+                            <div className="d-flex justify-content-center align-items-center m-5 ">
+                              <div className="text-center">
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
+                                <h2><b>No Data Found</b></h2>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                  }
 
-              </tbody>
-              <Toaster />
-            </table>
-            <div className="d-flex" style={{ marginBottom: "10px" }}>
-              <p className="font14">
-                Showing {currentPage} of {totalPages} Pages
-              </p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={
-                    <Icon
-                      icon="tabler:chevrons-left"
-                      width="1.4em"
-                      height="1.4em"
-                    />
-                  }
-                  nextLabel={
-                    <Icon
-                      icon="tabler:chevrons-right"
-                      width="1.4em"
-                      height="1.4em"
-                    />
-                  }
-                  breakLabel={"..."}
-                  breakClassName={"break-me"}
-                  pageCount={totalPages}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={10}
-                  onPageChange={handlePageClick}
-                  containerClassName={"pagination"}
-                  subContainerClassName={"pages pagination"}
-                  activeClassName={"active"}
-                />
+                </tbody>
+                <Toaster />
+              </table>
+              <div className="d-flex" style={{ marginBottom: "10px" }}>
+                <p className="font14">
+                  Showing {currentPage} of {totalPages} Pages
+                </p>
+                <div className="ms-auto">
+                  <ReactPaginate
+                    previousLabel={
+                      <Icon
+                        icon="tabler:chevrons-left"
+                        width="1.4em"
+                        height="1.4em"
+                      />
+                    }
+                    nextLabel={
+                      <Icon
+                        icon="tabler:chevrons-right"
+                        width="1.4em"
+                        height="1.4em"
+                      />
+                    }
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={10}
+                    onPageChange={handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-
+          </>
+            :
+            <>
+              <div className="d-flex justify-content-center m-5">
+                <img src="/images/search.svg" alt="" />
+              </div>
+            </>
+          }
         </div>
         {/* ################## Off Canvas Area ####################  */}
 
@@ -713,7 +719,7 @@ const LeaveStatus = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyHolidayPostApi()}>Submit</button>
-                      <button type="button" className="btn btn-outline-success">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black">Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -778,7 +784,7 @@ const LeaveStatus = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyLeavePutApi(IdForUpdate)}>Update</button>
-                      <button type="button" className="btn btn-outline-success">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black">Cancel</button>
                     </div>
                   </div>
                 </div>

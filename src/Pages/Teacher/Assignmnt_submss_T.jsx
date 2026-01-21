@@ -111,10 +111,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -520,7 +517,7 @@ const Assignmnt_submss = () => {
   const [asssignmentId, setAsssignmentId] = useState('')
   const [assignmentId, setAssignmentId] = useState('')
   // console.log('subjectId', subjectId)
-  const [singleState , setSingleState] = useState('');
+  const [singleState, setSingleState] = useState('');
   const [singleState2, setSingleState2] = useState('All');
   const [updateGetAll, setUpdateGetAll] = useState(false);
 
@@ -772,7 +769,7 @@ const Assignmnt_submss = () => {
             <div className="row mt-1 buttons-topss">
               <div className='my-button11 heading-16'>
                 <button type="button" class="btn btn-outline-success my-green" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MySubmissionGetAllApi} disabled={!(assignmentId && subjectId && sectionId && classId)}>Search</button>
-                <button type="button" class="btn btn-outline-success" onClick={clearHandle}>Cancel</button>
+                <button type="button" class="btn cancelButtons text-black" onClick={clearHandle}>Cancel</button>
               </div>
             </div>
 
@@ -927,7 +924,7 @@ const Assignmnt_submss = () => {
                   </div>
                   <div className='my-button11'>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" >Update Syllabus</button>
-                    <button type="button" className="btn btn-outline-success heading-16">Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16">Cancel</button>
                   </div>
                 </div>
 

@@ -110,10 +110,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 
 .my-button22{
     display: flex;
@@ -586,7 +583,6 @@ const Subject = () => {
     setLoader(true);
     try {
       const response = await ClassGetApi(searchKey2, pageNo2, pageSize2);
-      console.log('class-get-api response ---', response)
       if (response?.status === 200) {
         // setClassData(response?.data?.classes || []);
         setClassData(response?.data?.classes || []);
@@ -596,7 +592,6 @@ const Subject = () => {
     } catch (error) {
       console.error('Error fetching classes:', error);
       toast.error('Failed to fetch classes');
-       setLoader(false);
     } finally {
       setLoader(false);
     }
@@ -696,8 +691,9 @@ const Subject = () => {
       } else {
         toast.error(response?.data?.message);
       }
+
     } catch (error) {
-      console.log(error)
+      console.log('catch')
     }
   }
   // Get by id 
@@ -710,6 +706,7 @@ const Subject = () => {
       if (response?.status === 200) {
         const subjectData = response?.data?.subjects;
         setSubjectName(subjectData?.subjectName || '');
+
         const ids = subjectData?.classes?.map(cls => cls.classId) || [];
         setClassIds(ids);
       } else {
@@ -752,6 +749,7 @@ const Subject = () => {
         console.log(error)
       }
     }
+
   }
   const handleForDelete = () => {
     SubsDeleteApi(IdForDelete)
@@ -770,6 +768,7 @@ const Subject = () => {
     setSelectedClasses([])
     MySubjectGetApi()
     setForDelete(false)
+
   }
 
   return (
@@ -820,12 +819,13 @@ const Subject = () => {
                 </select>
               </div>
             </div>
+
           </div>
           {/* ####### buttons ######  */}
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" style={{ color: '#fff', backgroundColor: "#008479" }} onClick={MySubjectGetApi} disabled={!classIdForSearch}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={ClearHandle} disabled={!classIdForSearch}>Cancel</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={ClearHandle}>Cancel</button>
             </div>
           </div>
 
@@ -1007,7 +1007,7 @@ const Subject = () => {
 
                   <div className='my-button11 '>
                     <button type="button" style={{ backgroundColor: '#008479', color: '#fff' }} className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MyHolidayPostApi() }}>Add Subject</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                   </div>
 
                 </div>
@@ -1112,7 +1112,7 @@ const Subject = () => {
 
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MySubjectPutApi(IdForUpdate) }} style={{ backgroundColor: '#008479', color: '#fff' }}>Update subject</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                   </div>
                 </div>
 

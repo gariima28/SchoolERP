@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Navbar from '../Layouts/Navbar';
 import Sidebar from '../Layouts/Sidebar';
 import Main from '../Main/Main';
+import introJs from "intro.js";
+import "intro.js/introjs.css";
 
 const Container = styled.div`
     display: flex;
@@ -69,6 +71,28 @@ const DashboardLayout = () => {
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
     };
+//      useEffect(() => {
+//     introJs().start();
+//   }, []);
+
+//    useEffect(() => {
+//       introJs.tour().start();
+//     }, [])
+
+ useEffect(() => {
+    introJs()
+      .setOptions({
+        showProgress: true,
+        showBullets: false,
+        exitOnOverlayClick: false,
+        nextLabel: "Next →",
+        prevLabel: "← Back",
+        doneLabel: "Finish",
+      })
+      .start();
+  }, []);
+
+
 
     return (
         <SidebarContext.Provider value={{ sidebarOpen, toggleSidebar }}>

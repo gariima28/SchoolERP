@@ -104,10 +104,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -804,7 +801,7 @@ const PayRoll_Create = () => {
                     <div className="row buttons-topss">
                         <div className='my-button11 heading-16'>
                             <button type="button" class="btn btn-outline-success" onClick={MyContractGetAllApi}>Search</button>
-                            <button type="button" class="btn btn-outline-success">Cancel</button>
+                            <button type="button" class="btn cancelButtons text-black">Cancel</button>
                         </div>
                     </div>
 
@@ -996,7 +993,7 @@ const PayRoll_Create = () => {
                     <div className="row ps-4 pb-4">
                         <div className='my-button22 heading-16'>
                             <button type="button" class="btn btn-outline-success" onClick={twoHandle}>Create Payslip</button>
-                            <button type="button" class="btn btn-outline-success">Cancel</button>
+                            <button type="button" class="btn cancelButtons text-black">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -1041,7 +1038,7 @@ const PayRoll_Create = () => {
                                 </div>
                                 <div className='my-button11 '>
                                     <button type="button" className="btn btn-outline-success heading-16" onClick={(e) => { UpdateHandleBtn() }}>Show Student List</button>
-                                    <button type="button" className="btn btn-outline-success ">Cancel</button>
+                                    <button type="button" className="btn cancelButtons text-black ">Cancel</button>
                                 </div>
                             </div>
                         )
@@ -1233,7 +1230,7 @@ const PayRoll_Create = () => {
                                 </div>
                                 <div className='my-button11 '>
                                     <button type="button" className="btn btn-outline-success heading-16" >Update</button>
-                                    <button type="button" className="btn btn-outline-success ">Cancel</button>
+                                    <button type="button" className="btn cancelButtons text-black ">Cancel</button>
                                 </div>
                             </div>
                         )

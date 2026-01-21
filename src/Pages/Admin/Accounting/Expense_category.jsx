@@ -105,10 +105,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -914,7 +911,7 @@ const Expense_category = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyIncomeCategoryPostApi} >Add Expense Category</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                   </div>
                 </div>
               </div>
@@ -945,7 +942,7 @@ const Expense_category = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyExpenseCategoryPutApi} >Update Category</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                   </div>
                 </div>
 
@@ -980,7 +977,7 @@ const Expense_category = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                   <div className="form-check mt-1">
+                      <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input2"
                           onChange={() => setForDelete(!forDelete)}
@@ -988,7 +985,7 @@ const Expense_category = () => {
                           checked={forDelete}
                           value=""
                           id="flexCheckDefault"
-                          name="deleteAgreement" 
+                          name="deleteAgreement"
                         />
                         <label className="form-check-label agree" htmlFor="flexCheckDefault">
                           I Agree to delete the Profile Data

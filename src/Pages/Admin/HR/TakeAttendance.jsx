@@ -106,10 +106,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -862,143 +859,152 @@ const TakeAttendance = () => {
           <div className="row buttons-topss">
             <div className='my-button11 heading-16'>
               <button type="button" class="btn btn-outline-success" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyAttendanceGetAllApiByMonth} disabled={!(month2 && year && roleIdForMonth)}>Search</button>
-              <button type="button" class="btn btn-outline-success" onClick={ClearData}>Cancel</button>
+              <button type="button" class="btn cancelButtons text-black" onClick={ClearData}>Cancel</button>
             </div>
           </div>
 
-          <div className="row mt-4 mb-4 bg-color-pink p-3 m-3   responsive-direction">
-            <div className="col-3 ">
-            </div>
-            <div className="col-2 pe-0 rsnsve-pd mrgn-left">
-              <span className='heading-16 greyText '>Role</span>
-              <span className='heading-16'>- {role ? role : 'N-I-R'}</span>
-            </div>
-            <div className="col-2 px-0 rsnsve-pd">
-              <span className='heading-16 greyText '> Month</span>
-              <span>- {month ? month : 'N-I-R'}</span>
-            </div>
-            <div className="col-2 rsnsve-pd">
-              <span className='heading-16 greyText '> Year</span>
-              <span>-  {year ? year : 'N-I-R'}</span>
-            </div>
-          </div>
-          {
-            attendanceDataByMonth && attendanceDataByMonth.length > 0 && (
-              <div className="container ">
-                <div className="row m-1 mb-4 show-attendance">
-                  <div className="col-md-1 "></div>
-                  <div className="col-md-2 d-flex "><p className='stu-present'>P</p><span className='fontSize ms-2'>Present</span></div>
-                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent'>A</p><span className='fontSize ms-2'>Absent</span></div>
-                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
-                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave'>L</p><span className='fontSize ms-2'>Leave</span></div>
-                  <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday'>H</p><span className='fontSize ms-2'>Holiday</span></div>
-                  <div className="col-md-1 "></div>
+          {attendanceDataByMonth.length > 0 ?
+            <>
+              <div className="row mt-4 mb-4 bg-color-pink p-3 m-3   responsive-direction">
+                <div className="col-3 ">
+                </div>
+                <div className="col-2 pe-0 rsnsve-pd mrgn-left">
+                  <span className='heading-16 greyText '>Role</span>
+                  <span className='heading-16'>- {role ? role : 'N-I-R'}</span>
+                </div>
+                <div className="col-2 px-0 rsnsve-pd">
+                  <span className='heading-16 greyText '> Month</span>
+                  <span>- {month ? month : 'N-I-R'}</span>
+                </div>
+                <div className="col-2 rsnsve-pd">
+                  <span className='heading-16 greyText '> Year</span>
+                  <span>-  {year ? year : 'N-I-R'}</span>
                 </div>
               </div>
-            )
+              {
+                attendanceDataByMonth && attendanceDataByMonth.length > 0 && (
+                  <div className="container ">
+                    <div className="row m-1 mb-4 show-attendance">
+                      <div className="col-md-1 "></div>
+                      <div className="col-md-2 d-flex "><p className='stu-present'>P</p><span className='fontSize ms-2'>Present</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent'>A</p><span className='fontSize ms-2'>Absent</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave'>L</p><span className='fontSize ms-2'>Leave</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday'>H</p><span className='fontSize ms-2'>Holiday</span></div>
+                      <div className="col-md-1 "></div>
+                    </div>
+                  </div>
+                )
+              }
+
+              <div className="table-container px-3 table-responsive">
+                <table className="table table-sm ">
+                  <thead className=''>
+                    <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
+                      <th className='table-row-bg-color no-wrap'>#</th>
+                      <th className='table-row-bg-color no-wrap'> Staff Name</th>
+                      <th className='table-row-bg-color no-wrap'>1</th>
+                      <th className='table-row-bg-color no-wrap'>2</th>
+                      <th className='table-row-bg-color no-wrap'>3</th>
+                      <th className='table-row-bg-color no-wrap'>4</th>
+                      <th className='table-row-bg-color no-wrap'>5</th>
+                      <th className='table-row-bg-color no-wrap'>6</th>
+                      <th className='table-row-bg-color no-wrap'>7</th>
+                      <th className='table-row-bg-color no-wrap'>8</th>
+                      <th className='table-row-bg-color no-wrap'>9</th>
+                      <th className='table-row-bg-color no-wrap'>10</th>
+                      <th className='table-row-bg-color no-wrap'>11</th>
+                      <th className='table-row-bg-color no-wrap'>12</th>
+                      <th className='table-row-bg-color no-wrap'>13</th>
+                      <th className='table-row-bg-color no-wrap'>14</th>
+                      <th className='table-row-bg-color no-wrap'>15</th>
+                      <th className='table-row-bg-color no-wrap'>16</th>
+                      <th className='table-row-bg-color no-wrap'>17</th>
+                      <th className='table-row-bg-color no-wrap'>18</th>
+                      <th className='table-row-bg-color no-wrap'>19</th>
+                      <th className='table-row-bg-color no-wrap'>20</th>
+                      <th className='table-row-bg-color no-wrap'>21</th>
+                      <th className='table-row-bg-color no-wrap'>22</th>
+                      <th className='table-row-bg-color no-wrap'>23</th>
+                      <th className='table-row-bg-color no-wrap'>24</th>
+                      <th className='table-row-bg-color no-wrap'>25</th>
+                      <th className='table-row-bg-color no-wrap'>26</th>
+                      <th className='table-row-bg-color no-wrap'>27</th>
+                      <th className='table-row-bg-color no-wrap'>28</th>
+                      <th className='table-row-bg-color no-wrap'>29</th>
+                      <th className='table-row-bg-color no-wrap'>30</th>
+                      <th className='table-row-bg-color no-wrap'>31</th>
+                    </tr>
+                  </thead>
+
+                  <tbody className='heading-14 align-middle greyTextColor'>
+                    {
+                      attendanceDataByMonth && attendanceDataByMonth?.length > 0 ? (
+                        attendanceDataByMonth?.map((item, index) => (
+                          <tr className="heading-14" key={index}>
+                            <td className="greyText">{index + 1}</td>
+                            <td className="greyText">{item.staffName}</td>
+                            {item?.attendance.map((att, i) => (
+                              <td className="greyText" key={i}>
+                                {att.status === "present" ? (
+                                  <p className="stu-present">P</p>
+                                ) : att.status === "absent" ? (
+                                  <p className="stu-absent">A</p>
+                                ) : att.status === "weekend" ? (
+                                  <p className="stu-weekend">W</p>
+                                ) : att.status === "leave" ? (
+                                  <p className="stu-leave">L</p>
+                                ) : (
+                                  <p className="stu-holiday">H</p>
+                                )}
+                              </td>
+                            ))}
+                          </tr>
+                          // <tr className='heading-14 ' >
+                          //   <td className=' greyText no-wrap'>{index + 1}</td>
+                          //   <td className=' greyText no-wrap'>{item.staffName}</td>
+                          //   {
+                          //     item?.attendance?.map((item, index) => (
+                          //       <td className='greyText no-wrap' >
+                          //         {
+                          //           item.status === "present" ?
+                          //             <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          //               <path d="M15.2949 0L6.12781 9.17061L2.70158 5.74438L0 8.44948L6.12429 14.5738L6.91577 13.7858L18 2.70158L15.2949 0Z" fill="#41AD49" />
+                          //             </svg>
+                          //             :
+                          //             <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          //               <path d="M1.39055 0.226368L0.226368 1.39055C-0.0754561 1.69237 -0.0754561 2.20978 0.226368 2.55473L4.1932 6.52156L0.226368 10.4884C-0.0754561 10.7902 -0.0754561 11.3076 0.226368 11.6526L1.34743 12.7736C1.64925 13.0755 2.16667 13.0755 2.51161 12.7736L6.47844 8.8068L10.4453 12.7736C10.7471 13.0755 11.2645 13.0755 11.6095 12.7736L12.7305 11.6526C13.0323 11.3507 13.0323 10.8333 12.7305 10.4884L8.76368 6.47844L12.7305 2.51161C13.0323 2.20978 13.0323 1.69237 12.7305 1.34743L11.6095 0.226368C11.3076 -0.0754561 10.7902 -0.0754561 10.4453 0.226368L6.47844 4.1932L2.51161 0.226368C2.20978 -0.0754561 1.69237 -0.0754561 1.39055 0.226368Z" fill="#B50000" />
+                          //             </svg>
+                          //         }
+                          //       </td>
+                          //     ))
+                          //   }
+                          // </tr>
+                        ))
+                      )
+                        :
+                        (
+                          <tr>
+                            <td colSpan="100%" style={{ minHeight: '100%' }}>
+                              <div className="text-center">
+                                <img src="/images/search.svg" alt="" className='img-fluid p-5' />
+                                <h2><b>No Data Found</b></h2>
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </>
+            :
+            <>
+              <div className="d-flex justify-content-center m-5">
+                <img src="/images/search.svg" alt="" />
+              </div>
+            </>
           }
-
-          <div className="table-container px-3 table-responsive">
-            <table className="table table-sm ">
-              <thead className=''>
-                <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                  <th className='table-row-bg-color no-wrap'>#</th>
-                  <th className='table-row-bg-color no-wrap'> Staff Name</th>
-                  <th className='table-row-bg-color no-wrap'>1</th>
-                  <th className='table-row-bg-color no-wrap'>2</th>
-                  <th className='table-row-bg-color no-wrap'>3</th>
-                  <th className='table-row-bg-color no-wrap'>4</th>
-                  <th className='table-row-bg-color no-wrap'>5</th>
-                  <th className='table-row-bg-color no-wrap'>6</th>
-                  <th className='table-row-bg-color no-wrap'>7</th>
-                  <th className='table-row-bg-color no-wrap'>8</th>
-                  <th className='table-row-bg-color no-wrap'>9</th>
-                  <th className='table-row-bg-color no-wrap'>10</th>
-                  <th className='table-row-bg-color no-wrap'>11</th>
-                  <th className='table-row-bg-color no-wrap'>12</th>
-                  <th className='table-row-bg-color no-wrap'>13</th>
-                  <th className='table-row-bg-color no-wrap'>14</th>
-                  <th className='table-row-bg-color no-wrap'>15</th>
-                  <th className='table-row-bg-color no-wrap'>16</th>
-                  <th className='table-row-bg-color no-wrap'>17</th>
-                  <th className='table-row-bg-color no-wrap'>18</th>
-                  <th className='table-row-bg-color no-wrap'>19</th>
-                  <th className='table-row-bg-color no-wrap'>20</th>
-                  <th className='table-row-bg-color no-wrap'>21</th>
-                  <th className='table-row-bg-color no-wrap'>22</th>
-                  <th className='table-row-bg-color no-wrap'>23</th>
-                  <th className='table-row-bg-color no-wrap'>24</th>
-                  <th className='table-row-bg-color no-wrap'>25</th>
-                  <th className='table-row-bg-color no-wrap'>26</th>
-                  <th className='table-row-bg-color no-wrap'>27</th>
-                  <th className='table-row-bg-color no-wrap'>28</th>
-                  <th className='table-row-bg-color no-wrap'>29</th>
-                  <th className='table-row-bg-color no-wrap'>30</th>
-                  <th className='table-row-bg-color no-wrap'>31</th>
-                </tr>
-              </thead>
-
-              <tbody className='heading-14 align-middle greyTextColor'>
-                {
-                  attendanceDataByMonth && attendanceDataByMonth?.length > 0 ? (
-                    attendanceDataByMonth?.map((item, index) => (
-                      <tr className="heading-14" key={index}>
-                        <td className="greyText">{index + 1}</td>
-                        <td className="greyText">{item.staffName}</td>
-                        {item?.attendance.map((att, i) => (
-                          <td className="greyText" key={i}>
-                            {att.status === "present" ? (
-                              <p className="stu-present">P</p>
-                            ) : att.status === "absent" ? (
-                              <p className="stu-absent">A</p>
-                            ) : att.status === "weekend" ? (
-                              <p className="stu-weekend">W</p>
-                            ) : att.status === "leave" ? (
-                              <p className="stu-leave">L</p>
-                            ) : (
-                              <p className="stu-holiday">H</p>
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                      // <tr className='heading-14 ' >
-                      //   <td className=' greyText no-wrap'>{index + 1}</td>
-                      //   <td className=' greyText no-wrap'>{item.staffName}</td>
-                      //   {
-                      //     item?.attendance?.map((item, index) => (
-                      //       <td className='greyText no-wrap' >
-                      //         {
-                      //           item.status === "present" ?
-                      //             <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      //               <path d="M15.2949 0L6.12781 9.17061L2.70158 5.74438L0 8.44948L6.12429 14.5738L6.91577 13.7858L18 2.70158L15.2949 0Z" fill="#41AD49" />
-                      //             </svg>
-                      //             :
-                      //             <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      //               <path d="M1.39055 0.226368L0.226368 1.39055C-0.0754561 1.69237 -0.0754561 2.20978 0.226368 2.55473L4.1932 6.52156L0.226368 10.4884C-0.0754561 10.7902 -0.0754561 11.3076 0.226368 11.6526L1.34743 12.7736C1.64925 13.0755 2.16667 13.0755 2.51161 12.7736L6.47844 8.8068L10.4453 12.7736C10.7471 13.0755 11.2645 13.0755 11.6095 12.7736L12.7305 11.6526C13.0323 11.3507 13.0323 10.8333 12.7305 10.4884L8.76368 6.47844L12.7305 2.51161C13.0323 2.20978 13.0323 1.69237 12.7305 1.34743L11.6095 0.226368C11.3076 -0.0754561 10.7902 -0.0754561 10.4453 0.226368L6.47844 4.1932L2.51161 0.226368C2.20978 -0.0754561 1.69237 -0.0754561 1.39055 0.226368Z" fill="#B50000" />
-                      //             </svg>
-                      //         }
-                      //       </td>
-                      //     ))
-                      //   }
-                      // </tr>
-                    ))
-                  )
-                    :
-                    (
-                      <tr>
-                        <td colSpan="100%" style={{ minHeight: '100%' }}>
-                          <div className="text-center">
-                            <img src="/images/search.svg" alt="" className='img-fluid p-5' />
-                            <h2><b>No Data Found</b></h2>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                }
-              </tbody>
-            </table>
-          </div>
-
         </div>
         {
           hide ? (
@@ -1031,7 +1037,7 @@ const TakeAttendance = () => {
                   show ? (
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={UpdateHandleBtn} disabled={!(roleid && date)}>Show User List</button>
-                      <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                     </div>
                   ) : (
                     <div className="container-fluid">
@@ -1082,7 +1088,7 @@ const TakeAttendance = () => {
                       </div>
                       <div className='my-button11 '>
                         <button type="button" className="btn btn-outline-success heading-16" style={{ color: '#fff', backgroundColor: '#008479' }} onClick={MyTakeAttendancePostApi}>Submit</button>
-                        <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
+                        <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle} >Cancel</button>
                       </div>
                     </div>
                   )
@@ -1127,7 +1133,7 @@ const TakeAttendance = () => {
                   hide2 ? (
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={UpdateHandleBtn2} disabled={!(roleid && date)}>Show Staff List</button>
-                      <button type="button" className="btn btn-outline-success " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black " data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                     </div>
                   ) : (
                     <div className="container-fluid">
@@ -1177,7 +1183,7 @@ const TakeAttendance = () => {
                       </div>
                       <div className='my-button11 '>
                         <button type="button" className="btn btn-outline-success heading-16" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyNewDailyAttendancePutApi}>Update</button>
-                        <button type="button" className="btn btn-outline-success " onClick={ClearHandle}>Cancel</button>
+                        <button type="button" className="btn cancelButtons text-black " onClick={ClearHandle}>Cancel</button>
                       </div>
                     </div>
                   )

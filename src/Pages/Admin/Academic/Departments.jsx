@@ -111,10 +111,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -457,7 +454,7 @@ const Departments = () => {
   const [departmentDataById, setDepartmentDataById] = useState([])
   const [departmentName, setDepartmentName] = useState()
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
-  
+
   const [searchKey, setSearchKey] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -525,7 +522,7 @@ const Departments = () => {
             setTimeout(() => {
               setShow(true)
             }, 0.5)
-            
+
           } else {
             toast.error(response?.data?.message);
             setShow(true)
@@ -652,9 +649,9 @@ const Departments = () => {
   const ClearHandle = () => {
     setDepartmentName('')
     setIsValidNameRequired(false)
-      setForDelete(false)
+    setForDelete(false)
   }
-  
+
   return (
     <Container>
       {
@@ -683,7 +680,7 @@ const Departments = () => {
                 <span className="input-group-text button-bg-color button-color heading-14 font-color " style={{ cursor: 'pointer', height: "34px" }} id="basic-addon2" onClick={MyDepartmentGetAllApi}>Search</span>
               </div>
             </div>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={''}onClick={ClearHandle} >+ ADD Department</Link>
+            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to={''} onClick={ClearHandle} >+ ADD Department</Link>
           </div>
 
         </div>
@@ -747,17 +744,17 @@ const Departments = () => {
               <Toaster />
             </table>
           </div>
-            <div className="d-flex px-3" style={{ marginBottom: '10px' }}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
-              </div>
+          <div className="d-flex px-3" style={{ marginBottom: '10px' }}>
+            <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+            <div className="ms-auto">
+              <ReactPaginate
+                previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
+                onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
+              />
             </div>
+          </div>
 
         </div>
         {/* ################## Off Canvas Area ####################  */}
@@ -789,7 +786,7 @@ const Departments = () => {
 
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MyDepartmentPostApi() }} style={{ backgroundColor: '#008479', color: '#fff' }}>Add Department</button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                   </div>
                 </div>
 
@@ -827,7 +824,7 @@ const Departments = () => {
                   </div>
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { MyDepartmentPutApi(IdForUpdate) }}>Update Department </button>
-                    <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" >Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" >Cancel</button>
                   </div>
                 </div>
 
@@ -869,7 +866,7 @@ const Departments = () => {
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
                       </div>
-                       <div className="form-check mt-1">
+                      <div className="form-check mt-1">
                         <input
                           className="form-check-input my-form-check-input2"
                           onChange={() => setForDelete(!forDelete)}

@@ -109,10 +109,7 @@ th, td{
   color: #fff ;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -911,7 +908,7 @@ const ManageFaq = () => {
                           </div>
                           <hr className='' style={{ marginTop: '4px' }} />
                           <div className='my-button11 '>
-                            <button type="button" class="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Back</button>
+                            <button type="button" class="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Back</button>
                           </div>
                         </>
                       )
@@ -962,7 +959,7 @@ const ManageFaq = () => {
                             </div>
                             <hr className='' style={{ marginTop: '4px' }} />
                             <div className='my-button11 '>
-                              <button type="button" class="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Back</button>
+                              <button type="button" class="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Back</button>
                             </div>
                           </>
                         )
@@ -995,7 +992,7 @@ const ManageFaq = () => {
 
                       <div className='my-button22 '>
                         <button type="button" class="btn btn-outline-success" style={{ color: '#fff', backgroundColor: '#008479' }} onClick={(e) => PutDataApi(putstate)}>Send</button>
-                        <button type="button" class="btn btn-outline-success" onClick={ChangeState}>Cancel</button>
+                        <button type="button" class="btn cancelButtons text-black" onClick={ChangeState}>Cancel</button>
                       </div>
                     </p>
                   </div>
@@ -1116,7 +1113,7 @@ const ManageFaq = () => {
                   <div className='my-button11 '>
                     <button type="button" class="btn btn-outline-success" onClick={requestUpdateApi}>Update</button>
                     {/* UpdateHandleBtn */}
-                    <button type="button" class=" my-cancel-button btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                    <button type="button" class=" my-cancel-button btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
                   </div>
                 </div>
               </div>

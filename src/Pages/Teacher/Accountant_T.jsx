@@ -103,10 +103,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -772,7 +769,7 @@ const Accountant = () => {
 
                   <div className='my-button11 '>
                     <button type="button" className="btn btn-outline-success" onClick={(e) => { MyNoticePutApi(IdForUpdate) }}>Update</button>
-                    <button type="button" className="btn btn-outline-success">Cancel</button>
+                    <button type="button" className="btn cancelButtons text-black">Cancel</button>
                   </div>
                 </div>
               </>

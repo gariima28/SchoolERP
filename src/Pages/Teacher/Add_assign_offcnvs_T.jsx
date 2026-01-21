@@ -434,7 +434,7 @@ const Add_assign_offcnvs = () => {
                             </div>
                             <div className='my-button11 '>
                                 <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" style={{ backgroundColor: '#008479', color: "#fff" }} onClick={AssignmntDataApi}>Add Assignment</button>
-                                <button type="button" className="btn btn-outline-success heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
+                                <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                             </div>
                         </div>
 

@@ -117,10 +117,7 @@ th, td{
   color: #000;
 font-size: 12px;
 }
-.my-button11 button:hover{
-    background-color: #008479;
-    color: #fff;
-}
+
 .my-button22{
     display: flex;
     gap: 4px;
@@ -1175,7 +1172,7 @@ const OfflineExam_T = () => {
                     <div className="row mb-3 buttons-topss">
                         <div className='my-button11 heading-16'>
                             <button type="button" class="btn btn-outline-success my-green" style={{ backgroundColor: '#008479', color: '#fff' }} onClick={MyExamGetAllApi} disabled={!(classId && sectionName)}>Search</button>
-                            <button type="button" class="btn btn-outline-success" onClick={ClearData}>Cancel</button>
+                            <button type="button" class="btn cancelButtons text-black" onClick={ClearData}>Cancel</button>
                         </div>
                     </div>
                     {/* ###### copy content till here for all component ######  */}
@@ -1389,7 +1386,7 @@ const OfflineExam_T = () => {
                                         <hr className='mt-4' />
 
                                         <div class="form-check">
-                                            <input class="form-check-input my-form-check-input" type="checkbox"  id="flexCheckDefault" checked={practicalShow} onChange={(e) => setPracticalShow(!practicalShow)} />
+                                            <input class="form-check-input my-form-check-input" type="checkbox" id="flexCheckDefault" checked={practicalShow} onChange={(e) => setPracticalShow(!practicalShow)} />
                                             <label class="form-check-label" for="flexCheckDefault">
                                                 Practical
                                             </label>
@@ -1426,7 +1423,7 @@ const OfflineExam_T = () => {
                                         }
                                         <div className='my-button11 '>
                                             <button type="button" className="btn btn-outline-success my-button112233" onClick={MyMarksPostApi}>Create Exam</button>
-                                            <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
+                                            <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1581,7 +1578,7 @@ const OfflineExam_T = () => {
                                                 <>
                                                     <div className="mb-3 mt-3" style={{ marginTop: '-6px' }}>
                                                         <label for="exampleFormControlInput1" className="form-label  heading-14">Practical Date </label>
-                                                        <input type="date" className="form-control form-focus label-color heading-14" value={practicalDate} onChange={(e) =>  handleDate2(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
+                                                        <input type="date" className="form-control form-focus label-color heading-14" value={practicalDate} onChange={(e) => handleDate2(e.target.value)} style={{ marginTop: '-4px' }} id="exampleFormControlInput1" placeholder="Marks" />
                                                     </div>
                                                     <div className=''>
                                                         {isValidPracticalDateRequired && (
@@ -1639,7 +1636,7 @@ const OfflineExam_T = () => {
                                         }
                                         <div className='my-button11 '>
                                             <button type="button" className="btn btn-outline-success my-button112233" onClick={MyOfflinePutApi}>Update Exam</button>
-                                            <button type="button" className="btn btn-outline-success" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
+                                            <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
                                         </div>
                                     </div>
                                 </div>

@@ -48,7 +48,6 @@ const ExcelUpload = () => {
 
 
     useEffect(() => {
-        Download_Slip();
         getAllClassData()
     }, [])
 
@@ -129,7 +128,7 @@ const ExcelUpload = () => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="pt-3">
-                            <CSVLink className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' data={csvData} filename={"orders.csv"}>
+                            <CSVLink className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' data={csvData} filename={"GeneratedCsvForm.csv"} onClick={()=> Download_Slip()}>
                                 Generate CSV File
                             </CSVLink>
                             {/* <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white'>Generate CSV File</button> */}

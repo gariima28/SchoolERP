@@ -504,8 +504,6 @@ const Conta_allown = () => {
     }
   };
   const [showAddModal, setShowAddModal] = useState(false);
-
-
   return (
     <StyledContainer className="container-fluid">
       {loaderState && <DataLoader />}
@@ -604,8 +602,6 @@ const Conta_allown = () => {
               </div>
             </div>
           </div>
-
-
           <div className="row px-1 row-margin">
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
@@ -686,8 +682,6 @@ const Conta_allown = () => {
               </div>
             </div>
           </div>
-
-
           <div className="row px-1 row-margin">
             <div className="col-lg-12 col-md-6 col-sm-12">
               <div className="row">
