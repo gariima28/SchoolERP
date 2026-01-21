@@ -33,16 +33,17 @@ const Container = styled.div`
 `;
 
 const Holiday = () => {
+
     const token = sessionStorage.getItem('token');
     const [loaderState, setLoaderState] = useState(false);
     const [calendarView, setCalendarView] = useState(false);
-    const [searchByKey, setSearchByKey] = useState('');
     const [holidayData, setHolidayData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-
+    
+    const [searchByKey, setSearchByKey] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: 'onChange',
         defaultValues: { searchByKey: '' }

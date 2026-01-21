@@ -826,8 +826,9 @@ table td, table th{
 .cancelButtons {
     border-color: var(--cancelBtn);
     border-radius: 5px;
-    width: 71px;
-    height: 36px;
+    width: 80px !important;
+    /* width: 71px; */
+    height: 40px !important;
     cursor: pointer !important;
 }
 
@@ -844,7 +845,6 @@ table td, table th{
     border-color: var(--cancelBtn) !important;
     cursor: pointer !important;
 }
-
 
 .confirmButtons {
     background-color: var(--greenColorBtn);
