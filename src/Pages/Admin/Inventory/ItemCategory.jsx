@@ -338,7 +338,7 @@ const ItemCategory = () => {
               exportPDFAction={DownloadItemCategoryPDF}
               // showExportCSV={itemCategoryData.length > 0}
               showExportCSV={false}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={DownloadItemCategoryExcel}
               showSearch={true}
               searchValue={searchInputVal}

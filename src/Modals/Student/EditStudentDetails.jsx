@@ -65,6 +65,9 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   const [selectedState, setSelectedState] = useState('');
   const [pendingStateCode, setPendingStateCode] = useState('');
   const [pendingCityName, setPendingCityName] = useState('');
+  const [pendingSection, setPendingSection] = useState('');
+
+
 
   const apiKey = 'ZGpVTFdPWU03YVRmcGJtd3NWWEYyT2JhQWNKMzNmYXR6ZjNYME1Rcw==';
   const headers = { 'X-CSCAPI-KEY': apiKey };
@@ -73,6 +76,12 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     mode: 'onChange',
   });
 
+    // just change to show section in edit input
+  useEffect(() => {
+    if (pendingSection && allSectionData.length > 0) {
+      setValue('sectionName', pendingSection);
+    }
+  }, [pendingSection, allSectionData, setValue]);
   const watchFields = watch();
   const [isFormChanged, setIsFormChanged] = useState(false);
 
@@ -84,6 +93,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   }, [watchFields, initialValues]);
 
   const sectionIdVal = watch('sectionName');
+  console.log('check section value', sectionIdVal);
 
   // ---------- API Functions for Country, State, City ----------
   const fetchCountries = async () => {
@@ -238,8 +248,16 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
         setParentEmailVal(student?.parentEmail || '');
         setValue('fatherOccupation', student?.fatherOccupation || '');
         setValue('motherOccupation', student?.motherOccupation || '');
+
+
+        // just change to show section in edit input
+
         await handleClassChange(student?.classNo);
         setValue('sectionName', student?.classSection || '');
+
+        // await handleClassChange(student?.classNo);
+        // setPendingSection(student?.classSection || '');
+        
         setValue('studentDOB', student?.dateOfBirth || '');
         setValue('studentAddress', student?.address || '');
         setValue('emergencyNo', student?.emergencyNo || '');
@@ -567,7 +585,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
               onChange={(e) => handleClassChange(e.target.value)}
             >
               <option value="" disabled>-- Select --</option>
-              {allClassData.map((cls) => (
+              {allClassData?.map((cls) => (
                 <option key={cls.classId} value={cls.classNo}>
                   {cls.classNo}
                 </option>
@@ -583,6 +601,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
               id="sectionName"
               className={`form-select font14 ${errors.sectionName ? 'border-danger' : ''}`}
               value={sectionIdVal}
+              // value={pendingSection}
               {...register('sectionName')}
             >
               <option value="" disabled>-- Select --</option>
@@ -594,6 +613,20 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             </select>
             {errors.sectionName && <p className="font12 text-danger">{errors.sectionName.message}</p>}
           </div>
+
+          {/* <select
+            id="sectionName"
+            className={`form-select font14 ${errors.sectionName ? 'border-danger' : ''}`}
+            {...register('sectionName')}
+            value={pendingSection}
+          >
+            <option value="" disabled>-- Select --</option>
+            {allSectionData.map((sec) => (
+              <option key={sec.classSecId} value={sec.sectionName}>
+                {sec.sectionName}
+              </option>
+            ))}
+          </select> */}
 
           {/* ---------- Birthday ---------- */}
           <div className="mb-3">

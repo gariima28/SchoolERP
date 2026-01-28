@@ -477,6 +477,8 @@ const AssignClassTeacher = () => {
   const [hide12, setHide12] = useState(false)
   const [show12, setShow12] = useState(true)
   const [section, setSection] = useState()
+  const [sectionForUpdate, setSectionForUpdate] = useState()
+  console.log('section id here', section)
   const [classId, setClassId] = useState()
   const [className, setClassName] = useState()
   const [teacher, setTeacher] = useState()
@@ -554,6 +556,7 @@ const AssignClassTeacher = () => {
     setLoader(true)
     try {
       const response = await SectionRoomByIdGetApi(classId);
+      // console.log('value of section', response);
       if (response?.status === 200) {
         // toast.success(response?.data?.message)
         setSectionData(response?.data?.allSections)
@@ -654,10 +657,12 @@ const AssignClassTeacher = () => {
     setLoader(true)
     try {
       const response = await AssignClassTeacherGetByIdAllApi(id);
+      console.log('value data by get by id', response)
       if (response?.status === 200) {
         setTeacher(response?.data?.classTeacherSection?.staffName)
         setClassId(response?.data?.classTeacherSection?.classId)
         setSection(response?.data?.classTeacherSection?.sectionName)
+        setSectionForUpdate(response?.data?.classTeacherSection?.sectionId)
         setLoader(false)
       } else {
         toast.error(response?.data?.msg);
@@ -672,7 +677,7 @@ const AssignClassTeacher = () => {
   const MyClassRoomPutApi = async (id) => {
     setLoader(true)
     try {
-      const response = await AssignClassTeacherPutApi(section, teacher);
+      const response = await AssignClassTeacherPutApi(sectionForUpdate, teacher);
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         setShow(false)
@@ -762,7 +767,7 @@ const AssignClassTeacher = () => {
               exportPDFText="Export PDF"
               exportPDFAction={ClassTeacherPDF}
               showExportCSV={assignAllData?.length > 0}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={ClassTeacherCSV}
               onSearchChange={handleSearchChange}
             />
@@ -964,7 +969,7 @@ const AssignClassTeacher = () => {
                     </div>
                     <div className='my-button11 '>
                       <button type="button" className="btn btn-outline-success my-button112233" onClick={(e) => MyClassRoomPutApi(IdForUpdate)}>Update</button>
-                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+                      <button type="button" className="btn cancelButtons text-black" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearHandle}>Cancel</button>
                       <Toaster />
                     </div>
                   </div>

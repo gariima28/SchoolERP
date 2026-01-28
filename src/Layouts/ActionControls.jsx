@@ -45,7 +45,7 @@ const ActionControls = ({
     exportPDFAction,
     exportPDFFileName = 'document.pdf',
     showExportCSV = true,
-    exportCSVText = 'Export CSV',
+    exportCSVText = 'Export XLSX',
     exportCSVAction,
     exportCSVFileName = 'document.xlsx', 
 }) => {
@@ -68,12 +68,10 @@ const ActionControls = ({
     const handleSearchChange = (value) => {
         const currentLength = value.length;
         onSearchChange(value);
-
         const isBackspacing = currentLength < prevSearchLength.current;
         if (isBackspacing) {
             debouncedSearch(value);
         }
-
         prevSearchLength.current = currentLength;
     };
 
@@ -182,7 +180,7 @@ const ActionControls = ({
                     </button>
                 )}
 
-                {/* Export CSV Button */}
+                {/* Export XLSX Button */}
                 {showExportCSV && (
                     <button
                         className="btn btn-outline-success d-flex align-items-center gap-1"

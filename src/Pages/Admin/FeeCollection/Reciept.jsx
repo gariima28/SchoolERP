@@ -375,7 +375,7 @@ const Reciept = () => {
                             exportPDFAction={''}
                             exportPDFFileName="Receipts.pdf"
                             showExportCSV={RecieptData.length > 0}
-                            exportCSVText="Export CSV"
+                            exportCSVText="Export XLSX"
                             exportCSVAction={getRecieptCsvApi}
                             exportCSVFileName="Receipts.xlsx"
                         />

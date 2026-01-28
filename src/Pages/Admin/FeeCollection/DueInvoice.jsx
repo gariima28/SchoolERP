@@ -444,7 +444,7 @@ const DueInvoice = () => {
                             exportPDFAction={''}
                             exportPDFFileName="Invoices.pdf"
                             showExportCSV={false}
-                            exportCSVText="Export CSV"
+                            exportCSVText="Export XLSX"
                             exportCSVAction={''}
                             exportCSVFileName="Invoices.xlsx"
                         />

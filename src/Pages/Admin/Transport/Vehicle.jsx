@@ -458,7 +458,7 @@ const Vehicle = () => {
                                 exportPDFAction={DownloadVehiclePdf}
                                 exportPDFFileName="Vehicles.pdf"
                                 showExportCSV={vehicleData.length>0}
-                                exportCSVText="Export CSV"
+                                exportCSVText="Export XLSX"
                                 exportCSVAction={DownloadVehicleExcel}
                                 exportCSVFileName="Vehicles.xlsx"
                                 showSearch={true}

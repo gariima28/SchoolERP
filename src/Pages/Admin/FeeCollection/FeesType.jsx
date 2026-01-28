@@ -536,7 +536,7 @@ const FeesType = () => {
               exportPDFAction={DownloadFeeTypePDF}
               exportPDFFileName="Fee Type.pdf"
               showExportCSV={feeTypeData.length > 0}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={DownloadFeeTypeExcel}
               exportCSVFileName="Fee Type.xlsx"
               showSearch={true}

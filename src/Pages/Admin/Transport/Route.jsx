@@ -370,7 +370,7 @@ const AllRoute = () => {
                                 exportPDFAction={''}
                                 exportPDFFileName="Routes.pdf"
                                 showExportCSV={false}
-                                exportCSVText="Export CSV"
+                                exportCSVText="Export XLSX"
                                 exportCSVAction={''}
                                 exportCSVFileName="Routes.xlsx"
                                 showSearch={true}

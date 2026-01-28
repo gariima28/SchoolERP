@@ -416,7 +416,7 @@ const Assignment = () => {
                                 exportPDFAction={DownloadAssignmentPDF}
                                 exportPDFFileName="Assignment.pdf"
                                 showExportCSV={allAssignmentData.length > 0}
-                                exportCSVText="Export CSV"
+                                exportCSVText="Export XLSX"
                                 exportCSVAction={DownloadAssignmentExcel}
                                 exportCSVFileName="Assignment.xlsx"
                             />

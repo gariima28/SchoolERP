@@ -439,7 +439,7 @@ const ManageSupplier = () => {
               exportPDFFileName="Supplier.pdf"
               // showExportCSV={supplierData.length > 0}
               showExportCSV={false}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={DownloadSupplierExcel}
               exportCSVFileName="Supplier.xlsx"
               showSearch={true}

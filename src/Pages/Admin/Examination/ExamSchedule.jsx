@@ -743,7 +743,7 @@ return (
                         exportPDFAction={''}
                         exportPDFFileName="Exam Schedule.pdf"
                         showExportCSV={examScheduleData.length > 0}
-                        exportCSVText="Export CSV"
+                        exportCSVText="Export XLSX"
                         exportCSVAction={''}
                         exportCSVFileName="Exam Schedule.xlsx"
                         showSearch={true}

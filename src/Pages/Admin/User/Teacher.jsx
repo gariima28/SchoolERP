@@ -869,7 +869,7 @@ const Teacher = () => {
               exportPDFText="Export PDF"
               exportPDFAction={''}
               showExportCSV={TeacherAllData?.length > 0}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={() => OtherStaffCSV(roleId)}
             />
           </div>

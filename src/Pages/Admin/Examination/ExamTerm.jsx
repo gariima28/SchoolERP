@@ -115,6 +115,8 @@ const ExamTerm = () => {
     const [searchInputVal, setSearchInputVal] = useState('');
     const [editExamTermId, setEditExamTermId] = useState('');
     const [delExamTermId, setDelExamTermId] = useState('');
+    console.log('id for delete ', delExamTermId)
+    console.log('id for delete type of  ', typeof(delExamTermId))
     const [isChecked, setIsChecked] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -152,6 +154,7 @@ const ExamTerm = () => {
         try {
             setLoaderState(true);
             const response = await getExamTermDataApi(search, pageNo, pageSize);
+            console.log('response data for delete', response)
             if (response?.status === 200 && response?.data?.status === 'success') {
                 setExamTermData(response.data.data || []);
                 setTotalPages(response.data.totalPages || 1);
@@ -364,7 +367,7 @@ const ExamTerm = () => {
                             exportPDFText="Export PDF"
                             exportPDFAction={''}
                             showExportCSV={examTermData.length > 0}
-                            exportCSVText="Export CSV"
+                            exportCSVText="Export XLSX"
                             exportCSVAction={''}
                             showSearch={true}
                             searchValue={searchInputVal}

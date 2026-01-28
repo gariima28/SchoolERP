@@ -492,7 +492,7 @@ const ManageWareHouse = () => {
               exportPDFFileName="Warehouse.pdf"
               // showExportCSV={WarehouseData.length > 0}
               showExportCSV={false}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={''}
               exportCSVFileName="Warehouse.xlsx"
             />
