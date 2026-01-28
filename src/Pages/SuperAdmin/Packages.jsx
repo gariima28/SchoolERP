@@ -542,7 +542,7 @@ const Packages = () => {
                 exportPDFText="Export PDF"
                 exportPDFAction={''}
                 showExportCSV={false}
-                exportCSVText="Export CSV"
+                exportCSVText="Export XLSX"
                 exportCSVAction={''}
               />
             </div>

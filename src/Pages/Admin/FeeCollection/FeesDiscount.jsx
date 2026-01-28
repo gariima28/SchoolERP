@@ -378,7 +378,7 @@ const FeesDiscount = () => {
               exportPDFAction={DownloadFeeDiscountPDF}
               exportPDFFileName="Fee Discounts.pdf"
               showExportCSV={feeDiscountData.length > 0}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={DownloadFeeDiscountExcel}
               exportCSVFileName="Fee Discounts.xlsx"
               showSearch={true}

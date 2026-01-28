@@ -356,7 +356,7 @@ const Subscription = () => {
                                                     <span className='font14'>-</span>
                                                 </td>
                                                 <td className='greyText text-end'>
-                                                    <span className='font14'>{getSubscriptionData?.renewDate || '-'}</span>
+                                                    <span className='font14'>{getSubscriptionData?.renewDate.split('T')[0] || '-'}</span>
                                                 </td>
                                             </tr>
                                             <tr>

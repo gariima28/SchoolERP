@@ -549,7 +549,7 @@ const ManagePurchase = () => {
               exportPDFFileName="Purchase.pdf"
               // showExportCSV={managePurchaseData.length > 0}
               showExportCSV={false}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={DownloadManagePurchaseExcel}
               exportCSVFileName="Purchase.xlsx"
               showSearch={true}

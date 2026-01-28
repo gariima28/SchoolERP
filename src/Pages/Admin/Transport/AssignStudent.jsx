@@ -223,7 +223,7 @@ const AssignStudent = () => {
                             exportPDFAction={DownloadAssignStudentsPdf}
                             exportPDFFileName="Assigned Students.pdf"
                             showExportCSV={assignStudentData.length > 0}
-                            exportCSVText="Export CSV"
+                            exportCSVText="Export XLSX"
                             exportCSVAction={DownloadAssignStudentsCsv}
                             exportCSVFileName="Assigned Students.xlsx"
                             showSearch={true}

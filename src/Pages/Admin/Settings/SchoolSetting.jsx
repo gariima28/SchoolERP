@@ -299,7 +299,7 @@ const SchoolSetting = () => {
                                     </div>
                                     <div className="col-md-6 col-sm-12 mb-3">
                                         <label htmlFor="warningText" className="form-label font14">Warning Text</label>
-                                        <input id="warningText" onChange={checkForChanges} type="text" className={`form-control font14 ${errors.warningText ? 'border-danger' : ''}`} placeholder="Entes Warning Text" {...register("warningText", { validate: value => { if (!value) return true; if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'Address must contain only letters, digits, and spaces'; } return true; } })} />
+                                        <input id="warningText" onChange={checkForChanges} type="text" className={`form-control font14 ${errors.warningText ? 'border-danger' : ''}`} placeholder="Enter Warning Text" {...register("warningText", { validate: value => { if (!value) return true; if (!/^[a-zA-Z0-9\s,.'-]+$/.test(value)) { return 'Address must contain only letters, digits, and spaces'; } return true; } })} />
                                         {errors.warningText && <p className="font12 text-danger">{errors.warningText.message}</p>}
                                     </div>
                                     <div className="col-md-6 col-sm-12 mb-3">

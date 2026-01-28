@@ -508,7 +508,7 @@ const SessionManager = () => {
                             exportPDFAction={''}
                             exportPDFFileName="Sessions.pdf"
                             showExportCSV={false}
-                            exportCSVText="Export CSV"
+                            exportCSVText="Export XLSX"
                             exportCSVAction={''}
                             exportCSVFileName="Sessions.xlsx"
                         />

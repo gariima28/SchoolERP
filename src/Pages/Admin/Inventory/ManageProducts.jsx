@@ -483,7 +483,7 @@ const ManageProduct = () => {
               exportPDFFileName="Products.pdf"
               // showExportCSV={manageProductData.length > 0}
               showExportCSV={false}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={DownloadManageProductExcel}
               exportCSVFileName="Products.xlsx"
               showSearch={true}

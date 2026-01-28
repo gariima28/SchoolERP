@@ -1090,7 +1090,7 @@ const Event = () => {
               exportPDFText="Export PDF"
               exportPDFAction={TeacherEventPDF}
               showExportCSV={eventAllData?.length > 0}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={EventCSV}
               onSearchChange={handleSearchChange}
             />

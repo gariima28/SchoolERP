@@ -904,7 +904,7 @@ const DailyAttendance = ({ items }) => {
               exportPDFAction={''}
               exportPDFFileName="Daily Attendance.pdf"
               showExportCSV={dailyDataByMonth.length > 0}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               // exportCSVAction={TeacherDailyAttendancehCSVBymonth(sectionId2, month, year)}
               exportCSVAction={() => TeacherDailyAttendancehCSVBymonth(sectionId2, month, year)}
               exportCSVFileName="Daily Attendance.xlsx"

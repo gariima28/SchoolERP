@@ -449,7 +449,7 @@ const ManageIssue = () => {
                 exportPDFAction={''}
                 exportPDFFileName="Issues.pdf"
                 showExportCSV={false}
-                exportCSVText="Export CSV"
+                exportCSVText="Export XLSX"
                 exportCSVAction={''}
                 exportCSVFileName="Issues.xlsx"
               />

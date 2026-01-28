@@ -362,7 +362,7 @@ const DropPoint = () => {
                                 exportPDFAction={''}
                                 exportPDFFileName="Drop Point.pdf"
                                 showExportCSV={false}
-                                exportCSVText="Export CSV"
+                                exportCSVText="Export XLSX"
                                 exportCSVAction={''}
                                 exportCSVFileName="Drop Point.xlsx"
                                 showSearch={true}

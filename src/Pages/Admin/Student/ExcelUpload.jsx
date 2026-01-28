@@ -39,6 +39,7 @@ const ExcelUpload = () => {
     const [allClassData, setAllClassData] = useState([]);
     const [allSectionData, setAllSectionData] = useState([]);
     // const [classNo, setClassNo] = useState();
+    const [loaderState, setLoaderState] = useState(false);
 
     const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm({
         mode: 'onChange'
@@ -81,41 +82,41 @@ const ExcelUpload = () => {
             }
         }
         catch (error) {
-            setloaderState(false);
+            setLoaderState(false);
             toast.error(response.data.message)
             // console.log(error, 'error')
         }
         finally {
-            setloaderState(false);
+            setLoaderState(false);
         }
     }
-  };
+};
 
-  const handleClassChange = (classNoVal) => {
+const handleClassChange = (classNoVal) => {
     setValue('classNo', classNoVal);
     const selectedClass = allClassData.find((c) => c.classNo === classNoVal);
     setAllSectionData(selectedClass?.section || []);
-  };
+};
 
-  // ✅ CORRECT EXCEL DOWNLOAD (Direct URL)
-  const Download_Slip = async () => {
+// ✅ CORRECT EXCEL DOWNLOAD (Direct URL)
+const Download_Slip = async () => {
     try {
-      const response = await DownloadStudentExcelForm();
+        const response = await DownloadStudentExcelForm();
 
-      if (response?.status === 200 && response?.data?.csvUrl) {
-        const fileUrl = response.data.csvUrl;
+        if (response?.status === 200 && response?.data?.csvUrl) {
+            const fileUrl = response.data.csvUrl;
 
-        const link = document.createElement('a');
-        link.href = fileUrl;
-        link.setAttribute('download', 'Student_List.xlsx');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        toast.error('Excel file URL not found');
-      }
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.setAttribute('download', 'Student_List.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            toast.error('Excel file URL not found');
+        }
     } catch (err) {
-      toast.error('Excel download failed');
+        toast.error('Excel download failed');
     }
 
     return (
@@ -124,7 +125,7 @@ const ExcelUpload = () => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="pt-3">
-                            <CSVLink className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' data={csvData} filename={"GeneratedCsvForm.csv"} onClick={()=> Download_Slip()}>
+                            <CSVLink className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' data={csvData} filename={"GeneratedCsvForm.csv"} onClick={() => Download_Slip()}>
                                 Generate CSV File
                             </CSVLink>
                             {/* <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white'>Generate CSV File</button> */}
@@ -150,8 +151,8 @@ const ExcelUpload = () => {
                                 {errors.sectionName && <p className="font12 text-danger">{errors.sectionName.message}</p>}
                             </div>
                             <div className="col-md-12 col-sm-12 col-12">
-                                <label htmlFor="csvFile" className="form-label font14">Upload CSV <span className='text-danger'>*</span></label>
-                                <input id="csvFile" type="file" className={`form-control font14 ${errors.csvFile ? 'border-danger' : ''}`} accept=".csv" onChange={(e) => setValue('csvFile', e.target.files)} {...register('csvFile', { required: 'CSV File is required *' })} />
+                                <label htmlFor="csvFile" className="form-label font14">Upload XLSX <span className='text-danger'>*</span></label>
+                                <input id="csvFile" type="file" className={`form-control font14 ${errors.csvFile ? 'border-danger' : ''}`} accept=".xlsx" onChange={(e) => setValue('csvFile', e.target.files)} {...register('csvFile', { required: 'XLSX File is required *' })} />
                                 {errors.csvFile && <p className="font12 text-danger">{errors.csvFile.message}</p>}
                             </div>
                             <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' type='submit'>+ Add Student</button>

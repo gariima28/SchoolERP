@@ -1114,7 +1114,7 @@ const ClassRoutine = () => {
               exportPDFAction={''}
               exportPDFFileName="Fee Type.pdf"
               showExportCSV={classRoutineData?.length > 0}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={''}
               exportCSVFileName="Fee Type.xlsx"
               showSearch={false}

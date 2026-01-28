@@ -620,6 +620,7 @@ const Holiday = () => {
       setIsValidStartDateRequired(false)
     }
   }
+  
   // end date 
   const handleEndDate = (e2) => {
     setHolidayEndDate(e2);
@@ -954,7 +955,7 @@ const Holiday = () => {
               exportPDFText="Export PDF"
               exportPDFAction={HolidayPDF}
               showExportCSV={false}
-              exportCSVText="Export CSV"
+              exportCSVText="Export XLSX"
               exportCSVAction={HolidayCSV}
               onSearchChange={handleSearchChange}
             />

@@ -401,7 +401,7 @@ const SamplePaper = () => {
                                 exportPDFAction={DownloadSamplePaperPDF}
                                 exportPDFFileName="Sample Paper.pdf"
                                 showExportCSV={allSamplePaperData.length > 0}
-                                exportCSVText="Export CSV"
+                                exportCSVText="Export XLSX"
                                 exportCSVAction={DownloadSamplePaperExcel}
                                 exportCSVFileName="Sample PAper.xlsx"
                             />

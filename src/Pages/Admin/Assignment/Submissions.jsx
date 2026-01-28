@@ -432,7 +432,7 @@ const Submission = () => {
                 exportPDFAction={DownloadSubmissionPDF}
                 exportPDFFileName="Receipts.pdf"
                 showExportCSV={(allSubmissionData || []).length > 0}
-                exportCSVText="Export CSV"
+                exportCSVText="Export XLSX"
                 exportCSVAction={DownloadSubmissionExcel}
                 exportCSVFileName="Submission.xlsx"
               />

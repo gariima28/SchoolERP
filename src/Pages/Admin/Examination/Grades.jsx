@@ -373,7 +373,7 @@ const Grades = () => {
                             exportPDFAction={PdfGradeApi}
                             exportPDFFileName="Grades.pdf"
                             showExportCSV={allGradeData.length > 0}
-                            exportCSVText="Export CSV"
+                            exportCSVText="Export XLSX"
                             exportCSVAction={CsvGradeApi}
                             exportCSVFileName="Grades.xlsx"
                             showSearch={true}

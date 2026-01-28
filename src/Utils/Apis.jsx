@@ -1948,7 +1948,7 @@ export const updateExamTermDataApi = async (id, data) => {
 export const deleteExamTermApi = async (id) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.delete(`${Domain}/exam_category/delete/${id}`);
+    var res = await axios.delete(`${Domain}/exam-terms/delete?examTermId=${id}`);
     if (res) {
       return res;
     } else {

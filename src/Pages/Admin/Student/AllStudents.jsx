@@ -355,7 +355,7 @@ const AllStudents = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {studentData.map((item, index) => (
+                      {studentData?.map((item, index) => (
                         <tr key={item.id} className='my-bg-color align-middle'>
                           <th className='greyText textWrapClass'><h3 className='textWrapClass'>{index + 1 + (currentPage - 1) * pageSize}</h3></th>
                           <td className='greyText textWrapClass'><h3 className='textWrapClass'>{item.studentId}</h3></td>

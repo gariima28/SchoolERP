@@ -244,7 +244,7 @@ const ItemSale = () => {
                 exportPDFAction={''}
                 exportPDFFileName="Sales.pdf"
                 showExportCSV={false}
-                exportCSVText="Export CSV"
+                exportCSVText="Export XLSX"
                 exportCSVAction={''}
                 exportCSVFileName="Sales.xlsx"
               />
