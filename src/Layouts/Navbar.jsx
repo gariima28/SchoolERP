@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import DataLoader from './Loader';
 import { getAdminProfileApi, getParentProfileApi, getStudentProfileApi, selectStudentInParentApi, getStudentsListInParentApi, getSuperAdminProfileApi, getTeacherProfileApi, changePasswordAPI } from 'src/Utils/Apis';
 import { getSchoolDataByIdAPI } from '../Utils/Apis';
+import NotificationBell from '../NotificationBell';
 
 const Container = styled.div`
     padding: 0% !important;
@@ -66,7 +67,9 @@ const ModalContent = styled.div`
     max-width: 32rem;
 `;
 
-const Navbar = ({ openSidebar, setOpenSidebar }) => {
+const Navbar = ({ openSidebar, setOpenSidebar, fireBaseId }) => {
+      console.log('message id in navbar',fireBaseId)
+
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [loaderState, setLoaderState] = useState(false);
     const [data, setData] = useState();
@@ -77,6 +80,7 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+ 
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
@@ -241,8 +245,8 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                         <div className="d-flex">
                                             <img src={schoolData?.schoolPhoto || '/images/defaultSchoolLogo.png'} alt="" height={50} />
                                             <div className='ms-1'>
-                                                <p className='font20 font-bold'>{schoolData?.schoolName}</p>
-                                                <p className='font12'>{schoolData?.schoolName} - {schoolData?.schoolAddress?.length > 20
+                                                <p className='font20 font-bold mb-0'>{schoolData?.schoolName}</p>
+                                                <p className='font12 mb-0'>{schoolData?.schoolName} - {schoolData?.schoolAddress?.length > 20
                                                     ? `${schoolData.schoolAddress.slice(0, 17)}...`
                                                     : schoolData?.schoolAddress}
                                                 </p>
@@ -256,8 +260,12 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                     <div className="col-md-7 col-sm-6 col-6">
                         <div className="d-flex align-self-center mt-1">
                             <div className="flex-grow-1 p-2 align-self-center"></div>
-                            <div className="p-2 align-self-center"></div>
+                            
+                            <div className="p-2 align-self-center" >
+                                <NotificationBell fireBaseId={fireBaseId} />
+                            </div>
                             <div className="row p-2 ms-2 me-md-0 me-1">
+                                
                                 <div className="dropdown">
                                     <div
                                         className="d-flex text-decoration-none text-black p-0 dropdown-toggle"
@@ -273,10 +281,11 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                                                 <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1 roundeImage" src={data?.image} alt="..." height={35} />
                                             )}
                                         </div>
+                                        
                                         <div className="col-md-9 display-nonee text-start3">
                                             <div className="row">
-                                                <p className="font14 pe-0">{data?.name}</p>
-                                                <p className="font14 pe-0">{data?.email}</p>
+                                                <p className="font14 pe-0 mb-0">{data?.name}</p>
+                                                <p className="font14 pe-0 mb-0">{data?.email}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -498,6 +507,9 @@ const Navbar = ({ openSidebar, setOpenSidebar }) => {
                     </div>
                 </div>
             </div>
+
+
+
         </Container>
     );
 };

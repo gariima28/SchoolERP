@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { TeacherLeaveTeacherAllApi } from 'src/Utils/Apis'
@@ -11,6 +10,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import ReactPaginate from 'react-paginate';
 
 
+import styled from 'styled-components';
 // ## style css area start ####  
 
 const Container = styled.div`

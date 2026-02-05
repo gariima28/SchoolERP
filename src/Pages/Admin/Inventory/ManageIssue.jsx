@@ -106,6 +106,15 @@ const Container = styled.div`
         margin-bottom: -18% !important;
         background-color: #fff;
     }
+    .ISSUED{
+        color: #0d6efd !important;
+    }
+    .RETURNED{
+      color: #198754 !important;
+    }
+    .PARTIALLY_RETURNED{
+      color: #fd7e14 !important;
+    }
 `;
 
 const tableHeadingData = [
@@ -283,6 +292,7 @@ const ManageIssue = () => {
     try {
       setLoaderState(true);
       const response = await getAllIssuesApi();
+      console.log('data of issue in inventory',response)
       if (response?.status === 200 && response?.data?.status === 'success') {
         setIssuesData(response.data.issues || []);
         const backdrop = document.querySelector('.offcanvas-backdrop');
@@ -463,7 +473,7 @@ const ManageIssue = () => {
                   <table className="table align-middle table-striped">
                     <thead>
                       <tr>
-                        {tableHeadingData.map((item, index) => (
+                        {tableHeadingData?.map((item, index) => (
                           <th key={index} className={`textWrapClass font14 ${item === 'Action' ? 'text-end' : 'text-center'}`}>
                             {item}
                           </th>
@@ -471,7 +481,8 @@ const ManageIssue = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {issuesData.map((item, index) => (
+                      {
+                      issuesData?.map((item, index) => (
                         <tr key={item.id} className="align-middle">
                           <td className="textWrapClass greyText font14">{index + 1}</td>
                           <td className="textWrapClass greyText font14">{item.categoryName}</td>
@@ -480,15 +491,14 @@ const ManageIssue = () => {
                           <td className="textWrapClass greyText font14">{item.userType}</td>
                           <td className="textWrapClass greyText font14">{item.issueDate}</td>
                           <td className="textWrapClass greyText font14">{item.returnDate}</td>
-                          <td className="textWrapClass greyText font14">{item.returnStatus}</td>
+                          <td className={`textWrapClass greyText font14 ${item.returnStatus === '"PARTIALLY_RETURNED"' ? 'PARTIALLY_RETURNED' : item.returnStatus === 'RETURNED' ? 'RETURNED' : 'ISSUED'}`}>{item.returnStatus}</td>
                           <td className="text-end">
                             <span
                               className="ps-4 greyText"
                               data-bs-toggle="modal"
                               data-bs-target="#viewDetails"
                               style={{ cursor: "pointer" }}
-                              onClick={() => handleViewClick(item.id)}
-                            >
+                              onClick={() => handleViewClick(item.id)}>
                               <RemoveRedEyeOutlinedIcon />
                             </span>
                             <span
@@ -497,8 +507,7 @@ const ManageIssue = () => {
                               data-bs-target="#Edit_staticBackdrop"
                               aria-controls="Edit_staticBackdrop"
                               style={{ cursor: "pointer" }}
-                              onClick={() => handleEditClick(item.id)}
-                            >
+                              onClick={() => handleEditClick(item.id)}>
                               <DriveFileRenameOutlineOutlinedIcon />
                             </span>
                           </td>

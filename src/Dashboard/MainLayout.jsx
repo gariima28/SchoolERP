@@ -7,7 +7,8 @@ import { styled } from "styled-components";
 import introJs from "intro.js";
 import "intro.js/introjs.css";
 
-const Dashboard = () => {
+const Dashboard = ({ fireBaseId }) => {
+  console.log('message id in main layout',fireBaseId)
 
   const [openSidebar, setOpenSidebar] = useState(true);
   const [tourData, setTourData] = useState(false);
@@ -59,7 +60,7 @@ const Dashboard = () => {
       <DashboardMainContainer>
         <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} funcZindex={funcZindex} />
         <ContentWrapper>
-          <Header openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
+          <Header openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} fireBaseId={fireBaseId} />
           <Main showVideo={showVideo} />
         </ContentWrapper>
       </DashboardMainContainer>

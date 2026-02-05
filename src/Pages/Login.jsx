@@ -145,6 +145,11 @@ const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
 
+    const [webNotification, setWebNotification] = useState('WEB');
+
+    const fcmToken = sessionStorage.getItem('fcmToken');
+    console.log(fcmToken, ' in login nowwwww')
+
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -200,26 +205,23 @@ const Login = () => {
             }
             return;
         }
-
         try {
             const data = {
                 email: email,
                 password: pass,
+                fcmToken: fcmToken || '',
+                deviceType: webNotification,
             };
-
             const response = await loginApi(data);
             if (response?.status === 200) {
                 const responseData = response.data;
-
                 const tourData = responseData.isNewLogin
                 // sessionStorage.setItem('booleanForTour',tourData)
                 sessionStorage.setItem(
                     'booleanForTour',
                     JSON.stringify(tourData)
                 );
-                
                 console.log('valid type', typeof(tourData))
-
                 if (responseData.status === 'success') {
                     const loginTimestamp = Date.now();
                     sessionStorage.setItem('loginTimestamp', loginTimestamp);

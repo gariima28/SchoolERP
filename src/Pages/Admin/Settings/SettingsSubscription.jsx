@@ -73,6 +73,8 @@ const Subscription = () => {
     const [viewFeatureOfPlan, setViewFeatureOfPlan] = useState([]);
     const [packageName, setPackageName] = useState('');
 
+      const [loaderState, setloaderState] = useState(false);
+    
     // Pagination
 
     const [currentPage, setCurrentPage] = useState(1);

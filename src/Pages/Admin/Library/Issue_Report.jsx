@@ -494,22 +494,7 @@ const Issue_Report = () => {
 
 
   const token = sessionStorage.getItem;
-  // CSV 
-  const [csvData, setCsvData] = useState([]);
-
-  // const Download_Slip = async () => {
-  //   try {
-  //     const response = await BookManCSV();
-  //     if (response?.status === 200) {
-  //       const rows = response?.data?.split('\n').map(row => row.split(','));
-  //       setCsvData(rows);
-  //       // setTableData(rows.slice(1));
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // CSV 
+  
   // PDF 
   const base64ToBlob = (base64Data, contentType) => {
     const byteCharacters = atob(base64Data);
@@ -529,24 +514,6 @@ const Issue_Report = () => {
     return blob;
   };
 
-  // useEffect(() => {
-  //   DownloadPDF();
-  // }, [token])
-
-  // PDF Download Response
-  // const DownloadPDF = async () => {
-  //   try {
-  //     const response = await BookManPDF();
-  //     if (response?.status === 200) {
-  //       if (response?.data?.status === 'success') {
-  //         setPDFResponse(response?.data);
-  //       }
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //     setLoader(false)
-  //   }
-  // };
   // Handle PDF Download in Device
   const handleDownloadPdf = () => {
     const { pdf } = PDFResponse;
@@ -570,8 +537,6 @@ const Issue_Report = () => {
 
   const [classId, setClassID] = useState()
   const [studentId, setStudentId] = useState()
-  // const [sectionId, setSectionID] = useState()
-
   const [classData, setClassdata] = useState([])
   const [sectionData, setSectionData] = useState([])
   const [allBook, setAllBook] = useState([])
@@ -1017,7 +982,7 @@ const Issue_Report = () => {
               showAddButton={false}
               addButtonText=""
               addButtonAction={''}
-              showExportPDF={true}
+              showExportPDF={false}
               exportPDFText="Export PDF"
               exportPDFAction={IssueAndReturnPDF}
               exportPDFFileName="Daily Attendance.pdf"

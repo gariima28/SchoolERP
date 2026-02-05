@@ -15,6 +15,9 @@ const Container= styled.div`
     .modalLightBorder{
         border-bottom: 1px solid var(--modalBorderColor);
     }
+    /* .deleteButtons{
+        width: 80px !important;
+    } */
 
 `;
 
@@ -30,8 +33,8 @@ const Logout = () => {
                     </svg></span>
                     <p className=' warningHeading'>Are you Sure?</p>
                     <p className='greyText warningText'>Are you Sure you want to logout?</p>
-                    <p className='text-center p-3'>
-                    <Link className='btn deleteButtons text-white' to='/login'>Logout</Link>
+                    <p className='text-center p-2 '>
+                    <Link className='btn deleteButtons  text-white' to='/login'>Logout</Link>
                     <button className='btn dltcancelButtons'>Cancel</button>
                     </p>
                 </div>

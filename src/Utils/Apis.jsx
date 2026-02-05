@@ -3,8 +3,8 @@ const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
 // const Domain = 'http://192.168.21.232:5000';
-const Domain = 'https://auth.edu2all.in/sch';
-// const Domain = 'https://test.edu2all.in/sch';
+// const Domain = 'https://auth.edu2all.in/sch';
+const Domain = 'https://test.edu2all.in/sch';
 
 
 // ******************************************************************************************************
@@ -1856,7 +1856,8 @@ export const PdfGradeApi = async () => {
 export const CsvGradeApi = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.delete(`${Domain}/api/grades/csv`);
+        var res = await axios.get(`${Domain}/api/grades/csv`);
+    // var res = await axios.delete(`${Domain}/api/grades/csv`);
     if (res) {
       return res;
     } else {
@@ -2665,7 +2666,20 @@ export const deleteExamScheduleApi = async (id) => {
   }
 }
 
-
+// exam-schedule-CSV download 
+export const getExamScheduleDataCSVApi = async (classNo_Search, subject_Search) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/api/exam-schedule/csv?classNo=${classNo_Search}&subject=${subject_Search}`);
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
 export const getExamScheduleDataByIdApi = async (id) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
@@ -6321,12 +6335,90 @@ export const ClassRoutineSlotPostApi = async (datares) => {
     return [];
   }
 }
+//  get all Api CSV
+export const SlotGetAllCSVApi = async (classNo, sectionName) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/routine/getCSV?classNo=${classNo}&section=${sectionName}`)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
 //  get all Api 
 export const SlotGetAllApi = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     //   const res= await axios.post(`${girjeshServer}/routine/addRoutine`,datares)
     const res = await axios.get(`${Domain}/period/all`)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+
+//  Notification get all Api 
+export const NotificationGetAll = async (all, unRead) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/api/notifications/getAll?filter=${all || unRead}`)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+
+
+//  Notification count get all Api 
+export const NotificationCountGetAll = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/api/notifications/unread/count`)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+//  Notification mark as read get all Api 
+export const NotificationMarkAsReadGetAll = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.put(`${Domain}/api/notifications/markAllRead`)
+    if (res) {
+      return res;
+    }
+    else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+//  Notification  get by id data all Api 
+export const NotificationGetByIdData = async (id) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    const res = await axios.get(`${Domain}/api/notifications/getById/${id}`)
     if (res) {
       return res;
     }

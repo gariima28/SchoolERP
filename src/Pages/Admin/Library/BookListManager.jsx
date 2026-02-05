@@ -996,7 +996,7 @@ const BookListManager = () => {
           {/* ###### copy content till here for all component ######  */}
 
           <div className="table-container px-3 table-responsive">
-            {BookManagerData.length > 0 ?
+            {BookManagerData?.length > 0 ?
               <>
                 <table className="table table-sm table-striped text-center ">
                   <thead className=''>
@@ -1008,6 +1008,7 @@ const BookListManager = () => {
                       <th className='no-wrap'>Book Cover</th>
                       <th className='no-wrap'>Price</th>
                       <th className='no-wrap'>Quantity</th>
+                      <th className='no-wrap'>Avail Copies</th>
                       <th className='no-wrap'>Action</th>
                     </tr>
                   </thead>
@@ -1028,6 +1029,7 @@ const BookListManager = () => {
                             </td>
                             <td className=' greyText pe-0 no-wrap my-anchor-view'>{item.price}</td>
                             <td className=' greyText pe-0 no-wrap'>{item.noOfCopies}</td>
+                            <td className=' greyText pe-0 no-wrap'>{item.availableCopies}</td>
                             <td className=' greyText  pe-0 no-wrap' >
                               <div className="dropdown my-button-show d-flex justify-content-around align-items-start">
                                 <div className="dropdown-item" data-bs-toggle="offcanvas" style={{ cursor: 'pointer' }} data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => BookManGetByIdApi(item.bookId)}>
