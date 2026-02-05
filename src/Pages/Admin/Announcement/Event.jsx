@@ -580,6 +580,7 @@ const Event = () => {
   const buttManage = () => {
     setManageButton(!manageButton)
   }
+
   const handleFileChange2 = (event) => {
     const file = event.target.files[0];
     setImageFile2(file);
@@ -872,10 +873,10 @@ const Event = () => {
         setLoader(false)
       }
     }
-
   }
   // Event Get All Api   
   const MyEventGetAllApi = async () => {
+
     setLoader(true)
     try {
       const response = await EventGetAllApi(searchKey, pageNo, pageSize);
@@ -1070,6 +1071,7 @@ const Event = () => {
       <div className="container-fluid main-body p-3">
 
         <div className='d-flex justify-content-between for-dislay-direction'>
+
           <div className="breadCrum ms-2">
             <nav style={{ '--bs-breadcrumb-divider': "'>'" }} aria-label="breadcrumb">
               <ol className="breadcrumb ms-2">
@@ -1078,6 +1080,7 @@ const Event = () => {
               </ol>
             </nav>
           </div>
+
           {/* new csv design */}
           <div className="d-flex g-1 for-media-query">
             <ActionControls
@@ -1096,6 +1099,19 @@ const Event = () => {
             />
           </div>
         </div>
+
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style={{color:'red'}}>
+          <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="..." />
+              <strong class="me-auto">Bootstrap</strong>
+              <small>11 mins ago</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            Hello, world! This is a toast message.
+          </div>
+        </div>
+
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-22px' }}>Event Details</h5>
         <div className="main-content-conatainer pt-1 ">
           <div className="table-container px-3 table-responsive">
@@ -1108,6 +1124,7 @@ const Event = () => {
                   <th className='no-wrap'>End Date & Time</th>
                   <th className='no-wrap'>Event for Role</th>
                   <th className='no-wrap'>Event for Class</th>
+                  <th className='no-wrap'>File</th>
                   <th className='no-wrap'>Status</th>
                   <th className='no-wrap'>Actions</th>
                 </tr>
@@ -1205,7 +1222,17 @@ const Event = () => {
                             item.eventForClassNos
                           )}
                         </td>
-
+                        <td className='greyText ps-1 no-wrap text-center'>
+                          {item.eventFiles && (
+                            <Icon
+                              icon="mdi:eye"
+                              width="30"
+                              title="View File"
+                              style={{ cursor: "pointer", color: "#008478" }}
+                              onClick={() => window.open(item.eventFiles, "_blank")}
+                            />
+                          )}
+                        </td>
                         <td className='greyText ps-1 no-wrap'>
                           <span className={`status-badge ${item.status.toLowerCase()}`}>
                             {item.status}

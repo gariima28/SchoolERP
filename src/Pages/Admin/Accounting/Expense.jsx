@@ -911,8 +911,8 @@ const Expense = () => {
                 </div>
               </div>
             </div> */}
-            <div className="col-lg-6 col-md-6 col-sm-12">
-              <label className="form-label label-color heading-14">
+            <div className="col-lg-6 col-md-6 col-sm-12 ">
+              <label className="form-label label-color heading-14 mb-1" >
                 Date Range
               </label>
 

@@ -7,17 +7,20 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 import { MyUseContext } from '../src/Pages/Admin/ContextApi/UseContext.jsx';
 
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css/animate.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 // Create a wrapper component to hold the state
 const ContextWrapper = ({ children }) => {
   const [myId, setMyId] = useState();
   const [profileImageForBasicInfo, setProfileImageForBasicInfo] = useState(null);
 
-
   return (
     <MyUseContext.Provider value={{
       myId, setMyId, profileImageForBasicInfo,
-      setProfileImageForBasicInfo
-    }}>
+      setProfileImageForBasicInfo}}>
       {children}
     </MyUseContext.Provider>
   )

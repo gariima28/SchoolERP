@@ -1720,9 +1720,13 @@ textarea:disabled {
     background-color: var(--redColorBtn) !important;
     border: none !important;
     border-radius: 0px;
-    width: 75px;
+    /* width: 75px; */
+    width: 80px ;
     height: 38px;
     cursor: pointer !important;
+}
+.deleteButtons2{
+    width: 80px !important;
 }
 
 .actionButtons,

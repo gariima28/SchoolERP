@@ -13,6 +13,7 @@ import { ClassRoutineCSV } from 'src/Utils/Apis'
 import { ClassRoutineBySearchGetAll } from 'src/Utils/Apis'
 import { ClassRoutineSlotPostApi } from 'src/Utils/Apis'
 import { SlotGetAllApi } from 'src/Utils/Apis'
+import { SlotGetAllCSVApi } from 'src/Utils/Apis'
 import { ClassRoutineGetByIdApi } from 'src/Utils/Apis'
 import { ClassRoutinePutApi } from 'src/Utils/Apis'
 import { SlotGetByIdApi } from 'src/Utils/Apis'
@@ -467,9 +468,11 @@ const ClassRoutine = () => {
 
   const [breakType, setBreakType] = useState('')
   const [classNo, setClassNo] = useState('')
+  console.log('classNo is ', classNo)
   const [classId, setClassId] = useState()
   const [section, setSection] = useState('')
   const [sectionName, setSectionName] = useState('')
+  console.log('section is ', sectionName)
   const [subjectId, setSubjectId] = useState('')
   const [teacherId, setTeacherId] = useState('')
   const [day, setDay] = useState()
@@ -1115,7 +1118,10 @@ const ClassRoutine = () => {
               exportPDFFileName="Fee Type.pdf"
               showExportCSV={classRoutineData?.length > 0}
               exportCSVText="Export XLSX"
-              exportCSVAction={''}
+              exportCSVAction={() =>
+                SlotGetAllCSVApi(classNo, sectionName)
+              }
+              // exportCSVAction={() => ExportToExcel(csvData, 'Class Routine')}
               exportCSVFileName="Fee Type.xlsx"
               showSearch={false}
               searchValue={searchKey}
@@ -1167,7 +1173,7 @@ const ClassRoutine = () => {
           </div>
 
           {
-            classRoutineData.length > 0 ?
+            classRoutineData?.length > 0 ?
               <div className="table-container px-3 pt-4 table-responsive w-100">
                 <table className="table table-sm table-bordered align-item-center">
                   <thead className='text-center '>

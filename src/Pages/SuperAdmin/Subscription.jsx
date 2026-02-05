@@ -729,7 +729,7 @@ const Subscription = () => {
 
                       <td className=' greyText'>{item.email}</td>
                       <td className=' greyText'>{item.phoneNo}</td>
-                      <td className={`${item.status === true ? 'statusBgActive' : 'statusBgDeActive'}`}>{`${item.status === true ? 'Active' : 'DeActivate'}`}</td>
+                      <td className={`${item.status === true ? 'statusBgActive' : 'statusBgDeActive'}`}>{`${item.status === true ? 'Active' : 'Inactive'}`}</td>
                       <td className=' greyText'>
                         <div className="dropdown my-button-show">
                           <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -19,6 +19,12 @@ const Container = styled.div`
         overflow: visible !important;
         background-color: #00A67E !important;
     }
+    .redColor{
+      color: #B50000 !important;
+    }
+    .greenColor{
+      color: #008479 !important;
+    }
 
     .viewbutton {
         border-radius: 30px;
@@ -266,7 +272,7 @@ const ItemSale = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {salesData.map((item, index) => (
+                      {salesData?.map((item, index) => (
                         <tr key={item.id} className="align-middle">
                           <td className="textWrapClass greyText font14">{index + 1}</td>
                           <td className="textWrapClass greyText font14">{item.invoiceNumber}</td>
@@ -276,7 +282,7 @@ const ItemSale = () => {
                           </td>
                           <td className="textWrapClass greyText font14">{item.discount.toFixed(2)}</td>
                           <td className="textWrapClass greyText font14">{item.grandTotal.toFixed(2)}</td>
-                          <td className="textWrapClass greyText font14">{item.saleStatus}</td>
+                          <td className={`textWrapClass greyText font14 ${item.saleStatus !== 'PAID' ? 'greenColor' : 'redColor'}`} >{item.saleStatus}</td>
                           <td className="text-end">
                             {item.saleStatus !== 'PAID' && (
                               <span
@@ -366,7 +372,7 @@ const ItemSale = () => {
                             <div className="row mt-2">
                               <div className="col-6">
                                 <div className="row">
-                                  <div className="col-5"><span>Gross Amount</span></div>
+                                  <div className="col-5"><span>Gross   Amount</span></div>
                                   <div className="col-2"><span>:</span></div>
                                   <div className="col-5">
                                     <span>{selectedSale.items.reduce((sum, i) => sum + (i.subTotal || 0), 0).toFixed(2)}</span>
@@ -398,7 +404,7 @@ const ItemSale = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {selectedSale.items.map((data, index) => (
+                                {selectedSale?.items.map((data, index) => (
                                   <tr key={index} className="align-middle">
                                     <td className="font14 pt-3 textWrapClass greyText">{index + 1}</td>
                                     <td className="font14 pt-3 textWrapClass greyText">{data.supplierName}</td>
