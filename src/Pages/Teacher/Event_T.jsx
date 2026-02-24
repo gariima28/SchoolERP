@@ -324,15 +324,15 @@ font-size: 12px;
         border-radius: 0;
     }
     .my-Ongoing-status{
-     border: 1px solid var( --OnGoingStatus) ;
+     border: 1px solid #41AD49;
      border-radius: 15px;
      width: 100%;
      color: #41AD49 !important;
-     padding:  1px 0px;
+     padding:  1px 4px;
      text-align: center;
     }
     .my-Upcoming-status{
-     border: 1px solid var(--UpcomingStatus) ;
+     border: 1px solid #4F3EE0 ;
      border-radius: 15px;
      width: 100%;
      color: #4F3EE0 !important;
@@ -340,11 +340,11 @@ font-size: 12px;
      text-align: center;
     }
     .my-Closed-status{
-     border: 1px solid var(  --ClosedStatus) ;
+     border: 1px solid #B50000;
      border-radius: 15px;
      width: 70%;
      color: #B50000 !important;
-     padding: 1px;
+     padding: 4px 2px;
      text-align: center;
     }
     .button00{
@@ -931,7 +931,7 @@ const Event = () => {
                       <td className=' no-wrap greyText pe-0'>{item.endDate} {item.endTime}</td>
 
                       <td className='greyText pe-0 no-wrap'>
-                        <p className={`greyText pe-0 ${item.status === "Ongoing" ? 'my-Ongoing-status' : `${item.status === "Upcoming" ? 'my-Upcoming-status' : 'my-Closed-status'}`}`}>{item.status}</p>
+                        <p className={` mb-1 greyText pe-0 ${item.status === "Ongoing" ? 'my-Ongoing-status' : `${item.status === "Upcoming" ? 'my-Upcoming-status' : 'my-Closed-status'}`}`}>{item.status}</p>
                       </td>
                       
                         {/* <td className='greyText ps-1 no-wrap'>

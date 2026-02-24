@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { BallTriangle, Circles, ThreeCircles } from "react-loader-spinner"
+import styled from 'styled-components';
 
 const DataLoaderContainer = styled.div`
   position: fixed;

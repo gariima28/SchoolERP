@@ -569,6 +569,7 @@ const DailyAttendance = ({ items }) => {
   const [dailyAttenSearDateData, setDailyAttenSearDateData] = useState([])
   const [dailyDataByMonth, setDailyDataByMonth] = useState([])
   const [myTrueFalse, setMyTrueFalse] = useState(true)
+  const [openAttendance, setOpenAttendance] = useState(false);
 
   const sectionHandle = (e) => {
     setSectionId2(parseInt(e))
@@ -810,6 +811,16 @@ const DailyAttendance = ({ items }) => {
     setPageNo(1);
   };
 
+  useEffect(() => {
+  const closeDropdown = (e) => {
+    if (!e.target.closest(".position-relative")) {
+      setOpenAttendance(false);
+    }
+  };
+  document.addEventListener("click", closeDropdown);
+  return () => document.removeEventListener("click", closeDropdown);
+}, []);
+
   return (
     <Container>
       {
@@ -849,7 +860,43 @@ const DailyAttendance = ({ items }) => {
               searchAction={MyDailyAttendanceGetAllApiByMonth}
               onSearchChange={handleSearchChange}
             />
-            <div class="dropdown" >
+            <div className="position-relative d-inline-block me-3">
+              <button
+                className="btn btn-success heading-16 my-own-button"
+                onClick={() => setOpenAttendance(!openAttendance)}
+              >
+                Attendance ▾
+              </button>
+
+              {openAttendance && (
+                <div className="custom-dropdown">
+
+                  <button
+                    className="dropdown-item"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight"
+                    onClick={() => {
+                      clearDataHandle();
+                      setOpenAttendance(false);
+                    }}
+                  >
+                    Take Attendance
+                  </button>
+
+                  <button
+                    className="dropdown-item"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight123"
+                    onClick={() => setOpenAttendance(false)}
+                  >
+                    Update Attendance
+                  </button>
+
+                </div>
+              )}
+            </div>
+
+            {/* <div class="dropdown" >
               <button className="btn btn-success heading-16 my-own-button me-3  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
                 Attendance
               </button>
@@ -857,7 +904,7 @@ const DailyAttendance = ({ items }) => {
                 <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to="#" onClick={clearDataHandle} >Take Attendance</Link></li>
                 <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight123" aria-controls="offcanvasRight" to="#">Update Attendance</Link></li>
               </ul>
-            </div>
+            </div> */}
           </div>
 
         </div>

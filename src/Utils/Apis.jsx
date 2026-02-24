@@ -3,6 +3,7 @@ const token = `Bearer ${sessionStorage.getItem('token')}`;
 const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
 // const Domain = 'http://192.168.21.232:5000';
+// const Domain = 'http://192.168.20.109:5000'; 
 // const Domain = 'https://auth.edu2all.in/sch';
 const Domain = 'https://test.edu2all.in/sch';
 
@@ -405,6 +406,20 @@ export const getAllPlanApi = async (searchKeyData, pageNo, size) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     var res = await axios.get(`${Domain}/plan/getAllPlan?searchKey=${searchKeyData}&page=${pageNo}&size=${size}`);
+
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
+export const getAllByIdPlanApi = async (id) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.get(`${Domain}/plan/getById?planId=${id}`);
 
     if (res) {
       return res;

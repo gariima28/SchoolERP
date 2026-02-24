@@ -691,7 +691,7 @@ const Holiday = () => {
           setLoader(false)
         }
       } catch (error) {
-        setloaderState(false);
+        // setloaderState(false);
         // console.log(error)
         setLoader(false)
       }
@@ -1096,7 +1096,7 @@ const Holiday = () => {
                                                   </tr>
                                               </thead>
                                               <tbody>
-                                                  {holidayData.map((item, index) => (
+                                                  {holidayData?.map((item, index) => (
                                                       <tr key={item.holidayId}>
                                                           <td className='textWrapClass font14 greyText'>{index + 1}</td>
                                                           <td className='textWrapClass font14 greyText'>{item.holidayTitle}</td>

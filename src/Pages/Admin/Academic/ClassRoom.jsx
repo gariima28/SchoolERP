@@ -12,6 +12,7 @@ import { ClassRoomPutApi } from 'src/Utils/Apis'
 import HashLoader from 'src/Pages/HashLoaderCom';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { Offcanvas } from "bootstrap";
 
 // ## style css area start ####  
 
@@ -351,8 +352,15 @@ font-size: 12px;
     border: 1px solid #ddd;
     text-decoration: none;
     color: #000;
-    /* background-color: #f5f5f5;
-    transition: background-color 0.3s; */
+}
+.my-dropdown-item:focus,
+.my-dropdown-item:active,
+.my-dropdown-item.active,
+.dropdown-item:focus,
+.dropdown-item:active,
+.dropdown-item.active {
+  background-color: #fff !important;
+  color: #000 !important;
 }
 
 .pagination li a:hover {
@@ -501,42 +509,65 @@ const ClassRoom = () => {
   const offcanvasRef22 = useRef()
   const offcanvasRef33 = useRef()
 
-  // Post Api 
+  useEffect(() => {
+    return () => {
+      forceRemoveBackdrop();
+    };
+  }, []);
+
+  const forceRemoveBackdrop = () => {
+    // remove backdrop elements
+    document.querySelectorAll(".offcanvas-backdrop").forEach(el => el.remove());
+    // remove body classes & styles added by bootstrap
+    document.body.classList.remove("offcanvas-open");
+    document.body.style.removeProperty("overflow");
+    document.body.style.removeProperty("padding-right");
+  };
+  const openCanvas = (ref) => {
+    const instance = Offcanvas.getOrCreateInstance(ref.current);
+    instance.show();
+  };
+  const closeCanvas = (ref) => {
+    const instance = Offcanvas.getOrCreateInstance(ref.current);
+    instance.hide();
+
+    setTimeout(() => {
+      forceRemoveBackdrop();
+    }, 300);
+  };
+
+
+  // Post api 
   const SubcPutDataApi = async () => {
-    setLoader(true)
+
     if (FuncValidation()) {
       const formData = new FormData()
       formData.append('roomNo', addclassroom);
+      setLoader(true)
       try {
         const response = await ClassRoomPostApi(formData);
         if (response?.status === 200) {
           if (response?.data?.status === "success") {
             toast.success(response?.data?.message);
-            ClassRoomGetAllApi()
-            setShow(false)
-            setHide(true)
-            setLoader(false)
-            setAddclassroom('')
-            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-            offcanvasInstance.hide();
-            setTimeout(() => {
-              setShow(true)
-            }, 0.5)
-          } else {
+            ClassRoomGetAllApi();
+            setLoader(false);
+            setAddclassroom('');
+
+            closeCanvas(offcanvasRef)
+          }
+          else {
             toast.error(response?.data?.message);
             setLoader(false)
+            setShow(true)
           }
         } else {
           toast.error(response?.data?.message);
           setLoader(false)
         }
       } catch (error) {
-        // setloaderState(false);
         setLoader(false)
-        // console.log(error)
       }
     }
-
   }
   // Get All Api 
   const ClassRoomGetAllApi = async () => {
@@ -564,15 +595,11 @@ const ClassRoom = () => {
       if (response?.status === 200) {
         if (response?.data?.status === "success") {
           toast.success(response?.data?.message);
+          setForDelete(false)
           ClassRoomGetAllApi()
           setLoader(false)
-          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
-          offcanvasInstance.hide();
-          setTimeout(() => {
-            setShowdelete(true)
-          }, 0.5)
+          closeCanvas(offcanvasRef33)
         }
-
       } else {
         toast.error(response?.data?.message);
         setLoader(false)
@@ -584,6 +611,11 @@ const ClassRoom = () => {
       // console.log(error)
     }
   }
+  // const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
+  // offcanvasInstance.hide();
+  // setTimeout(() => {
+  //   setShowdelete(true)
+  // }, 0.5)
   // Get by id 
   const MyClassRoomGetByIdApi = async (id) => {
     setLoader(true)
@@ -617,12 +649,7 @@ const ClassRoom = () => {
           setHideedit(true)
           ClassRoomGetAllApi()
           setLoader(false)
-
-          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-          offcanvasInstance.hide();
-          setTimeout(() => {
-            setShowadd(true)
-          }, 0.5)
+          closeCanvas(offcanvasRef22);
 
         } else {
           toast.error(response?.data?.message);
@@ -638,6 +665,7 @@ const ClassRoom = () => {
     }
 
   }
+
   const handleForDelete = () => {
     ClassRoomDeleteApi(deleteroomid)
   }
@@ -677,13 +705,12 @@ const ClassRoom = () => {
             </nav>
           </div>
           <div className='d-flex g-1 for-media-query'>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight12" aria-controls="offcanvasRight" to={''} >+ ADD Class Room</Link>
+            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight12" aria-controls="offcanvasRight" to={''} onClick={() => openCanvas(offcanvasRef)}>+ ADD Class Room</Link>
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-12px' }}>Class Room List</h5>
-
+        {/* Table  */}
         <div className="main-content-conatainer pt-1 ">
-
           <div className="table-container px-3 table-responsive">
 
             <table className="table table-sm table-striped">
@@ -711,8 +738,30 @@ const ClassRoom = () => {
                               </svg>
                             </button>
                             <ul className="dropdown-menu anchor-color heading-14">
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight1234" aria-controls="offcanvasRight" onClick={(e) => MyClassRoomGetByIdApi(item.roomId)} >Edit</Link></li>
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight2233" aria-controls="offcanvasRight" onClick={(e) => setDeleteroomid(item.roomId)}>Delete</Link></li>
+                              <li>
+                                <Link
+                                  className="dropdown-item"
+                                  to=""
+                                  onClick={() => {
+                                    MyClassRoomGetByIdApi(item.roomId);
+                                    openCanvas(offcanvasRef22);
+                                  }}
+                                >
+                                  Edit
+                                </Link>
+                              </li>
+                              <li>
+                                <Link
+                                  className="dropdown-item my-dropdown-item "
+                                  to=""
+                                  onClick={() => {
+                                    setDeleteroomid(item.roomId);
+                                    openCanvas(offcanvasRef33);
+                                  }}
+                                >
+                                  Delete
+                                </Link>
+                              </li>
                             </ul>
                           </div>
                         </td>
@@ -749,115 +798,117 @@ const ClassRoom = () => {
             </div>
           </div>
         </div>
-        {
-          show && (
-            <>
-              <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight12" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
-                <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" onClick={ClearData}><img src="/images/Vector (13).svg" alt="" /></Link>
-                  <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel" >Add Class Room</h5>
-                </div>
-                <hr className='' style={{ marginTop: '-3px' }} />
-                <div className="offcanvas-body pt-0">
-                  <div className="mb-1  ">
-                    <div class="mb-3">
-                      <label for="exampleFormControlInput1" class="form-label heading-16">Class Room </label>
-                      <input type="email" class="form-control form-control-sm" value={addclassroom} onChange={(e) => handleClassNo(e.target.value)} id="exampleFormControlInput1" placeholder="Enter Class Room No" />
-                    </div>
-                  </div>
-                  <div className='pt-1'>
-                    {isValidNameRequired && (
-                      <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                        Class room  required
-                      </p>
-                    )}
-                  </div>
-                  <div className='my-button11 '>
-                    <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { SubcPutDataApi() }} style={{ backgroundColor: '#008479', color: '#fff' }}>Add Class Room</button>
-                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
-                    <Toaster />
-                  </div>
-                </div>
+
+        <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight12" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef}>
+          <div className="offcanvas-header">
+            <Link onClick={() => { closeCanvas(offcanvasRef); ClearData(); }}><img src="/images/Vector (13).svg" alt="" /></Link>
+            <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel" >Add Class Room</h5>
+          </div>
+          <hr className='' style={{ marginTop: '-3px' }} />
+          <div className="offcanvas-body pt-0">
+            <div className="mb-1  ">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label heading-16">Class Room </label>
+                <input type="email" class="form-control form-control-sm" value={addclassroom} onChange={(e) => handleClassNo(e.target.value)} id="exampleFormControlInput1" placeholder="Enter Class Room No" />
               </div>
-            </>
-          )
-        }
-
-        {
-          showadd && (
-            <>
-              <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
-                <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" ><img src="/images/Vector (13).svg" alt="" /></Link>
-                  <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class Room</h5>
-                </div>
-                <hr className='' style={{ marginTop: '-3px' }} />
-                <div className="offcanvas-body">
-                  <div className="mb-1">
-                    <div class="mb-3">
-                      <label for="exampleFormControlInput1" class="form-label heading-16">Class Room</label>
-                      <input type="email" class="form-control form-control-sm" value={addclassroom} onChange={(e) => handleClassNo(e.target.value)} id="exampleFormControlInput1" placeholder="Enter Room No" />
-                    </div>
-                    <div className='pt-1'>
-                      {isValidNameRequired && (
-                        <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
-                          Class no required
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className='my-button11 '>
-                    <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => MyClassRoomPutApi(updateoomid)} style={{ backgroundColor: '#008479', color: '#fff' }}>Update </button>
-                    <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
-                  </div>
-                </div>
-              </div>
-            </>
-          )
-        }
-
-        <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight2233" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
-          {
-            showdelete && (
-              <div className="container-fluid">
-                <div className="offcanvas-header p-0 pt-3">
-                  <Link data-bs-dismiss="offcanvas" className='ps-3' onClick={ClearData2}><img src="/images/Vector (13).svg" alt="" /></Link>
-                  <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
-                </div>
-                <hr className='' />
-
-                <div className="offcanvas-body">
-                  <div className="sure-main-container mt-4">
-                    <div className="sure-container">
-                      <div>
-                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M29.5312 0.46875C13.2656 0.46875 0 13.7344 0 30C0 46.2656 13.2656 59.5312 29.5312 59.5312C45.7969 59.5312 59.0625 46.2656 59.0625 30C59.0625 13.7344 45.7969 0.46875 29.5312 0.46875ZM29.5312 55.7812C15.3281 55.7812 3.75 44.2031 3.75 30C3.75 15.7969 15.3281 4.21875 29.5312 4.21875C43.7344 4.21875 55.3125 15.7969 55.3125 30C55.3125 44.2031 43.7344 55.7812 29.5312 55.7812Z" fill="#B50000" />
-                          <path d="M31.4062 25.5469H27.6562V44.2969H31.4062V25.5469Z" fill="#B50000" />
-                          <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
-                        </svg>
-                      </div>
-                      <div className="sure-content mt-2">
-                        <h5 className='heading-20'>Are you sure?</h5>
-                        <p>This Action will be permanently <br /> delete the Profile Data</p>
-                      </div>
-                      <div className="form-check mt-1">
-                        <input className="form-check-input my-form-check-input2 " onClick={() => setForDelete(!forDelete)} checked={forDelete} type="checkbox" value="" id="flexCheckDefault" />
-                        <label className="form-check-label agree" for="flexCheckDefault">
-                          I Agree to delete the Profile Data
-                        </label>
-                      </div>
-                      <div className="mt-4">
-                        <button type="button" className="btn my-btn  button00" disabled={forDelete ? false : true} onClick={handleForDelete}>Delete</button>
-                        <button type="button" className="btn  cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData2}>Cancel</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )
-          }
-
+            </div>
+            <div className='pt-1'>
+              {isValidNameRequired && (
+                <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                  Class room  required
+                </p>
+              )}
+            </div>
+            <div className='my-button11 '>
+              <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => { SubcPutDataApi() }} style={{ backgroundColor: '#008479', color: '#fff' }}>Add Class Room</button>
+              <button type="button" className="btn cancelButtons text-black heading-16" data-bs-dismiss="offcanvas" aria-label="Close" onClick={ClearData}>Cancel</button>
+              <Toaster />
+            </div>
+          </div>
         </div>
+
+        <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight1234" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef22}>
+          <div className="offcanvas-header">
+            <Link onClick={() => { closeCanvas(offcanvasRef22); ClearData(); }}>
+              <img src="/images/Vector (13).svg" alt="" />
+            </Link>
+            <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Class Room</h5>
+          </div>
+
+          <hr className='' style={{ marginTop: '-3px' }} />
+          <div className="offcanvas-body">
+            <div className="mb-1">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label heading-16">Class Room</label>
+                <input type="email" class="form-control form-control-sm" value={addclassroom} onChange={(e) => handleClassNo(e.target.value)} id="exampleFormControlInput1" placeholder="Enter Room No" />
+              </div>
+              <div className='pt-1'>
+                {isValidNameRequired && (
+                  <p className='ms-1' style={{ color: 'red', fontSize: '14px', marginTop: '-18px' }}>
+                    Class no required
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className='my-button11 '>
+              <button type="button" className="btn btn-outline-success heading-16 btn-bgAndColor" onClick={(e) => MyClassRoomPutApi(updateoomid)} style={{ backgroundColor: '#008479', color: '#fff' }}>Update</button>
+              <button
+                type="button"
+                className="btn cancelButtons text-black heading-16"
+                onClick={() => { closeCanvas(offcanvasRef22); ClearData(); }}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight2233" aria-labelledby="offcanvasRightLabel" ref={offcanvasRef33}>
+          <div className="container-fluid">
+            <div className="offcanvas-header p-0 pt-3">
+              <Link onClick={() => { closeCanvas(offcanvasRef33); ClearData2(); }}>
+                <img src="/images/Vector (13).svg" alt="" />
+              </Link>
+              <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
+            </div>
+            <hr className='' />
+
+            <div className="offcanvas-body">
+              <div className="sure-main-container mt-4">
+                <div className="sure-container">
+                  <div>
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M29.5312 0.46875C13.2656 0.46875 0 13.7344 0 30C0 46.2656 13.2656 59.5312 29.5312 59.5312C45.7969 59.5312 59.0625 46.2656 59.0625 30C59.0625 13.7344 45.7969 0.46875 29.5312 0.46875ZM29.5312 55.7812C15.3281 55.7812 3.75 44.2031 3.75 30C3.75 15.7969 15.3281 4.21875 29.5312 4.21875C43.7344 4.21875 55.3125 15.7969 55.3125 30C55.3125 44.2031 43.7344 55.7812 29.5312 55.7812Z" fill="#B50000" />
+                      <path d="M31.4062 25.5469H27.6562V44.2969H31.4062V25.5469Z" fill="#B50000" />
+                      <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
+                    </svg>
+                  </div>
+                  <div className="sure-content mt-2">
+                    <h5 className='heading-20'>Are you sure?</h5>
+                    <p>This Action will be permanently <br /> delete the Profile Data</p>
+                  </div>
+                  <div className="form-check mt-1">
+                    <input className="form-check-input my-form-check-input2 " onClick={() => setForDelete(!forDelete)} checked={forDelete} type="checkbox" value="" id="flexCheckDefault" />
+                    <label className="form-check-label agree" for="flexCheckDefault">
+                      I Agree to delete the Profile Data
+                    </label>
+                  </div>
+                  <div className="mt-4">
+                    <button type="button" className="btn my-btn  button00" disabled={forDelete ? false : true} onClick={handleForDelete}>Delete</button>
+                    <button
+                      type="button"
+                      className="btn cancelButtons text-black heading-16 ms-2"
+                      onClick={() => { closeCanvas(offcanvasRef33); ClearData2(); }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
       </div>
     </Container>
@@ -865,3 +916,20 @@ const ClassRoom = () => {
 }
 
 export default ClassRoom
+
+
+// if (response?.data?.status === "success") {
+//   toast.success(response?.data?.message);
+//   ClassRoomGetAllApi()
+//   setShow(false)
+//   setHide(true)
+//   setLoader(false)
+//   setAddclassroom('')
+//   setMyCheck(true)
+//   console.log('my data of')
+//   const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
+//   offcanvasInstance.hide();
+//   setTimeout(() => {
+//     setShow(true)
+//   }, 0.5)
+// }

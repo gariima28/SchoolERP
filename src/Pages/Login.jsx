@@ -132,6 +132,7 @@ const Container = styled.div`
 `;
 
 const Login = () => {
+    
     const navigate = useNavigate('')
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");

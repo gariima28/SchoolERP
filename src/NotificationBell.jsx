@@ -141,12 +141,11 @@ const Container = styled.div`
   background-color: #006f66;
   color: #fff;
 }
-
 `;
 // ## style css area end ####  
 
 const NotificationBell = ({ fireBaseId }) => {
-    console.log('message id in notification bell', fireBaseId)
+    // console.log('message id in notification bell', fireBaseId)
 
     const bellid = fireBaseId?.messageId;
     const [all, setAll] = useState('');
@@ -177,7 +176,7 @@ const NotificationBell = ({ fireBaseId }) => {
     // useEffect fired id: 44fe5497-3600-4ab1-b8e0-6726589db1fa
 
     useEffect(() => {
-        console.log('vakue use in useEffect', bellid)
+        // console.log('vakue use in useEffect', bellid)
         setTimeout(() => {
             GetAllNotificationCount();
         }, 3000);
@@ -188,7 +187,7 @@ const NotificationBell = ({ fireBaseId }) => {
         setLoader(true)
         try {
             const response = await NotificationGetAll(all, unRead);
-            console.log(' All Data of notification', response)
+            // console.log(' All Data of notification', response)
             if (response?.status === 200) {
                 setNotificationData(response?.data?.notifications);
             } else {
@@ -204,7 +203,7 @@ const NotificationBell = ({ fireBaseId }) => {
         setLoader(true)
         try {
             const response = await NotificationCountGetAll();
-            console.log('Data of notification count', response)
+            // console.log('Data of notification count', response)
             if (response?.status === 200) {
                 setCount(response?.data?.count);
                 GetAllNotification()
@@ -222,7 +221,7 @@ const NotificationBell = ({ fireBaseId }) => {
         setLoader(true)
         try {
             const response = await NotificationMarkAsReadGetAll();
-            console.log('Data of notification mark as read', response)
+            // console.log('Data of notification mark as read', response)
             if (response?.status === 200) {
                 toast.success(response?.data?.message);
                 GetAllNotificationCount()
@@ -237,7 +236,7 @@ const NotificationBell = ({ fireBaseId }) => {
     }
     // Get by id Apis 
     const GetAllNotificationGetById = async (id) => {
-        console.log('get by id for data', id)
+        // console.log('get by id for data', id)
         setLoader(true)
         try {
             const response = await NotificationGetByIdData(id);
@@ -334,46 +333,6 @@ const NotificationBell = ({ fireBaseId }) => {
                                         </div>
                                     )}
                                 </div>
-
-
-                                {/* <div className="dropdown ">
-                                    <button
-                                        className="btn btn-secondary my-btn-secondary dropdown-toggle me-"
-                                        type="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <span >All Notification</span> &nbsp;
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1024 1024">
-                                            <path fill="#000" d="M8.2 275.4c0-8.6 3.4-17.401 10-24.001c13.2-13.2 34.8-13.2 48 0l451.8 451.8l445.2-445.2c13.2-13.2 34.8-13.2 48 0s13.2 34.8 0 48L542 775.399c-13.2 13.2-34.8 13.2-48 0l-475.8-475.8c-6.8-6.8-10-15.4-10-24.199" />
-                                        </svg>
-                                    </button>
-                                    <ul className="dropdown-menu dropdown-menu-end mt-2" >
-
-                                        <li>
-                                            <a
-                                                className="dropdown-item"
-                                                onClick={() => {
-                                                    setAll('ALL');
-                                                    setUnRead('');
-                                                }}
-                                            >
-                                                All
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a
-                                                className="dropdown-item"
-                                                onClick={() => {
-                                                    setUnRead('UNREAD');
-                                                    setAll('');
-                                                }}
-                                            >
-                                                Unread
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div> */}
                             </div>
                             <hr className='mx-3' style={{ marginTop: '-3px' }} />
                             <div className="offcanvas-body pt-0">
