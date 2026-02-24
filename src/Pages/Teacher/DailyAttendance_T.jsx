@@ -432,6 +432,22 @@ font-size: 12px;
 .fontSize{
   font-size: 16px !important;
 }
+
+
+
+
+/* smooth animation */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ############# offcanvas ############## */
 
 /* ########## media query ###########  */
@@ -605,6 +621,7 @@ const DailyAttendance = ({ items }) => {
   const [sectionData, setSectionData] = useState([])
   const [dailyAttenSearDateData, setDailyAttenSearDateData] = useState([])
   const [dailyDataByMonth, setDailyDataByMonth] = useState([])
+  const [openAttendance, setOpenAttendance] = useState(false);
 
   const sectionHandle = (e) => {
     setSectionId2(parseInt(e))
@@ -875,6 +892,17 @@ const DailyAttendance = ({ items }) => {
     setPageNo(1);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".position-relative")) {
+        setOpenAttendance(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
     <Container>
       {
@@ -882,7 +910,7 @@ const DailyAttendance = ({ items }) => {
           <HashLoader />
         )
       }
-      <div className="container-fluid main-body p-3">
+      <div className="container-fluid main-body p-3 removeMarBot">
         <div className='d-flex justify-content-between for-dislay-direction'>
           <div className="breadCrum ms-2">
             <nav style={{ '--bs-breadcrumb-divider': "'>'" }} aria-label="breadcrumb">
@@ -903,7 +931,7 @@ const DailyAttendance = ({ items }) => {
               exportPDFText="Export PDF"
               exportPDFAction={''}
               exportPDFFileName="Daily Attendance.pdf"
-              showExportCSV={dailyDataByMonth.length > 0}
+              showExportCSV={dailyDataByMonth?.length > 0}
               exportCSVText="Export XLSX"
               // exportCSVAction={TeacherDailyAttendancehCSVBymonth(sectionId2, month, year)}
               exportCSVAction={() => TeacherDailyAttendancehCSVBymonth(sectionId2, month, year)}
@@ -913,15 +941,41 @@ const DailyAttendance = ({ items }) => {
               searchAction={MyDailyAttendanceGetAllApiByMonth}
               onSearchChange={handleSearchChange}
             />
-            <div class="dropdown" >
-              <button className="btn btn-success heading-16 my-own-button me-3  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                Attendance
+
+            <div className="position-relative d-inline-blockme-3">
+              <button
+                className="btn btn-success heading-16 my-own-button"
+                onClick={() => setOpenAttendance(!openAttendance)}>
+                Attendance ▾
               </button>
-              <ul class="dropdown-menu">
-                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to="#" onClick={clearDataHandle} >Take Attendance</Link></li>
-                <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight123" aria-controls="offcanvasRight" to="#">Update Attendance</Link></li>
-              </ul>
+
+              {openAttendance && (
+                <div className="custom-dropdown">
+
+                  <button
+                    className="dropdown-item"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight"
+                    onClick={() => {
+                      clearDataHandle();
+                      setOpenAttendance(false);
+                    }}
+                  >
+                    Take Attendance
+                  </button>
+
+                  <button
+                    className="dropdown-item"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight123"
+                    onClick={() => setOpenAttendance(false)}
+                  >
+                    Update Attendance
+                  </button>
+                </div>
+              )}
             </div>
+
           </div>
 
         </div>

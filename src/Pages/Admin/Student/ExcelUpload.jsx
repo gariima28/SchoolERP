@@ -1,9 +1,11 @@
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddStudentByCSVApi, DownloadStudentExcelForm, getAllClassApi } from '../../../Utils/Apis';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { CSVLink } from 'react-csv';
 
 const Container = styled.div`
   .form-control::placeholder,
@@ -38,18 +40,15 @@ const ExcelUpload = () => {
     const [csvData, setCsvData] = useState([]);
     const [allClassData, setAllClassData] = useState([]);
     const [allSectionData, setAllSectionData] = useState([]);
-    // const [classNo, setClassNo] = useState();
     const [loaderState, setLoaderState] = useState(false);
 
     const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm({
         mode: 'onChange'
     });
 
-
     useEffect(() => {
         getAllClassData()
     }, [])
-
 
     const handleClassChange = (val) => {
         const classNoVal = val;
@@ -64,7 +63,6 @@ const ExcelUpload = () => {
             setAllSectionData([]);
         }
     };
-
 
     const getAllClassData = async () => {
         try {
@@ -84,27 +82,26 @@ const ExcelUpload = () => {
         catch (error) {
             setLoaderState(false);
             toast.error(response.data.message)
-            // console.log(error, 'error')
         }
         finally {
             setLoaderState(false);
         }
     }
-};
 
-const handleClassChange = (classNoVal) => {
-    setValue('classNo', classNoVal);
-    const selectedClass = allClassData.find((c) => c.classNo === classNoVal);
-    setAllSectionData(selectedClass?.section || []);
-};
 
-// ✅ CORRECT EXCEL DOWNLOAD (Direct URL)
+// const handleClassChange = (classNoVal) => {
+//     setValue('classNo', classNoVal);
+//     const selectedClass = allClassData.find((c) => c.classNo === classNoVal);
+//     setAllSectionData(selectedClass?.section || []);
+// };
+
 const Download_Slip = async () => {
     try {
         const response = await DownloadStudentExcelForm();
 
         if (response?.status === 200 && response?.data?.csvUrl) {
             const fileUrl = response.data.csvUrl;
+            console.log('xlsx value', fileUrl)
 
             const link = document.createElement('a');
             link.href = fileUrl;
@@ -118,7 +115,7 @@ const Download_Slip = async () => {
     } catch (err) {
         toast.error('Excel download failed');
     }
-
+}
     return (
         <>
             <Container>
@@ -126,14 +123,13 @@ const Download_Slip = async () => {
                     <div className="row">
                         <div className="pt-3">
                             <CSVLink className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' data={csvData} filename={"GeneratedCsvForm.csv"} onClick={() => Download_Slip()}>
-                                Generate CSV File
+                                Generate XLSX File
                             </CSVLink>
-                            {/* <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white'>Generate CSV File</button> */}
                             <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn EyeViewBtnn font16 ms-2' data-bs-toggle="modal" data-bs-target="#abc">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" viewBox="0 0 16 16"><g fill="white"><path d="M10.5 8a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0" /><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7a3.5 3.5 0 0 0 0 7" /></g></svg>
                             </button>
                         </div>
-                        <form className="row g-3 m-0" onSubmit={handleSubmit(AddStudentByCSV)}>
+                        <form className="row g-3 m-0" onSubmit={handleSubmit(AddStudentByCSVApi)}>
                             <div className="col-md-6 col-sm-12 col-12">
                                 <label htmlFor="classNo" className="form-label font14">Class <span className='text-danger'>*</span></label>
                                 <select id="classNo" className={`form-select font14 ${errors.classNo ? 'border-danger' : ''}`} {...register('classNo', { required: 'Class is required *' })} onChange={(e) => handleClassChange(e.target.value)}>
@@ -160,7 +156,6 @@ const Download_Slip = async () => {
                     </div>
                 </div>
 
-                {/* Sample Modal Data Modal For View CSV Format */}
                 <div className="modal modal-lg fade" id="abc" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered modal-xl">
                         <div className="modal-content">
@@ -228,10 +223,7 @@ const Download_Slip = async () => {
                                     </tbody>
                                 </table>
                             </div>
-                            {/* <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Save changes</button>
-                        </div> */}
+                           
                         </div>
                     </div>
                 </div>

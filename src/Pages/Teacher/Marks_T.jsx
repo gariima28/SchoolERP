@@ -619,7 +619,6 @@ font-size: 12px;
 `;
 // ## style css area end ####  
 
-
 const Marks_T = () => {
   const [loader, setLoader] = useState(false)
   const [forDelete, setForDelete] = useState(false)
@@ -822,42 +821,6 @@ const Marks_T = () => {
       setLoader(false);
     }
   };
-  // const MyMarksPostApi = async (markId, studentId) => {
-  //   const formData = new FormData()
-  //       formData.append("studentId", studentId);
-  //       formData.append("examTermId", ExamTerm);
-  //       formData.append("classNo", classNo);
-  //       formData.append("classSec", sectionName);
-  //       formData.append("subject", subjectId);
-  //       formData.append("sessionName", sessionName);
-  //       formData.append("theoryMarks", thoeryMarks);
-  //       formData.append("practicalMarks", practicleMarks);
-
-  //   setLoader(true)
-  //   try {
-  //     const response = await TeacherMarksPostApi(formData);
-  //     // // console.log('class-post-api', response)
-  //     if (response?.status === 200) {
-  //       if (response?.data?.status === "success") {
-  //         toast.success(response?.data?.message);
-
-  //         setShow(false)
-
-  //         setLoader(false)
-  //       } else {
-  //         toast.error(response?.data?.message);
-  //         setShow(true)
-  //         setLoader(false)
-  //       }
-  //     } else {
-  //       toast.error(response?.data?.message);
-  //       setLoader(false)
-  //     }
-  //   } catch (error) {
-  //     setLoader(false)
-  //     // console.log(error)
-  //   }
-  // }
 
   //   Get All Api
   const MyMarksGetAll = async () => {
@@ -887,35 +850,11 @@ const Marks_T = () => {
       setLoader(false);
     }
   };
-  // const MyMarksGetAll = async () => {
-  //   setLoader(true)
-  //   try {
-  //     const response = await TeacherMarksGetAll(classNo,sectionName, subjectId, sessionName, ExamTerm,searchKey, pageNo, pageSize);
-  //     console.log(response, 'marks get all=========dataa')
-  //     if (response?.status === 200) {
-  //       // toast.success(response?.data?.message)
-  //       setMarksAllData(response?.data?.studentMarksList?.students)
-  //       setSubjectShow(response?.data?.studentMarksList?.subject)
-  //       setExamTermShow(response?.data?.studentMarksList?.exam)
-  //       setCurrentPage(response?.data?.currentPage);
-  //       setTotalPages(response?.data?.totalPages);
-  //       setLoader(false)
-  //     } else {
-  //       toast.error(response?.data?.message);
-  //       setLoader(false)
-  //     }
-  //   } catch (error) {
-  //     setLoader(false)
-  //     // console.log(error)
-  //   }
-  // }
   const Handle = (e) => {
     const value = e.target.value;
     const [val1, val2] = value.split(',').map(item => item.trim());
     setClassId(parseInt(val1));
     setClassNo(val2);
-    // console.log('Class ID:', val1);
-    // console.log('Class No:', val2);
   };
 
   const HandleClear = () => {

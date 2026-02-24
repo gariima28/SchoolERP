@@ -529,6 +529,7 @@ const TakeAttendance = () => {
   const [searchKey, setSearchKey] = useState('')
   const [rolePermisAllData, setRolePermisAllData] = useState([])
   const [date, setDate] = useState()
+  const [openAttendance2, setOpenAttendance2] = useState(false);
 
 
   const [pageNo, setPageNo] = useState(1);
@@ -788,7 +789,46 @@ const TakeAttendance = () => {
               searchAction={MyAttendanceGetAllApiByMonth}
               onSearchChange={handleSearchChange}
             />
-            <div class="dropdown">
+            <div className="position-relative d-inline-block me-3">
+              <button
+                className="btn btn-success heading-16 my-own-button"
+                onClick={() => setOpenAttendance2(!openAttendance2)}
+              >
+                Attendance ▾
+              </button>
+
+              {openAttendance2 && (
+                <div className="custom-dropdown">
+
+                  <button
+                    className="dropdown-item"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight"
+                    onClick={() => {
+                      ClearHandle();
+                      setOpenAttendance2(false);
+                    }}
+                  >
+                    Take Attendance
+                  </button>
+
+                  <button
+                    className="dropdown-item"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight123"
+                    onClick={() => {
+                      ClearHandle();
+                      setOpenAttendance2(false);
+                    }}
+                  >
+                    Update Attendance
+                  </button>
+
+                </div>
+              )}
+            </div>
+
+            {/* <div class="dropdown">
               <button className="btn btn-success heading-16 my-own-button me-3  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Attendance
               </button>
@@ -796,7 +836,7 @@ const TakeAttendance = () => {
                 <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" to="#" onClick={ClearHandle}>Take Attendance </Link></li>
                 <li><Link class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight123" aria-controls="offcanvasRight" to="#" onClick={ClearHandle}>Update Attendance</Link></li>
               </ul>
-            </div>
+            </div> */}
           </div>
 
         </div>

@@ -42,8 +42,7 @@ export const AuthProvider = ({ children }) => {
                     tabIndex="-1"
                     style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
                     aria-labelledby="authExpiredModalLabel"
-                    aria-hidden="false"
-                >
+                    aria-hidden="false">
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">

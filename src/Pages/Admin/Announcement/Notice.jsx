@@ -788,7 +788,7 @@ const Notice = () => {
               exportPDFText="Export PDF"
               exportPDFAction={NoticePDF}
               showExportCSV={noticeAllData?.length > 0}
-              exportCSVText="Export Notice CSV"
+              exportCSVText="Export Notice XLSX"
               exportCSVAction={NoticeCSV}
               onSearchChange={handleSearchChange}
             />

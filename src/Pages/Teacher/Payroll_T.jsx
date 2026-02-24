@@ -631,7 +631,7 @@ const Payroll = () => {
     setLoader(true)
     try {
       const response = await PayrollGetAllApi(month, year, searchKey, pageNo, pageSize);
-      console.log('payroll get api response in teacher panel', response);
+      console.log('payroll get api response in teacher panel====', response);
       if (response?.status === 200) {
         setPayrollData(response?.data?.payrolls)
         setLoader(false)
@@ -714,8 +714,8 @@ const Payroll = () => {
           </div>
           <div className="row mb-3 buttons-topss">
             <div className='my-button11 heading-16'>
-              <button type="button" class="btn " onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }}>Search</button>
-              <button type="button" class="btn cancelButtons text-black" onClick={() => handleClear()}>Cancel</button>
+              <button type="button" class="btn " onClick={MyPayrollGetAllApi} style={{ backgroundColor: '#008479', color: "#fff" }} disabled={!month || !year}>Search</button>
+              <button type="button" class="btn cancelButtons text-black"  disabled={!month || !year}>Cancel</button>
             </div>
           </div>
           {/* table  */}
@@ -750,13 +750,13 @@ const Payroll = () => {
                         <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} alt="Staff Image" /></span><span className='mt-1'>{item.staffName}</span></td>
                         <td className=' greyText'>
                           <div className=''>
-                            <p className={`${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
+                            <p className={`mb-0 ${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
                           </div>
                         </td>
                         <td className=' greyText'>{item.basicPay}</td>
                         <td className=' greyText'>{item.allowedPaidLeaves}</td>
                         <td className=' greyText'>{item.unpaidLeaves}</td>
-                        <td className=' greyText'>{item.paidLeaves ? paidLeaves : 'N-I-R'}</td>
+                        <td className=' greyText'>{item.paidLeaves ? item.paidLeaves : 'N-I-R'}</td>
                         <td className=' greyText'>{item.takenLeaves}</td>
                         <td className=' greyText'>{item.leaveDeduction}</td>
                         <td className=' greyText'>{item.allowanceTotal}</td>

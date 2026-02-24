@@ -607,7 +607,6 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
               }} >
               ✕
             </button>
-
             <div className="ratio ratio-16x9 " >
               <iframe style={{ zIndex: 10000, }} src="https://www.youtube.com/embed/iEasMXu72No" title="YouTube video" allowFullScreen ></iframe>
             </div>
@@ -802,6 +801,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
                 className={`main-item ${hoveredItem.children?.length ? "main-item-radius" : "main-item-no-radius"
                   }`}
               >
+                
                 {/* {hoveredItem.icon && (
               <img
                 src={hoveredItem.icon}
@@ -810,6 +810,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
                 style={{ marginRight: "10px" }}
               />
             )} */}
+
                 {hoveredItem.title}
               </div>
               {hoveredItem.children?.map((sub, idx) => (
