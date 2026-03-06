@@ -444,8 +444,6 @@ const ClassRoom = () => {
   const [forDelete, setForDelete] = useState(false)
   const [hide, setHide] = useState(false)
   const [show, setShow] = useState(true)
-  const [showdelete, setShowdelete] = useState(true)
-  const [hidedelete, setHidedelete] = useState(false)
   const [deleteroomid, setDeleteroomid] = useState()
   const [updateoomid, seUpdateroomid] = useState()
   const [showadd, setShowadd] = useState(true)
@@ -457,7 +455,6 @@ const ClassRoom = () => {
   const [searchKey, setSearchKey] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
@@ -534,6 +531,7 @@ const ClassRoom = () => {
     setTimeout(() => {
       forceRemoveBackdrop();
     }, 300);
+    
   };
 
 
@@ -552,7 +550,6 @@ const ClassRoom = () => {
             ClassRoomGetAllApi();
             setLoader(false);
             setAddclassroom('');
-
             closeCanvas(offcanvasRef)
           }
           else {

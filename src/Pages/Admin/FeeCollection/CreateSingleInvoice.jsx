@@ -52,8 +52,10 @@ const Container = styled.div`
     outline: none;
   }
 
+/* i just change below position just for the dropdown in month selection  */
   .custom-dropdown {
-    position: relative;
+    /* position: relative; */
+    position: none;
   }
 
   .custom-dropdown-toggle {
@@ -462,11 +464,12 @@ const CreateSingleInvoice = () => {
                         )}
                     </div>
                     {watchApplicableDiscount === 'Yes' && (
-                        <div className="col-12 col-sm-6 col-md-4">
+                        <div className="col-12 col-sm-6 col-md-4" >
                             <label htmlFor="discountId" className="form-label font14">Fee Discount</label>
                             <select
                                 id="discountId"
-                                className={`form-select font14 ${errors.discountId ? 'border-danger' : ''}`}
+                                className={`form-select font14 ${errors.discountId ? 'border-danger' : ''}` }
+
                                 {...register('discountId', { required: 'Discount is required when applicable' })}
                             >
                                 <option value="">Select Discount</option>

@@ -1,5 +1,13 @@
 @import "../src/intro-custom.css";
 
+/* Fix intro.js layout shift */
+body.introjs-fix {
+  padding-right: 0px !important;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
 /* Hide scrollbars for all elements */
 * {
     scrollbar-width: none;

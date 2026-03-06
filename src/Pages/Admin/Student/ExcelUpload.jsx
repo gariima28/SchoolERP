@@ -122,9 +122,12 @@ const Download_Slip = async () => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="pt-3">
-                            <CSVLink className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' data={csvData} filename={"GeneratedCsvForm.csv"} onClick={() => Download_Slip()}>
+                            {/* <CSVLink className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' data={csvData} filename={"GeneratedCsvForm.csv"} onClick={() => Download_Slip()}>
                                 Generate XLSX File
-                            </CSVLink>
+                            </CSVLink> */}
+                            <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' data={csvData} filename={"GeneratedCsvForm.csv"} onClick={() => Download_Slip()}>
+                                Generate XLSX File
+                            </button>
                             <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn EyeViewBtnn font16 ms-2' data-bs-toggle="modal" data-bs-target="#abc">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" viewBox="0 0 16 16"><g fill="white"><path d="M10.5 8a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0" /><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7a3.5 3.5 0 0 0 0 7" /></g></svg>
                             </button>

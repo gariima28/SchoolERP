@@ -318,7 +318,7 @@ const SchoolSetting = () => {
                                             {schoolLogoVal !== null && changeImageType ?
                                                 // <input id="schoolLogo" type="text" className='form-control formimagetext font14' value={schoolLogoVal.split('/').pop()} disabled />
                                                 <div style={{ width: '100%', border: '1px solid #E4E7EB' }}>
-                                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={schoolLogoVal} alt="School Logo" height={33} width={100} style={{ cursor: "pointer" }} onClick={handleImageClick} />
+                                                    <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={schoolLogoVal} alt="School Logo" height={33} width={70} style={{ cursor: "pointer" }} onClick={handleImageClick} />
                                                 </div>
                                                 :
                                                 <input id="schoolLogo" onChange={checkForChanges} type="file" className={`form-control formimagetext font14 ${errors.schoolLogo ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('schoolLogo', { required: 'Student Image is required *', validate: value => { if (value.length > 0 && (value[0].size < 10240 || value[0].size > 204800)) { return 'File size must be between 10 KB to 200 KB'; } return true; } })} />
