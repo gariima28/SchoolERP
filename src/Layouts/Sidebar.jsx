@@ -406,6 +406,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
       try {
         setLoaderState(true);
         const response = await getSidebarDataApi("", "", "", "");
+        console.log('sidebar response---',response)
         if (response?.status === 200 && response?.data?.status === "success") {
           setDashboardItems(response?.data?.data);
         } else {
@@ -904,12 +905,13 @@ const Sidebar = ({ openSidebar, setOpenSidebar, funcZindex }) => {
                         </p>
                       </div>
                       <button
+                      style={{width:'100px'}}
                         className="btn contbtn continueButtons text-white"
                         type="button"
                         data-bs-dismiss="offcanvas"
                         aria-label="Close"
                       >
-                        Continue
+                        Continuew
                       </button>
                     </div>
                   </div>

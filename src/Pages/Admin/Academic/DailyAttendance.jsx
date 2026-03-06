@@ -1299,7 +1299,7 @@ const DailyAttendance = ({ items }) => {
                                 <th className='table-row-bg-color greyTextColor'>#</th>
                                 <th className='table-row-bg-color greyTextColor'> Student Name</th>
                                 <th className='table-row-bg-color greyTextColor'>Status</th>
-                              </tr>8077945599
+                              </tr>
                             </thead>
                             <tbody className='heading-14 align-middle greyTextColor ' >
                               {

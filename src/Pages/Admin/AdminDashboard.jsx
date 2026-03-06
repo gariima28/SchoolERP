@@ -117,6 +117,7 @@ const AdminDashboard = () => {
     try {
       setloaderState(true);
       var response = await getAllDashDataApi(graphKeyData, "", "", "", "");
+      console.log('value of dashboard api',response)
       if (response?.status === 200) {
         if (response?.data?.status === "success") {
           setDashData(response?.data?.data);
@@ -159,6 +160,40 @@ const AdminDashboard = () => {
 
   const tourData = sessionStorage.getItem("booleanForTour");
 
+useEffect(() => {
+  if (!tourData) return;
+
+  const resetBodyStyles = () => {
+    document.body.style.paddingRight = "0px";
+    document.body.style.marginRight = "0px";
+    document.body.style.marginTop = "0px";
+    document.body.style.overflow = "auto";
+
+    document.body.classList.remove("introjs-relativePosition");
+    document.body.classList.remove("introjs-showElement");
+
+    document.documentElement.style.marginTop = "0px";
+  };
+
+  // Run immediately
+  resetBodyStyles();
+
+  // Observe DOM changes (Intro.js modifies body dynamically)
+  const observer = new MutationObserver(() => {
+    resetBodyStyles();
+  });
+
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ["style", "class"],
+  });
+
+  return () => {
+    observer.disconnect();
+    resetBodyStyles();
+  };
+
+}, [tourData]);
 
   return (
     <>
@@ -168,7 +203,7 @@ const AdminDashboard = () => {
         
         <div className="container-fluid p-3">
           {
-            tourData ? (
+            !tourData ? (
               <div data-title={`${sideBarCardsData.title}`} data-intro={`${sideBarCardsData.intro}`} className="card-demo" data-step="2">
                 <div className="card shadow--md" >
                   <div className="row">
@@ -527,7 +562,7 @@ const AdminDashboard = () => {
               )
           }
           {
-            tourData ? (
+            !tourData ? (
               <div data-title={`${sideBarAttendanceData.title}`} data-intro={`${sideBarAttendanceData.intro}`} className="card-demo" data-step="3">
                 <div className="card shadow--md">
                   <div className="row">
@@ -589,8 +624,8 @@ const AdminDashboard = () => {
                         <div className="col-12 bg-white cards borderradius8 border">
                           <div className="row">
                             <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
-                              <div className="flex-grow-1 align-self-center">
-                                <p className="font14">Upcoming Holiday</p>
+                              <div className="flex-grow-1 align-self-center removeMarBot">
+                                <p className="font14  ">Upcoming Holiday</p>
                               </div>
                               <Link
                                 className="p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12"
@@ -604,11 +639,11 @@ const AdminDashboard = () => {
                           <div className="row py-2">
                             {DashData?.holidays.length > 0 ? (
                               DashData?.holidays.slice(0, 9).map((item, index) => (
-                                <div className="col-4 p-1" key={index}>
+                                <div className="col-6 p-1" key={index}>
                                   <div className="holidayCard border-2 borderradius8 p-4 h-100">
                                     <p className="font14 text-center">{item.title.slice(0, 14)}{item.title.length > 14 ? '...' : ''}</p>
                                     <p className="greyText font14 text-center">
-                                      {item.date}
+                                      {item.startDate}  -  {item.endDate}
                                     </p>
                                   </div>
                                 </div>
@@ -689,7 +724,7 @@ const AdminDashboard = () => {
                       <div className="col-12 bg-white cards borderradius8 border">
                         <div className="row">
                           <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
-                            <div className="flex-grow-1 align-self-center">
+                            <div className="flex-grow-1 align-self-center removeMarBot">
                               <p className="font14">Upcoming Holiday</p>
                             </div>
                             <Link
@@ -704,11 +739,11 @@ const AdminDashboard = () => {
                         <div className="row py-2">
                           {DashData?.holidays.length > 0 ? (
                             DashData?.holidays.slice(0, 9).map((item, index) => (
-                              <div className="col-4 p-1" key={index}>
+                              <div className="col-6 p-1" key={index}>
                                 <div className="holidayCard border-2 borderradius8 p-4 h-100">
                                   <p className="font14 text-center">{item.title.slice(0, 14)}{item.title.length > 14 ? '...' : ''}</p>
                                   <p className="greyText font14 text-center">
-                                    {item.date}
+                                    {item.startDate} -  {item.endDate}
                                   </p>
                                 </div>
                               </div>
@@ -728,7 +763,7 @@ const AdminDashboard = () => {
               )
           }
           {
-            tourData ? (
+            !tourData ? (
               <div data-title={`${sideBarnoticeEventData.title}`} data-intro={`${sideBarnoticeEventData.intro}`} className="card-demo" data-step="4">
                 <div className="card shadow--md">
                   <div className="row">
@@ -737,7 +772,7 @@ const AdminDashboard = () => {
                         <div className="col-12 bg-white cards borderradius8 border">
                           <div className="row">
                             <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
-                              <div className="flex-grow-1 align-self-center">
+                              <div className="flex-grow-1 align-self-center removeMarBot">
                                 <p className="font14">Upcoming Notices</p>
                               </div>
                               <Link
@@ -779,7 +814,7 @@ const AdminDashboard = () => {
                         <div className="col-12 bg-white cards borderradius8 border">
                           <div className="row">
                             <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
-                              <div className="flex-grow-1 align-self-center">
+                              <div className="flex-grow-1 align-self-center removeMarBot">
                                 <p className="font14">Upcoming Events</p>
                               </div>
                               <Link
@@ -853,7 +888,7 @@ const AdminDashboard = () => {
                       <div className="col-12 bg-white cards borderradius8 border">
                         <div className="row">
                           <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
-                            <div className="flex-grow-1 align-self-center">
+                            <div className="flex-grow-1 align-self-center removeMarBot">
                               <p className="font14">Upcoming Notices</p>
                             </div>
                             <Link
@@ -894,7 +929,7 @@ const AdminDashboard = () => {
                       <div className="col-12 bg-white cards borderradius8 border">
                         <div className="row">
                           <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
-                            <div className="flex-grow-1 align-self-center">
+                            <div className="flex-grow-1 align-self-center removeMarBot">
                               <p className="font14">Upcoming Events</p>
                             </div>
                             <Link
