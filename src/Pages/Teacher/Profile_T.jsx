@@ -297,28 +297,28 @@ const Profile = () => {
 
                         <div className="col-lg-3 div-col-3 content-div123" >
 
-                            <div className="content-div">
+                            <div className="content-div pb-0">
                                 <div className='image-container'>
                                     <p className='my-image'>
                                         <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={imageFile} alt="" />
                                     </p>
                                 </div>
-                                <h2 className='heading-20 mt-2' >{staffName}</h2>
+                                <h2 className='heading-20 mt-2' style={{color:'#008479'}}><b>{staffName}</b></h2>
                                 <p className='heading-14 mt-2'>Teacher <span className='verified'>Verified</span></p>
                                 <hr className='mx-2 mb-0' />
-                                <p className='ps-4 py-2  heading-14' style={{ color: "#008479", textAlign: 'initial' }}>Details info</p>
+                                <p className='ps-2 py-2  heading-14 mb-0' style={{ color: "#008479", textAlign: 'initial',fontSize:"18px" }}><b>Details info</b></p>
                                 <hr className='mx-2 mt-0' />
                             </div>
                             <div className="row heading-14 content-responsive">
                                 <div className="col-lg-6 col-md-6 col-sm-4">
-                                    <p className='pt-1 color123'>Email:</p>
-                                    <p className='pt-1 color123'>Phone:</p>
-                                    <p className='pt-1 color123'>Address:</p>
+                                    <p className='mb-2 color123'>Email:</p>
+                                    <p className='mb-2 color123'>Phone:</p>
+                                    <p className='mb-2 color123'>Address:</p>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-6" style={{ overflowWrap: 'break-word' }}>
-                                    <p className='pt-1'>{staffEmail}</p>
-                                    <p className='pt-1'>{phone}</p>
-                                    <p className='pt-1'>{address}</p>
+                                    <p className='mb-2'>{staffEmail}</p>
+                                    <p className='mb-2'>{phone}</p>
+                                    <p className='mb-2'>{address}</p>
                                 </div>
                             </div>
                         </div>

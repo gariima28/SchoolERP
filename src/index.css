@@ -2575,3 +2575,11 @@ f
 .removeMarBot p{
     margin-bottom: 0px !important;
 }
+.uppercase-input {
+  text-transform: uppercase;
+}
+
+.uppercase-input::placeholder {
+  text-transform: none; /* keeps placeholder normal */
+  font-size: 12px;      /* optional: make it smaller */
+}

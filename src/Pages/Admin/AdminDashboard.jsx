@@ -672,7 +672,7 @@ useEffect(() => {
                         <div className="row">
                           <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                             <div className="col-5 align-self-center">
-                              <h2>
+                              <h2 className="mb-0">
                                 Todays Attendance -{" "}
                                 <span className="font14 fontWeight900">
                                   {DashData?.attendance?.total}
@@ -725,7 +725,7 @@ useEffect(() => {
                         <div className="row">
                           <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                             <div className="flex-grow-1 align-self-center removeMarBot">
-                              <p className="font14">Upcoming Holiday</p>
+                              <p className="font14 " style={{padding:'3.5px'}}>Upcoming Holiday</p>
                             </div>
                             <Link
                               className="p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12"

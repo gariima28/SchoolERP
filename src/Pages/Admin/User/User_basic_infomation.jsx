@@ -3,6 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StaffPostApi, StaffGetById, StaffPutApi, RolePermissionGetApi } from '../../../Utils/Apis';
 import { MyUseContext } from '../ContextApi/UseContext';
+
 const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const navigate = useNavigate();
   const { roleName, roleId, userId } = useParams();
@@ -10,6 +11,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
   const myUserID = userId ?? roleId ?? "";
 
   const { profileImageForBasicInfo } = useContext(MyUseContext);
+
   const [loader, setLoader] = useState(false);
   const [show, setShow] = useState(true);
   const [gender, setGender] = useState('');

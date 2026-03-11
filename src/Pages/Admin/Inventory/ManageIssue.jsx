@@ -474,7 +474,7 @@ const ManageIssue = () => {
                     <thead>
                       <tr>
                         {tableHeadingData?.map((item, index) => (
-                          <th key={index} className={`textWrapClass font14 ${item === 'Action' ? 'text-end' : 'text-center'}`}>
+                          <th key={index} className='textWrapClass font14'>
                             {item}
                           </th>
                         ))}

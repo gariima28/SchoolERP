@@ -27,7 +27,7 @@ const Per_info_bank = () => {
   // Validation regex
   const accountNumberRegex = /^\d{9,18}$/;
   const nameRegex = /^[A-Za-z\s]+$/;
-  const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+  const ifscRegex = /^[a-zA-Z0-9]{4}0[a-zA-Z0-9]{6}$/;
 
   const validateField = (value, field, regex, emptyMessage, invalidMessage) => {
     if (!value || value.trim() === '') {
@@ -334,7 +334,7 @@ const Per_info_bank = () => {
                 </label>
                 <input
                   type="text"
-                  className={`form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!errors.ifscCode && ifscCode ? 'valid-indicator' : ''}`}
+                  className={`uppercase-input form-control form-focus-input form-control-sm heading-14 grey-input-text-color input-border-color ${!errors.ifscCode && ifscCode ? 'valid-indicator' : ''}`}
                   id="ifscCode"
                   placeholder="Enter IFSC Code"
                   value={ifscCode}

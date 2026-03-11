@@ -55,6 +55,7 @@ const Container = styled.div`
 /* i just change below position just for the dropdown in month selection  */
   .custom-dropdown {
     /* position: relative; */
+    
     position: none;
   }
 
@@ -105,6 +106,7 @@ const CreateSingleInvoice = () => {
     const [allClassData, setAllClassData] = useState([]);
     const [allSectionData, setAllSectionData] = useState([]);
     const [allStudentsData, setAllStudentsData] = useState([]);
+    const [open, setOpen] = useState(false);
     const dropdownRef = useRef(null);
 
     const months = [
@@ -257,7 +259,19 @@ const CreateSingleInvoice = () => {
         if (dropdownRef.current) {
             dropdownRef.current.classList.toggle('open');
         }
-    };
+    }; useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                dropdownRef.current.classList.remove("open");
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     const addNewInvoice = async (data) => {
         try {
@@ -407,7 +421,7 @@ const CreateSingleInvoice = () => {
                         </div>
                         {errors.feeTypeId && <span className="error-message">{errors.feeTypeId.message}</span>}
                     </div>
-                    <div className="col-12 col-sm-6 col-md-4">
+                    {/* <div className="col-12 col-sm-6 col-md-4">
                         <label htmlFor="months" className="form-label font14">Month</label>
                         <div className="custom-dropdown" ref={dropdownRef}>
                             <button type="button" className="custom-dropdown-toggle font14" onClick={toggleDropdown}>
@@ -437,7 +451,59 @@ const CreateSingleInvoice = () => {
                             </div>
                         </div>
                         {errors.months && <span className="error-message">{errors.months.message}</span>}
+                    </div> */}
+                    <div className="col-12 col-sm-6 col-md-4">
+                        <label htmlFor="months" className="form-label font14">
+                            Month
+                        </label>
+
+                        <div className="custom-dropdown" ref={dropdownRef}>
+                            <button
+                                type="button"
+                                className="custom-dropdown-toggle font14"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleDropdown();
+                                }}
+                            >
+                                {watch("months")?.length > 0
+                                    ? watch("months").join(", ")
+                                    : "Select Month"}
+                            </button>
+
+                            <div className="custom-dropdown-menu">
+                                {months.map((month) => (
+                                    <div className="form-check" key={month}>
+                                        <input
+                                            type="checkbox"
+                                            className="form-check-input"
+                                            value={month}
+                                            {...register("months", {
+                                                validate: (value) =>
+                                                    value.length > 0 || "At least one month is required * ",
+                                            })}
+                                            onChange={(e) => {
+                                                const currentMonths = watch("months") || [];
+
+                                                const updatedMonths = e.target.checked
+                                                    ? [...currentMonths, e.target.value]
+                                                    : currentMonths.filter((m) => m !== e.target.value);
+
+                                                setValue("months", updatedMonths, { shouldValidate: true });
+                                            }}
+                                        />
+
+                                        <label className="form-check-label font14">{month}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {errors.months && (
+                            <span className="error-message">{errors.months.message}</span>
+                        )}
                     </div>
+
                     <div className="col-12 col-sm-6 col-md-4">
                         <label htmlFor="dueDate" className="form-label font14">Due Date</label>
                         <input
@@ -468,7 +534,7 @@ const CreateSingleInvoice = () => {
                             <label htmlFor="discountId" className="form-label font14">Fee Discount</label>
                             <select
                                 id="discountId"
-                                className={`form-select font14 ${errors.discountId ? 'border-danger' : ''}` }
+                                className={`form-select font14 ${errors.discountId ? 'border-danger' : ''}`}
 
                                 {...register('discountId', { required: 'Discount is required when applicable' })}
                             >

@@ -115,8 +115,28 @@ const Container = styled.div`
         color: #fff;
         padding: 0.34rem 1rem;
     }
+    .paid{
+        background-color: rgba(0, 166, 126, 1);
+        color: #fff;
+        text-align: center;
+        border-radius: 20px;
+        padding: 1px 2px;
+    }
+    .unPaid{
+        background-color: rgba(181, 0, 0, 1);
+        color: #fff;
+        text-align: center;
+        border-radius: 20px;
+        padding: 1px 2px;
+    }
+    .partial{
+        background-color: rgba(255, 145, 76, 1);
+        color: #fff;
+        text-align: center;
+        border-radius: 20px;
+        padding: 1px 2px;
+    }
 `;
-
 
 const Fees = () => {
 
@@ -134,6 +154,8 @@ const Fees = () => {
     const [studentRollNo, setStudentRollNo] = useState('')
     const [studentPh, setStudentPh] = useState('')
     const [studentImage, setStudentImage] = useState('')
+    const [motherName, setMotherName] = useState('')
+    console.log('imageee studenttt', studentImage)
     const [feeId, setFeeId] = useState('')
     const [feeIdData, setFeeIdData] = useState('')
     const [invoiceData, setInvoiceData] = useState()
@@ -154,43 +176,109 @@ const Fees = () => {
         getAllCollectFeesByStudentId();
     }, [token, pageNo])
 
+    // comment the both below DownloadCSV(); DownloadPDF() beacuse page nit render 
     useEffect(() => {
-        DownloadCSV();
-        DownloadPDF();
+        // DownloadCSV();
+        // DownloadPDF();
     }, [token])
 
     const handlePageClick = (event) => {
         setPageNo(event.selected + 1);
     };
 
+    // const getStudentDataById = async () => {
+    //     try {
+    //         setloaderState(true);
+    //         var response = await getStudentProfileDataApi();
+    //         console.log('data of fees collection in parent module', response)
+    //         if (response?.status === 200) {
+    //             if (response?.data?.status === 'success') {
+    //                 setInvoiceData(response?.data?.studentInvoice.invoices)
+    //                 const data = response?.data?.studentInvoice.studentInfo
+    //                 setStudentImage(data.studentImage)
+    //                 setStudentName(data.studentName)
+    //                 setFatherName(data.fatherName)
+    //                 setClassNo(data.classNo)
+    //                 setStudentRollNo(data.rollNumber)
+    //                 setStudentPh(data.studentPh)
+    //                 setStudentId(data.studentId)
+    //                 setClassNo(data.classNo)
+    //                 setMotherName(data.motherName)
+    //                 // setInvoiceData(response?.data?.studentInvoice)
+    //                 // toast.success(response?.data?.message);
+    //                 setloaderState(false);
+    //             }
+    //             else {
+    //                 // console.log('error')
+    //                 toast.error(response?.data?.message);
+    //             }
+    //         }
+    //         else {
+    //             // console.log('error')
+    //             toast.error(response?.data?.message);
+    //         }
+    //     }
+    //     catch (error) {
+    //         setloaderState(false);
+    //         // console.log(error)
+    //     }
+    //     finally {
+    //         setloaderState(false);
+    //     }
+    // }
     const getStudentDataById = async () => {
-        try {
-            setloaderState(true);
-            var response = await getStudentProfileDataApi();
-            if (response?.status === 200) {
-                if (response?.data?.status === 'success') {
-                    setInvoiceData(response?.data?.studentInvoice)
-                    // toast.success(response?.data?.message);
-                    setloaderState(false);
-                }
-                else {
-                    // console.log('error')
-                    toast.error(response?.data?.message);
-                }
-            }
-            else {
-                // console.log('error')
-                toast.error(response?.data?.message);
-            }
+    try {
+        setloaderState(true);
+
+        const response = await getStudentProfileDataApi();
+        console.log('data of fees collection in parent module', response);
+
+        if (response?.status === 200 && response?.data?.status === 'success') {
+
+            const studentInvoice = response?.data?.studentInvoice;
+            const studentInfo = studentInvoice?.studentInfo;
+
+            // ✅ Flatten invoice + feeDetails
+            const invoiceData =
+                studentInvoice?.invoices?.flatMap((invoice) =>
+                    invoice?.feeDetails?.map((fee) => ({
+                        invoiceNo: invoice.invoiceNo,
+                        issueDate: invoice.issueDate,
+                        paidDate: invoice.paidDate,
+                        status: invoice.status,
+                        paymentMode: invoice.paymentMode,
+                        paidAmount: invoice.paidAmount,
+
+                        feeType: fee.feeType,
+                        totalAmount: fee.totalAmount,
+                        discountAmount: fee.discountAmount,
+                        dueAmount: fee.dueAmount,
+                    }))
+                ) || [];
+
+            // ✅ save for table
+            setInvoiceData(invoiceData);
+
+            // ✅ student info
+            setStudentImage(studentInfo?.studentImage);
+            setStudentName(studentInfo?.studentName);
+            setFatherName(studentInfo?.fatherName);
+            setMotherName(studentInfo?.motherName);
+            setClassNo(studentInfo?.classNo);
+            setStudentRollNo(studentInfo?.rollNumber);
+            setStudentPh(studentInfo?.studentPh);
+            setStudentId(studentInfo?.studentId);
+
+        } else {
+            toast.error(response?.data?.message);
         }
-        catch (error) {
-            setloaderState(false);
-            // console.log(error)
-        }
-        finally {
-            setloaderState(false);
-        }
+
+    } catch (error) {
+        console.log(error);
+    } finally {
+        setloaderState(false);
     }
+};
 
     const getFeeDataById = async (feeIddd) => {
         setFeeId(feeIddd)
@@ -323,7 +411,9 @@ const Fees = () => {
                                 <div className="row greenBG cardradius2 p-3">
                                     <div className="col-md-2 col-3 align-self-center">
                                         <div className="row">
-                                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={invoiceData?.invoices[0]?.studentImage} alt="" />
+                                            {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={invoiceData?.invoices[0]?.studentImage} alt="" /> */}
+                                            <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src={studentImage ? studentImage : "/images/fallback.png"} alt="" />
+
                                         </div>
                                     </div>
                                     <div className="col-md-10 col-9 ">
@@ -337,19 +427,19 @@ const Fees = () => {
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Name</label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.studentName} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentName} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Father Name: </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.fatherName} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={fatherName} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Mother Name: </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.studentPh} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={motherName} />
                                                             </div>
                                                         </div>
                                                     </form>
@@ -361,19 +451,19 @@ const Fees = () => {
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Class (Section): </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.classNo} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={classNo} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Student Id: </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.studentId} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentId} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Roll No: </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={invoiceData?.invoices[0]?.studentRollNo} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={studentRollNo} />
                                                             </div>
                                                         </div>
                                                     </form>
@@ -404,7 +494,36 @@ const Fees = () => {
                                     </thead>
                                     <tbody>
                                         <tr></tr>
-                                        {invoiceData?.invoices[0]?.feeDetails.map((item, index) => (
+                                        {invoiceData?.map((item, index) => (
+                                            <tr className='align-middle' key={item?.feePaidId}>
+                                                <th className='textWrapClass greyText font14'>{index + 1}</th>
+                                                <td className='textWrapClass greyText font14'>{item?.invoiceNo}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.feeType}</td>
+                                                <td className='textWrapClass greyText font14'>
+                                                    <p className='blueText mb-0'>{item?.totalAmount}</p>
+                                                    <p className='mb-0 '>Created at: <br /> {item?.issueDate}</p>
+                                                </td>
+                                                <td className='textWrapClass greyText font14'>{item?.discountAmount}</td>
+                                                <td className='textWrapClass deactiveText'>{item?.dueAmount}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.paidAmount}</td>
+                                                <td className='textWrapClass greyText font14'>{item?.paidDate}</td>
+                                                <td className='textWrapClass greyText font14'>
+                                                    <p className={`paid mb-0 ${item?.status === 'PAID' ? 'paid' : item?.status === 'UNPAID' ? 'unPaid' : 'partial' }`}>{item?.status}</p>
+                                                </td>
+                                                <td className='textWrapClass greyText font14'>{item?.paymentMode ? item?.paymentMode : 'N/A'}</td>
+                                                <td className='textWrapClass text-end'>
+                                                    <button className="btn btn-sm actionButtons" type='button'>
+                                                        <span>Action</span>
+                                                    </button>
+                                                    <button className="btn btn-sm actionButtons ms-2" type='button'>
+                                                        <span>Action</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                      </table>
+                                    {/* {invoiceData?.invoices[0]?.feeDetails.map((item, index) => (
                                             <tr className='align-middle' key={item?.feePaidId}>
                                                 <th className='textWrapClass greyText font14'>{index + 1}</th>
                                                 <td className='textWrapClass greyText font14'>{item?.invoiceNo}</td>
@@ -428,9 +547,8 @@ const Fees = () => {
                                                     </button>
                                                 </td>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        ))} */}
+                              
                             </div>
                             <div className="d-flex">
                                 <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
