@@ -146,7 +146,7 @@ const SystemSettin = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                             <div class="mb-3 pe-3 pt-2 for-media-margin">
                                 <label for="exampleFormControlInput1" class="form-label text-color-000">School Title</label>
-                                <input type="email" class="form-control form-focus-input form-control-md heading-14 grey-input-text-color input-border-color" style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput1" placeholder="Enter System Title" />
+                                <input type="email" class="form-control form-focus-input form-control-md heading-14 grey-input-text-color input-border-color" style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput1" placeholder="Enter School Title" />
                             </div>
                         </div>
                     </div>
@@ -161,7 +161,7 @@ const SystemSettin = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                             <div class="mb-3 pe-3 pt-2 for-media-margin">
                                 <label for="exampleFormControlInput1" class="form-label text-color-000">School Email</label>
-                                <input type="email" class="form-control form-focus-input form-control-md heading-14 grey-input-text-color input-border-color" style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput1" placeholder="Enter System Email" />
+                                <input type="email" class="form-control form-focus-input form-control-md heading-14 grey-input-text-color input-border-color" style={{ borderRadius: '5px', marginTop: '-5px' }} id="exampleFormControlInput1" placeholder="Enter School Email" />
                             </div>
                         </div>
                     </div>

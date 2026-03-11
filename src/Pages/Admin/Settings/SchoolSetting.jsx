@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { MyUseContext } from "../ContextApi/UseContext";
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { getSchoolDataByIdAPI, updateSchoolDataByIdAPI } from '../../../Utils/Apis';
@@ -76,9 +77,12 @@ const Container = styled.div`
 
 const SchoolSetting = () => {
 
+    const { setBooleanForLogoUpdate } = useContext(MyUseContext);
+
     const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
     const [loaderState, setLoaderState] = useState(false);
+    const [updateForLogo, setUpdateForLogo] = useState(false);
 
     const { register, handleSubmit, formState: { errors }, setValue, watch, getValues } = useForm({
         mode: 'onChange'
@@ -195,9 +199,11 @@ const SchoolSetting = () => {
             }
 
             const response = await updateSchoolDataByIdAPI(formData);
+            console.log('result of update logo', response)
             if (response?.status === 200) {
                 if (response.data.status === 'success') {
                     toast.success(response?.data?.message);
+                       setBooleanForLogoUpdate(prev => !prev);
                     setTimeout(() => {
                         navigate('/');
                     }, 1000);

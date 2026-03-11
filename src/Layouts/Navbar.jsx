@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
@@ -7,6 +7,7 @@ import DataLoader from './Loader';
 import { getAdminProfileApi, getParentProfileApi, getStudentProfileApi, selectStudentInParentApi, getStudentsListInParentApi, getSuperAdminProfileApi, getTeacherProfileApi, changePasswordAPI } from 'src/Utils/Apis';
 import { getSchoolDataByIdAPI } from '../Utils/Apis';
 import NotificationBell from '../NotificationBell';
+import { MyUseContext } from "../Pages/Admin/ContextApi/UseContext";
 
 const Container = styled.div`
     padding: 0% !important;
@@ -69,6 +70,8 @@ const ModalContent = styled.div`
 
 const Navbar = ({ openSidebar, setOpenSidebar, fireBaseId }) => {
       console.log('message id in navbar',fireBaseId)
+  const { booleanForLogoUpdate } = useContext(MyUseContext);
+        console.log('boolean for logo update in navbar',booleanForLogoUpdate)
 
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [loaderState, setLoaderState] = useState(false);
@@ -98,7 +101,7 @@ const Navbar = ({ openSidebar, setOpenSidebar, fireBaseId }) => {
 
     useEffect(() => {
         getProfileData();
-        if (role !== 'SUPERADMIN') {
+        if (role !== 'SUPERADMIN' || booleanForLogoUpdate ) {
             getSchoolDataById();
         }
         const storedStudentId = sessionStorage.getItem('selectedStudentId');
@@ -118,7 +121,7 @@ const Navbar = ({ openSidebar, setOpenSidebar, fireBaseId }) => {
                 sessionStorage.removeItem('showParentModal');
             }, 500);
         }
-    }, [role]);
+    }, [role,booleanForLogoUpdate]);
 
     const getProfileData = async () => {
         try {
@@ -207,6 +210,7 @@ const Navbar = ({ openSidebar, setOpenSidebar, fireBaseId }) => {
         try {
             setLoaderState(true);
             const response = await getSchoolDataByIdAPI();
+            console.log('value of navbar data for image check', response)
             if (response?.status === 200 && response?.data?.status === 'success') {
                 setSchoolData(response?.data?.school);
             } else {

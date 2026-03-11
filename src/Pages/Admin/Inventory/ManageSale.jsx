@@ -282,7 +282,7 @@ const ItemSale = () => {
                           </td>
                           <td className="textWrapClass greyText font14">{item.discount.toFixed(2)}</td>
                           <td className="textWrapClass greyText font14">{item.grandTotal.toFixed(2)}</td>
-                          <td className={`textWrapClass greyText font14 ${item.saleStatus !== 'PAID' ? 'greenColor' : 'redColor'}`} >{item.saleStatus}</td>
+                          <td className={`textWrapClass greyText font14 ${item.saleStatus !== 'PAID' ? ' redColor' : 'greenColor'}`} >{item.saleStatus}</td>
                           <td className="text-end">
                             {item.saleStatus !== 'PAID' && (
                               <span

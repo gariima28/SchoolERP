@@ -575,7 +575,7 @@ const ManagePurchase = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {managePurchaseData.map((item, index) => (
+                    {managePurchaseData?.map((item, index) => (
                       <tr key={item.id} className="align-middle">
                         <td className="textWrapClass greyText font14">{(pageNo - 1) * pageSize + index + 1}</td>
                         <td className="textWrapClass greyText font14">{item.supplierName}</td>
@@ -591,9 +591,8 @@ const ManagePurchase = () => {
                             data-bs-toggle="modal"
                             data-bs-target="#viewDetails"
                             style={{ cursor: "pointer" }}
-                            onClick={() => getManagePurchaseDataById(item.id, true)}
-                          >
-                            <RemoveRedEyeOutlinedIcon />
+                            onClick={() => getManagePurchaseDataById(item.id, true)}>
+                            <RemoveRedEyeOutlinedIcon style={{ color: "#008479" }}/>
                           </span>
                           <span
                             className="ps-4 greyText"

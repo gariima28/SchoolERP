@@ -16,11 +16,11 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 const ContextWrapper = ({ children }) => {
   const [myId, setMyId] = useState();
   const [profileImageForBasicInfo, setProfileImageForBasicInfo] = useState(null);
-
+  const [booleanForLogoUpdate, setBooleanForLogoUpdate] = useState(false);
   return (
     <MyUseContext.Provider value={{
       myId, setMyId, profileImageForBasicInfo,
-      setProfileImageForBasicInfo}}>
+      setProfileImageForBasicInfo, booleanForLogoUpdate, setBooleanForLogoUpdate}}>
       {children}
     </MyUseContext.Provider>
   )
