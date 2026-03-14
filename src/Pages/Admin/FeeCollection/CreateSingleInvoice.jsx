@@ -495,7 +495,6 @@ const CreateSingleInvoice = () => {
                                 ))}
                             </div>
                         </div>
-
                         {errors.months && (
                             <span className="error-message">{errors.months.message}</span>
                         )}

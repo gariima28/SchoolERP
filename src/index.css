@@ -2462,7 +2462,7 @@ f
 }
 
 .height150{
-    height: 140px;
+    height: 130px;
     border-radius: 20px;
 }
 .dropdown-menu {
@@ -2582,4 +2582,17 @@ f
 .uppercase-input::placeholder {
   text-transform: none; /* keeps placeholder normal */
   font-size: 12px;      /* optional: make it smaller */
+}
+
+.deleteIcon{
+    color: #B50000 !important;
+    cursor: pointer !important;
+}
+.editIcon{
+    color: #f4a270 !important;
+    cursor: pointer !important;
+}
+.viewIcon{
+    color: #008479 !important;
+    cursor: pointer !important;
 }

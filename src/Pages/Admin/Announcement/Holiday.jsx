@@ -505,11 +505,11 @@ const Holiday = () => {
   const [isValidEndDateRequired, setIsValidEndDateRequired] = useState(false);
   const [isValidDescriptionRequired, setIsValidDescriptionRequired] = useState(false);
   const [isValidStartDateRequired, setIsValidStartDateRequired] = useState(false);
-    const [loaderState, setLoaderState] = useState(false);
+  const [loaderState, setLoaderState] = useState(false);
 
   const [PDFResponse, setPDFResponse] = useState()
-    const [holidayData, setHolidayData] = useState([]);
-    console.log('my new holiday data', holidayData)
+  const [holidayData, setHolidayData] = useState([]);
+  console.log('my new holiday data', holidayData)
   const token = sessionStorage.getItem;
 
   const [searchKey, setSearchKey] = useState('')
@@ -549,14 +549,14 @@ const Holiday = () => {
   };
 
 
-    const [calendarView, setCalendarView] = useState(false);
+  const [calendarView, setCalendarView] = useState(false);
   // const [errors, setErrors] = useState({});
 
-    const [searchByKey, setSearchByKey] = useState('');
-      const { register, handleSubmit, formState: { errors } } = useForm({
-          mode: 'onChange',
-          defaultValues: { searchByKey: '' }
-      });
+  const [searchByKey, setSearchByKey] = useState('');
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    mode: 'onChange',
+    defaultValues: { searchByKey: '' }
+  });
   // ###### validation ##########
 
   const FuncValidation = () => {
@@ -620,7 +620,7 @@ const Holiday = () => {
       setIsValidStartDateRequired(false)
     }
   }
-  
+
   // end date 
   const handleEndDate = (e2) => {
     setHolidayEndDate(e2);
@@ -668,6 +668,7 @@ const Holiday = () => {
           if (response?.data?.status === "success") {
             toast.success(response?.data?.message);
             MyHolidayGetAllApi()
+            getAllHolidays()
             setShow(false)
             setHide(true)
             setLoader(false)
@@ -852,7 +853,7 @@ const Holiday = () => {
     setPageNo(1);
     MyClassRoutineGetAllApi(searchKey);
   };
-  
+
   const handleAddOffcanvasOpen = () => {
     const offcanvasElement = document.getElementById('staticBackdrop');
     if (offcanvasElement) {
@@ -867,61 +868,68 @@ const Holiday = () => {
     setForDelete(false)
   }
   useEffect(() => {
-        getAllHolidays();
-        const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl));
-        return () => {
-            tooltipList.forEach(tooltip => tooltip.dispose());
-        };
-    }, [pageNo, searchByKey]);
-
-    const getAllHolidays = async () => {
-        try {
-            setLoaderState(true);
-            const response = await getAllHolidayDataApiByStu(searchByKey, pageNo, pageSize);
-            if (response?.status === 200) {
-                if (response?.data?.status === 'success') {
-                    setLoaderState(false);
-                    const validatedData = response?.data?.holidays.filter(item =>
-                        item.holidayTitle && item.startDate && item.endDate
-                    );
-                    if (validatedData.length < response?.data?.holidays.length) {
-                        toast.error('Some holiday data is incomplete and has been filtered out.');
-                    }
-                    setHolidayData(validatedData);
-                    setCurrentPage(response?.data?.currentPage);
-                    setTotalPages(response?.data?.totalPages);
-                } else {
-                    setLoaderState(false);
-                    toast.error(response?.data?.message);
-                }
-            } else {
-                setLoaderState(false);
-            }
-        } catch (error) {
-            setLoaderState(false);
-            toast.error('Error fetching holidays');
-        }
-        finally {
-            // setloaderState(false);
-            setLoaderState(false);
-        }
+    getAllHolidays();
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl));
+    return () => {
+      tooltipList.forEach(tooltip => tooltip.dispose());
     };
+  }, [pageNo, searchByKey]);
+
+  const getAllHolidays = async () => {
+    try {
+      setLoaderState(true);
+      const response = await getAllHolidayDataApiByStu(searchByKey, pageNo, pageSize);
+      if (response?.status === 200) {
+        if (response?.data?.status === 'success') {
+          setLoaderState(false);
+          const validatedData = response?.data?.holidays.filter(item =>
+            item.holidayTitle && item.startDate && item.endDate
+          );
+          if (validatedData.length < response?.data?.holidays.length) {
+            toast.error('Some holiday data is incomplete and has been filtered out.');
+          }
+          setHolidayData(validatedData);
+          setCurrentPage(response?.data?.currentPage);
+          setTotalPages(response?.data?.totalPages);
+        } else {
+          setLoaderState(false);
+          toast.error(response?.data?.message);
+        }
+      } else {
+        setLoaderState(false);
+      }
+    } catch (error) {
+      setLoaderState(false);
+      toast.error('Error fetching holidays');
+    }
+    finally {
+      // setloaderState(false);
+      setLoaderState(false);
+    }
+  };
   // Prepare holiday data for calendar
-    const dailyHolidayData = holidayData.map(holiday => ({
-        date: holiday.startDate,
-        status: 'holiday'
-    })).concat(
-        holidayData.flatMap(holiday => {
-            const start = new Date(holiday.startDate);
-            const end = new Date(holiday.endDate);
-            const dates = [];
-            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-                dates.push({ date: d.toISOString().split('T')[0], status: 'holiday' });
-            }
-            return dates;
-        })
-    );
+  const dailyHolidayData = holidayData.map(holiday => ({
+    date: holiday.startDate,
+    status: 'holiday'
+  })).concat(
+    holidayData.flatMap(holiday => {
+      const start = new Date(holiday.startDate);
+      const end = new Date(holiday.endDate);
+      const dates = [];
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        dates.push({ date: d.toISOString().split('T')[0], status: 'holiday' });
+      }
+      return dates;
+    })
+  );
+  useEffect(() => {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+
+    tooltipTriggerList.forEach((tooltipTriggerEl) => {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }, [holidayData]);
   return (
     <Container>
 
@@ -964,7 +972,7 @@ const Holiday = () => {
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Holiday Details</h5>
 
-        <div className="main-content-conatainer pt-1 " style={{backgroundColor:'none'}}>
+        <div className="main-content-conatainer pt-1 " style={{ backgroundColor: 'none' }}>
           {/* ###### copy content till here for all component ######  */}
 
           {/* <div className="table-container px-3 table-responsive">
@@ -1066,98 +1074,98 @@ const Holiday = () => {
               </div>
             </div>
           </div> */}
-             <div className="row p-3 bg-white borderRadius5 pb-5">
-                          <div className="d-flex justify-content-end align-items-center mb-3">
-                              <span className='border greyText p-2 borderradius8 cursorPointer' onClick={() => setCalendarView(!calendarView)}>
-                                  {calendarView ? 'List View' : 'Calendar View'}
-                              </span>
-                          </div>
-                          {holidayData.length > 0 ? (
-                              calendarView ? (
-                                  <HolidayCalendar
-                                      DailyAttendanceData={dailyHolidayData}
-                                      month={new Date().getMonth() + 1}
-                                      year={new Date().getFullYear()}
-                                      monthUpdate={(month) => { }}
-                                      yearUpdate={(year) => { }}
-                                      smallBox={false}
-                                  />
+          <div className="row p-3 bg-white borderRadius5 pb-5">
+            <div className="d-flex justify-content-end align-items-center mb-3">
+              <span className='border greyText p-2 borderradius8 cursorPointer' onClick={() => setCalendarView(!calendarView)}>
+                {calendarView ? 'List View' : 'Calendar View'}
+              </span>
+            </div>
+            {holidayData.length > 0 ? (
+              calendarView ? (
+                <HolidayCalendar
+                  DailyAttendanceData={dailyHolidayData}
+                  month={new Date().getMonth() + 1}
+                  year={new Date().getFullYear()}
+                  monthUpdate={(month) => { }}
+                  yearUpdate={(year) => { }}
+                  smallBox={false}
+                />
+              ) : (
+                <>
+                  <div className="overflow-scroll mt-2">
+                    <table className="table align-middle table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <td className='textWrapClass font14'>#</td>
+                          <td className='textWrapClass font14'>Holiday Name</td>
+                          <td className='textWrapClass font14'>Start Date</td>
+                          <td className='textWrapClass font14'>End Date</td>
+                          <td className='textWrapClass font14'>Description</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {holidayData?.map((item, index) => (
+                          <tr key={item.holidayId}>
+                            <td className='textWrapClass font14 greyText'>{index + 1}</td>
+                            <td className='textWrapClass font14 greyText'>{item.holidayTitle}</td>
+                            <td className='textWrapClass font14 greyText'>{item.startDate}</td>
+                            <td className='textWrapClass font14 greyText'>{item.endDate}</td>
+                            <td className='textWrapClass font14 greyText'>
+                              {item.description.length > 60 ? (
+                                <>
+                                  <span className='me-2'>{item.description.substring(0, 60) + "..."}</span>
+                                  <button
+                                    className='btn p-0'
+                                    type='button'
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-title={item.description}
+                                  >
+                                    <Icon
+                                      className=''
+                                      icon="ph:info-fill"
+                                      width="1.5em"
+                                      height="1.5em"
+                                      style={{ color: '#C1C1C1' }}
+                                    />
+                                  </button>
+                                </>
                               ) : (
-                                  <>
-                                      <div className="overflow-scroll mt-2">
-                                          <table className="table align-middle table-striped table-bordered">
-                                              <thead>
-                                                  <tr>
-                                                      <td className='textWrapClass font14'>#</td>
-                                                      <td className='textWrapClass font14'>Holiday Name</td>
-                                                      <td className='textWrapClass font14'>Start Date</td>
-                                                      <td className='textWrapClass font14'>End Date</td>
-                                                      <td className='textWrapClass font14'>Description</td>
-                                                  </tr>
-                                              </thead>
-                                              <tbody>
-                                                  {holidayData?.map((item, index) => (
-                                                      <tr key={item.holidayId}>
-                                                          <td className='textWrapClass font14 greyText'>{index + 1}</td>
-                                                          <td className='textWrapClass font14 greyText'>{item.holidayTitle}</td>
-                                                          <td className='textWrapClass font14 greyText'>{item.startDate}</td>
-                                                          <td className='textWrapClass font14 greyText'>{item.endDate}</td>
-                                                          <td className='textWrapClass font14 greyText'>
-                                                              {item.description.length > 60 ? (
-                                                                  <>
-                                                                      <span className='me-2'>{item.description.substring(0, 60) + "..."}</span>
-                                                                      <button
-                                                                          className='btn p-0'
-                                                                          type='button'
-                                                                          data-bs-toggle="tooltip"
-                                                                          data-bs-placement="top"
-                                                                          data-bs-title={item.description}
-                                                                      >
-                                                                          <Icon
-                                                                              className=''
-                                                                              icon="ph:info-fill"
-                                                                              width="1.5em"
-                                                                              height="1.5em"
-                                                                              style={{ color: '#C1C1C1' }}
-                                                                          />
-                                                                      </button>
-                                                                  </>
-                                                              ) : (
-                                                                  <span>{item.description}</span>
-                                                              )}
-                                                          </td>
-                                                      </tr>
-                                                  ))}
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                      <div className="d-flex">
-                                          <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-                                          <div className="ms-auto">
-                                              <ReactPaginate
-                                                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                                                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                                                  breakLabel={'...'}
-                                                  breakClassName={'break-me'}
-                                                  pageCount={totalPages}
-                                                  marginPagesDisplayed={2}
-                                                  pageRangeDisplayed={10}
-                                                  onPageChange={handlePageClick}
-                                                  containerClassName={'pagination'}
-                                                  subContainerClassName={'pages pagination'}
-                                                  activeClassName={'active'}
-                                              />
-                                          </div>
-                                      </div>
-                                  </>
-                              )
-                          ) : (
-                              <div className="d-flex justify-content-center p-5 m-5">
-                                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
-                              </div>
-                          )}
-                          <Toaster />
-                      </div>
+                                <span>{item.description}</span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="d-flex">
+                    <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                    <div className="ms-auto">
+                      <ReactPaginate
+                        previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
+                        nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageCount={totalPages}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={10}
+                        onPageChange={handlePageClick}
+                        containerClassName={'pagination'}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'active'}
+                      />
+                    </div>
+                  </div>
+                </>
+              )
+            ) : (
+              <div className="d-flex justify-content-center p-5 m-5">
+                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
+              </div>
+            )}
+            <Toaster />
+          </div>
 
         </div>
         {/* ################## Add Off Canvas Area ####################  */}

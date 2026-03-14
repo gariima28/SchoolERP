@@ -345,10 +345,10 @@ const NotificationBell = ({ fireBaseId }) => {
                                             setSelectedId(item.id);
                                             GetAllNotificationGetById(item.id);
                                         }}>
-                                        <div className="col-lg-3">
+                                        {/* <div className="col-lg-3">
                                             <img className="noti-img" src="public/images/cropped_circle_image.png" alt="" />
-                                        </div>
-                                        <div className="col-lg-9" style={{ fontSize: "14px" }}>
+                                        </div> */}
+                                        <div className="col-lg-12" style={{ fontSize: "14px" }}>
                                             <h2 className="mb-1"><b>{item.title}</b></h2>
                                             <p className="mb-0">{item.message}</p>
                                         </div>

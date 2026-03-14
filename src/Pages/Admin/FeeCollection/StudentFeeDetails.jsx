@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components'
+// import { getRecieptByIdApi } from '../../../Utils/Apis';
+import toast from 'react-hot-toast';
+
 
 const Container = styled.div`
 
@@ -74,45 +77,58 @@ const Container = styled.div`
 
 `;
 
-const StudentFeeDetails = ({ recieptDataAll }) => {
+const StudentFeeDetails = ({ RecieptViewId, RecieptData }) => {
+    const recieptDataAll = RecieptViewId
+    const recieptData = RecieptData
+        console.log(recieptData, ' -------------------------')
 
-    console.log(recieptDataAll, 'recieptDataAll')
+    // const StudentFeeDetails = ({ recieptDataAll }) => {
+    const [loaderState, setLoaderState] = useState(false);
 
+    // const [recieptData, setRecieptData] = useState();
+    console.log('value get by id +++++++++++++',recieptData)
     const [itemData, setItemData] = useState([
-{ key: 'Subtotal :', value: null },
-{ key: 'Discount :', value: null },
-{ key: 'Total :', value: null },
-{ key: 'Paid Amount :', value: null },
-{ key: 'Due Amount :', value: null },
-{ key: 'Paid Date :', value: null },
-]);
- 
-// Update itemData when recieptDataAll changes or component mounts
-useEffect(() => {
-// Only update if recieptDataAll is provided and has valid data
-if (recieptDataAll && Object.keys(recieptDataAll).length > 0) {
-setItemData([
-{ key: 'Subtotal :', value: recieptDataAll.totalAmount || null },
-{ key: 'Discount :', value: recieptDataAll.discount || null },
-{ key: 'Total :', value: recieptDataAll.totalAmount || null },
-{ key: 'Paid Amount :', value: recieptDataAll.paidAmount || null },
-{ key: 'Due Amount :', value: recieptDataAll.dueAmount || null },
-{ key: 'Paid Date :', value: recieptDataAll.paidDate || null },
-]);
-} else {
-// Set all values to null if recieptDataAll is empty or undefined
-setItemData([
-{ key: 'Subtotal :', value: null },
-{ key: 'Discount :', value: null },
-{ key: 'Total :', value: null },
-{ key: 'Paid Amount :', value: null },
-{ key: 'Due Amount :', value: null },
-{ key: 'Paid Date :', value: null },
-]);
-}
-}, [recieptDataAll]);
+        { key: 'Subtotal :', value: null },
+        { key: 'Discount :', value: null },
+        { key: 'Total :', value: null },
+        { key: 'Paid Amount :', value: null },
+        { key: 'Due Amount :', value: null },
+        { key: 'Paid Date :', value: null },
+    ]);
 
+    // Update itemData when recieptDataAll changes or component mounts
+    useEffect(() => {
+        // Only update if recieptDataAll is provided and has valid data
+        if (recieptDataAll && Object.keys(recieptDataAll).length > 0) {
+            setItemData([
+                { key: 'Subtotal :', value: recieptDataAll.totalAmount || null },
+                { key: 'Discount :', value: recieptDataAll.discount || null },
+                { key: 'Total :', value: recieptDataAll.totalAmount || null },
+                { key: 'Paid Amount :', value: recieptDataAll.paidAmount || null },
+                { key: 'Due Amount :', value: recieptDataAll.dueAmount || null },
+                { key: 'Paid Date :', value: recieptDataAll.paidDate || null },
+            ]);
+        } else {
+            // Set all values to null if recieptDataAll is empty or undefined
+            setItemData([
+                { key: 'Subtotal :', value: null },
+                { key: 'Discount :', value: null },
+                { key: 'Total :', value: null },
+                { key: 'Paid Amount :', value: null },
+                { key: 'Due Amount :', value: null },
+                { key: 'Paid Date :', value: null },
+            ]);
+        }
+    }, [recieptDataAll]);
 
+    // useEffect(() => {
+    //     if (recieptDataAll) {
+    //         getByIdAllRecieptData();
+    //     }
+    // }
+    //     , [recieptDataAll]);
+
+  
 
     return (
 
@@ -121,10 +137,10 @@ setItemData([
                 <div className="row purpleBg cardradius2">
                     <div className="col-md-2 col-4 align-self-center">
                         <div className="row">
-                            {recieptDataAll?.studentName === null ? (
-                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src="/images/userProfile.png" alt="..." />
+                            {recieptData?.studentImage  ? (
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={recieptData?.studentImage} alt="..." />
                             ) : (
-                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={recieptDataAll?.studentName} alt="..." />
+                                <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className="border rounded-circle p-1" src={recieptData?.studentImage} alt="..." />
                             )}
                             {/* <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={recieptDataAll?.studentName} alt="Not found !!" onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /> */}
                         </div>
@@ -140,25 +156,25 @@ setItemData([
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Class: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.classNo} />
+                                                <input type="text" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptData?.classNo} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Section: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.section} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptData?.section} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Email: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.email} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptData?.email} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Phone: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.phoneNumber} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptData?.phoneNumber} />
                                             </div>
                                         </div>
                                     </form>
@@ -170,25 +186,25 @@ setItemData([
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Invoice: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.invoiceNo} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptData?.invoiceNo} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Status: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.status} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptData?.status} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Date: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.studentName} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptData?.issueDate} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Month: </label>
                                             <div className="col-md-8 col-6">
-                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptDataAll?.studentName} />
+                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={recieptData?.month ? recieptData?.month : 'N/A'} />
                                             </div>
                                         </div>
                                     </form>
@@ -198,7 +214,7 @@ setItemData([
                     </div>
                 </div>
                 <div className="row overflow-scroll mt-4">
-                    {recieptDataAll?.feeDetails.length > 0 ?
+                    {recieptDataAll?.feeDetails?.length > 0 ?
                         <table className="table align-middle table-striped">
                             <thead>
                                 <tr>

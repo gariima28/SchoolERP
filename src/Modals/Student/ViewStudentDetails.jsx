@@ -8,11 +8,11 @@ const ViewStudentDetails = ({ studentGetId }) => {
 
   useEffect(() => {
     if (!studentGetId || String(studentGetId).trim() === '') {
-      return; 
+      return;
     }
     getStudentDataById();
 
-  }, [studentGetId]); 
+  }, [studentGetId]);
 
   // **************************************   Edit Page And Validation   *************************************************
 
@@ -82,14 +82,14 @@ const ViewStudentDetails = ({ studentGetId }) => {
   return (
 
     <div className="p-3">
-      <p className='p-3 text-center'><img className='border height150' src={studentImage} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /></p>
+      <p className='p-3 text-center ps-1 '><img className='border height150' src={studentImage} alt="Not found !!" height={100} onError={(e) => e.target.src = gender === 'Male' ? '/images/boyImage.png' : '/images/girlImage.png'} /></p>
       <p className='pb-1 font26 text-center'>{studentName}</p>
-      <p className='pb-1 font16 text-center'>{studentEmail}</p>
-      <p className='pb-1 font14 text-center'><span>Student Id - </span><span className='fw-bolder'>{studentId}</span></p>
-      <div className="headingBgColor p-3 mt-4">
+      <p className='pb-1 font16 text-center' style={{color:'#008479'}}>{studentEmail}</p>
+      <p className='pb-1 font14 text-center'><span>Student ID - </span><span className='fw-bolder'>{studentId}</span></p>
+      <div className="headingBgColor p-3 mt-4 ">
         <div className="row p-2">
           <div className="col-6">
-            <p className='font14 viewTextHeading'>Class & Section:</p>
+            <p className='font14 viewTextHeading'>Class:</p>
           </div>
           <div className="col-6">
             <p className='font14'>{classNo}</p>
@@ -149,8 +149,16 @@ const ViewStudentDetails = ({ studentGetId }) => {
           <div className="col-6">
             <p className='font14 viewTextHeading'>Email:</p>
           </div>
+          {/* <div className="col-6 " >
+            <p style={{width:'20px'}} className='mb-0 font14 '>{parentEmail}</p>
+          </div> */}
           <div className="col-6">
-            <p className='font14'>{parentEmail}</p>
+            <p
+              className="mb-0 font14"
+              style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
+            >
+              {parentEmail}
+            </p>
           </div>
         </div>
       </div>

@@ -1107,7 +1107,7 @@ const Issue_Report = () => {
                           {
                             item.bookStatus === "RETURNED" || item.bookStatus === "LOST" ? (
                               <div style={{ color: '#fff ', fontWeight: '600', backgroundColor: '#008479', borderRadius: '5px', padding: '5px 10px', width: 'fit-content', margin: '0px auto' }}>
-                                <p>
+                                <p className='mb-0'>
                                   {item.bookStatus}
                                 </p>
                               </div>

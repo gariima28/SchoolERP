@@ -557,6 +557,7 @@ const Payroll = () => {
     setLoader(true)
     try {
       const response = await PayrollGetAllApi(month, year, searchKey, pageNo, pageSize);
+      console.log('my payroll data',response)
       if (response?.status === 200) {
         setPayrollData(response?.data?.payrolls)
         setLoader(false)
@@ -724,7 +725,7 @@ const Payroll = () => {
                       <th className='table-row-bg-color greyText'>Deductions</th>
                       <th className='table-row-bg-color greyText'>Total Days Salary</th>
                       <th className='table-row-bg-color greyText'>Net Salary</th>
-                      <th className='table-row-bg-color greyText'>Generate Invoice</th>
+                      <th className='table-row-bg-color greyText'>Generate Payslip</th>
                     </tr>
                   </thead>
 
@@ -749,7 +750,7 @@ const Payroll = () => {
                             <td className=' greyText staff-image-adjust d-flex'><span><img src={item.staffImage} /></span><span className='mt-1'>{item.staffName}</span></td>
                             <td className=' greyText'>
                               <div className=''>
-                                <p className={`${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
+                                <p className={`mb-0 ${item.payrollStatus === "PAID" ? 'font-background' : 'font-background22'}`}>{item.payrollStatus === "PAID" ? 'Paid' : 'Unpaid'}</p>
                               </div>
                             </td>
                             <td className=' greyText'>{item.basicPay}</td>
@@ -762,7 +763,7 @@ const Payroll = () => {
                             <td className=' greyText'>{item.deductionsTotal}</td>
                             <td className=' greyText'>{item.totalWorkingDays}</td>
                             <td className=' greyText'>{item.netSalary}</td>
-                            <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R'}</td>
+                            <td className=' greyText'>{item.paySlipInvoiceNo ? item.paySlipInvoiceNo : 'N-I-R'}</td>
 
                           </tr>
                         ))

@@ -585,7 +585,7 @@ const Leave = () => {
       setIsValidToDateRequired(false)
     }
     // reason
-    if (!reason || reason === "" || !/^[A-Za-z\s]+$/.test(reason)) {
+    if (!reason || reason === "" || !/^[A-Za-z0-9\s!@#$%^&*()_\-+=\[\]{};:'",.<>/?\\|`~]+$/.test(reason)) {
       setIsValidReasonRequired(true)
       isValid = false;
       setLoader(false)
@@ -622,7 +622,7 @@ const Leave = () => {
   // reason
   const handleReason = (e2) => {
     setReason(e2);
-    const nameRegex = /^[A-Za-z\s]+$/;
+    const nameRegex = /^[A-Za-z0-9\s!@#$%^&*()_\-+=\[\]{};:'",.<>/?\\|`~]+$/;
     setIsValidReasonRequired(nameRegex.test(e2));
 
     if (e2 === "" || !nameRegex.test(e2)) {
@@ -823,7 +823,7 @@ const Leave = () => {
                         <td className=' no-wrap greyText'>
                           <div className=''>
                             <p
-                              className={`font-background ${item.status === "APPROVED"
+                              className={`mb-0 font-background ${item.status === "APPROVED"
                                 ? "font-background"
                                 : item.status === "PENDING"
                                   ? "font-background22"
