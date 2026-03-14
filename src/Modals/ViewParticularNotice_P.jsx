@@ -88,17 +88,25 @@ const ViewParticularNotice = ({ dataId, viewAllState }) => {
                         <p className='font20'>{noticeTitleById}</p>
                         <p className='font12 greyText'>{noticeDateById} {noticeTimeById}</p>
                     </div>
-                    <button className='btn backBtn p-2' type='button'>
-                        <div className="d-flex" onClick={handlePage}>
+                    
+                </div>
+                
+            </div>
+            <hr />
+            <div className="row">
+                <p className='font14'>{noticeDescriptionById}</p>
+              
+            </div>
+            <div className="row mt-2">
+                <div className="col-6"></div>
+                <div className="col-6 flex justify-content-end float-end text-end"> 
+                      <button className='btn  p-2' type='button'>
+                        <div className="d-flex" onClick={handlePage} style={{border:'1px solid #aaa',padding:'5px 20px',borderRadius:'5px'}}>
                             <Icon className='align-self-center' icon="weui:back-filled" width="1.3em" height="1.3em" style={{ color: '#134563' }} />
                             <span className='font14 align-self-center'>Back</span>
                         </div>
                     </button>
                 </div>
-            </div>
-            <hr />
-            <div className="row">
-                <p className='font14'>{noticeDescriptionById}</p>
             </div>
             <Toaster />
         </Container>

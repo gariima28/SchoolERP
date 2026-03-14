@@ -527,7 +527,7 @@ const ManageWareHouse = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => openEditCanvas(item.id)}
                           >
-                            <DriveFileRenameOutlineOutlinedIcon />
+                            <DriveFileRenameOutlineOutlinedIcon className="editIcon"/>
                           </span>
                           <span className="ps-4 greyText" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" style={{ cursor: "pointer" }} onClick={() => setDelWarehouseId(item.id)}><DeleteOutlinedIcon /></span>
                         </td>
@@ -575,11 +575,12 @@ const ManageWareHouse = () => {
                                   data-bs-title={viewWarehouse.warehouseName}
                                 >
                                   <Icon
-                                    className='mb-2'
+                                    className='mb-2 viewIcon'
                                     icon="ph:info-fill"
                                     width="1.2em"
                                     height="1.2em"
-                                    style={{ color: '#C1C1C1' }}
+                                    // style={{ color: '#C1C1C1' }}
+
                                   />
                                 </button>
                               </>

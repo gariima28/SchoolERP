@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import StudentFeeDetails from './StudentFeeDetails'; // Ensure this is not lazy-loaded unless properly configured
 import toast from 'react-hot-toast';
-import { getAllRecieptApi, getRecieptCsvApi } from '../../../Utils/Apis';
+import { getAllRecieptApi, getRecieptCsvApi,getRecieptByIdApi } from '../../../Utils/Apis';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
@@ -181,9 +181,13 @@ const Reciept = () => {
     const [allClassData, setAllClassData] = useState([]);
     const [allSectionData, setAllSectionData] = useState([]);
     const [RecieptData, setRecieptData] = useState([]);
+    const [schoolName, setSchoolName] = useState();
+    console.log('my school name',schoolName)
     const datePickerRef = useRef(null);
     const dropdownRefs = useRef({});
 
+    const [RecieptViewId, setRecieptViewId] = useState('');
+    console.log('receiprtttt in receipt',RecieptViewId)
     const {
         register: registerAdd,
         handleSubmit: handleSubmitAdd,
@@ -230,7 +234,10 @@ const Reciept = () => {
 
     useEffect(() => {
         getAllClassData();
-    }, [token]);
+        if (RecieptViewId) {
+        getByIdAllRecieptData();
+        }
+    }, [token, RecieptViewId]);
 
     const getAllClassData = async () => {
         try {
@@ -315,8 +322,11 @@ const Reciept = () => {
         try {
             setLoaderState(true);
             const response = await getAllRecieptApi(startDate, endDate, classNo, section, status, pageNo, pageSize);
+            console.log('value of receit get all',response)
             if (response?.status === 200 && response?.data?.status === 'success') {
                 setRecieptData(response?.data?.receipts || []);
+                // schoolName
+
                 setTotalPages(response?.data?.totalPages);
                 setCurrentPage(response?.data?.currentPage);
                 setSearchBtn(true);
@@ -339,11 +349,29 @@ const Reciept = () => {
         navigate('/admin/feeCollection/collectFees');
     };
 
-    const [RecieptViewId, setRecieptViewId] = useState('');
     const toggleDropdown = (id) => {
         setIsDropdownOpen((prev) => (prev === id ? null : id));
     };
+  const getByIdAllRecieptData = async () => {
+        try {
+            setLoaderState(true);
+            const response = await getRecieptByIdApi(RecieptViewId);
+            console.log('reciept get by id===== in reaceipt page', response)
+            if (response?.data?.status === 'success') {
+                setRecieptData(response?.data?.invoice);
+                setSchoolName(response?.data?.invoice?.schoolName || '');
 
+                toast.success(response?.data?.message || 'Receipts fetched successfully');
+            } else {
+                toast.error(response?.data?.message || 'Failed to fetch receipts');
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message || 'Error fetching receipts');
+        } finally {
+            setLoaderState(false);
+        }
+    };
+    
     return (
         <Container>
             {loaderState && <DataLoader />}
@@ -670,11 +698,11 @@ const Reciept = () => {
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header pb-2">
-                            <h2 className="modal-title" id="viewDetailsLabel">Windsor Park High School</h2>
+                            <h2 className="modal-title" id="viewDetailsLabel">{schoolName}</h2>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <StudentFeeDetails RecieptViewId={RecieptViewId} />
+                            <StudentFeeDetails RecieptViewId={RecieptViewId} RecieptData={RecieptData}/>
                         </div>
                     </div>
                 </div>

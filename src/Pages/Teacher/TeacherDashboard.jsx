@@ -290,8 +290,8 @@ const DashboardPage = () => {
                     <div className='d-flex g-1 for-media-query'>
                       <div className='pe-2'  >
                       </div>
-                      <div className='pe-2 pb-1'>
-                        <Link className="btn my-btn12 heading-12  " ><p className='padding-bottom' style={{ color: '#fff', fontSize: '' }}>Today</p></Link>
+                      <div className='pe-2 pb-1' >
+                        <Link className="btn my-btn12 heading-12  " style={{border:'1px solid #FF914C',marginTop:'6px'}} to={'/teacher/attendanceReport'}><p className='padding-bottom ' style={{ color: '#fff', fontSize: '12px', }}>View All</p></Link>
                       </div>
                     </div>
                   </div>

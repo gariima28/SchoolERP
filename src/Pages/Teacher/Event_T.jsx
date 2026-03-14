@@ -331,6 +331,8 @@ font-size: 12px;
      padding:  1px 4px;
      text-align: center;
     }
+    /* .closed { background: #FFE6E6; color: #B50000; border: 1.5px solid #B50000; } */
+
     .my-Upcoming-status{
      border: 1px solid #4F3EE0 ;
      border-radius: 15px;
@@ -340,8 +342,9 @@ font-size: 12px;
      text-align: center;
     }
     .my-Closed-status{
-     border: 1px solid #B50000;
+     border: 1.5px solid #B50000;
      border-radius: 15px;
+     background: #FFE6E6;
      width: 70%;
      color: #B50000 !important;
      padding: 4px 2px;

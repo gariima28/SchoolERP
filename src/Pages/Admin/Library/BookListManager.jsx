@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components';
+import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { Link } from 'react-router-dom';
 import { BookManagerPostApi } from '../../../Utils/Apis'
 import { BookManagerGetAllApi } from '../../../Utils/Apis'
@@ -1033,17 +1035,21 @@ const BookListManager = () => {
                             <td className=' greyText  pe-0 no-wrap' >
                               <div className="dropdown my-button-show d-flex justify-content-around align-items-start">
                                 <div className="dropdown-item" data-bs-toggle="offcanvas" style={{ cursor: 'pointer' }} data-bs-target="#staticBackdrop1234" aria-controls="staticBackdrop" onClick={(e) => BookManGetByIdApi(item.bookId)}>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                 <DriveFileRenameOutlineOutlinedIcon className="editIcon" />
+
+                                  {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                     <g fill="none" stroke="#008479" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                                       <path d="M19.09 14.441v4.44a2.37 2.37 0 0 1-2.369 2.369H5.12a2.37 2.37 0 0 1-2.369-2.383V7.279a2.356 2.356 0 0 1 2.37-2.37H9.56" />
                                       <path d="M6.835 15.803v-2.165c.002-.357.144-.7.395-.953l9.532-9.532a1.36 1.36 0 0 1 1.934 0l2.151 2.151a1.36 1.36 0 0 1 0 1.934l-9.532 9.532a1.36 1.36 0 0 1-.953.395H8.197a1.36 1.36 0 0 1-1.362-1.362M19.09 8.995l-4.085-4.086" />
                                     </g>
-                                  </svg>
+                                  </svg> */}
                                 </div>
                                 <div className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" style={{ cursor: 'pointer' }} aria-controls="staticBackdrop" onClick={(e) => setIdForDelete(item.bookId)}>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <DeleteOutlinedIcon className="deleteIcon"/>
+                                  
+                                  {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                     <path fill="red" d="M18 19a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4V4h4.5l1-1h4l1 1H19v3h-1zM6 7v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V7zm12-1V5h-4l-1-1h-3L9 5H5v1zM8 9h1v10H8zm6 0h1v10h-1z" />
-                                  </svg>
+                                  </svg> */}
                                 </div>
                               </div>
                             </td>

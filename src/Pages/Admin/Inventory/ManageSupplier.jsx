@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import Download from "@mui/icons-material/Download";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import React, { useEffect, useState } from "react";
@@ -496,7 +496,7 @@ const ManageSupplier = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => getSupplierDataById(item.id, true)}
                           >
-                            <RemoveRedEyeOutlinedIcon />
+                            <RemoveRedEyeOutlinedIcon className="viewIcon"/>
                           </span>
                           <span
                             className="ps-4 greyText"
@@ -506,7 +506,7 @@ const ManageSupplier = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => getSupplierDataById(item.id)}
                           >
-                            <DriveFileRenameOutlineOutlinedIcon />
+                            <DriveFileRenameOutlineOutlinedIcon className="editIcon" />
                           </span>
                           <span
                             className="ps-4 greyText"
@@ -516,7 +516,7 @@ const ManageSupplier = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => setDelSupplierId(item.id)}
                           >
-                            <DeleteOutlinedIcon />
+                            <DeleteOutlinedIcon className="deleteIcon"/>
                           </span>
                         </td>
                       </tr>

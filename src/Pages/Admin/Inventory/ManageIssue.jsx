@@ -474,7 +474,7 @@ const ManageIssue = () => {
                     <thead>
                       <tr>
                         {tableHeadingData?.map((item, index) => (
-                          <th key={index} className='textWrapClass font14'>
+                          <th key={index}  className={`textWrapClass font14 text-start ${item === "Action" && 'text-end'}`}>
                             {item}
                           </th>
                         ))}
@@ -499,7 +499,7 @@ const ManageIssue = () => {
                               data-bs-target="#viewDetails"
                               style={{ cursor: "pointer" }}
                               onClick={() => handleViewClick(item.id)}>
-                              <RemoveRedEyeOutlinedIcon />
+                              <RemoveRedEyeOutlinedIcon  className="viewIcon"/>
                             </span>
                             <span
                               className="ps-4 greyText"
@@ -508,7 +508,7 @@ const ManageIssue = () => {
                               aria-controls="Edit_staticBackdrop"
                               style={{ cursor: "pointer" }}
                               onClick={() => handleEditClick(item.id)}>
-                              <DriveFileRenameOutlineOutlinedIcon />
+                              <DriveFileRenameOutlineOutlinedIcon className="editIcon"/>
                             </span>
                           </td>
                         </tr>

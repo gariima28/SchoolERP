@@ -619,7 +619,7 @@ const LeaveStatus = () => {
                           <td className=' greyText pe-0 no-wrap'>{item.endDate}</td>
                           <td className=' greyText pe-0 no-wrap'>{item.reason}</td>
                           <td className='greyText pe-0 no-wrap' >
-                            <p className={`greyText pe-0 ${item.status === "APPROVED" ? 'approveStatus' : `${item.status === 'DECLINED' ? 'declineStatus' : 'pendingStatus'}`}`}>{`${item.status === "APPROVED" ? 'Approved' : `${item.status === "DECLINED" ? 'Declined' : 'Pending'}`}`}</p>
+                            <p className={`greyText mb-0 pe-0 ${item.status === "APPROVED" ? 'approveStatus' : `${item.status === 'DECLINED' ? 'declineStatus' : 'pendingStatus'}`}`}>{`${item.status === "APPROVED" ? 'Approved' : `${item.status === "DECLINED" ? 'Declined' : 'Pending'}`}`}</p>
                           </td>
                           <td className=' greyText  pe-0 d-flex no-wrap' >
                             <div className='Approve'>

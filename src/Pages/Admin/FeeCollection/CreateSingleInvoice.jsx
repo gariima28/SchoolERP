@@ -54,9 +54,9 @@ const Container = styled.div`
 
 /* i just change below position just for the dropdown in month selection  */
   .custom-dropdown {
-    /* position: relative; */
+    position: relative;
     
-    position: none;
+    /* position: none; */
   }
 
   .custom-dropdown-toggle {
@@ -421,7 +421,7 @@ const CreateSingleInvoice = () => {
                         </div>
                         {errors.feeTypeId && <span className="error-message">{errors.feeTypeId.message}</span>}
                     </div>
-                    {/* <div className="col-12 col-sm-6 col-md-4">
+                    <div className="col-12 col-sm-6 col-md-4">
                         <label htmlFor="months" className="form-label font14">Month</label>
                         <div className="custom-dropdown" ref={dropdownRef}>
                             <button type="button" className="custom-dropdown-toggle font14" onClick={toggleDropdown}>
@@ -451,8 +451,9 @@ const CreateSingleInvoice = () => {
                             </div>
                         </div>
                         {errors.months && <span className="error-message">{errors.months.message}</span>}
-                    </div> */}
-                    <div className="col-12 col-sm-6 col-md-4">
+                    </div>
+
+                    {/* <div className="col-12 col-sm-6 col-md-4">
                         <label htmlFor="months" className="form-label font14">
                             Month
                         </label>
@@ -498,11 +499,10 @@ const CreateSingleInvoice = () => {
                                 ))}
                             </div>
                         </div>
-
                         {errors.months && (
                             <span className="error-message">{errors.months.message}</span>
                         )}
-                    </div>
+                    </div> */}
 
                     <div className="col-12 col-sm-6 col-md-4">
                         <label htmlFor="dueDate" className="form-label font14">Due Date</label>

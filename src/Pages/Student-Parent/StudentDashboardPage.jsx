@@ -139,7 +139,7 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>TimeTable Details</p>
+                    <p className='font14 mb-0 pb-0'  >TimeTable Details</p>
                   </div>
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/student/classRoutines'>View All</Link>
                 </div>
@@ -169,9 +169,9 @@ const DashboardPage = () => {
         <div className="col-md-6 col-12 ps-3 pe-3 pt-3">
           <div className="row cards borderradius8 h-100">
             <div className="col-12">
-              <div className="row bgDarkGreen bordeRadiusTop text-white p-1 py-2">
+              <div className="row bgDarkGreen bordeRadiusTop text-white p-1 pb-3" style={{paddingBottom:'30px'}}>
                 <div className="d-flex p-0 align-items-center justify-content-between">
-                  <span className='font14 ms-3'>Attendance</span>
+                  <span className='font14 ms-3 '>Attendance</span>
                   <button className="btn" onClick={() => monthUpdate(month === 1 ? 12 : month - 1) || yearUpdate(month === 1 ? year - 1 : year)}><Icon icon="lsicon:double-arrow-left-filled" width="16" height="16" style={{ color: '#fff' }} /></button>
                   <span className="mx-2">{new Date(year, month - 1).toLocaleString('default', { month: 'long' })} {year}</span>
                   <button className="btn" onClick={() => monthUpdate(month === 12 ? 1 : month + 1) || yearUpdate(month === 12 ? year + 1 : year)}><Icon icon="lsicon:double-arrow-right-filled" width="16" height="16" style={{ color: '#fff' }} /></button>
@@ -200,7 +200,7 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>Assignment Details</p>
+                    <p className='font14 mb-0 '>Assignment Details</p>
                   </div>
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/assignments'>View All</Link>
                 </div>
@@ -254,7 +254,7 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>Notice Board</p>
+                    <p className='font14 mb-0'>Notice Board</p>
                   </div>
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/notice'>View All</Link>
                 </div>
@@ -291,7 +291,7 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>Upcoming Events</p>
+                    <p className='font14 mb-0'>Upcoming Events</p>
                   </div>
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' to='/parent/event'>View All</Link>
                 </div>
@@ -356,7 +356,7 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>Upcoming Holiday</p>
+                    <p className='font14 mb-0'>Upcoming Holiday</p>
                   </div>
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/holiday'>View All</Link>
                 </div>
@@ -365,10 +365,11 @@ const DashboardPage = () => {
                 {DashData?.holidays.length > 0
                   ?
                   DashData?.holidays.slice(0, 6).map((item) => (
-                    <div className="col-4 p-2" key={item.holidayId}>
-                      <div className="holidayCard p-4">
-                        <p className='font14 text-center'>{item.title}</p>
-                        <p className='greyText font14 text-center'>{item.date}</p>
+                    <div className="col-6 p-2" key={item.holidayId}>
+                      <div className="holidayCard p-4" style={{borderRadius:'8px'}}>
+
+                        <p className='font14 text-center' >{item.title}</p>
+                        <p className='greyText font14 text-center' > <span style={{color:'#008479'}}>{item.startDate }</span> <br /> <span style={{color:'rgba(201, 3, 3, 1)'}}>{item.endDate }</span></p>
                       </div>
                     </div>
                   ))
@@ -391,3 +392,4 @@ const DashboardPage = () => {
 }
 
 export default DashboardPage
+ // <p className='font14 text-center'  style={{ wordBreak: "break-word", overflowWrap: "break-word" }}>{item.title}</p>

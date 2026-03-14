@@ -7,6 +7,9 @@ import ReactPaginate from 'react-paginate';
 import toast, { Toaster } from "react-hot-toast";
 import { debounce } from 'lodash';
 import DataLoader from 'src/Layouts/Loader';
+import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+
 import {
     addNewAllowanceName,
     getAllHRAllowanceName,
@@ -265,6 +268,7 @@ const Allowance = () => {
                             type="submit"
                             className="font12 btn col-1 addButtons2 text-white align-self-end"
                             disabled={!isValidAdd}
+                            style={{width:'120px'}}
                         >
                             Add Allowance
                         </button>
@@ -289,22 +293,42 @@ const Allowance = () => {
                                             <td className="text-muted">{(pageNo - 1) * pageSize + index + 1}.</td>
                                             <td className="greyText font14 fw-lighter">{item.allowanceName}</td>
                                             <td className="greyText font14 fw-lighter">
-                                                <FaEdit
+                                                {/* <FaEdit
                                                     className="me-3 text-success"
                                                     style={{ cursor: 'pointer' }}
                                                     title="Edit"
                                                     onClick={() => getAllowanceById(item.id)}
                                                     data-bs-toggle="offcanvas"
                                                     data-bs-target="#Edit_staticBackdrop"
+                                                /> */}
+                                                <DriveFileRenameOutlineOutlinedIcon 
+                                                    className="me-3  editIcon"
+                                                    style={{ cursor: 'pointer' }}
+                                                    title="Edit"
+                                                    onClick={() => getAllowanceById(item.id)}
+                                                    data-bs-toggle="offcanvas"
+                                                    data-bs-target="#Edit_staticBackdrop"
+                                                 
                                                 />
-                                                <FaTrash
+
+                                                {/* <FaTrash
                                                     className="text-danger me-3"
                                                     style={{ cursor: 'pointer' }}
                                                     title="Delete"
                                                     onClick={() => setDelAllowanceId(item.id)}
                                                     data-bs-toggle="offcanvas"
                                                     data-bs-target="#Delete_staticBackdrop"
+                                                /> */}
+                                                <DeleteOutlinedIcon 
+                                                 className=" me-3 deleteIcon"
+                                                    
+                                                    style={{ cursor: 'pointer' }}
+                                                    title="Delete"
+                                                    onClick={() => setDelAllowanceId(item.id)}
+                                                    data-bs-toggle="offcanvas"
+                                                    data-bs-target="#Delete_staticBackdrop"
                                                 />
+
                                             </td>
                                         </tr>
                                     ))
