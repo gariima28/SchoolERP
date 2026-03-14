@@ -52,11 +52,11 @@ const Container = styled.div`
     outline: none;
   }
 
-  .custom-dropdown {
+  .custom-dropdown-month {
     position: relative;
   }
 
-  .custom-dropdown-toggle {
+  .custom-dropdown-month-toggle {
     width: 100%;
     text-align: left;
     padding: 0.375rem 0.75rem;
@@ -66,7 +66,7 @@ const Container = styled.div`
     cursor: pointer;
   }
 
-  .custom-dropdown-menu {
+  .custom-dropdown-month-menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -81,7 +81,7 @@ const Container = styled.div`
     display: none;
   }
 
-  .custom-dropdown.open .custom-dropdown-menu {
+  .custom-dropdown-month.open .custom-dropdown-month-menu {
     display: block;
   }
 
@@ -418,11 +418,11 @@ const CreateBulkInvoice = () => {
           </div>
           <div className="col-12 col-sm-6 col-md-4">
             <label htmlFor="months" className="form-label font14">Month</label>
-            <div className="custom-dropdown" ref={dropdownRef}>
-              <button type="button" className="custom-dropdown-toggle font14" onClick={toggleDropdown}>
+            <div className="custom-dropdown-month" ref={dropdownRef}>
+              <button type="button" className="custom-dropdown-month-toggle font14" onClick={toggleDropdown}>
                 {watch('months')?.length > 0 ? watch('months').join(', ') : 'Select Month'}
               </button>
-              <div className="custom-dropdown-menu">
+              <div className="custom-dropdown-month-menu">
                 {months.map((month) => (
                   <div className="form-check" key={month}>
                     <input
