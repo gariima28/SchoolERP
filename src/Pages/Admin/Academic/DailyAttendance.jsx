@@ -812,14 +812,14 @@ const DailyAttendance = ({ items }) => {
   };
 
   useEffect(() => {
-  const closeDropdown = (e) => {
-    if (!e.target.closest(".position-relative")) {
-      setOpenAttendance(false);
-    }
-  };
-  document.addEventListener("click", closeDropdown);
-  return () => document.removeEventListener("click", closeDropdown);
-}, []);
+    const closeDropdown = (e) => {
+      if (!e.target.closest(".position-relative")) {
+        setOpenAttendance(false);
+      }
+    };
+    document.addEventListener("click", closeDropdown);
+    return () => document.removeEventListener("click", closeDropdown);
+  }, []);
 
   return (
     <Container>
@@ -995,7 +995,9 @@ const DailyAttendance = ({ items }) => {
                 </div>
                 <div className="col-3 p-0 d-flex rsnsve-pd">
                   <span className='heading-16 greyText padding-left'>Month -</span> &nbsp; &nbsp;
-                  <div>{showMonth}</div>
+                  <div>
+                    {showMonth?.charAt(0).toUpperCase() + showMonth?.slice(1)}
+                  </div>
                 </div>
                 <div className="col-3 p-0 d-flex  rsnsve-pd">
                   <span className='heading-16 greyText padding-left'>Last Update at  - </span> &nbsp; &nbsp;
@@ -1011,11 +1013,11 @@ const DailyAttendance = ({ items }) => {
                   <div className="container ">
                     <div className="row m-1 mb-4 show-attendance">
                       <div className="col-md-1 "></div>
-                      <div className="col-md-2 d-flex "><p className='stu-present'>P</p><span className='fontSize ms-2'>Present</span></div>
-                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent'>A</p><span className='fontSize ms-2'>Absent</span></div>
-                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
-                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave'>L</p><span className='fontSize ms-2'>Leave</span></div>
-                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday'>H</p><span className='fontSize ms-2'>Holiday</span></div>
+                      <div className="col-md-2 d-flex "><p className='stu-present mb-0'>P</p><span className='fontSize ms-2'>Present</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-absent mb-0'>A</p><span className='fontSize ms-2'>Absent</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-weekend mb-0'>W</p><span className='fontSize ms-2'>Weekend</span> </div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-leave mb-0'>L</p><span className='fontSize ms-2'>Leave</span></div>
+                      <div className="col-md-2 d-flex mrgn-btm-respnsve"><p className='stu-holiday mb-0'>H</p><span className='fontSize ms-2'>Holiday</span></div>
                       <div className="col-md-1 "></div>
                     </div>
                   </div>

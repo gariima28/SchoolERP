@@ -393,7 +393,7 @@ const AllRoute = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {RouteData.map((item, index) => (
+                                            {RouteData?.map((item, index) => (
                                                 <tr key={item.routeId} className='my-bg-color align-middle'>
                                                     <th className='textWrapClass greyText'><h3>{index + 1}</h3></th>
                                                     <td className='textWrapClass greyText'><h3>{item.routeName}</h3></td>
@@ -453,7 +453,7 @@ const AllRoute = () => {
                                 <form onSubmit={handleSubmit(UpdateRouteDataById)}>
                                     <div className="mb-3">
                                         <label htmlFor="routeName" className="form-label font14">Route</label>
-                                        <input id="routeName" type="text" className={`form-control font14 ${errors.routeName ? 'border-danger' : ''}`} placeholder="Enter Route Name" {...register('routeName', { required: 'Route Name is required *', validate: value => { if (!/^[A-Z]/.test(value)) { return 'Route Name must start with an uppercase letter'; } if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z\s'-]+$/.test(value)) { return 'Invalid Characters in Route Name'; } return true; } })} />
+                                        <input id="routeName" type="text" className={`form-control font14 ${errors.routeName ? 'border-danger' : ''}`} placeholder="Enter Route Name" {...register('routeName', { required: 'Route Name is required *', validate: value => { if (!/^[A-Za-z0-9\s'-]+$/.test(value)) { return 'Route Name must start with an uppercase letter'; } if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[A-Za-z0-9\s'-]+$/.test(value)) { return 'Invalid Characters in Route Name'; } return true; } })} />
                                         {errors.routeName && <p className="font12 text-danger">{errors.routeName.message}</p>}
                                     </div>
                                     <p className='text-center p-3'>

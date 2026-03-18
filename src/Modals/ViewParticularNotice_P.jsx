@@ -95,7 +95,6 @@ const ViewParticularNotice = ({ dataId, viewAllState }) => {
             <hr />
             <div className="row">
                 <p className='font14'>{noticeDescriptionById}</p>
-              
             </div>
             <div className="row mt-2">
                 <div className="col-6"></div>

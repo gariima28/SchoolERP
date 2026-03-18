@@ -53,12 +53,12 @@ const ExcelUpload = () => {
     const handleClassChange = (val) => {
         const classNoVal = val;
         setValue('classNo', classNoVal);
-        console.log('classNo', classNoVal)
+        console.log('classNo-----', classNoVal)
         const selectedClass = allClassData.find(c => c.classNo === classNoVal);
 
         if (selectedClass) {
             setAllSectionData(selectedClass.section || []);
-            console.log(selectedClass.section)
+            console.log('section value',selectedClass.section)
         } else {
             setAllSectionData([]);
         }
@@ -116,6 +116,18 @@ const Download_Slip = async () => {
         toast.error('Excel download failed');
     }
 }
+const onSubmit = (formData) => {
+    console.log("formData", formData);
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("csvFile", formData.csvFile[0]); // file
+
+    AddStudentByCSVApi(
+        formData.classNo,
+        formData.sectionName,
+        formDataToSend
+    );
+};
     return (
         <>
             <Container>
@@ -132,12 +144,13 @@ const Download_Slip = async () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" viewBox="0 0 16 16"><g fill="white"><path d="M10.5 8a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0" /><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7a3.5 3.5 0 0 0 0 7" /></g></svg>
                             </button>
                         </div>
-                        <form className="row g-3 m-0" onSubmit={handleSubmit(AddStudentByCSVApi)}>
+                        <form className="row g-3 m-0" onSubmit={handleSubmit(onSubmit)}>
+                        {/* <form className="row g-3 m-0" onSubmit={handleSubmit(AddStudentByCSVApi())}> */}
                             <div className="col-md-6 col-sm-12 col-12">
                                 <label htmlFor="classNo" className="form-label font14">Class <span className='text-danger'>*</span></label>
                                 <select id="classNo" className={`form-select font14 ${errors.classNo ? 'border-danger' : ''}`} {...register('classNo', { required: 'Class is required *' })} onChange={(e) => handleClassChange(e.target.value)}>
                                     <option value="">Select Class</option>
-                                    {allClassData.map((classs) => (<option key={classs.classId} value={classs.classNo}> {classs.classNo} </option>))}
+                                    {allClassData?.map((classs) => (<option key={classs.classId} value={classs.classNo}> {classs.classNo} </option>))}
                                 </select>
                                 {errors.classNo && <p className="font12 text-danger">{errors.classNo.message}</p>}
                             </div>
@@ -145,7 +158,7 @@ const Download_Slip = async () => {
                                 <label htmlFor="sectionName" className="form-label font14">Section <span className='text-danger'>*</span></label>
                                 <select id="sectionName" className={`form-select font14 ${errors.sectionName ? 'border-danger' : ''}`} {...register('sectionName', { required: 'Section is required *' })} >
                                     <option value="">Select Section</option>
-                                    {allSectionData.map((section) => (<option key={section.classSecId} value={section.sectionName}> {section.sectionName} </option>))}
+                                    {allSectionData?.map((section) => (<option key={section.classSecId} value={section.sectionName}> {section.sectionName} </option>))}
                                 </select>
                                 {errors.sectionName && <p className="font12 text-danger">{errors.sectionName.message}</p>}
                             </div>
@@ -156,6 +169,30 @@ const Download_Slip = async () => {
                             </div>
                             <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' type='submit'>+ Add Student</button>
                         </form>
+                        {/* <form className="row g-3 m-0" onSubmit={handleSubmit(AddStudentByCSVApi)}>
+                            <div className="col-md-6 col-sm-12 col-12">
+                                <label htmlFor="classNo" className="form-label font14">Class <span className='text-danger'>*</span></label>
+                                <select id="classNo" className={`form-select font14 ${errors.classNo ? 'border-danger' : ''}`} {...register('classNo', { required: 'Class is required *' })} onChange={(e) => handleClassChange(e.target.value)}>
+                                    <option value="">Select Class</option>
+                                    {allClassData?.map((classs) => (<option key={classs.classId} value={classs.classNo}> {classs.classNo} </option>))}
+                                </select>
+                                {errors.classNo && <p className="font12 text-danger">{errors.classNo.message}</p>}
+                            </div>
+                            <div className="col-md-6 col-sm-12 col-12">
+                                <label htmlFor="sectionName" className="form-label font14">Section <span className='text-danger'>*</span></label>
+                                <select id="sectionName" className={`form-select font14 ${errors.sectionName ? 'border-danger' : ''}`} {...register('sectionName', { required: 'Section is required *' })} >
+                                    <option value="">Select Section</option>
+                                    {allSectionData?.map((section) => (<option key={section.classSecId} value={section.sectionName}> {section.sectionName} </option>))}
+                                </select>
+                                {errors.sectionName && <p className="font12 text-danger">{errors.sectionName.message}</p>}
+                            </div>
+                            <div className="col-md-12 col-sm-12 col-12">
+                                <label htmlFor="csvFile" className="form-label font14">Upload XLSX <span className='text-danger'>*</span></label>
+                                <input id="csvFile" type="file" className={`form-control font14 ${errors.csvFile ? 'border-danger' : ''}`} accept=".xlsx" onChange={(e) => setValue('csvFile', e.target.files)} {...register('csvFile', { required: 'XLSX File is required *' })} />
+                                {errors.csvFile && <p className="font12 text-danger">{errors.csvFile.message}</p>}
+                            </div>
+                            <button className='col-lg-2 col-md-3 col-sm-4 col-6 btn AddBtnn font14 text-white' type='submit'>+ Add Student</button>
+                        </form> */}
                     </div>
                 </div>
 

@@ -122,7 +122,7 @@ const AddRoute = () => {
               <form className="row g-3" onSubmit={handleSubmit(AddNewRoute)}>
                 <div className="col-md-6 col-sm-12 col-12">
                   <label htmlFor="routeName" className="form-label font14">Route  <span className='text-danger'>*</span></label>
-                  <input id="routeName" type="text" className={`form-control font14 ${errors.routeName ? 'border-danger' : ''}`} placeholder="Enter Route Name" {...register('routeName', { required: 'Route Name is required *', validate: value => { if (!/^[A-Z]/.test(value)) { return 'Route Name must start with an uppercase letter'; } if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z\s'-]+$/.test(value)) { return 'Invalid Characters in Route Name'; } return true; } })} />
+                  <input id="routeName" type="text" className={`form-control font14 ${errors.routeName ? 'border-danger' : ''}`} placeholder="Enter Route Name" {...register('routeName', { required: 'Route Name is required *', validate: value => { if (!/^[A-Za-z0-9\s'-]+$/.test(value)) { return 'Route Name must start with an uppercase letter'; } if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[A-Za-z0-9\s'-]+$/.test(value)) { return 'Invalid Characters in Route Name'; } return true; } })} />
                   {errors.routeName && <p className="font12 text-danger">{errors.routeName.message}</p>}
                 </div>
                 <div className="row p-3">
