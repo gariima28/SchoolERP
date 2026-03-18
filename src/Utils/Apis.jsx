@@ -949,20 +949,33 @@ export const DownloadStudentExcelForm = async () => {
   }
 }
 
+// export const AddStudentByCSVApi = async (classNo, sectionName, data) => {
+//   try {
+//     axios.defaults.headers.common["Authorization"] = token;
+//     var res = await axios.post(`${Domain}/student/importStudentCSV?classNo=${classNo}&sectionName=${sectionName}`, data);
+//     if (res) {
+//       return res;
+//     } else {
+//       return []
+//     }
+//   } catch (error) {
+//     return [];
+//   }
+// }
 export const AddStudentByCSVApi = async (classNo, sectionName, data) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.post(`${Domain}/student/importStudentCSV?classNo=${classNo}&sectionName=${sectionName}`, data);
-    if (res) {
-      return res;
-    } else {
-      return []
-    }
+
+    const res = await axios.post(
+      `${Domain}/student/importStudentCSV?classNo=${classNo}&sectionName=${sectionName}`,
+      data
+    );
+
+    return res || [];
   } catch (error) {
     return [];
   }
-}
-
+};
 
 export const DownloadStudentFeeDataCSV = async (studentId) => {
   try {

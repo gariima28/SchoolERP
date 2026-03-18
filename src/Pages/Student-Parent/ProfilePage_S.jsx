@@ -339,7 +339,7 @@ const ProfilePage = () => {
                             <div className="d-flex bg-white">
                                 {schoolLogoVal && changeImageType ?
                                     // <input id="multipartFile" type="text" className='form-control formimagetext font14' value={schoolLogoVal.split('/').pop()} disabled />
-                                    <p className='col-11 border borderRadiusleft'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={schoolLogoVal} height={34} alt='student image' /></p>
+                                    <p className='mb-0 col-11 border borderRadiusleft'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='' src={schoolLogoVal} height={34} alt='student image' /></p>
                                     :
                                     <input id="multipartFile" type="file" className={`form-control formimagetext font14 ${errors.multipartFile ? 'border-danger' : ''}`} accept='.jpg, .jpeg, .png' {...register('multipartFile', { required: 'Student Image is required *' })} />
                                 }

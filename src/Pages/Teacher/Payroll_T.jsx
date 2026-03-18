@@ -723,7 +723,6 @@ const Payroll = () => {
             <table className="table table-sm ">
               <thead className=''>
                 <tr className='heading-16 text-color-000 ' style={{ fontWeight: '500', whiteSpace: 'nowrap', gap: '5px' }}>
-                  {/* <th className='table-row-bg-color greyText'></th> */}
                   <th className='table-row-bg-color greyText'>#</th>
                   <th className='table-row-bg-color greyText'>Name</th>
                   <th className='table-row-bg-color greyText'>Status</th>
@@ -756,7 +755,7 @@ const Payroll = () => {
                         <td className=' greyText'>{item.basicPay}</td>
                         <td className=' greyText'>{item.allowedPaidLeaves}</td>
                         <td className=' greyText'>{item.unpaidLeaves}</td>
-                        <td className=' greyText'>{item.paidLeaves ? item.paidLeaves : 'N-I-R'}</td>
+                        <td className=' greyText'>{item.paidLeaves}</td>
                         <td className=' greyText'>{item.takenLeaves}</td>
                         <td className=' greyText'>{item.leaveDeduction}</td>
                         <td className=' greyText'>{item.allowanceTotal}</td>
@@ -764,7 +763,6 @@ const Payroll = () => {
                         <td className=' greyText'>{item.totalWorkingDays}</td>
                         <td className=' greyText'>{item.netSalary}</td>
                         <td className=' greyText'>{item.generateInove ? generateInove : 'N-I-R'}</td>
-
                       </tr>
                     ))
                   )
@@ -817,8 +815,6 @@ const Payroll = () => {
               />
             </div>
           </div>
-
-
         </div>
 
         {/* ################## Off Canvas Area ####################  */}

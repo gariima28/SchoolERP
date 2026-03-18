@@ -170,8 +170,9 @@ const Marksheet = () => {
         try {
             setloaderState(true);
             const response = await viewMarksheetApi(sectionId, classNo, examTermSelect, studentId);
+            console.log('View Marksheet Response:', response);
             if (response?.status === 200 && response?.data?.status === 'success') {
-                setSelectedStudentMarksheetData(response.data);
+                setSelectedStudentMarksheetData(response?.data?.student);
             } else {
                 toast.error(response?.data?.message || 'Failed to fetch student data');
             }
@@ -415,7 +416,7 @@ const Marksheet = () => {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {MarksheetData.map((item, index) => (
+                                                            {MarksheetData?.map((item, index) => (
                                                                 <tr key={item.studentId} className='my-bg-color align-middle'>
                                                                     <th className='textWrapClass greyText font14'>{index + 1}</th>
                                                                     <td className='textWrapClass greyText font14'>{item.studentName}</td>
@@ -485,7 +486,7 @@ const Marksheet = () => {
                                             <img src='/images/marksheetlogo.webp' alt="School Logo" height={100} />
                                         </div>
                                         <div className="col-8 text-center">
-                                            <h6 className='text-center'>Affiliated To : {selectedStudentMarksheetData?.data?.student.boardName || <span className='greyText font14'>-- Board Name Not Available --</span>}</h6>
+                                            <h6 className='text-center'>Address : {selectedStudentMarksheetData?.data?.student.boardName || <span className='greyText font14'>-- Board Name Not Available --</span>}</h6>
                                             <h6 className='text-center'>Ph {selectedStudentMarksheetData?.data?.student.schoolphone || <span className='greyText font14'>-- School Contact Not Available --</span>}, Email: {selectedStudentMarksheetData?.data?.student.schoolemail || <span className='greyText font14'>-- School Mail Not Available --</span>},</h6>
                                             <p>Visit us: <a className="text-decoration-none" href="mailto:hshs">{selectedStudentMarksheetData?.data?.student.websiteLink || <span className='greyText font14'> --School Website Not Available --</span>}</a></p>
                                             <div className="mt-3">

@@ -531,7 +531,7 @@ const ClassRoom = () => {
     setTimeout(() => {
       forceRemoveBackdrop();
     }, 300);
-    
+
   };
 
 
@@ -613,6 +613,7 @@ const ClassRoom = () => {
   // setTimeout(() => {
   //   setShowdelete(true)
   // }, 0.5)
+
   // Get by id 
   const MyClassRoomGetByIdApi = async (id) => {
     setLoader(true)
@@ -702,7 +703,8 @@ const ClassRoom = () => {
             </nav>
           </div>
           <div className='d-flex g-1 for-media-query'>
-            <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight12" aria-controls="offcanvasRight" to={''} onClick={() => openCanvas(offcanvasRef)}>+ ADD Class Room</Link>
+            <Link type="button" className="btn btn-success heading-16 my-own-button me-3"  to={''} onClick={() => openCanvas(offcanvasRef)}>+ ADD Class Room</Link>
+            {/* <Link type="button" className="btn btn-success heading-16 my-own-button me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight12" aria-controls="offcanvasRight" to={''} onClick={() => openCanvas(offcanvasRef)}>+ ADD Class Room</Link> */}
           </div>
         </div>
         <h5 className='ms-3 mb-2 margin-minus22 heading-16 heading-responsive' style={{ marginTop: '-12px' }}>Class Room List</h5>
@@ -914,19 +916,3 @@ const ClassRoom = () => {
 
 export default ClassRoom
 
-
-// if (response?.data?.status === "success") {
-//   toast.success(response?.data?.message);
-//   ClassRoomGetAllApi()
-//   setShow(false)
-//   setHide(true)
-//   setLoader(false)
-//   setAddclassroom('')
-//   setMyCheck(true)
-//   console.log('my data of')
-//   const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef.current);
-//   offcanvasInstance.hide();
-//   setTimeout(() => {
-//     setShow(true)
-//   }, 0.5)
-// }

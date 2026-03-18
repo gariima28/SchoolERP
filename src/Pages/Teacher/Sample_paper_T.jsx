@@ -1081,7 +1081,7 @@ const Sample_paper = () => {
                                                     </svg>
                                                 </p>
                                                 <p className='ps-2 pt-4'>
-                                                    <button className='' type="button" onClick={() => handleDownloadPdf(item.sampleId)}>Dowload</button>
+                                                    <a className='' type="button" onClick={() => handleDownloadPdf(item.sampleId)}>Dowload</a>
                                                 </p>
                                             </td>
                                             <td className='greyText'>
