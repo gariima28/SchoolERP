@@ -98,14 +98,15 @@ const ExcelUpload = () => {
 const Download_Slip = async () => {
     try {
         const response = await DownloadStudentExcelForm();
-
+        console.log('value of download slip ',response)
         if (response?.status === 200 && response?.data?.csvUrl) {
             const fileUrl = response.data.csvUrl;
-            console.log('xlsx value', fileUrl)
+            `console`.log('xlsx value', fileUrl)
 
             const link = document.createElement('a');
             link.href = fileUrl;
-            link.setAttribute('download', 'Student_List.xlsx');
+            // link.setAttribute('download', fileUrl);
+            link.setAttribute('download', fileUrl.substring(fileUrl.lastIndexOf('/') + 1));
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
