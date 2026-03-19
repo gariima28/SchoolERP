@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { addNewStudentApi, getAllClassApi, getAllFeeMasterApi, getStudentDataByIdApi, updateStudentApi } from 'src/Utils/Apis';
+import { getAllClassApi, getStudentDataByIdApi, updateStudentApi } from 'src/Utils/Apis';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import DataLoader from 'src/Layouts/Loader';
@@ -41,10 +41,8 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
 
-  // Loader State
   const [loaderState, setLoaderState] = useState(false);
 
-  // Form States
   const [studentEmailVal, setStudentEmailVal] = useState('');
   const [parentEmailVal, setParentEmailVal] = useState('');
   const [studentImageVal, setStudentImageVal] = useState('');
@@ -52,12 +50,13 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   const [changeImageType, setChangeImageType] = useState(true);
   const [changeImageTypeParent, setChangeImageTypeParent] = useState(true);
 
-  // Data States
   const [allClassData, setAllClassData] = useState([]);
+  // ✅ useRef se allClassData ka latest value milega bina dependency ke
+  const allClassDataRef = useRef([]);
+
   const [allSectionData, setAllSectionData] = useState([]);
   const [initialValues, setInitialValues] = useState({});
 
-  // Country, State, City States
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -65,9 +64,6 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
   const [selectedState, setSelectedState] = useState('');
   const [pendingStateCode, setPendingStateCode] = useState('');
   const [pendingCityName, setPendingCityName] = useState('');
-  const [pendingSection, setPendingSection] = useState('');
-
-
 
   const apiKey = 'ZGpVTFdPWU03YVRmcGJtd3NWWEYyT2JhQWNKMzNmYXR6ZjNYME1Rcw==';
   const headers = { 'X-CSCAPI-KEY': apiKey };
@@ -76,13 +72,10 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     mode: 'onChange',
   });
 
-    // just change to show section in edit input
-  useEffect(() => {
-    if (pendingSection && allSectionData.length > 0) {
-      setValue('sectionName', pendingSection);
-    }
-  }, [pendingSection, allSectionData, setValue]);
   const watchFields = watch();
+  const watchCountry = watch('country');
+  const watchState = watch('state');
+
   const [isFormChanged, setIsFormChanged] = useState(false);
 
   useEffect(() => {
@@ -92,10 +85,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     setIsFormChanged(isChanged);
   }, [watchFields, initialValues]);
 
-  const sectionIdVal = watch('sectionName');
-  console.log('check section value', sectionIdVal);
-
-  // ---------- API Functions for Country, State, City ----------
+  // ---------- Country / State / City APIs ----------
   const fetchCountries = async () => {
     try {
       const response = await fetch('https://api.countrystatecity.in/v1/countries', { headers });
@@ -107,7 +97,6 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       }
     } catch (error) {
       toast.error('Error fetching countries');
-      console.error('Error fetching countries:', error);
     }
   };
 
@@ -128,7 +117,6 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       }
     } catch (error) {
       toast.error('Error fetching states');
-      console.error('Error fetching states:', error);
     }
   };
 
@@ -144,7 +132,6 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
       }
     } catch (error) {
       toast.error('Error fetching cities');
-      console.error('Error fetching cities:', error);
     }
   };
 
@@ -163,7 +150,6 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     else { setCities([]); setValue('city', ''); }
   }, [selectedState, selectedCountry]);
 
-  // ---------- State / City population after fetch ----------
   useEffect(() => {
     if (states.length > 0 && pendingStateCode) {
       const matchingState = states.find(s => s.iso2 === pendingStateCode);
@@ -196,47 +182,43 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     }
   }, [cities, pendingCityName, setValue]);
 
-  // ---------- Other API Functions ----------
+  // ---------- Class API ----------
   const getAllClassData = async () => {
-    setLoaderState(true);
     try {
       const response = await getAllClassApi();
       if (response?.status === 200 && response?.data?.status === 'success') {
-        setAllClassData(response?.data?.classes);
+        const classes = response?.data?.classes || [];
+        setAllClassData(classes);
+        allClassDataRef.current = classes; // ✅ Ref update karo
       } else {
         toast.error(response?.data?.message);
       }
     } catch (error) {
       toast.error('Error fetching classes');
-      console.error('Error fetching classes:', error);
-    } finally {
-      setLoaderState(false);
     }
   };
 
-  const handleClassChange = async (val) => {
-    setLoaderState(true);
-    if (!allClassData || allClassData.length === 0) {
-      setLoaderState(false);
-      return;
-    }
-    const classNoVal = val;
-    setValue('classNo', classNoVal);
-    const selectedClass = allClassData.find(c => c.classNo === classNoVal);
-    if (selectedClass) setAllSectionData(selectedClass.section || []);
-    else setAllSectionData([]);
-    if (selectedClass?.section?.length > 0) setValue('sectionName', selectedClass.section[0].classSecId);
-    setLoaderState(false);
+  // ✅ handleClassChange — ref se classes lo, sections return karo
+  const handleClassChange = (val, classesData = null) => {
+    const classes = classesData || allClassDataRef.current;
+    if (!val || !classes || classes.length === 0) return [];
+
+    const selectedClass = classes.find(c => c.classNo === val);
+    const sections = selectedClass?.section || [];
+
+    setValue('classNo', val);
+    setAllSectionData(sections);
+
+    return sections;
   };
 
-  const getStudentDataById = async () => {
-    setLoaderState(true);
+  // ---------- Student Data API ----------
+  const getStudentDataById = async (classesData) => {
     try {
       const response = await getStudentDataByIdApi(studentGetId);
       if (response?.status === 200 && response?.data?.status === 'success') {
         const student = response?.data?.student;
 
-        // Populate form fields
         setValue('studentName', student?.studentName || '');
         setValue('fatherName', student?.fatherName || '');
         setValue('motherName', student?.motherName || '');
@@ -249,15 +231,13 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
         setValue('fatherOccupation', student?.fatherOccupation || '');
         setValue('motherOccupation', student?.motherOccupation || '');
 
+        // ✅ Class change karo — classesData seedha pass karo (stale state problem nahi hogi)
+        const sections = handleClassChange(student?.classNo, classesData);
 
-        // just change to show section in edit input
+        // ✅ Section set karo — sections mile hain to validate karke set karo
+        const sectionExists = sections.some(s => s.sectionName === student?.classSection);
+        setValue('sectionName', sectionExists ? (student?.classSection || '') : '');
 
-        await handleClassChange(student?.classNo);
-        setValue('sectionName', student?.classSection || '');
-
-        // await handleClassChange(student?.classNo);
-        // setPendingSection(student?.classSection || '');
-        
         setValue('studentDOB', student?.dateOfBirth || '');
         setValue('studentAddress', student?.address || '');
         setValue('emergencyNo', student?.emergencyNo || '');
@@ -270,34 +250,34 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
         setValue('stuStatus', student?.stuStatus ?? false);
         setValue('pinCode', student?.pinCode || '');
 
-        // Country / State / City
         setSelectedCountry(student?.country || '');
         setValue('country', student?.country || '');
         setPendingStateCode(student?.state || '');
         setPendingCityName(student?.city || '');
 
         setInitialValues({
-          studentName: student?.studentName,
-          fatherName: student?.fatherName,
-          motherName: student?.motherName,
-          studentPh: student?.studentPhone,
-          parentNo: student?.parentNo,
-          studentEmail: student?.studentEmail,
-          parentEmail: student?.parentEmail,
-          fatherOccupation: student?.fatherOccupation,
-          motherOccupation: student?.motherOccupation,
-          sectionName: student?.classSection,
-          studentDOB: student?.dateOfBirth,
-          studentAddress: student?.address,
-          emergencyNo: student?.emergencyNo,
-          studentImage: student?.studentImage,
-          parentImage: student?.parentImage,
-          bloodGroup: student?.bloodGroup,
-          gender: student?.studentGender,
-          country: student?.country,
-          state: student?.state,
-          city: student?.city,
-          pinCode: student?.pinCode,
+          studentName: student?.studentName || '',
+          fatherName: student?.fatherName || '',
+          motherName: student?.motherName || '',
+          studentPh: student?.studentPhone || '',
+          parentNo: student?.parentNo || '',
+          studentEmail: student?.studentEmail || '',
+          parentEmail: student?.parentEmail || '',
+          fatherOccupation: student?.fatherOccupation || '',
+          motherOccupation: student?.motherOccupation || '',
+          sectionName: student?.classSection || '',
+          classNo: student?.classNo || '',
+          studentDOB: student?.dateOfBirth || '',
+          studentAddress: student?.address || '',
+          emergencyNo: student?.emergencyNo || '',
+          studentImage: student?.studentImage || '',
+          parentImage: student?.parentImage || '',
+          bloodGroup: student?.bloodGroup || '',
+          gender: student?.studentGender || '',
+          country: student?.country || '',
+          state: student?.state || '',
+          city: student?.city || '',
+          pinCode: student?.pinCode || '',
         });
 
         setChangeImageType(!!student?.studentImage);
@@ -311,6 +291,35 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     }
   };
 
+  // ✅ Main useEffect — pehle class data lo, phir student data
+  useEffect(() => {
+    if (!studentGetId || studentGetId.toString().trim() === '') return;
+
+    const init = async () => {
+      setLoaderState(true);
+      try {
+        // ✅ Pehle class API call karo aur classes directly lo
+        const classResponse = await getAllClassApi();
+        let classes = [];
+        if (classResponse?.status === 200 && classResponse?.data?.status === 'success') {
+          classes = classResponse?.data?.classes || [];
+          setAllClassData(classes);
+          allClassDataRef.current = classes;
+        }
+
+        // ✅ Ab student data fetch karo — classes seedha pass karo
+        await getStudentDataById(classes);
+      } catch (error) {
+        console.error('Init error:', error);
+      } finally {
+        setLoaderState(false);
+      }
+    };
+
+    init();
+  }, [token, studentGetId]);
+
+  // ---------- Update API ----------
   const updateStudent = async (data) => {
     setLoaderState(true);
     try {
@@ -354,33 +363,17 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
     }
   };
 
-
-  useEffect(() => {
-    if (!studentGetId || studentGetId.toString().trim() === '') {
-      setLoaderState(false);
-      return;
-    }
-
-    setLoaderState(true);
-    Promise.all([getAllClassData(), getStudentDataById()]);
-
-  }, [token, studentGetId]);
-
-  const watchClassNo = watch('classNo');
-  const watchCountry = watch('country');
-  const watchState = watch('state');
-
   return (
     <Container className="hideScrollBar pt-3">
       {loaderState && <DataLoader />}
       <div className="container-fluid">
         <form className="row h-100 overflow-scroll" onSubmit={handleSubmit(updateStudent)}>
+
           {/* ---------- Student Name ---------- */}
           <div className="mb-3">
             <label htmlFor="studentName" className="form-label font14">Name</label>
             <input
-              id="studentName"
-              type="text"
+              id="studentName" type="text"
               className={`form-control font14 ${errors.studentName ? 'border-danger' : ''}`}
               placeholder="Enter Student Name"
               {...register('studentName', {
@@ -398,12 +391,8 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           {/* ---------- Blood Group ---------- */}
           <div className="mb-3">
             <label htmlFor="bloodGroup" className="form-label font14">Blood Group</label>
-            <select
-              id="bloodGroup"
-              className={`form-select font14 ${errors.bloodGroup ? 'border-danger' : ''}`}
-              {...register('bloodGroup')}
-            >
-              <option value="" disabled>Select Blood Group</option>
+            <select id="bloodGroup" className={`form-select font14 ${errors.bloodGroup ? 'border-danger' : ''}`} {...register('bloodGroup')}>
+              <option value="">Select Blood Group</option>
               <option value="AB+">AB+</option>
               <option value="A+">A+</option>
               <option value="B+">B+</option>
@@ -416,8 +405,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="fatherName" className="form-label font14">Father Name</label>
             <input
-              id="fatherName"
-              type="text"
+              id="fatherName" type="text"
               className={`form-control font14 ${errors.fatherName ? 'border-danger' : ''}`}
               placeholder="Enter Father's Name"
               {...register('fatherName', {
@@ -436,8 +424,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="motherName" className="form-label font14">Mother Name</label>
             <input
-              id="motherName"
-              type="text"
+              id="motherName" type="text"
               className={`form-control font14 ${errors.motherName ? 'border-danger' : ''}`}
               placeholder="Enter Mother's Name"
               {...register('motherName', {
@@ -456,16 +443,15 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="studentPh" className="form-label font14">Student Contact Details</label>
             <input
-              id="studentPh"
-              type="tel"
+              id="studentPh" type="tel"
               className={`form-control font14 ${errors.studentPh ? 'border-danger' : ''}`}
               placeholder="Enter Student's Phone Number"
               {...register('studentPh', {
                 validate: (value) => {
                   if (value && !/^[6-9][0-9]{3}/.test(value)) return 'Phone number must start with digits between 6 and 9';
-                  if (value && !/^[0-9]*$/.test(value)) return 'Invalid character in phone number. Please enter only digits';
-                  if (value && value.length < 10) return 'Phone number must be of minimum 10 digits';
-                  if (value && value.length > 10) return 'Phone number can be of maximum 10 digits';
+                  if (value && !/^[0-9]*$/.test(value)) return 'Invalid character in phone number';
+                  if (value && value.length < 10) return 'Minimum 10 digits required';
+                  if (value && value.length > 10) return 'Maximum 10 digits allowed';
                   return true;
                 },
               })}
@@ -477,16 +463,15 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="parentNo" className="form-label font14">Parent Contact Details</label>
             <input
-              id="parentNo"
-              type="tel"
+              id="parentNo" type="tel"
               className={`form-control font14 ${errors.parentNo ? 'border-danger' : ''}`}
               placeholder="Enter Parent's Phone Number"
               {...register('parentNo', {
                 validate: (value) => {
                   if (value && !/^[6-9][0-9]{3}/.test(value)) return 'Phone number must start with digits between 6 and 9';
-                  if (value && !/^[0-9]*$/.test(value)) return 'Invalid character in phone number. Please enter only digits';
-                  if (value && value.length < 10) return 'Phone number must be of minimum 10 digits';
-                  if (value && value.length > 10) return 'Phone number can be of maximum 10 digits';
+                  if (value && !/^[0-9]*$/.test(value)) return 'Invalid character in phone number';
+                  if (value && value.length < 10) return 'Minimum 10 digits required';
+                  if (value && value.length > 10) return 'Maximum 10 digits allowed';
                   return true;
                 },
               })}
@@ -498,8 +483,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="studentEmail" className="form-label font14">Student Email</label>
             <input
-              id="studentEmail"
-              type="email"
+              id="studentEmail" type="email"
               className={`form-control font14 ${errors.studentEmail ? 'border-danger' : ''}`}
               placeholder="Enter Student's Email"
               {...register('studentEmail', {
@@ -516,8 +500,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="parentEmail" className="form-label font14">Parent Email</label>
             <input
-              id="parentEmail"
-              type="email"
+              id="parentEmail" type="email"
               className={`form-control font14 ${errors.parentEmail ? 'border-danger' : ''}`}
               placeholder="Enter Parent's Email"
               {...register('parentEmail', {
@@ -533,12 +516,8 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           {/* ---------- Father Occupation ---------- */}
           <div className="mb-3">
             <label htmlFor="fatherOccupation" className="form-label font14">Father Occupation</label>
-            <select
-              id="fatherOccupation"
-              className={`form-select font14 ${errors.fatherOccupation ? 'border-danger' : ''}`}
-              {...register('fatherOccupation')}
-            >
-              <option value="" disabled>-- Choose --</option>
+            <select id="fatherOccupation" className={`form-select font14 ${errors.fatherOccupation ? 'border-danger' : ''}`} {...register('fatherOccupation')}>
+              <option value="">-- Choose --</option>
               <option value="Private">Private</option>
               <option value="Service Man">Service Man</option>
               <option value="Government">Government</option>
@@ -556,12 +535,8 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           {/* ---------- Mother Occupation ---------- */}
           <div className="mb-3">
             <label htmlFor="motherOccupation" className="form-label font14">Mother Occupation</label>
-            <select
-              id="motherOccupation"
-              className={`form-select font14 ${errors.motherOccupation ? 'border-danger' : ''}`}
-              {...register('motherOccupation')}
-            >
-              <option value="" disabled>-- Choose --</option>
+            <select id="motherOccupation" className={`form-select font14 ${errors.motherOccupation ? 'border-danger' : ''}`} {...register('motherOccupation')}>
+              <option value="">-- Choose --</option>
               <option value="House Wife">House Wife</option>
               <option value="Government">Government</option>
               <option value="Working">Working</option>
@@ -582,13 +557,14 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
               id="classNo"
               className={`form-select font14 ${errors.classNo ? 'border-danger' : ''}`}
               {...register('classNo')}
-              onChange={(e) => handleClassChange(e.target.value)}
+              onChange={(e) => {
+                handleClassChange(e.target.value);
+                setValue('sectionName', ''); // ✅ Class change hone pe section reset
+              }}
             >
-              <option value="" disabled>-- Select --</option>
+              <option value="">-- Select --</option>
               {allClassData?.map((cls) => (
-                <option key={cls.classId} value={cls.classNo}>
-                  {cls.classNo}
-                </option>
+                <option key={cls.classId} value={cls.classNo}>{cls.classNo}</option>
               ))}
             </select>
             {errors.classNo && <p className="font12 text-danger">{errors.classNo.message}</p>}
@@ -599,12 +575,11 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             <label htmlFor="sectionName" className="form-label font14">Section</label>
             <select
               id="sectionName"
+              key={allSectionData.map(s => s.classSecId).join('-')} // ✅ key change hoga to remount
               className={`form-select font14 ${errors.sectionName ? 'border-danger' : ''}`}
-              value={sectionIdVal}
-              // value={pendingSection}
               {...register('sectionName')}
             >
-              <option value="" disabled>-- Select --</option>
+              <option value="">-- Select --</option>
               {allSectionData.map((sec) => (
                 <option key={sec.classSecId} value={sec.sectionName}>
                   {sec.sectionName}
@@ -614,41 +589,19 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             {errors.sectionName && <p className="font12 text-danger">{errors.sectionName.message}</p>}
           </div>
 
-          {/* <select
-            id="sectionName"
-            className={`form-select font14 ${errors.sectionName ? 'border-danger' : ''}`}
-            {...register('sectionName')}
-            value={pendingSection}
-          >
-            <option value="" disabled>-- Select --</option>
-            {allSectionData.map((sec) => (
-              <option key={sec.classSecId} value={sec.sectionName}>
-                {sec.sectionName}
-              </option>
-            ))}
-          </select> */}
 
           {/* ---------- Birthday ---------- */}
           <div className="mb-3">
             <label htmlFor="studentDOB" className="form-label font14">Birthday</label>
-            <input
-              id="studentDOB"
-              type="date"
-              className={`form-control font14 ${errors.studentDOB ? 'border-danger' : ''}`}
-              {...register('studentDOB')}
-            />
+            <input id="studentDOB" type="date" className={`form-control font14 ${errors.studentDOB ? 'border-danger' : ''}`} {...register('studentDOB')} />
             {errors.studentDOB && <p className="font12 text-danger">{errors.studentDOB.message}</p>}
           </div>
 
           {/* ---------- Gender ---------- */}
           <div className="mb-3">
             <label htmlFor="gender" className="form-label font14">Gender</label>
-            <select
-              id="gender"
-              className={`form-select font14 ${errors.gender ? 'border-danger' : ''}`}
-              {...register('gender')}
-            >
-              <option value="" disabled>-- Select --</option>
+            <select id="gender" className={`form-select font14 ${errors.gender ? 'border-danger' : ''}`} {...register('gender')}>
+              <option value="">-- Select --</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
@@ -658,12 +611,8 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           {/* ---------- Status ---------- */}
           <div className="mb-3">
             <label htmlFor="stuStatus" className="form-label font14">Status</label>
-            <select
-              id="stuStatus"
-              className={`form-select font14 ${errors.stuStatus ? 'border-danger' : ''}`}
-              {...register('stuStatus')}
-            >
-              <option value="" disabled>-- Select --</option>
+            <select id="stuStatus" className={`form-select font14 ${errors.stuStatus ? 'border-danger' : ''}`} {...register('stuStatus')}>
+              <option value="">-- Select --</option>
               <option value={true}>Active</option>
               <option value={false}>InActive</option>
             </select>
@@ -674,8 +623,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="studentAddress" className="form-label font14">Address</label>
             <input
-              id="studentAddress"
-              type="text"
+              id="studentAddress" type="text"
               className={`form-control font14 ${errors.studentAddress ? 'border-danger' : ''}`}
               placeholder="Enter Address"
               {...register('studentAddress', {
@@ -693,16 +641,15 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="emergencyNo" className="form-label font14">Emergency Contact Details</label>
             <input
-              id="emergencyNo"
-              type="tel"
+              id="emergencyNo" type="tel"
               className={`form-control font14 ${errors.emergencyNo ? 'border-danger' : ''}`}
               placeholder="Enter Emergency Phone Number"
               {...register('emergencyNo', {
                 validate: (value) => {
                   if (value && !/^[6-9][0-9]{3}/.test(value)) return 'Phone number must start with digits between 6 and 9';
-                  if (value && !/^[0-9]*$/.test(value)) return 'Invalid character in phone number. Please enter only digits';
-                  if (value && value.length < 10) return 'Phone number must be of minimum 10 digits';
-                  if (value && value.length > 10) return 'Phone number can be of maximum 10 digits';
+                  if (value && !/^[0-9]*$/.test(value)) return 'Invalid character in phone number';
+                  if (value && value.length < 10) return 'Minimum 10 digits required';
+                  if (value && value.length > 10) return 'Maximum 10 digits allowed';
                   return true;
                 },
               })}
@@ -787,8 +734,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
           <div className="mb-3">
             <label htmlFor="pinCode" className="form-label font14">Pin Code</label>
             <input
-              id="pinCode"
-              type="text"
+              id="pinCode" type="text"
               className={`form-control font14 ${errors.pinCode ? 'border-danger' : ''}`}
               placeholder="Enter Pin Code"
               {...register('pinCode', {
@@ -806,20 +752,13 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             <label htmlFor="studentImage" className="form-label font14">Student Image</label>
             <div className="d-flex bg-white">
               {studentImageVal && changeImageType ? (
-                <input
-                  id="studentImageText"
-                  type="text"
-                  className="form-control formimagetext font14"
-                  value={studentImageVal.split('/').pop()}
-                  disabled
-                />
+                <input id="studentImageText" type="text" className="form-control formimagetext font14" value={studentImageVal.split('/').pop()} disabled />
               ) : (
                 <input
-                  id="parentImage"
-                  type="file"
-                  className={`form-control formimagetext font14 ${errors.parentImage ? 'border-danger' : ''}`}
+                  id="studentImageFile" type="file"
+                  className={`form-control formimagetext font14 ${errors.studentImage ? 'border-danger' : ''}`}
                   accept=".jpg, .jpeg, .png"
-                  {...register('parentImage', {
+                  {...register('studentImage', {
                     validate: (value) => {
                       if (value && value.length > 0) {
                         const file = value[0];
@@ -831,11 +770,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                 />
               )}
               <div className="formcontrolButtonborder p-1 ps-3 pe-3 text-center">
-                <span
-                  className="text-white font14 align-self-center"
-                  onClick={() => setChangeImageType(!changeImageType)}
-                  disabled={!studentImageVal}
-                >
+                <span className="text-white font14 align-self-center" onClick={() => setChangeImageType(!changeImageType)}>
                   {studentImageVal && changeImageType ? 'Edit' : 'View'}
                 </span>
               </div>
@@ -848,21 +783,13 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
             <label htmlFor="parentImage" className="form-label font14">Parent Image</label>
             <div className="d-flex bg-white">
               {parentImageVal && changeImageTypeParent ? (
-                <input
-                  id="parentImageText"
-                  type="text"
-                  className="form-control formimagetext font14"
-                  value={parentImageVal.split('/').pop()}
-                  disabled
-                />
+                <input id="parentImageText" type="text" className="form-control formimagetext font14" value={parentImageVal.split('/').pop()} disabled />
               ) : (
                 <input
-                  id="parentImage"
-                  type="file"
+                  id="parentImageFile" type="file"
                   className={`form-control formimagetext font14 ${errors.parentImage ? 'border-danger' : ''}`}
                   accept=".jpg, .jpeg, .png"
                   {...register('parentImage', {
-                    // No required rule
                     validate: (value) => {
                       if (value && value.length > 0) {
                         const file = value[0];
@@ -874,11 +801,7 @@ const EditStudentDetails = ({ studentGetId, onReload }) => {
                 />
               )}
               <div className="formcontrolButtonborder p-1 ps-3 pe-3 text-center">
-                <span
-                  className="text-white font14 align-self-center"
-                  onClick={() => setChangeImageTypeParent(!changeImageTypeParent)}
-                  disabled={!parentImageVal}
-                >
+                <span className="text-white font14 align-self-center" onClick={() => setChangeImageTypeParent(!changeImageTypeParent)}>
                   {parentImageVal && changeImageTypeParent ? 'Edit' : 'View'}
                 </span>
               </div>

@@ -115,6 +115,7 @@ const AllStudents = () => {
   const [deleteStudentIdData, setDeleteStudentIdData] = useState(false);
   const [studentGetId, setStudentGetId] = useState('');
   const [RelaodDataVal, setReloadDataVal] = useState(false);
+  const [selectedClassSections, setSelectedClassSections] = useState([]);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -122,18 +123,22 @@ const AllStudents = () => {
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
+
+
+  // ✅ Alag useEffects
+  useEffect(() => {
+    getAllClassData();
+  }, []);
+
   useEffect(() => {
     getAllStudentData();
-    getAllClassData();
     const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl));
-    return () => {
-      tooltipList.forEach(tooltip => tooltip.dispose());
-    };
-  }, [token, ClassIdValue, searchBySection, RelaodDataVal, pageNo]);
+    const tooltipList = tooltipTriggerList.map(el => new window.bootstrap.Tooltip(el));
+    return () => tooltipList.forEach(t => t.dispose());
+  }, [ClassIdValue, searchBySection, RelaodDataVal, pageNo]);
 
   const handlePageClick = (event) => {
-    setPageNo(event.selected + 1); // as event start from 0 index
+    setPageNo(event.selected + 1);
   };
 
   const getAllStudentData = async () => {
@@ -149,7 +154,6 @@ const AllStudents = () => {
           setStudentData(response?.data?.students);
           setTotalPages(response?.data?.totalPages);
           setCurrentPage(response?.data?.currentPage);
-          // toast.success(response.data.message);
 
           if (RelaodDataVal) {
             const offcanvasElement = document.getElementById('Edit_staticBackdrop');
@@ -193,7 +197,8 @@ const AllStudents = () => {
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setAllClassData(response?.data?.classes);
-          // toast.success(response?.data?.message);
+          console.log('CLASS DATA:', response?.data?.classes); // ← ye dekho
+          console.log('FIRST CLASS SECTIONS:', response?.data?.classes[0]);
         }
       }
       else {
@@ -214,14 +219,30 @@ const AllStudents = () => {
     setReloadDataVal(true);
   }
 
+
   const handleChange = (e) => {
     const value = e.target.value;
+    if (!value) {
+      setClassIndex('');
+      setClassIdValue('');
+      setSearchBySection('');
+      setSelectedClassSections([]);
+      return;
+    }
     const [val1, val2] = value.split(',');
-    setClassIndex(val1);
-    console.log(val2)
+    const idx = Number(val1);
+    const selectedClass = allClassData[idx];
+
+    // ✅ Ye console lagao — exact structure dekho
+    console.log('FULL CLASS OBJECT:', JSON.stringify(selectedClass));
+
+    setClassIndex(idx);
     setClassIdValue(val2.trimStart());
-    setSearchBySection('')
-  }
+    setSearchBySection('');
+    setSelectedClassSections(selectedClass?.section || selectedClass?.sections || []);
+  };
+
+
 
   const DeleteStudentIdData = async (id) => {
     if (isChecked) {
@@ -300,7 +321,7 @@ const AllStudents = () => {
               <div className="col-md-4 col-sm-4 col-5 text-end ps-0 align-self-center">
                 <div className="d-flex">
                   <small className='greyText font14 me-3 align-self-center'>Class</small>
-                  <select className='form-select font14' aria-label="Default select example" disabled={studentData.length > 0 || ClassIdValue !== '' ? false : true} onChange={handleChange}>
+                  <select className='form-select font14' aria-label="Default select example" disabled={allClassData.length === 0} onChange={handleChange}>
                     <option value=''>--- Choose ---</option>
                     {allClassData?.map((option, index) => (
                       <option key={option.classId} value={`${index}, ${option?.classNo}`}>
@@ -313,14 +334,20 @@ const AllStudents = () => {
               <div className="col-md-4 col-sm-4 col-5 text-end ps-0 align-self-center">
                 <div className="d-flex">
                   <small className='greyText font14 me-3 align-self-center'>Section</small>
-                  <select className='form-select font14' aria-label="Default select example" disabled={studentData.length > 0 || ClassIdValue !== '' ? false : true} onChange={(e) => setSearchBySection(e.target.value)}>
+                  {/* ✅ Section Dropdown */}
+                  <select
+                    className='form-select font14'
+                    disabled={selectedClassSections.length === 0}
+                    onChange={(e) => setSearchBySection(e.target.value)}
+                  >
                     <option value=''>--- Choose ---</option>
-                    {allClassData[ClassIndex]?.section?.map(option => (
+                    {selectedClassSections?.map(option => (
                       <option key={option.classSecId} value={option.sectionName}>
                         {option.sectionName}
                       </option>
                     ))}
                   </select>
+
                 </div>
               </div>
               <div className="col-md-4 col-sm-4 col-12">
@@ -438,12 +465,16 @@ const AllStudents = () => {
           </Link>
           <h2 className="offcanvas-title" id="staticBackdropLabel">Student Edit</h2>
         </div>
+        {/* ✅ Ye fix karo — sirf jab studentGetId ho tab render karo */}
         <div className="offcanvas-body p-0">
           {loaderState && (<DataLoader />)}
           <div className="" style={{ zIndex: -1 }}>
-            <EditStudentDetails studentGetId={studentGetId} onReload={RelaodData} />
+            {studentGetId ? (
+              <EditStudentDetails studentGetId={studentGetId} onReload={RelaodData} />
+            ) : null}
           </div>
         </div>
+
       </div>
 
       <div className="offcanvas offcanvas-end p-2" data-bs-backdrop="static" tabIndex="-1" id="view_staticBackdrop" aria-labelledby="staticBackdropLabel">
