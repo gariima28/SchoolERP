@@ -125,6 +125,7 @@ const Marksheet = () => {
     const [allSectionData, setAllSectionData] = useState([]);
     const [ExamTermData, setExamTermData] = useState([]);
     const [selectedStudentMarksheetData, setSelectedStudentMarksheetData] = useState();
+    console.log('value of marksgertttt data', selectedStudentMarksheetData);
     const [selectedStudentId, setSelectedStudentId] = useState();
     const modalRef = useRef(null);
 
@@ -171,8 +172,8 @@ const Marksheet = () => {
             setloaderState(true);
             const response = await viewMarksheetApi(sectionId, classNo, examTermSelect, studentId);
             console.log('View Marksheet Response:', response);
-            if (response?.status === 200 && response?.data?.status === 'success') {
-                setSelectedStudentMarksheetData(response?.data?.student);
+            if (response?.data?.status === 'success') {
+                setSelectedStudentMarksheetData(response?.data);
             } else {
                 toast.error(response?.data?.message || 'Failed to fetch student data');
             }
@@ -401,7 +402,7 @@ const Marksheet = () => {
                                     </div>
                                 ) : (
                                     <>
-                                        {MarksheetData.length > 0 ? (
+                                        {MarksheetData?.length > 0 ? (
                                             <>
                                                 <div className="overflow-scroll cardradius bg-white p-3">
                                                     <table className="table align-middle table-striped">
@@ -429,8 +430,7 @@ const Marksheet = () => {
                                                                             type="button"
                                                                             data-bs-toggle="modal"
                                                                             data-bs-target="#SeeMarksheetModal"
-                                                                            onClick={() => handleViewClick(item.studentId)}
-                                                                        >
+                                                                            onClick={() => handleViewClick(item.studentId)}>
                                                                             View
                                                                         </button>
                                                                     </td>
@@ -486,13 +486,13 @@ const Marksheet = () => {
                                             <img src='/images/marksheetlogo.webp' alt="School Logo" height={100} />
                                         </div>
                                         <div className="col-8 text-center">
-                                            <h6 className='text-center'>Address : {selectedStudentMarksheetData?.data?.student.boardName || <span className='greyText font14'>-- Board Name Not Available --</span>}</h6>
-                                            <h6 className='text-center'>Ph {selectedStudentMarksheetData?.data?.student.schoolphone || <span className='greyText font14'>-- School Contact Not Available --</span>}, Email: {selectedStudentMarksheetData?.data?.student.schoolemail || <span className='greyText font14'>-- School Mail Not Available --</span>},</h6>
+                                            <h6 className='text-center'>Address : {selectedStudentMarksheetData?.data?.student.schoolAddress || <span className='greyText font14'>-- Board Name Not Available --</span>}</h6>
+                                            <h6 className='text-center'>Ph : {selectedStudentMarksheetData?.data?.student.schoolPhone || <span className='greyText font14'>-- School Contact Not Available --</span>} &nbsp; Email: {selectedStudentMarksheetData?.data?.student.schoolEmail || <span className='greyText font14'>-- School Mail Not Available --</span>},</h6>
                                             <p>Visit us: <a className="text-decoration-none" href="mailto:hshs">{selectedStudentMarksheetData?.data?.student.websiteLink || <span className='greyText font14'> --School Website Not Available --</span>}</a></p>
                                             <div className="mt-3">
                                                 <p>Academic Report</p>
                                                 <p>Academic Session: {selectedStudentMarksheetData?.data.student?.session || <span className='greyText'>-- Not available --</span>}</p>
-                                                <p>Class: {selectedStudentMarksheetData?.data.student?.classNo || <span className='greyText'>-- Not available --</span>}</p>
+                                                <p>Class: {selectedStudentMarksheetData?.data.student?.classNo || <span className='greyText'>-- Not available --</span>}/{selectedStudentMarksheetData?.data.student?.classSection || <span className='greyText'>-- Not available --</span>}</p>
                                             </div>
                                         </div>
                                         <div className="col-2 text-center">
