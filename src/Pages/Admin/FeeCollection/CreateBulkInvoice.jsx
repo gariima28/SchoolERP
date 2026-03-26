@@ -239,6 +239,7 @@ const CreateBulkInvoice = () => {
     const selectedSection = allSectionData.find((c) => c.sectionName === value);
     if (selectedSection && selectedSection.studentDTO) {
       setAllStudentsData(selectedSection.studentDTO);
+      console.log('value in handlee', selectedSection.studentDTO);
     } else {
       setAllStudentsData([]);
     }
@@ -259,48 +260,127 @@ const CreateBulkInvoice = () => {
     }
   };
 
-  const addNewInvoice = async (data) => {
+  // const addNewInvoice = async (data) => {
+  //   try {
+  //     setLoaderState(true);
+  //     const formData = new FormData();
+
+  //     formData.append('classNo', data.classNo);
+  //     formData.append('section', data.section);
+
+  //     if (Array.isArray(data.studentId)) {
+  //       data.studentId.forEach((id, index) => {
+  //         formData.append(`studentId[${index}]`, id); 
+  //       });
+  //     } else {
+  //       formData.append('studentId[0]', data.studentId);
+  //     }
+
+  //     if (Array.isArray(data.feeTypeId)) {
+  //       data.feeTypeId.forEach((id, index) => {
+  //         formData.append(`feeTypeId[${index}]`, Number(id));
+  //       });
+  //     } else {
+  //       formData.append('feeTypeId[0]', Number(data.feeTypeId));
+  //     }
+
+  //     formData.append('months', data.months);
+  //     formData.append('dueDate', data.dueDate);
+  //     formData.append('applicableDiscount', data.applicableDiscount === 'Yes');
+  //     formData.append('discountId', data.applicableDiscount === 'Yes' ? data.discountId : '');
+  //     formData.append('status', data.status);
+  //     formData.append('description', data.description || '');
+
+  //     const response = await addNewInvoiceApi(formData);
+  //     if (response?.status === 200 && response?.data?.status === 'success') {
+  //       toast.success(response.data.message || 'Invoice added successfully');
+  //       reset();
+  //       setAllSectionData([]);
+  //       setAllStudentsData([]);
+  //     } else {
+  //       toast.error(response?.data?.message || 'Failed to add invoice');
+  //     }
+  //   } catch (error) {
+  //     toast.error(error?.response?.data?.message || 'Error adding invoice');
+  //     if (error?.response?.data?.statusCode === 401) {
+  //       sessionStorage.removeItem('token');
+  //       navigate('/');
+  //     }
+  //   } finally {
+  //     setLoaderState(false);
+  //   }
+  // };
+
+//  below is gpt code
+  
+const addNewInvoice = async (data) => {
     try {
       setLoaderState(true);
+
       const formData = new FormData();
 
-      formData.append('classNo', data.classNo);
-      formData.append('section', data.section);
+      // Basic fields
+      formData.append('classNo', data?.classNo ?? '');
+      formData.append('section', data?.section ?? '');
 
-      if (Array.isArray(data.studentId)) {
-        data.studentId.forEach((id, index) => {
-          formData.append(`studentId[${index}]`, id); // Use original id
+      // ✅ Student IDs (must be number array)
+      const studentIds = Array.isArray(data?.studentId)
+        ? data.studentId
+        : [data?.studentId];
+
+      studentIds
+        .filter((id) => id !== undefined && id !== null)
+        .forEach((id, index) => {
+          formData.append(`studentId[${index}]`, Number(id)); // ✅ force number
         });
-      } else {
-        formData.append('studentId[0]', data.studentId);
-      }
 
-      if (Array.isArray(data.feeTypeId)) {
-        data.feeTypeId.forEach((id, index) => {
+      // ✅ Fee Type IDs
+      const feeTypeIds = Array.isArray(data?.feeTypeId)
+        ? data.feeTypeId
+        : [data?.feeTypeId];
+
+      feeTypeIds
+        .filter((id) => id !== undefined && id !== null)
+        .forEach((id, index) => {
           formData.append(`feeTypeId[${index}]`, Number(id));
         });
-      } else {
-        formData.append('feeTypeId[0]', Number(data.feeTypeId));
+
+      // Other fields
+      formData.append('months', data?.months ?? '');
+      formData.append('dueDate', data?.dueDate ?? '');
+      formData.append(
+        'applicableDiscount',
+        data?.applicableDiscount === 'Yes'
+      );
+
+      // ✅ Only send discountId if applicable
+      if (data?.applicableDiscount === 'Yes' && data?.discountId) {
+        formData.append('discountId', Number(data.discountId));
       }
 
-      formData.append('months', data.months);
-      formData.append('dueDate', data.dueDate);
-      formData.append('applicableDiscount', data.applicableDiscount === 'Yes');
-      formData.append('discountId', data.applicableDiscount === 'Yes' ? data.discountId : '');
-      formData.append('status', data.status);
-      formData.append('description', data.description || '');
+      formData.append('status', data?.status ?? '');
+      formData.append('description', data?.description ?? '');
 
+      // 🔥 API call
       const response = await addNewInvoiceApi(formData);
+
       if (response?.status === 200 && response?.data?.status === 'success') {
         toast.success(response.data.message || 'Invoice added successfully');
+
         reset();
         setAllSectionData([]);
         setAllStudentsData([]);
       } else {
         toast.error(response?.data?.message || 'Failed to add invoice');
       }
+
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Error adding invoice');
+      console.error('Invoice Error:', error);
+
+      toast.error(
+        error?.response?.data?.message || 'Error adding invoice'
+      );
+
       if (error?.response?.data?.statusCode === 401) {
         sessionStorage.removeItem('token');
         navigate('/');
@@ -309,7 +389,6 @@ const CreateBulkInvoice = () => {
       setLoaderState(false);
     }
   };
-
   return (
     <Container className="container-fluid p-4">
       {loaderState && <DataLoader />}
@@ -363,28 +442,58 @@ const CreateBulkInvoice = () => {
                 control={control}
                 rules={{ required: 'At least one student is required * ' }}
                 render={({ field }) => (
-                  allStudentsData.length > 0 ? (
-                    allStudentsData.map((student) => (
-                      <div className="col" key={student.studentId}>
+                  // allStudentsData.length > 0 ? (
+                  //   allStudentsData?.map((student) => (
+                  //     <div className="col" key={student.studentId}>
+                  //       <div className="form-check">
+                  //         {/* {
+                  //           console.log('student iddd--', student.id, )
+                  //         } */}
+                  //         <input
+                  //           type="checkbox"
+                  //           className="form-check-input"
+                  //           value={student.studentId} // Use student.studentId consistently
+                  //           checked={field.value?.includes(String(student.studentId)) || false}
+                  //           onChange={(e) => {
+                  //             const isChecked = e.target.checked;
+                  //             const studentId = String(student.studentId);
+                  //             const updatedStudents = isChecked
+                  //               ? [...(field.value || []), studentId]
+                  //               : (field.value || []).filter((id) => id !== studentId);
+                  //             field.onChange(updatedStudents); // Update form state
+                  //           }}
+                  //         />
+                  //         <label className="form-check-label font14">{student.studentName}</label>
+                  //       </div>
+                  //     </div>
+                  //   ))
+                  allStudentsData?.length > 0 ? (
+                    allStudentsData?.map((student) => (
+                      <div className="col" key={student.id}>
                         <div className="form-check">
                           <input
                             type="checkbox"
                             className="form-check-input"
-                            value={student.studentId} // Use student.studentId consistently
-                            checked={field.value?.includes(String(student.studentId)) || false}
+                            value={student.id} // ✅ use id
+                            checked={field.value?.includes(student.id) || false}
                             onChange={(e) => {
                               const isChecked = e.target.checked;
-                              const studentId = String(student.studentId);
+                              const studentId = student.id; // ✅ use id (number)
+
                               const updatedStudents = isChecked
                                 ? [...(field.value || []), studentId]
                                 : (field.value || []).filter((id) => id !== studentId);
-                              field.onChange(updatedStudents); // Update form state
+
+                              field.onChange(updatedStudents);
                             }}
                           />
-                          <label className="form-check-label font14">{student.studentName}</label>
+                          <label className="form-check-label font14">
+                            {student.studentName}
+                          </label>
                         </div>
                       </div>
                     ))
+
                   ) : (
                     <span className="mt-0 greyText">
                       {watchSection ? '-- No Students Found --' : '-- Select Section First --'}

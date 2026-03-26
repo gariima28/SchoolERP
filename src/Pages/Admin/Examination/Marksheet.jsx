@@ -426,7 +426,7 @@ const Marksheet = () => {
                                                                     <td className='textWrapClass greyText font14'>{item.grade}</td>
                                                                     <td className='d-flex justify-content-end'>
                                                                         <button
-                                                                            className="dropdown-item actionButtons text-center"
+                                                                            className="dropdown-item MyActionButtons text-center"
                                                                             type="button"
                                                                             data-bs-toggle="modal"
                                                                             data-bs-target="#SeeMarksheetModal"

@@ -97,6 +97,7 @@ const DashboardPage = () => {
     try {
       setloaderState(true);
       var response = await getAllDashDataApi('', '', '', '', '');
+      console.log('parent dashboard api', response);
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setDashData(response?.data?.data);
@@ -182,9 +183,12 @@ const DashboardPage = () => {
                   <p className='font14 p-0'>Last Paid Activity</p>
                   <hr className='mt-1 mb-2' />
                   <div className="d-flex justify-content-between p-0">
-                    <p className='font14 greyText'>October Month Fese</p>
-                    <p className='font14 greyText'>16 October 2023</p>
-                    <p className='font14 greenText fw-bolder'>10,250</p>
+                    <p className='font14 greyText'></p>
+                    {/* <p className='font14 greyText'>October Month Fee</p> */}
+                    {/* <p className='font14 greyText'>16 October 2023</p> */}
+                    <p className='font14 greyText'></p>
+                    <p className='font14 greenText fw-bolder'></p>
+                    {/* <p className='font14 greenText fw-bolder'>10,250</p> */}
                   </div>
                 </div>
               </div>
@@ -225,9 +229,9 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>Assignment Details</p>
+                    <p className='font14 mb-0'>Assignment Details</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/assignments'>View All</Link>
+                  <Link className='p-1  ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/assignments'>View All</Link>
                 </div>
               </div>
               <div className="row p-2">
@@ -278,7 +282,7 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>Notice Board</p>
+                    <p className='font14 mb-0'>Notice Board</p>
                   </div>
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/notice'>View All</Link>
                 </div>
@@ -315,7 +319,7 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>Upcoming Events</p>
+                    <p className='font14 mb-0'>Upcoming Events</p>
                   </div>
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' to='/parent/event'>View All</Link>
                 </div>
@@ -380,7 +384,7 @@ const DashboardPage = () => {
               <div className="row">
                 <div className="d-flex p-3 bgDarkGreen bordeRadiusTop text-white">
                   <div className="flex-grow-1 align-self-center">
-                    <p className='font14'>Upcoming Holiday</p>
+                    <p className='font14 mb-0'>Upcoming Holiday</p>
                   </div>
                   <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/holiday'>View All</Link>
                 </div>
@@ -389,10 +393,10 @@ const DashboardPage = () => {
                 {DashData?.holidays.length > 0
                   ?
                   DashData?.holidays.slice(0, 6).map((item) => (
-                    <div className="col-4 p-2" key={item.holidayId}>
+                    <div className="col-6 p-2" key={item.holidayId}>
                       <div className="holidayCard p-4">
                         <p className='font14 text-center'>{item.title}</p>
-                        <p className='greyText font14 text-center'>{item.date}</p>
+                        <p className='greyText font14 text-center'><span style={{color:'#008479'}}>{item.startDate}</span> <br /> <span style={{color:'red'}}>{item.endDate}</span></p>
                       </div>
                     </div>
                   ))

@@ -275,7 +275,8 @@ export const getParentProfileApi = async () => {
 export const getStudentProfileApi = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/student/getByStdId`);
+    var res = await axios.get(`${Domain}/student/getParentByStudent`);
+    // var res = await axios.get(`${Domain}/student/getByStdId`);
 
     if (res) {
       return res;
@@ -8339,7 +8340,7 @@ export const getStudentProfileDataApi = async () => {
     return [];
   }
 }
-
+// student/getParentByStudent
 export const updateStudentProfileDataApi = async (data) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;

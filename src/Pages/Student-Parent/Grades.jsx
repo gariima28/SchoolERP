@@ -55,11 +55,11 @@ const Grades = () => {
         try {
             setloaderState(true);
             var response = await StudentGradeApi(pageNo, pageSize);
-            // console.log(response, 'Grades')
+            console.log(response, 'Grades---------')
             if (response?.status === 200) {
                 if (response?.data?.status === 'success') {
                     setloaderState(false);
-                    setGradeData(response?.data?.grades || [])
+                    setGradeData(response?.data?.grade || [])
                     setCurrentPage(response?.data?.currentPage)
                     setTotalPages(response?.data?.totalPages)
                     // toast.success(response.data.message);
@@ -118,9 +118,9 @@ const Grades = () => {
                                     <tr>
                                         <td className='textWrapClass font14'>#</td>
                                         <td className='textWrapClass font14'>Grade</td>
-                                        <td className='textWrapClass font14'>Grade Point</td>
-                                        <td className='textWrapClass font14'>Mark From</td>
-                                        <td className='textWrapClass font14'>Mark Upto</td>
+                                        <td className='textWrapClass font14'>Percentage Range</td>
+                                        {/* <td className='textWrapClass font14'>Mark From</td>
+                                        <td className='textWrapClass font14'>Mark Upto</td> */}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -129,9 +129,9 @@ const Grades = () => {
                                         <tr key={item.id}>
                                             <td className='textWrapClass font14 greyText'>{index + 1}</td>
                                             <td className='textWrapClass font14 greyText'>{item.grade}</td>
-                                            <td className='textWrapClass font14 greyText'>{item.gradePoint}</td>
-                                            <td className='textWrapClass font14 greyText'>{item.marksFrom}</td>
-                                            <td className='textWrapClass font14 greyText'>{item.marksUpTo}</td>
+                                            <td className='textWrapClass font14 greyText'>{item.percentageFrom} - {item.percentageUpTo}</td>
+                                            {/* <td className='textWrapClass font14 greyText'>{item.marksFrom}</td>
+                                            <td className='textWrapClass font14 greyText'>{item.marksUpTo}</td> */}
                                         </tr>
                                     ))}
                                 </tbody>

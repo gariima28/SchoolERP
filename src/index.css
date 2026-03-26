@@ -1747,6 +1747,14 @@ textarea:disabled {
     height: 28px;
     cursor: pointer !important;
 }
+.MyActionButtons {
+    background-color: var(--darkgreyColorBtn) !important;
+    border: none !important;
+    border-radius: 5px;
+    width: 87px;
+    height: 28px;
+    cursor: pointer !important;
+}
 
 .collectFeesButtons,
 .collectFeesButtons:hover,

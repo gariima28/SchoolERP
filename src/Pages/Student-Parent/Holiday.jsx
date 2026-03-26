@@ -113,7 +113,8 @@ const Holiday = () => {
             return dates;
         })
     );
-
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     return (
         <Container className="container-fluid px-5 py-4 overflow-scroll">
             {loaderState && <DataLoader />}

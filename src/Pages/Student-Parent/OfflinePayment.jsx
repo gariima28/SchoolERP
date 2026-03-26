@@ -176,7 +176,7 @@ const OfflinePayment = () => {
             </div>
             <div className="container-fluid p-4">
                 <div className="row bg-white cardradius2 p-3">
-                    <p className='greenText font14 p-0'>Offline Bank Payments</p>
+                    <p className='greenText  p-0 mb-0'>Offline Bank Payments</p>
                     <hr className='mt-2 mb-1' />
                     <form className="row g-3" onSubmit={handleSubmit(AddNewOfflinePayment)}>
                         <div className="col-md-6 col-sm-12 col-12">
@@ -204,7 +204,7 @@ const OfflinePayment = () => {
                             {errors.reference && <p className="font12 text-danger">{errors.reference.message}</p>}
                         </div>
                         <div className="col-md-6 col-sm-12 col-12">
-                            <label htmlFor="validationDefault02" className="form-label font14">Amount Paid ($) *</label>
+                            <label htmlFor="validationDefault02" className="form-label font14">Amount Paid (₹) *</label>
                             <input id="amountPaid" type="number" className={`form-control font14 ${errors.amountPaid ? 'border-danger' : ''}`} placeholder='Enter Paid Amount' {...register('amountPaid', { required: 'Paid Amount id required *', min: { value: 0, message: 'Amount cannot be negative' } })} />
                             {errors.amountPaid && <p className="font12 text-danger">{errors.amountPaid.message}</p>}
                         </div>
@@ -215,7 +215,7 @@ const OfflinePayment = () => {
                         </div>
                         <div className="row p-5">
                             <div className="col-md-6 col-sm-6 col-6 text-end">
-                                <button className='btn saveButtons font16 text-white' type='submit'>Pay</button>
+                                <button style={{ color:'#fff', background:'#008479'}} className='btn  font16 text-white' type='submit'>Save</button>
                             </div>
                             <div className="col-md-6 col-sm-6 col-6 text-start">
                                 <Link className='btn cancelButtons font16' to='/parent/fees'>Cancel</Link>

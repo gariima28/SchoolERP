@@ -151,6 +151,7 @@ const Fees = () => {
     const [studentName, setStudentName] = useState('')
     const [fatherName, setFatherName] = useState('')
     const [classNo, setClassNo] = useState(0);
+    const [section, setSection] = useState('');
     const [studentRollNo, setStudentRollNo] = useState('')
     const [studentPh, setStudentPh] = useState('')
     const [studentImage, setStudentImage] = useState('')
@@ -233,7 +234,7 @@ const Fees = () => {
         const response = await getStudentProfileDataApi();
         console.log('data of fees collection in parent module', response);
 
-        if (response?.status === 200 && response?.data?.status === 'success') {
+       if (response?.status === 200 && response?.data?.status === 'success') {
 
             const studentInvoice = response?.data?.studentInvoice;
             const studentInfo = studentInvoice?.studentInfo;
@@ -265,6 +266,7 @@ const Fees = () => {
             setFatherName(studentInfo?.fatherName);
             setMotherName(studentInfo?.motherName);
             setClassNo(studentInfo?.classNo);
+            setSection(studentInfo?.classSection);
             setStudentRollNo(studentInfo?.rollNumber);
             setStudentPh(studentInfo?.studentPh);
             setStudentId(studentInfo?.studentId);
@@ -451,7 +453,7 @@ const Fees = () => {
                                                         <div className="row">
                                                             <label htmlFor="inputEmail3" className="textWrapClass col-md-4 col-6 col-form-label greyText font14 p-1">Class (Section): </label>
                                                             <div className="col-md-8 col-6">
-                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={classNo} />
+                                                                <input type="email" readOnly className="textWrapClass form-control-plaintext font14 p-1" id="inputEmail3" value={`${classNo} (${section})`} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
