@@ -12,6 +12,12 @@ const Container = styled.div`
     color: #000;
   }
 
+  .calendar-header{
+  background-color: #0c968b21;
+  color: #fff;
+  padding: 8px 16px;  
+  }
+
   .react-calendar__tile {
     height: ${({ smallBox }) => (smallBox ? '75px' : '90px')};
     border: 1px solid #E7E7E7;
