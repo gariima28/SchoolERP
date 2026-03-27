@@ -185,8 +185,8 @@ const Assignment = () => {
                                         <td className='textWrapClass font14'>Teacher</td>
                                         <td className='textWrapClass font14'>Subject</td>
                                         <td className='textWrapClass font14'>Download</td>
-                                        <td className='textWrapClass font14'>Start Time</td>
-                                        <td className='textWrapClass font14'>End Time</td>
+                                        <td className='textWrapClass font14'>Start Date</td>
+                                        <td className='textWrapClass font14'>End Date</td>
                                     </tr>
                                 </thead>
                                 <tbody>

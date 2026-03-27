@@ -55,7 +55,7 @@ const ExamSchedule = () => {
     try {
       setloaderState(true);
       var response = await getAllExamScheduleApi("", pageNo, pageSize);
-      // console.log(response, 'offline exams')
+      console.log('offline exams---------', response);
       if (response?.status === 200) {
         if (response?.data?.status === "success") {
           setloaderState(false);
@@ -207,22 +207,22 @@ const ExamSchedule = () => {
                   </thead>
                   <tbody>
                     <tr></tr>
-                    {OfflineExamData.map((item, index) => (
+                    {OfflineExamData?.map((item, index) => (
                       <tr key={item.id} className="align-middle">
                         <th className="textWrapClass greyText"> <h3>{(pageNo - 1) * pageSize + index + 1}</h3> </th>
-                        <th className="textWrapClass greyText"> <h3>{(pageNo - 1) * pageSize + index + 1}</h3> </th>
-                        <td className="textWrapClass greyText"> <h3>{item.examTermName} - {item.subject}</h3> </td>
-                        <td className="textWrapClass greyText"> <h3>{item.examTermName} - {item.subject}</h3> </td>
+                        <th className="textWrapClass greyText"> <h3>{item.examTermName}</h3> </th>
                         <td className="textWrapClass greyText"> <h3>{item.roomNumber}</h3> </td>
-                        <td className="textWrapClass greyText"> <h3>{item.roomNumber}</h3> </td>
-                        <td className="textWrapClass greyText"> <h3>{item.startingTime.slice(0, 5) || '-'}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3> {item.subject}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.date}</h3> </td>
                         <td className="textWrapClass greyText"> <h3>{item.startingTime.slice(0, 5) || '-'}</h3> </td>
                         <td className="textWrapClass greyText"> <h3>{item.endingTime.slice(0, 5) || '-'}</h3> </td>
-                        <td className="textWrapClass greyText"> <h3>{item.endingTime.slice(0, 5) || '-'}</h3> </td>
-                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
-                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
-                        <td className="textWrapClass greyText"> <h3>{item.date}</h3></td>
-                        <td className="textWrapClass greyText"> <h3>{item.totalMarks}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.passingMarks || '-'}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.totalMarks || '-'}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.practicalDate ? item.practicalDate : 'N/A'}</h3> </td>
+                        <td className="textWrapClass greyText"> <h3>{item.practicalStartTime ? item.practicalStartTime.slice(0, 5) : 'N/A'}</h3></td>
+                        <td className="textWrapClass greyText"> <h3>{item.practicalEndTime ? item.practicalEndTime : 'N/A'}</h3></td>
+                        <td className="textWrapClass greyText"> <h3>{item.practicalPassMarks ? item.practicalPassMarks : 'N/A'}</h3></td>
+                        <td className="textWrapClass greyText"> <h3>{item.practicalMarks ? item.practicalMarks : 'N/A'}</h3> </td>
                       </tr>
                     ))}
                   </tbody>

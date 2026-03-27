@@ -743,7 +743,7 @@ useEffect(() => {
                                 <div className="holidayCard border-2 borderradius8 p-4 h-100">
                                   <p className="font14 text-center">{item.title.slice(0, 14)}{item.title.length > 14 ? '...' : ''}</p>
                                   <p className="greyText font14 text-center">
-                                    {item.startDate} -  {item.endDate}
+                                    <span style={{color:'#008479'}}>{item.startDate}</span> <br />   <span style={{color:'red'}}>{item.endDate}</span>
                                   </p>
                                 </div>
                               </div>

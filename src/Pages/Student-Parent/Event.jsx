@@ -64,6 +64,9 @@ const Container = styled.div`
         border-radius: 50px;
         font-size: 14px;
     }
+    .ongoing { background: #E6FFE2; color: #00A67E; border: 1.5px solid #00A67E;         width: 100px; border-radius: 50px; font-size: 14px; }
+.upcoming { background: #E6F0FF; color: #4F3EE0; border: 1.5px solid #4F3EE0;         border-radius: 50px; border-radius: 50px; font-size: 14px;  }
+.closed { background: #FFE6E6; color: #B50000; border: 1.5px solid #B50000;          font-size: 14px; border-radius: 50px; font-size: 14px; }
 
     .closedEventBtn:active, .closedEventBtn:hover{
         border: 1px solid var(--closedEventBtn) !important;
@@ -180,13 +183,13 @@ const Event = () => {
 
                                 <tbody>
                                     <tr></tr>
-                                    {EventData.map((item, index) => (
+                                    {EventData?.map((item, index) => (
                                         <tr key={item.holidayId}>
                                             <td className='textWrapClass font14 greyText'>{index + 1}</td>
                                             <td className='textWrapClass font14 greyText'>{item.eventName}</td>
                                             <td className='textWrapClass font14 greyText'>{item.startDate} {item.startTime}</td>
                                             <td className='textWrapClass font14 greyText'>{item.endDate} {item.endTime}</td>
-                                            <td className='textWrapClass font14 greyText text-center'><button className={`btn ${item.status === "UPCOMING" ? 'upcomingEventBtn' : item.status === "ONGOING" ? 'ongoingEventBtn' : item.status === "CLOSED" ? 'closedEventBtn' : ''}`} type='button'>{item.status}</button></td>
+                                            <td className='textWrapClass font14 greyText text-center'><button className={`btn ${item.status === "UPCOMING" ? 'upcoming' : item.status === "ONGOING" ? 'ongoing' : item.status === "CLOSED" ? 'closed' : ''}`} type='button'>{item.status}</button></td>
                                         </tr>
                                     ))}
                                 </tbody>

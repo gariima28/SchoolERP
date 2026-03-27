@@ -111,8 +111,8 @@ const ProfilePage = () => {
 
     const token = sessionStorage.getItem('token');
     const role = sessionStorage.getItem('loggedInUserRole');
-    const [schoolLogoVal, setSchoolLogoVal] = useState()
-
+    const [schoolLogoVal, setSchoolLogoVal] = useState('')
+    console.log('image parent profile', schoolLogoVal)
     // Chnage type of input State
     const [changeImageType, setChangeImageType] = useState(true)
 
@@ -125,6 +125,8 @@ const ProfilePage = () => {
     const [StudentEmail, setStudentEmail] = useState('');
     const [StudentDOB, setStudentDOB] = useState('');
     const [StudentGender, setStudentGender] = useState('');
+    console.log('image parent gender----', StudentGender)
+
     const [StudentPhoto, setStudentPhoto] = useState('');
     // const [StudentPhoto, setStudentPhoto] = useState('');
 
@@ -133,39 +135,34 @@ const ProfilePage = () => {
 
     useEffect(() => {
         getProfileData();
-    }, [token])
+    }, [])
 
     const getProfileData = async () => {
         try {
             setloaderState(true);
             var response = await getStudentProfileApi();
-            // console.log(response, 'profile')
+            console.log(response, 'profile-----------')
             if (response?.status === 200) {
-                if (response?.data?.status === 'save') {
-                    setStudentName(response?.data?.fatherName)
-                    setStudentClass(response?.data?.classNo)
-                    setStudentSection(response?.data?.classSection)
-                    setStudentPhone(response?.data?.phone)
-                    setValue('phoneNumber', response?.data?.phone)
-                    setStudentAddress(response?.data?.address)
-                    setValue('studentAddress', response?.data?.address)
-                    setStudentEmail(response?.data?.email)
-                    setStudentDOB(response?.data?.dateOfBirth.split("T")[0])
-                    setStudentGender(response?.data?.gender)
-                    setValue('multipartFile', response?.data?.image)
-                    setSchoolLogoVal(response?.data?.image)
-                    // toast.success(response.data.message);
-                    if (response?.data?.parentImage) {
-                        setChangeImageType(true)
-                    }
-                }
-                else {
-                    setloaderState(false);
-                    toast.error(response?.data?.message);
+                setStudentName(response?.data?.name)
+                setStudentClass(response?.data?.classNo)
+                setStudentSection(response?.data?.classSection)
+                setStudentPhone(response?.data?.phone)
+                setValue('phoneNumber', response?.data?.phone)
+                setStudentAddress(response?.data?.address)
+                setValue('studentAddress', response?.data?.address)
+                setStudentEmail(response?.data?.email)
+                setStudentDOB(response?.data?.dateOfBirth.split("T")[0])
+                setStudentGender(response?.data?.gender)
+                setValue('multipartFile', response?.data?.image)
+                setSchoolLogoVal(response?.data?.image)
+                // toast.success(response.data.message);
+                if (response?.data?.image) {
+                    setChangeImageType(true)
                 }
             }
             else {
                 setloaderState(false);
+                toast.error(response?.data?.message);
                 // console.log(response?.data?.message);
             }
         }
@@ -196,9 +193,9 @@ const ProfilePage = () => {
             if (StudentPhone !== data.phoneNumber) {
                 formData.append('phoneNumber', data?.phoneNumber)
             }
-            if (schoolLogoVal !== data.multipartFile) {
-                formData.append('multipartFile', data?.multipartFile[0])
-            }
+            // if (schoolLogoVal !== data.multipartFile) {
+            //     formData.append('multipartFile', data?.multipartFile[0])
+            // }
             var response = await updateStudentProfileDataApi(formData);
             // console.log(response, 'profile updated')
             if (response?.status === 200) {
@@ -254,7 +251,20 @@ const ProfilePage = () => {
                 <div className="col-md-4 col-sm-12">
                     <div className="row h-100">
                         <div className="headingBgColor borderRadius5 ps-4 pe-4">
-                            <p className='p-3 text-center'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={schoolLogoVal || '/images/fallback.png'} alt="Student Profile Image" width={80} height={80} /></p>
+                            <p className='p-3 text-center'>
+                                {/* <img
+                                    className="rounded-circle"
+                                    src={schoolLogoVal || "/images/fallback.png"}
+                                    alt="Student Profile Image"
+                                    width={80}
+                                    height={80}
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = "/images/fallback.png";
+                                    }}
+                                />   */}
+                                 <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={schoolLogoVal || '/images/fallback.png'} alt="Student Profile Image" width={80} height={80} />
+                            </p>
                             <p className="text-center mb-2"><span className='font14 text-center mb-2 activeTexttt fontWeight600'>{StudentName}</span></p>
                             <div className="d-flex align-items-center justify-content-center mb-2">
                                 <span className="font14 c">
@@ -304,10 +314,10 @@ const ProfilePage = () => {
                             <label htmlFor="validationDefault01" className="form-label font14">Class & Section</label>
                             <input type="text" className={`form-control font14 readonly-bg`} id="validationDefault02" value={StudentSection} disabled />
                         </div> */}
-                        <div className="col-12">
+                        {/* <div className="col-12">
                             <label htmlFor="validationDefault02" className="form-label font14">Birthday</label>
                             <input type="date" className={`form-control font14 readonly-bg`} id="validationDefault02" value={StudentDOB} disabled />
-                        </div>
+                        </div> */}
                         <div className="col-12">
                             <label htmlFor="validationDefault01" className="form-label font14">Gender</label>
                             <select className={`form-select font14`} aria-label="Default select example" value={StudentGender} disabled>
