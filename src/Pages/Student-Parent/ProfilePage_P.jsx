@@ -252,17 +252,7 @@ const ProfilePage = () => {
                     <div className="row h-100">
                         <div className="headingBgColor borderRadius5 ps-4 pe-4">
                             <p className='p-3 text-center'>
-                                {/* <img
-                                    className="rounded-circle"
-                                    src={schoolLogoVal || "/images/fallback.png"}
-                                    alt="Student Profile Image"
-                                    width={80}
-                                    height={80}
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = "/images/fallback.png";
-                                    }}
-                                />   */}
+                               
                                  <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={schoolLogoVal || '/images/fallback.png'} alt="Student Profile Image" width={80} height={80} />
                             </p>
                             <p className="text-center mb-2"><span className='font14 text-center mb-2 activeTexttt fontWeight600'>{StudentName}</span></p>
