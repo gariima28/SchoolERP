@@ -294,7 +294,7 @@ const SchoolSetting = () => {
                                         {errors.schoolInfo && <p className="font12 text-danger">{errors.schoolInfo.message}</p>}
                                     </div>
                                     <div className="col-md-6 col-sm-12 mb-3">
-                                        <label htmlFor="exampleFormControlInput1" className="form-label font14">Email Receipt Title</label>
+                                        <label htmlFor="exampleFormControlInput1" className="form-label font14">School Email</label>
                                         <input id="email" onChange={checkForChanges} type="email" className={`form-control font14 ${errors.email ? 'border-danger' : ''}`} placeholder="Enter School's Email" {...register('email', { required: `School Email is required *`, validate: value => { if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) { return 'Not a valid email format'; } return true; } })} />
                                         {errors.email && <p className="font12 text-danger">{errors.email.message}</p>}
                                     </div>

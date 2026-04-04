@@ -521,7 +521,7 @@ const ManageWareHouse = () => {
                         <td className='textWrapClass greyText font14'>{item.keeperPhone}</td>
                         <td className='textWrapClass greyText font14'>{item.keeperAddress}</td>
                         <td className='text-end'>
-                          <span className="ps-4 greyText" data-bs-toggle="modal" data-bs-target="#viewDetails" style={{ cursor: "pointer" }} onClick={() => getWarehouseForView(item.id)}><RemoveRedEyeOutlinedIcon /></span>
+                          <span className="ps-4 greyText" data-bs-toggle="modal" data-bs-target="#viewDetails" style={{ cursor: "pointer" }} onClick={() => getWarehouseForView(item.id)}><RemoveRedEyeOutlinedIcon className="viewIcon"/></span>
                           <span
                             className="ps-4 greyText"
                             style={{ cursor: "pointer" }}
@@ -529,7 +529,7 @@ const ManageWareHouse = () => {
                           >
                             <DriveFileRenameOutlineOutlinedIcon className="editIcon"/>
                           </span>
-                          <span className="ps-4 greyText" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" style={{ cursor: "pointer" }} onClick={() => setDelWarehouseId(item.id)}><DeleteOutlinedIcon /></span>
+                          <span className="ps-4 greyText" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" style={{ cursor: "pointer" }} onClick={() => setDelWarehouseId(item.id)}><DeleteOutlinedIcon  className="deleteIcon"/></span>
                         </td>
                       </tr>
                     ))}

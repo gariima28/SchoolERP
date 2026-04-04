@@ -379,7 +379,7 @@ const ItemCategory = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => getItemCategoryDataById(item.id)}
                           >
-                            <DriveFileRenameOutlineOutlinedIcon />
+                            <DriveFileRenameOutlineOutlinedIcon className="editIcon"/>
                           </span>
                           <span
                             className="ps-4 greyText"
@@ -389,7 +389,7 @@ const ItemCategory = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => setDelCategoryId(item.id)}
                           >
-                            <DeleteOutlinedIcon />
+                            <DeleteOutlinedIcon className="deleteIcon"/>
                           </span>
                         </td>
                       </tr>

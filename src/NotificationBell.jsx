@@ -258,7 +258,7 @@ const NotificationBell = ({ fireBaseId }) => {
     }
 
     const offcanvasRef = useRef(null);
- 
+
 
     return (
         <Container>
@@ -302,7 +302,7 @@ const NotificationBell = ({ fireBaseId }) => {
                                     <button
                                         className="btn btn-secondary my-btn-secondary"
                                         onClick={() => setOpenFilter(!openFilter)}
-                                        style={{color:'#000'}}
+                                        style={{ color: '#000' }}
                                     >
                                         All Notification ▾
                                     </button>
@@ -336,24 +336,39 @@ const NotificationBell = ({ fireBaseId }) => {
                             </div>
                             <hr className='mx-3' style={{ marginTop: '-3px' }} />
                             <div className="offcanvas-body pt-0">
-                                {notificationData?.map((item, index) => (
-                                    <div
-                                        key={index} className={`row main-notification mb-2 p-2 mx-1 ${item.status === "READ" ? "" : "readUnreadBackground"}`}
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() => {
-                                            setRead(true);
-                                            setSelectedId(item.id);
-                                            GetAllNotificationGetById(item.id);
-                                        }}>
-                                        {/* <div className="col-lg-3">
-                                            <img className="noti-img" src="public/images/cropped_circle_image.png" alt="" />
-                                        </div> */}
-                                        <div className="col-lg-12" style={{ fontSize: "14px" }}>
-                                            <h2 className="mb-1"><b>{item.title}</b></h2>
-                                            <p className="mb-0">{item.message}</p>
+
+                                {notificationData?.length > 0 ? (
+                                    notificationData.map((item, index) => (
+                                        <div
+                                            key={item.id || index}
+                                            className={`row main-notification mb-2 p-2 mx-1 ${item.status === "READ" ? "" : "readUnreadBackground"
+                                                }`}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => {
+                                                setRead(true);
+                                                setSelectedId(item.id);
+                                                GetAllNotificationGetById(item.id);
+                                            }}
+                                        >
+                                            {/* <div className="col-lg-3">
+                                                <img
+                                                    className="noti-img"
+                                                    src="/images/cropped_circle_image.png"
+                                                    alt="notification"
+                                                />
+                                            </div> */}
+
+                                            <div className="col-lg-12" style={{ fontSize: "14px" }}>
+                                                <h2 className="mb-1">
+                                                    <b>{item.title}</b>
+                                                </h2>
+                                                <p className="mb-0">{item.message}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                ) : (
+                                    <h2 className="text-center mt-3" style={{color:'red'}}>No notifications available..</h2>
+                                )}
                             </div>
 
 

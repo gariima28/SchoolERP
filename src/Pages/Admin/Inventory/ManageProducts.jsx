@@ -526,7 +526,7 @@ const ManageProduct = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => getManageProductDataById(item.id, true)}
                           >
-                            <RemoveRedEyeOutlinedIcon />
+                            <RemoveRedEyeOutlinedIcon className="viewIcon"/>
                           </span>
                           <span
                             className="ps-4 greyText"
@@ -536,7 +536,7 @@ const ManageProduct = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => getManageProductDataById(item.id)}
                           >
-                            <DriveFileRenameOutlineOutlinedIcon />
+                            <DriveFileRenameOutlineOutlinedIcon className="editIcon"/>
                           </span>
                           <span
                             className="ps-4 greyText"
@@ -546,7 +546,7 @@ const ManageProduct = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => setDelProductId(item.id)}
                           >
-                            <DeleteOutlinedIcon />
+                            <DeleteOutlinedIcon className="deleteIcon"/>
                           </span>
                         </td>
                       </tr>

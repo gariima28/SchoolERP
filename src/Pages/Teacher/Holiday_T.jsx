@@ -846,7 +846,7 @@ const Holiday = () => {
                 <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
                   <th className='no-wrap'>#</th>
                   <th className='no-wrap'>Holiday Name</th>
-                  <th className='no-wrap'>start Date</th>
+                  <th className='no-wrap'>Start Date</th>
                   <th className='no-wrap'>End Date</th>
                   <th className='no-wrap'>Description</th>
                   <th className='no-wrap'>Actions</th>

@@ -112,6 +112,7 @@ const ProfilePage = () => {
     const token = sessionStorage.getItem('token');
     const role = sessionStorage.getItem('loggedInUserRole');
     const [schoolLogoVal, setSchoolLogoVal] = useState('')
+    const [parentImage, setParentImage] = useState('')
     console.log('image parent profile', schoolLogoVal)
     // Chnage type of input State
     const [changeImageType, setChangeImageType] = useState(true)
@@ -143,6 +144,9 @@ const ProfilePage = () => {
             var response = await getStudentProfileApi();
             console.log(response, 'profile-----------')
             if (response?.status === 200) {
+                const parentImage = response?.data?.image
+                setParentImage(parentImage)
+                console.log('parenyt image',parentImage)
                 setStudentName(response?.data?.name)
                 setStudentClass(response?.data?.classNo)
                 setStudentSection(response?.data?.classSection)
@@ -253,7 +257,7 @@ const ProfilePage = () => {
                         <div className="headingBgColor borderRadius5 ps-4 pe-4">
                             <p className='p-3 text-center'>
                                
-                                 <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={schoolLogoVal || '/images/fallback.png'} alt="Student Profile Image" width={80} height={80} />
+                                 <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} className='rounded-circle' src={parentImage ? parentImage : '/images/fallback.png'} alt="Parent Profile Image" width={80} height={80} />
                             </p>
                             <p className="text-center mb-2"><span className='font14 text-center mb-2 activeTexttt fontWeight600'>{StudentName}</span></p>
                             <div className="d-flex align-items-center justify-content-center mb-2">
