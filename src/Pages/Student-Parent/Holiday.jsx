@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getAllHolidayDataApiByStu } from 'src/Utils/Apis';
@@ -11,82 +11,72 @@ import { useForm } from 'react-hook-form';
 
 const Container = styled.div`
     height: 92vh;
-    .mainBreadCrum {
-        --bs-breadcrumb-divider: none !important;
-    }
-
-    .bredcrumText {
-        color: var(--breadCrumTextColor);
-    }
-
-    .bredcrumActiveText {
-        color: var(--breadCrumActiveTextColor);
-    }
-
-    .greyText {
-        color: var(--greyTextColor);
-    }
-
-    .table td {
-        border-right: 0.3px solid #dee2e6;
-    }
+    .mainBreadCrum { --bs-breadcrumb-divider: none !important; }
+    .bredcrumText { color: var(--breadCrumTextColor); }
+    .bredcrumActiveText { color: var(--breadCrumActiveTextColor); }
+    .greyText { color: var(--greyTextColor); }
+    .table td { border-right: 0.3px solid #dee2e6; }
 `;
 
 const Holiday = () => {
-
     const token = sessionStorage.getItem('token');
+
     const [loaderState, setLoaderState] = useState(false);
     const [calendarView, setCalendarView] = useState(false);
     const [holidayData, setHolidayData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    
+    const [pageSize] = useState(10);
+
     const [searchByKey, setSearchByKey] = useState('');
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+    const { handleSubmit } = useForm({
         mode: 'onChange',
         defaultValues: { searchByKey: '' }
     });
 
     useEffect(() => {
         getAllHolidays();
+
         const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl));
+        const tooltipList = tooltipTriggerList.map(el => new window.bootstrap.Tooltip(el));
+
         return () => {
-            tooltipList.forEach(tooltip => tooltip.dispose());
+            tooltipList.forEach(t => t.dispose());
         };
-    }, [pageNo, searchByKey]);
+    }, [pageNo, searchByKey, selectedMonth, selectedYear]);
 
     const getAllHolidays = async () => {
         try {
             setLoaderState(true);
+
             const response = await getAllHolidayDataApiByStu(searchByKey, pageNo, pageSize);
-            if (response?.status === 200) {
-                if (response?.data?.status === 'success') {
-                    setLoaderState(false);
-                    const validatedData = response?.data?.holidays.filter(item =>
-                        item.holidayTitle && item.startDate && item.endDate
-                    );
-                    if (validatedData.length < response?.data?.holidays.length) {
-                        toast.error('Some holiday data is incomplete and has been filtered out.');
-                    }
-                    setHolidayData(validatedData);
-                    setCurrentPage(response?.data?.currentPage);
-                    setTotalPages(response?.data?.totalPages);
-                } else {
-                    setLoaderState(false);
-                    toast.error(response?.data?.message);
+
+            if (response?.status === 200 && response?.data?.status === 'success') {
+
+                const validatedData = response?.data?.holidays?.filter(
+                    item => item.holidayTitle && item.startDate && item.endDate
+                );
+
+                if (validatedData.length < response?.data?.holidays.length) {
+                    toast.error('Some holiday data is incomplete and has been filtered out.');
                 }
+
+                setHolidayData(validatedData);
+                setCurrentPage(response?.data?.currentPage || 1);
+                setTotalPages(response?.data?.totalPages || 1);
+
             } else {
-                setLoaderState(false);
+                toast.error(response?.data?.message || 'Failed to fetch holidays');
             }
+
         } catch (error) {
-            setLoaderState(false);
             toast.error('Error fetching holidays');
-        }
-        finally {
-            setloaderState(false);
+        } finally {
+            setLoaderState(false);
         }
     };
 
@@ -95,99 +85,106 @@ const Holiday = () => {
     };
 
     const onSearchSubmit = (data) => {
+        setPageNo(1);
         setSearchByKey(data.searchByKey);
     };
 
-    // Prepare holiday data for calendar
-    const dailyHolidayData = holidayData.map(holiday => ({
-        date: holiday.startDate,
-        status: 'holiday'
-    })).concat(
-        holidayData.flatMap(holiday => {
+    const dailyHolidayData = useMemo(() => {
+        return holidayData.flatMap((holiday) => {
             const start = new Date(holiday.startDate);
             const end = new Date(holiday.endDate);
             const dates = [];
+
             for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-                dates.push({ date: d.toISOString().split('T')[0], status: 'holiday' });
+                if (
+                    d.getMonth() === selectedMonth - 1 &&
+                    d.getFullYear() === selectedYear
+                ) {
+                    dates.push({
+                        date: d.toISOString().split('T')[0],
+                        status: 'holiday',
+                        holiday: {
+                            name: holiday.holidayTitle || '',
+                            description: holiday.description || ''
+                        }
+                    });
+                }
             }
+
             return dates;
-        })
-    );
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        });
+    }, [holidayData, selectedMonth, selectedYear]);
+
     return (
         <Container className="container-fluid px-5 py-4 overflow-scroll">
             {loaderState && <DataLoader />}
+
             <div className="row pb-3">
-                <nav className='mainBreadCrum font14 ps-0' aria-label="breadcrumb">
+                <nav className='mainBreadCrum font14 ps-0'>
                     <ol className="breadcrumb mb-1">
                         <li className="breadcrumb-item">
-                            <Link to="/" className='align-self-center bredcrumText text-decoration-none font14'>Home</Link>
-                            <Icon className='ms-2' icon="ep:arrow-right-bold" width="1em" height="1em" style={{ color: '#78788C' }} />
+                            <Link to="/" className='bredcrumText text-decoration-none'>Home</Link>
+                            <Icon className='ms-2' icon="ep:arrow-right-bold" />
                         </li>
-                        <li className="breadcrumb-item active bredcrumActiveText font14" aria-current="page">Holiday</li>
+                        <li className="breadcrumb-item active bredcrumActiveText">Holiday</li>
                     </ol>
                 </nav>
-                <p className='font14 ps-0 fw-bolder'>Holiday Details</p>
+                <p className='fw-bolder'>Holiday Details</p>
             </div>
+
             <div className="row p-3 bg-white borderRadius5 pb-5">
-                <div className="d-flex justify-content-end align-items-center mb-3">
-                    <span className='border greyText p-2 borderradius8 cursorPointer' onClick={() => setCalendarView(!calendarView)}>
+
+                <div className="d-flex justify-content-end mb-3">
+                    <span className='border greyText p-2 cursorPointer'
+                        onClick={() => setCalendarView(!calendarView)}>
                         {calendarView ? 'List View' : 'Calendar View'}
                     </span>
                 </div>
-                {holidayData.length > 0 ? (
+
+                {holidayData?.length > 0 ? (
                     calendarView ? (
                         <HolidayCalendar
                             DailyAttendanceData={dailyHolidayData}
-                            month={new Date().getMonth() + 1}
-                            year={new Date().getFullYear()}
-                            monthUpdate={(month) => { }}
-                            yearUpdate={(year) => { }}
+                            month={selectedMonth}
+                            year={selectedYear}
+                            monthUpdate={setSelectedMonth}
+                            yearUpdate={setSelectedYear}
                             smallBox={false}
                         />
                     ) : (
                         <>
                             <div className="overflow-scroll mt-2">
-                                <table className="table align-middle table-striped table-bordered">
+                                <table className="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <td className='textWrapClass font14'>#</td>
-                                            <td className='textWrapClass font14'>Holiday Name</td>
-                                            <td className='textWrapClass font14'>Start Date</td>
-                                            <td className='textWrapClass font14'>End Date</td>
-                                            <td className='textWrapClass font14'>Description</td>
+                                            <td>#</td>
+                                            <td>Name</td>
+                                            <td>Start</td>
+                                            <td>End</td>
+                                            <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {holidayData.map((item, index) => (
                                             <tr key={item.holidayId}>
-                                                <td className='textWrapClass font14 greyText'>{index + 1}</td>
-                                                <td className='textWrapClass font14 greyText'>{item.holidayTitle}</td>
-                                                <td className='textWrapClass font14 greyText'>{item.startDate}</td>
-                                                <td className='textWrapClass font14 greyText'>{item.endDate}</td>
-                                                <td className='textWrapClass font14 greyText'>
-                                                    {item.description.length > 60 ? (
+                                                <td>{index + 1}</td>
+                                                <td>{item.holidayTitle}</td>
+                                                <td>{item.startDate}</td>
+                                                <td>{item.endDate}</td>
+                                                <td>
+                                                    {item.description?.length > 60 ? (
                                                         <>
-                                                            <span className='me-2'>{item.description.substring(0, 60) + "..."}</span>
+                                                            {item.description.substring(0, 60)}...
                                                             <button
                                                                 className='btn p-0'
-                                                                type='button'
                                                                 data-bs-toggle="tooltip"
-                                                                data-bs-placement="top"
-                                                                data-bs-title={item.description}
+                                                                title={item.description}
                                                             >
-                                                                <Icon
-                                                                    className=''
-                                                                    icon="ph:info-fill"
-                                                                    width="1.5em"
-                                                                    height="1.5em"
-                                                                    style={{ color: '#C1C1C1' }}
-                                                                />
+                                                                <Icon icon="ph:info-fill" />
                                                             </button>
                                                         </>
                                                     ) : (
-                                                        <span>{item.description}</span>
+                                                        item.description
                                                     )}
                                                 </td>
                                             </tr>
@@ -195,20 +192,16 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
                                     </tbody>
                                 </table>
                             </div>
+
                             <div className="d-flex">
-                                <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
+                                <p>Showing {currentPage} of {totalPages}</p>
                                 <div className="ms-auto">
                                     <ReactPaginate
-                                        previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                                        nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                                        breakLabel={'...'}
-                                        breakClassName={'break-me'}
+                                        previousLabel={<Icon icon="tabler:chevrons-left" />}
+                                        nextLabel={<Icon icon="tabler:chevrons-right" />}
                                         pageCount={totalPages}
-                                        marginPagesDisplayed={2}
-                                        pageRangeDisplayed={10}
                                         onPageChange={handlePageClick}
                                         containerClassName={'pagination'}
-                                        subContainerClassName={'pages pagination'}
                                         activeClassName={'active'}
                                     />
                                 </div>
@@ -216,10 +209,9 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
                         </>
                     )
                 ) : (
-                    <div className="d-flex justify-content-center p-5 m-5">
-                        <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" className='img-fluid p-5' />
-                    </div>
+                    <h5 className="text-center mt-5">No holidays found</h5>
                 )}
+
                 <Toaster />
             </div>
         </Container>

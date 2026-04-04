@@ -497,6 +497,8 @@ const Holiday = () => {
 
   const [holidayName, setHolidayName] = useState()
   const [holidayDescription, setHolidayDescription] = useState()
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const [holidayStartDate, setHolidayStartDate] = useState()
   const [holidayEndDate, setHolidayEndDate] = useState()
@@ -874,7 +876,7 @@ const Holiday = () => {
     return () => {
       tooltipList.forEach(tooltip => tooltip.dispose());
     };
-  }, [pageNo, searchByKey]);
+  }, [pageNo, searchByKey, selectedMonth, selectedYear]);
 
   const getAllHolidays = async () => {
     try {
@@ -909,20 +911,24 @@ const Holiday = () => {
     }
   };
   // Prepare holiday data for calendar
-  const dailyHolidayData = holidayData.map(holiday => ({
-    date: holiday.startDate,
-    status: 'holiday'
-  })).concat(
-    holidayData.flatMap(holiday => {
-      const start = new Date(holiday.startDate);
-      const end = new Date(holiday.endDate);
-      const dates = [];
-      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        dates.push({ date: d.toISOString().split('T')[0], status: 'holiday' });
+  const dailyHolidayData = holidayData.flatMap((holiday) => {
+    const start = new Date(holiday.startDate);
+    const end = new Date(holiday.endDate);
+    const dates = [];
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      if (d.getMonth() === selectedMonth - 1 && d.getFullYear() === selectedYear) {
+        dates.push({
+          date: d.toISOString().split('T')[0],
+          status: 'holiday',
+          holiday: {
+            name: holiday.holidayTitle || holiday.name || '',
+            description: holiday.holidayDescription || holiday.description || ''
+          }
+        });
       }
-      return dates;
-    })
-  );
+    }
+    return dates;
+  });
   useEffect(() => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 
@@ -1075,7 +1081,8 @@ const Holiday = () => {
             </div>
           </div> */}
           <div className="row p-3 bg-white borderRadius5 pb-5">
-            <div className="d-flex justify-content-end align-items-center mb-3">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h2 className='font16 mb-0'>Holiday Details</h2>
               <span className='border greyText p-2 borderradius8 cursorPointer' onClick={() => setCalendarView(!calendarView)}>
                 {calendarView ? 'List View' : 'Calendar View'}
               </span>
@@ -1084,10 +1091,10 @@ const Holiday = () => {
               calendarView ? (
                 <HolidayCalendar
                   DailyAttendanceData={dailyHolidayData}
-                  month={new Date().getMonth() + 1}
-                  year={new Date().getFullYear()}
-                  monthUpdate={(month) => { }}
-                  yearUpdate={(year) => { }}
+                  month={selectedMonth}
+                  year={selectedYear}
+                  monthUpdate={setSelectedMonth}
+                  yearUpdate={setSelectedYear}
                   smallBox={false}
                 />
               ) : (
@@ -1378,7 +1385,5 @@ const Holiday = () => {
 }
 
 export default Holiday
-
-
 
 
