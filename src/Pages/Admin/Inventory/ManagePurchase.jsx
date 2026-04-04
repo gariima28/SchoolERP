@@ -602,7 +602,7 @@ const ManagePurchase = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => getManagePurchaseDataById(item.id)}
                           >
-                            <DriveFileRenameOutlineOutlinedIcon />
+                            <DriveFileRenameOutlineOutlinedIcon className="editIcon"/>
                           </span>
                           {/* <span
                             className="ps-4 greyText"

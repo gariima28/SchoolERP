@@ -271,7 +271,7 @@ const MyAccount = () => {
                                         {errors.adminName && <p className="font12 text-danger">{errors.adminName.message}</p>}
                                     </div>
                                     <div className="col-12">
-                                        <label htmlFor="validationDefault02" className="form-label font14">adminEmail</label>
+                                        <label htmlFor="validationDefault02" className="form-label font14">Admin Email</label>
                                         <input id="adminEmail" type="email" className={`form-control font14 ${errors.adminEmail ? 'border-danger' : ''}`} placeholder="Enter admin's adminEmail" {...register('adminEmail', { required: `admin adminEmail is required *`, validate: value => { if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) { return 'Not a valid adminEmail format'; } return true; } })} />
                                         {errors.adminEmail && <p className="font12 text-danger">{errors.adminEmail.message}</p>}
                                     </div>

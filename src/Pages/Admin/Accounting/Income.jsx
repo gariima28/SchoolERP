@@ -884,7 +884,7 @@ const Income = () => {
 
             <div className="col-lg-6 col-md-6 col-sm-12  ">
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label mb-1 label-color focus heading-14">Income Category</label>
+                <label for="exampleFormControlInput1" class="form-label mb-2 label-color focus heading-14">Income Category</label>
                 <select class="form-select  form-select-sm form-focus label-color" value={examTermId} onChange={(e) => setCategoryId(e.target.value)} aria-label="Default select example" >
                   <option selected>Select Income Category</option>
                   {
