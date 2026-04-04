@@ -291,20 +291,20 @@ const HolidayCalendar = ({ DailyAttendanceData = [], month, year, monthUpdate, y
         <div className="holiday-details-row">
           <small>Selected Date :</small> {selectedDateKey}
         </div>
-        {isHolidaySelected ? (
-          <>
             <div className="holiday-details-row">
-              <small>Holiday Name :</small> {selectedHolidayInfo.holiday?.name}
+              <small>Holiday Name :</small> {selectedHolidayInfo.holiday?.name || '--'}
             </div>
             <div className="holiday-details-row">
               <small>Description :</small> {selectedHolidayInfo.holiday?.description || '--'}
             </div>
+        {/* {isHolidaySelected ? (
+          <>
           </>
         ) : (
           <div className="holiday-details-row">
             {hoveredDate ? 'No Holiday' : 'No Holiday Today'}
           </div>
-        )}
+        )} */}
       </div>
     </Container>
   );
