@@ -53,11 +53,10 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
     if (myUserID) {
       MyStaffGetById();
     }
-     if (profileImageForBasicInfo) {
-      console.log('Selected image:', profileImageForBasicInfo);
-      // profileImageForBasicInfo.file - actual file object
-      // profileImageForBasicInfo.preview - preview URL
-    }
+if (profileImageForBasicInfo?.preview) {
+    // Optional: show preview somewhere in basic form if needed
+    console.log("Image received in basic form:", profileImageForBasicInfo);
+  }
   }, [profileImageForBasicInfo]);
 
 
@@ -225,7 +224,7 @@ const User_basic_infomation = ({ data, setFunction, dataFunct }) => {
       formData.append('nationality', nationality);
       formData.append('pinCode', pinCode);
       formData.append('religion', religion);
-      formData.append('staffImage', profileImageForBasicInfo);
+      formData.append('staffImage', profileImageForBasicInfo?.file || '');
       formData.append('state', state);
       formData.append('staffStatus', status);
       formData.append('citizenship', citizenship);

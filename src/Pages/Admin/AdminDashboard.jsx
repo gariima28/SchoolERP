@@ -111,7 +111,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     getAllDashData();
-  }, [token, graphKeyData]);
+  }, [graphKeyData]);
 
   const getAllDashData = async () => {
     try {

@@ -135,7 +135,9 @@ const AllStudents = () => {
     const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     const tooltipList = tooltipTriggerList.map(el => new window.bootstrap.Tooltip(el));
     return () => tooltipList.forEach(t => t.dispose());
+
   }, [ClassIdValue, searchBySection, RelaodDataVal, pageNo]);
+  
 
   const handlePageClick = (event) => {
     setPageNo(event.selected + 1);

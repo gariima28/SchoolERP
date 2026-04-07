@@ -6,9 +6,8 @@ import { MyUseContext } from '../ContextApi/UseContext';
 import { useForm, Controller } from 'react-hook-form';
 import * as bootstrap from 'bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
-import { StaffGetById, StaffPostApi, StaffImageUpdate, RolePermissionGetApi } from '../../../Utils/Apis';
+import { StaffGetById, StaffImageUpdate, RolePermissionGetApi } from '../../../Utils/Apis';
 
-// Styled components (same as before - unchanged)
 const Container = styled.div`
   .modal-image {
     width: 100%;
@@ -37,20 +36,6 @@ const Container = styled.div`
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
-  }
-  .main-body {
-    background-color: #f2f3f6;
-  }
-  .main-content-container {
-    background-color: #fff;
-    margin: 15px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-  .container-div-content {
-    padding: 24px;
-    background-color: #fff;
-    border-radius: 10px;
   }
   .profile-card {
     background: linear-gradient(135deg, #e5f3f2 0%, #f8fafc 100%);
@@ -116,21 +101,9 @@ const Container = styled.div`
     transform: scale(1.1);
     color: #006b63;
   }
-  .file-input {
-    display: none;
-  }
   .profile-info {
     margin-top: 16px;
     text-align: center;
-  }
-  .profile-info h2 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-  }
-  .profile-info p {
-    font-size: 16px;
-    color: #666;
   }
   .profile-info .role {
     font-size: 18px;
@@ -143,13 +116,13 @@ const Container = styled.div`
     padding-top: 16px;
   }
 
-@media only screen and (max-width: 1260px) {
-  .nav-tabs-container {
-    margin-top: 0px !important;
-    border-top: none !important;
-    padding-top: 0px !important;
+  @media only screen and (max-width: 1260px) {
+    .nav-tabs-container {
+      margin-top: 0px !important;
+      border-top: none !important;
+      padding-top: 0px !important;
+    }
   }
-}
   .nav-link {
     color: #000;
     text-decoration: none;
@@ -176,7 +149,6 @@ const Container = styled.div`
     background-color: #edf5f6 !important;
     opacity: 0.6;
     pointer-events: none !important;
-    position: relative;
   }
   .my-nav-link:hover::after {
     content: 'Please complete Basic Information first';
@@ -191,34 +163,15 @@ const Container = styled.div`
     font-size: 12px;
     white-space: nowrap;
     z-index: 10;
-    opacity: 1;
-    transition: opacity 0.2s ease;
-    pointer-events: none;
   }
   .modal-content {
     border-radius: 16px;
     background: #f8fafc;
   }
-  .modal-title {
-    font-size: 14px;
-    font-weight: 600;
-  }
-  .modal-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
   .error-message {
     color: #dc3545;
     font-size: 12px;
     text-align: center;
-  }
-  video {
-    width: 100%;
-    max-width: 200px;
-    border-radius: 50%;
-    border: 2px solid #008479;
   }
   @media only screen and (max-width: 1260px) {
     .mainContainer img {
@@ -231,25 +184,11 @@ const Container = styled.div`
     }
   }
   @media only screen and (max-width: 991px) {
-    .profile-info h2 {
-      font-size: 16px;
-    }
-    .profile-info p {
-      font-size: 14px;
-    }
     .profile-info .role {
       font-size: 16px;
     }
     .profile-card {
       min-height: 400px;
-    }
-    .nav-link {
-      padding: 10px 12px;
-    }
-    .my-nav-link:hover::after {
-      font-size: 10px;
-      padding: 4px 8px;
-      top: -25px;
     }
   }
 `;
@@ -258,16 +197,14 @@ const UserSidebar = () => {
   const { roleName, roleId: roleIdFromParams, userId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { myId, setUserId, setProfileImageForBasicInfo } = useContext(MyUseContext); // Add setProfileImageForBasicInfo to context
+  const { myId, setProfileImageForBasicInfo } = useContext(MyUseContext);
 
   const myUserID = myId ?? userId ?? "";
   const isAddFlow = location.pathname.includes('/add/');
   const isUpdateFlow = location.pathname.includes('/update/');
 
-  // Disable tabs if in add flow and no userId is present
   const isTabsDisabled = isAddFlow && !myUserID;
 
-  // Role mapping based on roleId
   const roleMapping = {
     '1': 'Teacher',
     '2': 'Accountant',
@@ -276,57 +213,83 @@ const UserSidebar = () => {
     '5': 'Driver'
   };
 
-  const [image, setImage] = useState(null);
-  const [updateStatus, setUpdateStatus] = useState();
-  const [staffImage, setStaffImage] = useState(null);
+  const [staffImage, setStaffImage] = useState('/SampleProfile.png');
   const [modalImage, setModalImage] = useState(null);
   const [previousImage, setPreviousImage] = useState(null);
-  const [userMyRole, setUserMyRole] = useState(roleMapping[roleIdFromParams] || 'Role');
-  const [transferData, setTransferData] = useState(null);
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [loaderState, setLoaderState] = useState(false);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [myroleName, setMyroleName] = useState('');
+
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const [myroleName, setMyroleName] = useState('');
-
-  const { control, handleSubmit, setValue, formState: { errors } } = useForm({
-    mode: 'onChange',
-    defaultValues: {
-      image: null,
-    },
+  // React Hook Form for Image Modal only
+  const { control, handleSubmit, reset, setValue } = useForm({
+    defaultValues: { image: null },
   });
 
-  // Initialize Bootstrap modal
+  // Fetch initial data
   useEffect(() => {
     if (myUserID) {
-      MyRolPermisGetAllApi()
+      MyRolPermisGetAllApi();
       GetProfileImageById();
     } else {
       setStaffImage('/SampleProfile.png');
     }
   }, [myUserID]);
 
+  // Modal cleanup on close
   useEffect(() => {
     const modalElement = document.getElementById('imageModal');
     if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modalElement.addEventListener('hidden.bs.modal', () => {
+      const handleModalHidden = () => {
+        reset();
+        setModalImage(null);
         setIsCameraOpen(false);
         stopCamera();
-        setModalImage(null);
-        setValue('image', null);
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) backdrop.remove();
-      });
+      };
+
+      modalElement.addEventListener('hidden.bs.modal', handleModalHidden);
+
       return () => {
-        modalElement.removeEventListener('hidden.bs.modal', () => { });
-        modal.dispose();
+        modalElement.removeEventListener('hidden.bs.modal', handleModalHidden);
       };
     }
-  }, [setValue]);
+  }, [reset]);
 
-  // Handle file upload
+  const GetProfileImageById = async () => {
+    try {
+      const response = await StaffGetById(myUserID);
+      if (response?.status === 200 && response?.data?.status === 'success') {
+        setStaffImage(response?.data?.user?.staffImage || '/SampleProfile.png');
+        setMyroleName(response?.data?.user?.role || roleMapping[roleIdFromParams] || '');
+      }
+    } catch (error) {
+      setStaffImage('/SampleProfile.png');
+    }
+  };
+
+  const MyRolPermisGetAllApi = async () => {
+    try {
+      const response = await RolePermissionGetApi();
+      if (response?.status === 200) {
+        const roles = response?.data?.roles || [];
+        const matchedRole = roles.find((role) => role.roleId === Number(roleIdFromParams));
+        if (matchedRole) setMyroleName(matchedRole.roleName);
+      }
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+    }
+  };
+
+  const handleImageClick = () => {
+    setPreviousImage(staffImage);
+    setModalImage(null);
+    reset(); // Important: Reset form when opening modal
+    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('imageModal'));
+    modal.show();
+  };
+
   const handleImageUpload = (e, onChange) => {
     const file = e.target.files[0];
     if (file) {
@@ -339,130 +302,59 @@ const UserSidebar = () => {
     }
   };
 
-  // Handle image click to open modal
-  const handleImageClick = () => {
-    setPreviousImage(staffImage || '/SampleProfile.png');
-    setModalImage(null);
-    setValue('image', null);
-    const modalElement = document.getElementById('imageModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  };
-
-  const GetProfileImageById = async () => {
-    try {
-      const response = await StaffGetById(myUserID);
-      if (response?.status === 200 && response?.data?.status === 'success') {
-        setUpdateStatus(response?.data?.status);
-        setStaffImage(response?.data?.user?.staffImage || '/SampleProfile.png');
-        setUserMyRole(response?.data?.user?.role || roleMapping[roleIdFromParams] || 'Role');
-      } else {
-        setStaffImage('/SampleProfile.png');
-      }
-    } catch (error) {
-      setStaffImage('/SampleProfile.png');
-    }
-  };
-
-  const MyRolPermisGetAllApi = async () => {
-    try {
-      const response = await RolePermissionGetApi();
-      console.log(response, 'response')
-      if (response?.status === 200) {
-        const roles = response?.data?.roles || [];
-        const matchedRole = roles.find((role) => role.roleId === Number(roleIdFromParams));
-        console.log(matchedRole)
-        setMyroleName(matchedRole.roleName)
-      }
-      else {
-        // setRoleId('');
-        setMyroleName('');
-      }
-    } catch (error) {
-      // toast.error('Failed to fetch roles');
-    }
-  };
-
-  const UpdateProfileImage = async (data) => {
-    if (!data.image) {
-      toast.error('Please select an image');
-      return;
-    }
-    setLoaderState(true);
-    const formData = new FormData();
-    formData.append('staffImage', data.image);
-    try {
-      const response = await StaffImageUpdate(myUserID, formData);
-      if (response?.status === 200 && response?.data?.status === 'success') {
-        toast.success('Image updated successfully');
-        setStaffImage(response?.data?.user?.staffImage || URL.createObjectURL(data.image));
-        const modalElement = document.getElementById('imageModal');
-        if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal.hide();
-        }
-      } else {
-        toast.error(response?.data?.message || 'Failed to update profile image');
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || 'Failed to update profile image');
-    } finally {
-      setLoaderState(false);
-    }
-  };
-
-  // Modified function to handle image when no userId is present
-  const handleImageForBasicInfo = async (data) => {
-    if (!data.image) {
-      toast.error('Please select an image');
-      return;
-    }
-
-    // Create image URL for preview
-    const imageUrl = URL.createObjectURL(data.image);
-
-    // Store image data in context so User_basic_infomation component can access it
-    setProfileImageForBasicInfo({
-      file: data.image,
-      preview: imageUrl
-    });
-
-    // Update sidebar image preview
-    setStaffImage(imageUrl);
-
-    toast.success('Image selected successfully');
-
-    // Close modal
-    const modalElement = document.getElementById('imageModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      modal.hide();
-    }
-  };
-
-  // Modified form submission logic
-  const handleFormSubmit = (data) => {
-    if (myUserID) {
-      // If userId exists, update profile image directly
-      UpdateProfileImage(data);
-    } else {
-      // If no userId, pass image to User_basic_infomation component
-      handleImageForBasicInfo(data);
-    }
-  };
-
   const stopCamera = () => {
     if (videoRef.current && videoRef.current.srcObject) {
-      const stream = videoRef.current.srcObject;
-      const tracks = stream.getTracks();
-      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject.getTracks().forEach(track => track.stop());
       videoRef.current.srcObject = null;
     }
   };
 
-  // Function to generate dynamic NavLink paths
+  // Main Submit Handler - This prevents form reset issue
+  const handleFormSubmit = async (data) => {
+    if (!data.image) {
+      toast.error('Please select an image');
+      return;
+    }
+
+    setLoaderState(true);
+
+    try {
+      if (!myUserID) {
+        // Add Flow → Send to Basic Information via Context
+        const imageUrl = URL.createObjectURL(data.image);
+
+        setProfileImageForBasicInfo({
+          file: data.image,
+          preview: imageUrl
+        });
+
+        setStaffImage(imageUrl);
+        toast.success('Image selected successfully for profile');
+      } else {
+        // Update Flow → Direct API call
+        const formData = new FormData();
+        formData.append('staffImage', data.image);
+
+        const response = await StaffImageUpdate(myUserID, formData);
+        if (response?.data?.status === 'success') {
+          toast.success('Profile image updated successfully');
+          setStaffImage(response?.data?.user?.staffImage || imageUrl);
+        } else {
+          toast.error(response?.data?.message || 'Failed to update image');
+        }
+      }
+    } catch (error) {
+      toast.error('Failed to process image');
+      console.error(error);
+    } finally {
+      setLoaderState(false);
+      // Close modal after operation
+      const modal = bootstrap.Modal.getInstance(document.getElementById('imageModal'));
+      if (modal) modal.hide();
+    }
+  };
+
+  // Navigation Helpers
   const getNavLinkPath = (section) => {
     if (isAddFlow) {
       if (section === 'userbasicinformation') {
@@ -471,23 +363,21 @@ const UserSidebar = () => {
       return myUserID
         ? `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/${myUserID}/${section}`
         : '#';
-    } else if (isUpdateFlow) {
+    }
+    if (isUpdateFlow) {
       return `/admin/users/${roleName}/${roleIdFromParams}/update/mainuserform/${myUserID}/${section}`;
     }
     return `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/userbasicinformation`;
   };
 
-  // Custom isActive matcher for NavLinks
-  const isNavLinkActive = (match, location, section) => {
+  const isNavLinkActive = (match, loc, section) => {
     if (!match) return false;
-    const basePathUpdate = `/admin/users/${roleName}/${roleIdFromParams}/update/mainuserform/${myUserID}/${section}`;
-    const basePathAddWithId = `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/${myUserID}/${section}`;
-    const basePathAddWithoutId = `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/${section}`;
-    return (
-      location.pathname === basePathUpdate ||
-      location.pathname === basePathAddWithId ||
-      location.pathname === basePathAddWithoutId
-    );
+    const paths = [
+      `/admin/users/${roleName}/${roleIdFromParams}/update/mainuserform/${myUserID}/${section}`,
+      `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/${myUserID}/${section}`,
+      `/admin/users/${roleName}/${roleIdFromParams}/add/mainuserform/${section}`
+    ];
+    return paths.includes(loc.pathname);
   };
 
   const isBasicInfoDisabled = isAddFlow && myUserID;
@@ -502,16 +392,9 @@ const UserSidebar = () => {
                 src={staffImage || '/SampleProfile.png'}
                 alt="Profile"
                 onClick={handleImageClick}
-                aria-label="Click to expand and edit profile image"
               />
-              <label className="camera-icon-container">
-                <svg
-                  className="camera-icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  onClick={handleImageClick}
-                >
+              <label className="camera-icon-container" onClick={handleImageClick}>
+                <svg className="camera-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                   <circle cx="12" cy="10" r="1" fill="currentColor" />
@@ -519,54 +402,45 @@ const UserSidebar = () => {
               </label>
             </div>
             <div className="profile-info">
-              <p className="role heading-18 font-rsponsive">
-                {myroleName}
-              </p>
+              <p className="role heading-18 font-rsponsive">{myroleName}</p>
             </div>
           </div>
+
           <div className="col-xl-12 col-md-9 col-9">
             <div className="nav-tabs-container">
-              <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <div className="nav flex-column nav-pills">
                 <NavLink
-                  className={({ isActive }) =>
-                    `nav-link d-flex align-items-center ${isBasicInfoDisabled ? 'my-nav-link' : ''} ${isActive ? 'active' : ''}`
-                  }
+                  className={({ isActive }) => `nav-link d-flex align-items-center ${isBasicInfoDisabled ? 'my-nav-link' : ''} ${isActive ? 'active' : ''}`}
                   to={getNavLinkPath('userbasicinformation')}
-                  isActive={(match, location) => isNavLinkActive(match, location, 'userbasicinformation')}
+                  isActive={(match, loc) => isNavLinkActive(match, loc, 'userbasicinformation')}
                   end
                 >
                   <span className="flex-grow-1 heading-16">Basic Information</span>
                   <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
                 </NavLink>
+
                 <NavLink
-                  className={({ isActive }) =>
-                    `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
-                  }
+                  className={({ isActive }) => `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`}
                   to={isTabsDisabled ? '#' : getNavLinkPath('usercontact')}
-                  isActive={(match, location) => isNavLinkActive(match, location, 'usercontact')}
-                  end
+                  isActive={(match, loc) => isNavLinkActive(match, loc, 'usercontact')}
                 >
                   <span className="flex-grow-1 heading-16">Contract</span>
                   <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
                 </NavLink>
+
                 <NavLink
-                  className={({ isActive }) =>
-                    `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
-                  }
+                  className={({ isActive }) => `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`}
                   to={isTabsDisabled ? '#' : getNavLinkPath('userperinfo')}
-                  isActive={(match, location) => isNavLinkActive(match, location, 'userperinfo')}
-                  end
+                  isActive={(match, loc) => isNavLinkActive(match, loc, 'userperinfo')}
                 >
                   <span className="flex-grow-1 heading-16">Personal Information</span>
                   <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
                 </NavLink>
+
                 <NavLink
-                  className={({ isActive }) =>
-                    `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`
-                  }
+                  className={({ isActive }) => `nav-link d-flex align-items-center ${isTabsDisabled ? 'my-nav-link' : ''} ${isActive && !isTabsDisabled ? 'active' : ''}`}
                   to={isTabsDisabled ? '#' : getNavLinkPath('userdocuments')}
-                  isActive={(match, location) => isNavLinkActive(match, location, 'userdocuments')}
-                  end
+                  isActive={(match, loc) => isNavLinkActive(match, loc, 'userdocuments')}
                 >
                   <span className="flex-grow-1 heading-16">Documents</span>
                   <Icon icon="iconamoon:arrow-right-2-light" width="1.5em" height="1.5em" />
@@ -577,7 +451,7 @@ const UserSidebar = () => {
         </div>
       </div>
 
-      {/* Image Modal */}
+      {/* Image Upload Modal */}
       <div className="modal fade" id="imageModal" tabIndex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered modal-md">
           <div className="modal-content">
@@ -591,19 +465,20 @@ const UserSidebar = () => {
                   <video ref={videoRef} autoPlay className="modal-image" />
                 ) : (
                   <img
-                    src={modalImage || previousImage || '/SampleProfile.png'}
+                    src={modalImage || previousImage || staffImage || '/SampleProfile.png'}
                     alt="Profile Preview"
                     className="modal-image align-self-center"
                   />
                 )}
+
                 <canvas ref={canvasRef} style={{ display: 'none' }} />
-                <div className="modal-buttons d-flex gap-2 mt-3">
+
+                <div className="modal-buttons d-flex gap-2 mt-4">
                   <Controller
                     name="image"
                     control={control}
-                    rules={{ required: 'Please select or capture an image' }}
                     render={({ field: { onChange } }) => (
-                      <label className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2 mb-0">
+                      <label className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2">
                         <Icon icon="mdi:desktop-mac" width="18" height="18" />
                         <span>Upload from Device</span>
                         <input
@@ -615,63 +490,23 @@ const UserSidebar = () => {
                       </label>
                     )}
                   />
-                  {isCameraOpen && (
-                    <Controller
-                      name="image"
-                      control={control}
-                      rules={{ required: 'Please select or capture an image' }}
-                      render={({ field: { onChange } }) => (
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-outline-primary d-flex align-items-center gap-2"
-                          onClick={() => captureImage(onChange)}
-                          aria-label="Capture Image"
-                        >
-                          <Icon icon="mdi:camera" width="18" height="18" />
-                          <span>Capture</span>
-                        </button>
-                      )}
-                    />
-                  )}
                 </div>
-                {errors.image && <div className="error-message">{errors.image.message}</div>}
-                {modalImage && modalImage !== previousImage && (
-                  <div className="modal-buttons mt-3">
+
+                {modalImage && (
+                  <div className="modal-buttons mt-4">
                     <button
                       type="submit"
-                      className="btn saveIconButtons"
+                      className="btn saveIconButtons me-2"
                       disabled={loaderState}
-                      aria-label="Save Image"
                     >
-                      {loaderState ? (
-                        <>
-                          <span>Saving</span>
-                          <span
-                            className="loader"
-                            style={{
-                              border: '2px solid #fff',
-                              borderTop: '2px solid #008479',
-                              borderRadius: '50%',
-                              width: '16px',
-                              height: '16px',
-                              animation: 'spin 1s linear infinite',
-                              display: 'inline-block',
-                              marginLeft: '8px',
-                            }}
-                          ></span>
-                        </>
-                      ) : (
-                        '✓'
-                      )}
+                      {loaderState ? 'Saving...' : 'Save Image'}
                     </button>
                     <button
                       type="button"
                       className="btn cancelIconButtons"
                       data-bs-dismiss="modal"
-                      onClick={() => setModalImage(null)}
-                      aria-label="Cancel"
                     >
-                      ✗
+                      Cancel
                     </button>
                   </div>
                 )}
@@ -680,6 +515,7 @@ const UserSidebar = () => {
           </div>
         </div>
       </div>
+
       <Toaster />
     </Container>
   );
