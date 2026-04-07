@@ -227,7 +227,7 @@ const VerifyOTP = () => {
                                 <p className='text-center mb-5'><img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/edu2alllogo.svg" alt="" className='img-fluid' /></p>
                                 <Span14Font>
                                     <p className='font18 mb-1'>Forgot Password?</p>
-                                    <h2 className='text-grey font16 mb-3'>We have sent a verification code to your mobile number</h2>
+                                    <h2 className='text-grey font16 mb-3'>We have sent a verification code to your email</h2>
                                     <form>
                                         {/* <div className="mb-3">
                                             <label htmlFor="exampleInputEmail1" className="form-label font16">OTP</label>

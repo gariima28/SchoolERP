@@ -4419,8 +4419,6 @@ export const ClassRoomGetApi = async (searchKey, pageNo, pageSize) => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
     const res = await axios.get(`${Domain}/room/getAllRoomBySchId?searchKey=${searchKey}&page=${pageNo}&size=${pageSize}`)
-    //    // console.log('my-response', res)
-
     if (res) {
       return res;
     }

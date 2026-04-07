@@ -431,7 +431,7 @@ const AddSchool = () => {
                       <div className="row">
                         <div className="col-md-6 mb-3">
                           <label htmlFor="schoolName" className="form-label font14">School Name</label>
-                          <input id="schoolName" type="text" className={`form-control font14 ${errors.schoolName ? 'border-danger' : ''}`} placeholder="School Name" {...register('schoolName', { required: 'School Name is required *', validate: value => { if (!/^[A-Z]/.test(value)) { return 'School Name must start with an uppercase letter'; } if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z\s.'-]+$/.test(value)) { return 'Invalid Characters in School Name'; } return true; } })} />
+                          <input id="schoolName" type="text" className={`form-control font14 ${errors.schoolName ? 'border-danger' : ''}`} placeholder="School Name" {...register('schoolName', { required: 'School Name is required *', validate: value => { if (!/^[A-Z0-9]/.test(value)) { return 'School Name must start with an uppercase letter'; } if (value.length < 4) { return 'Minimum Length is 4'; } if (!/^[a-zA-Z0-9\s.'-]+$/.test(value)) { return 'Invalid Characters in School Name'; } return true; } })} />
                           {errors.schoolName && <p className="font12 text-danger">{errors.schoolName.message}</p>}
                         </div>
                         <div className="col-md-6 mb-3">

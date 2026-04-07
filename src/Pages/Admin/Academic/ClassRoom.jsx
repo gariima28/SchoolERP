@@ -449,6 +449,7 @@ const ClassRoom = () => {
   const [showadd, setShowadd] = useState(true)
   const [hideedit, setHideedit] = useState(false)
   const [addclassroom, setAddclassroom] = useState()
+  console.log('my clas room no is here',addclassroom)
   const [classroomdata, setClassroomdata] = useState([])
   const [classroomNoById, setClassroomNoById] = useState([])
   const [isValidNameRequired, setIsValidNameRequired] = useState(false);
@@ -502,6 +503,7 @@ const ClassRoom = () => {
     setHide(false)
     // console.log('state msgg')
   }
+
   const offcanvasRef = useRef()
   const offcanvasRef22 = useRef()
   const offcanvasRef33 = useRef()
@@ -539,11 +541,14 @@ const ClassRoom = () => {
   const SubcPutDataApi = async () => {
 
     if (FuncValidation()) {
+
       const formData = new FormData()
       formData.append('roomNo', addclassroom);
+
       setLoader(true)
       try {
         const response = await ClassRoomPostApi(formData);
+        
         if (response?.status === 200) {
           if (response?.data?.status === "success") {
             toast.success(response?.data?.message);
@@ -608,12 +613,6 @@ const ClassRoom = () => {
       // console.log(error)
     }
   }
-  // const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef33.current);
-  // offcanvasInstance.hide();
-  // setTimeout(() => {
-  //   setShowdelete(true)
-  // }, 0.5)
-
   // Get by id 
   const MyClassRoomGetByIdApi = async (id) => {
     setLoader(true)
@@ -640,6 +639,7 @@ const ClassRoom = () => {
       try {
         const formData = new FormData()
         formData.append('roomNo', addclassroom);
+
         const response = await ClassRoomPutApi(id, formData);
         if (response?.status === 200) {
           toast.success(response?.data?.message);
@@ -663,6 +663,9 @@ const ClassRoom = () => {
     }
 
   }
+
+
+
 
   const handleForDelete = () => {
     ClassRoomDeleteApi(deleteroomid)
@@ -808,7 +811,8 @@ const ClassRoom = () => {
             <div className="mb-1  ">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label heading-16">Class Room </label>
-                <input type="email" class="form-control form-control-sm" value={addclassroom} onChange={(e) => handleClassNo(e.target.value)} id="exampleFormControlInput1" placeholder="Enter Class Room No" />
+                <input type="email" class="form-control form-control-sm" value={addclassroom} onChange={(e) => setAddclassroom(e.target.value)} id="exampleFormControlInput1" placeholder="Enter Class Room No" />
+                {/* <input type="email" class="form-control form-control-sm" value={addclassroom} onChange={(e) => handleClassNo(e.target.value)} id="exampleFormControlInput1" placeholder="Enter Class Room No" /> */}
               </div>
             </div>
             <div className='pt-1'>

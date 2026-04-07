@@ -642,6 +642,7 @@ const DailyAttendance = ({ items }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
+  console.log('my page no',pageNo)
   const [pageSize, setPageSize] = useState(10);
 
   const handlePageClick = (event) => {
@@ -656,10 +657,12 @@ const DailyAttendance = ({ items }) => {
     MyDailyAttendanceGetApi()
   }, [classId, sectionId])
 
+
   useEffect(() => {
     MyDailyAttendanceGetApi();
+         MyDailyAttendanceGetAllApiByMonth()
 
-  }, [date])
+  }, [date, pageNo])
 
   // CSV 
   const [csvData, setCsvData] = useState([]);
@@ -716,6 +719,7 @@ const DailyAttendance = ({ items }) => {
       // console.log(error)
     }
   }
+
   // Daily attendance get all Api by month
   const MyDailyAttendanceGetAllApiByMonth = async () => {
     const formData = new FormData()
@@ -727,7 +731,8 @@ const DailyAttendance = ({ items }) => {
     formData.append('size', 10);
     setLoader(true)
     try {
-      const response = await TeacherDailyAttendancehGetAllBymonth(sectionId2, month, year, search, 1, 10, pageNo, pageSize);
+      const response = await TeacherDailyAttendancehGetAllBymonth(sectionId2, month, year, search, pageNo, pageSize);
+      console.log('value of daily attendance', response)
       if (response?.status === 200) {
         setDailyDataByMonth(response?.data?.attendance)
         setShowMonth(response?.data?.requestInfo?.monthYear)
@@ -1055,7 +1060,7 @@ const DailyAttendance = ({ items }) => {
 
           <div className="row mt-4 mb-4 bg-color-pink p-3 m-3 responsive-direction">
             <div className="col-2 p-0 ps-5 rsnsve-pd">
-              <span className='heading-16 greyText'>  Class</span>
+              <span className='heading-16 greyText'>Class</span>
               : {classId}
             </div>
             <div className="col-2 p-0 ps-4 rsnsve-pd">
@@ -1064,7 +1069,7 @@ const DailyAttendance = ({ items }) => {
             </div>
             <div className="col-2 p-0 rsnsve-pd">
               <span className='heading-16 greyText'> Month</span>
-              : {showMonth}
+              : {showMonth ? showMonth?.charAt(0)?.toUpperCase() + showMonth?.slice(1) : ''}
             </div>
             <div className="col-4 p-0">
               <span className='heading-16 greyText ps-4 rsnsve-pd'>  Last Update at</span>
@@ -1137,7 +1142,7 @@ const DailyAttendance = ({ items }) => {
                   dailyDataByMonth && dailyDataByMonth?.length > 0 ? (
                     dailyDataByMonth?.map((item, index) => (
                       <tr className="heading-14" key={index}>
-                        <td className="greyText">{index + 1}</td>
+                        <td className="greyText">{index + 1 + (currentPage - 1) * pageSize}</td>
                         <td className="greyText">{item.name.split('-')[1]}</td>
                         {item?.attendance.map((att, i) => (
                           <td className="greyText" key={i}>
