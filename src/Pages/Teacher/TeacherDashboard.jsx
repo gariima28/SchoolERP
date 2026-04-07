@@ -489,9 +489,9 @@ const DashboardPage = () => {
                     HolidayData?.map((item) => (
                       <div className="col-6 p-2" key={item.holidayId}>
                         <div className="holidayCard p-3">
-                          <p className='font16 text-center padding-bottom   {'>{item.title}</p>
-                          <p className='greyText font14 text-center padding-bottom  {'>{item.startDate}</p>
-                          <p className='greyText font14 text-center padding-bottom  {'>{item.endDate}</p>
+                          <p className='font16 text-center padding-bottom {'>{item.title}</p>
+                          <p className=' font14 text-center padding-bottom  {' style={{color:'red'}}>{item.startDate}</p>
+                          <p className=' font14 text-center padding-bottom  {' style={{color:'#008479'}}>{item.endDate}</p>
                         </div>
                       </div>
                     ))

@@ -82,6 +82,7 @@ const DashboardPage = () => {
   //loader State
   const [loaderState, setloaderState] = useState(false);
   const [DashData, setDashData] = useState();
+  console.log('fees data',DashData)
   const [DailyAttendanceData, setDailyAttendanceData] = useState([]);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
@@ -152,7 +153,7 @@ const DashboardPage = () => {
                         </p>
                       </div>
                       <div className="align-self-center">
-                        {/* <p className='font14'>{totalFeeData}</p> */}
+                        <p className='font14'>{DashData?.feeReport?.totalFee}</p>
                       </div>
                     </div>
                     <div className="d-flex p-3">
@@ -163,7 +164,7 @@ const DashboardPage = () => {
                         </p>
                       </div>
                       <div className="align-self-center">
-                        {/* <p className='font14'>{paidFeeData}</p> */}
+                        <p className='font14'>{DashData?.feeReport?.paidFee}</p>
                       </div>
                     </div>
                     <div className="d-flex p-3">
@@ -174,7 +175,7 @@ const DashboardPage = () => {
                         </p>
                       </div>
                       <div className="align-self-center">
-                        {/* <p className='font14'>{balanceFeeData}</p> */}
+                        <p className='font14'>{DashData?.feeReport?.dueFee}</p>
                       </div>
                     </div>
                   </div>
@@ -183,12 +184,12 @@ const DashboardPage = () => {
                   <p className='font14 p-0'>Last Paid Activity</p>
                   <hr className='mt-1 mb-2' />
                   <div className="d-flex justify-content-between p-0">
-                    <p className='font14 greyText'></p>
+                    <p className='font14 greyText'>{DashData?.feeReport?.recentInvoices[0]?.paidDate}</p>
                     {/* <p className='font14 greyText'>October Month Fee</p> */}
-                    {/* <p className='font14 greyText'>16 October 2023</p> */}
+                    {/* <p className='font14 greyText'>{DashData?.feeReport?.recentInvoices[0]?.paidDate}</p> */}
                     <p className='font14 greyText'></p>
                     <p className='font14 greenText fw-bolder'></p>
-                    {/* <p className='font14 greenText fw-bolder'>10,250</p> */}
+                    <p className='font14 greenText fw-bolder'>{DashData?.feeReport?.recentInvoices[0]?.paidAmount}</p>
                   </div>
                 </div>
               </div>

@@ -628,23 +628,23 @@ const OfflineExam_T = () => {
         else {
         }
         // // start itme
-        // if (!startTime || startTime === "" || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(startTime)) {
-        //     setIsValidStartTimeValiRequired(true)
-        //     isValid = false;
-        //     setLoader(false)
-        // }
-        // else {
-        //     setIsValidStartTimeValiRequired(false)
-        // }
-        // // end itme
-        // if (!endTime || endTime === "" || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(endTime)) {
-        //     setIsValidEndTimeValiRequired(true)
-        //     isValid = false;
-        //     setLoader(false)
-        // }
-        // else {
-        //     setIsValidEndTimeValiRequired(false)
-        // }
+        if (!startTime || startTime === "" || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(startTime)) {
+            setIsValidStartTimeValiRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+            setIsValidStartTimeValiRequired(false)
+        }
+        // end itme
+        if (!endTime || endTime === "" || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(endTime)) {
+            setIsValidEndTimeValiRequired(true)
+            isValid = false;
+            setLoader(false)
+        }
+        else {
+            setIsValidEndTimeValiRequired(false)
+        }
         // practical date
         if (!practicalDate || practicalDate === "" || !/^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/.test(practicalDate)) {
             setIsValidPracticalDateRequired(true)
@@ -1016,50 +1016,51 @@ const OfflineExam_T = () => {
     }
     // Put Api 
     const MyOfflinePutApi = async () => {
-        if (FuncValidation2()) {
-            const formData = new FormData()
-            formData.append('examTermId', ExamTerm);
-            formData.append('classNo', classNo);
-            formData.append('section', sectionName);
-            formData.append('subject', subjectId);
-            formData.append('roomNo', classRoomId);
-            formData.append('totalMarks', totalMarks);
-            formData.append('date', date);
-            formData.append('startingTime', startTime);
-            formData.append('endingTime', endTime);
-            formData.append('passingMarks', passingMarks);
+        // if (FuncValidation2()) {
 
-            formData.append('isPractical', practicalShow);
-            formData.append('practicalDate', practicalDate);
-            formData.append('practicalStartTime', practicalStartTime);
-            formData.append('practicalEndTime', practicalEndTime);
-            formData.append('practicalMarks', practicalMrks);
-            formData.append('practicalPassMarks', practicalPassPassingMarks);
-            try {
-                const response = await updateExamScheduleApi(IdForUpdate, formData);
-                console.log('My_offline_Api', response)
-                if (response?.status === 200) {
+        // }
+        const formData = new FormData()
+        formData.append('examTermId', ExamTerm);
+        formData.append('classNo', classNo);
+        formData.append('section', sectionName);
+        formData.append('subject', subjectId);
+        formData.append('roomNo', classRoomId);
+        formData.append('totalMarks', totalMarks);
+        formData.append('date', date);
+        formData.append('startingTime', startTime);
+        formData.append('endingTime', endTime);
+        formData.append('passingMarks', passingMarks);
 
-                    if (response?.data?.status === "success") {
-                        toast.success(response?.data?.message);
-                        setShow2(false)
-                        MyExamGetAllApi()
+        formData.append('isPractical', practicalShow);
+        formData.append('practicalDate', practicalDate);
+        formData.append('practicalStartTime', practicalStartTime);
+        formData.append('practicalEndTime', practicalEndTime);
+        formData.append('practicalMarks', practicalMrks);
+        formData.append('practicalPassMarks', practicalPassPassingMarks);
+        try {
+            const response = await updateExamScheduleApi(IdForUpdate, formData);
+            console.log('My_offline_Api', response)
+            if (response?.status === 200) {
 
-                        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
-                        offcanvasInstance.hide();
-                        setTimeout(() => {
-                            setShow2(true)
-                        }, 0.5)
-                    }
+                if (response?.data?.status === "success") {
+                    toast.success(response?.data?.message);
+                    setShow2(false)
+                    MyExamGetAllApi()
+                    ClearData()
+                    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
+                    offcanvasInstance.hide();
+                    setTimeout(() => {
+                        setShow2(true)
+                    }, 0.5)
                 }
-                else {
-                    toast.error(response?.data?.message);
-                    setEditshow(true)
-                    setLoader(false)
-                }
-            } catch (error) {
+            }
+            else {
+                toast.error(response?.data?.message);
+                setEditshow(true)
                 setLoader(false)
             }
+        } catch (error) {
+            setLoader(false)
         }
 
     }
@@ -1089,6 +1090,8 @@ const OfflineExam_T = () => {
         setIsValidStartTimeValiRequired(false)
         setIsValidEndTimeValiRequired(false)
         setIsValidMarksValiRequired(false)
+        setTotalMarks('')
+        setPassingMarks('')
         // setTimeout(() => {
         //     setExamAllData()
         // }, 0.5)
@@ -1203,19 +1206,19 @@ const OfflineExam_T = () => {
                                     examAllData?.map((item, index) => (
                                         <tr className='heading-14' key={index}>
                                             <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                                            <td className=' greyText pe-0 no-wrap'>{item.examTermName}</td>
-                                            <td className=' greyText pe-0 no-wrap'>{item.roomNumber}</td>
-                                            <td className=' greyText pe-0 no-wrap'>{item.subject}</td>
-                                            <td className=' greyText pe-0 no-wrap'>{item.date}</td>
-                                            <td className=' greyText pe-0 no-wrap'>{item.startingTime}</td>
-                                            <td className=' greyText pe-0 no-wrap'>{item.endingTime}</td>
-                                            <td className=' greyText pe-0 no-wrap' >{item.passingMarks}</td>
-                                            <td className=' greyText pe-0 no-wrap' >{item.totalMarks}</td>
-                                            <td className=' greyText pe-0 no-wrap' >{item.practicalDate}</td>
-                                            <td className=' greyText pe-0 no-wrap' >{item.practicalStartTime}</td>
-                                            <td className=' greyText pe-0 no-wrap' >{item.practicalEndTime}</td>
-                                            <td className=' greyText pe-0 no-wrap' >{item.practicalPassMarks}</td>
-                                            <td className=' greyText pe-0 no-wrap' >{item.practicalMarks}</td>
+                                            <td className=' greyText pe-0 no-wrap'>{item.examTermName ? item.examTermName : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap'>{item.roomNumber ? item.roomNumber : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap'>{item.subject ? item.subject : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap'>{item.date ? item.date : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap'>{item.startingTime ? item.startingTime : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap'>{item.endingTime ? item.endingTime : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.passingMarks ? item.passingMarks : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.totalMarks ? item.totalMarks : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalDate ? item.practicalDate : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalStartTime ? item.practicalStartTime : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalEndTime ? item.practicalEndTime : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalPassMarks ? item.practicalPassMarks : 'N/A'}</td>
+                                            <td className=' greyText pe-0 no-wrap' >{item.practicalMarks ? item.practicalMarks : 'N/A'}</td>
                                             <td className=' greyText  pe-0 no-wrap' >
                                                 <div className="dropdown my-button-show">
                                                     <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1441,7 +1444,7 @@ const OfflineExam_T = () => {
                         <>
                             <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop101" aria-labelledby="staticBackdropLabel" ref={offcanvasRef22}>
                                 <div className="offcanvas-header">
-                                    <Link data-bs-dismiss="offcanvas" >
+                                    <Link data-bs-dismiss="offcanvas" onClick={ClearData}>
                                         <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
                                         </svg>

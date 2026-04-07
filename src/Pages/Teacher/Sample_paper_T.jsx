@@ -873,6 +873,7 @@ const Sample_paper = () => {
     }
     //  Put api sample
     const MySamplePutApi = async () => {
+        
         setLoader(true)
         try {
             const formData = new FormData()
@@ -1081,7 +1082,7 @@ const Sample_paper = () => {
                                                     </svg>
                                                 </p>
                                                 <p className='ps-2 pt-4'>
-                                                    <a className='' type="button" onClick={() => handleDownloadPdf(item.sampleId)}>Dowload</a>
+                                                    <a className='' type="button" onClick={() => handleDownloadPdf(item.sampleId)}>Download</a>
                                                 </p>
                                             </td>
                                             <td className='greyText'>

@@ -138,6 +138,7 @@ const AllSchools = () => {
 
   const token = sessionStorage.getItem('token');
   const [schoolData, setSchoolData] = useState([]);
+  console.log('plan array', schoolData)
   //loader State
   const [loaderState, setloaderState] = useState(false);
   //pagination
@@ -182,7 +183,7 @@ const AllSchools = () => {
     try {
       setloaderState(true);
       var response = await getSchoolDataApi(searchKey === 'search' ? '' : searchKey, pageNo, pageSize);
-
+      console.log('all school plansss', response)
       if (response?.status === 200) {
         if (response?.data?.status === 'success') {
           setloaderState(false);
@@ -611,15 +612,113 @@ const AllSchools = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {schoolData.map((item, index) => (
+                        {schoolData?.map((item, index) => {
+                          const addons = item.plans?.usedAddons || [];
+
+                          return (
+                            <tr key={item.id} className='my-bg-color align-middle'>
+                              <th className='greyText' style={{ textWrap: 'nowrap' }}>
+                                <h3>{index + 1 + (currentPage - 1) * pageSize}</h3>
+                              </th>
+
+                              <td className='greyText' style={{ textWrap: 'nowrap' }}>
+                                <h3>
+                                  {item.schoolName?.length > 20
+                                    ? item.schoolName.substring(0, 20) + '...'
+                                    : item.schoolName}
+                                </h3>
+                              </td>
+
+                              <td className='greyText' style={{ textWrap: 'nowrap' }}>
+                                <h3>{item.adminEmail?.substring(0, 100)}</h3>
+                              </td>
+
+                              <td className='greyText' style={{ textWrap: 'nowrap' }}>
+                                <h3>
+                                  {item.schoolAddress?.length > 20
+                                    ? item.schoolAddress.substring(0, 20) + '...'
+                                    : item.schoolAddress}
+                                </h3>
+                              </td>
+
+                              <td className='greyText' style={{ textWrap: 'nowrap' }}>
+                                <h3>{item.schoolPhone}</h3>
+                              </td>
+
+                              <td className='greyText' style={{ textWrap: 'nowrap' }}>
+                                <h3>{item.plans?.planName || 'Null'}</h3>
+                              </td>
+
+                              <td style={{ textWrap: 'nowrap' }}>
+                                <h3>
+                                  {addons.length > 0 ? (
+                                    <span
+                                      className='blueText text-decoration-none'
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#specialFeaturesModal"
+                                      style={{ cursor: 'pointer' }}
+                                      onClick={() => setViewFeaturesData(addons)}
+                                    >
+                                      View Features
+                                    </span>
+                                  ) : (
+                                    <span className='blueText text-decoration-none text-center'>
+                                      ---
+                                    </span>
+                                  )}
+                                </h3>
+                              </td>
+
+                              <td style={{ textWrap: 'nowrap' }}>
+                                {item.status ? (
+                                  <h3 className='activeText'>Active</h3>
+                                ) : (
+                                  <h3 className='deactiveText'>InActive</h3>
+                                )}
+                              </td>
+
+                              <td style={{ textWrap: 'nowrap' }}>
+                                <div className="dropdown dropdownbtn">
+                                  <button
+                                    className="btn btn-sm actionButtons dropdown-toggle"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                  >
+                                    <span>Action</span>
+                                  </button>
+                                  <ul className="dropdown-menu">
+                                    <li>
+                                      <button
+                                        className="dropdown-item greyText font14"
+                                        type="button"
+                                        data-bs-toggle="offcanvas"
+                                        data-bs-target="#Edit_staticBackdrop"
+                                        onClick={() => getSchoolDataById(item.schoolBusinessId)}
+                                      >
+                                        Edit
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                      
+                      {/* <tbody>
+                        {schoolData?.map((item, index) => (
                           <tr key={item.id} className='my-bg-color align-middle'>
                             <th className='greyText' style={{ textWrap: 'nowrap' }}><h3>{index + 1 + (currentPage - 1) * pageSize}</h3></th>
-                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.schoolName.length > 20 ? item.schoolName.substring(0, 20)+'...' : item.schoolName}</h3></td>
+                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.schoolName.length > 20 ? item.schoolName.substring(0, 20) + '...' : item.schoolName}</h3></td>
                             <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{(item.adminEmail).substring(0, 100)}</h3></td>
                             <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.schoolAddress.length > 20 ? item.schoolAddress.substring(0, 20) + '...' : item.schoolAddress}</h3></td>
                             <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.schoolPhone}</h3></td>
-                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.plans.planName}</h3></td>
-                            <td style={{ textWrap: 'nowrap' }}><h3>{(item.plans.usedAddons).length > 0 ? <span className='blueText text-decoration-none' data-bs-toggle="modal" data-bs-target="#specialFeaturesModal" style={{ cursor: 'pointer' }} onClick={(e) => setViewFeaturesData(item.plans.usedAddons)}>View Features</span> : <span className='blueText text-decoration-none text-center' style={{ cursor: 'pointer' }}>---</span>}</h3></td>
+                            <td className='greyText' style={{ textWrap: 'nowrap' }}><h3>{item.plans ? item.plans : 'Null'}</h3></td>
+                            <td style={{ textWrap: 'nowrap' }}><h3>{(item.plans.usedAddons).length > 0 ?
+                              <span className='blueText text-decoration-none' data-bs-toggle="modal" data-bs-target="#specialFeaturesModal" style={{ cursor: 'pointer' }} onClick={(e) => setViewFeaturesData(item.plans.usedAddons)}>View Features</span>
+                              : <span className='blueText text-decoration-none text-center' style={{ cursor: 'pointer' }}>---</span>}</h3>
+                            </td>
                             <td style={{ textWrap: 'nowrap' }}>{item.status ? <h3 className='activeText'> Active </h3> : <h3 className='deactiveText'> InActive </h3>}</td>
                             <td style={{ textWrap: 'nowrap' }}>
                               <div className="dropdown dropdownbtn">
@@ -628,14 +727,15 @@ const AllSchools = () => {
                                 </button>
                                 <ul className="dropdown-menu">
                                   <li> <button className="dropdown-item greyText font14" type="button" data-bs-toggle="offcanvas" data-bs-target="#Edit_staticBackdrop" aria-controls="Edit_staticBackdrop" onClick={() => getSchoolDataById(item.schoolBusinessId)}> Edit </button> </li>
-                                  {/* <li> <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#SpeFeature_staticBackdrop" aria-controls="SpeFeature_staticBackdrop" onClick={() => getAllSpecialFeature(item.plans.planId)}> Spe. Features </button> </li> */}
-                                  {/* <li> <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => DeleteBtnClicked(item.schoolBusinessId)}> Delete </button> </li> */}
+                     <li> <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#SpeFeature_staticBackdrop" aria-controls="SpeFeature_staticBackdrop" onClick={() => getAllSpecialFeature(item.plans.planId)}> Spe. Features </button> </li> 
+                       <li> <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => DeleteBtnClicked(item.schoolBusinessId)}> Delete </button> </li> 
                                 </ul>
                               </div>
                             </td>
                           </tr>
                         ))}
-                      </tbody>
+                      </tbody> */}
+
                     </table>
                   </div>
                   <div className="d-flex">

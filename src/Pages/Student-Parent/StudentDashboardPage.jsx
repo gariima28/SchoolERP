@@ -256,7 +256,8 @@ const DashboardPage = () => {
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14 mb-0'>Notice Board</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/notice'>View All</Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/student/notice'>View All</Link>
+                  {/* <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/notice'>View All</Link> */}
                 </div>
               </div>
               <div className="row p-2 py-3">
@@ -293,7 +294,8 @@ const DashboardPage = () => {
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14 mb-0'>Upcoming Events</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' to='/parent/event'>View All</Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' to='/student/event'>View All</Link>
+                  {/* <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' to='/parent/event'>View All</Link> */}
                 </div>
               </div>
               <div className="row">
@@ -358,7 +360,7 @@ const DashboardPage = () => {
                   <div className="flex-grow-1 align-self-center">
                     <p className='font14 mb-0'>Upcoming Holiday</p>
                   </div>
-                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/parent/holiday'>View All</Link>
+                  <Link className='p-1 ps-2 pe-2 rounded-2 bg-white text-black text-decoration-none font12' type="button" to='/student/holiday'>View All</Link>
                 </div>
               </div>
               <div className="row p-2">

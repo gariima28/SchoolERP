@@ -26,7 +26,8 @@ const Per_info_bank = () => {
 
   // Validation regex
   const accountNumberRegex = /^\d{9,18}$/;
-  const nameRegex = /^[A-Za-z\s]+$/;
+  const nameRegex = /^[A-Za-z0-9\s!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
+  // const nameRegex = /^[A-Za-z\s]+$/;
   const ifscRegex = /^[a-zA-Z0-9]{4}0[a-zA-Z0-9]{6}$/;
 
   const validateField = (value, field, regex, emptyMessage, invalidMessage) => {

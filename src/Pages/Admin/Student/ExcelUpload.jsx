@@ -95,28 +95,59 @@ const ExcelUpload = () => {
 //     setAllSectionData(selectedClass?.section || []);
 // };
 
+// const Download_Slip = async () => {
+//     try {
+//         const response = await DownloadStudentExcelForm();
+//         console.log('value of download slip ',response)
+//         if (response?.status === 200 && response?.data?.csvUrl) {
+//             const fileUrl = response.data.csvUrl;
+//             `console`.log('xlsx value', fileUrl)
+
+//             const link = document.createElement('a');
+//             link.href = fileUrl;
+//             link.setAttribute('download', fileUrl.substring(fileUrl.lastIndexOf('/') + 1));
+//             document.body.appendChild(link);
+//             link.click();
+//             document.body.removeChild(link);
+//         } else {
+//             toast.error('Excel file URL not found');
+//         }
+//     } catch (err) {
+//         toast.error('Excel download failed');
+//     }
+// }
 const Download_Slip = async () => {
     try {
         const response = await DownloadStudentExcelForm();
-        console.log('value of download slip ',response)
+
         if (response?.status === 200 && response?.data?.csvUrl) {
             const fileUrl = response.data.csvUrl;
-            `console`.log('xlsx value', fileUrl)
 
+            // Fetch file as blob
+            const fileResponse = await fetch(fileUrl);
+            const blob = await fileResponse.blob();
+
+            // Create download link
+            const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.href = fileUrl;
-            // link.setAttribute('download', fileUrl);
-            link.setAttribute('download', fileUrl.substring(fileUrl.lastIndexOf('/') + 1));
+
+            link.href = url;
+            link.download = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+
             document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
+
+            // Cleanup
+            link.remove();
+            window.URL.revokeObjectURL(url);
         } else {
             toast.error('Excel file URL not found');
         }
     } catch (err) {
+        console.error(err);
         toast.error('Excel download failed');
     }
-}
+};
 const onSubmit = (formData) => {
     console.log("formData", formData);
 

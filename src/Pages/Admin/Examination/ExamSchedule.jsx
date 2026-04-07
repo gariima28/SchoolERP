@@ -803,8 +803,7 @@ const ExamSchedule = () => {
                                     type="button"
                                     className="btn addCategoryButtons text-white"
                                     disabled={!classNo_Search || !subject_Search}
-                                    onClick={getSearchedExamScheduleData}
-                                >
+                                    onClick={getSearchedExamScheduleData}>
                                     Search
                                 </button>
                                 <button
@@ -815,14 +814,13 @@ const ExamSchedule = () => {
                                         setClassNo_Search('');
                                         setSubject_Search('');
                                         getSearchedExamScheduleData();
-                                    }}
-                                >
+                                    }}>
                                     Cancel
                                 </button>
                             </p>
                         </form>
                         <div className="row">
-                            {examScheduleData.length > 0 ? (
+                            {examScheduleData?.length > 0 ? (
                                 <>
                                     <div className="row overflow-scroll">
                                         <table className="table align-middle table-striped">

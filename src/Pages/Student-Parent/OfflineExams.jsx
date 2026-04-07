@@ -204,6 +204,7 @@ const ExamSchedule = () => {
                       <th className="textWrapClass pe-4"> <span className="font14">Practical Pass Marks</span> </th>
                       <th className="textWrapClass pe-4"> <span className="font14">Practical Total Marks</span> </th>
                     </tr>
+                    
                   </thead>
                   <tbody>
                     <tr></tr>
@@ -220,7 +221,7 @@ const ExamSchedule = () => {
                         <td className="textWrapClass greyText"> <h3>{item.totalMarks || '-'}</h3> </td>
                         <td className="textWrapClass greyText"> <h3>{item.practicalDate ? item.practicalDate : 'N/A'}</h3> </td>
                         <td className="textWrapClass greyText"> <h3>{item.practicalStartTime ? item.practicalStartTime.slice(0, 5) : 'N/A'}</h3></td>
-                        <td className="textWrapClass greyText"> <h3>{item.practicalEndTime ? item.practicalEndTime : 'N/A'}</h3></td>
+                        <td className="textWrapClass greyText"> <h3>{item.practicalEndTime ? item.practicalEndTime.slice(0, 5) : 'N/A'}</h3></td>
                         <td className="textWrapClass greyText"> <h3>{item.practicalPassMarks ? item.practicalPassMarks : 'N/A'}</h3></td>
                         <td className="textWrapClass greyText"> <h3>{item.practicalMarks ? item.practicalMarks : 'N/A'}</h3> </td>
                       </tr>
