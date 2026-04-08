@@ -530,6 +530,33 @@ const Holiday = () => {
     // Download_Slip();
   }, [pageNo])
 
+
+  const monthMap = {
+    Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+    Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+  };
+
+  const parseBackendDate = (dateStr) => {
+    if (!dateStr) return null;
+
+    // support "2026-09-14"
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    // support "14 Sep 2026"
+    const [day, mon, year] = dateStr.split(' ');
+    return new Date(Number(year), monthMap[mon], Number(day));
+  };
+
+  const formatLocalDateKey = (date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  };
+
   const [csvData, setCsvData] = useState([]);
 
 
@@ -910,15 +937,24 @@ const Holiday = () => {
       setLoaderState(false);
     }
   };
+
+
   // Prepare holiday data for calendar
   const dailyHolidayData = holidayData.flatMap((holiday) => {
-    const start = new Date(holiday.startDate);
-    const end = new Date(holiday.endDate);
+    const start = parseBackendDate(holiday.startDate);
+    const end = parseBackendDate(holiday.endDate);
+
+    if (!start || !end) return [];
+
     const dates = [];
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    for (
+      let d = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+      d <= end;
+      d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
+    ) {
       if (d.getMonth() === selectedMonth - 1 && d.getFullYear() === selectedYear) {
         dates.push({
-          date: d.toISOString().split('T')[0],
+          date: formatLocalDateKey(d),
           status: 'holiday',
           holiday: {
             name: holiday.holidayTitle || holiday.name || '',
@@ -927,8 +963,11 @@ const Holiday = () => {
         });
       }
     }
+
     return dates;
   });
+
+
   useEffect(() => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 
@@ -979,107 +1018,6 @@ const Holiday = () => {
         <h5 className='ms-3 mb-2 margin-minus22 heading-16' style={{ marginTop: '-22px' }}>Holiday Details</h5>
 
         <div className="main-content-conatainer pt-1 " style={{ backgroundColor: 'none' }}>
-          {/* ###### copy content till here for all component ######  */}
-
-          {/* <div className="table-container px-3 table-responsive">
-
-            <table className="table table-sm table-striped">
-              <thead className=''>
-                <tr className='heading-16 text-color-000' style={{ fontWeight: '500' }}>
-                  <th className=''>#</th>
-                  <th>Holiday Name</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Description</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-
-              <tbody className='heading-14 align-middle greyTextColor'>
-                {
-                  holidayGetAllData && holidayGetAllData?.length > 0 ? (
-                    holidayGetAllData?.map((item, index) => (
-                      <tr className='heading-14' key={index}>
-                        <td className=' greyText pe-0 no-wrap'>{index + 1 + (currentPage - 1) * pageSize}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.holidayTitle}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.startDate}</td>
-                        <td className=' greyText pe-0 no-wrap'>{item.endDate}</td>
-                        <td
-                          className='greyText pe-0 no-wrap position-relative'
-                          data-bs-toggle={item.description.length > 17 ? "tooltip" : undefined}
-                          data-bs-placement="top"
-                          // data-bs-delay='{"show":0,"hide":100}'
-                          title={item.description.length > 17 ? item.description : undefined}
-                        >
-                          {item.description?.length > 17 ? (
-                            <div className="d-flex align-items-center">
-                              <span className="text-truncate" style={{ maxWidth: 'calc(100% - 18px)' }}>
-                                {item.description.substring(0, 17)}
-                              </span>
-                              <span className="info-indicator ms-1">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                  <circle cx="8" cy="8" r="7" fill="#aaa" stroke="#aaa" strokeWidth="0.5" />
-                                  <text x="8" y="11"
-                                    fontFamily="Arial, sans-serif"
-                                    fontSize="10"
-                                    fontWeight="bold"
-                                    fill="white"
-                                    textAnchor="middle"
-                                    dominantBaseline="middle">i</text>
-                                </svg>
-                              </span>
-                            </div>
-                          ) : (
-                            item.description
-                          )}
-                        </td>
-                        <td className=' greyText  pe-0 no-wrap' >
-                          <div className="dropdown my-button-show">
-                            <button className="btn btn-secondary dropdown-togg my-button-drop tableActionButtonBgColor text-color-000 heading-14" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Action  &nbsp;
-                              <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="">
-                                <path d="M10.3331 0L11 0.754688L5.5 7L0 0.754688L0.663438 0L5.5 5.48698L10.3331 0Z" fill="black" />
-                              </svg>
-                            </button>
-                            <ul className="dropdown-menu anchor-color heading-14">
-                              <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop101" aria-controls="staticBackdrop" onClick={(e) => MyHolidayGetByIdApi(item.holidayId)}>Edit</Link></li>
-                              <li><Link className="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="staticBackdrop" onClick={(e) => setHolidayIdForDelete(item.holidayId)}>Delete</Link></li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )
-                    :
-                    (
-                      <tr>
-                        <td colSpan="12" className="text-center no-wrap">
-                          <div className="d-flex justify-content-center align-items-center m-5 ">
-                            <div className="text-center">
-                              <img onError={(e) => { e.target.onerror = null; e.target.src = "/images/fallback.png"; }} src="/images/search.svg" alt="" />
-                              <h2><b>No Data Found</b></h2>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                }
-
-              </tbody>
-
-            </table>
-            <div className="d-flex" style={{ marginBottom: '10px' }}>
-              <p className='font14'>Showing {currentPage} of {totalPages} Pages</p>
-              <div className="ms-auto">
-                <ReactPaginate
-                  previousLabel={<Icon icon="tabler:chevrons-left" width="1.4em" height="1.4em" />}
-                  nextLabel={<Icon icon="tabler:chevrons-right" width="1.4em" height="1.4em" />}
-                  breakLabel={'...'} breakClassName={'break-me'} pageCount={totalPages} marginPagesDisplayed={2} pageRangeDisplayed={10}
-                  onPageChange={handlePageClick} containerClassName={'pagination'} subContainerClassName={'pages pagination'} activeClassName={'active'}
-                />
-              </div>
-            </div>
-          </div> */}
           <div className="row p-3 bg-white borderRadius5 pb-5">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h2 className='font16 mb-0'>Holiday Details</h2>
@@ -1333,9 +1271,7 @@ const Holiday = () => {
                   <h5 className="offcanvas-title pe-3 heading-16" id="offcanvasRightLabel" >Delete Section</h5>
                 </div>
                 <hr className='' />
-
                 <div className="offcanvas-body">
-
                   <div className="sure-main-container mt-4">
                     <div className="sure-container">
                       <div>
@@ -1345,7 +1281,6 @@ const Holiday = () => {
                           <path d="M31.4062 16.6406H27.6562V20.3906H31.4062V16.6406Z" fill="#B50000" />
                         </svg>
                       </div>
-
                       <div className="sure-content mt-2">
                         <h5 className='heading-20'>Are you sure?</h5>
                         <p>This Action will be permanently <br /> delete the Profile Data</p>
@@ -1364,18 +1299,14 @@ const Holiday = () => {
                           I Agree to delete the Profile Data
                         </label>
                       </div>
-
                       <div className="mt-4">
                         <button type="button" className="btn my-btn button00" disabled={forDelete ? false : true} onClick={handleForDelete}>Delete</button>
                         <button type="button" className="btn cancel-btn ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onClick={cleardata}>Cancel</button>
-
                       </div>
-
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           )
         }
@@ -1383,7 +1314,4 @@ const Holiday = () => {
     </Container>
   )
 }
-
 export default Holiday
-
-
