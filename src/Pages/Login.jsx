@@ -141,7 +141,8 @@ const Login = () => {
     const [toastDisplayed, setToastDisplayed] = useState(false);
     const [isRemeberChecked, setIsRemeberChecked] = useState(false);
 
-    const emailRegex = /^[A-Za-z0-9._]{3,}@[A-Za-z]{3,15}[.]{1}[A-Za-z.]{2,6}$/;
+    const emailRegex = /^(?:[A-Za-z0-9._-]{3,}|[A-Za-z0-9._%+-]{3,}@[A-Za-z0-9.-]+\.[A-Za-z]{2,})$/;
+    // const emailRegex = /^[A-Za-z0-9._]{3,}@[A-Za-z]{3,15}[.]{1}[A-Za-z.]{2,6}$/;
     const PasswordRegex = /^(?!.*#)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9#])[^\n#]{8,}$/;
 
     const [showPassword, setShowPassword] = useState(false);
@@ -303,7 +304,7 @@ const Login = () => {
                                             className={`form-control formcontrolinputEmail ${emailError ? 'border_danger_text' : ''}`}
                                             id="exampleInputEmail1"
                                             aria-describedby="emailHelp"
-                                            placeholder="Your Email Address"
+                                            placeholder="Enter Email or Username"
                                             onChange={handleEmailChange}
                                         />
                                     </div>

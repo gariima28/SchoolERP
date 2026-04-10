@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import toast, { Toaster } from 'react-hot-toast';
-import { deleteSchoolApi, getAllActiveInActiveSpeFeatApi, getAllPlanApi, getSchoolDataApi, getSchoolDataByIdApi, updateSchoolApi, updateSpecialFeatureInSchoolApi } from 'src/Utils/Apis';
+import { deleteSchoolApi, getAllActiveInActiveSpeFeatApi, getAllPlanApi, getSchoolDataApi, getSchoolDataByIdApi, updateSchoolApi, updateSpecialFeatureInSchoolApi, addGenerateFormSchoolApi } from 'src/Utils/Apis';
 import { Icon } from '@iconify/react';
 import DataLoader from 'src/Layouts/Loader';
 import ActionControls from 'src/Layouts/ActionControls';
@@ -129,7 +129,88 @@ const Container = styled.div`
     color: Black;
   }
 
+.my-btn-secondary,
+.my-btn-secondary:focus,
+.my-btn-secondary:active,
+.my-btn-secondary.show {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-color: #6c757d; 
+}
+.main-notification{
+    border: 2px solid rgba(240, 248, 247, 1);;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(203, 199, 199, 0.25);
+}
+.readUnreadBackground{
+    background-color: #bccac9;
+}
+  .noti-img{
+    width: 65px;
+    height: 56px;
+    border-radius: 37px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .custom-modal {
+  background: rgba(0, 0, 0, 0.45);
+}
 
+.custom-modal-content {
+  border-radius: 16px;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.custom-modal-header {
+  background: linear-gradient(135deg, #008479, #00a89a);
+  padding: 16px 20px;
+}
+
+.custom-modal-body {
+  background: #f6fbfa;
+  padding: 24px;
+}
+
+.notification-box {
+  background: #ffffff;
+  border-left: 5px solid #008479;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.notification-box .label {
+  font-size: 18px !important;
+  color: #008479;
+  font-weight: 500;
+}
+
+.notification-box .value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c757d;
+  margin: 4px 0 0;
+}
+
+.custom-modal-footer {
+  background: #f6fbfa;
+  border-top: none;
+  padding: 16px 20px;
+}
+
+.btn-custom {
+  background-color: #008479;
+  color: #fff;
+  padding: 8px 24px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.btn-custom:hover {
+  background-color: #006f66;
+  color: #fff;
+}
 `;
 
 const AllSchools = () => {
@@ -164,6 +245,10 @@ const AllSchools = () => {
   const [removeFeature, setRemoveFeature] = useState([]);
   const [currentSchoolPlanId, setCurrentSchoolPlanId] = useState();
   const [checkedFeaId, setCheckedFeaId] = useState();
+  const [hourDetails, setHourDetails] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [linkFor, setLinkFor] = useState('');
+  const [checkBoolean, setCheckBoolean] = useState(true);
 
   // form validate
   const { register, handleSubmit, formState: { errors }, setValue, values } = useForm({
@@ -553,15 +638,65 @@ const AllSchools = () => {
   const handleAddButton = () => {
     navigate('/superadmin/schools/addSchool')
   }
+  const handleCloseModal = () => {
+    const modalElement = document.getElementById("generateReportModal");
+    const modalInstance = window.bootstrap.Modal.getInstance(modalElement);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
 
+    // Redirect
+    window.open(linkFor, "_blank");
+    setTimeout(() => {
+      setCheckBoolean(true)
+    }, 1000);
 
+  }
+
+  // Generate school form link api call 
+  const addNewAdminFormSchool = async () => {
+    setloaderState(true);
+    try {
+      const formData = new FormData();
+      formData.append('expiryHours', hourDetails);
+
+      const response = await addGenerateFormSchoolApi(formData);
+      console.log('check the generate link api', response)
+      if (response?.status === 200) {
+        if (response?.data?.status === 'success') {
+          toast.success(response?.data?.message)
+          setExpiry(response?.data?.invite?.expiry)
+          setLinkFor(response?.data?.invite?.link)
+          DataClear()
+          setTimeout(() => {
+            setCheckBoolean(false)
+          }, 1000);
+          setTimeout(() => {
+            // navigate('/superadmin/schools/allSchools')
+          }, 2000);
+        } else {
+          toast.error(response?.data.message, 'else1');
+        }
+      } else {
+        toast.error(response?.data.message, 'else2');
+      }
+    } catch (error) {
+      setloaderState(false);
+      toast.error('Error adding school', error);
+    } finally {
+      setloaderState(false);
+    }
+  };
+  const DataClear = () => {
+    setHourDetails('')
+  }
   return (
     <>
       <Container className='scrollHide'>
         {loaderState && (<DataLoader />)}
         <div className="container-fluid ps-3 pe-3 pt-2 pb-2 w-100">
           <div className="row pt-2">
-            <div className="col-xl-6 col-lg-5 col-md-5 col-sm-12 flex-grow-1">
+            <div className="col-xl-4 col-lg-5 col-md-5 col-sm-12 flex-grow-1">
               <div className="row">
                 <nav className='breadcrumnav' aria-label="breadcrumb">
                   <ol className="breadcrumb">
@@ -572,7 +707,31 @@ const AllSchools = () => {
               </div>
               <div className="row mb-3 for-margin-top"><h2>School List</h2></div>
             </div>
-            <div className="col-xl-6 col-lg-7 col-md-7 col-sm-12 mb-lg-0 mb-md-0 mb-3">
+
+
+
+            <div className="col-xl-8 col-lg-7 col-md-7 col-sm-12 mb-lg-0 mb-md-0 mb-3 d-flex justify-content-end">
+              {/* <div className=" pe-0 " style={{ marginTop: "2px", marginRight: "10px" }}>
+                <div className=' g-1 for-media-query' style={{ display: 'flex', justifyContent: 'end' }} data-bs-toggle="modal" data-bs-target="#generateReportModal">
+                  <Link type="button" className="btn   " style={{ backgroundColor: "#008479", color: '#fff', fontSize: '14px' }} to={''} onClick={() => openCanvas('')}>Generate Report</Link>
+                </div>
+              </div> */}
+              <div className="pe-0" style={{ marginTop: "2px", marginRight: "10px" }}>
+                <div
+                  className="g-1 for-media-query"
+                  style={{ display: 'flex', justifyContent: 'end' }}
+                >
+                  <button
+                    type="button"
+                    className="btn"
+                    style={{ backgroundColor: "#008479", color: '#fff', fontSize: '14px' }}
+                    data-bs-toggle="modal"
+                    data-bs-target="#generateReportModal"
+                  >
+                    Generate Form
+                  </button>
+                </div>
+              </div>
               <ActionControls
                 showAddButton={true}
                 addButtonText="Add School"
@@ -587,6 +746,7 @@ const AllSchools = () => {
                 exportCSVAction={''}
               />
             </div>
+
           </div>
         </div>
         {/* School Data Table */}
@@ -705,7 +865,7 @@ const AllSchools = () => {
                           );
                         })}
                       </tbody>
-                      
+
                       {/* <tbody>
                         {schoolData?.map((item, index) => (
                           <tr key={item.id} className='my-bg-color align-middle'>
@@ -1051,6 +1211,189 @@ const AllSchools = () => {
           </div>
         </div>
 
+        {/* Generate modal for external form  */}
+        {/* <div
+          className="modal fade"
+          id="generateReportModal"
+          tabIndex="-1"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content custom-modal-content">
+
+
+              <div className="modal-body custom-modal-body">
+               <div className="mb-1">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label heading-16">Expirt Hours</label>
+                <input type="email" class="form-control form-control-sm"  id="exampleFormControlInput1" placeholder="Enter Report Expiry Hours" />
+              </div>
+             
+            </div>
+              </div>
+
+              <div className="modal-footer custom-modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-custom"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div> */}
+        <div
+          className="modal fade"
+          id="generateReportModal"
+          tabIndex="-1"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content shadow-lg border-0 rounded-3">
+
+              {/* 🔹 Header */}
+              <div className="modal-header text-white rounded-top" style={{ background: "#008479" }}>
+                <p className="modal-title fw-semibold" style={{fontSize:'15px'}}>
+                 Generate Form
+                </p>
+                <button
+                  type="button"
+                  className="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  onClick={DataClear}
+
+                ></button>
+              </div>
+
+              {/* 🔹 Body */}
+              {/* <div className="modal-body px-4 py-3">
+                {
+                  checkBoolean === true ? (
+                    <div className="mb-3">
+                      <label className="form-label fw-semibold">
+                        Expiry Hours
+                      </label>
+
+                      <div className="input-group">
+                        <span className="input-group-text bg-light">
+                          ⏱️
+                        </span>
+                        <input
+                          type="number"
+                          className="form-control form-control-sm"
+                          placeholder="Enter expiry hours"
+                          value={hourDetails}
+                          onChange={(e) => setHourDetails(e.target.value)}
+                        />
+                      </div>
+                      <small className="text-muted">
+                        Form: ( link valid for 24 hours )
+                      </small>
+                    </div>
+                  )
+                    :
+                    (
+                      <>
+                      <div>
+                        <p>{expiry}</p>
+                        <p>{linkFor}</p>
+                      </div>
+                      </>
+                    )
+                }
+
+
+              </div> */}
+              <div className="modal-body px-4 py-3">
+                {
+                  checkBoolean ? (
+                    <div className="mb-3">
+                      <label className="form-label fw-semibold">
+                        Expiry Hours
+                      </label>
+
+                      <div className="input-group">
+                        <span className="input-group-text bg-light">⏱️</span>
+                        <input
+                          type="number"
+                          className="form-control form-control-sm"
+                          placeholder="Enter expiry hours"
+                          value={hourDetails}
+                          onChange={(e) => setHourDetails(e.target.value)}
+                        />
+                      </div>
+
+                      <small className="text-muted">
+                        Form: (link valid for selected hours)
+                      </small>
+                    </div>
+                  ) : (
+                    <div className="p-3 border rounded-3 bg-light">
+
+                      <h6 className="text-success mb-3">
+                         Invite Generated Successfully
+                      </h6>
+
+                      <p className="mb-2">
+                        <strong> Expiry:</strong><br />
+                        <span className="text-muted">
+                          {new Date(expiry).toLocaleString()}
+                        </span>
+                      </p>
+
+                      <p className="mb-2">
+                        <strong> Registration Link:</strong>
+                      </p>
+
+                      <a
+                        href={linkFor}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn  btn-sm"
+                        style={{ wordBreak: 'break-all', background: "#008479", color: "#fff" }}
+                        data-bs-dismiss="modal"
+                        onClick={handleCloseModal}
+                      >
+                        Open Registration Page
+                      </a>
+
+                      {/* Optional raw link */}
+                      <p className="mt-2 text-muted small" style={{ wordBreak: 'break-all' }}>
+                        {linkFor}
+                      </p>
+
+                    </div>
+                  )
+                }
+              </div>
+
+              {/* 🔹 Footer */}
+              <div className="modal-footer d-flex justify-content-between px-4 py-2">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-sm"
+                  data-bs-dismiss="modal"
+                  onClick={DataClear}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-success btn-sm px-4"
+                  style={{ background: "#008479" }}
+                  onClick={() => addNewAdminFormSchool()}
+                >
+                  Generate
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
         <Toaster />
       </Container>
     </>

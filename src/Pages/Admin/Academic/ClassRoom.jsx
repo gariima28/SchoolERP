@@ -467,7 +467,6 @@ const ClassRoom = () => {
     ClassRoomGetAllApi();
   }, [pageNo])
 
-
   const [errors, setErrors] = useState({});
   // ###### validation ##########
 
@@ -541,14 +540,11 @@ const ClassRoom = () => {
   const SubcPutDataApi = async () => {
 
     if (FuncValidation()) {
-
       const formData = new FormData()
       formData.append('roomNo', addclassroom);
-
       setLoader(true)
       try {
         const response = await ClassRoomPostApi(formData);
-        
         if (response?.status === 200) {
           if (response?.data?.status === "success") {
             toast.success(response?.data?.message);
@@ -663,10 +659,6 @@ const ClassRoom = () => {
     }
 
   }
-
-
-
-
   const handleForDelete = () => {
     ClassRoomDeleteApi(deleteroomid)
   }
