@@ -397,6 +397,20 @@ export const updateSpecialFeatureInSchoolApi = async (id, data) => {
   }
 }
 
+// Generate external admin form 
+export const addGenerateFormSchoolApi = async (data) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = token;
+    var res = await axios.post(`${Domain}/sch/generateSchoolInvite`, data);
+    if (res) {
+      return res;
+    } else {
+      return []
+    }
+  } catch (error) {
+    return [];
+  }
+}
 
 // ***************************************************************************************
 // Plan // Package  //
