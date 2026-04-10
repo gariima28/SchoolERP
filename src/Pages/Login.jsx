@@ -143,7 +143,8 @@ const Login = () => {
 
     const emailRegex = /^(?:[A-Za-z0-9._-]{3,}|[A-Za-z0-9._%+-]{3,}@[A-Za-z0-9.-]+\.[A-Za-z]{2,})$/;
     // const emailRegex = /^[A-Za-z0-9._]{3,}@[A-Za-z]{3,15}[.]{1}[A-Za-z.]{2,6}$/;
-    const PasswordRegex = /^(?!.*#)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9#])[^\n#]{8,}$/;
+    const PasswordRegex = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/;
+    // const PasswordRegex = /^(?!.*#)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9#])[^\n#]{8,}$/;
 
     const [showPassword, setShowPassword] = useState(false);
 
