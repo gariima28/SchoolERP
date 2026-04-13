@@ -386,10 +386,10 @@ const AllStudents = () => {
                     <tbody>
                       {studentData?.map((item, index) => (
                         <tr key={item.id} className='my-bg-color align-middle'>
-                          <th className='greyText textWrapClass'><h3 className='textWrapClass'>{index + 1 + (currentPage - 1) * pageSize}</h3></th>
-                          <td className='greyText textWrapClass'><h3 className='textWrapClass'>{item.studentId}</h3></td>
-                          <td className='greyText textWrapClass'><h3 className='textWrapClass'>{item.studentName}</h3></td>
-                          <td className='greyText textWrapClass'><h3 className='textWrapClass'>{item.fatherName}</h3></td>
+                          <th className='greyText textWrapClass'><h3 className='textWrapClass mb-0'>{index + 1 + (currentPage - 1) * pageSize}</h3></th>
+                          <td className='greyText textWrapClass'><h3 className='textWrapClass mb-0'>{item.studentId}</h3></td>
+                          <td className='greyText textWrapClass'><h3 className='textWrapClass mb-0'>{item.studentName}</h3></td>
+                          <td className='greyText textWrapClass'><h3 className='textWrapClass mb-0'>{item.fatherName}</h3></td>
                           <td className='greyText textWrapClass'>
                             {/* <h3 className='textWrapClass'>{item.address}</h3> */}
                             {item.address.length > 60 ?
@@ -403,8 +403,8 @@ const AllStudents = () => {
                               <span>{item.address}</span>
                             }
                           </td>
-                          <td className='greyText textWrapClass'><h3 className='textWrapClass'>{item.studentPhone}</h3></td>
-                          <td className='greyText textWrapClass'><h3 className='textWrapClass'>{item.studentEmail}</h3></td>
+                          <td className='greyText textWrapClass'><h3 className='textWrapClass mb-0'>{item.studentPhone}</h3></td>
+                          <td className='greyText textWrapClass'><h3 className='textWrapClass mb-0'>{item.studentEmail}</h3></td>
                           <td>
                             <div className="dropdown dropdownbtn">
                               <button className="btn btn-sm actionButtons dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -422,10 +422,10 @@ const AllStudents = () => {
                                   </button>
                                 </li>
                                 {/* <li>
-                            <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => setDeleteStudentIdData(item.studentId)}>
-                              Delete
-                            </button>
-                          </li> */}
+                                <button className="dropdown-item greyText" type="button" data-bs-toggle="offcanvas" data-bs-target="#Delete_staticBackdrop" aria-controls="Delete_staticBackdrop" onClick={() => setDeleteStudentIdData(item.studentId)}>
+                                  Delete
+                                </button>
+                              </li> */}
                               </ul>
                             </div>
                           </td>
