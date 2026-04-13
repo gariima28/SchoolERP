@@ -275,8 +275,8 @@ export const getParentProfileApi = async () => {
 export const getStudentProfileApi = async () => {
   try {
     axios.defaults.headers.common["Authorization"] = token;
-    var res = await axios.get(`${Domain}/student/getParentByStudent`);
-    // var res = await axios.get(`${Domain}/student/getByStdId`);
+    // var res = await axios.get(`${Domain}/student/getParentByStudent`);
+    var res = await axios.get(`${Domain}/student/getByStdId`);
 
     if (res) {
       return res;

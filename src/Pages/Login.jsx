@@ -134,6 +134,7 @@ const Container = styled.div`
 const Login = () => {
     
     const navigate = useNavigate('')
+    
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -301,7 +302,8 @@ const Login = () => {
                                             <i className="bi bi-envelope geycoloricon"></i>
                                         </span>
                                         <input
-                                            type="email"
+                                            type="text"
+                                            // type="email"
                                             className={`form-control formcontrolinputEmail ${emailError ? 'border_danger_text' : ''}`}
                                             id="exampleInputEmail1"
                                             aria-describedby="emailHelp"

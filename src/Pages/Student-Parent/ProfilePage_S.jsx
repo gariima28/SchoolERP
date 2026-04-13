@@ -135,7 +135,7 @@ const ProfilePage = () => {
         try {
             setloaderState(true);
             var response = await getStudentProfileApi();
-            console.log(response, 'profile')
+            console.log('profile of studet for data----',response)
             if (response?.status === 200) {
                 if (response?.data?.status === 'save') {
                     setloaderState(false);
