@@ -4,6 +4,7 @@ const forgetTooken = `Bearer ${sessionStorage.getItem('ERPForgetToken')}`;
 // const token = sessionStorage.getItem('token');
 // const Domain = 'http://192.168.21.232:5000';
 // const Domain = 'http://192.168.20.109:5000'; 
+// const Domain = 'http://192.168.22.193:5000'; 
 // const Domain = 'https://auth.edu2all.in/sch';
 const Domain = 'https://test.edu2all.in/sch';
 

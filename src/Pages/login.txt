@@ -217,7 +217,6 @@ const Login = () => {
                 deviceType: webNotification,
             };
             const response = await loginApi(data);
-            console.log('my login api response------',response)
             if (response?.status === 200) {
                 const responseData = response.data;
                 const tourData = responseData.isNewLogin
@@ -226,13 +225,17 @@ const Login = () => {
                 // }
                 
                 // sessionStorage.setItem('booleanForTour',tourData)
-                sessionStorage.setItem('booleanForTour', JSON.stringify(tourData));
+                sessionStorage.setItem('booleanForTour',JSON.stringify(tourData));
                 // console.log('valid type', typeof(tourData))
                 if (responseData.status === 'success') {
                     const loginTimestamp = Date.now();
                     sessionStorage.setItem('loginTimestamp', loginTimestamp);
 
-                     sessionStorage.setItem('loggedInUserRole', responseData.role);
+                    if (responseData.isNewLogin) {
+                        sessionStorage.setItem('forgetToken', responseData.token);
+                        navigate('/verifyOtp');
+                    } else {
+                        sessionStorage.setItem('loggedInUserRole', responseData.role);
                         // Set flag for PARENT to show modal on first dashboard visit
                         if (responseData.role === 'PARENT') {
                             sessionStorage.setItem('showParentModal', 'true');
@@ -241,25 +244,9 @@ const Login = () => {
                             sessionStorage.setItem('subscription', responseData.subscription);
                         }
                         sessionStorage.setItem('token', responseData.token);
-                        // window.location.reload()
+                        window.location.reload()
                         navigate('/');
-
-                    // if (responseData.isNewLogin) {
-                    //     sessionStorage.setItem('forgetToken', responseData.token);
-                    //     navigate('/verifyOtp');
-                    // } else {
-                    //     sessionStorage.setItem('loggedInUserRole', responseData.role);
-                    //     // Set flag for PARENT to show modal on first dashboard visit
-                    //     if (responseData.role === 'PARENT') {
-                    //         sessionStorage.setItem('showParentModal', 'true');
-                    //     }
-                    //     if (responseData.role === 'ADMIN' && responseData.subscription === 'setPrefix') {
-                    //         sessionStorage.setItem('subscription', responseData.subscription);
-                    //     }
-                    //     sessionStorage.setItem('token', responseData.token);
-                    //     window.location.reload()
-                    //     navigate('/');
-                    // }
+                    }
                 } else {
                     toast.error(responseData?.message || 'Login failed. Please try again.');
                     if (!toastDisplayed) {

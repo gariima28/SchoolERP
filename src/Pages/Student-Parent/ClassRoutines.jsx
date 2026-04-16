@@ -77,6 +77,7 @@ const ClassRoutines = () => {
     try {
       setloaderState(true);
       const response = await getAllClassRoutineDataApi();
+      console.log('my class routine data---',response)
       if (response?.status === 200) {
         if (response?.data?.status === "success") {
           setRoutineData(response?.data?.routine.timetable);

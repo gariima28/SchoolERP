@@ -255,6 +255,14 @@ const AllSchools = () => {
     mode: 'onChange'
   });
 
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    setUrl(window.location.href);
+  }, []);
+  console.log(url,',my url')
+
+
   useEffect(() => {
     getAllSchoolData(searchKeyData);
     getAllPlans();
@@ -690,6 +698,7 @@ const AllSchools = () => {
   const DataClear = () => {
     setHourDetails('')
   }
+  console.log(url)
   return (
     <>
       <Container className='scrollHide'>
@@ -856,6 +865,15 @@ const AllSchools = () => {
                                         onClick={() => getSchoolDataById(item.schoolBusinessId)}
                                       >
                                         Edit
+                                      </button>
+                                    </li>
+                                    <li>
+                                      <button
+                                        className="dropdown-item greyText font14"
+                                        type="button"
+                                      // onClick={() => getSchoolDataById(item.schoolBusinessId)}
+                                      >
+                                        Go to School
                                       </button>
                                     </li>
                                   </ul>
@@ -1256,8 +1274,8 @@ const AllSchools = () => {
 
               {/* 🔹 Header */}
               <div className="modal-header text-white rounded-top" style={{ background: "#008479" }}>
-                <p className="modal-title fw-semibold" style={{fontSize:'15px'}}>
-                 Generate Form
+                <p className="modal-title fw-semibold" style={{ fontSize: '15px' }}>
+                  Generate Form
                 </p>
                 <button
                   type="button"
@@ -1334,7 +1352,7 @@ const AllSchools = () => {
                     <div className="p-3 border rounded-3 bg-light">
 
                       <h6 className="text-success mb-3">
-                         Invite Generated Successfully
+                        Invite Generated Successfully
                       </h6>
 
                       <p className="mb-2">

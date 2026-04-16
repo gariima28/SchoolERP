@@ -58,7 +58,7 @@ const ExcelUpload = () => {
 
         if (selectedClass) {
             setAllSectionData(selectedClass.section || []);
-            console.log('section value',selectedClass.section)
+            console.log('section value', selectedClass.section)
         } else {
             setAllSectionData([]);
         }
@@ -89,77 +89,77 @@ const ExcelUpload = () => {
     }
 
 
-// const handleClassChange = (classNoVal) => {
-//     setValue('classNo', classNoVal);
-//     const selectedClass = allClassData.find((c) => c.classNo === classNoVal);
-//     setAllSectionData(selectedClass?.section || []);
-// };
+    // const handleClassChange = (classNoVal) => {
+    //     setValue('classNo', classNoVal);
+    //     const selectedClass = allClassData.find((c) => c.classNo === classNoVal);
+    //     setAllSectionData(selectedClass?.section || []);
+    // };
 
-// const Download_Slip = async () => {
-//     try {
-//         const response = await DownloadStudentExcelForm();
-//         console.log('value of download slip ',response)
-//         if (response?.status === 200 && response?.data?.csvUrl) {
-//             const fileUrl = response.data.csvUrl;
-//             `console`.log('xlsx value', fileUrl)
+    // const Download_Slip = async () => {
+    //     try {
+    //         const response = await DownloadStudentExcelForm();
+    //         console.log('value of download slip ',response)
+    //         if (response?.status === 200 && response?.data?.csvUrl) {
+    //             const fileUrl = response.data.csvUrl;
+    //             `console`.log('xlsx value', fileUrl)
 
-//             const link = document.createElement('a');
-//             link.href = fileUrl;
-//             link.setAttribute('download', fileUrl.substring(fileUrl.lastIndexOf('/') + 1));
-//             document.body.appendChild(link);
-//             link.click();
-//             document.body.removeChild(link);
-//         } else {
-//             toast.error('Excel file URL not found');
-//         }
-//     } catch (err) {
-//         toast.error('Excel download failed');
-//     }
-// }
-const Download_Slip = async () => {
-    try {
-        const response = await DownloadStudentExcelForm();
+    //             const link = document.createElement('a');
+    //             link.href = fileUrl;
+    //             link.setAttribute('download', fileUrl.substring(fileUrl.lastIndexOf('/') + 1));
+    //             document.body.appendChild(link);
+    //             link.click();
+    //             document.body.removeChild(link);
+    //         } else {
+    //             toast.error('Excel file URL not found');
+    //         }
+    //     } catch (err) {
+    //         toast.error('Excel download failed');
+    //     }
+    // }
+    const Download_Slip = async () => {
+        try {
+            const response = await DownloadStudentExcelForm();
 
-        if (response?.status === 200 && response?.data?.csvUrl) {
-            const fileUrl = response.data.csvUrl;
+            if (response?.status === 200 && response?.data?.csvUrl) {
+                const fileUrl = response.data.csvUrl;
 
-            // Fetch file as blob
-            const fileResponse = await fetch(fileUrl);
-            const blob = await fileResponse.blob();
+                // Fetch file as blob
+                const fileResponse = await fetch(fileUrl);
+                const blob = await fileResponse.blob();
 
-            // Create download link
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
+                // Create download link
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
 
-            link.href = url;
-            link.download = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+                link.href = url;
+                link.download = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
 
-            document.body.appendChild(link);
-            link.click();
+                document.body.appendChild(link);
+                link.click();
 
-            // Cleanup
-            link.remove();
-            window.URL.revokeObjectURL(url);
-        } else {
-            toast.error('Excel file URL not found');
+                // Cleanup
+                link.remove();
+                window.URL.revokeObjectURL(url);
+            } else {
+                toast.error('Excel file URL not found');
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error('Excel download failed');
         }
-    } catch (err) {
-        console.error(err);
-        toast.error('Excel download failed');
-    }
-};
-const onSubmit = (formData) => {
-    console.log("formData", formData);
+    };
+    const onSubmit = (formData) => {
+        console.log("formData", formData);
 
-    const formDataToSend = new FormData();
-    formDataToSend.append("csvFile", formData.csvFile[0]); // file
+        const formDataToSend = new FormData();
+        formDataToSend.append("csvFile", formData.csvFile[0]); // file
 
-    AddStudentByCSVApi(
-        formData.classNo,
-        formData.sectionName,
-        formDataToSend
-    );
-};
+        AddStudentByCSVApi(
+            formData.classNo,
+            formData.sectionName,
+            formDataToSend
+        );
+    };
     return (
         <>
             <Container>
@@ -177,7 +177,7 @@ const onSubmit = (formData) => {
                             </button>
                         </div>
                         <form className="row g-3 m-0" onSubmit={handleSubmit(onSubmit)}>
-                        {/* <form className="row g-3 m-0" onSubmit={handleSubmit(AddStudentByCSVApi())}> */}
+                            {/* <form className="row g-3 m-0" onSubmit={handleSubmit(AddStudentByCSVApi())}> */}
                             <div className="col-md-6 col-sm-12 col-12">
                                 <label htmlFor="classNo" className="form-label font14">Class <span className='text-danger'>*</span></label>
                                 <select id="classNo" className={`form-select font14 ${errors.classNo ? 'border-danger' : ''}`} {...register('classNo', { required: 'Class is required *' })} onChange={(e) => handleClassChange(e.target.value)}>
@@ -228,11 +228,11 @@ const onSubmit = (formData) => {
                     </div>
                 </div>
 
-                <div className="modal modal-lg fade" id="abc" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                {/* <div className="modal modal-lg fade" id="abc" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered modal-xl">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h1 className="modal-title greyTextt fontWeight700 font16" id="exampleModalLabel">CSV Format</h1>
+                                <h1 className="modal-title greyTextt fontWeight700 font16" id="exampleModalLabel">XLSX Format</h1>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body p-0">
@@ -241,15 +241,26 @@ const onSubmit = (formData) => {
                                         <tr>
                                             <th className='font14 fontWeight600'>S.No</th>
                                             <th className='font14 fontWeight600'>Student Name</th>
-                                            <th className='font14 fontWeight600'>Father Name</th>
-                                            <th className='font14 fontWeight600'>Student Email</th>
-                                            <th className='font14 fontWeight600'>Student Phone</th>
                                             <th className='font14 fontWeight600'>Blood Group</th>
-                                            <th className='font14 fontWeight600'>Gender</th>
-                                            <th className='font14 fontWeight600'>Birthday</th>
-                                            <th className='font14 fontWeight600'>Address</th>
-                                            <th className='font14 fontWeight600'>Parent's Email</th>
+                                            <th className='font14 fontWeight600'>Father Name</th>
+                                            <th className='font14 fontWeight600'>Mother Name</th>
                                             <th className='font14 fontWeight600'>Parent Phone</th>
+                                            <th className='font14 fontWeight600'>Student Email</th>
+                                            <th className='font14 fontWeight600'>Username</th>
+                                            <th className='font14 fontWeight600'>Parent Email</th>
+                                            <th className='font14 fontWeight600'>Parent Username</th>
+                                            <th className='font14 fontWeight600'>Father Occupation</th>
+                                            <th className='font14 fontWeight600'>Mother Occupation</th>
+                                            <th className='font14 fontWeight600'>Student Phone</th>
+                                            <th className='font14 fontWeight600'>DOB</th>
+                                            <th className='font14 fontWeight600'>Admission Date</th>
+                                            <th className='font14 fontWeight600'>Gender</th>
+                                            <th className='font14 fontWeight600'>Address</th>
+                                            <th className='font14 fontWeight600'>Emergency No</th>
+                                            <th className='font14 fontWeight600'>City</th>
+                                            <th className='font14 fontWeight600'>State</th>
+                                            <th className='font14 fontWeight600'>Country</th>
+                                            <th className='font14 fontWeight600'>Pin Code</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -265,37 +276,94 @@ const onSubmit = (formData) => {
                                             <td className='font12'>xxx</td>
                                             <td className='font12'>xxx</td>
                                             <td className='font12'>xxx</td>
-                                        </tr>
-                                        <tr>
-                                            <td className='font12'>2</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
                                             <td className='font12'>xxx</td>
                                             <td className='font12'>xxx</td>
                                             <td className='font12'>xxx</td>
                                             <td className='font12'>xxx</td>
                                         </tr>
-                                        <tr>
-                                            <td className='font12'>3</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                            <td className='font12'>xxx</td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
-                           
+
+                        </div>
+                    </div>
+                </div> */}
+                <div className="modal modal-lg fade" id="abc" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered modal-xl">
+                        <div className="modal-content">
+
+                            <div className="modal-header">
+                                <h1 className="modal-title greyTextt fontWeight700 font16" id="exampleModalLabel">
+                                    XLSX Format
+                                </h1>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div className="modal-body p-0">
+
+                                {/* ✅ Scroll wrapper */}
+                                <div style={{ overflowX: 'auto' }}>
+                                    <table className="table table-bordered" style={{ minWidth: '1800px' }}>
+
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Student Name</th>
+                                                <th>Blood Group</th>
+                                                <th>Father Name</th>
+                                                <th>Mother Name</th>
+                                                <th>Parent Phone</th>
+                                                <th>Student Email</th>
+                                                <th>Username</th>
+                                                <th>Parent Email</th>
+                                                <th>Parent Username</th>
+                                                <th>Father Occupation</th>
+                                                <th>Mother Occupation</th>
+                                                <th>Student Phone</th>
+                                                <th>DOB</th>
+                                                <th>Admission Date</th>
+                                                <th>Gender</th>
+                                                <th>Address</th>
+                                                <th>Emergency No</th>
+                                                <th>City</th>
+                                                <th>State</th>
+                                                <th>Country</th>
+                                                <th>Pin Code</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                                <td>xxx</td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
