@@ -238,7 +238,7 @@ const NewPassSet = () => {
                                 <Span14Font>
                                     <p className='font18 mb-1'>Forgot Password?</p>
                                     <h2 className='text-grey font16 mb-3'>We have sent a verification code to your mobile number</h2>
-                                    <form>
+                                    <form onSubmit={(e) => { e.preventDefault(); setPassword(); }}>
                                         <div className="mb-3">
                                             <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                                             {/* <div className="d-flex bg-white">
@@ -266,6 +266,7 @@ const NewPassSet = () => {
                                         <div className="d-grid gap-2 col-12 mx-auto">
                                             <Link type="submit" className="btn btnsubmitOwn text-white" onClick={setPassword}>Save Password</Link>
                                         </div>
+                                            <button type="submit" style={{ display: "none" }}></button>
                                         <div className="d-grid gap-2 col-12 mx-auto">
                                             <Link type="submit" className="m-2 text-center text-black text-decoration-none" to='/' onClick={() => sessionStorage.removeItem('ERPForgetToken')}>
                                                 <svg className='me-2' xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 16 16">

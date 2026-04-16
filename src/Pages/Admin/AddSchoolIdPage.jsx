@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { updateSchoolDataByIdAPI } from 'src/Utils/Apis';
 import DataLoader from 'src/Layouts/Loader';
 import { isValid } from 'date-fns';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const Container = styled.div`
@@ -40,7 +41,19 @@ const Container = styled.div`
         box-shadow: none !important;
     }
 
-
+.note{
+  font-size: 16px !important;
+  
+}
+.note2{
+  
+  font-style: italic;
+  background-color: #f3e1d6;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  
+}
 `;
 
 const Span14Font = styled.span`
@@ -107,17 +120,23 @@ const AddSchoolIdPage = () => {
       const formData = new FormData();
       formData.append('schoolPrefix', prefix)
       var response = await updateSchoolDataByIdAPI(formData);
-      // console.log(response)
+      console.log('prefix response',response)
       if (response?.status === 200) {
         if (response.data.status === 'success') {
+          toast.success(response?.data?.message);
           setloaderState(false)
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('isNewLogin');
           navigate('/schoolPrefixSuccess')
         }
+        else
+        {
+          setloaderState(false)
+          toast.error(response?.data?.message);
+        }
       } else {
         setloaderState(false)
-        toast.error(response?.error);
+        toast.error(response?.data?.message);
       }
     } catch (error) {
       setloaderState(false);
@@ -154,6 +173,10 @@ const AddSchoolIdPage = () => {
                       <button type="button" className="btn btnsubmitOwn text-white" onClick={setprefix}>Save prefix</button>
                     </div>
                   </form>
+                  <Toaster />
+                  <div className='mt-3'>
+                    <p className='note2'><span className='note'><b>Note :- </b></span>Prefix is used before all IDs (e.g., SCH-12345) to uniquely identify your school data.</p>
+                  </div>
                 </Span14Font>
               </div>
             </div>

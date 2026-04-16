@@ -17,6 +17,7 @@ import { CSVLink } from 'react-csv';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import ActionControls from '../../../Layouts/ActionControls';
+import { Offcanvas } from "bootstrap";
 
 // ## style css area start ####  
 
@@ -825,6 +826,28 @@ const Event = () => {
   const offcanvasRef22 = useRef(null);
   const offcanvasRef33 = useRef(null);
 
+
+  const forceRemoveBackdrop = () => {
+    // remove backdrop elements
+    document.querySelectorAll(".offcanvas-backdrop").forEach(el => el.remove());
+    // remove body classes & styles added by bootstrap
+    document.body.classList.remove("offcanvas-open");
+    document.body.style.removeProperty("overflow");
+    document.body.style.removeProperty("padding-right");
+  };
+  const openCanvas = (ref) => {
+    const instance = Offcanvas.getOrCreateInstance(ref.current);
+    instance.show();
+  };
+  const closeCanvas = (ref) => {
+    const instance = Offcanvas.getOrCreateInstance(ref.current);
+    instance.hide();
+
+    setTimeout(() => {
+      forceRemoveBackdrop();
+    }, 300);
+
+  };
   // Event Post Api   
   const MyEventPostApi = async () => {
     setLoader(true)
@@ -847,6 +870,7 @@ const Event = () => {
         if (response?.data?.status === "success") {
           toast.success(response?.data?.message);
           MyEventGetAllApi()
+          closeCanvas(offcanvasRef)
           setAddshow(false)
           setaddhide(true)
           setLoader(false)
@@ -876,7 +900,6 @@ const Event = () => {
   }
   // Event Get All Api   
   const MyEventGetAllApi = async () => {
-
     setLoader(true)
     try {
       const response = await EventGetAllApi(searchKey, pageNo, pageSize);
@@ -939,9 +962,11 @@ const Event = () => {
         setUpdateStatus2(response.data.status);
         setEventDescription(ev.eventDescription);
         setStartDate(ev.startingDate);
-        setStartTime(ev.startingTime);
+        // setStartTime(ev.startingTime);
+        setStartTime(ev.startingTime.slice(0, 5));
         setEndDate(ev.endingDate);
-        setEndTime(ev.endingTime);
+        // setEndTime(ev.endingTime);
+        setEndTime(ev.endingTime.slice(0, 5));
         setEventStatusDataById(ev.eventStatus);
         setUpdateStatus(response.data.status);
         setCoverPage(ev.eventImage);
@@ -985,6 +1010,7 @@ const Event = () => {
         setHide(true)
         MyEventGetAllApi()
         setLoader(false)
+        closeCanvas(offcanvasRef22);
         const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef22.current);
         offcanvasInstance.hide();
         setTimeout(() => {
@@ -1042,6 +1068,7 @@ const Event = () => {
     MyClassRoutineGetAllApi(searchKey);
   };
   const handleAddOffcanvasOpen = () => {
+    openCanvas(offcanvasRef)
     ClearAndCancelHandle()
     const offcanvasElement = document.getElementById('staticBackdrop');
     if (offcanvasElement) {
@@ -1100,12 +1127,12 @@ const Event = () => {
           </div>
         </div>
 
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style={{color:'red'}}>
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style={{ color: 'red' }}>
           <div class="toast-header">
             <img src="..." class="rounded me-2" alt="..." />
-              <strong class="me-auto">Bootstrap</strong>
-              <small>11 mins ago</small>
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
           <div class="toast-body">
             Hello, world! This is a toast message.
@@ -1244,7 +1271,7 @@ const Event = () => {
                               Action  &nbsp;
                             </button>
                             <ul className="dropdown-menu anchor-color heading-14" style={{ position: 'fixed' }}>
-                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1212" aria-controls="offcanvasRight" onClick={(e) => MyEventGetByIdApi(item.eventId)} >Edit</Link></li>
+                              <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop1212" aria-controls="offcanvasRight" onClick={(e) => {MyEventGetByIdApi(item.eventId),openCanvas(offcanvasRef22)}} >Edit</Link></li>
                               <li><Link className="dropdown-item" to={''} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight22" aria-controls="offcanvasRight" onClick={(e) => setIdForDelete(item.eventId)}>Delete</Link></li>
                             </ul>
                           </div>
@@ -1309,11 +1336,14 @@ const Event = () => {
             <>
               <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel" ref={offcanvasRef} >
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" onClick={ClearAndCancelHandle}>
-                    <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                  {/* <Link data-bs-dismiss="offcanvas" onClick={ClearAndCancelHandle}> */}
+                  <Link onClick={() => { closeCanvas(offcanvasRef); ClearAndCancelHandle(); }}><img src="/images/Vector (13).svg" alt="" /></Link>
+                  {/* <Link onClick={() => { closeCanvas(offcanvasRef); ClearAndCancelHandle(); }}>
+                    <svg  width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
                     </svg>
-                  </Link>
+                  </Link> */}
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Add Event </h5>
                 </div>
                 <hr className='mx-3' style={{ marginTop: '-3px' }} />
@@ -1567,11 +1597,14 @@ const Event = () => {
             <>
               <div className="offcanvas-end offcanvas" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop1212" aria-labelledby="staticBackdropLabel" ref={offcanvasRef22}>
                 <div className="offcanvas-header">
-                  <Link data-bs-dismiss="offcanvas" >
+                  <Link onClick={() => { closeCanvas(offcanvasRef22); ClearAndCancelHandle(); }}>
+                    <img src="/images/Vector (13).svg" alt="" />
+                  </Link>
+                  {/* <Link data-bs-dismiss="offcanvas" >
                     <svg width="28" height="15" viewBox="0 0 28 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.06 0.295798C8.15373 0.388761 8.22812 0.499362 8.27889 0.621222C8.32966 0.743081 8.3558 0.873786 8.3558 1.0058C8.3558 1.13781 8.32966 1.26852 8.27889 1.39038C8.22812 1.51223 8.15373 1.62284 8.06 1.7158L3.46 6.3158H27C27.2652 6.3158 27.5196 6.42115 27.7071 6.60869C27.8946 6.79623 28 7.05058 28 7.3158C28 7.58102 27.8946 7.83537 27.7071 8.0229C27.5196 8.21044 27.2652 8.3158 27 8.3158H3.48L8.06 12.8858C8.24625 13.0732 8.35079 13.3266 8.35079 13.5908C8.35079 13.855 8.24625 14.1084 8.06 14.2958C7.87264 14.482 7.61918 14.5866 7.355 14.5866C7.09081 14.5866 6.83736 14.482 6.65 14.2958L0.289999 7.9358C0.204397 7.85367 0.136286 7.75508 0.089756 7.64596C0.0432262 7.53683 0.0192413 7.41943 0.0192413 7.3008C0.0192413 7.18217 0.0432262 7.06476 0.089756 6.95564C0.136286 6.84652 0.204397 6.74793 0.289999 6.6658L6.64 0.295798C6.73296 0.20207 6.84356 0.127676 6.96542 0.0769072C7.08728 0.0261385 7.21799 0 7.35 0C7.48201 0 7.61272 0.0261385 7.73458 0.0769072C7.85643 0.127676 7.96704 0.20207 8.06 0.295798Z" fill="#008479" />
                     </svg>
-                  </Link>
+                  </Link> */}
                   <h5 className="offcanvas-title heading-16" id="offcanvasRightLabel">Edit Event</h5>
                 </div>
                 <hr className='mx-3' style={{ marginTop: '-3px' }} />

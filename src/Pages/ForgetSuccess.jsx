@@ -42,8 +42,6 @@ const Span14Font = styled.span`
     font-family: Noto Sans;
 `;
 
-
-
 const ForgetSuccess = () => {
 
     return (

@@ -228,7 +228,7 @@ const VerifyOTP = () => {
                                 <Span14Font>
                                     <p className='font18 mb-1'>Forgot Password?</p>
                                     <h2 className='text-grey font16 mb-3'>We have sent a verification code to your email</h2>
-                                    <form>
+                                    <form onSubmit={(e) => { e.preventDefault(); verifyOTP(); }}>
                                         {/* <div className="mb-3">
                                             <label htmlFor="exampleInputEmail1" className="form-label font16">OTP</label>
                                             <input type="email" className="form-control formcontrolinput" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='&#xF0E0; Enter OTP' onChange={handleOTPChange} />
@@ -246,7 +246,7 @@ const VerifyOTP = () => {
                                             </div>
                                         </div>
                                         <div className="d-grid gap-2 col-12 mx-auto">
-                                            <button type="button" className="btn btnsubmitOwn text-white" onClick={() => verifyOTP()}>Verify OTP</button>
+                                            <button type="submit" className="btn btnsubmitOwn text-white" onClick={() => verifyOTP()}>Verify OTP</button>
                                         </div>
                                         <div className="d-grid gap-2 col-12 mx-auto">
                                             <Link type="submit" className="m-2 text-center text-black text-decoration-none" to='/' onClick={() => sessionStorage.removeItem('ERPForgetToken')}>

@@ -159,7 +159,7 @@ const ForgotPassword = () => {
     //                        Validation of all inputs
     // *********************************************************************************
 
-    const emailRegex = /^[A-Za-z0-9._]{3,}@[A-Za-z]{3,8}[.]{1}[A-Za-z.]{2,6}$/;
+    const emailRegex = /^(?:[A-Za-z0-9._-]{3,}|[A-Za-z0-9._%+-]{3,}@[A-Za-z0-9.-]+\.[A-Za-z]{2,})$/;
 
     const validateMail = (value) => {
         if (!value.trim()) {
@@ -238,7 +238,7 @@ const ForgotPassword = () => {
                                 <Span14Font>
                                     <p className='font18 mb-1'>Forgot Your Password?</p>
                                     <h2 className='text-grey font16 mb-3'>Enter your email to reset it?</h2>
-                                    <form>
+                                    <form form onSubmit={(e) => { e.preventDefault(); getOtp(); }}>
                                         {/* <div className="mb-3">
                                             <label htmlFor="exampleInputEmail1" className="form-label font16">Email</label>
                                             <input type="email" className={`form-control formcontrolinput${mailError ? 'border-1 border-danger' : ''} `} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='&#xF0E0; Your Email Address' onChange={handleEmailChange} />
@@ -267,6 +267,7 @@ const ForgotPassword = () => {
                                         <div className="d-grid gap-2 col-12 mx-auto">
                                             <Link type="submit" className="btn btnsubmitOwn text-white" onClick={getOtp}>Confirm</Link>
                                         </div>
+                                        <button type="submit" style={{ display: "none" }}></button> 
                                         <div className="d-grid gap-2 col-12 mx-auto">
                                             <Link type="submit" className="m-2 text-center text-black text-decoration-none" to='/' onClick={() => sessionStorage.removeItem('ERPForgetToken')}>
                                                 <svg className='me-2' xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 16 16">
