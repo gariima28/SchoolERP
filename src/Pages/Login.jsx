@@ -241,7 +241,7 @@ const Login = () => {
                             sessionStorage.setItem('subscription', responseData.subscription);
                         }
                         sessionStorage.setItem('token', responseData.token);
-                        // window.location.reload()
+                        window.location.reload()
                         navigate('/');
 
                     // if (responseData.isNewLogin) {
